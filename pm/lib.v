@@ -29,22 +29,37 @@ Definition Individual (s : string) : Prop. Admitted.
 Example var_0 := Individual "x".
 
 (* cf.p.51: `!` notation *)
-(* Unsatisfying: what we want to express is that Phi takes argument with the same typf of `X` *)
-(* TODO: design it better in the future
-A better way might be design this as an Either type and extract either the fixed parameter or 
-the fixed function *)
-(* Here, n is supposed to be the order of the predicate *)
-Definition Predicate (f : Prop -> Prop) (X : Prop) (n : nat) : Prop -> Prop := 
-  (* Is it the right way to design the function? *)
-  (fun x => f X).
-(* We are allowed to directly fix the X without fixing the function, which is a main feature for this operator *)
-Definition Predicvate_app (X : Prop) (f : Prop -> Prop) (n : nat) := Predicate f X n.
+(* 
+- `!` notation mostly declares the order of a matrix
+- matrix is a propositional function totally unquantified
+- 1-st order matrix only takes in individuals as its arguments
+- 2-st order matrix can take 1-order matrix as its arguments
+- any nth-order propositions are supposed to be obtained by generalizing a n-th order matrix
 
-(* An alternative version to supports functions of 2 arguments *)
-Definition Predicate_2 (f : Prop -> Prop -> Prop) (X Y : Prop) (n : nat) : Prop -> Prop -> Prop := 
-  (fun x y => f X Y).
-Definition Predicvate_app_2 (X Y : Prop) (f : Prop -> Prop -> Prop) (n : nat) := 
-  Predicate_2 f X Y n.
+Should we treat `!` as something being denotational just like the dot notations in Principia?
+*)
+(* Unsatisfying: what we want to express is that Phi takes argument with the same type of `X` *)
+(* Here, n is supposed to be the order of the predicate *)
+Unset Automatic Proposition Inductives.
+(* Module Predicate.
+  Record t {n : nat} : Type := {
+    (* This `fix_param` seems to be mostly unused, and might be deleted in the future *)
+    fix_param (X : Prop) := fun (f' : Prop -> Prop) => f' X;
+    fix_func (f : Prop -> Prop) := fun (X' : Prop) => f X';
+  }.
+End Predicate. *)
+(* Just declares a function is a function of order n *)
+(* TODO: fix the `n`? maybe a dependent type? *)
+Definition Predicate (n : nat) : Type := (Prop -> Prop).
+
+(* An alternative version to support functions of 2 arguments *)
+(* To be uncommented when the notation is fixed *)
+(* Module Predicate2.
+  Record t (n : nat) := {
+    fix_param (X Y : Prop) := fun (f' : Prop -> Prop -> Prop) => f' X Y;
+    fix_func (f : Prop -> Prop -> Prop) := fun (X' Y' : Prop) => f X' Y';
+  }.
+End Predicate2. *)
 
 (* TODO: maybe we should synthesize these 2 types into one inductive type with the name of "constituent" *)
 
