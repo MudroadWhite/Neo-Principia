@@ -59,3 +59,95 @@ Theorem n13_13 (X Y : Prop) (Psi : Prop -> Prop) :
 Proof.
 Admitted.
 
+Theorem n13_14 (X Y : Prop) (Psi : Prop -> Prop) :
+  (Psi X) /\ (~ Psi Y) -> (~ (X = Y)).
+Proof.
+Admitted.
+
+Theorem n13_15 (X : Prop) : X = X.
+Proof.
+Admitted.
+
+Theorem n13_16 (X Y : Prop) : (X = Y) <-> (Y = X).
+Proof.
+Admitted.
+
+Theorem n13_17 (X Y Z : Prop) :
+  ((X = Y) /\ (Y = Z)) -> (X = Z).
+Proof.
+Admitted.
+
+Theorem n13_18 (X Y Z : Prop) :
+  ((X = Y) /\ (~(X = Z))) -> ~(Y = Z).
+Proof.
+Admitted.
+
+Theorem n13_181 (X Y Z : Prop) :
+  ((X = Y) /\ (~(Y = Z))) -> ~(X = Z).
+Proof.
+Admitted.
+
+Theorem n13_182 (X Y Z : Prop) :
+  (X = Y) -> ((Z = X) <-> (Z = Y)).
+Proof.
+Admitted.
+
+Theorem n13_183 (X Y : Prop) :
+  (X = Y) <-> ((X = z) <[- z -]> (z = Y)).
+Proof.
+Admitted.
+
+Theorem n13_19 (X : Prop) : exists y, y = X.
+Proof.
+Admitted.
+
+Theorem n13_191 (X : Prop) (Phi : Prop -> Prop) :
+  (y = X) -[ y ]> (Phi y = Phi X).
+Proof.
+Admitted.
+
+Theorem n13_192 (B : Prop) (Psi : Prop -> Prop) :
+  exists c, ((x = B) <[- x -]> (x = c)) /\ (Psi c <-> Psi B).
+Proof.
+Admitted.
+
+Theorem n13_193 (X Y : Prop) (Phi : Prop -> Prop) :
+  (Phi X /\ (X = Y)) <-> (Phi Y /\ (X = Y)).
+Proof.
+Admitted.
+
+Theorem n13_194 (X Y : Prop) (Phi : Prop -> Prop) :
+  (Phi X /\ (X = Y)) <-> (Phi X /\ Phi Y /\ (X = Y)).
+Proof.
+Admitted.
+
+Theorem n13_195 (X : Prop) (Phi : Prop -> Prop) : 
+  (exists y, (y = X) /\ Phi y) <-> Phi X.
+Proof.
+Admitted.
+
+Theorem n13_196 (X : Prop) (Phi : Prop -> Prop) : 
+  (~Phi X) <-> (Phi y <[- y -]> (~(y = X))).
+Proof.
+Admitted.
+
+Close Scope single_app_impl.
+Open Scope double_app_impl.
+
+Theorem n13_21 (X Y : Prop) (Phi : Prop -> Prop -> Prop) : 
+  (((z = X) /\ (w = Y)) -[ z w ]> ((Phi z w) <-> (Phi X Y))).
+Proof.
+Admitted.
+
+Theorem n13_22 (X Y : Prop) (Phi : Prop -> Prop -> Prop) : 
+  exists z w, (z = X) /\ (w = Y) /\ (Phi z w <-> Phi X Y).
+Proof.
+Admitted.
+
+Theorem n13_3 (A X : Prop) (Phi : Prop -> Prop) : 
+  (Phi A \/ (~Phi A)) -> ((Phi X \/ (~Phi X)) <-> ((X = A) \/ (~(X = A)))).
+Proof.
+Admitted.
+
+Close Scope double_app_impl.
+Close Scope single_app_equiv.
