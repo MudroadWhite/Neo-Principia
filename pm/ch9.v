@@ -60,6 +60,7 @@ high flawed on this restriction.
 doesn't emphasize that its' the negation that we're trying to specify
 (a more obvious example can be how a typeclasse works on different 
 instances) *)
+(* This Pp tries to say the situation of `¬` working on a `∀` proposition *)
 Definition n9_01 (φ : Prop → Prop) :
   (¬ ∀ x, φ x) = ∃ x, ¬ φ x. Admitted.
 
@@ -73,7 +74,7 @@ Definition n9_021 (φ : Prop → Prop) :
   (¬ ∃ x, φ x) = ¬ (∃ x, φ x). Admitted.
 (* ******** *)
 
-(* Definitions for `∨` *)
+(* Definitions for `∨`. n9_03 shows the situation of `∨` working on a `∀` *)
 Definition n9_03 (φ : Prop → Prop) (p : Prop) :
   ((∀ x, φ x) ∨ p) = (∀ x, φ x ∨ p). Admitted.
 
