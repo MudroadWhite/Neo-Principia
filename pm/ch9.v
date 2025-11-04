@@ -13,37 +13,47 @@ Type of parameters allowed: from elementary propositions to first order proposit
 *)
 
 (* 
-TODO: check and rewrite the introduction below
-Goal of ch9: demonstrate that ch1-5 can be extended to first order propositions
-- `exists` is a primitive idea, not a supposed idea
-- most theorems in this chapter are only to demonstrate its 1st order form, and will not be used
-  (since they depend on the `exists` primitive idea which seems unsatisfying)
+Chapter 9 only demonstrates the quantified version of proofs in chapter 1 - 5. By 
+"demonstration" we can notice a few facts:
+- `exists` in this chapter is a primitive idea, not a constructed concept
+- most theorems in this chapter is completely unused in other chapters.
+
+The real alternative to chapter 9 is chapter 10. 
+
+What does chapter 9 demonstrate for? And why do we need 2 sets of theorems expressing 
+the same idea? Chapter 9 comes with 2 goals: the first one is, undoubtly, present the
+extended theorems. The 2nd goal is less formal, but provide the actual idea that chapter 
+10 relies on.
+
+Before explaining the goal, we recall how propositions in Principia are constructed:
+- The starting point for us could be a set of atomic propositions that cannot be further
+  divided, called "individual"s
+- These individuals can be concated with `~` and `\/`
+- If we try to specify on one individual contained in a proposition as a variable, we 
+  get a function. In principia, function is obtained by using the `^` operator on a 
+  mere  proposition. That being said, functions are dependent on `~` and `\/`
+- `forall` and `exists` propositions are dependent on, and directly generalized from 
+  functions. This is the only way to obtain them in Principia. 
+- To avoid Russell's paradox, these functions are not allowed to take these functions 
+  themselves as parameters.
+- The solution is specifying types for every propositions.
+
+The goal for the informal part in chapter 9:
+- Since it's not within the inference system, Principia writes the typing part in natural 
+  language
+- To avoid paradox/"Vicious Circle Principle", `~` and `\/` have to be defined on elementary 
+  propositions and 1st order propositions separately(see example in p.129).
+- Prove that we can have disjunctions and negations for every type, so that disjunctions 
+  and negations can work as a primitive idea regardless of type of the proposition. 
+  This procedure doesn't involve mathematical induction.
+- Conclude that for any (elementary)function we can generalize to its quantified version,
+  which is being done at the end of the chapter.
 
 Every propositions, variables in chapter 9 are supposed to be elementary propositions,
 which doesn't contain any quantifiers. That being said, in a rigorous sense, 
-`P := ∀ x, F x` shouldn't be allowed, but `P := X ∨ Y` is allowed. Currently we 
-didn't pose any assertions on parameters being elementary propositions, and the proofs
-can be high flawed on this restriction.
-
-There are 2 sets of goals for chapter 9. First one:
-(TODO: demonstrate that ch1-5 can be extended to first order propositions)
-
-Second one:(TODO: rewrite this part)
-- Define a "type" that every propositions belong to
-- For each "type", implement a set of rules for disjunctions and negations.
-- Prove that we can have disjunctions and negations for every type, so that disjunctions 
-  and negations can work as a primitive idea regardless of type of the proposition. This
-  procedure doesn't involve mathematical induction.
-
-The reason for the 2nd set of goal:(TODO: rewrite this part)
-- Without definition of `¬` and `∨` we cannot form a function.
-- Without definition for a function we cannot form `∀ x, F x`.
-- Requiring `¬` and `∨` be defined for that order of proposition limits the scope. See
-  example in p.129.
-
-The end of the chapter conclude that for any function P X we have enough preparations to 
-generalize to `forall x, P x`, and moreover, a proposition with several `∀`s, or several 
-`∀`s being concated with some binary logic operators.
+`P := ∀ x, F x` shouldn't be allowed, but `P := X ∨ Y` is allowed. Currently we didn't 
+pose any assertions on parameters being elementary propositions, and the proofscan be 
+high flawed on this restriction.
 *)
 
 (* Definitions involving `¬` on 1st order props. Our current simulation
