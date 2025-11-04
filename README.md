@@ -2,9 +2,9 @@
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
 This project is currently focused on the following parts:
-- [x] Chapter 9 - A demonstration set of theorems, extending from elementary propositions to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType".
-- [x] Chapter 10 - The real alternative to be used in the later chapters, converting material implications into formal implications. Notation supports for `->` and `<->` with single apparent variable. One theorem seems to be unprovable.
-- [x] Chapter 11 - Notation supports for `->` and `<->`, extended to multiple apparent variables.
+- [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType".
+- [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `->` and `<->` with single apparent variable. One theorem seems to be unprovable.
+- [x] Chapter 11 - Quantified propositions now extend to more than one variables. Notation supports for `->` and `<->` extended to multiple apparent variables as well.
 - [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
 - [ ] \[WIP\] Chapter 13 - A new set of theorems on Identity, which is different from definitional equality.
 
@@ -24,7 +24,7 @@ This project aims towards demonstration and addresses compatability. Readers are
 No. Here are the reasons:
 - Rigor of proofs relies heavily on how much and how deep you interpret the terms. There are fundamental terms that either involve a brand new architecture, or I just cannot represent as code. This results in a portion of propositions written down as comments in natural language.
 - The design of `Ltac` isn't good(to be more exact, `match` doesn't work as one might think), so that even successful `Qed`s are nevertheless false positives. Actually, I have caught several bugs in the repo from this issue.
-- I didn't examine the code in chapter 1 - 5.
+- I didn't deeply examine the code in chapter 1 - 5.
 
 ## How much can you formalize?
 Below are some technical aspects arisen from this project.
