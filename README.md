@@ -1,4 +1,4 @@
-# Neo-Principia
+# Neo Principia
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
 This project is currently focused on the following parts:
