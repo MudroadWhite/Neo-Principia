@@ -1,10 +1,4 @@
 Require Import PM.pm.lib.
-Require Import PM.pm.ch1.
-Require Import PM.pm.ch2.
-Require Import PM.pm.ch3.
-Require Import PM.pm.ch4.
-Require Import PM.pm.ch5.
-Require Import PM.pm.ch9.
 Require Import PM.pm.ch10.
 Require Import PM.pm.ch11.
 
@@ -18,15 +12,18 @@ never appear, and instead, it will be either "forall Individual P, P /\ Q" or
 "forall Predicate Phi, Phi (Individual P)" where Phi P = P /\ Q
 *)
 
-Definition n12_1 (X : Prop) (f Phi : Prop -> Prop) : 
-  let f := Predicate f X 1 in
-  exists f, (Phi X) <[- x -]> f x.
+(* EXPERIMENTAL: axioms in this chapter aren't stable, since our definition of `Predicate` should 
+be subject to refinements *)
+Definition n12_1 (X : Prop) (Phi : Prop -> Prop) : 
+  exists f : (Predicate 1), 
+    (Phi X) <[- x -]> (f x).
 Admitted.
 
-Definition n12_11 (X Y : Prop) (f Phi : Prop -> Prop -> Prop) :
-  let f := Predicate_2 f X Y 1 in
-  exists f, (Phi X Y) <[- x y -]> f x y.
-Admitted.
+(* To be uncommented *)
+(* Definition n12_11 (X Y : Prop) (f Phi : Prop -> Prop -> Prop) :
+  exists fPsi : Prop -> Prop -> Prop,
+    exists f : Predicate2.t 1, (Phi X Y) <[- x y -]> (f.(Predicate2.fix_func 1) x y fPsi).
+Admitted. *)
 
 Close Scope single_app_equiv.
 Close Scope double_app_equiv.
