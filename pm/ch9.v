@@ -182,7 +182,7 @@ Definition n9_15 (A X : Prop) (φ : Prop → Prop) :
 Admitted.
 (* ******** *)
 
-(* Contents below are supposed to prove that `∀` and `∃` deduces just like 
+(* Theorems below in this chapter are supposed to prove that `∀` and `∃` deduce just like 
   elementary propositions. The first theorems are some setups *)
 Theorem n9_2 (φ : Prop → Prop) (Y : Prop) : (∀ x , φ x) → φ Y.
 Proof. 
