@@ -105,7 +105,7 @@ Definition n9_11 (φ : Prop → Prop) (X Y : Prop) :
 (* ******** *)
 
 (* Primitive propositions for inference, for 1st order propositions. *)
-(* Pp *9_12 : What is implied by a true premiss is true. Analogue to *1.1. *)
+(* Pp *9_12 : What is implied by a true premise is true. Analogue to *1.1. *)
 (* Currently I decide that we perform `MP` on 1st order props with the native 
   `MP` tactic without explicitly citing this alternative version. *)
 Definition MP9_12 (P Q : Prop): (P → Q) → P → Q. Admitted.
@@ -114,11 +114,12 @@ Definition MP9_12 (P Q : Prop): (P → Q) → P → Q. Admitted.
 may be turned into an apparent variable of which all possible values are asserted
 to satisfy the function in question. *)
 (* The proposition to instantiate a real variable into a first order proposition. 
+  This is almost the only starting point to get a quantified proposition, and is
+  supposed to be very commonly used.
   What it really means:
-  - If φ (over elementary propositions?) can be defined and φY is always true
-  - and if X is a real variable
+  - If `~` and `\/` can be defined, then we can define a function `φ`
+  - If φ (over elementary propositions) can be defined, and φY is always true
   - then we can construct a 1st order proposition made up from φ *)
-
 Definition n9_13 (φ : Prop → Prop) (Y : Prop) : 
   φ Y -> (∀ x , φ x). Admitted.
 (* ******** *)
@@ -167,6 +168,15 @@ Definition n9_14 (A : Prop) (φ : Prop → Prop) (X : Prop) :
 
 (* Pp n9_15 : If for some `a` there is a proposition `φ a`, then there is a function
   `phi x^` and vice versa. *)
+(* 
+This is the `^` operation. Here, function is not a "first class" concept like the 
+usual modern treatment. Instead, functions have to be obtained from an already 
+existed(and well typed) proposition, limited to one parameter, and the parameter
+is obtained from abstracting away a constant, mostly a individual.
+
+Currently our formalization is very unsatisfying, and actually didn't express the idea 
+very well.
+ *)
 Definition n9_15 (A X : Prop) (φ : Prop → Prop) :
   (φ A) ↔ (X → φ X).
 Admitted.
