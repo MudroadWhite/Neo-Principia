@@ -169,14 +169,14 @@ Definition n9_14 (A : Prop) (φ : Prop → Prop) (X : Prop) :
 (* Pp n9_15 : If for some `a` there is a proposition `φ a`, then there is a function
   `phi x^` and vice versa. *)
 (* 
-This is the `^` operation. Here, function is not a "first class" concept like the 
-usual modern treatment. Instead, functions have to be obtained from an already 
-existed(and well typed) proposition, limited to one parameter, and the parameter
-is obtained from abstracting away a constant, mostly a individual.
+This is the `^` operator. In principia, we don't really have lambda calculus, nor is 
+function is a "first class" concept. We don't have `abs` and `app` rules on functions.
+In this system, functions have to be obtained from an already existed(and well typed) 
+proposition, limited to one parameter, and the parameter is obtained from abstracting 
+away a constant, mostly a individual.
 
-Currently our formalization is very unsatisfying, and actually didn't express the idea 
-very well.
- *)
+Currently our formalization is very unsatisfying, and actually didn't express the idea.
+*)
 Definition n9_15 (A X : Prop) (φ : Prop → Prop) :
   (φ A) ↔ (X → φ X).
 Admitted.
@@ -189,6 +189,8 @@ Proof.
   (** Step 1 **)
   pose proof (n2_1 (φ Y)) as n2_1.
   (** Step 2 **)
+  (* Note that here we're starting to pass in a function as parameter. Whether 
+  this is allowed should be reconsidered in the future *)
   pose proof (n9_1 (fun x => ¬ φ x ∨ φ Y) Y) as n9_1.
   (* MP here is the version *1.11 *)
   MP n9_1 n2_1.
