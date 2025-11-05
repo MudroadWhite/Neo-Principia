@@ -39,6 +39,23 @@ Admitted.
 Theorem n13_101 (X Y : Prop) (Psi : Prop -> Prop) :
   (X = Y) -> (Psi X -> Psi Y).
 Proof.
+  assert (S1 : (exists Phi : Predicate 1, (Psi X <-> Phi X) /\ (Psi Y <-> Phi Y))).
+  {
+    (* I don't think this is provable! *)
+    admit.
+  }
+  assert (S2 : (X = Y) -> forall Phi : Predicate 1, Phi X -> Phi Y).
+  {
+    apply n13_1.
+  }
+  assert (S3 : (X = Y) -> (forall Phi : Predicate 1, (Psi X = Phi X) /\ (Psi Y) 
+    -> (Psi X -> Psi Y))).
+  {
+    pose proof n4_84 as n4_84.
+    pose proof n4_85 as n4_85.
+    pose proof n10_27 as n10_27.
+  }
+
 Admitted.
 
 Open Scope single_app_equiv.
