@@ -7,7 +7,7 @@ Currently, the project is divided into following parts:
 - `./pm/` being the actual show of this project. 
 
 ## 2. What's under `./pm`?
-For each chapter in Principia, we have a corresponded `.v` file. If we can make it that far, we might further cluster the chapters with sections and parts.
+For each chapter in Principia, we have a corresponded `.v` file. If we can make it that far, we might further recluster the chapters with sections and parts.
 
 Chapter 1 - 5, additionally with some sole proof pieces such as `Yuelin.v`, are directly inherited from [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia).
 
@@ -39,13 +39,15 @@ Principia's methodology to instantiate a proposition has a slight difference to 
 2. If we want to derive something from this primitive proposition, we further change the `P` into something else.
 3. Same treatment applies to every proven theories.
 
-As the routine being clear, I think it's safe to apply our alternative:
+As the routine being clear, I think it's safe to adapt to our alternative:
 1. Every proposition is **required** to be instantiated before coming into the context.
-2. Even if we don't need any "explicit" instantiations, we still consider it as an action of instanstiating `P` with `P`.
+2. Even if we don't need any "explicit" instantiations, we still consider it as an action of instantiating `P` with `P`.
 
 The procedure of instantiation, leads to the parameters in the left hand side of a `Definition` or a `Theorem`.
 
 For a lhs parameter `P : Prop` of a theorem, the next question is what are allowed to instantiate P. Principia's propositions come along with *types*, which is sadly much more refined than the `Prop` in `P : Prop`, and this is why these propositions' types require manual checking. We might only allow `P` to be instantiated by an elementary proposition; a first-order proposition, 2nd-order prop, etc.. If this project has become more mature, we might change `P : Prop` into something like `P : Elementary_Proposition` for a clearer distinction.
+
+TODO: more of this to be discussed in `mechanics`
 
 ### 4.2. Naming conventions
 We have naming conventions for propositions. A proposition usually is named with `nxx_yyy`, with `xx_yyy` the number appeared in Principia for that proposition. A few of them are additionally come with their names in the text, and in that case we will adapt the `n` prefix to the name. For example, `Id2_08`. 
@@ -68,7 +70,7 @@ Proof.
   (* ******** *)
   assert (S1 : x + y = z).
   {
-    (* subproof for S1, where "S" here stands for step *)
+    (* subproof for S1, where "S" here stands for "step" *)
   }
   assert (S2 : x + y = z → x + y = z).
   {

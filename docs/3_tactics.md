@@ -2,7 +2,7 @@
 
 This chapter discusses the tactics we generally use for proof in deeper details.
 
-Technically speaking, Principia's logic system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from Modus Ponens and 2. substitute/*rewrite* subparts of a proposition according to some rules. 
+Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from Modus Ponens and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.
 
 As a consequence, We don't need fancy tactics to formalize the theorems. We want the tactics to 1. follow the proof; 2. if the proof contains a tedious routine, simplify the proof without breaking the proof down. Since the following sections are roughly organized by "constructors" for each kind of propositions, within which we further add extra ways to simplify the proofs, it seems to be necessary to state beforehead, what do we concern for simplifications.
 
@@ -68,7 +68,7 @@ WARNING: Since `rewrite` is too convenient, even more than `MP` and `Syll`, `↔
 ### 4.1. What routine does `setoid_rewrite` actually simplify?
 It should be very worthwhile to discuss how we deal with rewriting for quantified ("∀ x") propositions, which also brings up the discussion on the viability for `setoid_rewrite` to simplify original proof. As we see, `setoid_rewrite` is only used in 2 situations: either the proposition is a `=`, or the proposition is a `↔`.
 
-We first discuss the case for `↔`. As an opening, here is a question: how does a `∀` proposition appear? The basic idea for Principia is quite different from modern approach which uses a `∀` constructor. *Primitive propositions* in each chapter allow that
+We first discuss the case for `↔`. As an opening, a question: how does a `∀` proposition appear? The basic idea for Principia is quite different from modern approach which uses a `∀` constructor. *Primitive propositions* in each chapter allow that
 - If we have a proposition with the form of `φ X`, where `X` is a *real variable*, then
 - We can change `φ X` into `∀ x, φ x`. Here, `x` has become an *apparent variable* as it's in a `∀`.
 If, say, we want to construct something like `(∀ x, φ x) → (∀ y, ψ y)`, then we are supposed to have some other rules to allow us to "split" the `∀` into half. `∀ x, φ x → ψ x` can even be turned into `(∃ x, φ x) → (∃ y, ψ y)`.
