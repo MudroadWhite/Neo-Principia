@@ -1,13 +1,6 @@
 # Neo Principia
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
-This project is currently focused on the following parts:
-- [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType".
-- [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `->` and `<->` with single apparent variable. One theorem seems to be unprovable.
-- [x] Chapter 11 - Quantified propositions now extend to more than one variables. Notation supports for `->` and `<->` extended to multiple apparent variables as well.
-- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
-- [ ] \[WIP\] Chapter 13 - A new set of theorems on Identity, which is different from definitional equality.
-
 ## Why working on it
 - Principia Mathematica has a stable version
 - Coq doesn't need a lot of version updates
@@ -37,8 +30,16 @@ Below are some technical aspects arisen from this project.
 - Completely translate primitive propositions written in natural language, into formalized Rocq proof, is **on plan**.
 - More to come...
 
+## How much have you formalized?
+This project is currently focused on the following parts:
+- [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType".
+- [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `->` and `<->` with single apparent variable. One theorem seems to be unprovable.
+- [x] Chapter 11 - Quantified propositions now extend to more than one variables. Notation supports for `->` and `<->` extended to multiple apparent variables as well.
+- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
+- [ ] \[WIP\] Chapter 13 - A new set of theorems on Identity, which is different from definitional equality.
+
 ## Running the code
-Coq version: 8.20.0, installed with the `opam` environment:
+Coq/Rocq version: 8.20.0, installed with the `opam` environment:
 
 ```bash
 opam update
@@ -57,7 +58,7 @@ IDEs for Coq/Rocq varies, but here is my preference:
 
 - WSL instance: Ubuntu 18.04 on WSL 2
 - VS Code version: 1.80.0
-- Extension installed locally: `WSL`. WSL's VSCode support can also be installed from extension at VSCode's side.
+- Extension installed locally: WSL. WSL's VSCode support can also be installed from extension at VSCode's side.
 - Extension installed on WSL instance: VSCoq v0.3.7 from [OpenVSX](https://open-vsx.org/extension/maximedenes/vscoq).
 
 ## To contribute
