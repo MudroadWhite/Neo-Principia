@@ -18,6 +18,7 @@ No. Here are the reasons:
 - Rigor of proofs relies heavily on how much and how deep you interpret the terms. There are fundamental terms that either involve a brand new architecture, or I just cannot represent as code. This results in a portion of propositions written down as comments in natural language.
 - The design of `Ltac` isn't good(to be more exact, `match` doesn't work as one might think), so that even successful `Qed`s are nevertheless false positives. Actually, I have caught several bugs in the repo from this issue.
 - I didn't deeply examine the code in chapter 1 - 5.
+- Under our interpretation, a few places out of the vast seem to be unprovable! If only I were filling an audit report.
 
 ## How much can you formalize?
 Below are some technical aspects arisen from this project.
@@ -36,7 +37,7 @@ This project is currently focused on the following parts:
 - [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `->` and `<->` with single apparent variable. One theorem seems to be unprovable.
 - [x] Chapter 11 - Quantified propositions now extend to more than one variables. Notation supports for `->` and `<->` extended to multiple apparent variables as well.
 - [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
-- [ ] \[WIP\] Chapter 13 - A new set of theorems on Identity, which is different from definitional equality.
+- [ ] \[WIP\] Chapter 13 - A new set of theorems on Identity, which is different from definitional equality. One theorem seems to be unprovable.
 
 ## Running the code
 Coq/Rocq version: 8.20.0, installed with the `opam` environment:
