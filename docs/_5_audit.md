@@ -9,4 +9,4 @@ Yes (because the basic structutre can be verified, and everything else are being
 ## How well is each chapter organized?
 ref. mechanics
 chapter 9, ... chapter 11: nice
-chapter 13: not ok
+chapter 13: can be verified after a reconstruction
