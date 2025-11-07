@@ -17,7 +17,7 @@ forbidden to be a quantified variable
 *)
 
 Definition n13_01 (X Y : Prop) : 
-  (X = Y) = (forall Phi : Predicate 1, (Phi X) = (Phi Y)).
+  (X = Y) = (forall Phi : Predicate 1, (Phi X) -> (Phi Y)).
 Admitted.
 
 Definition n13_02 (X Y : Prop) :
@@ -34,11 +34,16 @@ Theorem n13_1 (X Y : Prop) :
   (X = Y) <-> 
     (forall Phi : Predicate 1, (Phi X) -> (Phi Y)).
 Proof.
-Admitted.
+  pose proof (n4_2 (X = Y)) as n4_2.
+  now rewrite -> n13_01 in n4_2 at 2.
+  (* n10_02 ignored: I think this is unrelated *)
+Qed.
 
 Theorem n13_101 (X Y : Prop) (Psi : Prop -> Prop) :
   (X = Y) -> (Psi X -> Psi Y).
 Proof.
+  (* set (n10_27a := ∀ A : Set, ∀ (φ ψ : A → A),
+    (∀ z, φ z → ψ z) → ((∀ z, φ z) → (∀ z, ψ z))). *)
   assert (S1 : (exists Phi : Predicate 1, (Psi X <-> Phi X) /\ (Psi Y <-> Phi Y))).
   {
     (* I don't think this is provable! *)
@@ -48,14 +53,40 @@ Proof.
   {
     apply n13_1.
   }
-  assert (S3 : (X = Y) -> (forall Phi : Predicate 1, (Psi X = Phi X) /\ (Psi Y) 
-    -> (Psi X -> Psi Y))).
+  assert (S3 : (X = Y) -> (forall Phi : Predicate 1, 
+    ((Psi X <-> Phi X) /\ (Psi Y <-> Phi Y)) -> (Psi X -> Psi Y))).
   {
-    pose proof n4_84 as n4_84.
-    pose proof n4_85 as n4_85.
-    pose proof n10_27 as n10_27.
+    (* I think this step is also unobtainable: we only have an
+    assertion that there "some" Phis satisfie the condition, but 
+    eventually we have to prove that "all" Phis satisfy the condition.
+    Below is an incomplete attempt for the proof.
+    *)
+    destruct S1 as [Phi HS1].
+    destruct HS1 as [HS1_1 HS1_2].
+    pose proof (n4_84 (Psi X) (Phi X) (Phi Y)) as n4_84.
+    MP n4_84 HS1_1.
+    pose proof (n4_85 (Psi Y) (Phi Y) (Psi X)) as n4_85.
+    MP n4_84 HS1_2.
+    rewrite -> n4_84 in n4_85.
+    (* setoid_rewrite <- n4_85 in S2. *)
+    admit.
   }
-
+  assert (S4 : (X = Y) -> (exists Phi : Predicate 1, 
+    ((Psi X <-> Phi X) /\ (Psi Y <-> Phi Y))) -> (Psi X -> Psi Y)).
+  {
+    (* TODO: create an alternative version for this theorem *)
+    (* This is so weird! Is this even allowed in PM?! *)
+    pose proof n10_23 as n10_23.
+    admit.
+  }
+  assert (S5 : (X = Y) -> (Psi X -> Psi Y)).
+  {
+    intro Hp.
+    pose proof (S4 Hp) as S4_1.
+    clear S2 S3 S4.
+    now MP S4_1 S1.
+  }
+  exact S5.
 Admitted.
 
 Open Scope single_app_equiv.
@@ -64,6 +95,12 @@ Theorem n13_11 (X Y : Prop) :
   (X = Y) <-> 
     (forall Phi : Predicate 1, (Phi X) <-> (Phi Y)).
 Proof.
+  assert (S1 : (forall Phi : Predicate 1, Phi X <-> Phi Y)
+    -> (forall Phi : Predicate 1, Phi X -> Phi Y)).
+  {
+    pose proof n10_22 as n10_22.
+    admit.
+  }
 Admitted.
 
 Theorem n13_12 (X Y : Prop) (Psi : Prop -> Prop) :
