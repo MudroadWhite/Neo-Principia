@@ -119,6 +119,7 @@ Design a `comma` predicate  which works like a `id` `to enforce "lazy evaluation
 (* NOTES *)
 (* ******** *)
 (* 
+https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html
 https://plato.stanford.edu/entries/pm-notation/
 https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
 https://randall-holmes.github.io/Drafts/notesonpm.pdf
