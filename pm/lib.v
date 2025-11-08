@@ -40,7 +40,7 @@ Should we treat `!` as something being denotational just like the dot notations 
 *)
 (* Unsatisfying: what we want to express is that Phi takes argument with the same type of `X` *)
 (* Here, n is supposed to be the order of the predicate *)
-Unset Automatic Proposition Inductives.
+(* Unset Automatic Proposition Inductives. *)
 (* Module Predicate.
   Record t {n : nat} : Type := {
     (* This `fix_param` seems to be mostly unused, and might be deleted in the future *)
@@ -49,7 +49,6 @@ Unset Automatic Proposition Inductives.
   }.
 End Predicate. *)
 (* Just declares a function is a function of order n *)
-(* TODO: fix the `n`? maybe a dependent type? *)
 Definition Predicate (n : nat) : Type := (Prop -> Prop).
 
 (* An alternative version to support functions of 2 arguments *)

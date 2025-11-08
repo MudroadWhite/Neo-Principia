@@ -12,10 +12,32 @@ Require Import PM.pm.ch12.
   a new symbol for this equality *)
 
 (* 
+TODO:
+1. investigate a convenient `/\` construction
+2. investigate if `_pred` variant can be changed into `set`
+*)
+
+(* Experimental: provide variated theorems to be used in this chapter *)
+Module Variants.
+  Definition n10_22_pred (φ ψ : Predicate 1 → Prop) :
+    (∀ x : Predicate 1, φ x ∧ ψ x)
+    ↔ (∀ x : Predicate 1, φ x) ∧ ∀ x : Predicate 1, ψ x.
+  Admitted.
+
+  Definition n10_23_pred (φ : Predicate 1 → Prop) (P : Prop) :
+    (∀ x : Predicate 1, φ x → P) ↔ ((∃ x : Predicate 1, φ x) → P).
+  Admitted.
+
+  Definition n10_3_pred (φ ψ χ : Predicate 1 → Prop) :
+    (∀ x : Predicate 1, φ x → ψ x) ∧ (∀ x : Predicate 1, ψ x → χ x)
+    → ∀ x : Predicate 1, φ x → χ x.
+  Admitted.
+End Variants.
+
+(* 
 p.165: `Phi x^` without a `!` will be a function with order unspecified, and this kind of function is
 forbidden to be a quantified variable
 *)
-
 Definition n13_01 (X Y : Prop) : 
   (X = Y) = (forall Phi : Predicate 1, (Phi X) -> (Phi Y)).
 Admitted.
@@ -42,11 +64,10 @@ Qed.
 Theorem n13_101 (X Y : Prop) (Psi : Prop -> Prop) :
   (X = Y) -> (Psi X -> Psi Y).
 Proof.
-  (* set (n10_27a := ∀ A : Set, ∀ (φ ψ : A → A),
-    (∀ z, φ z → ψ z) → ((∀ z, φ z) → (∀ z, ψ z))). *)
   assert (S1 : (exists Phi : Predicate 1, (Psi X <-> Phi X) /\ (Psi Y <-> Phi Y))).
   {
     (* I don't think this is provable! *)
+    pose proof n12_1 as n12_1.
     admit.
   }
   assert (S2 : (X = Y) -> forall Phi : Predicate 1, Phi X -> Phi Y).
@@ -74,10 +95,7 @@ Proof.
   assert (S4 : (X = Y) -> (exists Phi : Predicate 1, 
     ((Psi X <-> Phi X) /\ (Psi Y <-> Phi Y))) -> (Psi X -> Psi Y)).
   {
-    (* TODO: create an alternative version for this theorem *)
-    (* This is so weird! Is this even allowed in PM?! *)
-    pose proof n10_23 as n10_23.
-    admit.
+    now rewrite -> Variants.n10_23_pred in S3.
   }
   assert (S5 : (X = Y) -> (Psi X -> Psi Y)).
   {
@@ -95,12 +113,21 @@ Theorem n13_11 (X Y : Prop) :
   (X = Y) <-> 
     (forall Phi : Predicate 1, (Phi X) <-> (Phi Y)).
 Proof.
+  (* TOOLS *)
+  (* set (Pred_Phi) *)
+  (* ******* *)
   assert (S1 : (forall Phi : Predicate 1, Phi X <-> Phi Y)
     -> (forall Phi : Predicate 1, Phi X -> Phi Y)).
   {
-    pose proof n10_22 as n10_22.
+    (* TODO: make a matrix and generalize it; eventually 
+      apply n10_22 *)
+    pose proof Variants.n10_22_pred as n10_22.
     admit.
   }
+  assert (S2 : (forall Phi : Predicate 1, Phi X <-> Phi Y)
+    -> (X = Y)).
+  { now rewrite <- n13_1 in S1. }
+  assert (S3 : ).
 Admitted.
 
 Theorem n13_12 (X Y : Prop) (Psi : Prop -> Prop) :
@@ -126,9 +153,31 @@ Theorem n13_16 (X Y : Prop) : (X = Y) <-> (Y = X).
 Proof.
 Admitted.
 
+(* A theorem that is shown how the related propositions are 
+being used explicitly in original text *)
 Theorem n13_17 (X Y Z : Prop) :
   ((X = Y) /\ (Y = Z)) -> (X = Z).
 Proof.
+  assert (S1 : ((X = Y) /\ (Y = Z)) 
+    -> ((forall Phi : Predicate 1, Phi X -> Phi Y) 
+      /\ (forall Phi : Predicate 1, Phi Y -> Phi Z))).
+  {
+    pose proof n13_1 as n13_1.
+    (* We currently didn't allow `/\` yet *)
+    admit.
+  }
+  assert (S2 : ((X = Y) /\ (Y = Z)) 
+    -> (forall Phi : Predicate 1, Phi X -> Phi Z)).
+  {
+    intros Hp.
+    pose proof (S1 Hp) as S1_1.
+    pose proof (n10_3_pred
+      (fun P => P X) (fun P => P Y) (fun P => P Z)) as n10_3_pred.
+    now MP n10_3_pred S1_1.
+  }
+  assert (S3 : ((X = Y) /\ (Y = Z)) -> (X = Z)).
+  { now rewrite <- n13_01 in S2. }
+  exact S3.
 Admitted.
 
 Theorem n13_18 (X Y Z : Prop) :
@@ -205,3 +254,9 @@ Admitted.
 
 Close Scope double_app_impl.
 Close Scope single_app_equiv.
+
+(* 
+Close Scope double_app_impl.
+Close Scope single_app_equiv.
+Close Scope single_app_impl.
+*)
