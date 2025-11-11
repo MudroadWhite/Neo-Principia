@@ -37,6 +37,10 @@ Module Variants.
     (∀ x : Predicate 1, φ x → ψ x) ∧ (∀ x : Predicate 1, ψ x → χ x)
     → ∀ x : Predicate 1, φ x → χ x.
   Admitted.
+
+  Definition n10_32_pred (φ ψ : Predicate 1 → Prop) :
+    (∀ x : Predicate 1, φ x ↔ ψ x) ↔ ∀ x : Predicate 1, ψ x ↔ φ x.
+  Admitted.
 End Variants.
 
 (* 
@@ -211,21 +215,39 @@ Admitted.
 Theorem n13_13 (X Y : Prop) (Psi : Prop -> Prop) :
   ((Psi X) /\ (X = Y)) -> Psi Y.
 Proof.
-  
-Admitted.
+  pose proof (n13_101 X Y Psi) as n13_101.
+  pose proof (Comm2_04 (X = Y) (Psi X) (Psi Y)) as Comm2_04.
+  MP Comm2_04 n13_101.
+  pose proof (Imp3_31 (Psi X) (X = Y) (Psi Y)) as Imp3_31.
+  now MP Imp3_31 Comm2_04.
+Qed.
 
 Theorem n13_14 (X Y : Prop) (Psi : Prop -> Prop) :
   (Psi X) /\ (~ Psi Y) -> (~ (X = Y)).
 Proof.
-Admitted.
+  pose proof (n13_13 X Y Psi) as n13_13.
+  pose proof (n4_14 (Psi X) (X = Y) (Psi Y)) as n4_14.
+  now rewrite -> n4_14 in n13_13.
+Qed.
 
 Theorem n13_15 (X : Prop) : X = X.
 Proof.
-Admitted.
+  pose proof (Id2_08 X) as Id2_08.
+  pose proof (Variants.n10_11_pred
+    (fun x => x)
+    (fun P => P X -> P X)
+  ) as n10_11.
+  MP n10_11 Id2_08.
+  pose proof (n13_1 X X) as n13_1.
+  now rewrite <- n13_1 in n10_11.
+Qed.
 
 Theorem n13_16 (X Y : Prop) : (X = Y) <-> (Y = X).
 Proof.
-Admitted.
+  pose proof (n13_11 X Y) as n13_11a.
+  rewrite -> Variants.n10_32_pred in n13_11a.
+  now rewrite <- n13_11 in n13_11a.
+Qed.
 
 (* A theorem that is shown how the related propositions are 
 being used explicitly in original text *)
