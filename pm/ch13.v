@@ -8,17 +8,22 @@ Require Import PM.pm.ch10.
 Require Import PM.pm.ch11.
 Require Import PM.pm.ch12.
 
-(* TODO: since this equality is different from definitional equality, maybe we can define 
-  a new symbol for this equality *)
-
 (* 
-TODO:
-1. investigate a convenient `/\` construction
-2. investigate if `_pred` variant can be changed into `set`
+TODO: investigate a convenient `/\` construction
 *)
 
-(* Experimental: provide variated theorems to be used in this chapter *)
+(* Experimental: provide variated theorems to be used in this chapter
+  In the future, we might want to change `Prop -> Prop` into `A -> Prop`
+  for common theorems starting from ch1 *)
 Module Variants.
+  Definition n10_11_pred (Y : Predicate 1) (φ : Predicate 1 → Prop)
+    : φ Y → ∀ x, φ x.
+  Admitted.
+
+  Definition n10_21_pred (φ : Predicate 1 → Prop) (P : Prop) :
+    (∀ x : Predicate 1, P → φ x) ↔ (P → (∀ x : Predicate 1, φ x)).
+  Admitted.
+
   Definition n10_22_pred (φ ψ : Predicate 1 → Prop) :
     (∀ x : Predicate 1, φ x ∧ ψ x)
     ↔ (∀ x : Predicate 1, φ x) ∧ ∀ x : Predicate 1, ψ x.
@@ -114,8 +119,8 @@ Theorem n13_11 (X Y : Prop) :
     (forall Phi : Predicate 1, (Phi X) <-> (Phi Y)).
 Proof.
   (* TOOLS *)
-  (* set (Pred_Phi) *)
-  (* ******* *)
+  set (IPhi := Intro_pred "Phi" 1).
+  (* ******** *)
   assert (S1 : (forall Phi : Predicate 1, Phi X <-> Phi Y)
     -> (forall Phi : Predicate 1, Phi X -> Phi Y)).
   {
@@ -127,12 +132,59 @@ Proof.
   assert (S2 : (forall Phi : Predicate 1, Phi X <-> Phi Y)
     -> (X = Y)).
   { now rewrite <- n13_1 in S1. }
-  assert (S3 : ).
+  
+    Close Scope double_app_impl.
+    Close Scope single_app_equiv.
+    Close Scope single_app_impl.
+ 
+  assert (S3 : (X = Y) -> (IPhi X -> IPhi Y)).
+  { apply n13_101. }
+  assert (S4 : (X = Y) -> ((~IPhi X) -> (~IPhi Y))).
+  {
+    (* n1_7 ignored *)
+    admit.
+  }
+  assert (S5 : (X = Y) -> (IPhi Y -> IPhi X)).
+  {
+    pose proof (Transp2_17 (IPhi Y) (IPhi X)) as Transp2_17.
+    now Syll S4 Transp2_17 S5.
+  }
+  assert (S6 : (X = Y) -> (IPhi X <-> IPhi Y)).
+  {
+    pose proof (Comp3_43 (X = Y) (IPhi X → IPhi Y) (IPhi Y → IPhi X))
+      as Comp3_43.
+    assert (C1 : (X = Y → IPhi X → IPhi Y) ∧ (X = Y → IPhi Y → IPhi X)).
+    { 
+      clear S1 S2 S4.
+      now Conj S3 S5 C1.
+    }
+    MP Comp3_43 C1.
+    now rewrite <-Equiv4_01 in Comp3_43.
+  }
+  assert (S7 : (X = Y) -> (forall Phi : Predicate 1, Phi X <-> Phi Y)).
+  {
+    pose proof (Variants.n10_11_pred IPhi (fun P =>
+      X = Y → P X ↔ P Y)) as n10_11.
+    MP n10_11 S6.
+    pose proof (Variants.n10_21_pred (fun P =>
+      P X ↔ P Y) (X = Y)) as n10_21.
+    now rewrite -> n10_21 in n10_11.
+  }
+  assert (S8 : (X = Y) <-> (forall Phi : Predicate 1, (Phi X) <-> (Phi Y))).
+  {
+    clear S1 S3 S4 S5 S6. move S2 after S7.
+    assert (C1 : (X = Y → ∀ Phi : Predicate 1, Phi X ↔ Phi Y)
+      /\ ((∀ Phi : Predicate 1, Phi X ↔ Phi Y) → X = Y)).
+    { now Conj S7 S2 C1. }
+    now Equiv C1.
+  }
+  exact S8.
 Admitted.
 
 Theorem n13_12 (X Y : Prop) (Psi : Prop -> Prop) :
   (X = Y) -> (Psi X <-> Psi Y).
 Proof.
+  
 Admitted.
 
 Theorem n13_13 (X Y : Prop) (Psi : Prop -> Prop) :
