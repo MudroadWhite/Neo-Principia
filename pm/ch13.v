@@ -184,12 +184,34 @@ Admitted.
 Theorem n13_12 (X Y : Prop) (Psi : Prop -> Prop) :
   (X = Y) -> (Psi X <-> Psi Y).
 Proof.
-  
+  assert (S1 : (X = Y) -> ((Psi X -> Psi Y) /\ ((~Psi X) -> (~Psi Y)))).
+  {
+    pose proof n13_101 as n13_101.
+    pose proof Comp3_43 as Comp3_43.
+    (* Same as n13_11.S4, and this is currently under investigation *)
+    admit.
+  }
+  assert (S2 : (X = Y) -> (Psi X <-> Psi Y)).
+  {
+    intro Hp.
+    pose proof (S1 Hp) as S1_1.
+    destruct S1_1 as [S1_1l S1_1r].
+    pose proof (Transp2_17 (Psi Y) (Psi X)) as Transp2_17.
+    MP Transp2_17 S1_1r.
+    assert (C1 : (Psi X → Psi Y) /\ (Psi Y → Psi X)).
+    {
+      clear S1 Hp.
+      now Conj S1_1l Transp2_17 C1.
+    }
+    now Equiv C1.
+  }
+  exact S2.
 Admitted.
 
 Theorem n13_13 (X Y : Prop) (Psi : Prop -> Prop) :
   ((Psi X) /\ (X = Y)) -> Psi Y.
 Proof.
+  
 Admitted.
 
 Theorem n13_14 (X Y : Prop) (Psi : Prop -> Prop) :
