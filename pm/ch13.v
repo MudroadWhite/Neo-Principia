@@ -267,7 +267,7 @@ Proof.
   {
     intros Hp.
     pose proof (S1 Hp) as S1_1.
-    pose proof (n10_3_pred
+    pose proof (Variants.n10_3_pred
       (fun P => P X) (fun P => P Y) (fun P => P Z)) as n10_3_pred.
     now MP n10_3_pred S1_1.
   }
@@ -275,6 +275,21 @@ Proof.
   { now rewrite <- n13_01 in S2. }
   exact S3.
 Admitted.
+
+Theorem n13_171 (X Y Z : Prop) :
+  ((X = Y) /\ (X = Z)) -> (Y = Z).
+Proof.
+  pose proof (n13_17 Y X Z) as n13_17.
+  now rewrite -> n13_16 in n13_17 at 1.
+Qed.
+
+Theorem n13_172 (X Y Z : Prop) :
+  ((Y = X) /\ (Z = X)) -> (Y = Z).
+Proof.
+  pose proof (n13_17 Y X Z) as n13_17.
+  pose proof (n13_16 X Z) as n13_16.
+  now rewrite -> n13_16 in n13_17.
+Qed.
 
 Theorem n13_18 (X Y Z : Prop) :
   ((X = Y) /\ (~(X = Z))) -> ~(Y = Z).
