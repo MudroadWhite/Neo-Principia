@@ -14,13 +14,23 @@ This project aims towards demonstration and addresses compatability. Readers are
 - [Documented](./docs/README.md).
 
 ## Can you make sure that the code/proof is 100% correct?
-No. Here are the reasons:
+No. Reasons:
 - Rigor of proofs relies heavily on how much and how deep you interpret the terms. There are fundamental terms that either involve a brand new architecture, or I just cannot represent as code. This results in a portion of propositions written down as comments in natural language.
 - The design of `Ltac` isn't good(to be more exact, `match` doesn't work as one might think), so that even successful `Qed`s are nevertheless false positives. Actually, I have caught several bugs in the repo from this issue.
 - I didn't deeply examine the code in chapter 1 - 5.
 - Under our interpretation, a few places out of the vast seem to be unprovable! If only I were filling an audit report.
 
-## How much can you formalize?
+## Can Principia Mathematica can be completely formalized?
+With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help understanding and formalizing Principia Mathematica. Practically speaking, I feel PM looks more like a rewriting system than a type system: initially, its propositions are supposed to be untyped, and typed terms only appear as the theorems are refined with more rigor as the text progresses on. As our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is to just a problem of engineering.
+
+To be more exact, [this awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica)has presented a series of critiques on PM. [Within which](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) the author comments that 
+1. PM has a notorious notation system. (For example, chapter 13 shocks me when I first read through it)
+2. Most theorems of PM are trivial, that is, of no mathematical interests, but only chores
+3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc.. and (my conclusion)these tools are supposed to be rich enough to revisit the history
+
+Conclusion: despite the theoretical accessability, we're currently setting the end for the formalization at chapter 14, covering cover the full foundation of the rewriting system, plus several advanced mathematical concepts being formalized. This should make an demonstration that is rich enough for people to view at.
+
+## How refined can you formalize?
 Below are some technical aspects arisen from this project.
 - Distinguish between `forall x y, P x y` and `forall x, forall y, P x y` is currently **on plan**.
 - Limiting parameter's "type"(orders)s for a function is currently **partially supported**, by only writing them as a header in each of the chapters.
