@@ -15,23 +15,24 @@ Type of parameters allowed: from elementary propositions to first order proposit
 (* 
 Chapter 9 only demonstrates the quantified version of proofs in chapter 1 - 5. By 
 "demonstration" we can notice a few facts:
-- `exists` in this chapter is a primitive idea, not a constructed concept
+- `exists` in this chapter is a primitive idea(that is, being assumed), not a constructed 
+  concept
 - most theorems in this chapter is completely unused in other chapters.
 
 The real alternative to chapter 9 is chapter 10. 
 
 What does chapter 9 demonstrate for? And why do we need 2 sets of theorems expressing 
-the same idea? Chapter 9 comes with 2 goals: the first one is, undoubtly, present the
-extended theorems. The 2nd goal is less formal, but provide the actual idea that chapter 
+the same idea? Chapter 9 comes with 2 goals: the first one is, undoubtly, demonstrate the
+extended theorems. The 2nd goal is not formal, but provide the actual idea that chapter 
 10 relies on.
 
-Before explaining the goal, we recall how propositions in Principia are constructed:
+Before explaining the 2nd goal, we recall how propositions in Principia are constructed:
 - The starting point for us could be a set of atomic propositions that cannot be further
   divided, called "individual"s
-- These individuals can be concated with `~` and `\/`
+- These individuals can be concated with `¬` and `∨`
 - If we try to specify on one individual contained in a proposition as a variable, we 
   get a function. In principia, function is obtained by using the `^` operator on a 
-  mere  proposition. That being said, functions are dependent on `~` and `\/`
+  mere  proposition. That being said, functions are dependent on `¬` and `∨`
 - `forall` and `exists` propositions are dependent on, and directly generalized from 
   functions. This is the only way to obtain them in Principia. 
 - To avoid Russell's paradox, these functions are not allowed to take these functions 
@@ -41,13 +42,13 @@ Before explaining the goal, we recall how propositions in Principia are construc
 The goal for the informal part in chapter 9:
 - Since it's not within the inference system, Principia writes the typing part in natural 
   language
-- To avoid paradox/"Vicious Circle Principle", `~` and `\/` have to be defined on elementary 
+- To avoid paradox/"Vicious Circle Principle", `¬` and `∨` have to be defined on elementary 
   propositions and 1st order propositions separately(see example in p.129).
-- Prove that we can have disjunctions and negations for every type, so that disjunctions 
-  and negations can work as a primitive idea regardless of type of the proposition. 
-  This procedure doesn't involve mathematical induction.
-- Conclude that for any (elementary)function we can generalize to its quantified version,
-  which is being done at the end of the chapter.
+- Now we prove that we can have `∨`s and `¬`s for every type, so that they can work as 
+  a primitive idea regardless of the type of the proposition. This procedure doesn't 
+  involve mathematical induction.
+- Finally we conclude that for any (elementary)function we can generalize to its quantified
+  version, which is being done at the end of the chapter.
 
 Every propositions, variables in chapter 9 are supposed to be elementary propositions,
 which doesn't contain any quantifiers. That being said, in a rigorous sense, 
@@ -55,12 +56,12 @@ which doesn't contain any quantifiers. That being said, in a rigorous sense,
 pose any assertions on parameters being elementary propositions, and the proofscan be 
 high flawed on this restriction.
 *)
+(* ******** *)
 
-(* Definitions involving `¬` on 1st order props. Our current simulation
-doesn't emphasize that its' the negation that we're trying to specify
-(a more obvious example can be how a typeclasse works on different 
-instances) *)
-(* This Pp tries to say the situation of `¬` working on a `∀` proposition *)
+(* Definitions involving `¬` on 1st order props. Our current simulation doesn't emphasize
+  that it's the negation that we're trying to specify(a more obvious example can be how 
+  a typeclasse works on different instances) *)
+(* Pp n9_01 tries to say the situation of `¬` working on a `∀` proposition *)
 Definition n9_01 (φ : Prop → Prop) :
   (¬ ∀ x, φ x) = ∃ x, ¬ φ x. Admitted.
 
@@ -118,7 +119,7 @@ to satisfy the function in question. *)
   This is almost the only starting point to get a quantified proposition, and is
   supposed to be very commonly used.
   What it really means:
-  - If `~` and `\/` can be defined, then we can define a function `φ`
+  - If `¬` and `∨` can be defined, then we can define a function `φ`
   - If φ (over elementary propositions) can be defined, and φY is always true
   - then we can construct a 1st order proposition made up from φ *)
 Definition n9_13 (φ : Prop → Prop) (Y : Prop) : 
@@ -207,9 +208,9 @@ Theorem n9_21 (φ ψ : Prop → Prop) :
   (∀ x, φ x → ψ x) → (∀ y, φ y) → ∀ z, ψ z.
 Proof.
   (** Necessary tools to be used globally **)
-  (* Manually set up a `↔` variant from `=` relation so that we can
-  `setoid_rewrite`. This enables substitution where `∀`s and `∃` are
-  involved. Can we automate this with Ltac? *)
+  (* Manually set up a `↔` variant from `=` relation so that we can `setoid_rewrite`. 
+  This enables substitution where `∀`s and `∃` are involved. Can we automate this 
+  with Ltac? *)
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
     as Impl1_01a.
   set (λ (φ0 : Prop → Prop) (P0 : Prop), 

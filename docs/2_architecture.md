@@ -7,7 +7,7 @@ Currently, the project is divided into following parts:
 - `./pm/` being the actual show of this project. 
 
 ## 2. What's under `./pm`?
-For each chapter in Principia, we have a corresponded `.v` file. If we can make it that far, we might further cluster the chapters with sections and parts.
+For each chapter in Principia, we have a corresponded `.v` file. If we can make it that far, we might further recluster the chapters with sections and parts.
 
 Chapter 1 - 5, additionally with some sole proof pieces such as `Yuelin.v`, are directly inherited from [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia).
 
@@ -31,7 +31,7 @@ Rocq's `Definition`s are used to define *primitive propositions* and *definition
 
 Similarly, `Theorem`s are used to define *theorems* in Principia, and are intended to be proven and `Qed`ed.
 
-Every `Definition` or `Theorem` represents a proposition in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, which will be mostly discussed in the [tactics](./3_tactics.md) chapter; and *lhs* parameters are the real ones to *set a proposition up*.
+Every `Definition` or `Theorem` represents a proposition in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, which will be mostly discussed in the [tactics](./4_tactics.md) chapter; and *lhs* parameters are the real ones to *set a proposition up*.
 
 ### 4.1. How does Principia instantiate a proposition?
 Principia's methodology to instantiate a proposition has a slight difference to modern type theory treatment. My understanding is,
@@ -39,13 +39,15 @@ Principia's methodology to instantiate a proposition has a slight difference to 
 2. If we want to derive something from this primitive proposition, we further change the `P` into something else.
 3. Same treatment applies to every proven theories.
 
-As the routine being clear, I think it's safe to apply our alternative:
+As the routine being clear, I think it's safe to adapt to our alternative:
 1. Every proposition is **required** to be instantiated before coming into the context.
-2. Even if we don't need any "explicit" instantiations, we still consider it as an action of instanstiating `P` with `P`.
+2. Even if we don't need any "explicit" instantiations, we still consider it as an action of instantiating `P` with `P`.
 
 The procedure of instantiation, leads to the parameters in the left hand side of a `Definition` or a `Theorem`.
 
 For a lhs parameter `P : Prop` of a theorem, the next question is what are allowed to instantiate P. Principia's propositions come along with *types*, which is sadly much more refined than the `Prop` in `P : Prop`, and this is why these propositions' types require manual checking. We might only allow `P` to be instantiated by an elementary proposition; a first-order proposition, 2nd-order prop, etc.. If this project has become more mature, we might change `P : Prop` into something like `P : Elementary_Proposition` for a clearer distinction.
+
+TODO: more of this to be discussed in `mechanics`
 
 ### 4.2. Naming conventions
 We have naming conventions for propositions. A proposition usually is named with `nxx_yyy`, with `xx_yyy` the number appeared in Principia for that proposition. A few of them are additionally come with their names in the text, and in that case we will adapt the `n` prefix to the name. For example, `Id2_08`. 
@@ -68,7 +70,7 @@ Proof.
   (* ******** *)
   assert (S1 : x + y = z).
   {
-    (* subproof for S1, where "S" here stands for step *)
+    (* subproof for S1, where "S" here stands for "step" *)
   }
   assert (S2 : x + y = z → x + y = z).
   {
@@ -105,4 +107,4 @@ Beneath the architecture comes the details of how we prove a theorem. By referri
 - `pose proof`, occasionally with `apply`, instantiates a existing theorem to use.
 - `rewrite`, `setoid_rewrite`, custom defined Ltacs like `MP` `Syll` inherited from the [old repository](https://github.com/LogicalAtomist/principia), or more generally, all tactics except `pose proof` are for rewriting to, and even a level down, deducing new propositions from existing propositions.
 
-[tactics](./3_tactics.md) goes into the details of these tactics.
+[tactics](./4_tactics.md) goes into the details of these tactics.
