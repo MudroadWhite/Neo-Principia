@@ -107,4 +107,4 @@ Beneath the architecture comes the details of how we prove a theorem. By referri
 - `pose proof`, occasionally with `apply`, instantiates a existing theorem to use.
 - `rewrite`, `setoid_rewrite`, custom defined Ltacs like `MP` `Syll` inherited from the [old repository](https://github.com/LogicalAtomist/principia), or more generally, all tactics except `pose proof` are for rewriting to, and even a level down, deducing new propositions from existing propositions.
 
-[tactics](./34_tactics.md) goes into the details of these tactics.
+[tactics](./4_tactics.md) goes into the details of these tactics.
