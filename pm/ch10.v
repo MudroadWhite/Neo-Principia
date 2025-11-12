@@ -7,20 +7,17 @@ Require Import PM.pm.ch5.
 Require Import PM.pm.ch9.
 
 (* TODO: 
-- understand what's the extra kind of proposition allowed in ch10 from ch9
 - slightly rewrite the introduction below
-- examine how Pps of chapter 9 are being deduced. Mark them
 *)
 
 (* TODO: TYPE RESTRICTIONS
-Type of theorems allowed: 
+Type of theorems allowed: first order propositions(?)
 Type of parameters allowed: (each forall is quantified over at most one variable?)
 *)
 
 (* 
 TODO: rewrite introducvtion for this chapter
-- Ch9 enables us to take `forall` propositions as parameters
-- therefore we can have a better goal(?)
+- Ch9 enables us to take `forall` propositions as parameters, therefore we can have a better goal(?)
 - Goal of ch10: focus on deducing 1-var functions from ch1-5
 - several ch9 primitive propositions are only used (for conveniency?)
 - `exists` is no longer a primitive idea
