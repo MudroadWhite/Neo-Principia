@@ -25,7 +25,7 @@ With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/pr
 
 To be more exact, [this awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica)has presented a series of critiques on PM. [Within which](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) the author comments that 
 1. PM has a notorious notation system. (For example, chapter 13 shocks me when I first read through it)
-2. Most theorems of PM are trivial, that is, of no mathematical interests, but only chores
+2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
 3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc.. and (my conclusion)these tools are supposed to be rich enough to revisit the history
 
 ~~(Current plan
