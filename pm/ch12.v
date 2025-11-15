@@ -10,13 +10,14 @@ Starting from chapter 12, every variables being quantified at the rhs has to be
 either an "Individual" or a "Predicate". For example, "forall P, P /\ Q" might 
 never appear, and instead, it will be either "forall Individual P, P /\ Q" or 
 "forall Predicate Phi, Phi (Individual P)" where Phi P = P /\ Q
+
+TODO: expand the idea: This seems to be the only way to quantify the functions
 *)
 
 (* EXPERIMENTAL: axioms in this chapter aren't stable, since our definition of `Predicate` should 
 be subject to refinements *)
 Definition n12_1 (X : Prop) (Phi : Prop -> Prop) : 
-  exists f : (Predicate 1), 
-    (Phi X) <[- x -]> (f x).
+  exists f : (Predicate 1), (Phi X) <[- x -]> (f x).
 Admitted.
 
 (* To be uncommented *)

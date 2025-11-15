@@ -14,7 +14,6 @@ Export String.
 
 (* cf.p.23: `=` propositions are allowed to be turned into `<->` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
-(* TODO: check if the `=` means exactly the definitional equality `Df =` *)
 Theorem eq_to_equiv : forall (P Q : Prop),
   (P = Q) -> (P <-> Q).
 Proof.
@@ -40,7 +39,7 @@ Should we treat `!` as something being denotational just like the dot notations 
 *)
 (* Unsatisfying: what we want to express is that Phi takes argument with the same type of `X` *)
 (* Here, n is supposed to be the order of the predicate *)
-Unset Automatic Proposition Inductives.
+(* Unset Automatic Proposition Inductives. *)
 (* Module Predicate.
   Record t {n : nat} : Type := {
     (* This `fix_param` seems to be mostly unused, and might be deleted in the future *)
@@ -49,8 +48,9 @@ Unset Automatic Proposition Inductives.
   }.
 End Predicate. *)
 (* Just declares a function is a function of order n *)
-(* TODO: fix the `n`? maybe a dependent type? *)
 Definition Predicate (n : nat) : Type := (Prop -> Prop).
+(* Experimental: Similar to `Individual`s, sometimes we need to introduce a predicate(?). Is it unnecessary? *)
+Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
 
 (* An alternative version to support functions of 2 arguments *)
 (* To be uncommented when the notation is fixed *)
@@ -60,51 +60,7 @@ Definition Predicate (n : nat) : Type := (Prop -> Prop).
     fix_func (f : Prop -> Prop -> Prop) := fun (X' Y' : Prop) => f X' Y';
   }.
 End Predicate2. *)
-
 (* TODO: maybe we should synthesize these 2 types into one inductive type with the name of "constituent" *)
-
-(* Experimental:
-We might want to design an explicit `Asserted` and make notation as `[| |]`
-to separate the parameters with the content inside
-so that real variables doesn't pollute the `forall`s, `exists` at the rhs 
-of the definition
-
-`n9_13` in this way, will be written as
-```
-Definition n9_13 (Phi : Prop → Prop) (X : Prop) : 
-  [| Phi X = (∀ y : Prop, Phi y) |]. 
-Admitted.
-```
-which is significantly different and makes more sense over its original formation
-
-Cons:
-1. MP will be affected by this embedding
-2. How do we perform all kinds of rewrites?
-*)
-Axiom Asserted : Prop -> Prop.
-
-(* Draft, experimental: 
-design `^` for a proposition, which abstracts it into a prop function
-Idea: 
-Functions in Principia seems not to be a 1st class member. They are being abstracted from existing 
-propositions with a operation `^` on these proposition's variables, even before these proposition
-variables are being instantiated.
-
-TODO: cite the page for `^`'s definition
-
-if we have a proposition `X /\ Y`, we can write something like
-`^ X` on `X /\ Y` to abstract the proposition into a function, and also making 
-it a function on `X`. p.15 of Principia says that we want `^X` on `X /\ Y` should 
-be the same as `^Y` on `Y /\ X`. This is a different mechanics from the function system 
-nowadays
-
-In particular, `X` being hatted is still a variable being not instantiated, and determining
-`X` is different from, and not the reversed procedure of hatting `X`.
-
-hat (P : Prop -> Prop) (X : Prop) :
-  hat (P X) (X) = P
-  where P has become the represesntation of a function
-*)
 
 (* ******** *)
 (* AGGREGATED TODOS *)
