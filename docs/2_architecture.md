@@ -5,6 +5,7 @@ Currently, the project is divided into following parts:
 - `./docs/` provides all necessary documentation for the proofs.
 - `./Makefile` for building the project.
 - `./pm/` being the actual show of this project. 
+- `./slides/` contains a pseudo-slide in markdown format for a presentation I held privately, written in Chinese.
 
 ## 2. What's under `./pm`?
 For each chapter in Principia, we have a corresponded `.v` file. If we can make it that far, we might further recluster the chapters with sections and parts.
