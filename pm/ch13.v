@@ -136,11 +136,6 @@ Proof.
   assert (S2 : (forall Phi : Predicate 1, Phi X <-> Phi Y)
     -> (X = Y)).
   { now rewrite <- n13_1 in S1. }
-  
-    Close Scope double_app_impl.
-    Close Scope single_app_equiv.
-    Close Scope single_app_impl.
- 
   assert (S3 : (X = Y) -> (IPhi X -> IPhi Y)).
   { apply n13_101. }
   assert (S4 : (X = Y) -> ((~IPhi X) -> (~IPhi Y))).
@@ -337,38 +332,168 @@ Open Scope single_app_equiv.
 Theorem n13_183 (X Y : Prop) :
   (X = Y) <-> ((X = z) <[- z -]> (z = Y)).
 Proof.
+  (* TOOLS *)
+  set (Z := Individual "z").
+  (* ******** *)
   assert (S1 : (X = Y) -> ((X = z) <[- z -]> (z = Y))).
   {
-  admit.
+    pose proof (n13_182 X Y Z) as n13_182.
+    pose proof (n13_16 X Z) as n13_16.
+    rewrite <- n13_16 in n13_182.
+    pose proof (n10_11 Z (fun z =>
+      X = Y → X = z ↔ z = Y)) as n10_11.
+    MP n10_11 n13_182.
+    pose proof (n10_21 (fun z => X = z ↔ z = Y) (X = Y)) as n10_21.
+    now rewrite -> n10_21 in n10_11.
   }
   assert (S2 : ((X = z) <[- z -]> (z = Y)) 
     -> ((X = X) -> (X = Y))).
   {
-    admit.
+    pose proof (n10_1 (fun z => X = z ↔ z = Y) X) as n10_1.
+    (* Simplification *)
+    intro Hp.
+    pose (n10_1 Hp) as n10_1_1.
+    now destruct n10_1_1.
   }
   assert (S3 : ((X = z) <[- z -]> (z = Y))  -> (X = Y)).
   {
-  admit.
+    (* Simplification *)
+    intro Hp.
+    pose proof (S2 Hp) as S2_1.
+    (* This seems to be a very exceptional use of *13_15 :
+    it is being used as a term being applied not a theorem 
+    to be applied *)
+    pose proof (n13_15 X) as n13_15.
+    now MP S2_1 n13_15.
   }
   assert (S4 : (X = Y) <-> ((X = z) <[- z -]> (z = Y))).
   {
-  admit.
+    assert (C1 : (X = Y → ∀ z : Prop, X = z ↔ z = Y)
+      /\ ((∀ z : Prop, X = z ↔ z = Y) → X = Y)).
+    { clear S2. now Conj S1 S3 C1. }
+    now Equiv C1.
   }
-Admitted.
+  exact S4.
+Qed.
 
 Theorem n13_19 (X : Prop) : exists y, y = X.
 Proof.
-Admitted.
+  pose proof (n13_15 X) as n13_15.
+  pose proof (n10_24 (fun y => y = X) X) as n10_24.
+  now MP n10_24 n13_15.
+Qed.
 
 Theorem n13_191 (X : Prop) (Phi : Prop -> Prop) :
-  (y = X) -[ y ]> (Phi y = Phi X).
+  ((y = X) -[ y ]> Phi y) <-> Phi X.
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (Y := Individual "y").
+  (* ******** *)
+  assert (S1 : ((y = X) -[ y ]> Phi y) -> ((X = X) -> (Phi X))).
+  { exact (n10_1 (fun y => y = X → Phi y) X). }
+  assert (S2 : ((y = X) -[ y ]> Phi y) -> Phi X).
+  {
+    pose proof (n13_15 X) as n13_15.
+    (* Simplification *)
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    now MP S1 n13_15.
+  }
+  assert (S3 : (Y = X) -> (Phi X -> Phi Y)).
+  {
+    pose proof (n13_12 X Y Phi) as n13_12.
+    pose proof (n13_16 X Y) as n13_16.
+    rewrite -> n13_16 in n13_12.
+    (* Simplification *)
+    intro Hp.
+    pose (n13_12 Hp) as n13_12_1.
+    now destruct n13_12_1.
+  }
+  assert (S4 : Phi X -> ((Y = X) -> Phi Y)).
+  {
+    pose proof (Comm2_04 (Y = X) (Phi X) (Phi Y)) as Comm2_04.
+    now MP Comm2_04 S3.
+  }
+  assert (S5 : Phi X -> ((y = X) -[ y ]> Phi y)).
+  {
+    pose proof (n10_11 Y (fun y =>
+      Phi X → y = X → Phi y)) as n10_11.
+    MP n10_11 S4.
+    now rewrite -> n10_21 in n10_11.
+  }
+  assert (S6 : ((y = X) -[ y ]> Phi y) <-> Phi X).
+  {
+    clear S1 S3 S4.
+    Conj S2 S5 C1.
+    now Equiv C1.
+  }
+  exact S6.
+Qed.
 
 Theorem n13_192 (B : Prop) (Psi : Prop -> Prop) :
-  exists c, ((x = B) <[- x -]> (x = c)) /\ (Psi c <-> Psi B).
+  (exists c, ((x = B) <[- x -]> (x = c)) /\ Psi c) <-> Psi B.
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (X := Individual "x").
+  set (C := Individual "c").
+  (* ******** *)
+  assert (S1 : Psi B -> (((x = B) <[- x -]> (x = B)) /\ (Psi B))).
+  {
+    pose proof (n4_2 (X = B)) as n4_2.
+    pose proof (n10_11 X (fun x => x = B <-> x = B)) as n10_11.
+    MP n10_11 n4_2.
+    pose proof (n3_2 (∀ x, x = B ↔ x = B) (Psi B)) as n3_2.
+    now MP n3_2 n10_11.
+  }
+  assert (S2 : Psi B -> (exists c, ((x = B) <[- x -]> (x = c)) /\ Psi c)).
+  {
+    pose proof (n10_24 (fun c =>
+      ( x = B<[-x-]>x = c ) ∧ Psi c) B) as n10_24.
+    now Syll S1 n10_24 S2.
+  }
+  assert (S3 : ((x = B <[-x-]> x = C) /\ (Psi C)) 
+    -> (((B = B) <-> (B = C)) /\ Psi C)).
+  {
+    pose proof (n10_1 (fun x => (x = B) <-> (x = C)) B) as n10_1.
+    pose proof (Fact3_45 (∀ x : Prop, x = B ↔ x = C) (B = B ↔ B = C)
+      (Psi C)) as Fact3_45.
+    now MP Fact3_45 n10_1.
+  }
+  assert (S4 : ((x = B <[-x-]> x = C) /\ (Psi C)) 
+    -> ((B = C) /\ (Psi C))).
+  {
+    pose proof (n5_501 (B = B) (B = C)) as n5_501.
+    pose proof (n13_15 B) as n13_15.
+    MP n5_501 n13_15.
+    now rewrite <- n5_501 in S3.
+  }
+  assert (S5 : ((x = B <[-x-]> x = C) /\ (Psi C)) -> Psi B).
+  {
+    pose proof (n13_13 C B Psi) as n13_13.
+    pose proof (n13_16 B C) as n13_16.
+    rewrite <- n13_16 in n13_13.
+    rewrite -> n4_3 in n13_13.
+    now Syll S4 n13_13 S5.
+  }
+  assert (S6 : (exists c, ((x = B <[-x-]> x = c) /\ Psi c)) -> Psi B).
+  {
+    pose proof (n10_11 C (fun c =>
+      (∀ x, x = B ↔ x = c) ∧ Psi c → Psi B)) 
+      as n10_11.
+    MP n10_11 S5.
+    pose proof (n10_23 (fun x =>
+      (∀ x0, x0 = B ↔ x0 = x) ∧ Psi x) (Psi B)) as n10_23.
+    now rewrite -> n10_23 in n10_11.
+  }
+  assert (S7 : (exists c, ((x = B) <[- x -]> (x = c)) /\ Psi c) <-> Psi B).
+  {
+    clear S1 S3 S4 S5.
+    move S2 after S6.
+    Conj S6 S2 C1.
+    now Equiv C1.
+  }
+  exact S7.
+Qed.
 
 Theorem n13_193 (X Y : Prop) (Phi : Prop -> Prop) :
   (Phi X /\ (X = Y)) <-> (Phi Y /\ (X = Y)).
