@@ -294,21 +294,66 @@ Qed.
 Theorem n13_18 (X Y Z : Prop) :
   ((X = Y) /\ (~(X = Z))) -> ~(Y = Z).
 Proof.
-Admitted.
+  pose proof (n13_17 X Y Z) as n13_17.
+  pose proof (n4_14 (X = Y) (Y = Z) (X = Z)) as n4_14.
+  now rewrite -> n4_14 in n13_17.
+Qed.
 
 Theorem n13_181 (X Y Z : Prop) :
   ((X = Y) /\ (~(Y = Z))) -> ~(X = Z).
 Proof.
-Admitted.
+  pose proof (n13_171 X Y Z) as n13_171.
+  now rewrite -> n4_14 in n13_171.
+Qed.
 
 Theorem n13_182 (X Y Z : Prop) :
   (X = Y) -> ((Z = X) <-> (Z = Y)).
 Proof.
-Admitted.
+  pose proof (n13_17 X Y Z) as n13_17.
+  pose proof (n13_172 X Y Z) as n13_172.
+  pose proof (n13_16 Y Z) as n13_16a.
+  pose proof (n13_16 X Z) as n13_16b.
+  pose proof (n13_16 Y X) as n13_16c.
+  rewrite -> n13_16a, -> n13_16b in n13_17.
+  rewrite -> n13_16a, -> n13_16c in n13_172.
+  pose proof (Exp3_3 (X = Y) (Z = Y) (Z = X)) as Exp3_3a.
+  MP Exp3_3a n13_17.
+  pose proof (Exp3_3 (X = Y) (Z = X) (Z = Y)) as Exp3_3b.
+  MP Exp3_3b n13_172.
+  pose proof (Comp3_43
+    (X = Y) (Z = X → Z = Y) (Z = Y → Z = X)
+  ) as Comp3_43.
+  assert (C1 : (X = Y → Z = X → Z = Y) ∧ (X = Y → Z = Y → Z = X)).
+  {
+    clear n13_17 n13_172 n13_16a n13_16b n13_16c.
+    now Conj Exp3_3a Exp3_3b C1.
+  }
+  MP Comp3_43 C1.
+  now rewrite <- Equiv4_01 in Comp3_43.
+Qed.
+
+Open Scope single_app_equiv.
 
 Theorem n13_183 (X Y : Prop) :
   (X = Y) <-> ((X = z) <[- z -]> (z = Y)).
 Proof.
+  assert (S1 : (X = Y) -> ((X = z) <[- z -]> (z = Y))).
+  {
+  admit.
+  }
+  assert (S2 : ((X = z) <[- z -]> (z = Y)) 
+    -> ((X = X) -> (X = Y))).
+  {
+    admit.
+  }
+  assert (S3 : ((X = z) <[- z -]> (z = Y))  -> (X = Y)).
+  {
+  admit.
+  }
+  assert (S4 : (X = Y) <-> ((X = z) <[- z -]> (z = Y))).
+  {
+  admit.
+  }
 Admitted.
 
 Theorem n13_19 (X : Prop) : exists y, y = X.
