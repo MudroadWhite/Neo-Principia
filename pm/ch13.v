@@ -498,29 +498,126 @@ Qed.
 Theorem n13_193 (X Y : Prop) (Phi : Prop -> Prop) :
   (Phi X /\ (X = Y)) <-> (Phi Y /\ (X = Y)).
 Proof.
-Admitted.
+  assert (S1 : (Phi X /\ (X = Y) -> (X = Y))).
+  { apply Simp3_27. }
+  assert (S2 : (Phi X /\ (X = Y) -> Phi Y)).
+  { apply n13_13. }
+  assert (S3 : (Phi X /\ (X = Y)) -> (Phi Y /\ (X = Y))).
+  {
+    move S1 after S2.
+    Conj S2 S1 C1.
+    pose proof (Comp3_43 (Phi X ∧ (X = Y)) (Phi Y) (X = Y)) as Comp3_43.
+    now MP Comp3_43 C1.
+  }
+  assert (S4 : (Phi Y /\ (X = Y)) -> (Phi Y /\ (Y = X))).
+  {
+    pose proof (n13_16 X Y) as n13_16.
+    destruct n13_16 as [n13_16l n13_16r]. clear n13_16r.
+    pose proof (Fact3_45 (X = Y) (Y = X) (Phi Y)) as Fact3_45.
+    MP Fact3_45 n13_16l.
+    pose proof (n4_3 (Phi Y) (X = Y)) as n4_3a.
+    pose proof (n4_3 (Phi Y) (Y = X)) as n4_3b.
+    now rewrite <- n4_3a, <- n4_3b in Fact3_45.
+  }
+  assert (S5 : (Phi Y /\ (X = Y)) -> (Phi X /\ (Y = X))).
+  {
+    (* For this kind of substitution we have to rely on some theorems... which
+    is different from original treatment *)
+    pose proof (n10_11 X (fun x => Phi x ∧ x = Y → Phi Y ∧ x = Y)) as n10_11a.
+    MP n10_11a S3.
+    (* This might not be technically allowed *)
+    pose proof (n10_11 Y (fun y => ∀ x, Phi x ∧ x = y → Phi y ∧ x = y)) as n10_11b.
+    MP n10_11b n10_11a.
+    pose proof (n10_11b X Y) as n10_11c.
+    pose proof (n13_16 X Y) as n13_16.
+    now rewrite <- n13_16 in n10_11c at 1.
+  }
+  assert (S6 : (Phi Y /\ (X = Y)) -> (Phi X /\ (X = Y))).
+  {
+    pose proof (n13_16 X Y) as n13_16.
+    (* Fact ignored *)
+    now rewrite <- n13_16 in S5.
+  }
+  assert (S7 : (Phi X /\ (X = Y)) <-> (Phi Y /\ (X = Y))).
+  {
+    clear S1 S2 S4 S5.
+    Conj S3 S6 C1.
+    now Equiv C1.
+  }
+  exact S7.
+Qed.
 
 Theorem n13_194 (X Y : Prop) (Phi : Prop -> Prop) :
   (Phi X /\ (X = Y)) <-> (Phi X /\ Phi Y /\ (X = Y)).
 Proof.
-Admitted.
+  pose proof (n13_13 X Y Phi) as n13_13.
+  pose proof (n4_71 (Phi X /\ (X = Y)) (Phi Y)) as n4_71.
+  rewrite -> n4_71 in n13_13.
+  rewrite -> n4_32 in n13_13.
+  pose proof (n4_3 (X = Y) (Phi Y)) as n4_3.
+  now rewrite -> n4_3 in n13_13.
+Qed.
 
 Theorem n13_195 (X : Prop) (Phi : Prop -> Prop) : 
   (exists y, (y = X) /\ Phi y) <-> Phi X.
 Proof.
-Admitted.
+  assert (S1 : Phi X -> ((X = X) /\ (Phi X))).
+  {
+    pose proof (n3_2 (X = X) (Phi X)) as n3_2.
+    pose proof (n13_15 X) as n13_15.
+    now MP n3_2 n13_15.
+  }
+  assert (S2 : Phi X -> (exists y, (y = X) /\ Phi y)).
+  {
+    pose proof (n10_24 (fun y => y = X ∧ Phi y) X) as n10_24.
+    now Syll S1 n10_24 S2.
+  }
+  assert (S3 : forall y, ((y = X) /\ Phi y) -> Phi X).
+  {
+    pose proof (n13_13 X X Phi) as n13_13.
+    rewrite -> n4_3 in n13_13.
+    pose proof (n10_11 X (fun y => y = X ∧ Phi y → Phi X)) as n10_11.
+    now MP n10_11 n13_13.
+  }
+  assert (S4 : (exists y, (y = X) /\ Phi y) -> Phi X).
+  { now rewrite -> n10_23 in S3. }
+  assert (S5 : (exists y, (y = X) /\ Phi y) <-> Phi X).
+  {
+    clear S1 S3.
+    move S2 after S4.
+    Conj S4 S2 C1.
+    now Equiv C1.
+  }
+  exact S5.
+Qed.
 
 Theorem n13_196 (X : Prop) (Phi : Prop -> Prop) : 
-  (~Phi X) <-> (Phi y <[- y -]> (~(y = X))).
+  (~Phi X) <-> (Phi y -[ y ]> (~(y = X))).
 Proof.
-Admitted.
+  pose proof (n13_195 X Phi) as n13_195.
+  rewrite -> Transp4_11 in n13_195.
+  setoid_rewrite -> n4_3 in n13_195 at 2.
+  rewrite -> n10_51 in n13_195.
+  now symmetry in n13_195.
+Qed.
 
-Close Scope single_app_impl.
 Open Scope double_app_impl.
 
 Theorem n13_21 (X Y : Prop) (Phi : Prop -> Prop -> Prop) : 
   (((z = X) /\ (w = Y)) -[ z w ]> ((Phi z w) <-> (Phi X Y))).
 Proof.
+  assert (S1 : (((z = X) /\ (w = Y)) -[ z w]> (Phi z w))
+    <-> ((z = X) -[ z ]> ((w = Y) -[ w ]> (Phi z w)))).
+  { apply n11_62. }
+  assert (S2 : (((z = X) /\ (w = Y)) -[ z w]> (Phi z w))
+    <-> ((w = Y) -[ w ]> Phi X w )).
+  {
+  Close Scope double_app_impl.
+Close Scope single_app_equiv.
+Close Scope single_app_impl.
+
+    pose proof n13_191 as n13_191.
+  }
 Admitted.
 
 Theorem n13_22 (X Y : Prop) (Phi : Prop -> Prop -> Prop) : 
@@ -535,9 +632,4 @@ Admitted.
 
 Close Scope double_app_impl.
 Close Scope single_app_equiv.
-
-(* 
-Close Scope double_app_impl.
-Close Scope single_app_equiv.
 Close Scope single_app_impl.
-*)
