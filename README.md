@@ -8,22 +8,22 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 - Formalizing PM feels like climbing a mountain
 
 ## Features
-This project aims towards demonstration and addresses compatability. Readers are supposed to be able to read the code line by line modulo technical hacks. Future contributers should find it easy to continue for better works while pertaining the style. 
-- "Just `pose` and `rewrite`": Forward style reasoning, as in original Principia's proof. No 3rd party library. Minimal, native and simple tactics.
+Compatability.
+- "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. Forward style reasoning, as in original Principia's proof.
 - Clear proof architecture and clean, maybe beautiful proof window.
 - [Documented](./docs/README.md).
 
 ## Can you make sure that the code/proof is 100% correct?
 No. Reasons:
-- Rigor of proofs relies heavily on how much and how deep you interpret the terms. There are fundamental terms that either involve a brand new architecture, or I just cannot represent as code. This results in a portion of propositions written down as comments in natural language.
+- It depends on  how much and how deep you interpret the terms. There exist concepts explained in natural language, not with formula. These propositions are also written as comments in our code.
 - The design of `Ltac` isn't good(to be more exact, `match` doesn't work as one might think), so that even successful `Qed`s are nevertheless false positives. Actually, I have caught several bugs in the repo from this issue.
 - I didn't deeply examine the code in chapter 1 - 5.
 - Under our interpretation, a few places out of the vast seem to be unprovable! If only I were filling an audit report.
 
 ## Can Principia Mathematica can be completely formalized?
-With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help understanding and formalizing Principia Mathematica. Practically speaking, I feel PM looks more like a rewriting system than a type system: its propositions are initially untyped and only concerns about inference; typing rules are usually written in natural language, and these types are only strictly required as the chapter goes on and their rigor get refined. As our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is not an issue of accessability, but a problem of engineering.
+Yes. With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is not an issue of accessability, but a problem of engineering.
 
-To be more exact, [this awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Within which](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) the author comments that 
+[This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Within which](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) the author comments that 
 1. PM has a notorious notation system. (For example, chapter 13 shocks me when I first read through it)
 2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
 3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc.. and (my conclusion)these tools are supposed to be rich enough to revisit the history
