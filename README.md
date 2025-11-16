@@ -43,7 +43,7 @@ Below are some technical aspects arisen from this project.
 - More to come...
 
 ## How much have you formalized?
-This project has formalized **(170 - 94) = 76** pages in total of the book. In deeper detail, we have finished:
+This project has formalized **(172 - 94) = 78** pages in total of the book. In deeper detail, we have finished:
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType". Support for instantiating individuals.
 - [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `->` and `<->` with single apparent variable. One theorem seems to be unprovable.
 - [x] Chapter 11 - Quantified propositions now extend to more than one variables. Notation supports for `->` and `<->` extended to multiple apparent variables as well.
