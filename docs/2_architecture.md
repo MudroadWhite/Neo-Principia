@@ -3,6 +3,7 @@
 ## 1. What's under this project?
 Currently, the project is divided into following parts:
 - `./docs/` provides all necessary documentation for the proofs.
+- `./slides/` contains a pseudo-slide in markdown format for a presentation I held privately, written in Chinese.
 - `./Makefile` for building the project.
 - `./pm/` being the actual show of this project. 
 
@@ -47,7 +48,7 @@ The procedure of instantiation, leads to the parameters in the left hand side of
 
 For a lhs parameter `P : Prop` of a theorem, the next question is what are allowed to instantiate P. Principia's propositions come along with *types*, which is sadly much more refined than the `Prop` in `P : Prop`, and this is why these propositions' types require manual checking. We might only allow `P` to be instantiated by an elementary proposition; a first-order proposition, 2nd-order prop, etc.. If this project has become more mature, we might change `P : Prop` into something like `P : Elementary_Proposition` for a clearer distinction.
 
-TODO: more of this to be discussed in `mechanics`
+[mechanics](./mechanics.md) goes into the detail of how Principia works.
 
 ### 4.2. Naming conventions
 We have naming conventions for propositions. A proposition usually is named with `nxx_yyy`, with `xx_yyy` the number appeared in Principia for that proposition. A few of them are additionally come with their names in the text, and in that case we will adapt the `n` prefix to the name. For example, `Id2_08`. 
