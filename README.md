@@ -33,7 +33,7 @@ With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/pr
 2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
 3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc.. and (my conclusion)these tools are supposed to be rich enough to revisit the history
 
-Current plan: during formalization, we're gathering a lot of exceptional mathematical treatments than the usual math you can see in typical textbooks. For example, functions are not defined by lambda calculus, multiple definitions are being used for a single concept, etc.. The most ideal formalization to Principia should give a formal model for it, but we're currently just trying to validate the propositions within Rocq, **before chapter 14**.
+We have gathered a lot of exceptional treatments than you don't see in typical math textbooks. For example, functions are not defined by lambda calculus, multiple definitions are being used for a single concept, etc.. This leads to us setting the current goal: in contrast to immediately give a formal embedding for Principia, we're just trying to Rocq-validate everything **before chapter 14**.
 
 ## How deep can you formalize?
 - This project is **not** going to give a formal model to Principia, as explained above.

@@ -1,5 +1,15 @@
 # Mechanics of Principia Mathematica
 
+## Chapter organization
+Principia Mathematica seems to define its concepts in an **incremental way**. That means:
+1. Every chapter is started by defining some rough ideas and develop theorems on them
+2. In later chapters we might refine some of the rough ideas and consider different cases for the ideas. If previous chapter only consider animals, we might have a later chapter dividing animals into dogs and cats
+3. Correspondingly, theorems in previous chapters will be given new meanings in later chapters. This might suggest we use typeclasses and instances to "register" new meanings for later chapters if we want to correctly formalize Principia.
+
+We now proceed to explain how every math elements are being built, bottom-up, in Principia.
+
+## The system
+TODO: polish below
 1. Fundamentally we have a set of individuals like `P`, `Q`, `R`. They are not propositions, and they cannot be further splited.
 2. Elementary propositions are simple propositions connected with `~` and `\/`. (Put it in another way, these `~` and `\/`s are defined on elementary propositions)
 3. `x^`, a function, is defined on an *already defined proposition* by abstracting all occurrences of `x` in the proposition. (Principia seems to be hasn't considered about the bound variables and free variables?) For example. if we have `x /\ y`, then `(x /\ y)x^` is a function that should be written now as `fun x => x /\ y`.
