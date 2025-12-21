@@ -4,9 +4,9 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 ## Why working on it
 - Principia Mathematica has a stable version
 - Principia Mathematica is not textbook math
-- Coq doesn't need a lot of version updates
-- Formalized PM is a good education material for verifiers
+- Formalized PM is a good textbook for verifiers
 - Formalizing PM feels like climbing a mountain
+- Coq doesn't need a lot of version updates
 
 ## Features
 Compatability.

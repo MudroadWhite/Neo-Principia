@@ -2,8 +2,8 @@
 
 ## Chapter organization
 Principia Mathematica seems to define its concepts in an **incremental way**. That means:
-1. Every chapter is started by defining some rough ideas and develop theorems on them
-2. In later chapters we might refine some of the rough ideas and consider different cases for the ideas. If previous chapter only consider animals, we might have a later chapter dividing animals into dogs and cats
+1. Some early chapters define some rough ideas and develop theorems on them
+2. Later chapters might refine some of these ideas and define different cases for the ideas. If previous chapter only considers animals, later chapters might divide animals into dogs and cats
 3. Correspondingly, theorems in previous chapters will be given new meanings in later chapters. This might suggest we use typeclasses and instances to "register" new meanings for later chapters if we want to correctly formalize Principia.
 
 We now proceed to explain how every math elements are being built, bottom-up, in Principia.
