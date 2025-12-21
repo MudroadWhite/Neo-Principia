@@ -16,6 +16,11 @@ TODO: polish below
 4. `Phi x` means the result of the application, of a function `Phi x^` onto a parameter `x`. Our function contains only 1 variable and ranges over elementary propositions.
 5. `forall` and `exists` are defined by directly and only quantifying over a function.
 
+how PM is different from modern type theories:
+1. types are for propositions
+2. individuals are not types
+3. individuals can be substituted with more complex terms by infinite times(?TODO: check if there is some severe bug in formalization)
+
 TODO: extend to descriptions and classes in the future; slightly compare to type systems
 
 TODO: the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of ~ and \/
