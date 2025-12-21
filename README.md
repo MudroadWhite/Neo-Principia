@@ -26,18 +26,18 @@ No.
 ## Can Principia Mathematica can be completely formalized?
 Yes. 
 
-With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is not an issue of accessability, but a problem of engineering.
+With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is already theoretically complete, and remains to be a problem of engineering.
 
-[This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Within which](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) the author comments that 
-1. PM has a notorious notation system. (For example, chapter 13 shocks me when I first read through it)
+[This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Within which](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) the author states that 
+1. PM has a notorious notation system. (For example, chapter 13 starts to go crazy for anyone reading it the first time)
 2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
 3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc.. and (my conclusion)these tools are supposed to be rich enough to revisit the history
 
-We have gathered a lot of exceptional treatments than you don't see in typical math textbooks. For example, functions are not defined by lambda calculus, multiple definitions are being used for a single concept, etc.. This leads to us setting the current goal: in contrast to immediately give a formal embedding for Principia, we're just trying to Rocq-validate everything **before chapter 14**.
+We have gathered a lot of exceptional treatments than won't be seen in typical math textbooks during our formalization, for example, functions are not defined by lambda calculus, multiple definitions are being used for a single concept, etc.. This complicated situation is the main motivation for us to set our current goal: in contrast to immediately formally embed Principia into Rocq, we will just Rocq-validate everything **before chapter 14** to have a initial feeling about the situation.
 
 ## How deep can you formalize?
 - This project is **not** going to give a formal model to Principia, as explained above.
-- Distinguish between `forall x y, P x y` and `forall x, forall y, P x y` is currently **on plan**.
+- Distinguishing between `forall x y, P x y` and `forall x, forall y, P x y` is currently **on plan**.
 - Limiting parameter's "type"(orders)s for a function is currently **partially supported**, by only writing them as a header in each of the chapters.
 - Checking their types is currently **unavailable**.
 - Designing functions that accepts arbitrary length is currently **unavailable**.
