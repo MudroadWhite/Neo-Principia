@@ -3,25 +3,30 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 
 ## Why working on it
 - Principia Mathematica has a stable version
+- Principia Mathematica is not textbook math
 - Coq doesn't need a lot of version updates
 - Formalized PM is a good education material for verifiers
 - Formalizing PM feels like climbing a mountain
 
 ## Features
 Compatability.
+
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. Forward style reasoning, as in original Principia's proof.
 - Clear proof architecture and clean, maybe beautiful proof window.
 - [Documented](./docs/README.md).
 
 ## Can you make sure that the code/proof is 100% correct?
-No. Reasons:
+No. 
+
 - It depends on  how much and how deep you interpret the terms. There exist concepts explained in natural language, not with formula. These propositions are also written as comments in our code.
 - The design of `Ltac` isn't good(to be more exact, `match` doesn't work as one might think), so that even successful `Qed`s are nevertheless false positives. Actually, I have caught several bugs in the repo from this issue.
 - I didn't deeply examine the code in chapter 1 - 5.
 - Under our interpretation, a few places out of the vast seem to be unprovable! If only I were filling an audit report.
 
 ## Can Principia Mathematica can be completely formalized?
-Yes. With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is not an issue of accessability, but a problem of engineering.
+Yes. 
+
+With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is not an issue of accessability, but a problem of engineering.
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Within which](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) the author comments that 
 1. PM has a notorious notation system. (For example, chapter 13 shocks me when I first read through it)
@@ -31,7 +36,6 @@ Yes. With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entri
 Current plan: during formalization, we're gathering a lot of exceptional mathematical treatments than the usual math you can see in typical textbooks. For example, functions are not defined by lambda calculus, multiple definitions are being used for a single concept, etc.. The most ideal formalization to Principia should give a formal model for it, but we're currently just trying to validate the propositions within Rocq, **before chapter 14**.
 
 ## How deep can you formalize?
-Below are some technical aspects arisen from this project.
 - This project is **not** going to give a formal model to Principia, as explained above.
 - Distinguish between `forall x y, P x y` and `forall x, forall y, P x y` is currently **on plan**.
 - Limiting parameter's "type"(orders)s for a function is currently **partially supported**, by only writing them as a header in each of the chapters.
@@ -43,7 +47,8 @@ Below are some technical aspects arisen from this project.
 - More to come...
 
 ## How much have you formalized?
-**(172 - 94) = 78** pages in total has been formalized so far. We have finished:
+**(172 - 94) = 78** pages.
+
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType". Support for instantiating individuals.
 - [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `->` and `<->` with single apparent variable. One theorem seems to be unprovable.
 - [x] Chapter 11 - Quantified propositions now extend to more than one variables. Notation supports for `->` and `<->` extended to multiple apparent variables as well.
