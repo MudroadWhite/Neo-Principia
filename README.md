@@ -13,7 +13,7 @@ Compatability.
 
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. Forward style reasoning, as in original Principia's proof.
 - Clear proof architecture and clean, maybe beautiful proof window.
-- [Documented](./docs/README.md).
+- [Documented](./docs/README.md) and with [slides](./slides/).
 
 ## Can you make sure that the code/proof is 100% correct?
 No. 
@@ -50,8 +50,8 @@ Current plan: during formalization, we're gathering a lot of exceptional mathema
 **(172 - 94) = 78** pages.
 
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType". Support for instantiating individuals.
-- [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `->` and `<->` with single apparent variable. One theorem seems to be unprovable.
-- [x] Chapter 11 - Quantified propositions now extend to more than one variables. Notation supports for `->` and `<->` extended to multiple apparent variables as well.
+- [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable. One theorem seems to be unprovable.
+- [x] Chapter 11 - Quantified propositions now extend to more than one variables. Notation supports for `→` and `↔` extended to multiple apparent variables as well.
 - [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
 - [x] Chapter 13 - A new set of theorems on Identity, which is different from definitional equality. Support for instantiating predicative functions. One theorem seems to be unprovable.
 - [ ] (WIP)Chapter 14 - The `iota` operator for description, and its scope support.
