@@ -66,10 +66,10 @@ When things become complicated, more problems will come to surface. A `∀ x` is
 
 WARNING: Since `rewrite` is too convenient, even more than `MP` and `Syll`, `↔` theorems appear to be more useful than `→` theorems. In Rocq, we might *slightly overuse* `↔` theorems. Sometimes when a `→` theorem is enough to finish the proof, we might still choose a `↔` alternative and `rewrite` or `setoid_rewrite` with it.
 
-### 4.1. What routine does `setoid_rewrite` actually simplify?
+### 4.1. What does `setoid_rewrite` actually simplify?
 It should be very worthwhile to discuss how we deal with rewriting for quantified ("∀ x") propositions, which also brings up the discussion on the viability for `setoid_rewrite` to simplify original proof. As we see, `setoid_rewrite` is only used in 2 situations: either the proposition is a `=`, or the proposition is a `↔`.
 
-We first discuss the case for `↔`. As an opening, a question: how does a `∀` proposition appear? The basic idea for Principia is quite different from modern approach which uses a `∀` constructor. *Primitive propositions* in each chapter allow that
+We first discuss the case for `↔`, starting with a question: how does a `∀` proposition appear? The basic idea for Principia is quite different from modern approach which uses a `∀` constructor. *Primitive propositions* in each chapter allow that
 - If we have a proposition with the form of `φ X`, where `X` is a *real variable*, then
 - We can change `φ X` into `∀ x, φ x`. Here, `x` has become an *apparent variable* as it's in a `∀`.
 If, say, we want to construct something like `(∀ x, φ x) → (∀ y, ψ y)`, then we are supposed to have some other rules to allow us to "split" the `∀` into half. `∀ x, φ x → ψ x` can even be turned into `(∃ x, φ x) → (∃ y, ψ y)`.
@@ -79,7 +79,7 @@ Having a proposition with the form of `H : ∀ x, φ x`, plus a rewrite rule of 
 2. Use primitive propositions to generalize the base. For example it will become `(∀ x, φ x) ↔ (∀ x, ψ x)`.
 3. Since the generalized rewrite rule rewrites `H` as a whole, we can rewrite `H` into `∀ x, ψ x`.
 
-As we can see, even without `setoid_rewrite`, "rewriting on quantified propositions" is always viable with a fixed routine and a fixed set of primitive propositions to perform, and this is what exactly we're trying to use `setoid_rewrite` to do.
+Even without `setoid_rewrite`, "rewriting on quantified propositions" is always viable with a fixed routine and a fixed set of primitive propositions to perform, and this is what exactly we're trying to use `setoid_rewrite` to do.
 
 For `=` case: As stated above, how does `=` interact with others is undefined. Belows are some optional ways to get the works done. We can use `eq_to_equiv` or `apply propositional_extentionality` to change the `=` proposition into a `↔` one. An exceptional case is when we want to lift a `P = Q` relation to `∀ x, P x = ∀ x, Q x`: if we want to get a generalized version of `=` for direct `rewrite`, we might use `f_equal` to perform the lift.*
 
@@ -89,6 +89,7 @@ Either for "historical reasons"(this project really doesn't have a history), or 
 - \[Simplification\]`apply propositional_extentionality` might occur inside `replace...with` blocks. Its purpose is to change the goal of `=` form into a goal of `↔` form for easier reasoning. It might work against original text.
 - \[Simplification\]`intro` introduces the premise as a hypothesis. `intro Hp`, as utilized in chapter 5 & 10, has proven its harmlessness. Other from `intro Hp`, other occurrences should be eliminated.
 - \[Simplification\]`now tactic thm ...` says that, if the `tactic` we use can directly provide a result that is not very far from the goal, then we prove the goal immediately. Typically it's very useful for saving a line of `exact thm`. Every line of `now tactic thm` can be turned back into `tactic thm` for readers to check if it does indeed generate a proposition that is exactly the same as the goal, and this tactic is **recommended** to use.
+- \[Simplification\]More exceptions not being described here, for example in chapter 11, have to be commented explicitly that there is a simplification. This is **recommended** to be taken down in the future.
 
 ## 6. Bugged Ltacs
 Throughout chapter 1 - 5, there are several custom tactics defined to use the primitive ideas conveniently. However, their current design is bugged: when we're trying to use them, they might not find the exact propositions that we are referring to. If things has went very bad, here is the full routine just for applying such a tactic:
