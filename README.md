@@ -24,18 +24,20 @@ No.
 - Under our interpretation, a few places out of the vast seem to be unprovable!
 
 ## Can Principia Mathematica can be completely formalized?
-Yes. 
+Yes and no. 
 
-With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is already theoretically complete, and remains to be a problem of engineering.
+With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is already theoretically complete.
+
+Although math ideas in PM is supposed to be fixed and limited, there is an extra layer of meta operations being used in Principia, and the most obvious one should be the extra "scope" that comes along with `iota` in chapter 14. Scope notation should be in the same level with the dot notation, but it has been embedded into definitions and theorems, becoming a part of the formal system.
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Within which](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) the author states that 
-1. PM has a notorious notation system. (For example, chapter 13 starts to go crazy for anyone reading it the first time)
+1. PM has a notorious notation system.
 2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
 3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc.. and (my conclusion)these tools are supposed to be rich enough to revisit the history
 
-In addition, during formalization we find more and more exceptional treatments, for example: functions are not defined by lambda calculus, multiple definitions are being used for a single concept, etc..
+During formalization we find more and more exceptional treatments, for example: functions are not defined by lambda calculus, multiple definitions are being used for a single concept, etc.. Dealing with all kinds of exceptions should be an engineering problem. we have to leave spaces to adapt to new situations waiting for us to discover. As a common practice for software engineers, early optimization is considered harmful.
 
-Our current goal: everything **before chapter 14**. Reason: we have gathered a lot of these exceptional treatments. Immediately embedding Principia into Rocq seems to be unrealistic, and we should have an initial feeling before everything else.
+For the above reason, we're not going to immediately build PM on a formal model. Our current goal: everything **before chapter 14**.
 
 ## How deep can you formalize?
 - This project is **not** going to give a formal model to Principia, as explained above.
