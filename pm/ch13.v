@@ -9,7 +9,9 @@ Require Import PM.pm.ch11.
 Require Import PM.pm.ch12.
 
 (* 
-TODO: investigate a convenient `∧` construction
+TODO: 
+- investigate a convenient `∧` construction
+- replace ~= with the /= unicode symbol
 *)
 
 (* Experimental: provide variated theorems to be used in this chapter
