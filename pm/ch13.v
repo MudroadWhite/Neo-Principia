@@ -311,8 +311,8 @@ Proof.
   pose proof (n13_16 Y Z) as n13_16a.
   pose proof (n13_16 X Z) as n13_16b.
   pose proof (n13_16 Y X) as n13_16c.
-  rewrite -> n13_16a, → n13_16b in n13_17.
-  rewrite -> n13_16a, → n13_16c in n13_172.
+  rewrite -> n13_16a, -> n13_16b in n13_17.
+  rewrite -> n13_16a, -> n13_16c in n13_172.
   pose proof (Exp3_3 (X = Y) (Z = Y) (Z = X)) as Exp3_3a.
   MP Exp3_3a n13_17.
   pose proof (Exp3_3 (X = Y) (Z = X) (Z = Y)) as Exp3_3b.
