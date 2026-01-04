@@ -98,15 +98,13 @@ Definition n14_02 (E : Predicate 1) (Phi : Prop -> Prop) :
   (iota_p E Phi) = exists b, (Phi x <[- x -]> (x = b)). 
 Admitted.
 
-Definition n14_03 (Phi Psi : Prop -> Prop) (f : Prop -> Prop -> Prop) :
-  (iota_f2 Phi Psi f) = exists b, (Phi x <[- x -]> (x = b)) 
+Definition n14_03 (s1 s2 : string) (Phi Psi : Prop -> Prop) (f : Prop -> Prop -> Prop) :
+  (iota_f2 s1 s2 Phi Psi f) = exists b, (Phi x <[- x -]> (x = b)) 
     /\ ((exists c, Psi x <[- x -]> (x = c) /\ f b c)).
 Admitted.
 
-(* This definition is quite away from its original representation and should be
-  redesigned in the future *)
-Definition n14_04 (Psi Phi : Prop -> Prop) (f : Prop -> Prop -> Prop) : 
-  (iota_f2_1 Psi Phi f) = exists b, (Phi x <[- x -]> (x = b)) 
+Definition n14_04 (s2 s1 : string) (Psi Phi : Prop -> Prop) (f : Prop -> Prop -> Prop) : 
+  (iota_f2_1 s2 s1 Psi Phi f) = exists b, (Phi x <[- x -]> (x = b)) 
     /\ ((exists c, Psi x <[- x -]> (x = c) /\ f b c)).
 Admitted.
 
