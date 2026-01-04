@@ -30,22 +30,51 @@ as an alternative.....
 
 Open Scope single_app_equiv.
 
+(* Definition Iota (s : string) (x : Prop) : Type := Prop. *)
+Definition Iota (s : string) (x : Prop) : Prop := x.
+
+Example iota_function (i1 i2 : Prop) : Prop -> Prop :=
+  fun x =>
+    (Iota "Phi" i1) = (Iota "Psi" i2).
+
 (* `_f` suffix means it's for typical (untyped) functions *)
-Definition iota_f (Phi Psi : Prop -> Prop) :=
-  (exists b, (Phi x <[- x -]> (x = b)) /\ Psi b).
+Definition iota_f 
+  (* s is just a string for identification *)
+  (s : string)
+  (Phi : Prop -> Prop) 
+  (* This function below is supposed to be a function of the iota term. Since the 
+  variable is provided within the proposition, we only type it just as a normal 
+  function. Unavailability of the existential `b` var from an external view is the 
+  major reason why this notation is hard to define.
+  While the definition doesn't express anything, this function is allowed to use 
+  `Iota s1` in its body *)
+  (Psi : Prop -> Prop) : Prop
+  := (exists b, (Phi x <[- x -]> (x = b)) /\ Psi b).
+
+Example scoped_iota_expression (Phi : Prop -> Prop) :=
+  iota_f "Phi" Phi 
+    (* A function will be written like this... *)
+    (fun b => (Iota "Phi" b) = (Iota "Phi" b)).
 
 (* cf. p174, example after *14.03. Interpretation for a function containing 
   multiple descriptions *)
-Definition iota_f2 (Phi Psi : Prop -> Prop) (f : Prop -> Prop -> Prop) :=
-  exists b, (Phi x <[- x -]> (x = b)) /\ 
-    (* ((exists c, Psi x <[- x -]> (x = c) /\ f b c)). *)
-    iota_f Psi (f b).
+Definition iota_f2 
+  (s1 s2 : string)
+  (Phi Psi : Prop -> Prop)
+  (f : Prop -> Prop -> Prop) :=
+  iota_f s1 Phi 
+    (fun b => iota_f s2 Psi 
+      (fun c => f (Iota s1 b) (Iota s2 c))).
 
 (* cf. p174, explanation after *14.04. The iota variant where inner function has 
   larger scope than outer function. This variant will be proven later unecessary. *)
-Definition iota_f2_1 (Psi Phi : Prop -> Prop) (f : Prop -> Prop -> Prop) :=
-  exists b, (Phi x <[- x -]> (x = b)) /\ 
-    ((exists c, Psi x <[- x -]> (x = c) /\ f b c)).
+Definition iota_f2_1 
+  (s2 s1 : string)
+  (Psi Phi : Prop -> Prop)
+  (f : Prop -> Prop -> Prop) :=
+  iota_f2 s2 s1 Psi Phi.
+  (* exists b, (Phi x <[- x -]> (x = b)) /\ 
+    ((exists c, Psi x <[- x -]> (x = c) /\ f b c)). *)
 
 (* `_p` suffix means it's for predicates. 
   This definition could have several meanings(?to be checked):
@@ -60,8 +89,8 @@ Definition iota_f2_1 (Psi Phi : Prop -> Prop) (f : Prop -> Prop -> Prop) :=
 *)
 Definition iota_p (E : Predicate 1) (Phi : Prop -> Prop) := exists b, (Phi x <[- x -]> (x = b)).
 
-Definition n14_01 (Phi Psi : Prop -> Prop) : 
-  (iota_f Phi Psi) = exists b, (Phi x <[- x -]> (x = b)) /\ Psi b. 
+Definition n14_01 (s1 : string) (Phi Psi : Prop -> Prop) : 
+  (iota_f s1 Phi Psi) = exists b, (Phi x <[- x -]> (x = b)) /\ Psi b. 
 Admitted.
 
 (* TODO: check if iota_p and *14.02 is correctly defined *)
@@ -114,11 +143,19 @@ Proof.
     rewrite <- n14_03 in n4_2 at 2.
     now rewrite <- n14_04 in n4_2.
   }
-  pose proof n14_1 as n14_1.
   (* TODO: design the iota_f & iota_f2 correctly so that we can transform 
-    from f2 to f smoothly *)
-  assert (S2 : iota_f2_1 Psi Phi f <-> (exists b, (Phi x <[- x -]> (x = b)
-    /\ (iota_f _ _)))).
+    from f2 to f smoothly
+    Warning: the `b` of `exists b` in the descriptions can also be expanded 
+    into a description
+  *)
+  assert (S2 : iota_f2_1 Psi Phi f <-> 
+    (iota_f Psi (fun y =>
+      exists b, Phi x <[- x -]> (x = b) /\ f b y))).
+  {
+    pose proof n14_1 as n14_1.
+    unfold iota_f2 in S1.
+    rewrite <- n14_1 in S1.
+  }
   pose proof n14_1 as n14_1.
   pose proof n11_55 as n11_55.
 Admitted.
