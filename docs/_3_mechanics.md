@@ -9,7 +9,17 @@ Principia Mathematica seems to define its concepts in an **incremental way**. Th
 We now proceed to explain how every math elements are being built, bottom-up, in Principia.
 
 ## The system
-TODO: polish below
+For every theorem, we have two ways to use it. One is we refer to it just like a "function", and another one is prove the theorem by inference.
+
+When we *refer* to the theorems, we are allowed to substitute every single literals with some new propositions, just like what you see in theorem provers.
+
+When we want to prove them, we start with a set of individuals like `P`, `Q`, `R`. They are not propositions(as stated in Principia), cannot be further splitted and substituted. **New individuals that are not presented in the theorems though, is allowed to be introduced** - in the middle of proving, we might occur to a new individual like `S`.
+
+(TODO: are individuals able to be changed in any time? )
+
+Elementary propositions are simple propositions connected with `~` and `\/`.
+
+TODO: polish as below
 1. Fundamentally we have a set of individuals like `P`, `Q`, `R`. They are not propositions, and they cannot be further splited.
 2. Elementary propositions are simple propositions connected with `~` and `\/`. (Put it in another way, these `~` and `\/`s are defined on elementary propositions)
 3. `x^`, a function, is defined on an *already defined proposition* by abstracting all occurrences of `x` in the proposition. (Principia seems to be hasn't considered about the bound variables and free variables?) For example. if we have `x /\ y`, then `(x /\ y)x^` is a function that should be written now as `fun x => x /\ y`.
