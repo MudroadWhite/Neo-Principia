@@ -16,14 +16,16 @@ Type of parameters allowed: (each forall is quantified over at most one variable
 *)
 
 (* 
-TODO: rewrite introducvtion for this chapter
+TODO: rewrite introduction for this chapter
 - Ch9 enables us to take `forall` propositions as parameters, therefore we can have a better goal(?)
 - Goal of ch10: focus on deducing 1-var functions from ch1-5
 - several ch9 primitive propositions are only used (for conveniency?)
 - `exists` is no longer a primitive idea
 
-
 Notes on this chapter:
+- Chapter 10, 11 and so on's theorems doesn't focus on their coverage of FOL. Rather, I think they 
+are the theorems commonly used in later chapters. There could exist some theorems that should be 
+exist but don't.
 - At the very end of this chapter, n10_57 seems to contain one 
 error that I cannot prove.
 *)
