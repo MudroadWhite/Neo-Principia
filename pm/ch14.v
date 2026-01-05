@@ -11,8 +11,25 @@ Require Import PM.pm.ch13.
 
 Require Import Logic.FunctionalExtensionality.
 
-(* TODO: How does the iota description work-
+(* 
+The decription, or I would more likely to call it the iota operator, works quite differently 
+because it technically requires you to be passed into a propositional function like normal
+parameters, but unlike normal parameters, once you have passed in a iota-variable, the whole
+function will be rewritten. In other words, the parameter itself has to know how to rewrite 
+the function's body, and becomes part of the definition of how a function application works.
 
+An extra "scope" notation is used for the iota operator, to determine the sub expression that
+should be treated as the proposisional function.
+
+Our way to simulate this idea is firstly define a series of functions, names prefixed 
+with `iota`. Functions provide a similar functionality to scopes. Then we allow people to 
+write `Iota "name" x` if we need a iota variable, but it's just for readability and doesn't 
+have any checks or actual modification to the rest of the function it is contained in. With 
+this notation, all propositional functions with iota variables have to be written explicitly
+starting with `(fun x => ...)`, in contrast to just build an arbitary proposition with iota 
+variables immediately. The resulted notation is quite different from how it looks like 
+originally, but it can correctly express what should a iota do and limit its scope as in the
+text.
 *)
 
 (* TODO: make the definitions into a notation in the future *)
