@@ -114,11 +114,10 @@ Definition n14_03 (s1 s2 : string) (Phi Psi : Prop -> Prop) (f : Prop -> Prop ->
 Admitted.
 
 Definition n14_04 (s1 s2 : string) (Phi Psi : Prop -> Prop) (f : Prop -> Prop -> Prop) : 
-  (iota_f2_1 s2 s1 Psi Phi f) = 
-  iota_f2 s2 s1 Psi Phi (fun x y => f y x).
+  (iota_f2_1 s2 s1 Psi Phi f) = iota_f2 s2 s1 Psi Phi (fun x y => f y x).
 Admitted.
 
-Theorem n14_1 (Phi Psi : Prop -> Prop) (s : string) : (iota_f s Phi Psi) <-> 
+Theorem n14_1 (s : string) (Phi Psi : Prop -> Prop) : (iota_f s Phi Psi) <-> 
   exists b, (Phi x <[- x -]> (x = b)) /\ Psi b.
 Proof.
   pose proof (n4_2 (iota_f s Phi Psi)) as n4_2.
@@ -127,10 +126,10 @@ Qed.
 
 (* The equivalent with n14_1, with scope notation in its original 
   representation omitted  *)
-Theorem n14_101 (Phi Psi : Prop -> Prop) (s : string) : (iota_f s Phi Psi) <-> 
+Theorem n14_101 (s : string) (Phi Psi : Prop -> Prop) : (iota_f s Phi Psi) <-> 
   exists b, (Phi x <[- x -]> (x = b)) /\ Psi b.
 Proof.
-  exact (n14_1 Phi Psi s).
+  exact (n14_1 s Phi Psi).
 Qed.
 
 Theorem n14_11 (E : Predicate 1) (Phi : Prop -> Prop) : 
@@ -140,8 +139,8 @@ Proof.
   now rewrite -> n14_02 in n4_2 at 2.
 Qed.
 
-Theorem n14_111 (Phi Psi : Prop -> Prop) (f : Prop -> Prop -> Prop) 
-  (s1 s2 : string) :
+Theorem n14_111 (s1 s2 : string) (Phi Psi : Prop -> Prop) 
+  (f : Prop -> Prop -> Prop) :
   (iota_f2_1 s2 s1 Psi Phi f) <-> (exists b c, 
     (Phi x <[- x -]> (x = b)) /\ (Psi x <[- x -]> (x = c)) /\ (f b c)).
 Proof.
@@ -169,8 +168,7 @@ Proof.
       (λ c : Prop, (exists b, (Phi x <[- x -]> (x = b)) /\ f b c))).
     {
       extensionality c. (* function extentionality *)
-      pose proof (n14_1 Phi 
-        (fun b => f b c) s1) as n14_1.
+      pose proof (n14_1 s1 Phi (fun b => f b c)) as n14_1.
       apply propositional_extensionality.
       exact n14_1.
     }
@@ -202,5 +200,94 @@ Proof.
   exact S4.
 Admitted.
 
+Theorem n14_112 (s1 s2 : string) (Phi Psi : Prop -> Prop) 
+  (f : Prop -> Prop -> Prop) : 
+  (iota_f2 s1 s2 Phi Psi f) <-> exists b c, 
+    (Phi x <[- x -]> x = b) /\ (Psi x <[- x -]> x = c) /\ f b c.
+Admitted.
+
+Theorem n14_113 : Set. Admitted.
+
+Theorem n14_12 : Set. Admitted.
+
+Theorem n14_121 : Set. Admitted.
+
+Theorem n14_122 : Set. Admitted.
+
+Theorem n14_123 : Set. Admitted.
+
+Theorem n14_124 : Set. Admitted.
+
+Theorem n14_13 : Set. Admitted.
+
+Theorem n14_131 : Set. Admitted.
+
+Theorem n14_131_alt : Set. Admitted.
+
+Theorem n14_14 : Set. Admitted.
+
+Theorem n14_142 : Set. Admitted.
+
+Theorem n14_144 : Set. Admitted.
+
+Theorem n14_145 : Set. Admitted.
+
+Theorem n14_15 : Set. Admitted.
+
+Theorem n14_16 : Set. Admitted.
+
+Theorem n14_17 : Set. Admitted.
+
+Theorem n14_171 : Set. Admitted.
+
+Theorem n14_18 : Set. Admitted.
+
+Theorem n14_2 : Set. Admitted.
+
+Theorem n14_201 : Set. Admitted.
+
+Theorem n14_202 : Set. Admitted.
+
+Theorem n14_203 : Set. Admitted.
+
+Theorem n14_204 : Set. Admitted.
+
+Theorem n14_205 : Set. Admitted.
+
+Theorem n14_21 : Set. Admitted.
+
+Theorem n14_22 : Set. Admitted.
+
+Theorem n14_23 : Set. Admitted.
+
+Theorem n14_24 : Set. Admitted.
+
+Theorem n14_241 : Set. Admitted.
+
+Theorem n14_242 : Set. Admitted.
+
+Theorem n14_25 : Set. Admitted.
+
+Theorem n14_26 : Set. Admitted.
+
+Theorem n14_27 : Set. Admitted.
+
+Theorem n14_271 : Set. Admitted.
+
+Theorem n14_28 : Set. Admitted.
+
+Theorem n14_3 : Set. Admitted.
+
+Theorem n14_31 : Set. Admitted.
+
+Theorem n14_32 : Set. Admitted.
+
+Theorem n14_33 : Set. Admitted.
+
+Theorem n14_331 : Set. Admitted.
+
+Theorem n14_332 : Set. Admitted.
+
+Theorem n14_34 : Set. Admitted.
 
 Close Scope single_app_equiv.
