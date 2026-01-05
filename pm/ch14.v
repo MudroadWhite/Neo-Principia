@@ -9,6 +9,8 @@ Require Import PM.pm.ch11.
 Require Import PM.pm.ch12.
 Require Import PM.pm.ch13.
 
+Require Import Logic.FunctionalExtensionality.
+
 (* TODO: polish the note: the definition of description in text is left with ambiguity with regard to 
 the dot notation so we add a scope operator to patch the notation
 
@@ -101,16 +103,19 @@ Definition n14_02 (E : Predicate 1) (Phi : Prop -> Prop) :
   (iota_p E Phi) = exists b, (Phi x <[- x -]> (x = b)). 
 Admitted.
 
+(*  *)
 Definition n14_03 (s1 s2 : string) (Phi Psi : Prop -> Prop) (f : Prop -> Prop -> Prop) :
-  (iota_f2 s1 s2 Phi Psi f) = exists b, (Phi x <[- x -]> (x = b)) 
-    /\ ((exists c, Psi x <[- x -]> (x = c) /\ f b c)).
+  (iota_f2 s1 s2 Phi Psi f) = 
+    iota_f s1 Phi 
+    (fun b => iota_f s2 Psi 
+      (fun c => f (Iota s1 b) (Iota s2 c))).
+  (* exists b, (Phi x <[- x -]> (x = b)) 
+    /\ ((exists c, Psi x <[- x -]> (x = c) /\ f b c)). *)
 Admitted.
 
 Definition n14_04 (s1 s2 : string) (Phi Psi : Prop -> Prop) (f : Prop -> Prop -> Prop) : 
   (iota_f2_1 s2 s1 Psi Phi f) = 
   iota_f2 s2 s1 Psi Phi (fun x y => f y x).
-  (* exists b, (Phi x <[- x -]> (x = b)) 
-    /\ ((exists c, Psi x <[- x -]> (x = c) /\ f b c)). *)
 Admitted.
 
 Theorem n14_1 (Phi Psi : Prop -> Prop) (s : string) : (iota_f s Phi Psi) <-> 
@@ -140,47 +145,61 @@ Theorem n14_111 (Phi Psi : Prop -> Prop) (f : Prop -> Prop -> Prop)
   (iota_f2_1 s2 s1 Psi Phi f) <-> (exists b c, 
     (Phi x <[- x -]> (x = b)) /\ (Psi x <[- x -]> (x = c)) /\ (f b c)).
 Proof.
-  (* TODO: rededsign S1 *)
-  assert (S1 : iota_f2_1 s2 s1 Psi Phi f ↔ iota_f2 s2 s1 Psi Phi f).
+  assert (S1 : iota_f2_1 s2 s1 Psi Phi f ↔ 
+    iota_f s2 Psi 
+      (fun c => iota_f s1 Phi 
+        (fun b => f (Iota s1 b) (Iota s2 c)))).
   {
     pose proof (n4_2 (iota_f2_1 s2 s1 Psi Phi f)) as n4_2.
     rewrite -> n14_04 in n4_2 at 2.
-    rewrite -> (n14_03 s2 s1) in n4_2.
-    simpl in n4_2.
+    now rewrite -> (n14_03 s2 s1) in n4_2.
   }
-  (* 
-  Definition iota_f2_1 
-  (s1 s2 : string)
-  (Phi Psi : Prop -> Prop)
-  (f : Prop -> Prop -> Prop) :=
-  iota_f s2 Psi
-    (fun c => iota_f s1 Phi
-      (fun b => f (Iota s1 b) (Iota s2 c))).
-  *)
-  (* ?????Phi Psi reversed in S1???? *)
   assert (S2 : iota_f2_1 s2 s1 Psi Phi f <-> 
     (iota_f s2 Psi (fun c =>
-      exists b, Phi x <[- x -]> (x = b) /\ f b c))).
+      exists b, (Phi x <[- x -]> (x = b)) /\ f b c))).
   {
-    pose proof n14_1 as _n14_1.
-    unfold iota_f2 in S1.
-    
-    replace ((λ b : Prop, iota_f s2 Psi (λ c : Prop, f (Iota s1 b) (Iota s2 c))))
-      with ((λ b : Prop, iota_f s2 Psi (λ c : Prop, f b c)))
-    in S1.
-    2: { reflexivity. }
-
-    (* TODO: investigate function extentionality in std *)
-    replace ((λ b : Prop, iota_f s2 Psi (λ c : Prop, f b c)))
-      with (λ c : Prop, ∃ b : Prop,  Phi x<[-x-]>x = b ∧ f b c)
-    in S1.
-    2: {
-      rewrite -> (n14_1).
+    replace (λ c : Prop, iota_f s1 Phi (λ b : Prop, f (Iota s1 b) (Iota s2 c)))
+      with (λ c : Prop, iota_f s1 Phi (λ b : Prop, f b c))
+      in S1 by reflexivity.
+    (* Simplification: this place needs functional extentionality for our designed 
+    notation of iota. Seems like the only way to survive *)
+    assert (S1_1:
+      (λ c : Prop, iota_f s1 Phi (λ b : Prop, f b c))
+      =
+      (λ c : Prop, (exists b, (Phi x <[- x -]> (x = b)) /\ f b c))).
+    {
+      extensionality c. (* function extentionality *)
+      pose proof (n14_1 Phi 
+        (fun b => f b c) s1) as n14_1.
+      apply propositional_extensionality.
+      exact n14_1.
     }
-    
+    now rewrite -> S1_1 in S1.
   }
-  pose proof n14_1 as n14_1.
-  pose proof n11_55 as n11_55.
+  assert (S3 : iota_f2_1 s2 s1 Psi Phi f <-> 
+    (exists c, (Psi x <[- x -]> (x = c)) 
+    /\ exists b, (Phi x <[- x -]> (x = b)) /\ f b c)).
+  { now rewrite -> n14_1 in S2. }
+  assert (S4 : iota_f2_1 s2 s1 Psi Phi f <-> 
+    (exists b c, (Phi x <[- x -]> (x = b)) /\ (Psi x <[- x -]> (x = c))
+      /\ f b c)).
+  {
+    pose proof (n11_55
+      (fun c => (Psi x <[- x -]> (x = c)))
+      (fun c b => ( Phi x<[- x -]> (x = b)) ∧ f b c)
+    ) as n11_55.
+    rewrite <- n11_55 in S3.
+    (* We can see that there are some trivial steps that still need to be
+    finished... *)
+    pose proof (n11_42
+      (fun x y => ( Psi x0<[-x0-]>x0 = x ))
+      (fun x y => ( Phi x0<[-x0-]>x0 = y ) ∧ f y x)
+    ) as n11_42. simpl in n11_42.
+    (* rewrite -> n11_42 in S3. *)
+    pose proof n11_58 as n11_58.
+    admit.
+  }
+  exact S4.
 Admitted.
 
 
