@@ -45,7 +45,9 @@ Example iota_function (i1 i2 : Prop) : Prop -> Prop :=
   fun x =>
     (Iota "Phi" i1) = (Iota "Psi" i2).
 
-(* `_f` suffix means it's for typical (untyped) functions *)
+(* `_f` suffix means it's for typical (untyped) functions. Here we only define
+  the signature to avoid repetitive definitions, and the actual definition starts 
+  after *14.01. *)
 Definition iota_f 
   (* s is just a string for identification *)
   (s : string)
@@ -56,8 +58,7 @@ Definition iota_f
   major reason why this notation is hard to define.
   While the definition doesn't express anything, this function is allowed to use 
   `Iota s1` in its body *)
-  (Psi : Prop -> Prop) : Prop
-  := (exists b, (Phi x <[- x -]> (x = b)) /\ Psi b).
+  (Psi : Prop -> Prop) : Prop. Admitted.
 
 Example scoped_iota_expression (Phi : Prop -> Prop) :=
   iota_f "Phi" Phi 
@@ -70,17 +71,12 @@ predicate.
 
 TODO: give this iota_E the correct `Predicate` type
 *)
-Definition iota_E (Phi : Prop -> Prop) := exists b, (Phi x <[- x -]> (x = b)).
+Definition iota_E (Phi : Prop -> Prop) : Prop. Admitted.
 
 (* cf. p174, example after *14.03. Interpretation for a function containing 
   multiple descriptions *)
-Definition iota_f2 
-  (s1 s2 : string)
-  (Phi Psi : Prop -> Prop)
-  (f : Prop -> Prop -> Prop) :=
-  iota_f s1 Phi 
-    (fun b => iota_f s2 Psi 
-      (fun c => f (Iota s1 b) (Iota s2 c))).
+Definition iota_f2 (s1 s2 : string) (Phi Psi : Prop -> Prop)
+  (f : Prop -> Prop -> Prop) : Prop. Admitted.
 
 (* cf. p174, explanation after *14.04. The iota variant where inner function has 
   larger scope than outer function. This variant will be proven later unecessary. 
@@ -88,13 +84,8 @@ Definition iota_f2
   The original definition depends on `iota_f2`. The function `iota_f` here, 
   provided with parameters, gets a similar role to the idea of scope
 *)
-Definition iota_f2_1 
-  (s1 s2 : string)
-  (Phi Psi : Prop -> Prop)
-  (f : Prop -> Prop -> Prop) :=
-  iota_f s2 Psi
-    (fun c => iota_f s1 Phi
-      (fun b => f (Iota s1 b) (Iota s2 c))).
+Definition iota_f2_1 (s1 s2 : string) (Phi Psi : Prop -> Prop)
+  (f : Prop -> Prop -> Prop) : Prop. Admitted.
 
 Definition n14_01 (s : string) (Phi Psi : Prop -> Prop) : 
   (iota_f s Phi Psi) = exists b, (Phi x <[- x -]> (x = b)) /\ Psi b. 
@@ -122,7 +113,9 @@ Proof.
 Qed.
 
 (* The equivalent with n14_1, with scope notation in its original 
-  representation omitted  *)
+  representation omitted. With our current definition, we can just
+  make a copy of `iota_f` to indicate it is getting scope notation 
+   in the text... *)
 Theorem n14_101 (s : string) (Phi Psi : Prop -> Prop) : (iota_f s Phi Psi) <-> 
   exists b, (Phi x <[- x -]> (x = b)) /\ Psi b.
 Proof. exact (n14_1 s Phi Psi). Qed.
@@ -181,7 +174,7 @@ Proof.
       (fun c b => ( Phi x<[- x -]> (x = b)) ∧ f b c)
     ) as n11_55.
     rewrite <- n11_55 in S3.
-    (* We can see that there are some trivial steps that still need to be
+    (* We can see that there are some (non?)trivial steps that still need to be
     finished... *)
     pose proof (n11_42
       (fun x y => ( Psi x0<[-x0-]>x0 = x ))
@@ -321,9 +314,10 @@ Theorem n14_2 (X A : Prop) :
     (fun y => (Iota "=a" y) = A)).
 Admitted.
 
-Theorem n14_201 : Set. Admitted.
+Theorem n14_201 (Phi : Prop -> Prop) : iota_E Phi -> exists x, Phi x. 
+Admitted.
 
-Theorem n14_202 : Set. Admitted.
+Theorem n14_202 (B : Prop) (Phi : Prop -> Prop) : Set. Admitted.
 
 Theorem n14_203 : Set. Admitted.
 
