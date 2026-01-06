@@ -47,13 +47,13 @@ Should we treat `!` as something being denotational just like the dot notations 
     fix_func (f : Prop -> Prop) := fun (X' : Prop) => f X';
   }.
 End Predicate. *)
-(* Just declares a function is a function of order n *)
+(* Just declares a function is a predicate of order n *)
 Definition Predicate (n : nat) : Type := (Prop -> Prop).
 (* Experimental: Similar to `Individual`s, sometimes we need to introduce a predicate(?). Is it unnecessary? *)
 Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
 
-(* An alternative version to support functions of 2 arguments *)
-(* To be uncommented when the notation is fixed *)
+(* An alternative version to support functions of 2 arguments
+  To be uncommented when the notation is fixed *)
 (* Module Predicate2.
   Record t (n : nat) := {
     fix_param (X Y : Prop) := fun (f' : Prop -> Prop -> Prop) => f' X Y;
