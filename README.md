@@ -27,7 +27,7 @@ No.
 ## Can Principia Mathematica can be completely formalized?
 **Yes**: With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is already theoretically accessible.
 
-**No**: Although math ideas in PM is supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts such as descriptions in chapter 14 have their icebergs under the tips. They question how the rewriting system works, which should be even different from what people will acknowledge in modern type systems. We will need a lot of explorations before correctly define a deep embedding model. As a common practice for software engineers, early optimization is considered harmful.
+**No**: Although math ideas in PM is supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts such as descriptions in chapter 14 have their icebergs under the tips. They question the dependency relationships between these ideas and the rewriting system, which should be even different from what people will acknowledge in modern type systems. We will need a lot of explorations before correctly define a deep embedding model - As an old saying says, early optimization is considered harmful.
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen:
 1. PM has a notorious notation system.
@@ -55,7 +55,7 @@ Conclusion: we're not going to deeply formalize PM right now. Our current goal: 
 - [x] Chapter 11 - Quantified propositions now extend to more than one variables. Notation supports for `→` and `↔` extended to multiple apparent variables as well.
 - [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
 - [x] Chapter 13 - A new set of theorems on Identity, which is different from definitional equality. Support for instantiating predicative functions. One theorem seems to be unprovable.
-- [ ] (WIP)Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* variant. Theorems on them.
+- [ ] (WIP)Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* statement. Theorems on them.
 
 ## Running the code
 Coq/Rocq version: 8.20.0, installed with the `opam` environment:
