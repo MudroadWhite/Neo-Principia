@@ -34,7 +34,7 @@ No.
 2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
 3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc.. and (my conclusion)these tools are supposed to be rich enough to revisit the history
 
-Conclusion: we're not going to deeply formalize PM right now. Our current goal: express everything **before chapter 14**.
+Statement: we're not going to present a deep embedding for PM right now. Our current goal: express everything **before chapter 14**.
 
 ## How deep can you formalize?
 - This project is **not** going to give a formal model/deep embedding to Principia, as explained above.
