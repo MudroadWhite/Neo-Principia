@@ -317,49 +317,81 @@ Admitted.
 Theorem n14_201 (Phi : Prop -> Prop) : iota_E Phi -> exists x, Phi x. 
 Admitted.
 
-Theorem n14_202 (B : Prop) (Phi : Prop -> Prop) : Set. Admitted.
+Theorem n14_202 (B : Prop) (Phi : Prop -> Prop) : 
+  ((Phi x <[- x -]> x = B) <-> (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B)))
+  /\
+  ((iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B)) <-> (Phi x <[- x -]> B = x))
+  /\
+  ((Phi x <[- x -]> B = x) <-> (iota_f "Phi" Phi (fun x => B = (Iota "Phi" x)))).
+Admitted.
 
-Theorem n14_203 : Set. Admitted.
+Theorem n14_203 (Phi : Prop -> Prop) : iota_E Phi 
+  <-> ((exists x, Phi x) /\ ((Phi x /\ Phi y)) -[ x y ]> (x = y)).
+Admitted.
 
-Theorem n14_204 : Set. Admitted.
+Theorem n14_204 (B : Prop) (Phi : Prop -> Prop) : iota_E Phi 
+  <-> exists b, (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = b)).
+Admitted.
 
-Theorem n14_205 : Set. Admitted.
+Theorem n14_205 (Phi Psi : Prop -> Prop) : (iota_f "Phi" Phi Psi)
+  <-> exists b, (iota_f "Phi" Phi (fun x => b = (Iota "Phi" x))) /\ Psi b.
+Admitted.
 
-Theorem n14_21 : Set. Admitted.
+Theorem n14_21 (Phi Psi : Prop -> Prop) : (iota_f "Phi" Phi Psi) -> iota_E Phi.
+Admitted.
 
-Theorem n14_22 : Set. Admitted.
+Theorem n14_22 (Phi : Prop -> Prop) : iota_E Phi <-> iota_f "Phi" Phi Phi.
+Admitted.
 
-Theorem n14_23 : Set. Admitted.
+Theorem n14_23 (Phi Psi : Prop -> Prop) : iota_E (fun x => Phi x /\ Psi x) 
+  <-> iota_f "Phi x /\ Psi x" (fun x => Phi x /\ Psi x) Phi.
+Admitted.
 
-Theorem n14_24 : Set. Admitted.
+Theorem n14_24 (Phi : Prop -> Prop) : iota_E Phi 
+  <-> iota_f "Phi" Phi (fun x => Phi y <[- y -]> y = (Iota "Phi" x)).
+Admitted.
 
-Theorem n14_241 : Set. Admitted.
+Theorem n14_241 : Set. 
+Admitted.
 
-Theorem n14_242 : Set. Admitted.
+Theorem n14_242 : Set. 
+Admitted.
 
-Theorem n14_25 : Set. Admitted.
+Theorem n14_25 : Set. 
+Admitted.
 
-Theorem n14_26 : Set. Admitted.
+Theorem n14_26 : Set. 
+Admitted.
 
-Theorem n14_27 : Set. Admitted.
+Theorem n14_27 : Set. 
+Admitted.
 
-Theorem n14_271 : Set. Admitted.
+Theorem n14_271 : Set. 
+Admitted.
 
-Theorem n14_28 : Set. Admitted.
+Theorem n14_28 : Set. 
+Admitted.
 
-Theorem n14_3 : Set. Admitted.
+Theorem n14_3 : Set. 
+Admitted.
 
-Theorem n14_31 : Set. Admitted.
+Theorem n14_31 : Set. 
+Admitted.
 
-Theorem n14_32 : Set. Admitted.
+Theorem n14_32 : Set. 
+Admitted.
 
-Theorem n14_33 : Set. Admitted.
+Theorem n14_33 : Set. 
+Admitted.
 
-Theorem n14_331 : Set. Admitted.
+Theorem n14_331 : Set. 
+Admitted.
 
-Theorem n14_332 : Set. Admitted.
+Theorem n14_332 : Set. 
+Admitted.
 
-Theorem n14_34 : Set. Admitted.
+Theorem n14_34 : Set. 
+Admitted.
 
 Close Scope single_app_equiv.
 Close Scope single_app_impl.
