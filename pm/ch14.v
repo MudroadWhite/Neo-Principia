@@ -297,15 +297,29 @@ Theorem n14_16 (Phi Psi Chi : Prop -> Prop) :
     (Chi (Iota "Phi" x)) = (Chi (Iota "Psi" y)))).
 Admitted.
 
-Theorem n14_17 (B : Prop) (Phi : Prop -> Prop) (Psi : Predicate 1) : 
-
+Theorem n14_17 (B : Prop) (Phi : Prop -> Prop) : 
+  (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B))
+  <->
+  (forall Psi : Predicate 1, iota_f "Phi" Phi (fun x =>
+    Psi (Iota "Phi" x) <-> Psi B)).
 Admitted.
 
-Theorem n14_171 : Set. Admitted.
+Theorem n14_171 (B : Prop) (Phi : Prop -> Prop) : 
+  (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B))
+  <->
+  (forall Psi : Predicate 1, iota_f "Phi" Phi (fun x =>
+    Psi B -> Psi (Iota "Phi" x))).
+Admitted.
 
-Theorem n14_18 : Set. Admitted.
+Theorem n14_18 (Phi Psi : Prop -> Prop) :
+  iota_E Phi -> (forall x, Psi x -> iota_f "Phi" Phi (fun x =>
+    Psi (Iota "Phi" x))).
+Admitted.
 
-Theorem n14_2 : Set. Admitted.
+Theorem n14_2 (X A : Prop) : 
+  (iota_f "=a" (fun x => x = A)
+    (fun y => (Iota "=a" y) = A)).
+Admitted.
 
 Theorem n14_201 : Set. Admitted.
 
