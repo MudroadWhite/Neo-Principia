@@ -72,7 +72,7 @@ make
 
 The `Makefile` for `make` is supposed to automatically detect all `.v` files under the `pm` folder, generate the `_CoqProject` file and compile the whole folder.
 
-## Running the code, line by line
+### Running the code, line by line
 IDEs for Coq/Rocq varies, but here is my preference:
 
 - WSL instance: Ubuntu 18.04 on WSL 2
