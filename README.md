@@ -18,7 +18,7 @@ Compatability.
 ## Can you make sure that the code/proof is 100% correct?
 No. 
 
-- This depends on how much and deep you interpret the terms. There exist concepts explained in natural language, not with formula. Some of these propositions will be written as comments in our code.
+- This depends on how much and deep you interpret the terms. There exist ideas explained in natural language, not with formula. Some of these propositions will be written as comments in our code.
 - The design of `Ltac` isn't good(to be more exact, `match` doesn't work as one might think), so that even successful `Qed`s are nevertheless false positives. Actually, I have caught several bugs in the repo from this issue.
 - I didn't deeply examine the code in chapter 1 - 5.
 - Under our interpretation, a few places out of the vast seem to be unprovable!
@@ -54,7 +54,7 @@ Conclusion: we're not going to deeply formalize PM right now. Our current goal: 
 - [x] Chapter 11 - Quantified propositions now extend to more than one variables. Notation supports for `→` and `↔` extended to multiple apparent variables as well.
 - [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
 - [x] Chapter 13 - A new set of theorems on Identity, which is different from definitional equality. Support for instantiating predicative functions. One theorem seems to be unprovable.
-- [ ] (WIP)Chapter 14 - The `iota` operator for descriptions, and related theorems.
+- [ ] (WIP)Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* variant. Theorems on them.
 
 ## Running the code
 Coq/Rocq version: 8.20.0, installed with the `opam` environment:
