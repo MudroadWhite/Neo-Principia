@@ -23,9 +23,11 @@ should be treated as the proposisional function.
 
 Our way to simulate this idea is firstly define a series of functions, names prefixed 
 with `iota`. Functions provide a similar functionality to scopes. Then we allow people to 
-write `Iota "name" x` if we need a iota variable, but it's just for readability and doesn't 
-have any checks or actual modification to the rest of the function it is contained in. With 
-this notation, all propositional functions with iota variables have to be written explicitly
+write `Iota "name" x` if we need a iota variable, but it's just for readability. ** There 
+are nothing to rely on to check if they have been used correctly**, nor does it actually 
+modify the rest of the function it is contained in. 
+
+With this notation, all propositional functions with iota variables have to be written explicitly
 starting with `(fun x => ...)`, in contrast to just build an arbitary proposition with iota 
 variables immediately. The resulted notation is quite different from how it looks like 
 originally, but it can correctly express what should a iota do and limit its scope as in the
@@ -235,27 +237,69 @@ Theorem n14_123 (X Y : Prop) (Phi : Prop -> Prop -> Prop) :
     <-> ((Phi z w -[ z w ]> (z = X /\ w = Y)) /\ exists z w, Phi z w)).
 Admitted.
 
-Theorem n14_124 : Set. Admitted.
+(* TODO: 4-var impl notation will be supported in the future *)
+Theorem n14_124 (Phi : Prop -> Prop -> Prop) : 
+  (exists x y, (Phi z w <[- z w -]> (z = x /\ w = y)))
+  <-> ((exists x y, Phi x y) 
+    /\ forall z w u v, (Phi z w /\ Phi u v) -> (z = w /\ u = v)). Admitted.
 
-Theorem n14_13 : Set. Admitted.
+Theorem n14_13 (A : Prop) (Phi : Prop -> Prop) : 
+  (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x)))
+  <-> (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = A)). 
+Admitted.
 
-Theorem n14_131 : Set. Admitted.
+Theorem n14_131 (Phi Psi : Prop -> Prop) : 
+  iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
+  <->
+  iota_f2 "Psi" "Phi" Psi Phi (fun x y => (Iota "Psi" x) = (Iota "Phi" y)). 
+Admitted.
 
-Theorem n14_131_alt : Set. Admitted.
+Theorem n14_131_alt (Phi Psi : Prop -> Prop) : 
+  iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
+  <->
+  iota_f2 "Psi" "Phi" Psi Phi (fun x y => (Iota "Psi" x) = (Iota "Phi" y)). 
+Admitted.
 
-Theorem n14_14 : Set. Admitted.
+Theorem n14_14 (A B : Prop) (Phi : Prop -> Prop) :
+  ((A = B) /\ (iota_f "Phi" Phi (fun x => B = (Iota "Phi" x))))
+  -> (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x))).
+Admitted.
 
-Theorem n14_142 : Set. Admitted.
+Theorem n14_142 (A : Prop) (Phi Psi : Prop -> Prop) :
+  ((iota_f "Phi" Phi (fun x => A = (Iota "Phi" x))) 
+    /\ iota_f2 "Phi" "Psi" Phi Psi 
+      (fun x y => (Iota "Phi" x) = (Iota "Psi" y)))
+  -> (iota_f "Psi" Psi (fun x => A = (Iota "Psi" x))).
+Admitted.
 
-Theorem n14_144 : Set. Admitted.
+Theorem n14_144 (Phi Psi Chi : Prop -> Prop) : 
+  ((iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y)))
+    /\ (iota_f2 "Psi" "Chi" Psi Chi (fun x y => (Iota "Psi" x) = (Iota "Chi" y))))
+  -> (iota_f2 "Phi" "Chi" Phi Chi (fun x y => (Iota "Phi" x) = (Iota "Chi" y))).
+Admitted.
 
-Theorem n14_145 : Set. Admitted.
+Theorem n14_145 (A : Prop) (Phi Psi : Prop -> Prop) : 
+  ((iota_f "Phi" Phi (fun x => A = (Iota "Phi" x))) 
+    /\ (iota_f "Psi" Psi (fun x => A = (Iota "Psi" x))))
+  -> (iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))).
+Admitted.
 
-Theorem n14_15 : Set. Admitted.
+Theorem n14_15 (B : Prop) (Phi Psi : Prop -> Prop) : 
+  (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B))
+  -> (iota_f "Phi" Phi (fun x => Psi (Iota "Phi" x))
+    <-> Psi B).
+Admitted.
 
-Theorem n14_16 : Set. Admitted.
+Theorem n14_16 (Phi Psi Chi : Prop -> Prop) :
+  (iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y)))
+  ->
+  (iota_f2 "Phi" "Psi" Phi Psi (fun x y => 
+    (Chi (Iota "Phi" x)) = (Chi (Iota "Psi" y)))).
+Admitted.
 
-Theorem n14_17 : Set. Admitted.
+Theorem n14_17 (B : Prop) (Phi : Prop -> Prop) (Psi : Predicate 1) : 
+
+Admitted.
 
 Theorem n14_171 : Set. Admitted.
 
