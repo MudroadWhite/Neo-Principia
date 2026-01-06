@@ -12,11 +12,10 @@ Require Import PM.pm.ch13.
 Require Import Logic.FunctionalExtensionality.
 
 (* 
-The decription, or I would more likely to call it the iota operator, works quite differently 
-because it technically requires you to be passed into a propositional function like normal
-parameters, but unlike normal parameters, once you have passed in a iota-variable, the whole
-function will be rewritten. In other words, the parameter itself has to know how to rewrite 
-the function's body, and becomes part of the definition of how a function application works.
+The decription, or I would more likely to call it the iota operator, designs a special kind of 
+parameters for functions. They will be passed into propositional functions normally, but unlike 
+normal parameters that only calculates everything within itself, they will rewrite on the whole 
+propositional function. 
 
 An extra "scope" notation is used for the iota operator, to determine the sub expression that
 should be treated as the proposisional function.
