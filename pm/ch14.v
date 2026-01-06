@@ -62,6 +62,14 @@ Example scoped_iota_expression (Phi : Prop -> Prop) :=
     (* A function will be written like this... *)
     (fun b => (Iota "Phi" b) = (Iota "Phi" b)).
 
+(* iota's predicate, "Exists" which states that a description exist. My understanding
+is that `E` in `E!` is the capital letter of `Exists` and `!` indicates that it is a 
+predicate. 
+
+TODO: give this iota_E the correct `Predicate` type
+*)
+Definition iota_E (Phi : Prop -> Prop) := exists b, (Phi x <[- x -]> (x = b)).
+
 (* cf. p174, example after *14.03. Interpretation for a function containing 
   multiple descriptions *)
 Definition iota_f2 
@@ -86,36 +94,18 @@ Definition iota_f2_1
     (fun c => iota_f s1 Phi
       (fun b => f (Iota s1 b) (Iota s2 c))).
 
-(* `_p` suffix means it's for predicates. 
-  This definition could have several meanings(?to be checked):
-  1. We're fixing the `x` and letting the function `E` varying, just as in ch12 & 13
-  2. We need to consider something like `a != x`, as being explained in p.173
-  Commentary. We can see that one issue of definitions in PM is that "what is the actual variable" is not that
-  clear which could be quite an issue. To generalize the issue: When mathematicans define something, they not
-  only have to check if the system they define is working correctly, they also have to check if their definition
-  has made a clear distinction between the object and the meta system. For example when we define a cat and dog
-  system we don't want to involve with an extra comma(as used in the text) for the cat
-  TODO: check how will the `E` be used
-*)
-Definition iota_p (E : Predicate 1) (Phi : Prop -> Prop) := exists b, (Phi x <[- x -]> (x = b)).
-
 Definition n14_01 (s : string) (Phi Psi : Prop -> Prop) : 
   (iota_f s Phi Psi) = exists b, (Phi x <[- x -]> (x = b)) /\ Psi b. 
 Admitted.
 
-(* TODO: check if iota_p and *14.02 is correctly defined *)
-Definition n14_02 (E : Predicate 1) (Phi : Prop -> Prop) :
-  (iota_p E Phi) = exists b, (Phi x <[- x -]> (x = b)). 
+Definition n14_02 (Phi : Prop -> Prop) :
+  (iota_E Phi) = exists b, (Phi x <[- x -]> (x = b)). 
 Admitted.
 
-(*  *)
 Definition n14_03 (s1 s2 : string) (Phi Psi : Prop -> Prop) (f : Prop -> Prop -> Prop) :
   (iota_f2 s1 s2 Phi Psi f) = 
-    iota_f s1 Phi 
-    (fun b => iota_f s2 Psi 
+    iota_f s1 Phi (fun b => iota_f s2 Psi 
       (fun c => f (Iota s1 b) (Iota s2 c))).
-  (* exists b, (Phi x <[- x -]> (x = b)) 
-    /\ ((exists c, Psi x <[- x -]> (x = c) /\ f b c)). *)
 Admitted.
 
 Definition n14_04 (s1 s2 : string) (Phi Psi : Prop -> Prop) (f : Prop -> Prop -> Prop) : 
@@ -133,14 +123,12 @@ Qed.
   representation omitted  *)
 Theorem n14_101 (s : string) (Phi Psi : Prop -> Prop) : (iota_f s Phi Psi) <-> 
   exists b, (Phi x <[- x -]> (x = b)) /\ Psi b.
-Proof.
-  exact (n14_1 s Phi Psi).
-Qed.
+Proof. exact (n14_1 s Phi Psi). Qed.
 
-Theorem n14_11 (E : Predicate 1) (Phi : Prop -> Prop) : 
-  (iota_p E Phi) <-> (exists b, Phi x <[- x -]> (x = b)).
+Theorem n14_11  (Phi : Prop -> Prop) : (iota_E Phi) 
+  <-> (exists b, Phi x <[- x -]> (x = b)).
 Proof.
-  pose proof (n4_2 (iota_p E Phi)) as n4_2.
+  pose proof (n4_2 (iota_E Phi)) as n4_2.
   now rewrite -> n14_02 in n4_2 at 2.
 Qed.
 
@@ -150,9 +138,8 @@ Theorem n14_111 (s1 s2 : string) (Phi Psi : Prop -> Prop)
     (Phi x <[- x -]> (x = b)) /\ (Psi x <[- x -]> (x = c)) /\ (f b c)).
 Proof.
   assert (S1 : iota_f2_1 s2 s1 Psi Phi f ↔ 
-    iota_f s2 Psi 
-      (fun c => iota_f s1 Phi 
-        (fun b => f (Iota s1 b) (Iota s2 c)))).
+    iota_f s2 Psi (fun c => iota_f s1 Phi 
+      (fun b => f (Iota s1 b) (Iota s2 c)))).
   {
     pose proof (n4_2 (iota_f2_1 s2 s1 Psi Phi f)) as n4_2.
     rewrite -> n14_04 in n4_2 at 2.
@@ -211,15 +198,42 @@ Theorem n14_112 (s1 s2 : string) (Phi Psi : Prop -> Prop)
     (Phi x <[- x -]> x = b) /\ (Psi x <[- x -]> x = c) /\ f b c.
 Admitted.
 
-Theorem n14_113 : Set. Admitted.
+Theorem n14_113 (s1 s2 : string) (Phi Psi : Prop -> Prop) 
+  (f : Prop -> Prop -> Prop) : 
+  iota_f2 s2 s1 Psi Phi (fun y x => f x y) <-> iota_f2 s1 s2 Phi Psi f. 
+Admitted.
 
-Theorem n14_12 : Set. Admitted.
+Open Scope double_app_equiv.
 
-Theorem n14_121 : Set. Admitted.
+Theorem n14_12 (Phi : Prop -> Prop) : 
+  iota_E Phi -> ((Phi x /\ Phi y) <[- x y -]> (x = y)).
+Admitted.
 
-Theorem n14_122 : Set. Admitted.
+Close Scope double_app_equiv.
 
-Theorem n14_123 : Set. Admitted.
+Theorem n14_121 (B C : Prop) (Phi : Prop -> Prop) : 
+  ((Phi x <[- x -]> x = B) /\ (Phi x <[- x -]> x = C))
+  -> B = C. 
+Admitted.
+
+Open Scope single_app_impl.
+
+Theorem n14_122 (B : Prop) (Phi : Prop -> Prop) :
+  ((Phi x <[- x -]> x = B) <-> ((Phi x -[ x ]> x = B) /\ Phi B))
+  /\
+  (((Phi x -[ x ]> x = B) /\ Phi B) <-> ((Phi x -[ x ]> x = B) /\ exists x, Phi x)). 
+Admitted.
+
+Open Scope double_app_equiv.
+Open Scope double_app_impl.
+
+Theorem n14_123 (X Y : Prop) (Phi : Prop -> Prop -> Prop) : 
+  ((Phi z w <[- z w -]> (z = X /\ w = Y)) 
+    <-> ((Phi z w -[ z w ]> (z = X /\ w = Y)) /\ Phi X Y))
+  /\
+  (((Phi z w -[ z w ]> (z = X /\ w = Y)) /\ Phi X Y)
+    <-> ((Phi z w -[ z w ]> (z = X /\ w = Y)) /\ exists z w, Phi z w)).
+Admitted.
 
 Theorem n14_124 : Set. Admitted.
 
@@ -296,3 +310,6 @@ Theorem n14_332 : Set. Admitted.
 Theorem n14_34 : Set. Admitted.
 
 Close Scope single_app_equiv.
+Close Scope single_app_impl.
+Close Scope double_app_equiv.
+Close Scope double_app_impl.
