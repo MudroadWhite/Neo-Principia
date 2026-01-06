@@ -45,6 +45,9 @@ Example iota_function (i1 i2 : Prop) : Prop -> Prop :=
   fun x =>
     (Iota "Phi" i1) = (Iota "Psi" i2).
 
+(* TODO: maybe we can recollect all the functions for iota into an 
+  inductive type *)
+
 (* `_f` suffix means it's for typical (untyped) functions. Here we only define
   the signature to avoid repetitive definitions, and the actual definition starts 
   after *14.01. *)
@@ -86,6 +89,8 @@ Definition iota_f2 (s1 s2 : string) (Phi Psi : Prop -> Prop)
 *)
 Definition iota_f2_1 (s1 s2 : string) (Phi Psi : Prop -> Prop)
   (f : Prop -> Prop -> Prop) : Prop. Admitted.
+
+(* ******** *)
 
 Definition n14_01 (s : string) (Phi Psi : Prop -> Prop) : 
   (iota_f s Phi Psi) = exists b, (Phi x <[- x -]> (x = b)) /\ Psi b. 
@@ -351,46 +356,79 @@ Theorem n14_24 (Phi : Prop -> Prop) : iota_E Phi
   <-> iota_f "Phi" Phi (fun x => Phi y <[- y -]> y = (Iota "Phi" x)).
 Admitted.
 
-Theorem n14_241 : Set. 
+Theorem n14_241 (Phi : Prop -> Prop) : iota_E Phi 
+  -> (Phi y <[- y -]> iota_f "Phi" Phi (fun x => y = (Iota "Phi" x))).
 Admitted.
 
-Theorem n14_242 : Set. 
+Theorem n14_242 (B : Prop) (Phi Psi : Prop -> Prop) : (Phi x <[- x -]> x = B)
+  -> (Psi B <-> iota_f "Phi" Phi Psi).
 Admitted.
 
-Theorem n14_25 : Set. 
+Theorem n14_25 (Phi Psi : Prop -> Prop) : iota_E Phi 
+  -> ((Phi x <[- x -]> Psi x) <-> iota_f "Phi" Phi Psi).
 Admitted.
 
-Theorem n14_26 : Set. 
+Theorem n14_26 (Phi Psi : Prop -> Prop) : iota_E Phi 
+  -> exists x, ((Phi x /\ Psi x) <-> iota_f "Phi" Phi Psi)
+    /\ ((iota_f "Phi" Phi Psi) <-> (Phi x <[- x -]> Psi x)).
 Admitted.
 
-Theorem n14_27 : Set. 
+Theorem n14_27 (Phi Psi : Prop -> Prop) : iota_E Phi 
+  -> ((Phi x <[- x -]> Psi x) 
+    <-> iota_f2 "Phi" "Psi" Phi Psi (fun x y =>
+      (Iota "Phi" x) = (Iota "Psi" y))).
 Admitted.
 
-Theorem n14_271 : Set. 
+Theorem n14_271 (Phi Psi : Prop -> Prop) : (Phi x <[- x -]> Psi x)
+  -> ((iota_E Phi) <-> (iota_E Psi)).
 Admitted.
 
-Theorem n14_28 : Set. 
+Theorem n14_272 (Phi Psi Chi : Prop -> Prop) : (Phi x <[- x -]> Psi x)
+  -> (iota_f2 "Phi" "Psi" Phi Psi (fun x y =>
+    Chi (Iota "Phi" x) <-> Chi (Iota "Psi" y))).
 Admitted.
 
-Theorem n14_3 : Set. 
+Theorem n14_28 (Phi : Prop -> Prop) : iota_E Phi
+  <-> (iota_f2 "Phi" "Phi" Phi Phi (fun x y =>
+    (Iota "Phi" x) = (Iota "Phi" y))).
 Admitted.
 
-Theorem n14_31 : Set. 
+Theorem n14_3 (Phi Chi f : Prop -> Prop) : 
+  (((p <-> q) -[ p q ]> (f p <-> f q)) /\ iota_E Phi)
+  ->
+  ((f (iota_f "Phi" Phi Chi)) <-> iota_f "Phi" Phi (fun x =>
+    f (Chi (Iota "Phi" x)))).
 Admitted.
 
-Theorem n14_32 : Set. 
+Theorem n14_31 (P : Prop) (Phi Chi : Prop -> Prop) : iota_E Phi
+  -> ((iota_f "Phi" Phi (fun x => P \/ Chi (Iota "Phi" x)))
+    <-> P \/ (iota_f "Phi" Phi Chi)).
 Admitted.
 
-Theorem n14_33 : Set. 
+Theorem n14_32 (Phi Chi : Prop -> Prop) : iota_E Phi
+  <-> ((iota_f "Phi" Phi (fun x => ~ Chi (Iota "Phi" x)))
+    <-> ~ (iota_f "Phi" Phi Chi)).
 Admitted.
 
-Theorem n14_331 : Set. 
+Theorem n14_33 (P : Prop) (Phi Chi : Prop -> Prop) : iota_E Phi
+  -> ((iota_f "Phi" Phi (fun x => P -> Chi (Iota "Phi" x)))
+    <-> (P -> iota_f "Phi" Phi Chi)).
 Admitted.
 
-Theorem n14_332 : Set. 
+(* Is there a typo in this proposition? An identitical conclusion? *)
+Theorem n14_331 (P : Prop) (Phi Chi : Prop -> Prop) : iota_E Phi
+  -> ((iota_f "Phi" Phi (fun x => Chi (Iota "Phi" x) -> P))
+    <-> (iota_f "Phi" Phi (fun x => Chi (Iota "Phi" x) -> P))).
 Admitted.
 
-Theorem n14_34 : Set. 
+Theorem n14_332 (P : Prop) (Phi Chi : Prop -> Prop) : iota_E Phi
+  -> ((iota_f "Phi" Phi (fun x => P <-> Chi (Iota "Phi" x)))
+    <-> (P <-> (iota_f "Phi" Phi Chi))).
+Admitted.
+
+Theorem n14_34 (P : Prop) (Phi Chi : Prop -> Prop) : 
+  (P /\ iota_f "Phi" Phi Chi) <-> iota_f "Phi" Phi (fun x =>
+    P /\ Chi (Iota "Phi" x)).
 Admitted.
 
 Close Scope single_app_equiv.
