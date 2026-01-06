@@ -20,6 +20,7 @@ No.
 
 - This depends on how much and deep you interpret the terms. There exist ideas explained in natural language, not with formula. Some of these propositions will be written as comments in our code.
 - The design of `Ltac` isn't good(to be more exact, `match` doesn't work as one might think), so that even successful `Qed`s are nevertheless false positives. Actually, I have caught several bugs in the repo from this issue.
+- Our designs on notations still rely on manual checks.
 - I didn't deeply examine the code in chapter 1 - 5.
 - Under our interpretation, a few places out of the vast seem to be unprovable!
 
