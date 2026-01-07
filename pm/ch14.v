@@ -12,25 +12,24 @@ Require Import PM.pm.ch13.
 Require Import Logic.FunctionalExtensionality.
 
 (* 
-The decription, or I would more likely to call it the iota operator, designs a special kind of 
+The decription, or I would personally call it the iota operator, designs a special kind of 
 parameters for functions. They will be passed into propositional functions normally, but unlike 
 normal parameters that only calculates everything within itself, they will rewrite on the whole 
-propositional function. 
+propositional function, rewrite other terms that are not within these parameters. 
 
 An extra "scope" notation is used for the iota operator, to determine the sub expression that
 should be treated as the proposisional function.
 
-Our way to simulate this idea is firstly define a series of functions, names prefixed 
-with `iota`. Functions provide a similar functionality to scopes. Then we allow people to 
-write `Iota "name" x` if we need a iota variable, but it's just for readability. ** There 
-are nothing to rely on to check if they have been used correctly**, nor does it actually 
-modify the rest of the function it is contained in. 
+Our way to simulate this idea is firstly define a series of functions prefixed with `iota`. 
+Functions provide a similar functionality to scopes. Then we allow people to write 
+`Iota "name" x` if we need a iota variable, but it's just for readability. **There are nothing 
+to rely on to check if they have been used correctly**, nor does it actually modify the rest of 
+the function it is contained in. 
 
 With this notation, all propositional functions with iota variables have to be written explicitly
 starting with `(fun x => ...)`, in contrast to just build an arbitary proposition with iota 
-variables immediately. The resulted notation is quite different from how it looks like 
-originally, but it can correctly express what should a iota do and limit its scope as in the
-text.
+variables immediately. The resulted notation is quite different from how it looks like originally, 
+but it can correctly express what should a iota do and limit its scope as in the text.
 *)
 
 (* TODO: make the definitions into a notation in the future *)
