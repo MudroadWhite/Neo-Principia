@@ -1,5 +1,7 @@
 # Mechanics of Principia Mathematica
 
+TODO: organize the mechanics in a chapter-splitted style
+
 ## Chapter organization
 Principia Mathematica seems to define its concepts in an **incremental way**. That means:
 1. Some early chapters define some rough ideas and develop theorems on them
