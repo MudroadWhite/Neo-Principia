@@ -27,14 +27,14 @@ No.
 ## Can Principia Mathematica can be completely formalized?
 **Yes**: With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is already theoretically accessible.
 
-**No**: Although math ideas in PM is supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts such as descriptions in chapter 14 have their icebergs under the tips. They question the dependency relationships between these ideas and the rewriting system, which should be even different from what people will acknowledge in modern type systems. We will need a lot of explorations before correctly define a deep embedding model - As an old saying says, *early optimization is considered evil*.
+**No**: Although math ideas in PM is supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts such as descriptions in chapter 14 have their icebergs under the tips. They question the dependency relationships between these ideas and the rewriting system, which should be even different from what people will acknowledge in modern type systems. We need to explore what are the odds before correctly define a deep embedding - As an old saying says, *early optimization is the root of all evil*.
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far:
 1. PM has a notorious notation system.
 2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
 3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc.. and (my conclusion)these tools are supposed to be rich enough to revisit the history
 
-Conclusion and goal: at this moment, instead of immediately designing a deep embedding for PM, we want to successfully express everything **before chapter 14**.
+Conclusion and goal: at this moment, we want to successfully express everything **before chapter 14**.
 
 ## How deep can you formalize?
 - This project is **not** going to give a formal model/deep embedding to Principia, as explained above.
