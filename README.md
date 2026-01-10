@@ -77,8 +77,8 @@ IDEs for Coq/Rocq varies, but here is my preference:
 
 - WSL instance: Ubuntu 18.04 on WSL 2
 - VS Code version: 1.80.0
-- Extension installed locally: WSL. WSL's VSCode support can also be installed from extension at VSCode's side.
-- Extension installed on WSL instance: VSCoq v0.3.7 from [OpenVSX](https://open-vsx.org/extension/maximedenes/vscoq).
+- Extension installed on VSCode locally: WSL. When running the extension, it will generate a notification to help you install VSCode support in the current WSL instance.
+- Extension installed on VSCode, in its remote WSL environment: VSCoq v0.3.7 from [OpenVSX](https://open-vsx.org/extension/maximedenes/vscoq).
 
 ## To contribute
 Although I have tried to organize the issues well to indicate the current progress, I am not used to collaborate with others. It's suggested to raise an issue for inquiries, and I'll see what I can give.

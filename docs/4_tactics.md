@@ -89,17 +89,17 @@ Either for "historical reasons"(this project really doesn't have a history), or 
 - \[Simplification\]`apply propositional_extentionality` might occur inside `replace...with` blocks. Its purpose is to change the goal of `=` form into a goal of `↔` form for easier reasoning. It might work against original text.
 - \[Simplification\]`intro` introduces the premise as a hypothesis. `intro Hp`, as utilized in chapter 5 & 10, has proven its harmlessness. Other from `intro Hp`, other occurrences should be eliminated.
 - \[Simplification\]`now tactic thm ...` says that, if the `tactic` we use can directly provide a result that is not very far from the goal, then we prove the goal immediately. Typically it's very useful for saving a line of `exact thm`. Every line of `now tactic thm` can be turned back into `tactic thm` for readers to check if it does indeed generate a proposition that is exactly the same as the goal, and this tactic is **recommended** to use.
-- \[Simplification\]More exceptions not being described here, for example in chapter 11, have to be commented explicitly that there is a simplification. This is **recommended** to be taken down in the future.
+- \[Simplification\]Further exceptions not being listed above, for example in chapter 11, have to be explicitly stated with a comment that a simplification has happened. This is **recommended** to be taken down in the future.
 
 ## 6. Bugged Ltacs
-Throughout chapter 1 - 5, there are several custom tactics defined to use the primitive ideas conveniently. However, their current design is bugged: when we're trying to use them, they might not find the exact propositions that we are referring to. If things has went very bad, here is the full routine just for applying such a tactic:
+Throughout chapter 1 - 5, there are several custom tactics defined to use the primitive ideas conveniently. However, their current design is bugged: when we're trying to use them, they might not find the exact propositions that we are referring to. If things has gone very bad, here is the full steps for just applying one tactic safely:
 1. `assert` a subgoal for the desired proposition
 2. `clear` every unrelated hypotheses
 3. `move` the propositions `before` or `after`, into the right order. For example, if we want to `MP S2 S1`, then we have to `move S1 after S2`.
 4. perform the tactic and immediately conclude the subproof.
 
-Since we don't always need to go through the full routine, we're only requiring that
-- Tactics above are **allowed** to use, when they are the necessary preparations to perform a custom Ltac.
+Since we don't always need to go through the full steps, we're only requiring that
+- Tactics above are **allowed** to use, when necessary to ensure correctness.
 
 ## 7. Debugging the proof
 It happens that users might want to check the proofs in more detail. How to debug the proof is completely personal, but here are some tactics I commonly use, just in case:
