@@ -58,7 +58,7 @@ Conclusion and goal: at this moment, we want to successfully express everything 
 - [ ] (WIP)Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* statement. Theorems on them.
 
 ## Running the code
-Coq/Rocq version: 8.20.0, installed with the `opam` environment:
+Coq/Rocq version: 8.20.0, installed with the [opam](https://opam.ocaml.org/) environment:
 
 ```bash
 opam update
