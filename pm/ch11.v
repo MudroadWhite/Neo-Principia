@@ -1254,18 +1254,6 @@ Proof.
   exact S4.
 Qed.
 
-(* It seems that n4_87 is not translated correctly, so here we temporarily
-use a correct form.
-TODO: move this into ch4 *)
-Theorem n4_87_corrected (P Q R : Prop) :
-  (((P ∧ Q) → R) ↔ (P → (Q → R)))
-  ∧
-  ((P → (Q → R)) ↔ (Q → (P → R)))
-  ∧ 
-  ((Q → (P → R)) ↔ ((Q ∧ P) → R)).
-Proof.
-Admitted.
-
 Theorem n11_62 (φ : Prop → Prop) (ψ χ : Prop → Prop → Prop) :
   ((φ x ∧ ψ x y) -[x y]> χ x y) ↔ (φ x -[x]> (ψ x y -[y]> χ x y)).
 Proof.

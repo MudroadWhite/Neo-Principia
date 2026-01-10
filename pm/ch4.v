@@ -1283,3 +1283,15 @@ Proof.
 Qed.
 (*The proof sketch cites Comm2_04.This 
   bit of the sketch was indecipherable.*)
+
+(* It seems that n4_87 is not translated correctly, so here we temporarily
+use a correct form.
+TODO: move this into ch4 *)
+Theorem n4_87_corrected (P Q R : Prop) :
+  (((P ∧ Q) → R) ↔ (P → (Q → R)))
+  ∧
+  ((P → (Q → R)) ↔ (Q → (P → R)))
+  ∧ 
+  ((Q → (P → R)) ↔ ((Q ∧ P) → R)).
+Proof.
+Admitted.
