@@ -3,7 +3,7 @@
 It has been a convention for formal verification people to attach an audit report for every project they work on, and we should have our own analogue.
 
 ## What is the value of this project?
-This project revisits the history, and shows the power of type-theory-based modern formal verifiers, with only mediocre technology being used. This project wraps up math and philosophical ideas, written down as a software, organized and iterates like a software. This project aims at demystifying a myth and bring up communications between math, philosophy and computer people. This project can potentially be an inspiration for Steam indie videogames, because turing mediocre ideas into games is what they do.
+This project revisits the history, and shows the power of type-theory-based modern formal verifiers, with only mediocre technology being used. This project wraps up math and philosophical ideas, written down as a software, organized and iterates like a software. This project aims at demystifying a myth and bringing up communications between math, philosophy and computer people. This project can potentially be an inspiration for Steam indie videogames, because turing mediocre ideas into games is what they do.
 
 ## Overview: what is Principia Mathematica?
 - type theory(wiki tt history entry)
