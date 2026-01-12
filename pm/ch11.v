@@ -1264,7 +1264,7 @@ Proof.
   assert (S1 : ((φ x ∧ ψ x y) -[x y]> χ x y) 
     ↔ (∀ x y, φ x → (ψ x y → χ x y))).
   {
-    pose proof (n4_87_corrected (φ X) (ψ X Y) (χ X Y)) as n4_87.
+    pose proof (n4_87 (φ X) (ψ X Y) (χ X Y)) as n4_87.
     destruct n4_87 as [n4_87l n4_87mr]. clear n4_87mr.
     pose proof (n11_11 X Y (fun x y => 
       (φ x ∧ ψ x y → χ x y) ↔ (φ x → ψ x y → χ x y)))as n11_11.
@@ -1420,7 +1420,7 @@ Proof.
       now Syll S5 S5_1_1 S5_1.
     }
     rewrite -> Comm_Equiv in S5_1.
-    pose proof (n4_87_corrected
+    pose proof (n4_87
       (φ Z)
       (∃ w, χ w)
       ((∀ z w, φ z ∧ χ w → ψ z ∧ θ w)
@@ -1485,7 +1485,7 @@ Proof.
       now Syll S5_2 S5_3_1 S5_3.
     }
     rewrite -> Comm_Equiv in S5_3.
-    pose proof (n4_87_corrected
+    pose proof (n4_87
       (χ W)
       (∃ z, φ z)
       ((∀ z w, φ z ∧ χ w → ψ z ∧ θ w)
