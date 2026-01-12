@@ -18,6 +18,7 @@ When we *refer* to the theorems, we are allowed to substitute every single liter
 When we want to prove them, we start with a set of individuals like `P`, `Q`, `R`. They are not propositions(as stated in Principia), cannot be further splitted and substituted. **New individuals that are not presented in the theorems though, is allowed to be introduced** - in the middle of proving, we might occur to a new individual like `S`.
 
 (TODO: are individuals able to be changed in any time? )
+(TODO: refer to `architecture` chapter, and maybe update the corresponded part)
 
 Elementary propositions are simple propositions connected with `~` and `\/`.
 
