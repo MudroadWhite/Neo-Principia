@@ -27,7 +27,7 @@ to rely on to check if they have been used correctly**, nor does it actually mod
 the function it is contained in. 
 
 With this notation, all propositional functions with iota variables have to be written explicitly
-starting with `(fun x => ...)`, in contrast to just build an arbitary proposition with iota 
+starting with `(fun x => ...)`, in contrast to just building an arbitary proposition with iota 
 variables immediately. The resulted notation is quite different from how it looks like originally, 
 but it can correctly express what should a iota do and limit its scope as in the text.
 *)
@@ -116,9 +116,9 @@ Proof.
 Qed.
 
 (* The equivalent with n14_1, with scope notation in its original 
-  representation omitted. With our current definition, we can just
-  make a copy of `iota_f` to indicate it is getting scope notation 
-   in the text... *)
+  representation omitted. With our definition, we might just make 
+  another definition copying `iota_f` to indicate it is getting 
+  scope notation in the text... *)
 Theorem n14_101 (s : string) (Phi Psi : Prop -> Prop) : (iota_f s Phi Psi) <-> 
   exists b, (Phi x <[- x -]> (x = b)) /\ Psi b.
 Proof. exact (n14_1 s Phi Psi). Qed.
@@ -195,6 +195,7 @@ Theorem n14_112 (s1 s2 : string) (Phi Psi : Prop -> Prop)
   (iota_f2 s1 s2 Phi Psi f) <-> exists b c, 
     (Phi x <[- x -]> x = b) /\ (Psi x <[- x -]> x = c) /\ f b c.
 Proof.
+  
 Admitted.
 
 Theorem n14_113 (s1 s2 : string) (Phi Psi : Prop -> Prop) 
