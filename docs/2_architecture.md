@@ -60,7 +60,7 @@ Now we come to naming conventions for (lhs) parameters.
 ## 5. What's under a single proof?
 If its correspondence in original text has splited the proof into several steps, rather than just citing related theorems for hints, we call this theorem comes with a "long proof". 
 
-- Our architecture is **not required** to be enforced on short proofs.
+- Our structure is **not required** to be enforced on short proofs.
 
 Otherwise for a long proof, it usually has the following structure:
 ```Coq
