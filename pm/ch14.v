@@ -194,11 +194,13 @@ Theorem n14_112 (s1 s2 : string) (Phi Psi : Prop -> Prop)
   (f : Prop -> Prop -> Prop) : 
   (iota_f2 s1 s2 Phi Psi f) <-> exists b c, 
     (Phi x <[- x -]> x = b) /\ (Psi x <[- x -]> x = c) /\ f b c.
+Proof.
 Admitted.
 
 Theorem n14_113 (s1 s2 : string) (Phi Psi : Prop -> Prop) 
   (f : Prop -> Prop -> Prop) : 
   iota_f2 s2 s1 Psi Phi (fun y x => f x y) <-> iota_f2 s1 s2 Phi Psi f. 
+Proof.
 Admitted.
 
 Open Scope double_app_equiv.
