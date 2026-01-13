@@ -552,7 +552,6 @@ Theorem n5_42 (P Q R : Prop) :
   (P → Q → R) ↔ (P → Q → P ∧ R).
 Proof.
   pose proof (n5_3 P Q R) as n5_3a.
-  pose proof (n4_87 P Q R) as n4_87a.
   pose proof (Imp3_31 P Q R) as Imp3_31a.
   pose proof (Exp3_3 P Q R) as Exp3_3a.
   Conj Imp3_31a Exp3_3 Ca.
@@ -560,7 +559,6 @@ Proof.
   apply propositional_extensionality in Ca.
   replace ((P∧Q)→R) with (P→Q→R) in n5_3a
     by now apply Ca.
-  pose proof (n4_87 P Q (P∧R)) as n4_87b.
   pose proof (Imp3_31 P Q (P∧R)) as Imp3_31b.
   pose proof (Exp3_3 P Q (P∧R)) as Exp3_3b.
   Conj Imp3_31b Exp3_3b Cb.
@@ -805,30 +803,30 @@ Qed.
 Theorem n5_6 (P Q R : Prop) :
   ((P ∧ ¬Q) → R) ↔ (P → (Q ∨ R)).
 Proof.
-  pose proof (n4_87 P (¬Q) R) as n4_87a.
-  pose proof (n4_64 Q R) as n4_64a.
-  pose proof (n4_85 P Q R) as n4_85a.
-  replace (((P∧¬Q→R)↔(P→¬Q→R))↔((¬Q→P→R)↔(¬Q∧P→R)))
-       with 
-       ((((P∧¬Q→R)↔(P→¬Q→R))→((¬Q→P→R)↔(¬Q∧P→R)))
-       ∧
-       ((((¬Q→P→R)↔(¬Q∧P→R)))→(((P∧¬Q→R)↔(P→¬Q→R))))) 
-       in n4_87a by now rewrite Equiv4_01.
-  pose proof (Simp3_27 
-      (((P∧¬Q→R)↔(P→¬Q→R)→(¬Q→P→R)↔(¬Q∧P→R))) 
-      (((¬Q→P→R)↔(¬Q∧P→R)→(P∧¬Q→R)↔(P→¬Q→R)))) as Simp3_27a.
-  MP Simp3_27a n4_87a.
-  pose proof (Imp3_31 (¬Q) P R) as Imp3_31a.
-  pose proof (Exp3_3 (¬Q) P R) as Exp3_3a.
-  Conj Imp3_31a Exp3_3a C.
-  Equiv C.
-  MP Simp3_27a C.
-  apply propositional_extensionality in n4_64a.
-  symmetry in n4_64a.
-  replace (¬Q→R) with (Q∨R) in Simp3_27a
-    by now apply n4_64a.
-  exact Simp3_27a.  
-Qed. 
+  
+  pose proof (n4_87 P (¬Q) R) as n4_87.
+  (* For simplicity... we will just destruct the branch that we want
+  to apply in the following proof. Originally this involves `Simp` *)
+  destruct n4_87 as [n4_87a n4_87r]. clear n4_87r.
+  assert (S1 : (P ∧ ¬ Q → R) → (P → Q ∨ R)).
+  {
+    destruct n4_87a as [n4_87al n4_87ar]. clear n4_87ar.
+    pose proof (n4_64 Q R) as n4_64.
+    pose proof (n4_85 (¬ Q → R) (Q ∨ R) P) as n4_85.
+    MP n4_85 n4_64.
+    now rewrite -> n4_85 in n4_87al.
+  }
+  assert (S2 : (P → Q ∨ R) → (P ∧ ¬ Q → R)).
+  {
+    destruct n4_87a as [n4_87al n4_87ar]. clear n4_87al.
+    pose proof (n4_64 Q R) as n4_64.
+    pose proof (n4_85 (¬ Q → R) (Q ∨ R) P) as n4_85.
+    MP n4_85 n4_64.
+    now rewrite -> n4_85 in n4_87ar.
+  }
+  Conj S1 S2 C1.
+  now Equiv C1.
+Qed.
 
 Theorem n5_61 (P Q : Prop) :
   ((P ∨ Q) ∧ ¬Q) ↔ (P ∧ ¬Q).
