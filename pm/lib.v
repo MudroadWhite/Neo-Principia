@@ -15,7 +15,7 @@ Export String.
 (* cf.p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
 Theorem eq_to_equiv : forall (P Q : Prop),
-  (P = Q) -> (P ↔ Q).
+  (P = Q) → (P ↔ Q).
 Proof.
   intros P Q H.
   split; try rewrite -> H; trivial.
@@ -43,12 +43,12 @@ Should we treat `!` as something being denotational just like the dot notations 
 (* Module Predicate.
   Record t {n : nat} : Type := {
     (* This `fix_param` seems to be mostly unused, and might be deleted in the future *)
-    fix_param (X : Prop) := fun (f' : Prop -> Prop) => f' X;
-    fix_func (f : Prop -> Prop) := fun (X' : Prop) => f X';
+    fix_param (X : Prop) := fun (f' : Prop → Prop) => f' X;
+    fix_func (f : Prop → Prop) := fun (X' : Prop) => f X';
   }.
 End Predicate. *)
 (* Just declares a function is a predicate of order n *)
-Definition Predicate (n : nat) : Type := (Prop -> Prop).
+Definition Predicate (n : nat) : Type := (Prop → Prop).
 (* Experimental: Similar to `Individual`s, sometimes we need to introduce a predicate(?). Is it unnecessary? *)
 Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
 
@@ -56,8 +56,8 @@ Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
   To be uncommented when the notation is fixed *)
 (* Module Predicate2.
   Record t (n : nat) := {
-    fix_param (X Y : Prop) := fun (f' : Prop -> Prop -> Prop) => f' X Y;
-    fix_func (f : Prop -> Prop -> Prop) := fun (X' Y' : Prop) => f X' Y';
+    fix_param (X Y : Prop) := fun (f' : Prop → Prop → Prop) => f' X Y;
+    fix_func (f : Prop → Prop → Prop) := fun (X' Y' : Prop) => f X' Y';
   }.
 End Predicate2. *)
 (* TODO: maybe we should synthesize these 2 types into one inductive type with the name of "constituent" *)
@@ -65,7 +65,7 @@ End Predicate2. *)
 (* Notation support for chapter 14, descriptions *)
 Definition Iota (s : string) (x : Prop) : Prop := x.
 
-Example iota_function (i1 i2 : Prop) : Prop -> Prop :=
+Example iota_function (i1 i2 : Prop) : Prop → Prop :=
   fun x =>
     (Iota "Phi" i1) = (Iota "Psi" i2).
 
@@ -78,16 +78,16 @@ Example iota_function (i1 i2 : Prop) : Prop -> Prop :=
 Definition iota_f 
   (* s is just a string for identification *)
   (s : string)
-  (Phi : Prop -> Prop) 
+  (Phi : Prop → Prop) 
   (* This function below is supposed to be a function of the iota term. Since the 
   variable is provided within the proposition, we only type it just as a normal 
   function. Unavailability of the existential `b` var from an external view is the 
   major reason why this notation is hard to define.
   While the definition doesn't express anything, this function is allowed to use 
   `Iota s1` in its body *)
-  (Psi : Prop -> Prop) : Prop. Admitted.
+  (Psi : Prop → Prop) : Prop. Admitted.
 
-Example scoped_iota_expression (Phi : Prop -> Prop) :=
+Example scoped_iota_expression (Phi : Prop → Prop) :=
   iota_f "Phi" Phi 
     (* A function will be written like this... *)
     (fun b => (Iota "Phi" b) = (Iota "Phi" b)).
@@ -98,12 +98,12 @@ predicate.
 
 TODO: give this iota_E the correct `Predicate` type
 *)
-Definition iota_E (Phi : Prop -> Prop) : Prop. Admitted.
+Definition iota_E (Phi : Prop → Prop) : Prop. Admitted.
 
 (* cf. p174, example after *14.03. Interpretation for a function containing 
   multiple descriptions *)
-Definition iota_f2 (s1 s2 : string) (Phi Psi : Prop -> Prop)
-  (f : Prop -> Prop -> Prop) : Prop. Admitted.
+Definition iota_f2 (s1 s2 : string) (Phi Psi : Prop → Prop)
+  (f : Prop → Prop → Prop) : Prop. Admitted.
 
 (* cf. p174, explanation after *14.04. The iota variant where inner function has 
   larger scope than outer function. This variant will be proven later unecessary. 
@@ -111,8 +111,8 @@ Definition iota_f2 (s1 s2 : string) (Phi Psi : Prop -> Prop)
   The original definition depends on `iota_f2`. The function `iota_f` here, 
   provided with parameters, gets a similar role to the idea of scope
 *)
-Definition iota_f2_1 (s1 s2 : string) (Phi Psi : Prop -> Prop)
-  (f : Prop -> Prop -> Prop) : Prop. Admitted.
+Definition iota_f2_1 (s1 s2 : string) (Phi Psi : Prop → Prop)
+  (f : Prop → Prop → Prop) : Prop. Admitted.
 
 (* ******** *)
 (* AGGREGATED TODOS *)
@@ -147,9 +147,9 @@ this operator
 apparent variable "appears to be" the only variables, while "real variables" include the actual variants to be concluded
 
 ~p.20: 
-- (Ax, Px -> Q x) -> (Ax, Px) -> (Ax, Qx) requires that P Q takes arguments "of the same type". -> p.49
-- formal implication: the `->` wrapped up in `forall`s. It bypassed the problem that `P -> Q = ~P ∨ Q`, and restrict that we have to 
-know `forall x, P x -> Q x` and `P X` to get `Q X`.
+- (Ax, Px → Q x) → (Ax, Px) → (Ax, Qx) requires that P Q takes arguments "of the same type". → p.49
+- formal implication: the `→` wrapped up in `forall`s. It bypassed the problem that `P → Q = ~P ∨ Q`, and restrict that we have to 
+know `forall x, P x → Q x` and `P X` to get `Q X`.
 
 ~p.22:
 (TODO)`=` is not defined until chapter 13, and this is being explained in chapter 2/chapter II.

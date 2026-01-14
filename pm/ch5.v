@@ -1032,7 +1032,7 @@ Proof.
       by (apply propositional_extensionality; split; apply n3_22).
     exact n4_4.
   }
-  assert (S2 : (Q → ¬R) -> ~(Q ∧ R)).
+  assert (S2 : (Q → ¬R) → ~(Q ∧ R)).
   {
     pose proof (n4_62 Q R) as n4_62.
     destruct n4_62 as [n4_62l n4_62r].
@@ -1042,7 +1042,7 @@ Proof.
     Syll n4_62l n4_51r S2.
     exact S2.
   }
-  assert (S3 : (Q → ¬R) -> ((P ∧ R ∨ Q ∧ R) ↔ P ∧ R)).
+  assert (S3 : (Q → ¬R) → ((P ∧ R ∨ Q ∧ R) ↔ P ∧ R)).
   {
     pose proof (n4_74 (Q ∧ R) (P ∧ R)) as n4_74.
     symmetry in n4_74.

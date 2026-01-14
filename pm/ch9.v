@@ -123,7 +123,7 @@ to satisfy the function in question. *)
   - If φ (over elementary propositions) can be defined, and φY is always true
   - then we can construct a 1st order proposition made up from φ *)
 Definition n9_13 (φ : Prop → Prop) (Y : Prop) : 
-  φ Y -> (∀ x , φ x). Admitted.
+  φ Y → (∀ x , φ x). Admitted.
 (* ******** *)
 
 (* Primitive propositions for identifying propositions "of the same type" *)
@@ -332,7 +332,7 @@ Theorem n9_23 (φ : Prop → Prop) : (∀ x, φ x) → (∀ x, φ x).
 Proof. 
   set (X := Individual "x").
   pose proof (Id2_08) (φ X) as Id2_08.
-  pose proof (n9_13 (fun x => φ x -> φ x) X) as n9_13.
+  pose proof (n9_13 (fun x => φ x → φ x) X) as n9_13.
   MP n9_13 Id2_08.
   pose proof (n9_21 φ φ) as n9_21.
   now MP n9_21 n9_13.
