@@ -144,7 +144,7 @@ Theorem n14_112 (s1 s2 : string) (Phi Psi : Prop -> Prop)
   (iota_f2 s1 s2 Phi Psi f) ↔ exists b c, 
     (Phi x <[- x -]> x = b) ∧ (Psi x <[- x -]> x = c) ∧ f b c.
 Proof.
-  assert (S1 : (iota_f2 s1 s2 Phi Psi f) <-> (iota_f s1 Phi 
+  assert (S1 : (iota_f2 s1 s2 Phi Psi f) ↔ (iota_f s1 Phi 
     (fun b => iota_f s2 Psi (fun c => f (Iota s1 b) (Iota s2 c))))).
   {
     
@@ -355,8 +355,8 @@ Theorem n14_3 (Phi Chi f : Prop -> Prop) :
 Admitted.
 
 Theorem n14_31 (P : Prop) (Phi Chi : Prop -> Prop) : iota_E Phi
-  -> ((iota_f "Phi" Phi (fun x => P \/ Chi (Iota "Phi" x)))
-    ↔ P \/ (iota_f "Phi" Phi Chi)).
+  -> ((iota_f "Phi" Phi (fun x => P ∨ Chi (Iota "Phi" x)))
+    ↔ P ∨ (iota_f "Phi" Phi Chi)).
 Admitted.
 
 Theorem n14_32 (Phi Chi : Prop -> Prop) : iota_E Phi

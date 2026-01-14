@@ -7,9 +7,9 @@ Open Scope double_app_equiv.
 
 (* 
 Starting from chapter 12, every variables being quantified at the rhs has to be
-either an "Individual" or a "Predicate". For example, "forall P, P /\ Q" might 
-never appear, and instead, it will be either "forall Individual P, P /\ Q" or 
-"forall Predicate Phi, Phi (Individual P)" where Phi P = P /\ Q
+either an "Individual" or a "Predicate". For example, "forall P, P ∧ Q" might 
+never appear, and instead, it will be either "forall Individual P, P ∧ Q" or 
+"forall Predicate Phi, Phi (Individual P)" where Phi P = P ∧ Q
 
 TODO: expand the idea: This seems to be the only way to quantify the functions
 *)

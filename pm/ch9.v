@@ -792,7 +792,7 @@ Proof.
   assert (S1 : (P → Q) → ((P ∨ φ Y) → (Q ∨ φ Y))).
   { 
     (* The most optimal way here is still using `Syll` on the proposition, 
-    but we show how it can also be done with a `rewrite` on a `<->` relation  *)
+    but we show how it can also be done with a `rewrite` on a `↔` relation  *)
     pose proof (Sum1_6 (φ Y) P Q) as Sum1_6.
     now rewrite -> (n4_31 (φ Y) P), -> (n4_31 (φ Y) Q) in Sum1_6.
   }

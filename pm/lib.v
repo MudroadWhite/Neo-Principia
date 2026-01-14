@@ -12,10 +12,10 @@ Export ClassicalFacts.
 Export PropExtensionality.
 Export String.
 
-(* cf.p.23: `=` propositions are allowed to be turned into `<->` propositions. An 
+(* cf.p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
 Theorem eq_to_equiv : forall (P Q : Prop),
-  (P = Q) -> (P <-> Q).
+  (P = Q) -> (P ↔ Q).
 Proof.
   intros P Q H.
   split; try rewrite -> H; trivial.
@@ -118,7 +118,7 @@ Definition iota_f2_1 (s1 s2 : string) (Phi Psi : Prop -> Prop)
 (* AGGREGATED TODOS *)
 (* ******** *)
 (* TODO:
-Add scope for each of the chapter, on definitions of `~` and `\/`, since they are supposed to be only work on "one type of propositions"
+Add scope for each of the chapter, on definitions of `~` and `∨`, since they are supposed to be only work on "one type of propositions"
 Should we also add scope for `MP` and `Syll`?
 Design a `comma` predicate  which works like a `id` `to enforce "lazy evaluation" on quantifiers 
 *)
@@ -148,7 +148,7 @@ apparent variable "appears to be" the only variables, while "real variables" inc
 
 ~p.20: 
 - (Ax, Px -> Q x) -> (Ax, Px) -> (Ax, Qx) requires that P Q takes arguments "of the same type". -> p.49
-- formal implication: the `->` wrapped up in `forall`s. It bypassed the problem that `P -> Q = ~P \/ Q`, and restrict that we have to 
+- formal implication: the `->` wrapped up in `forall`s. It bypassed the problem that `P -> Q = ~P ∨ Q`, and restrict that we have to 
 know `forall x, P x -> Q x` and `P X` to get `Q X`.
 
 ~p.22:
@@ -199,19 +199,19 @@ of a function taking the same type
 - (notes on *1.01)the rules for definitional equality is out of the theory
 
 ~p.127:
-- Chapter II has explained that ~ and \/ should have different meaning on different propositions. Guess: we cannot define a
+- Chapter II has explained that ~ and ∨ should have different meaning on different propositions. Guess: we cannot define a
 negation on "all" propositions attributing to Russell's paradox
 
 ~p.128:
-- Goal of ch9: focus on definition of `~` and `\/` defined in *1 - *5 limited to eprops. Extend their definitions to 1st orde props
+- Goal of ch9: focus on definition of `~` and `∨` defined in *1 - *5 limited to eprops. Extend their definitions to 1st orde props
 - The support of `forall` and `exists` seems to be only for demonstration purpose - if we take them as primitive ideas, we can 
   conclude "upgraded" versions of propositions "just as in" ch1-5.
 - the important parts seems to be *1.2 - *1.6; A new way is used for analogue of 1.7 - 1.72
 - Real variables doesn't have types(??), and can be instantiated with any proposition of any orders???
 - Summary:
   - elementary propositions are initially admitted, along with their types
-  - definition of `~` and `\/` depends on proposition types
-  - definition of function depends on type of `~` and `\/`
+  - definition of `~` and `∨` depends on proposition types
+  - definition of function depends on type of `~` and `∨`
   - order of a proposition depends on its parameter's types
 
 ~p.138:
