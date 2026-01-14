@@ -185,7 +185,7 @@ Admitted.
 (* ******** *)
 
 (* Theorems below in this chapter are supposed to prove that `∀` and `∃` deduce just like 
-  elementary propositions. The first theorems are some setups *)
+  elementary propositions. We begin with some theorems for setups *)
 Theorem n9_2 (φ : Prop → Prop) (Y : Prop) : (∀ x , φ x) → φ Y.
 Proof. 
   (** Step 1 **)

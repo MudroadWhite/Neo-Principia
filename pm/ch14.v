@@ -13,9 +13,9 @@ Require Import Logic.FunctionalExtensionality.
 
 (* 
 The decription, or I would personally call it the iota operator, designs a special kind of 
-parameters for functions. They will be passed into propositional functions normally, but unlike 
-normal parameters that only calculates everything within itself, they will rewrite on the whole 
-propositional function, rewrite other terms that are not within these parameters. 
+parameter for functions. They will be passed into propositional functions normally, but unlike 
+normal parameters that only calculates everything within themselves, they will rewrite on the 
+whole propositional function, and on other terms that are not within them.
 
 An extra "scope" notation is used for the iota operator, to determine the sub expression that
 should be treated as the proposisional function.
@@ -149,6 +149,9 @@ Proof.
   {
     
   }
+  (* 2nd step: replace one iota with an `exists` *)
+  (* 3rd step: replacec the other iota with an `exists` *)
+  (* final: maybe some reordering and conclude the proof *)
 Admitted.
 
 Theorem n14_113 (s1 s2 : string) (Phi Psi : Prop → Prop) 
