@@ -37,7 +37,8 @@ No.
 Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. 
 
 ## How deep can you formalize?
-- This project is **not** going to give a formal model/deep embedding to Principia, as explained above.
+Besides the limitation explained above that we won't have a formal embedding:
+
 - Distinguishing between `∀ x y, P x y` and `∀ x, ∀ y, P x y` is currently **on plan**.
 - Limiting parameter's "type"(orders)s for a function is currently **partially supported**, by only writing them as a header in each of the chapters.
 - Checking their types is currently **unavailable**.
