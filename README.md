@@ -34,7 +34,7 @@ No.
 2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
 3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc..
 
-To summarize: currently we want to successfully express everything **before chapter 14** with a shallow embedding. 
+Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. 
 
 ## How deep can you formalize?
 - This project is **not** going to give a formal model/deep embedding to Principia, as explained above.
