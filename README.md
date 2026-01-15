@@ -25,20 +25,20 @@ No.
 - Under our interpretation, a few places out of the vast seem to be unprovable!
 
 ## Can Principia Mathematica can be completely formalized?
-**Yes**: With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system, and all advanced mathematical concepts are built on this system, formalizing PM is already theoretically accessible.
+**Yes**: With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system with which all advanced mathematical idea are built on, formalizing PM is already theoretically accessible.
 
-**No**: Although math ideas in PM is supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts such as descriptions in chapter 14 have their icebergs under the tips. They question the dependency relationships between these ideas and the rewriting system, which should be even different from what people will acknowledge in modern type systems. We will need a lot of explorations before correctly define a deep embedding model - As an old saying says, *early optimization is considered evil*.
+**No**: Although math ideas in PM is supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts such as descriptions in chapter 14 have their icebergs under the tips. They question the dependency relationships between themselves and the rewriting system, which should be even different from what people will acknowledge in modern type systems. We need to explore the odds before correctly define a deep embedding. From a software engineer's perspective, *early optimization is the root of all evil*. By doing this we will also generate some non-trivial but easy problems for other people to collaborate with.
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far:
 1. PM has a notorious notation system.
 2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
-3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc.. and (my conclusion)these tools are supposed to be rich enough to revisit the history
+3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc..
 
-Conclusion and goal: at this moment, instead of immediately designing a deep embedding for PM, we want to successfully express everything **before chapter 14**.
+To summarize: currently we want to successfully express everything **before chapter 14** with a shallow embedding. 
 
 ## How deep can you formalize?
 - This project is **not** going to give a formal model/deep embedding to Principia, as explained above.
-- Distinguishing between `forall x y, P x y` and `forall x, forall y, P x y` is currently **on plan**.
+- Distinguishing between `∀ x y, P x y` and `∀ x, ∀ y, P x y` is currently **on plan**.
 - Limiting parameter's "type"(orders)s for a function is currently **partially supported**, by only writing them as a header in each of the chapters.
 - Checking their types is currently **unavailable**.
 - Designing functions that accepts arbitrary length is currently **unavailable**.
@@ -52,13 +52,13 @@ Conclusion and goal: at this moment, instead of immediately designing a deep emb
 
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType". Support for instantiating individuals.
 - [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable. One theorem seems to be unprovable.
-- [x] Chapter 11 - Quantified propositions now extend to more than one variables. Notation supports for `→` and `↔` extended to multiple apparent variables as well.
+- [x] Chapter 11 - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
 - [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
-- [x] Chapter 13 - A new set of theorems on Identity, which is different from definitional equality. Support for instantiating predicative functions. One theorem seems to be unprovable.
+- [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. One theorem seems to be unprovable.
 - [ ] (WIP)Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* statement. Theorems on them.
 
 ## Running the code
-Coq/Rocq version: 8.20.0, installed with the `opam` environment:
+Coq/Rocq version: 8.20.0, installed with the [opam](https://opam.ocaml.org/) environment:
 
 ```bash
 opam update
@@ -72,13 +72,13 @@ make
 
 The `Makefile` for `make` is supposed to automatically detect all `.v` files under the `pm` folder, generate the `_CoqProject` file and compile the whole folder.
 
-## Running the code, line by line
+### Running the code, line by line
 IDEs for Coq/Rocq varies, but here is my preference:
 
 - WSL instance: Ubuntu 18.04 on WSL 2
 - VS Code version: 1.80.0
-- Extension installed locally: WSL. WSL's VSCode support can also be installed from extension at VSCode's side.
-- Extension installed on WSL instance: VSCoq v0.3.7 from [OpenVSX](https://open-vsx.org/extension/maximedenes/vscoq).
+- Extension installed on VSCode locally: WSL. When running the extension, it will generate a notification to help you install VSCode support in the current WSL instance.
+- Extension installed on VSCode, in its remote WSL environment: VSCoq v0.3.7 from [OpenVSX](https://open-vsx.org/extension/maximedenes/vscoq).
 
 ## To contribute
-Although I have tried to organize the issues well to indicate the current progress, I am not used to collaborate with others. It's suggested to raise an issue for inquiries, and I'll see what I can give.
+Although I have tried to organize the issues well to indicate the current progress, I am not used to collaborate with others. It's suggested to open an new issue for inquiries, and I'll see what I can give.
