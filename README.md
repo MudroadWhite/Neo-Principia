@@ -6,7 +6,7 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 - Principia Mathematica is not textbook math
 - Formalized PM is a good textbook for verifiers
 - Formalizing PM feels like climbing a mountain
-- Coq doesn't need a lot of version updates
+- Rocq doesn't need a lot of version updates
 
 ## Features
 Compatability.
