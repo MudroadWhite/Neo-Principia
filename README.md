@@ -38,7 +38,7 @@ To summarize: currently we want to successfully express everything **before chap
 
 ## How deep can you formalize?
 - This project is **not** going to give a formal model/deep embedding to Principia, as explained above.
-- Distinguishing between `forall x y, P x y` and `forall x, forall y, P x y` is currently **on plan**.
+- Distinguishing between `∀ x y, P x y` and `∀ x, ∀ y, P x y` is currently **on plan**.
 - Limiting parameter's "type"(orders)s for a function is currently **partially supported**, by only writing them as a header in each of the chapters.
 - Checking their types is currently **unavailable**.
 - Designing functions that accepts arbitrary length is currently **unavailable**.

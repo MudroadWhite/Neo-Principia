@@ -54,7 +54,7 @@ We have naming conventions for propositions. A proposition usually is named with
 
 Now we come to naming conventions for (lhs) parameters.
 - Functions as parameters are supposed to be named as the same style of original text: either greek letters like `φ` or their upper-cased English equivalent like `Phi`.
-- Apparent variables are quantified variables in `forall`, `exists` and so on. As parameters, they're usually lower case literals like `x`.
+- Apparent variables are quantified variables in `∀`, `∃` and so on. As parameters, they're usually lower case literals like `x`.
 - Real variables are variables that can directly instantiated. They're usually upper case literals like `X`.
 
 ## 5. What's under a single proof?
