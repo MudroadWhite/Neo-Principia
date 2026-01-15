@@ -54,13 +54,13 @@ We have naming conventions for propositions. A proposition usually is named with
 
 Now we come to naming conventions for (lhs) parameters.
 - Functions as parameters are supposed to be named as the same style of original text: either greek letters like `φ` or their upper-cased English equivalent like `Phi`.
-- Apparent variables are quantified variables in `forall`, `exists` and so on. As parameters, they're usually lower case literals like `x`.
+- Apparent variables are quantified variables in `∀`, `∃` and so on. As parameters, they're usually lower case literals like `x`.
 - Real variables are variables that can directly instantiated. They're usually upper case literals like `X`.
 
 ## 5. What's under a single proof?
 If its correspondence in original text has splited the proof into several steps, rather than just citing related theorems for hints, we call this theorem comes with a "long proof". 
 
-- Our architecture is **not required** to be enforced on short proofs.
+- Our structure is **not required** to be enforced on short proofs.
 
 Otherwise for a long proof, it usually has the following structure:
 ```Coq
@@ -84,6 +84,7 @@ Qed.
 
 ### 5.1. `TOOLS` section
 - A `TOOLS` header is **required** to be place at the beginning of a long proof, if any tool is being used.
+- Other tools not being placed in the `TOOLS` section is **required** to be stated with an explicit comment.
 
 Technical features, that can be be found under `lib.v`, usually require a warmup before being available, for example, introducing an extra real variable with the proof(with `set (X := Real "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
 
@@ -93,8 +94,6 @@ Technical features, that can be be found under `lib.v`, usually require a warmup
 For long proofs, the first tactic we use always starts with an `assert`, for specifying intermediate steps corresponded to ones in the original text. 
 
 There are several reasons for organizing proofs with `assert`. The most significant one is readability. Besides, we can have several equivalant forms for a proposition, i.e. `(fun x => x) x` is not very far from just `x` or `(fun y => y) x`. Switching between them requires delicate application with tactics for all different cases. If we set the desired form as a subgoal, we only need to use tactics to prove for a equivalent form to `x`, and skip the tedious transformations. One last thing for `assert` is that it limits the scope of theorems we use. When we leave the scope, these theorems are automatically cleared away, and only the intermediate steps as `S1` `S2` are being pertained. As a result, the proof window becomes extremely clean.
-
-- `exact` at the end of the proof is **not allowed** to be deleted or simplified, as it pertains a nice proof style.
 
 `assert`ed intermediate steps are introduced into the hypotheses.
 
