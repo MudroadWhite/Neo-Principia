@@ -36,27 +36,12 @@ No.
 
 Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. 
 
-## How deep can you formalize?
-Besides the limitation explained above that we won't have a formal embedding:
+## How well have your formalized?
 
-- Distinguishing between `∀ x y, P x y` and `∀ x, ∀ y, P x y` is currently **on plan**.
-- Limiting parameter's "type"(orders)s for a function is currently **partially supported**, by only writing them as a header in each of the chapters.
-- Checking their types is currently **unavailable**.
-- Designing functions that accepts arbitrary length is currently **unavailable**.
-- Constructing "types" for every propositions in Principia is **on plan**.
-- Expressing "types(orders) for a function's parameters" is **on plan**.
-- Completely translate primitive propositions written in natural language, into formalized Rocq proof, is **on plan**.
-- More to come...
+Which means 2 questions:
 
-## How much have you formalized?
-**(172 - 94) = 78** pages.
-
-- [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType". Support for instantiating individuals.
-- [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable. One theorem seems to be unprovable.
-- [x] Chapter 11 - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
-- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
-- [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. One theorem seems to be unprovable.
-- [ ] \[WIP\]Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* statement. Theorems on them.
+- **How much have you formalized?** (172 - 94) = 78 pages. See also [mechanics](./docs/3_mechanics.md) for more details.
+- **How deep can you formalize?** We won't give a formal embedding, as explained above. See also [audit](./docs/5_audit.md) for more details.
 
 ## Running the code
 Coq/Rocq version: 8.20.0, installed with the [opam](https://opam.ocaml.org/) environment:
