@@ -3,6 +3,7 @@
 It has been a convention for formal verification people to attach an audit report for every project they work on, and we should have our own analogue.
 
 ## Overview
+We're aware that: 
 - Distinguishing between `∀ x y, P x y` and `∀ x, ∀ y, P x y` is currently **on plan**.
 - Limiting parameter's "type"(orders)s for a function is currently **partially supported**, by only writing them as a header in each of the chapters.
 - Checking their types is currently **unavailable**.
