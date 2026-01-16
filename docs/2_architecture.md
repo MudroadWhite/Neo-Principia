@@ -9,11 +9,11 @@
 ## 2. What's under `./pm`?
 Each chapter in Principia has a corresponded `.v` file. In the future, we might further recluster the chapters into sections and parts.
 
-Chapter 1 - 5, additionally with some sole proof pieces such as `Yuelin.v`, are directly inherited from [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia).
+Chapter 1 - 5, additionally with scattered proof pieces under `pm/misc`, are directly inherited from [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia).
 
 `lib.v` provides experimental features or necessary tools for all chapters to use.
 
-All conventions of sections below starts from chapter 9.
+All conventions introduced below applies after chapter 9.
 
 ## 3. What's under a single `.v` file?
 1. `Require Import` that cites other chapters and `lib.v`, so that you can use theorems and tools from these imported files.

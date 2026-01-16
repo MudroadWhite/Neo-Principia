@@ -1,9 +1,5 @@
 -R . PM
 -arg -impredicative-set -arg -w -arg -stdlib-vector
-./pm/Jorgensen3_47.v
-./pm/Lemma5_7.v
-./pm/Nicod1_4.v
-./pm/Yuelin.v
 ./pm/ch1.v
 ./pm/ch10.v
 ./pm/ch11.v
@@ -16,3 +12,7 @@
 ./pm/ch5.v
 ./pm/ch9.v
 ./pm/lib.v
+./pm/misc/Jorgensen3_47.v
+./pm/misc/Lemma5_7.v
+./pm/misc/Nicod1_4.v
+./pm/misc/Yuelin.v
