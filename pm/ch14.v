@@ -31,11 +31,11 @@ starting with `(fun x => ...)`, in contrast to just building an arbitary proposi
 variables immediately. The resulted notation is quite different from how it looks like originally, 
 but it can correctly express what should a iota do and limit its scope as in the text.
 
-The definitions are being put into the `lib.v` file. 
+The definitions are being put into the `lib.v`. 
 *)
 
-(* TODO: make the definitions into a notation in the future *)
-(* Declare Scope single_description. *)
+(* TODO: make the definitions into a notation in the future 
+Declare Scope single_description. *)
 
 Open Scope single_app_equiv.
 
