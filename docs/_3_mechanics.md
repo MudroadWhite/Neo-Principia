@@ -14,7 +14,7 @@ We are building:
 ## What is Principia Mathematica?
 From wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_of_type_theory), the "type system" we are formalizing is called "ramified theory of types". 
 
-Commonly used type systems(or just the default of Rocq) will give us some "common sense": propositions are elements of sets, functions are modeled with lambda calculus, etc.. Perhaps the most significant one: everything are either types or elements under types, by the noted CH correspondence. These "common sense" fail in ramified theory of types: the inference is performed by rewriting on propositions. These propositions are not modeled with types themselves, and sometimes for brevity they are "untyped". Types in this system play on a much more auxiliary role, and ramified theory of types, is actually a rewriting system.
+Commonly used type systems(or just the default of Rocq) get us "common sense": propositions are elements of sets, functions are modeled with lambda calculus, etc.. the most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in ramified theory of types: Propositions are not types. Sometimes for brevity they are untyped. The inference is performed by rewriting on propositions. Types in this system play on a much more auxiliary role, and ramified theory of types, is actually a rewriting system.
 
 We now proceed to explain how every math elements are being built, bottom-up, in Principia.
 
