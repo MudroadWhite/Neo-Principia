@@ -9,9 +9,9 @@ We are building:
 - [ ] \[WIP\]Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* statement. Theorems on them.
 
 ## What is Principia Mathematica?
-From wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_of_type_theory), the "type system" we are formalizing is called "ramified theory of types". This gives us an impression that Principia is a big type system.
+From wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_of_type_theory), we are formalizing *ramified theory of types*. This gives us an impression that Principia is a big type system.
 
-Rocq have already given us "common sense" on how a type system should look like: propositions are elements of sets, functions are modeled with lambda calculus, etc.. the most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in ramified theory of types: Propositions are not types. Sometimes for brevity propositions are untyped. The inference is performed by rewriting on propositions. Types in this system play on a much more auxiliary role, and ramified theory of types, is actually a rewriting system.
+Rocq has already given us "common sense" on how a type system should look like: propositions are elements of sets, functions are modeled with lambda calculus, etc.. the most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in ramified theory of types. Propositions are not types. Sometimes for brevity propositions are untyped. The inference is performed by rewriting on propositions, not on types. Type plays a much more auxiliary role, and ramified theory of types, is actually a rewriting system.
 
 We now proceed to explain how everything is built up, bottom-up, in Principia.
 
