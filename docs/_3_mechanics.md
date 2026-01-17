@@ -27,7 +27,9 @@ Principia designs its theorems in a **"practical way"**. Theorems in chapter 10 
 
 Principia performs everything **one step at a time**. This automatically means functions in Principia are always "small-step". We don't need to concern things like free vs bounded variables to eliminate the ambiguity, because every step is being "guided" manually through the rewriting system. Functions don't come with a scope, and an ad-hoc "scope" is defined in chapter 14 for auxiliary purpose that is unrelated to functions. See chapter 14 below.
 
-TODO: 
+----------------
+
+UNFINISHED PIECES BELOW
 
 For every theorem, we have two ways to use it. One is we refer to it just like a "function", and another one is prove the theorem by inference.
 

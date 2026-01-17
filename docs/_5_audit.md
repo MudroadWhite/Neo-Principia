@@ -26,6 +26,10 @@ Within which, anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md).
 
 TODO: designs of functions, types for parameters and them, Prop -> Prop ...
 
+----------------
+
+UNFINISHED PIECES BELOW
+
 **Chapter 9.**
 - formalized most of the theorems... 
 - but useless anyways
