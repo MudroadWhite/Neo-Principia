@@ -25,6 +25,8 @@ Principia also defines in an **incremental way**. That means:
 
 Principia also defines its theorems in a **"practical way"**. Theorems in chapter 10 are being proposed, because they are useful in later chapters, not because they address important properties for first order logic, not to mention soundness and completeness.
 
+TODO: ch14, description...
+
 ## How does Principia rewrite everything?
 TODO: 
 
