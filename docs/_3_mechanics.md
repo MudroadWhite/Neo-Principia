@@ -25,7 +25,7 @@ Principia also defines in an **inheriting way**. That means:
 ## How does Principia proof theorems?
 Principia designs its theorems in a **"practical way"**. Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
 
-Principia performs everything **one step at a time**. This automatically means functions in Principia are always "small-step". We don't need to concern things like free vs bounded variables to eliminate the ambiguity, because every step is being "guided" manually through the rewriting system. Functions don't come with a scope, and an ad-hoc "scope" is defined in chapter 14 for auxiliary purpose that is unrelated to functions. See chapter 14 below.
+Principia performs everything **one step at a time**. This automatically means functions in Principia are always "small-step". We don't need to concern things like free vs bounded variables to eliminate the ambiguity, because deduction takes one step at a time, and only when a guaranteed/hand-crafted candidate exist. Functions don't come with a scope, and an ad-hoc "scope" is defined in chapter 14 for auxiliary purpose that is unrelated to functions. See chapter 14 below.
 
 ----------------
 
