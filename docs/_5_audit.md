@@ -22,7 +22,7 @@ Evaluation for Principia is based on the following questions:
 
 Within which, anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straightly into the commentaries without reviewing these ideas.
 
-**Limits on Definitions.** Our formalization didn't express the *compositional* and *incremental* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
+**Definitions.** Our formalization didn't express the *compositional* and *incremental* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
 
 **Chapter 9.**
 - formalized most of the theorems... 
