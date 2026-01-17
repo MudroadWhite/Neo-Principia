@@ -20,7 +20,7 @@ Different from most of the textbooks, Principia defines its concepts in a **comp
 Principia also defines in an **inheriting way**. That means:
 1. Some early chapters define rough ideas and propose their theorems. For example, we define what is an *animal*, and write down theorems about it.
 2. Later chapters refine the rough idea and split for different cases. We divide *animal*s into *dog*s and *cat*s.
-3. To prove a theorem in splitted cases, we might directly reuse the old theorems without any modifications. We reuse the *animal* theorems instead of reinventing theorems for *dog*s and *cat*s.
+3. To prove a theorem in splitted cases, we might directly reuse the old theorems without any modifications. We directly use *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
 
 ## How does Principia proof theorems?
 Principia designs its theorems in a **"practical way"**. Theorems in chapter 10 are being proposed, because they are useful in later chapters, not because they address important properties for first order logic, such as soundness and completeness.
