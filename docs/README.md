@@ -1,5 +1,4 @@
 # Documentation
-
 This folder, `./docs/`, is intended to provide necessary documentation for the formalization.
 
 ## Table of contents

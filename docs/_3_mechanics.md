@@ -1,5 +1,4 @@
 # Mechanics of Principia Mathematica
-
 We are building: 
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType". Support for instantiating individuals.
 - [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable. One theorem seems to be unprovable.
@@ -11,7 +10,7 @@ We are building:
 ## What is Principia Mathematica?
 From wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_of_type_theory), we are formalizing *ramified theory of types*. This gives us an impression that Principia is a big type system.
 
-Rocq has already given us "common sense" on how a type system should look like: propositions are elements of sets, functions are modeled with lambda calculus, etc.. the most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in ramified theory of types. Propositions are not types. Sometimes for brevity propositions are untyped. The inference is performed by rewriting on propositions, not on types. Type plays a much more auxiliary role, and ramified theory of types, is actually a rewriting system.
+Rocq has already given us "common sense" on how a type system looks like: propositions are elements of sets, functions are modeled with lambda calculus, etc.. the most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in ramified theory of types. Propositions are not types. Sometimes for brevity propositions are untyped. The inference is performed by rewriting on propositions, not on types. Type plays a much more auxiliary role, and ramified theory of types, is actually a rewriting system.
 
 We now proceed to explain how everything is built up, bottom-up, in Principia.
 
@@ -23,11 +22,11 @@ Principia also defines in an **incremental way**. That means:
 2. Later chapters might refine the rough idea and split for different cases. We divide *animal*s into *dog*s and *cat*s.
 3. Theorems on *animal*s will be given new meanings immediately.
 
-Principia also defines its theorems in a **"practical way"**. Theorems in chapter 10 are being proposed, because they are useful in later chapters, not because they address important properties for first order logic, not to mention soundness and completeness.
+## How does Principia proof theorems?
+Principia designs its theorems in a **"practical way"**. Theorems in chapter 10 are being proposed, because they are useful in later chapters, not because they address important properties for first order logic, not to mention soundness and completeness.
 
-TODO: ch14, description... "small step" on functions and quantifiers
+Principia performs everything **one step at a time**. This automatically means functions in Principia are always "small-step". We don't need to concern things like free vs bounded variables to eliminate the ambiguity, because every step is being "guided" manually through the rewriting system. Functions don't come with a scope, and an ad-hoc "scope"(see ch14 below) is defined in chapter 14 for auxiliary purpose that is unrelated to functions.
 
-## How does Principia rewrite everything?
 TODO: 
 
 For every theorem, we have two ways to use it. One is we refer to it just like a "function", and another one is prove the theorem by inference.

@@ -1,5 +1,4 @@
 # Audit Report
-
 We're aware that: 
 - Distinguishing between `∀ x y, P x y` and `∀ x, ∀ y, P x y` is currently **on plan**.
 - Limiting parameter's "type"(orders)s for a function is currently **partially supported**, by only writing them as a header in each of the chapters.

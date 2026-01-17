@@ -1,5 +1,4 @@
 # Project architecture
-
 ## 1. What's under this project?
 - `./docs/` provides all necessary documentation for the proofs.
 - `./slides/` contains a pseudo-slide in markdown format for a presentation I held privately, written in Chinese.

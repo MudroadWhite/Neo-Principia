@@ -1,5 +1,4 @@
 # Who did what
-
 All of chapter 1 - 5 are directly attributed to [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia).
 
 I started this project by
