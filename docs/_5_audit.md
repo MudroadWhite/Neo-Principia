@@ -14,7 +14,7 @@ Every formal verification project comes with an audit report, and our analogue s
 ## What is the value of this project?
 This project aims to be a scythe to demystify a myth. This project is a small world to communicate, between theory and application, and between math, philosophy and computer science people. This project wraps up math and philosophical ideas, written down, organized and iterates like a software. This project shows the power of type-theory-based modern formal verifiers, with only mediocre technology being used. This project can potentially be an inspiration for Steam indie videogames, because making mediocre ideas into games is what these developers do.
 
-## Evaluation
+## The evaluation
 Evaluation for Principia is based on the following questions:
 1. For each chapter, what are the new ideas being brought up?
 2. Are these ideas easy to be expressed in Rocq?
