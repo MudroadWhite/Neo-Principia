@@ -5,7 +5,7 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 - Principia Mathematica has a stable version
 - Principia Mathematica is not textbook math
 - Formalized PM is a good textbook for verifiers
-- Formalizing PM feels like climbing a mountain
+- Formalizing PM feels like building an obelisk
 - Rocq doesn't need a lot of version updates
 
 ## Features
@@ -67,4 +67,4 @@ IDEs for Coq/Rocq varies, but here is my preference:
 - Extension installed on VSCode, in its remote WSL environment: VSCoq v0.3.7 from [OpenVSX](https://open-vsx.org/extension/maximedenes/vscoq).
 
 ## To contribute
-Although I have tried to organize the issues well to indicate the current progress, I am not used to collaborate with others. It's suggested to open an new issue for inquiries, and I'll see what I can give.
+Although I have tried to organize the issues well to indicate the current progress, I haven't considered seriously on collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
