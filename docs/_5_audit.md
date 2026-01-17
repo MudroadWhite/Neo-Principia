@@ -24,6 +24,8 @@ Within which, anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md).
 
 **Definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
 
+TODO: designs of functions, types for parameters and them, Prop -> Prop ...
+
 **Chapter 9.**
 - formalized most of the theorems... 
 - but useless anyways
