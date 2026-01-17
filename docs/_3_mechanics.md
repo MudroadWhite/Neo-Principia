@@ -11,15 +11,26 @@ We are building:
 - [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. One theorem seems to be unprovable.
 - [ ] \[WIP\]Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* statement. Theorems on them.
 
-## Chapter organization
-Principia Mathematica seems to define its concepts in an **incremental way**. That means:
-1. Some early chapters define some rough ideas and develop theorems on them
-2. Later chapters might refine some of these ideas and define different cases for the ideas. If previous chapter only considers animals, later chapters might divide animals into dogs and cats
-3. Correspondingly, theorems in previous chapters will be given new meanings in later chapters. This might suggest we use typeclasses and instances to "register" new meanings for later chapters if we want to correctly formalize Principia.
+## What is Principia Mathematica?
+From wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_of_type_theory), the "type system" we are formalizing is called "ramified theory of types". 
+
+Commonly used type systems(or just the default of Rocq) will give us some "common sense": propositions are elements of sets, functions are modeled with lambda calculus, etc.. Perhaps the most significant one: everything are either types or elements under types, by the noted CH correspondence. These "common sense" fail in ramified theory of types: the inference is performed by rewriting on propositions. These propositions are not modeled with types themselves, and sometimes for brevity they are "untyped". Types in this system play on a much more auxiliary role, and ramified theory of types, is actually a rewriting system.
 
 We now proceed to explain how every math elements are being built, bottom-up, in Principia.
 
-## The system
+## How does Principia define everything?
+Different from most of the textbooks, Principia defines its concepts in a **compositional way**. In contrast to *`~ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`~` applied on an `∃` proposition should be defined as something*. It's a common practice to fix an operator and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
+
+Principia also defines in an **incremental way**. That means:
+1. Some early chapters define rough ideas and propose their theorems. For example, we define what is an *animal*, and write down theorems about it.
+2. Later chapters might refine the rough idea and split for different cases. We divide *animal*s into *dog*s and *cat*s.
+3. Theorems on *animal*s will be given new meanings immediately.
+
+Principia also defines its theorems in a **"practical way"**. Theorems in chapter 10 are being proposed, because they are useful in later chapters, not because they address important properties for first order logic, not to mention soundness and completeness.
+
+## How does Principia rewrite everything?
+TODO: 
+
 For every theorem, we have two ways to use it. One is we refer to it just like a "function", and another one is prove the theorem by inference.
 
 When we *refer* to the theorems, we are allowed to substitute every single literals with some new propositions, just like what you see in theorem provers.
@@ -28,6 +39,8 @@ When we want to prove them, we start with a set of individuals like `P`, `Q`, `R
 
 (TODO: are individuals able to be changed in any time? )
 (TODO: refer to `architecture` chapter, and maybe update the corresponded part)
+
+## The system
 
 Elementary propositions are simple propositions connected with `¬` and `∨`.
 
@@ -39,8 +52,8 @@ TODO: polish as below
 5. `∀` and `∃` are defined by directly and only quantifying over a function.
 
 how PM is different from modern type theories:
-1. types are for propositions
-2. individuals are not types
+1. No CH correspondence: propositions are not types, but they have types
+2. individuals are not propositions(???)
 3. individuals can be substituted with more complex terms by infinite times(?TODO: check if there is some severe bug in formalization)
 
 TODO: extend to descriptions and classes in the future; slightly compare to type systems
