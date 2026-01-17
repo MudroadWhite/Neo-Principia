@@ -9,11 +9,11 @@ We are building:
 - [ ] \[WIP\]Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* statement. Theorems on them.
 
 ## What is Principia Mathematica?
-From wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_of_type_theory), the "type system" we are formalizing is called "ramified theory of types". 
+From wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_of_type_theory), the "type system" we are formalizing is called "ramified theory of types". This gives us an impression that Principia is a big type system.
 
-Commonly used type systems(or just the default of Rocq) get us "common sense": propositions are elements of sets, functions are modeled with lambda calculus, etc.. the most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in ramified theory of types: Propositions are not types. Sometimes for brevity they are untyped. The inference is performed by rewriting on propositions. Types in this system play on a much more auxiliary role, and ramified theory of types, is actually a rewriting system.
+Rocq have already given us "common sense" on how a type system should look like: propositions are elements of sets, functions are modeled with lambda calculus, etc.. the most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in ramified theory of types: Propositions are not types. Sometimes for brevity propositions are untyped. The inference is performed by rewriting on propositions. Types in this system play on a much more auxiliary role, and ramified theory of types, is actually a rewriting system.
 
-We now proceed to explain how every math elements are being built, bottom-up, in Principia.
+We now proceed to explain how everything is built up, bottom-up, in Principia.
 
 ## How does Principia define everything?
 Different from most of the textbooks, Principia defines its concepts in a **compositional way**. In contrast to *`~ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`~` applied on an `∃` proposition should be defined as something*. It's a common practice to fix an operator and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
