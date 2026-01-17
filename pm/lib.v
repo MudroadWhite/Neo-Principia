@@ -12,6 +12,8 @@ Export ClassicalFacts.
 Export PropExtensionality.
 Export String.
 
+(* TODO: redesign <[- x -]> in chapter 10, 11 and eliminate the repetitive definitions on them *)
+
 (* cf.p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
 Theorem eq_to_equiv : forall (P Q : Prop),
