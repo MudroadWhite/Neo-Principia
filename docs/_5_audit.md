@@ -9,7 +9,7 @@ We're aware that:
 - Completely translate primitive propositions written in natural language, into formalized Rocq proof, is **on plan**.
 - More to come...
 
-It has been a convention for formal verification people to attach an audit report for their projects, and we should have our own analogue.
+Every formal verification project comes with an audit report, and our analogue starts from below.
 
 ## What is the value of this project?
 This project aims to be a scythe to demystify a myth. This project is a small world to communicate, between theory and application, and between math, philosophy and computer science people. This project wraps up math and philosophical ideas, written down, organized and iterates like a software. This project shows the power of type-theory-based modern formal verifiers, with only mediocre technology being used. This project can potentially be an inspiration for Steam indie videogames, because making mediocre ideas into games is what these developers do.
