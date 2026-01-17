@@ -1,8 +1,5 @@
 # Mechanics of Principia Mathematica
 
-TODO: organize the mechanics in a chapter-splitted style
-
-## Overview
 We are building: 
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType". Support for instantiating individuals.
 - [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable. One theorem seems to be unprovable.
@@ -47,6 +44,8 @@ how PM is different from modern type theories:
 TODO: the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of ¬ and ∨
 
 ## The system
+
+TODO: organize the mechanics in a chapter-splitted style
 
 Elementary propositions are simple propositions connected with `¬` and `∨`.
 
