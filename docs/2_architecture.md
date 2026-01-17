@@ -11,7 +11,7 @@ Each chapter in Principia has a corresponded `.v` file. In the future, we might 
 
 Chapter 1 - 5, additionally with scattered proof pieces under `pm/misc`, are directly inherited from [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia).
 
-`lib.v` provides experimental features or necessary tools for all chapters to use.
+`lib.v` provides type signatures for notations in each chapter. It also provides other experimental features being used globally.
 
 All conventions introduced below applies after chapter 9.
 
