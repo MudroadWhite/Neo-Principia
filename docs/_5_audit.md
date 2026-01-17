@@ -23,7 +23,7 @@ The evaluation for this project is based on the following questions:
 
 We will start straightly into the commentaries, without reviewing the definitions of ideas in each chapter. Anatomy on ideas are performed in [mechanics](./3_mechanics.md).
 
-**Limits on Definitions**. In our soft embedding, we didn't express the *compositional* and *incremental* nature of Principia's definitions, described in [mechanics](./3_mechanics.md). "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
+**Limits on Definitions**. In our soft embedding, we didn't express the *compositional* and *incremental* nature of Principia, explained in [mechanics](./3_mechanics.md). "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
 
 **Chapter 9**.
 - formalized most of the theorems... 
