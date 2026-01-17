@@ -37,7 +37,6 @@ No.
 Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. 
 
 ## How well have you formalized?
-
 Which means 2 questions:
 
 - **How much have you formalized?** 172 - 94 = 78 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
