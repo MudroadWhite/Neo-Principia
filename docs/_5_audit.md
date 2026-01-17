@@ -20,7 +20,7 @@ Evaluation for Principia is based on the following questions:
 2. Are these ideas easy to be expressed in Rocq?
 3. Are proofs in each chapter complete? How much have it missed?
 
-Within which, anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
+Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
 
 **Definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
 
