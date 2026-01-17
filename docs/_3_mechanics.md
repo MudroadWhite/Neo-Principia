@@ -40,6 +40,12 @@ When we want to prove them, we start with a set of individuals like `P`, `Q`, `R
 (TODO: are individuals able to be changed in any time? )
 (TODO: refer to `architecture` chapter, and maybe update the corresponded part)
 
+how PM is different from modern type theories:
+1. individuals are not propositions(???)
+2. individuals can be substituted with more complex terms by infinite times(?TODO: check if there is some severe bug in formalization)
+
+TODO: the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of ¬ and ∨
+
 ## The system
 
 Elementary propositions are simple propositions connected with `¬` and `∨`.
@@ -50,12 +56,4 @@ TODO: polish as below
 3. `x^`, a function, is defined on an *already defined proposition* by abstracting all occurrences of `x` in the proposition. (Principia seems to be hasn't considered about the bound variables and free variables?) For example. if we have `x ∧ y`, then `(x ∧ y)x^` is a function that should be written now as `fun x => x ∧ y`.
 4. `Phi x` means the result of the application, of a function `Phi x^` onto a parameter `x`. Our function contains only 1 variable and ranges over elementary propositions.
 5. `∀` and `∃` are defined by directly and only quantifying over a function.
-
-how PM is different from modern type theories:
-1. No CH correspondence: propositions are not types, but they have types
-2. individuals are not propositions(???)
-3. individuals can be substituted with more complex terms by infinite times(?TODO: check if there is some severe bug in formalization)
-
-TODO: extend to descriptions and classes in the future; slightly compare to type systems
-
-TODO: the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of ¬ and ∨
+6. descriptions...
