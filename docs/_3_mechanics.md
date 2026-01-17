@@ -1,8 +1,4 @@
 # Mechanics of Principia Mathematica
-
-TODO: organize the mechanics in a chapter-splitted style
-
-## Overview
 We are building: 
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic support for a predicate called "IsSameType". Support for instantiating individuals.
 - [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable. One theorem seems to be unprovable.
@@ -11,15 +7,30 @@ We are building:
 - [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. One theorem seems to be unprovable.
 - [ ] \[WIP\]Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* statement. Theorems on them.
 
-## Chapter organization
-Principia Mathematica seems to define its concepts in an **incremental way**. That means:
-1. Some early chapters define some rough ideas and develop theorems on them
-2. Later chapters might refine some of these ideas and define different cases for the ideas. If previous chapter only considers animals, later chapters might divide animals into dogs and cats
-3. Correspondingly, theorems in previous chapters will be given new meanings in later chapters. This might suggest we use typeclasses and instances to "register" new meanings for later chapters if we want to correctly formalize Principia.
+## What is Principia Mathematica?
+Wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_of_type_theory) says Principia is a *ramified theory of types*. This gives us the impression that Principia is a big type system.
 
-We now proceed to explain how every math elements are being built, bottom-up, in Principia.
+We also have a type system, the default of most people, for Rocq. Propositions are elements of sets, functions are modeled with lambda calculus. The most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in ramified theory of types. Propositions are not types. Sometimes for brevity propositions are untyped. The inference is performed by rewriting on propositions, not on types. Type plays a much more auxiliary role, and ramified theory of types, is actually a rewriting system.
 
-## The system
+We now proceed to explain how everything is built up, bottom-up, in Principia.
+
+## How does Principia define everything?
+Different from most of the textbooks, Principia defines its concepts in a **compositional way**. In contrast to *`~ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`~` applied on an `∃` proposition should be defined as something*. It's a common practice to fix an operator and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
+
+Principia also defines in an **inheriting way**. That means:
+1. Some early chapters define rough ideas and propose their theorems. For example, we define what is an *animal*, and write down theorems about it.
+2. Later chapters refine the rough idea and split for different cases. We divide *animal*s into *dog*s and *cat*s.
+3. To prove a theorem in splitted cases, we might directly reuse the old theorems without any modifications. We directly use *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
+
+## How does Principia proof theorems?
+Principia designs its theorems in a **"practical way"**. Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
+
+Principia performs everything **one step at a time**. This automatically means functions in Principia are always "small-step". We don't need to concern things like free vs bounded variables to eliminate the ambiguity, because deduction takes one step at a time, and only when a guaranteed/hand-crafted candidate exist. Functions don't come with a scope, and an ad-hoc "scope" is defined for auxiliary purpose orthogonal to functions. See chapter 14 below.
+
+----------------
+
+UNFINISHED PIECES BELOW
+
 For every theorem, we have two ways to use it. One is we refer to it just like a "function", and another one is prove the theorem by inference.
 
 When we *refer* to the theorems, we are allowed to substitute every single literals with some new propositions, just like what you see in theorem provers.
@@ -29,6 +40,16 @@ When we want to prove them, we start with a set of individuals like `P`, `Q`, `R
 (TODO: are individuals able to be changed in any time? )
 (TODO: refer to `architecture` chapter, and maybe update the corresponded part)
 
+how PM is different from modern type theories:
+1. individuals are not propositions(???)
+2. individuals can be substituted with more complex terms by infinite times(?TODO: check if there is some severe bug in formalization)
+
+TODO: the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of ¬ and ∨
+
+## The system
+
+TODO: organize the mechanics in a chapter-splitted style
+
 Elementary propositions are simple propositions connected with `¬` and `∨`.
 
 TODO: polish as below
@@ -37,12 +58,4 @@ TODO: polish as below
 3. `x^`, a function, is defined on an *already defined proposition* by abstracting all occurrences of `x` in the proposition. (Principia seems to be hasn't considered about the bound variables and free variables?) For example. if we have `x ∧ y`, then `(x ∧ y)x^` is a function that should be written now as `fun x => x ∧ y`.
 4. `Phi x` means the result of the application, of a function `Phi x^` onto a parameter `x`. Our function contains only 1 variable and ranges over elementary propositions.
 5. `∀` and `∃` are defined by directly and only quantifying over a function.
-
-how PM is different from modern type theories:
-1. types are for propositions
-2. individuals are not types
-3. individuals can be substituted with more complex terms by infinite times(?TODO: check if there is some severe bug in formalization)
-
-TODO: extend to descriptions and classes in the future; slightly compare to type systems
-
-TODO: the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of ¬ and ∨
+6. descriptions...

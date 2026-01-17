@@ -5,7 +5,7 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 - Principia Mathematica has a stable version
 - Principia Mathematica is not textbook math
 - Formalized PM is a good textbook for verifiers
-- Formalizing PM feels like climbing a mountain
+- Formalizing PM feels like building an obelisk
 - Rocq doesn't need a lot of version updates
 
 ## Features
@@ -25,9 +25,9 @@ No.
 - Under our interpretation, a few places out of the vast seem to be unprovable!
 
 ## Can Principia Mathematica can be completely formalized?
-**Yes**: With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system with which all advanced mathematical idea are built on, formalizing PM is already theoretically accessible.
+**Yes**: With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system with which all advanced mathematical ideas are built on, formalizing PM is already theoretically accessible.
 
-**No**: Although math ideas in PM is supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts such as descriptions in chapter 14 have their icebergs under the tips. They question the dependency relationships between themselves and the rewriting system, which should be even different from what people will acknowledge in modern type systems. We need to explore the odds before correctly define a deep embedding. From a software engineer's perspective, *early optimization is the root of all evil*. By doing this we will also gather non-trivial, easy problems for other people to collaborate with.
+**No**: Although math ideas in PM are supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts such as descriptions in chapter 14 have their icebergs under the tips. They question the dependency relationships between themselves and the rewriting system, which should be even different from what people will acknowledge in modern type systems. We need to explore the odds before correctly define a deep embedding. From a software engineer's perspective, *early optimization is the root of all evil*. By doing this we will also gather non-trivial, easy problems for other people to collaborate with.
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far:
 1. PM has a notorious notation system.
@@ -36,12 +36,11 @@ No.
 
 Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. 
 
-## How well have your formalized?
-
+## How well have you formalized?
 Which means 2 questions:
 
-- **How much have you formalized?** (172 - 94) = 78 pages. See also [mechanics](./docs/3_mechanics.md) for detailed discussions.
-- **How deep can you formalize?** We won't give a formal embedding, as explained above. See also [audit](./docs/5_audit.md) for secondary limitations.
+- **How much have you formalized?** 172 - 94 = 78 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
+- **How deep can you formalize?** We won't construct the deep embedding, as explained above. See [audit](./docs/5_audit.md) for secondary limitations.
 
 ## Running the code
 Coq/Rocq version: 8.20.0, installed with the [opam](https://opam.ocaml.org/) environment:
@@ -67,4 +66,4 @@ IDEs for Coq/Rocq varies, but here is my preference:
 - Extension installed on VSCode, in its remote WSL environment: VSCoq v0.3.7 from [OpenVSX](https://open-vsx.org/extension/maximedenes/vscoq).
 
 ## To contribute
-Although I have tried to organize the issues well to indicate the current progress, I am not used to collaborate with others. It's suggested to open an new issue for inquiries, and I'll see what I can give.
+Although I have tried to organize the issues well to indicate the current progress, I haven't considered seriously on collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
