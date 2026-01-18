@@ -96,20 +96,17 @@ Proof.
     (iota_f s2 Psi (fun c =>
       exists b, (Phi x <[- x -]> (x = b)) ∧ f b c))).
   {
-    replace (λ c : Prop, iota_f s1 Phi (λ b : Prop, f (Iota s1 b) (Iota s2 c)))
-      with (λ c : Prop, iota_f s1 Phi (λ b : Prop, f b c))
-      in S1 by reflexivity.
+    replace (λ c, iota_f s1 Phi (λ b, f (Iota s1 b) (Iota s2 c)))
+    with (λ c, iota_f s1 Phi (λ b, f b c))
+    in S1 by reflexivity.
     (* Simplification: this place needs functional extentionality for our designed 
     notation of iota. Seems like the only way to survive *)
-    assert (S1_1:
-      (λ c : Prop, iota_f s1 Phi (λ b : Prop, f b c))
-      =
-      (λ c : Prop, (exists b, (Phi x <[- x -]> (x = b)) ∧ f b c))).
+    assert (S1_1 : (λ c, iota_f s1 Phi (λ b, f b c))
+      = (λ c, (exists b, (Phi x <[- x -]> (x = b)) ∧ f b c))).
     {
       extensionality c. (* function extentionality *)
       pose proof (n14_1 s1 Phi (fun b => f b c)) as n14_1.
-      apply propositional_extensionality.
-      exact n14_1.
+      now apply propositional_extensionality.
     }
     now rewrite -> S1_1 in S1.
   }
@@ -147,17 +144,38 @@ Proof.
   assert (S1 : (iota_f2 s1 s2 Phi Psi f) ↔ (iota_f s1 Phi 
     (fun b => iota_f s2 Psi (fun c => f (Iota s1 b) (Iota s2 c))))).
   {
-    
+    pose proof (n4_2 (iota_f2 s1 s2 Phi Psi f)) as n4_2.
+    now rewrite -> n14_03 in n4_2 at 2.
   }
-  (* 2nd step: replace one iota with an `exists` *)
-  (* 3rd step: replacec the other iota with an `exists` *)
-  (* final: maybe some reordering and conclude the proof *)
+  assert (S2 : (iota_f2 s1 s2 Phi Psi f) ↔ (iota_f s1 Phi (fun b => 
+    exists c, (Psi x <[- x -]> (x = c)) /\ f b c))).
+  {
+    replace ((λ b, iota_f s2 Psi
+      (λ c, f (Iota s1 b) (Iota s2 c))))
+    with (λ b, iota_f s2 Psi (λ c, f b c))
+    in S1 by reflexivity.
+    assert (S1_1 : (λ b, iota_f s2 Psi (λ c : Prop, f b c))
+      = (λ b, exists c, (Psi x <[- x -]> (x = c)) /\ f b c)).
+    {
+      extensionality b.
+      pose proof (n14_1 s2 Psi (fun c => f b c)) as n14_1. 
+      now apply propositional_extensionality.
+    }
+    now rewrite -> S1_1 in S1.
+  }
+  assert (S3 : (iota_f2 s1 s2 Phi Psi f) ↔ exists b, 
+    (Phi x <[- x -]> x = b) ∧ (exists c, (Psi x <[- x -]> x = c) ∧ f b c)).
+  { now rewrite -> n14_1 in S2. } 
+  assert (S4 : (iota_f2 s1 s2 Phi Psi f) ↔ exists b c, 
+    (Phi x <[- x -]> x = b) ∧ (Psi x <[- x -]> x = c) ∧ f b c).
+  { admit. }
 Admitted.
 
 Theorem n14_113 (s1 s2 : string) (Phi Psi : Prop → Prop) 
   (f : Prop → Prop → Prop) : 
   iota_f2 s2 s1 Psi Phi (fun y x => f x y) ↔ iota_f2 s1 s2 Phi Psi f. 
 Proof.
+  
 Admitted.
 
 Open Scope double_app_equiv.
