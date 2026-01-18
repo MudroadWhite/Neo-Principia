@@ -175,13 +175,16 @@ Theorem n14_113 (s1 s2 : string) (Phi Psi : Prop → Prop)
   (f : Prop → Prop → Prop) : 
   iota_f2 s2 s1 Psi Phi (fun y x => f x y) ↔ iota_f2 s1 s2 Phi Psi f. 
 Proof.
-  
-Admitted.
+  pose proof (n14_111 s1 s2 Phi Psi f) as n14_111.
+  rewrite <- (n14_112 s1 s2) in n14_111.
+  now rewrite -> n14_04 in n14_111.
+Qed.
 
 Open Scope double_app_equiv.
 
 Theorem n14_12 (Phi : Prop → Prop) : 
   iota_E Phi → ((Phi x ∧ Phi y) <[- x y -]> (x = y)).
+Proof.
 Admitted.
 
 Close Scope double_app_equiv.
@@ -189,6 +192,7 @@ Close Scope double_app_equiv.
 Theorem n14_121 (B C : Prop) (Phi : Prop → Prop) : 
   ((Phi x <[- x -]> x = B) ∧ (Phi x <[- x -]> x = C))
   → B = C. 
+Proof.
 Admitted.
 
 Open Scope single_app_impl.
@@ -197,6 +201,7 @@ Theorem n14_122 (B : Prop) (Phi : Prop → Prop) :
   ((Phi x <[- x -]> x = B) ↔ ((Phi x -[ x ]> x = B) ∧ Phi B))
   ∧
   (((Phi x -[ x ]> x = B) ∧ Phi B) ↔ ((Phi x -[ x ]> x = B) ∧ exists x, Phi x)). 
+Proof.
 Admitted.
 
 Open Scope double_app_equiv.
@@ -208,7 +213,8 @@ Theorem n14_123 (X Y : Prop) (Phi : Prop → Prop → Prop) :
   ∧
   (((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y)
     ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ exists z w, Phi z w)).
-Admitted.
+Proof.
+  Admitted.
 
 (* TODO: 4-var impl notation will be supported in the future *)
 Theorem n14_124 (Phi : Prop → Prop → Prop) : 
@@ -219,23 +225,27 @@ Theorem n14_124 (Phi : Prop → Prop → Prop) :
 Theorem n14_13 (A : Prop) (Phi : Prop → Prop) : 
   (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x)))
   ↔ (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = A)). 
+Proof.
 Admitted.
 
 Theorem n14_131 (Phi Psi : Prop → Prop) : 
   iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
   ↔
   iota_f2 "Psi" "Phi" Psi Phi (fun x y => (Iota "Psi" x) = (Iota "Phi" y)). 
+Proof.
 Admitted.
 
 Theorem n14_131_alt (Phi Psi : Prop → Prop) : 
   iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
   ↔
   iota_f2 "Psi" "Phi" Psi Phi (fun x y => (Iota "Psi" x) = (Iota "Phi" y)). 
+Proof.
 Admitted.
 
 Theorem n14_14 (A B : Prop) (Phi : Prop → Prop) :
   ((A = B) ∧ (iota_f "Phi" Phi (fun x => B = (Iota "Phi" x))))
   → (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x))).
+Proof.
 Admitted.
 
 Theorem n14_142 (A : Prop) (Phi Psi : Prop → Prop) :
@@ -243,24 +253,28 @@ Theorem n14_142 (A : Prop) (Phi Psi : Prop → Prop) :
     ∧ iota_f2 "Phi" "Psi" Phi Psi 
       (fun x y => (Iota "Phi" x) = (Iota "Psi" y)))
   → (iota_f "Psi" Psi (fun x => A = (Iota "Psi" x))).
+Proof.
 Admitted.
 
 Theorem n14_144 (Phi Psi Chi : Prop → Prop) : 
   ((iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y)))
     ∧ (iota_f2 "Psi" "Chi" Psi Chi (fun x y => (Iota "Psi" x) = (Iota "Chi" y))))
   → (iota_f2 "Phi" "Chi" Phi Chi (fun x y => (Iota "Phi" x) = (Iota "Chi" y))).
+Proof.
 Admitted.
 
 Theorem n14_145 (A : Prop) (Phi Psi : Prop → Prop) : 
   ((iota_f "Phi" Phi (fun x => A = (Iota "Phi" x))) 
     ∧ (iota_f "Psi" Psi (fun x => A = (Iota "Psi" x))))
   → (iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))).
+Proof.
 Admitted.
 
 Theorem n14_15 (B : Prop) (Phi Psi : Prop → Prop) : 
   (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B))
   → (iota_f "Phi" Phi (fun x => Psi (Iota "Phi" x))
     ↔ Psi B).
+Proof.
 Admitted.
 
 Theorem n14_16 (Phi Psi Chi : Prop → Prop) :
@@ -268,6 +282,7 @@ Theorem n14_16 (Phi Psi Chi : Prop → Prop) :
   →
   (iota_f2 "Phi" "Psi" Phi Psi (fun x y => 
     (Chi (Iota "Phi" x)) = (Chi (Iota "Psi" y)))).
+Proof.
 Admitted.
 
 Theorem n14_17 (B : Prop) (Phi : Prop → Prop) : 
@@ -275,6 +290,7 @@ Theorem n14_17 (B : Prop) (Phi : Prop → Prop) :
   ↔
   (forall Psi : Predicate 1, iota_f "Phi" Phi (fun x =>
     Psi (Iota "Phi" x) ↔ Psi B)).
+Proof.
 Admitted.
 
 Theorem n14_171 (B : Prop) (Phi : Prop → Prop) : 
@@ -282,19 +298,23 @@ Theorem n14_171 (B : Prop) (Phi : Prop → Prop) :
   ↔
   (forall Psi : Predicate 1, iota_f "Phi" Phi (fun x =>
     Psi B → Psi (Iota "Phi" x))).
+Proof.
 Admitted.
 
 Theorem n14_18 (Phi Psi : Prop → Prop) :
   iota_E Phi → (forall x, Psi x → iota_f "Phi" Phi (fun x =>
     Psi (Iota "Phi" x))).
+Proof.
 Admitted.
 
 Theorem n14_2 (X A : Prop) : 
   (iota_f "=a" (fun x => x = A)
     (fun y => (Iota "=a" y) = A)).
+Proof.
 Admitted.
 
 Theorem n14_201 (Phi : Prop → Prop) : iota_E Phi → exists x, Phi x. 
+Proof.
 Admitted.
 
 Theorem n14_202 (B : Prop) (Phi : Prop → Prop) : 
@@ -303,69 +323,85 @@ Theorem n14_202 (B : Prop) (Phi : Prop → Prop) :
   ((iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B)) ↔ (Phi x <[- x -]> B = x))
   ∧
   ((Phi x <[- x -]> B = x) ↔ (iota_f "Phi" Phi (fun x => B = (Iota "Phi" x)))).
+Proof.
 Admitted.
 
 Theorem n14_203 (Phi : Prop → Prop) : iota_E Phi 
   ↔ ((exists x, Phi x) ∧ ((Phi x ∧ Phi y)) -[ x y ]> (x = y)).
+Proof.
 Admitted.
 
 Theorem n14_204 (B : Prop) (Phi : Prop → Prop) : iota_E Phi 
   ↔ exists b, (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = b)).
+Proof.
 Admitted.
 
 Theorem n14_205 (Phi Psi : Prop → Prop) : (iota_f "Phi" Phi Psi)
   ↔ exists b, (iota_f "Phi" Phi (fun x => b = (Iota "Phi" x))) ∧ Psi b.
+Proof.
 Admitted.
 
 Theorem n14_21 (Phi Psi : Prop → Prop) : (iota_f "Phi" Phi Psi) → iota_E Phi.
+Proof.
 Admitted.
 
 Theorem n14_22 (Phi : Prop → Prop) : iota_E Phi ↔ iota_f "Phi" Phi Phi.
+Proof.
 Admitted.
 
 Theorem n14_23 (Phi Psi : Prop → Prop) : iota_E (fun x => Phi x ∧ Psi x) 
   ↔ iota_f "Phi x ∧ Psi x" (fun x => Phi x ∧ Psi x) Phi.
+Proof.
 Admitted.
 
 Theorem n14_24 (Phi : Prop → Prop) : iota_E Phi 
   ↔ iota_f "Phi" Phi (fun x => Phi y <[- y -]> y = (Iota "Phi" x)).
+Proof.
 Admitted.
 
 Theorem n14_241 (Phi : Prop → Prop) : iota_E Phi 
   → (Phi y <[- y -]> iota_f "Phi" Phi (fun x => y = (Iota "Phi" x))).
+Proof.
 Admitted.
 
 Theorem n14_242 (B : Prop) (Phi Psi : Prop → Prop) : (Phi x <[- x -]> x = B)
   → (Psi B ↔ iota_f "Phi" Phi Psi).
+Proof.
 Admitted.
 
 Theorem n14_25 (Phi Psi : Prop → Prop) : iota_E Phi 
   → ((Phi x <[- x -]> Psi x) ↔ iota_f "Phi" Phi Psi).
+Proof.
 Admitted.
 
 Theorem n14_26 (Phi Psi : Prop → Prop) : iota_E Phi 
   → exists x, ((Phi x ∧ Psi x) ↔ iota_f "Phi" Phi Psi)
     ∧ ((iota_f "Phi" Phi Psi) ↔ (Phi x <[- x -]> Psi x)).
+Proof.
 Admitted.
 
 Theorem n14_27 (Phi Psi : Prop → Prop) : iota_E Phi 
   → ((Phi x <[- x -]> Psi x) 
     ↔ iota_f2 "Phi" "Psi" Phi Psi (fun x y =>
       (Iota "Phi" x) = (Iota "Psi" y))).
+Proof.
 Admitted.
 
 Theorem n14_271 (Phi Psi : Prop → Prop) : (Phi x <[- x -]> Psi x)
   → ((iota_E Phi) ↔ (iota_E Psi)).
+Proof.
 Admitted.
 
 Theorem n14_272 (Phi Psi Chi : Prop → Prop) : (Phi x <[- x -]> Psi x)
   → (iota_f2 "Phi" "Psi" Phi Psi (fun x y =>
     Chi (Iota "Phi" x) ↔ Chi (Iota "Psi" y))).
+Proof.
 Admitted.
 
 Theorem n14_28 (Phi : Prop → Prop) : iota_E Phi
   ↔ (iota_f2 "Phi" "Phi" Phi Phi (fun x y =>
     (Iota "Phi" x) = (Iota "Phi" y))).
+Proof.
 Admitted.
 
 Theorem n14_3 (Phi Chi f : Prop → Prop) : 
@@ -373,37 +409,44 @@ Theorem n14_3 (Phi Chi f : Prop → Prop) :
   →
   ((f (iota_f "Phi" Phi Chi)) ↔ iota_f "Phi" Phi (fun x =>
     f (Chi (Iota "Phi" x)))).
+Proof.
 Admitted.
 
 Theorem n14_31 (P : Prop) (Phi Chi : Prop → Prop) : iota_E Phi
   → ((iota_f "Phi" Phi (fun x => P ∨ Chi (Iota "Phi" x)))
     ↔ P ∨ (iota_f "Phi" Phi Chi)).
+Proof.
 Admitted.
 
 Theorem n14_32 (Phi Chi : Prop → Prop) : iota_E Phi
   ↔ ((iota_f "Phi" Phi (fun x => ~ Chi (Iota "Phi" x)))
     ↔ ~ (iota_f "Phi" Phi Chi)).
+Proof.
 Admitted.
 
 Theorem n14_33 (P : Prop) (Phi Chi : Prop → Prop) : iota_E Phi
   → ((iota_f "Phi" Phi (fun x => P → Chi (Iota "Phi" x)))
     ↔ (P → iota_f "Phi" Phi Chi)).
+Proof.
 Admitted.
 
 (* Is there a typo in this proposition? An identitical conclusion? *)
 Theorem n14_331 (P : Prop) (Phi Chi : Prop → Prop) : iota_E Phi
   → ((iota_f "Phi" Phi (fun x => Chi (Iota "Phi" x) → P))
     ↔ (iota_f "Phi" Phi (fun x => Chi (Iota "Phi" x) → P))).
+Proof.
 Admitted.
 
 Theorem n14_332 (P : Prop) (Phi Chi : Prop → Prop) : iota_E Phi
   → ((iota_f "Phi" Phi (fun x => P ↔ Chi (Iota "Phi" x)))
     ↔ (P ↔ (iota_f "Phi" Phi Chi))).
+Proof.
 Admitted.
 
 Theorem n14_34 (P : Prop) (Phi Chi : Prop → Prop) : 
   (P ∧ iota_f "Phi" Phi Chi) ↔ iota_f "Phi" Phi (fun x =>
     P ∧ Chi (Iota "Phi" x)).
+Proof.
 Admitted.
 
 Close Scope single_app_equiv.
