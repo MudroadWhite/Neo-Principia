@@ -185,6 +185,32 @@ Open Scope double_app_equiv.
 Theorem n14_12 (Phi : Prop → Prop) : 
   iota_E Phi → ((Phi x ∧ Phi y) <[- x y -]> (x = y)).
 Proof.
+  (* TOOLS *)
+  set (B := Individual "b").
+  set (X := Individual "x").
+  (* ******** *)
+  assert (S1 : iota_E Phi -> exists b, Phi x <[- x -]> x = b).
+  {
+    pose proof (n14_11 Phi) as n14_11.
+    (* simplification: we use `Simp` if necessary *)
+    now destruct n14_11.
+  }
+  assert (S2 : (Phi x <[- x -]> x = B) 
+    -> ((Phi x /\ Phi y) <[- x y -]> (x = B /\ y = B))).
+  {
+    Close Scope single_app_equiv.
+    pose proof n4_38 as _n4_38.
+    (* NOTE: this place shows that we cannot assign a instance 
+    automatically: in this complicated situation we are having 
+    candidates being not unique. Might be interesting to check 
+    in the future... *)
+    pose proof (n4_38
+      (Phi X) (Phi X) (X = B) (X = B)) as n4_38.
+    pose proof n10_1 as n10_1.
+    pose proof n11_11 as n11_11.
+    pose proof n11_3 as n11_3.
+  }
+
 Admitted.
 
 Close Scope double_app_equiv.
