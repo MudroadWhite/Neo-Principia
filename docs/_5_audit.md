@@ -40,10 +40,6 @@ TODO:
 
 ### Chapter 10
 
-----------------
-
-UNFINISHED PIECES BELOW
-
 TODO:
 - chapter 9, ... chapter 11: nice
 - chapter 13 14: can be verified with larger tweaks; notation is annoying
