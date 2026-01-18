@@ -27,6 +27,7 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start stra
 
 ### Chapter 9
 **General.** 
+TODO:
 - Completeness: nice
 - formal parts: formalized all the theorems but they are useless
 - Informal parts: can be formalized but cannot be used
