@@ -22,17 +22,26 @@ Evaluation for Principia is based on the following questions:
 
 Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
 
+### Basic setup
 **Definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
 
-TODO: designs of functions, types for parameters and them, Prop -> Prop ...
+### Chapter 9
+**General.** 
+- Completeness: nice
+- formal parts: formalized all the theorems but they are useless
+- Informal parts: can be formalized but cannot be used
+
+**Tech detail: functions.** The introduction of function in this chapter allows construction for `forall` and `exists`. We discover that
+TODO: 
+- types for lhs parameters: haven't examined seriously
+- functions can be abstracted in more than one way(ch14), therefore abstraction cannot be automated 
+- which further rejects Rocq to automatically instantiate theorems
+
+### Chapter 10
 
 ----------------
 
 UNFINISHED PIECES BELOW
-
-**Chapter 9.**
-- formalized most of the theorems... 
-- but useless anyways
 
 TODO:
 - chapter 9, ... chapter 11: nice
