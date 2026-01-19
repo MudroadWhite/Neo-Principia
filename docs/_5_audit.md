@@ -15,19 +15,20 @@ Every formal verification project comes with an audit report, and our analogue s
 This project aims to be a scythe to demystify a myth. This project is a small world to communicate, between theory and application, and between math, philosophy and computer science people. This project wraps up math and philosophical ideas, written down, organized and iterates like a software. This project shows the power of type-theory-based modern formal verifiers, with only mediocre technology being used. This project can potentially be an inspiration for Steam indie videogames, because making mediocre ideas into games is what these developers do.
 
 ## The evaluation
-Evaluation for Principia is based on the following questions:
-1. For each chapter, what are the new ideas being brought up?
-2. Are these ideas easy to be expressed in Rocq?
-3. Are proofs in each chapter complete? How much have it missed?
+Evaluation for each of the chapter is based on the following questions:
+1. Anatomy: What are the new ideas being brought up?
+2. Feasibility: Are they easy to be expressed in Rocq?
+3. Coverage: How much % of propositions can we formalize, and what is missing?
 
 Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
 
 ### Basic setup
 **Definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
 
+TODO - all this below should be filled after ch14 is formalized:
+
 ### Chapter 9
 **General.** 
-TODO:
 - Completeness: nice
 - formal parts: formalized all the theorems but they are useless
 - Informal parts: can be formalized but cannot be used
@@ -39,7 +40,6 @@ TODO:
 - which further rejects Rocq to automatically instantiate theorems
 
 ### Chapter 10
-
 TODO:
 - chapter 9, ... chapter 11: nice
 - chapter 13 14: can be verified with larger tweaks; notation is annoying
