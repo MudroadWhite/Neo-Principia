@@ -184,7 +184,7 @@ Open Scope double_app_equiv.
 Open Scope double_app_impl.
 
 Theorem n14_12 (Phi : Prop → Prop) : 
-  iota_E Phi → ((Phi x ∧ Phi y) <[- x y -]> (x = y)).
+  iota_E Phi → ((Phi x ∧ Phi y) -[ x y ]> (x = y)).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
@@ -228,12 +228,18 @@ Proof.
     now Syll S2_2l n13_172 S3.
   }
   assert (S4 : (exists b, (Phi x <[- x -]> (x = b)))
-    -> ((Phi x /\ Phi y) <[- x y -]> (x = y))).
+    -> ((Phi x /\ Phi y) -[ x y ]> (x = y))).
   {
-  
+    pose proof (n10_11 B (fun b =>
+      Phi x <[- x -]> x = b  →  (Phi x ∧ Phi y) -[ x y ]> (x = y)
+      )) as n10_11.
+    MP n10_11 S3.
+    now rewrite -> n10_23 in n10_11.
   }
-
-Admitted.
+  assert (S5 : iota_E Phi → ((Phi x ∧ Phi y) -[ x y ]> (x = y))).
+  { now Syll S1 S4 S5. }
+  exact S5.
+Qed.
 
 Close Scope double_app_equiv.
 
