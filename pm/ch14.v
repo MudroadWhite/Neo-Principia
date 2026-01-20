@@ -181,6 +181,7 @@ Proof.
 Qed.
 
 Open Scope double_app_equiv.
+Open Scope double_app_impl.
 
 Theorem n14_12 (Phi : Prop → Prop) : 
   iota_E Phi → ((Phi x ∧ Phi y) <[- x y -]> (x = y)).
@@ -198,17 +199,38 @@ Proof.
   assert (S2 : (Phi x <[- x -]> x = B) 
     -> ((Phi x /\ Phi y) <[- x y -]> (x = B /\ y = B))).
   {
-    Close Scope single_app_equiv.
-    pose proof n4_38 as _n4_38.
     (* NOTE: this place shows that we cannot assign a instance 
     automatically: in this complicated situation we are having 
     candidates being not unique. Might be interesting to check 
     in the future... *)
     pose proof (n4_38
       (Phi X) (Phi X) (X = B) (X = B)) as n4_38.
-    pose proof n10_1 as n10_1.
-    pose proof n11_11 as n11_11.
-    pose proof n11_3 as n11_3.
+    rewrite <- n4_24 in n4_38.
+    pose proof (n10_1 (fun x => (Phi x <-> x = B)) X) as n10_1.
+    Syll n10_1 n4_38 Sa.
+    pose proof (n11_11 X X (fun z w => 
+      (∀ x : Prop, Phi x ↔ x = B) →
+      (Phi z ∧ Phi w ↔ z = B ∧ w = B))) as n11_11.
+    MP n11_11 Sa.
+    now rewrite <- n11_3 in n11_11.
+  }
+  assert (S3 : (Phi x <[- x -]> x = B) 
+  -> ((Phi x /\ Phi y) -[ x y ]> (x = y))).
+  {
+    intros Hp.
+    pose proof (S2 Hp) as S2_1.
+    (* simplifications... don't want to figure out how to do 
+    it correctly atm *)
+    intros x y.
+    pose proof (S2_1 x y) as S2_2.
+    destruct S2_2 as [S2_2l S2_2r]. clear S2_2r.
+    pose proof (n13_172 B x y) as n13_172.
+    now Syll S2_2l n13_172 S3.
+  }
+  assert (S4 : (exists b, (Phi x <[- x -]> (x = b)))
+    -> ((Phi x /\ Phi y) <[- x y -]> (x = y))).
+  {
+  
   }
 
 Admitted.
