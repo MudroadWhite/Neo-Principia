@@ -247,6 +247,39 @@ Theorem n14_121 (B C : Prop) (Phi : Prop → Prop) :
   ((Phi x <[- x -]> x = B) ∧ (Phi x <[- x -]> x = C))
   → B = C. 
 Proof.
+  assert (S1 : ((Phi x <[- x -]> x = B) ∧ (Phi x <[- x -]> x = C))
+    -> ((Phi B <-> (B = B)) /\ (Phi B <-> (B = C)))).
+  {
+    pose proof (n10_1 (fun x => Phi x <-> (x = B)) B) as n10_1a.
+    pose proof (n10_1 (fun x => Phi x <-> (x = C)) B) as n10_1b.
+    Conj n10_1a n10_1b C1.
+    pose proof (n3_47
+      (Phi x<[-x-]>x = B) (Phi x<[-x-]>x = C)
+      (Phi B <-> (B = B)) (Phi B <-> (B = C))
+    ) as n3_47.
+    now MP n3_47 C1.
+  }
+  assert (S2 : ((Phi x <[- x -]> x = B) ∧ (Phi x <[- x -]> x = C))
+    -> (Phi B /\ (Phi B <-> (B = C)))).
+  {
+    (* I don't know why *13.15 is being used here in such a way *)
+    pose proof n13_15.
+    admit.
+  }
+  assert (S3 : ((Phi x <[- x -]> x = B) ∧ (Phi x <[- x -]> x = C))
+    -> (B = C)).
+  {
+    (* Simplifications... *)
+    intro Hp.
+    pose proof (S2 Hp) as S2_1.
+    destruct S2_1 as [A1 A2].
+    destruct A2 as [A2l A2r]. clear A2r.
+    Conj A1 A2l S2_2.
+    pose proof Ass3_35 as _Ass3_35.
+    pose proof (Ass3_35 (Phi B) (B = C)) as Ass3_35.
+    now MP Ass3_35 S2_2.
+  }
+  exact S3.
 Admitted.
 
 Open Scope single_app_impl.
@@ -256,6 +289,7 @@ Theorem n14_122 (B : Prop) (Phi : Prop → Prop) :
   ∧
   (((Phi x -[ x ]> x = B) ∧ Phi B) ↔ ((Phi x -[ x ]> x = B) ∧ exists x, Phi x)). 
 Proof.
+  
 Admitted.
 
 Open Scope double_app_equiv.
