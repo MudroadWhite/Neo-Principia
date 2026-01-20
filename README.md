@@ -19,7 +19,7 @@ Compatability.
 No. 
 
 - This depends on how much and deep you interpret the terms. There exist ideas expressed in natural language, not with formulae. They will be written as comments in our code.
-- The design of `Ltac` isn't good(to be more exact, `match` doesn't work as one might think), so that even successful `Qed`s are nevertheless false positives. Actually, I have caught several bugs in the repo from this issue.
+- Successful `Qed`s are still false positives, due to a lot of delicate details. For example, `Ltac` isn't well designed, important details are not expressed in propositions, etc.. I have caught several bugs in the repo because of them.
 - Our designs on notations still rely on manual checks.
 - I didn't deeply examine the code in chapter 1 - 5.
 - Under our interpretation, a few places out of the vast seem to be unprovable!
@@ -39,7 +39,7 @@ Our current expectation is successfully express everything **before chapter 14**
 ## How well have you formalized?
 Which means 2 questions:
 
-- **How much have you formalized?** 172 - 94 = 78 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
+- **How much have you formalized?** 176 - 94 = 82 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
 - **How deep can you formalize?** We won't construct the deep embedding, as explained above. See [audit](./docs/5_audit.md) for secondary limitations.
 
 ## Running the code
