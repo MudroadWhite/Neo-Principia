@@ -43,3 +43,4 @@ TODO:
 TODO:
 - chapter 9, ... chapter 11: nice
 - chapter 13 14: can be verified with larger tweaks; notation is annoying
+- chapter 13: technically doesn't have support for quantifiers, but is required in later chapters
