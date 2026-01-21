@@ -355,6 +355,10 @@ Theorem n14_123 (X Y : Prop) (Phi : Prop → Prop → Prop) :
   (((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y)
     ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ exists z w, Phi z w)).
 Proof.
+  (* TOOLS *)
+  set (Z := Individual "z").
+  set (W := Individual "w").
+  (* ******** *)
   assert (S1 : (Phi z w <[- z w -]> (z = X ∧ w = Y)) 
     <-> ((Phi z w -[ z w ]> (z = X ∧ w = Y)) 
       /\ (((z = X ∧ w = Y) -[ z w ]> Phi z w)))).
@@ -362,7 +366,6 @@ Proof.
     pose proof (n11_31 
       (fun z w => Phi z w -> (z = X ∧ w = Y))
       (fun z w => ((z = X ∧ w = Y) -> Phi z w))) as n11_31a.
-    simpl in n11_31a.
     symmetry in n11_31a.
     (* Seems like the `Equiv` here isn't supported very well *)
     (* rewrite <- Equiv4_01 in n11_31a. *)
@@ -370,9 +373,11 @@ Proof.
   }
   assert (S2 : (Phi z w <[- z w -]> (z = X ∧ w = Y)) 
     <-> ((Phi z w -[ z w ]> (z = X ∧ w = Y)) /\ Phi X Y)).
+  { now rewrite -> n13_21 in S1. }
+  assert (S3 : (Phi Z W -> ((Z = X) /\ (W = Y)))
+    -> (Phi Z W <-> (Phi Z W /\ (Z = X) /\ (W = Y)))).
   {
-    pose proof n13_21 as n13_21.
-
+    pose proof n4_71.
   }
 Admitted.
 
