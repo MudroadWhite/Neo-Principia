@@ -11,8 +11,8 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 ## Features
 Compatability.
 
-- "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. Forward style reasoning, as in original Principia's proof.
-- Clear proof architecture and clean, maybe beautiful proof window.
+- "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics.
+- Forward style reasoning as appeared in original Principia. Clear proof architecture and clean, maybe beautiful proof window.
 - [Documented](./docs/README.md) and with [slides](./slides/).
 
 ## Can you make sure that the code/proof is 100% correct?
