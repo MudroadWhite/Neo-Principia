@@ -285,12 +285,65 @@ Admitted.
 Open Scope single_app_impl.
 
 Theorem n14_122 (B : Prop) (Phi : Prop → Prop) :
-  ((Phi x <[- x -]> x = B) ↔ ((Phi x -[ x ]> x = B) ∧ Phi B))
+  ((Phi x <[- x -]> (x = B)) ↔ ((Phi x -[ x ]> (x = B)) ∧ Phi B))
   ∧
-  (((Phi x -[ x ]> x = B) ∧ Phi B) ↔ ((Phi x -[ x ]> x = B) ∧ exists x, Phi x)). 
+  (((Phi x -[ x ]> (x = B)) ∧ Phi B) ↔ ((Phi x -[ x ]> (x = B)) ∧ exists x, Phi x)). 
 Proof.
-  
-Admitted.
+  (* TOOLS *)
+  set (X := Individual "x").
+  (* ******** *)
+  assert (S1 : (Phi x <[- x -]> (x = B)) 
+    <-> ((Phi x -[ x ]> (x = B)) /\ ((x = B) -[ x ]> Phi x))).
+  { apply  n10_22. }
+  assert (S2 : (Phi x <[- x -]> (x = B)) 
+    <-> ((Phi x -[ x ]> (x = B)) /\ Phi B)).
+  {
+    pose proof (n13_191 B Phi) as n13_191.
+    now rewrite -> n13_191 in S1.
+  }
+  assert (S3 : (Phi X -> (X = B))
+    -> (Phi X <-> (Phi X /\ (X = B)))).
+  {
+    pose proof (n4_71 (Phi X) (X = B)) as n4_71.
+    now destruct n4_71.
+  }
+  assert (S4 : (Phi x -[ x ]> (x = B))
+    -> (Phi x <[- x -]> (Phi x /\ (x = B)))).
+  {
+    pose proof (n10_11 X (fun x =>
+      (Phi x -> (x = B)) -> (Phi x 
+        <-> (Phi x /\ (x = B))))) as n10_11.
+    MP n10_11 S3.
+    pose proof (n10_27 (fun x => Phi x -> (x = B))
+      (fun x => Phi x <-> (Phi x /\ (x = B)))) 
+      as n10_27.
+    now MP n10_27 n10_11.
+  }
+  assert (S5 : (Phi x -[ x ]> (x = B))
+    -> ((exists x, Phi x) <-> (exists x, Phi x /\ (x = B)))).
+  {
+    pose proof (n10_281 Phi (fun x => Phi x ∧ x = B)) 
+      as n10_281.
+    now Syll S4 n10_281 S5.
+  }
+  assert (S6 : (Phi x -[ x ]> (x = B)) -> ((exists x, 
+    Phi x) <-> Phi B)).
+  {
+    setoid_rewrite -> n4_3 in S5 at 2.
+    now rewrite -> n13_195 in S5.
+  }
+  assert (S7 : ((Phi x -[ x ]> (x = B)) /\ (exists x, Phi x))
+    <-> ((Phi x -[ x ]> (x = B)) /\ Phi B)).
+  { now rewrite -> n5_32 in S6. }
+  assert (S8 : ((Phi x <[- x -]> (x = B)) ↔ ((Phi x -[ x ]> (x = B)) ∧ Phi B))
+    ∧ (((Phi x -[ x ]> (x = B)) ∧ Phi B) 
+      ↔ ((Phi x -[ x ]> (x = B)) ∧ exists x, Phi x))).
+  {
+    clear S1 S3 S4 S5 S6.
+    now Conj S2 S7 S8.
+  }
+  exact S8.
+Qed.
 
 Open Scope double_app_equiv.
 Open Scope double_app_impl.
@@ -302,13 +355,34 @@ Theorem n14_123 (X Y : Prop) (Phi : Prop → Prop → Prop) :
   (((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y)
     ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ exists z w, Phi z w)).
 Proof.
-  Admitted.
+  assert (S1 : (Phi z w <[- z w -]> (z = X ∧ w = Y)) 
+    <-> ((Phi z w -[ z w ]> (z = X ∧ w = Y)) 
+      /\ (((z = X ∧ w = Y) -[ z w ]> Phi z w)))).
+  {
+    pose proof (n11_31 
+      (fun z w => Phi z w -> (z = X ∧ w = Y))
+      (fun z w => ((z = X ∧ w = Y) -> Phi z w))) as n11_31a.
+    simpl in n11_31a.
+    symmetry in n11_31a.
+    (* Seems like the `Equiv` here isn't supported very well *)
+    (* rewrite <- Equiv4_01 in n11_31a. *)
+    admit.
+  }
+  assert (S2 : (Phi z w <[- z w -]> (z = X ∧ w = Y)) 
+    <-> ((Phi z w -[ z w ]> (z = X ∧ w = Y)) /\ Phi X Y)).
+  {
+    pose proof n13_21 as n13_21.
+
+  }
+Admitted.
 
 (* TODO: 4-var impl notation will be supported in the future *)
 Theorem n14_124 (Phi : Prop → Prop → Prop) : 
   (exists x y, (Phi z w <[- z w -]> (z = x ∧ w = y)))
   ↔ ((exists x y, Phi x y) 
-    ∧ forall z w u v, (Phi z w ∧ Phi u v) → (z = w ∧ u = v)). Admitted.
+    ∧ forall z w u v, (Phi z w ∧ Phi u v) → (z = w ∧ u = v)). 
+Proof.
+Admitted.
 
 Theorem n14_13 (A : Prop) (Phi : Prop → Prop) : 
   (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x)))
