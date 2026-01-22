@@ -494,6 +494,47 @@ Proof.
     MP n11_11 S3.
     now rewrite -> n11_35 in n11_11.
   }
+  assert (S5 : (exists x y, Phi z w <[- z w -]> ((z = x) /\ (w = y)))
+    -> (forall z w u v, (Phi z w /\ Phi u v) -> ((z = u) /\ (w = v)))).
+  {
+    (* For 4 variables, the generalization has applied twice! *)
+    pose proof (n11_11 U V (fun u v =>
+      (exists x y, Phi z w <[- z w -]> ((z = x) /\ (w = y)))
+      -> (((Phi Z W) /\ (Phi u v)) -> ((Z = u) /\ (W = v))))) 
+      as n11_11a.
+    MP n11_11a S4.
+    rewrite <- n11_3 in n11_11a.
+    pose proof (n11_11 Z W (fun z w =>
+    (exists x y, Phi z w <[- z w -]> ((z = x) /\ (w = y)))
+      -> (forall u v, ((Phi z w) /\ (Phi u v)) -> ((z = u) /\ (w = v)))
+      )) as n11_11b.
+    MP n11_11b n11_11a.
+    now rewrite <- n11_3 in n11_11b.
+  }
+  assert (S6 : ((Phi X Y) /\ (forall z w u v, 
+    ((Phi z w) /\ (Phi u v)) -> ((z = u) /\ (w = v)))
+      -> ((Phi X Y) /\ ((Phi z w /\ Phi X Y) -[ z w ]> ((z = X) /\ (w = Y)))))).
+  {
+    (* The ordering here is annoying... *)
+    pose proof (n11_1 X Y (fun u v =>
+      (∀ z w, Phi z w ∧ Phi u v → z = u ∧ w = v))) as n11_1.
+    assert (A1 : (∀ x y z w : Prop, Phi z w ∧ Phi x y → z = x ∧ w = y)
+      <-> (∀ z w x y : Prop, Phi z w ∧ Phi x y → z = x ∧ w = y)).
+    { admit. }
+    rewrite -> A1 in n11_1.
+    pose proof (Fact3_45
+      (∀ z w x y : Prop, Phi z w ∧ Phi x y → z = x ∧ w = y)
+      ((Phi z w ∧ Phi X Y)-[ z w ]> z = X ∧ w = Y)
+      (Phi X Y)) as Fact3_45.
+    MP Fact3_45 n11_1.
+    rewrite -> n4_3 in Fact3_45.
+    replace (((Phi z w ∧ Phi X Y)-[ z w ]> z = X ∧ w = Y ) ∧ Phi X Y)
+      with (Phi X Y ∧ ((Phi z w ∧ Phi X Y)-[ z w ]> z = X ∧ w = Y))
+      in Fact3_45.
+    2: { apply propositional_extensionality; now rewrite -> n4_3. }
+    exact Fact3_45.
+  }
+  assert (S7 : )
 Admitted.
 
 Theorem n14_13 (A : Prop) (Phi : Prop → Prop) : 
