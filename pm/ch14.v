@@ -429,6 +429,71 @@ Theorem n14_124 (Phi : Prop → Prop → Prop) :
   ↔ ((exists x y, Phi x y) 
     ∧ forall z w u v, (Phi z w ∧ Phi u v) → (z = w ∧ u = v)). 
 Proof.
+  (* TOOLS *)
+  set (X := Individual "x").
+  set (Y := Individual "y").
+  set (Z := Individual "z").
+  set (W := Individual "w").
+  set (U := Individual "u").
+  set (V := Individual "v").
+  (* ******** *)
+  assert (S1 : (exists x y, (Phi z w <[- z w -]> (z = x ∧ w = y)))
+    -> exists x y, Phi x y).
+  { 
+    (* This can be done as in some previous chapter, but I 
+    don't want to fill out at the moment *)
+    pose proof n14_123 as n14_123.
+    pose proof Simp3_27 as Simp3_27.
+    admit.
+  }
+  assert (S2 : (Phi z w <[- z w -]> ((z = X) /\ (w = Y)))
+    -> (((Phi Z W) /\ (Phi U V))
+      -> (Z = X /\ W = Y /\ U = X /\ V = Y))).
+  {
+    pose proof (n11_1 Z W (fun z w =>
+      (Phi z w) <-> ((z = X) ∧ (w = Y)))) as n11_1a.
+    pose proof (n11_1 U V (fun z w =>
+      (Phi z w) <-> ((z = X) ∧ (w = Y)))) as n11_1b.
+    pose proof (n3_47 ) as n3_47.
+    (* Involves some very complicated treatments on destructing
+    and recombining the <->s. We might want to abstract such 
+    procedure into a new theorem *)
+    admit.
+  }
+  assert (S3 : (Phi z w <[- z w -]> ((z = X) /\ (w = Y)))
+    -> (((Phi Z W) /\ (Phi U V)) -> ((Z = U) /\ (W = V)))).
+  {
+    (* simplification: tedious reordering... *)
+    assert (S2_1 : (Z = X /\ W = Y /\ U = X /\ V = Y)
+      <-> ((Z = X /\ U = X) /\ (W = Y /\ V = Y))).
+    {
+      (* TODO: we need theorem for commutativity for /\ *)
+      admit. 
+    }
+    rewrite -> S2_1 in S2. clear S2_1.
+    pose proof (n13_172 X Z U) as n13_172a.
+    pose proof (n13_172 Y W V) as n13_172b.
+    pose proof (n3_47
+      (Z = X ∧ U = X) (W = Y ∧ V = Y)
+      (Z = U) (W = V)) as n3_47.
+    assert (C1 : (Z = X ∧ U = X → Z = U) ∧ (W = Y ∧ V = Y → W = V)).
+    { clear n3_47; now Conj n13_172a n13_172b C1. }
+    MP n3_47 C1.
+    (* simplification for syll *)
+    intros Hp.
+    pose proof (S2 Hp) as S2_2.
+    now Syll S2_2 n3_47 S3.
+  }
+  assert (S4 : (exists x y, Phi z w <[- z w -]> ((z = x) /\ (w = y)))
+    -> (((Phi Z W) /\ (Phi U V)) -> ((Z = U) /\ (W = V)))).
+  {
+    pose proof (n11_11 X Y (fun x y =>
+      (Phi z w <[- z w -]> ((z = x) /\ (w = y)))
+        -> (((Phi Z W) /\ (Phi U V)) -> ((Z = U) /\ (W = V))))) 
+      as n11_11.
+    MP n11_11 S3.
+    now rewrite -> n11_35 in n11_11.
+  }
 Admitted.
 
 Theorem n14_13 (A : Prop) (Phi : Prop → Prop) : 
