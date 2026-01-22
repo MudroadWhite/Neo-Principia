@@ -377,8 +377,50 @@ Proof.
   assert (S3 : (Phi Z W -> ((Z = X) /\ (W = Y)))
     -> (Phi Z W <-> (Phi Z W /\ (Z = X) /\ (W = Y)))).
   {
-    pose proof n4_71.
+    pose proof (n4_71 (Phi Z W) ((Z = X) /\ (W = Y))) as n4_71.
+    now destruct n4_71.
+  } 
+  assert (S4 : (Phi z w -[ z w ]> ((z = X) /\ (w = Y)))
+    -> (Phi z w <[- z w -]> (Phi z w /\ (z = X) /\ (w = Y)))).
+  {
+    pose proof (n11_11 Z W (fun z w =>
+      (Phi z w -> ((z = X) /\ (w = Y)))
+        -> (Phi z w <-> (Phi z w 
+          /\ (z = X) /\ (w = Y))))) as n11_11.
+    MP n11_11 S4.
+    pose proof (n11_32 (fun z w => Phi z w -> ((z = X) /\ (w = Y)))
+      (fun z w => Phi z w <-> (Phi z w 
+        /\ (z = X) /\ (w = Y)))) as n11_32.
+    now MP n11_32 n11_11.
   }
+  assert (S5 : (Phi z w -[ z w ]> ((z = X) /\ (w = Y)))
+    -> ((exists z w, Phi z w) <-> (exists z w, 
+      Phi z w /\ (z = X) /\ (w = Y)))).
+  {
+    pose proof (n11_341 Phi (fun z w => 
+      Phi z w /\ (z = X) /\ (w = Y))) as n11_341.
+    now Syll n11_341 S4 S5.
+  }
+  assert (S6 : (Phi z w -[ z w ]> ((z = X) /\ (w = Y)))
+    -> ((exists z w, Phi z w) <-> Phi X Y)).
+  {
+    setoid_rewrite -> n4_3 in S5 at 3.
+    setoid_rewrite -> n4_32 in S5.
+    now rewrite -> n13_22 in S5.
+  }
+  assert (S7 : ((Phi z w -[ z w ]> ((z = X) /\ (w = Y)))
+      /\ (exists z w, Phi z w)
+    <-> ((Phi z w -[ z w ]> (z = X /\ w = Y)) /\ Phi X Y))).
+  { now rewrite -> n5_32 in S6. }
+  assert (S8 : ((Phi z w <[- z w -]> (z = X ∧ w = Y)) 
+      ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y))
+    ∧ (((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y)
+      ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ exists z w, Phi z w))).
+  {
+    clear S1 S3 S4 S5 S6.
+    now Conj S2 S7 S8.
+  }
+  exact S8.
 Admitted.
 
 (* TODO: 4-var impl notation will be supported in the future *)
