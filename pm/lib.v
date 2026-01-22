@@ -81,6 +81,7 @@ https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
 https://randall-holmes.github.io/Drafts/notesonpm.pdf
 https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/
 https://nap.nationalacademies.org/read/10866/chapter/66
+https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
 
 ~p.14:
 - propositional function: the functions that we usually concern, like `Phi` `Psi` etc..
