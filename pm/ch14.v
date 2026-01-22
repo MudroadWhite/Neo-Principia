@@ -513,7 +513,7 @@ Proof.
   }
   assert (S6 : ((Phi X Y) /\ (forall z w u v, 
     ((Phi z w) /\ (Phi u v)) -> ((z = u) /\ (w = v)))
-      -> ((Phi X Y) /\ ((Phi z w /\ Phi X Y) -[ z w ]> ((z = X) /\ (w = Y)))))).
+      -> (Phi X Y /\ ((Phi z w /\ Phi X Y) -[ z w ]> ((z = X) /\ (w = Y)))))).
   {
     (* The ordering here is annoying... *)
     pose proof (n11_1 X Y (fun u v =>
@@ -534,7 +534,21 @@ Proof.
     2: { apply propositional_extensionality; now rewrite -> n4_3. }
     exact Fact3_45.
   }
-  assert (S7 : )
+  assert (S7 : ((Phi X Y) /\ (forall z w u v, 
+    ((Phi z w) /\ (Phi u v)) -> ((z = u) /\ (w = v))))
+    -> (Phi X Y /\ (Phi z w -[ z w ]> ((z = X) /\ (w = Y))))).
+  {
+    (* I don't think *5.33 can be directly applied here and we need
+    a quantified version *)
+    (* rewrite <- n5_33 in S6. *)
+    admit.
+  }
+  assert (S8 : ((Phi X Y) /\ (forall z w u v, 
+    ((Phi z w) /\ (Phi u v)) -> ((z = u) /\ (w = v))))
+    -> (Phi z w -[ z w ]> ((z = X) /\ (w = Y)))).
+  {
+    pose proof n14_123 as n14_123.
+  }
 Admitted.
 
 Theorem n14_13 (A : Prop) (Phi : Prop → Prop) : 
