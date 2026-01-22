@@ -13,7 +13,7 @@ Compatability.
 
 - [Documented](./docs/README.md) and with [slides](./slides/).
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics.
-- "Just how it is": Clear proof architecture, clean, maybe beautiful proof window. Forward style reasoning as Principia's direction.
+- "Just how it is": Clear proof structure, clean, maybe beautiful proof window. Forward style reasoning as Principia's direction.
 
 ## Can you make sure that the code/proof is 100% correct?
 No. 
