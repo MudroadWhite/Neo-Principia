@@ -15,15 +15,17 @@ Every formal verification project comes with an audit report, and our analogue s
 This project aims to be a scythe to demystify a myth. This project is a small world to communicate, between theory and application, and between math, philosophy and computer science people. This project wraps up math and philosophical ideas, written down, organized and iterates like a software. This project shows the power of type-theory-based modern formal verifiers, with only mediocre technology being used. This project can potentially be an inspiration for Steam indie videogames, because making mediocre ideas into games is what these developers do.
 
 ## The evaluation
-Evaluation for each of the chapter is based on the following questions:
+Assessment for each of the chapter is based on the following questions:
 1. Anatomy: What are the new ideas being brought up?
 2. Feasibility: Are they easy to be expressed in Rocq?
 3. Coverage: How much % of propositions can we formalize, and what is missing?
 
 Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
 
-### Basic setup
+### Basic setups
 **Definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
+
+**Citations.** Each step of the inference performed comes with a citation of what theorems it has used, usually appeared in the form of `[*n1.m1 . *n2.m2]`. It turns out that these citations in general only cover the most important theorems and ignore the rest chores. Therefore, we cannot automatically construct the proofs by just using theorems presented in the citations.
 
 TODO - all this below should be filled after ch14 is formalized:
 
