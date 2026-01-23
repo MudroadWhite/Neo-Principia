@@ -33,6 +33,9 @@ Similarly, `Theorem`s are used to define *theorems* in Principia, and are intend
 Every `Definition` or `Theorem` represents a proposition in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, which will be mostly discussed in the [tactics](./4_tactics.md) chapter; and *lhs* parameters are the real ones to *set a proposition up*.
 
 ### 4.1. How does Principia instantiate a proposition?
+
+TODO: recheck this part in the future and rewrite it based on understandings of functions(?)
+
 Principia's methodology to instantiate a proposition has a slight difference to modern type theory treatment. My understanding is,
 1. Every proven/defined proposition is immediately available. If there is a variable `P` in the proposition, it doesn't need any extra modifications and no action is performed
 2. If we want to derive something from this primitive proposition, we further change the `P` into something else.

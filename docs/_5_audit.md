@@ -11,9 +11,6 @@ We're aware that:
 
 Every formal verification project comes with an audit report, and our analogue starts from below.
 
-## What is the value of this project?
-This project aims to be a scythe to demystify a myth. This project is a small world to communicate, between theory and application, and between math, philosophy and computer science people. This project wraps up math and philosophical ideas, written down, organized and iterates like a software. This project shows the power of type-theory-based modern formal verifiers, with only mediocre technology being used. This project can inspire indie gamedevs as making mediocre ideas into games is what they do; the flood of Principia Mathematica jokes on X therefore continues.
-
 ## The evaluation
 Assessment for each of the chapter is based on the following questions:
 1. Anatomy: What are the new ideas being brought up?
