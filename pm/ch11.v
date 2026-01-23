@@ -1138,7 +1138,7 @@ Proof.
     pose proof (n11_32 (fun x y => (φ x → ψ x) ∧ (φ y → ψ y))
       (fun x y => φ x ∧ φ y → ψ x ∧ ψ y)) as n11_32.
     MP n11_32 n11_11.
-    destruct S1 as [S1l S1r]. clear S1r.
+    destruct S1 as [S1l _].
     now Syll S1 n11_32 S2.
   }
   assert (S3 : (∀ x y, (φ x ∧ φ y) → (ψ x ∧ ψ y)) 
@@ -1265,7 +1265,7 @@ Proof.
     ↔ (∀ x y, φ x → (ψ x y → χ x y))).
   {
     pose proof (n4_87 (φ X) (ψ X Y) (χ X Y)) as n4_87.
-    destruct n4_87 as [n4_87l n4_87mr]. clear n4_87mr.
+    destruct n4_87 as [n4_87l _].
     pose proof (n11_11 X Y (fun x y => 
       (φ x ∧ ψ x y → χ x y) ↔ (φ x → ψ x y → χ x y)))as n11_11.
     MP n11_11 n4_87l.

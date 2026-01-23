@@ -223,7 +223,7 @@ Proof.
     it correctly atm *)
     intros x y.
     pose proof (S2_1 x y) as S2_2.
-    destruct S2_2 as [S2_2l S2_2r]. clear S2_2r.
+    destruct S2_2 as [S2_2l _].
     pose proof (n13_172 B x y) as n13_172.
     now Syll S2_2l n13_172 S3.
   }
@@ -273,7 +273,7 @@ Proof.
     intro Hp.
     pose proof (S2 Hp) as S2_1.
     destruct S2_1 as [A1 A2].
-    destruct A2 as [A2l A2r]. clear A2r.
+    destruct A2 as [A2l _].
     Conj A1 A2l S2_2.
     pose proof Ass3_35 as _Ass3_35.
     pose proof (Ass3_35 (Phi B) (B = C)) as Ass3_35.
@@ -547,7 +547,8 @@ Proof.
     ((Phi z w) /\ (Phi u v)) -> ((z = u) /\ (w = v))))
     -> (Phi z w -[ z w ]> ((z = X) /\ (w = Y)))).
   {
-    pose proof n14_123 as n14_123.
+    pose proof (n14_123 X Y Phi) as n14_123.
+    destruct n14_123 as [n14_123l _].
   }
 Admitted.
 

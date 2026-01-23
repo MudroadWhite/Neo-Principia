@@ -514,7 +514,7 @@ Proof.
   assert (S4 : (φ Y ∧ (X = Y)) → (φ Y ∧ (Y = X))).
   {
     pose proof (n13_16 X Y) as n13_16.
-    destruct n13_16 as [n13_16l n13_16r]. clear n13_16r.
+    destruct n13_16 as [n13_16l _].
     pose proof (Fact3_45 (X = Y) (Y = X) (φ Y)) as Fact3_45.
     MP Fact3_45 n13_16l.
     pose proof (n4_3 (φ Y) (X = Y)) as n4_3a.

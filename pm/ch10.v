@@ -279,7 +279,7 @@ Proof.
   assert (S3 : ((∃ x, φ x) → P) → ((¬ P) → ¬ φ X)).
   {
     pose proof (n10_1 (fun x => (¬ P) → ¬ φ x) X) as n10_1.
-    destruct S2 as [S2_l S2_r]. clear S2_r.
+    destruct S2 as [S2_l _].
     now Syll S2_l n10_1 S3.
   }
   assert (S4 : ((∃ x, φ x) → P) → (φ X → P)).
@@ -516,7 +516,7 @@ Proof.
   pose proof (n10_22 (fun z => φ z → ψ z) (fun z => ψ z → φ z)) 
     as n10_22.
   setoid_rewrite <- Equiv4_01a in n10_22.
-  destruct n10_22 as [n10_22l n10_22r]. clear n10_22r.
+  destruct n10_22 as [n10_22l _].
   assert (S1 : (∀ z, φ z ↔ ψ z) → (∀ z, φ z → ψ z)).
   {
     pose proof (Simp3_26 (∀ x, φ x → ψ x) (∀ x, ψ x → φ x)) 
@@ -894,7 +894,7 @@ Proof.
     → ((ψ x <[- x -]> φ x) ∧ (φ x <[- x -]> χ x))).
   {
     pose proof (n10_32 φ ψ) as n10_32.
-    destruct n10_32 as [n10_32l n10_32r]. clear n10_32r.
+    destruct n10_32 as [n10_32l _].
     pose proof (Fact3_45 (φ x<[-x-]>ψ x) (ψ x<[-x-]>φ x)
       (φ x <[- x -]> χ x))as Fact3_45.
     now MP Fact3_45 n10_32l.
@@ -1186,11 +1186,11 @@ Proof.
   pose proof (n10_22 (fun x => φ x → χ x) 
     (fun x => χ x → φ x)) as n10_22a.
   setoid_rewrite <- Equiv4_01a in n10_22a.
-  destruct n10_22a as [n10_22al n10_22ar]. clear n10_22ar.
+  destruct n10_22a as [n10_22al _].
   pose proof (n10_22 (fun x => ψ x → θ x)
     (fun x => θ x → ψ x)) as n10_22b.
   setoid_rewrite <- Equiv4_01a in n10_22b.
-  destruct n10_22b as [n10_22bl n10_22br]. clear n10_22br.
+  destruct n10_22b as [n10_22bl _].
   (* This step has omitted a lot of things *)
   assert (S1 : ((φ x <[- x -]> χ x) ∧ ((ψ x <[- x -]> θ x)))
     → ((φ x -[ x ]> χ x) ∧ (ψ x -[ x ]> θ x))).
@@ -1689,7 +1689,7 @@ Proof.
     → ((φ x -[x]> (ψ x ∨ χ x)) ∧ (φ x -[x]> (¬ χ x)))).
   {
     pose proof (n10_51 φ χ) as n10_51.
-    destruct n10_51 as [n10_51l n10_51r]. clear n10_51r.
+    destruct n10_51 as [n10_51l _].
     pose proof (Fact3_45 (¬ (∃ x, φ x ∧ χ x)) (φ x-[x]>¬ χ x)
       (φ x-[x]>(ψ x ∨ χ x))) as Fact3_45.
     MP Fact3_45 n10_51l.
