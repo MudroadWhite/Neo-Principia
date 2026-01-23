@@ -1,4 +1,6 @@
 # Neo Principia
+![Screenshot of what is going inside](./header.png)
+
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
 ## Why working on it
