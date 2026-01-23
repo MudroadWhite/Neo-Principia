@@ -13,7 +13,7 @@ Compatability.
 
 - [Documented](./docs/README.md) and with [slides](./slides/).
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics.
-- "Just how it is": Clear proof structure, clean, maybe beautiful proof window. Forward style reasoning as Principia's direction.
+- "Just as it is": Clear proof structure, clean, maybe beautiful proof window. Forward style reasoning as Principia's direction.
 
 ## Can you make sure that the code/proof is 100% correct?
 No. 
@@ -67,3 +67,7 @@ IDEs for Coq/Rocq varies, but here is my preference:
 
 ## To contribute
 Although I have tried to organize the issues well to indicate the current progress, I haven't considered seriously on collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
+
+## Related works
+- [Landon Elkind's Principia Mathematica formalization](https://github.com/LogicalAtomist/principia)
+- [Randall Holmes's formalization on ramified type theory](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT)
