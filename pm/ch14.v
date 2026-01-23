@@ -11,6 +11,10 @@ Require Import PM.pm.ch13.
 
 Require Import Logic.FunctionalExtensionality.
 
+(* TODO:
+- design a notation for all the iota functions
+- fix all the `replace`s *)
+
 (* 
 The decription, or I would personally call it the iota operator, designs a special kind of 
 parameter for functions. They will be passed into propositional functions normally, but unlike 
@@ -602,7 +606,44 @@ Theorem n14_13 (A : Prop) (Phi : Prop → Prop) :
   (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x)))
   ↔ (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = A)). 
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x)))
+    <-> (exists b, (Phi x <[- x -]> (x = b)) /\ A = b)).
+  { apply n14_1. }
+  assert (S2 : ((Phi x <[- x -]> (x = B)) /\ (A = B))
+    <-> ((Phi x <[- x -]> (x = B)) /\ (B = A))).
+  {
+    pose proof (n13_16 A B) as n13_16.
+    pose proof (n4_36 (A = B) (B = A) (Phi x <[- x -]> (x = B))) as n4_36.
+    MP n4_36 n13_16.
+    rewrite -> n4_3 in n4_36.
+    replace (B = A ∧  Phi x <[- x -]> x = B) with 
+      ((Phi x <[- x -]> x = B) ∧ B = A) in n4_36.
+    2: { apply propositional_extensionality. now rewrite -> n4_3. }
+    exact n4_36.
+  }
+  assert (S3 : (exists b, (Phi x <[- x -]> x = b) /\ (A = b))
+    <-> (exists b, (Phi x <[- x -]> x = b) /\ (b = A))).
+  {
+    pose proof (n10_11 B (fun b => 
+        ((Phi x <[- x -]> (x = b)) /\ (A = b))
+      <-> ((Phi x <[- x -]> (x = b)) /\ (b = A)))) as n10_11.
+    MP n10_11 S2.
+    pose proof (n10_281 
+      (fun b => (Phi x <[- x -]> (x = b)) /\ (A = b))
+      (fun b => (Phi x <[- x -]> (x = b)) /\ (b = A))) as n10_281.
+    now MP n10_281 n10_11.
+  }
+  assert (S4 : (exists b, (Phi x <[- x -]> x = b) /\ (A = b))
+    <-> (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = A))).
+  { now rewrite <- (n14_1 "Phi" Phi  (fun b => b = A)) in S3. }
+  assert (S5 : (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x)))
+    ↔ (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = A))).
+  { now rewrite -> S4 in S1. }
+  exact S5.
+Qed.
 
 Theorem n14_131 (Phi Psi : Prop → Prop) : 
   iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
