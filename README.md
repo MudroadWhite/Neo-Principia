@@ -29,12 +29,9 @@ No.
 
 **No**: Although math ideas in PM are supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts such as descriptions in chapter 14 have their icebergs under the tips. They question the dependency relationships between themselves and the rewriting system, which should be even different from what people will acknowledge in modern type systems. We need to explore the odds before correctly define a deep embedding. From a software engineer's perspective, *early optimization is the root of all evil*. By doing this we will also gather non-trivial, easy problems for other people to collaborate with.
 
-[This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far:
-1. PM has a notorious notation system.
-2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
-3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc..
+[This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far: PM's notorious notation system, highly "trivial"(chores-like) theorems, and its historical background to guarantee a missing revisit.
 
-[This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) also seems to arrive at similar observations. See paper attached in the repo on its in-depth explanation of how PM treats functions.
+[This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) seems to arrive at similar observations. See paper in the repo on its in-depth discussions of PM's functions.
 
 Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. 
 
