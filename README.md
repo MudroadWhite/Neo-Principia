@@ -33,7 +33,7 @@ No.
 
 [This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) seems to arrive at similar observations. See paper in the repo on its in-depth discussions of PM's functions.
 
-Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. This allows us to retain tolerance for exploring the odds. From a software engineer's perspective, *early optimization is the root of all evil*. By doing this we will also gather non-trivial, easy problems for other people to collaborate with.
+Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. From a software engineer's perspective, *early optimization is the root of all evil*. This allows us to retain tolerance for exploring the odds, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with.
 
 ## How well have you formalized?
 Which means 2 questions:
@@ -65,7 +65,7 @@ IDEs for Coq/Rocq varies, but here is my preference:
 - Extension installed on VSCode, in its remote WSL environment: VSCoq v0.3.7 from [OpenVSX](https://open-vsx.org/extension/maximedenes/vscoq).
 
 ## To contribute
-Although I have tried to organize the issues well to indicate the current progress, I haven't considered seriously on collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
+Although I have tried to organize the issues well to indicate the current progress, I don't have rich experience on collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
 
 ## Related works
 - [Landon Elkind's formalization on  Principia Mathematica](https://github.com/LogicalAtomist/principia)
