@@ -45,7 +45,7 @@ Generally still, it's straightforward that all these routines are quite a lot ju
 Now that we finished discussing the construction routine on `↔`, we come to destruction routine on `↔`. `Equiv` theorem changes `P ↔ Q` back to `P → Q ∧ Q → P`. `Simp` picks the branch we want to use later, or we use both branch at different places. A more convenient way is seamlessly use Rocq's `destruct` tactic.
 - \[Simplification\]`destruct` on `↔` is **allowed**.
 - \[Simplification\]`destruct` is **required** to be further simplified into a `rewrite` on `↔`, if the `destruct`ed `↔` proposition branch is used for further `MP` or `Syll` on.
--  An immediate `clear` is **required** after the `destruct` to delete unused branch, unless both branches will be used in the remaining of the proof.
+- `_` is **required** to eliminate unused `destruct` branches in place to keep the proof clean.
 
 Explicit examples and comments on these simplifications are occasionally provided through chapter 9 & 10.
 
@@ -82,7 +82,10 @@ Even without `setoid_rewrite`, "rewriting on quantified propositions" is always 
 
 For `=` case: As stated above, how does `=` interact with others is undefined. Belows are some optional ways to get the works done. We can use `eq_to_equiv` or `apply propositional_extentionality` to change the `=` proposition into a `↔` one. An exceptional case is when we want to lift a `P = Q` relation to `∀ x, P x = ∀ x, Q x`: if we want to get a generalized version of `=` for direct `rewrite`, we might use `f_equal` to perform the lift.*
 
-## 5. Rules for technical hacks 
+## 5. Simplifications
+
+TODO: rewrite this part in the future: where to simplify is highly unpredictable
+
 Either for "historical reasons"(this project really doesn't have a history), or when we want to work through a proof quickly, and we didn't figure out the correct way to write the proof, "technical hacks" arises for proof completions. The most common ones are listed below, but they might never appear in the proofs. This is because: unless there is a severe technical barrier, they are **recommended** to be taken down.
 - \[Simplification\]`replace...with` is a valid and flexible substitution for rewriting, but it's too heavy.
 - \[Simplification\]`apply propositional_extentionality` might occur inside `replace...with` blocks. Its purpose is to change the goal of `=` form into a goal of `↔` form for easier reasoning. It might work against original text.
