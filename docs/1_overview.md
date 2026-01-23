@@ -7,7 +7,7 @@ We also have a type system, the default for most people, for Rocq. Propositions 
 ## What is the value of this project?
 This project aims to be a scythe to demystify a myth. This project is a small world to communicate, between theory and application, and between math, philosophy and computer science people. This project wraps up math and philosophical ideas, written down, organized and iterates like a software. This project shows the power of type-theory-based modern formal verifiers, with only mediocre technology being used. This project can inspire indie gamedevs whose core job is making mediocre ideas into games; the jokes flood of Principia Mathematica on X therefore continues.
 
-With shallow embedding, this project aims at providing a better base for others. It is to be detected bugs easily, modified easily, evaluated everything with a controlled automation, and maybe built on with better abstractions.
+With shallow embedding, this project aims at providing a better base for others to use. It is to be detected bugs easily, modified easily, evaluated everything with a controlled automation, and maybe built on with better abstractions. It saves you the time to buy a physical copy, flip the pages with anxiety and boredom, just to grind every line of proofs written in a ruthless massive tomb that comes into your dream to drag your hair into a mess every night.
 
 ## Who did what
 All of chapter 1 - 5 are directly attributed to [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia).
