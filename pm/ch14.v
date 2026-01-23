@@ -427,7 +427,7 @@ Admitted.
 Theorem n14_124 (Phi : Prop → Prop → Prop) : 
   (exists x y, (Phi z w <[- z w -]> (z = x ∧ w = y)))
   ↔ ((exists x y, Phi x y) 
-    ∧ forall z w u v, (Phi z w ∧ Phi u v) → (z = w ∧ u = v)). 
+    ∧ forall z w u v, (Phi z w ∧ Phi u v) → (z = u ∧ w = v)). 
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
@@ -545,11 +545,57 @@ Proof.
   }
   assert (S8 : ((Phi X Y) /\ (forall z w u v, 
     ((Phi z w) /\ (Phi u v)) -> ((z = u) /\ (w = v))))
-    -> (Phi z w -[ z w ]> ((z = X) /\ (w = Y)))).
+    -> (Phi z w <[- z w -]> ((z = X) /\ (w = Y)))).
   {
     pose proof (n14_123 X Y Phi) as n14_123.
     destruct n14_123 as [n14_123l _].
+    replace (Phi X Y ∧ Phi z w-[ z w ]>z = X ∧ w = Y )
+      with ((Phi z w-[ z w ]>z = X ∧ w = Y) ∧ Phi X Y)
+      in S7.
+    2: { apply propositional_extensionality. now rewrite -> n4_3. }
+    now rewrite <- n14_123l in S7.
   }
+  assert (S9 : ((exists x y, Phi x y) /\ (forall z w u v,
+      (Phi z w /\ Phi u v) -> ((z = u) /\ (w = v)))
+    -> (exists x y, Phi z w <[- z w -]> ((z = x) /\ (w = y))))).
+  {
+    pose proof n11_45 as _n11_45.
+    pose proof (n11_11 X Y (fun x y =>
+      ((Phi x y) /\ (forall z w u v, 
+        ((Phi z w) /\ (Phi u v)) -> ((z = u) /\ (w = v))))
+        -> (Phi z w <[- z w -]> ((z = x) /\ (w = y))))) as n11_11.
+    MP n11_11 S8.
+    pose proof (n11_34
+      (fun x y => Phi x y /\ (forall z w u v,
+        (Phi z w /\ Phi u v) -> ((z = u) /\ (w = v))))
+      (fun x y => (Phi z w <[- z w -]> ((z = x) /\ (w = y))))) 
+      as n11_34.
+    MP n11_34 n11_11.
+    setoid_rewrite -> n4_3 in n11_34 at 1.
+    rewrite -> n11_45 in n11_34.
+    now rewrite -> n4_3 in n11_34 at 1.
+  }
+  assert (S10 : (∃ x y,  Phi z w<[- z w -]>z = x ∧ w = y )
+    ↔ (∃ x y, Phi x y) 
+      ∧ ∀ z w u v, Phi z w ∧ Phi u v → z = u ∧ w = v).
+  {
+    clear S2 S3 S4 S6 S7 S8.
+    assert (C1 : ((∃ x y,  Phi z w <[- z w -]> z = x ∧ w = y ) → ∃ x y : Prop, Phi x y)
+      ∧ ((∃ x y,  Phi z w <[- z w -]> z = x ∧ w = y )
+        → ∀ z w u v, Phi z w ∧ Phi u v → z = u ∧ w = v)).
+    { clear S9. now Conj S1 S5 C1. }
+    pose proof (Comp3_43
+      (∃ x y, Phi z w <[- z w -]> z = x ∧ w = y)
+      (∃ x y, Phi x y)
+      (∀ z w u v, Phi z w ∧ Phi u v → z = u ∧ w = v)) 
+      as Comp3_43.
+    MP Comp3_43 C1.
+    clear S1 S5 C1.
+    move S9 after Comp3_43.
+    Conj Comp3_43 S9 S10.
+    now Equiv S10.
+  }
+  exact S10.
 Admitted.
 
 Theorem n14_13 (A : Prop) (Phi : Prop → Prop) : 
