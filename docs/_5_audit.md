@@ -15,25 +15,34 @@ Every formal verification project comes with an audit report, and our analogue s
 This project aims to be a scythe to demystify a myth. This project is a small world to communicate, between theory and application, and between math, philosophy and computer science people. This project wraps up math and philosophical ideas, written down, organized and iterates like a software. This project shows the power of type-theory-based modern formal verifiers, with only mediocre technology being used. This project can potentially be an inspiration for Steam indie videogames, because making mediocre ideas into games is what these developers do.
 
 ## The evaluation
-Evaluation for Principia is based on the following questions:
-1. For each chapter, what are the new ideas being brought up?
-2. Are these ideas easy to be expressed in Rocq?
-3. Are proofs in each chapter complete? How much have it missed?
+Assessment for each of the chapter is based on the following questions:
+1. Anatomy: What are the new ideas being brought up?
+2. Feasibility: Are they easy to be expressed in Rocq?
+3. Coverage: How much % of propositions can we formalize, and what is missing?
 
 Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
 
+### Basic setups
 **Definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
 
-TODO: designs of functions, types for parameters and them, Prop -> Prop ...
+**Citations.** Each step of the inference performed comes with a citation of what theorems it has used, usually appeared in the form of `[*n1.m1 . *n2.m2]`. It turns out that these citations in general only cover the most important theorems and ignore the rest chores. Constructing the proofs by just using theorems presented in the citations cannot be automated.
 
-----------------
+TODO - all this below should be filled after ch14 is formalized:
 
-UNFINISHED PIECES BELOW
+### Chapter 9
+**General.** 
+- Completeness: nice
+- formal parts: formalized all the theorems but they are useless
+- Informal parts: can be formalized but cannot be used
 
-**Chapter 9.**
-- formalized most of the theorems... 
-- but useless anyways
+**Tech detail: functions.** The introduction of function in this chapter allows construction for `forall` and `exists`. We discover that
+TODO: 
+- types for lhs parameters: haven't examined seriously
+- functions can be abstracted in more than one way(ch14), therefore abstraction cannot be automated 
+- which further rejects Rocq to automatically instantiate theorems
 
+### Chapter 10
 TODO:
 - chapter 9, ... chapter 11: nice
 - chapter 13 14: can be verified with larger tweaks; notation is annoying
+- chapter 13: technically doesn't have support for quantifiers, but is required in later chapters

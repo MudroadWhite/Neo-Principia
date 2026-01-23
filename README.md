@@ -11,15 +11,15 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 ## Features
 Compatability.
 
-- "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. Forward style reasoning, as in original Principia's proof.
-- Clear proof architecture and clean, maybe beautiful proof window.
 - [Documented](./docs/README.md) and with [slides](./slides/).
+- "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics.
+- "Just as it is": Clear proof structure, clean, maybe beautiful proof window. Forward style reasoning as Principia's direction.
 
 ## Can you make sure that the code/proof is 100% correct?
 No. 
 
 - This depends on how much and deep you interpret the terms. There exist ideas expressed in natural language, not with formulae. They will be written as comments in our code.
-- The design of `Ltac` isn't good(to be more exact, `match` doesn't work as one might think), so that even successful `Qed`s are nevertheless false positives. Actually, I have caught several bugs in the repo from this issue.
+- Successful `Qed`s are still false positives, due to a lot of delicate details. For example, `Ltac` isn't well designed, important details are not expressed in propositions, etc.. I have caught several bugs in the repo because of them.
 - Our designs on notations still rely on manual checks.
 - I didn't deeply examine the code in chapter 1 - 5.
 - Under our interpretation, a few places out of the vast seem to be unprovable!
@@ -34,12 +34,14 @@ No.
 2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
 3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc..
 
+[This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) also seems to arrive at similar observations. See paper attached in the repo on its in-depth explanation of how PM treats functions.
+
 Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. 
 
 ## How well have you formalized?
 Which means 2 questions:
 
-- **How much have you formalized?** 172 - 94 = 78 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
+- **How much have you formalized?** 176 - 94 = 82 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
 - **How deep can you formalize?** We won't construct the deep embedding, as explained above. See [audit](./docs/5_audit.md) for secondary limitations.
 
 ## Running the code
@@ -67,3 +69,7 @@ IDEs for Coq/Rocq varies, but here is my preference:
 
 ## To contribute
 Although I have tried to organize the issues well to indicate the current progress, I haven't considered seriously on collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
+
+## Related works
+- [Landon Elkind's formalization on  Principia Mathematica](https://github.com/LogicalAtomist/principia)
+- [Randall Holmes's formalization on ramified type theory](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT)
