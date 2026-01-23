@@ -71,5 +71,5 @@ IDEs for Coq/Rocq varies, but here is my preference:
 Although I have tried to organize the issues well to indicate the current progress, I haven't considered seriously on collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
 
 ## Related works
-- [Landon Elkind's Principia Mathematica formalization](https://github.com/LogicalAtomist/principia)
+- [Landon Elkind's formalization on  Principia Mathematica](https://github.com/LogicalAtomist/principia)
 - [Randall Holmes's formalization on ramified type theory](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT)
