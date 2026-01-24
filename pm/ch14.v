@@ -700,16 +700,46 @@ Proof.
   exact S6.
 Qed.
 
-Theorem n14_131_alt (Phi Psi : Prop → Prop) : 
-  iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
+Theorem n14_131_alt (s1 s2 : string) (Phi Psi : Prop → Prop) : 
+  iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
   ↔
-  iota_f2 "Psi" "Phi" Psi Phi (fun x y => (Iota "Psi" y) = (Iota "Phi" x)). 
+  iota_f2 s2 s1 Psi Phi (fun x y => (Iota s2 y) = (Iota s1 x)). 
 Proof.
-Admitted.
+  assert (S1 : iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
+    <-> exists b c, (Phi x <[- x -]> (x = b)) 
+      /\ (Psi x <[- x -]> (x = c)) /\ (b = c)).
+  {
+    (* We use the definition of iota_f2 instead, for the obvious reason.
+     *14.111 ignored *)
+    apply n14_112.
+  }
+  assert (S2 : iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
+    <-> exists b c, (Psi x <[- x -]> (x = c)) 
+      /\ (Phi x <[- x -]> (x = b)) /\ (c = b)).
+  {
+    (* *11.11, *11.341 ignored *)
+    setoid_rewrite -> n13_16 in S1 at 4.
+    setoid_rewrite -> n4_3 in S1 at 2.
+    setoid_rewrite -> n4_32 in S1.
+    now setoid_rewrite -> n4_3 in S1 at 4.
+  }
+  assert (S3 : iota_f2 s1 s2 Phi Psi (fun x y => 
+      (Iota s1 x) = (Iota s2 y))
+    ↔ iota_f2 s2 s1 Psi Phi (fun x y => (Iota s2 y) = (Iota s1 x))).
+  {
+    (* much of the citations are wrong... *)
+    rewrite -> n11_23 in S2.
+    pose proof (n14_112 s2 s1 Psi Phi
+      (fun x y => Iota s2 y = Iota s1 x)) as n14_112.
+    setoid_rewrite -> n13_16 in S2 at 4.
+    now rewrite <- n14_112 in S2.
+  }
+  exact S3.
+Qed.
 
-Theorem n14_14 (A B : Prop) (Phi : Prop → Prop) :
-  ((A = B) ∧ (iota_f "Phi" Phi (fun x => B = (Iota "Phi" x))))
-  → (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x))).
+Theorem n14_14 (A B : Prop) (s : string) (Phi : Prop → Prop) :
+  ((A = B) ∧ (iota_f s Phi (fun x => B = (Iota s x))))
+  → (iota_f s Phi (fun x => A = (Iota s x))).
 Proof.
 Admitted.
 
