@@ -1,4 +1,6 @@
 # Neo Principia
+[![Screenshot](./header.png)](https://www.youtube.com/watch?v=aBUFiQV30eM)
+
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
 ## Why working on it
@@ -27,16 +29,13 @@ No.
 ## Can Principia Mathematica can be completely formalized?
 **Yes**: With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system with which all advanced mathematical ideas are built on, formalizing PM is already theoretically accessible.
 
-**No**: Although math ideas in PM are supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts such as descriptions in chapter 14 have their icebergs under the tips. They question the dependency relationships between themselves and the rewriting system, which should be even different from what people will acknowledge in modern type systems. We need to explore the odds before correctly define a deep embedding. From a software engineer's perspective, *early optimization is the root of all evil*. By doing this we will also gather non-trivial, easy problems for other people to collaborate with.
+**No**: Although math ideas in PM are supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts such as descriptions in chapter 14 have their icebergs under the tips. They question the dependency relationships between themselves and the rewriting system, which should be even different from what people will acknowledge in modern type systems. 
 
-[This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far:
-1. PM has a notorious notation system.
-2. Most theorems of PM are trivial, that is, chores that can directly derived from definitions
-3. A lot of techniques has been developed since PM "released", including higher order logic, programming language analysis, etc..
+[This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far: PM's notorious notation system, highly "trivial"(chores-like) theorems, and its historical background to guarantee a missing revisit.
 
-[This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) also seems to arrive at similar observations. See paper attached in the repo on its in-depth explanation of how PM treats functions.
+[This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) seems to arrive at similar observations. See paper in the repo on its in-depth discussions of PM's functions.
 
-Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. 
+Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. This allows us to retain tolerance to explore the odds, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*.
 
 ## How well have you formalized?
 Which means 2 questions:
@@ -68,7 +67,7 @@ IDEs for Coq/Rocq varies, but here is my preference:
 - Extension installed on VSCode, in its remote WSL environment: VSCoq v0.3.7 from [OpenVSX](https://open-vsx.org/extension/maximedenes/vscoq).
 
 ## To contribute
-Although I have tried to organize the issues well to indicate the current progress, I haven't considered seriously on collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
+Although I have tried to organize the issues well to indicate the current progress, I don't have rich experience on collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
 
 ## Related works
 - [Landon Elkind's formalization on  Principia Mathematica](https://github.com/LogicalAtomist/principia)
