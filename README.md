@@ -1,6 +1,7 @@
 # Neo Principia
 ![Screenshot of what is going inside](./header.png)
-[Check out the music for this artwork!](https://www.youtube.com/watch?v=aBUFiQV30eM)
+
+[(Check out the music for this artwork!)](https://www.youtube.com/watch?v=aBUFiQV30eM)
 
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
