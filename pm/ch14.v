@@ -646,10 +646,18 @@ Proof.
 Qed.
 
 Theorem n14_131 (Phi Psi : Prop → Prop) : 
+(* TODO: rewrite it with iota_f? *)
   iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
   ↔
   iota_f2 "Psi" "Phi" Psi Phi (fun x y => (Iota "Psi" x) = (Iota "Phi" y)). 
 Proof.
+  assert (S1 : iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
+    <-> (exists b, (Phi x <[- x -]> (x = b)) 
+      /\ iota_f "Psi" Psi (fun y => b = (Iota "Psi" y)))).
+  {
+    pose proof n14_1 as n14_1.
+    apply n14_1.
+  }
 Admitted.
 
 Theorem n14_131_alt (Phi Psi : Prop → Prop) : 
