@@ -645,25 +645,40 @@ Proof.
   exact S5.
 Qed.
 
+(* There are 2 ways to intrepret the iotas in this proposition. Original text
+has also given both ways to interpre them correspondingly *)
 Theorem n14_131 (Phi Psi : Prop → Prop) : 
-(* TODO: rewrite it with iota_f? *)
-  iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
+  iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
+    (Iota "Phi" x) = (Iota "Psi" y)))
   ↔
-  iota_f2 "Psi" "Phi" Psi Phi (fun x y => (Iota "Psi" x) = (Iota "Phi" y)). 
+  iota_f "Psi" Psi (fun y => iota_f "Phi" Phi (fun x =>
+    (Iota "Psi" y) = (Iota "Phi" x))).
 Proof.
-  assert (S1 : iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
+  assert (S1 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
+      (Iota "Phi" x) = (Iota "Psi" y)))
     <-> (exists b, (Phi x <[- x -]> (x = b)) 
       /\ iota_f "Psi" Psi (fun y => b = (Iota "Psi" y)))).
+  { apply n14_1. }
+  assert (S2 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
+      (Iota "Phi" x) = (Iota "Psi" y)))
+    <-> (exists b, (Phi x <[- x -]> (x = b)) 
+      /\ (exists c, (Psi x <[- x -]> (x = c)) /\ (b = c)))).
+  { now setoid_rewrite -> n14_1 in S1 at 3. }
+  assert (S3 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
+      (Iota "Phi" x) = (Iota "Psi" y)))
+    <-> (exists c, (Psi x <[- x -]> (x = c))
+      /\ (exists b, (Phi x <[- x -]> (x = b)) /\ (b = c)))).
   {
-    pose proof n14_1 as n14_1.
-    apply n14_1.
+    rewrite -> n4_3 in S2.
+    pose proof n11_6 as n11_6.
+    rewrite -> n11_6 in S2.
   }
 Admitted.
 
 Theorem n14_131_alt (Phi Psi : Prop → Prop) : 
   iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
   ↔
-  iota_f2 "Psi" "Phi" Psi Phi (fun x y => (Iota "Psi" x) = (Iota "Phi" y)). 
+  iota_f2 "Psi" "Phi" Psi Phi (fun x y => (Iota "Psi" y) = (Iota "Phi" x)). 
 Proof.
 Admitted.
 
