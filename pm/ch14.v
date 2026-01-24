@@ -602,16 +602,14 @@ Proof.
   exact S10.
 Admitted.
 
-(* TODO(IMPORTANT): replace the "Phi" below to polymorphic `s` and recheck 
-  all other definitions *)
-Theorem n14_13 (A : Prop) (Phi : Prop → Prop) : 
-  (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x)))
-  ↔ (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = A)). 
+Theorem n14_13 (A : Prop) (s : string) (Phi : Prop → Prop) : 
+  (iota_f s Phi (fun x => A = (Iota s x)))
+  ↔ (iota_f s Phi (fun x => (Iota s x) = A)). 
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
-  assert (S1 : (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x)))
+  assert (S1 : (iota_f s Phi (fun x => A = (Iota s x)))
     <-> (exists b, (Phi x <[- x -]> (x = b)) /\ A = b)).
   { apply n14_1. }
   assert (S2 : ((Phi x <[- x -]> (x = B)) /\ (A = B))
@@ -639,17 +637,13 @@ Proof.
     now MP n10_281 n10_11.
   }
   assert (S4 : (exists b, (Phi x <[- x -]> x = b) /\ (A = b))
-    <-> (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = A))).
-  { now rewrite <- (n14_1 "Phi" Phi  (fun b => b = A)) in S3. }
-  assert (S5 : (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x)))
-    ↔ (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = A))).
+    <-> (iota_f s Phi (fun x => (Iota s x) = A))).
+  { now rewrite <- (n14_1 s Phi  (fun b => b = A)) in S3. }
+  assert (S5 : (iota_f s Phi (fun x => A = (Iota s x)))
+    ↔ (iota_f s Phi (fun x => (Iota s x) = A))).
   { now rewrite -> S4 in S1. }
   exact S5.
 Qed.
-
-Theorem n14_13_corrected (A : Prop) (s : string) (Phi : Prop → Prop) :
-  iota_f s Phi (λ x, A = Iota s x) ↔ iota_f s Phi (λ x, Iota s x = A).
-Admitted.
 
 (* TODO: rewrite the definition correctly *)
 (* There are 2 ways to intrepret the iotas in this proposition. Original text
@@ -691,7 +685,7 @@ Proof.
       (Iota "Phi" x) = (Iota "Psi" y)))
     <-> (exists c, (Psi x <[- x -]> (x = c)) 
       /\ iota_f "Phi" Phi (fun x => c = (Iota "Phi" x)))).
-  { now setoid_rewrite <- n14_13_corrected in S4. }
+  { now setoid_rewrite <- n14_13 in S4. }
   assert (S6 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi 
       (fun y => (Iota "Phi" x) = (Iota "Psi" y)))
     ↔ iota_f "Psi" Psi (fun y => iota_f "Phi" Phi (fun x =>
@@ -743,11 +737,11 @@ Theorem n14_14 (A B : Prop) (s : string) (Phi : Prop → Prop) :
 Proof.
 Admitted.
 
-Theorem n14_142 (A : Prop) (Phi Psi : Prop → Prop) :
-  ((iota_f "Phi" Phi (fun x => A = (Iota "Phi" x))) 
-    ∧ iota_f2 "Phi" "Psi" Phi Psi 
-      (fun x y => (Iota "Phi" x) = (Iota "Psi" y)))
-  → (iota_f "Psi" Psi (fun x => A = (Iota "Psi" x))).
+Theorem n14_142 (A : Prop) (s1 s2 : string) (Phi Psi : Prop → Prop) :
+  ((iota_f s1 Phi (fun x => A = (Iota s1 x))) 
+    ∧ iota_f2 s1 s2 Phi Psi 
+      (fun x y => (Iota s1 x) = (Iota s2 y)))
+  → (iota_f s2 Psi (fun x => A = (Iota s2 x))).
 Proof.
 Admitted.
 
