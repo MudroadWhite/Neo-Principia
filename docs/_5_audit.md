@@ -22,7 +22,7 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start stra
 ### Basic setups
 **Definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
 
-**Citations.** Each step of the inference performed comes with a citation of what theorems it has used, usually appeared in the form of `[*n1.m1 . *n2.m2]`. It turns out that these citations in general only cover the most important theorems and ignore the rest chores. Constructing the proofs by just using theorems presented in the citations cannot be automated.
+**Citations.** Citations in general only cover the most important theorems and ignore the rest chores. Their orders to apply might differ from the possible ways perform the deduction. Constructing the proofs based only on the citations cannot be automated.
 
 TODO - all this below should be filled after ch14 is formalized:
 
