@@ -602,6 +602,8 @@ Proof.
   exact S10.
 Admitted.
 
+(* TODO(IMPORTANT): replace the "Phi" below to polymorphic `s` and recheck 
+  all other definitions *)
 Theorem n14_13 (A : Prop) (Phi : Prop → Prop) : 
   (iota_f "Phi" Phi (fun x => A = (Iota "Phi" x)))
   ↔ (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = A)). 
@@ -645,6 +647,11 @@ Proof.
   exact S5.
 Qed.
 
+Theorem n14_13_corrected (A : Prop) (s : string) (Phi : Prop → Prop) :
+  iota_f s Phi (λ x, A = Iota s x) ↔ iota_f s Phi (λ x, Iota s x = A).
+Admitted.
+
+(* TODO: rewrite the definition correctly *)
 (* There are 2 ways to intrepret the iotas in this proposition. Original text
 has also given both ways to interpre them correspondingly *)
 Theorem n14_131 (Phi Psi : Prop → Prop) : 
@@ -669,11 +676,29 @@ Proof.
     <-> (exists c, (Psi x <[- x -]> (x = c))
       /\ (exists b, (Phi x <[- x -]> (x = b)) /\ (b = c)))).
   {
-    rewrite -> n4_3 in S2.
-    pose proof n11_6 as n11_6.
+    setoid_rewrite -> n4_3 in S2 at 2.
+    setoid_rewrite -> n4_3 in S2 at 3.
     rewrite -> n11_6 in S2.
+    setoid_rewrite <- n4_3 in S2 at 3.
+    now setoid_rewrite <- n4_3 in S2 at 2.
   }
-Admitted.
+  assert (S4 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
+      (Iota "Phi" x) = (Iota "Psi" y)))
+    <-> (exists c, (Psi x <[- x -]> (x = c)) 
+      /\ iota_f "Phi" Phi (fun x => (Iota "Phi" x) = c))).
+  { now setoid_rewrite <- (n14_1 "Phi") in S3 at 2. }
+  assert (S5 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
+      (Iota "Phi" x) = (Iota "Psi" y)))
+    <-> (exists c, (Psi x <[- x -]> (x = c)) 
+      /\ iota_f "Phi" Phi (fun x => c = (Iota "Phi" x)))).
+  { now setoid_rewrite <- n14_13_corrected in S4. }
+  assert (S6 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi 
+      (fun y => (Iota "Phi" x) = (Iota "Psi" y)))
+    ↔ iota_f "Psi" Psi (fun y => iota_f "Phi" Phi (fun x =>
+      (Iota "Psi" y) = (Iota "Phi" x)))).
+  { now rewrite <- (n14_1 "Psi") in S5. }
+  exact S6.
+Qed.
 
 Theorem n14_131_alt (Phi Psi : Prop → Prop) : 
   iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y))
