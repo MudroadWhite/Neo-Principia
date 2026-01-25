@@ -735,7 +735,11 @@ Theorem n14_14 (A B : Prop) (s : string) (Phi : Prop → Prop) :
   ((A = B) ∧ (iota_f s Phi (fun x => B = (Iota s x))))
   → (iota_f s Phi (fun x => A = (Iota s x))).
 Proof.
-Admitted.
+  rewrite -> n4_3.
+  rewrite -> n13_16.
+  exact (n13_13 B A (fun a => 
+      (iota_f s Phi (fun x => a = (Iota s x))))).
+Qed.
 
 Theorem n14_142 (A : Prop) (s1 s2 : string) (Phi Psi : Prop → Prop) :
   ((iota_f s1 Phi (fun x => A = (Iota s1 x))) 
@@ -743,6 +747,7 @@ Theorem n14_142 (A : Prop) (s1 s2 : string) (Phi Psi : Prop → Prop) :
       (fun x y => (Iota s1 x) = (Iota s2 y)))
   → (iota_f s2 Psi (fun x => A = (Iota s2 x))).
 Proof.
+  
 Admitted.
 
 Theorem n14_144 (Phi Psi Chi : Prop → Prop) : 
