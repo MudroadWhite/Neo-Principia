@@ -1059,8 +1059,8 @@ Proof.
     (* We have to clear everything else just to do the right `Conj` *)
     assert (C1 : ((P ∨ Q) ∧ R ↔ P ∧ R ∨ Q ∧ R) ∧ (P ∧ R ∨ Q ∧ R ↔ P ∧ R)).
     {
-      pose proof (S3 Hp) as S3_1.
-      clear Hp S2 S3.
+      pose proof (S3 Hp) as S3.
+      clear Hp S2.
       Conj S3_1 S1 C1.
       exact C1.
     }

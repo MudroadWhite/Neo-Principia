@@ -533,8 +533,9 @@ Proof.
       with original proof, without harming it too much *)
     intro Hp.
     pose proof (n10_27 φ ψ) as n10_27.
-    pose proof (S1 Hp) as S1_1.
-    now MP n10_27 S1_1.
+    pose proof (S1 Hp) as S1.
+    clear n10_22l.
+    now MP n10_27 S11.
   }
   assert (S3 : (∀ z, φ z ↔ ψ z) → (∀ z, ψ z → φ z)).
   {
@@ -546,8 +547,9 @@ Proof.
   {
     intro Hp.
     pose proof (n10_27 ψ φ) as n10_27.
-    pose proof (S3 Hp) as S3_1.
-    now MP n10_27 S3_1.
+    pose proof (S3 Hp) as S3.
+    clear S2 Hp.
+    now MP n10_27 S3.
   }
   assert (S5 : (∀ z, φ z ↔ ψ z) → ((∀ z, φ z) ↔ (∀ z, ψ z))).
   {
@@ -723,7 +725,7 @@ Proof.
     → ∀ x, (φ x → χ x)).
   {
     intro Hp.
-    pose proof (S1 Hp) as S1_1.
+    pose proof (S1 Hp) as S1.
     (* Original proof here has abbreviated a lot of proofs being explained separately *)
     assert (Sy1 : (φ X → ψ X) ∧ (ψ X → χ X) → (φ X → χ X)).
     {
@@ -745,7 +747,7 @@ Proof.
         (fun x => (φ x → χ x))) as n10_27.
       now MP n10_27 Sy2.
     }
-    now MP Sy3 S1_1.
+    now MP Sy3 S1.
   }
   exact S2.
 Qed.
@@ -903,9 +905,9 @@ Proof.
     → (ψ x <[- x -]> χ x)).
   {
     intro Hp.
-    pose proof (S1 Hp) as S1_1.
+    pose proof (S1 Hp) as S1.
     pose proof (n10_301 ψ φ χ) as n10_301.
-    now MP n10_301 S1_1.
+    now MP n10_301 S1.
   }
   exact S2.
 Qed.
@@ -929,9 +931,9 @@ Proof.
     → (ψ x <[- x -]> χ x)).
   {
     intro Hp.
-    pose proof (S1 Hp) as S1_1.
+    pose proof (S1 Hp) as S1.
     pose proof (n10_301 ψ φ χ) as n10_301.
-    now MP n10_301 S1_1.
+    now MP n10_301 S1.
   }
   exact S2.
 Qed.
@@ -1260,9 +1262,9 @@ Proof.
     → (φ x ∧ ψ x) <[- x -]> (χ x ∧ θ x)).
   {
     intro Hp.
-    pose proof (S4 Hp) as S4_1.
-    rewrite <- n10_22 in S4_1.
-    now setoid_rewrite <- Equiv4_01a in S4_1.
+    pose proof (S4 Hp) as S4.
+    rewrite <- n10_22 in S4.
+    now setoid_rewrite <- Equiv4_01a in S4.
   }
   exact S5.
 Qed.

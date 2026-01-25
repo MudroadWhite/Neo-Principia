@@ -111,9 +111,9 @@ Proof.
   assert (S5 : (X = Y) → (ψ X → ψ Y)).
   {
     intro Hp.
-    pose proof (S4 Hp) as S4_1.
-    clear S2 S3 S4.
-    now MP S4_1 S1.
+    pose proof (S4 Hp) as S4.
+    clear S2 S3.
+    now MP S4 S1.
   }
   exact S5.
 Admitted.
@@ -195,15 +195,12 @@ Proof.
   assert (S2 : (X = Y) → (ψ X ↔ ψ Y)).
   {
     intro Hp.
-    pose proof (S1 Hp) as S1_1.
-    destruct S1_1 as [S1_1l S1_1r].
+    pose proof (S1 Hp) as S1.
+    destruct S1 as [S1_1l S1_1r].
     pose proof (Transp2_17 (ψ Y) (ψ X)) as Transp2_17.
     MP Transp2_17 S1_1r.
     assert (C1 : (ψ X → ψ Y) ∧ (ψ Y → ψ X)).
-    {
-      clear S1 Hp.
-      now Conj S1_1l Transp2_17 C1.
-    }
+    { now Conj S1_1l Transp2_17 C1. }
     now Equiv C1.
   }
   exact S2.
@@ -263,10 +260,10 @@ Proof.
     → (∀ φ : Predicate 1, φ X → φ Z)).
   {
     intros Hp.
-    pose proof (S1 Hp) as S1_1.
+    pose proof (S1 Hp) as S1.
     pose proof (Variants.n10_3_pred
       (fun P => P X) (fun P => P Y) (fun P => P Z)) as n10_3_pred.
-    now MP n10_3_pred S1_1.
+    now MP n10_3_pred S1.
   }
   assert (S3 : ((X = Y) ∧ (Y = Z)) → (X = Z)).
   { now rewrite <- n13_01 in S2. }
@@ -354,19 +351,19 @@ Proof.
     pose proof (n10_1 (fun z => X = z ↔ z = Y) X) as n10_1.
     (* Simplification *)
     intro Hp.
-    pose (n10_1 Hp) as n10_1_1.
-    now destruct n10_1_1.
+    pose proof (n10_1 Hp) as n10_1.
+    now destruct n10_1.
   }
   assert (S3 : ((X = z) <[- z -]> (z = Y))  → (X = Y)).
   {
     (* Simplification *)
     intro Hp.
-    pose proof (S2 Hp) as S2_1.
+    pose proof (S2 Hp) as S2.
     (* This seems to be a very exceptional use of *13_15 :
     it is being used as a term being applied not a theorem 
     to be applied *)
     pose proof (n13_15 X) as n13_15.
-    now MP S2_1 n13_15.
+    now MP S2 n13_15.
   }
   assert (S4 : (X = Y) ↔ ((X = z) <[- z -]> (z = Y))).
   {
@@ -408,8 +405,8 @@ Proof.
     rewrite -> n13_16 in n13_12.
     (* Simplification *)
     intro Hp.
-    pose (n13_12 Hp) as n13_12_1.
-    now destruct n13_12_1.
+    pose proof (n13_12 Hp) as n13_12.
+    now destruct n13_12.
   }
   assert (S4 : φ X → ((Y = X) → φ Y)).
   {
