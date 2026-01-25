@@ -1516,10 +1516,15 @@ Proof.
     (* n3_47 ignored. Here we try to save the routine... *)
     intro H.
     destruct H as [HS8 HS7].
-    pose proof (S7 HS7) as S7_1.
-    pose proof (S8 HS8) as S8_1.
-    clear S7 S8.
-    Conj S7_1 S8_1 C1.
+    pose proof (S7 HS7) as S7.
+    pose proof (S8 HS8) as S8.
+    assert (C1 : 
+      ((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w  → φ z -[ z ]> ψ z )
+      /\ ((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w → χ w -[ w ]> θ w)).
+    {
+      clear S2 HS7 HS8.
+      now Conj S7 S8 C1.
+    }
     pose proof (Comp3_43 
       (∀ z w, φ z ∧ χ w → ψ z ∧ θ w)
       (∀ z, φ z → ψ z)
@@ -1533,9 +1538,9 @@ Proof.
     clear S7 S8.
     (* Similarly, we save the rountine *)
     intro H.
-    pose proof (S9 H) as S9_1.
-    clear S9 H.
-    Conj S2 S9_1 C1.
+    pose proof (S9 H) as S9.
+    clear H.
+    Conj S2 S9 C1.
     now Equiv C1.
   }
   exact S10.
