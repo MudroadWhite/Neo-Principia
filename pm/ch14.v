@@ -747,13 +747,21 @@ Theorem n14_142 (A : Prop) (s1 s2 : string) (Phi Psi : Prop → Prop) :
       (fun x y => (Iota s1 x) = (Iota s2 y)))
   → (iota_f s2 Psi (fun x => A = (Iota s2 x))).
 Proof.
-  
+  assert (S1 : ((iota_f s1 Phi (fun x => A = (Iota s1 x))) 
+      ∧ iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y)))
+    -> ((exists b, (Phi x <[- x -]> (x = b)) /\ (A = b)) 
+      /\ (exists c, (Phi x <[- x -]> (x = c)) /\ iota_f s2 Psi 
+        (fun x => c = (Iota s2 x))))).
+  {
+    pose proof n14_1 as _n14_1.
+    
+  }
 Admitted.
 
-Theorem n14_144 (Phi Psi Chi : Prop → Prop) : 
-  ((iota_f2 "Phi" "Psi" Phi Psi (fun x y => (Iota "Phi" x) = (Iota "Psi" y)))
-    ∧ (iota_f2 "Psi" "Chi" Psi Chi (fun x y => (Iota "Psi" x) = (Iota "Chi" y))))
-  → (iota_f2 "Phi" "Chi" Phi Chi (fun x y => (Iota "Phi" x) = (Iota "Chi" y))).
+Theorem n14_144 (s1 s2 s3 : string) (Phi Psi Chi : Prop → Prop) : 
+  ((iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y)))
+    ∧ (iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y))))
+  → (iota_f2 s1 s3 Phi Chi (fun x y => (Iota s1 x) = (Iota s3 y))).
 Proof.
 Admitted.
 
