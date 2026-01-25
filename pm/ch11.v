@@ -1520,7 +1520,7 @@ Proof.
     pose proof (S8 HS8) as S8.
     assert (C1 : 
       ((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w  → φ z -[ z ]> ψ z )
-      /\ ((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w → χ w -[ w ]> θ w)).
+      ∧ ((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w → χ w -[ w ]> θ w)).
     {
       clear S2 HS7 HS8.
       now Conj S7 S8 C1.

@@ -278,7 +278,7 @@ Proof.
     pose proof (S2 Hp) as S2.
     destruct S2 as [A1 A2].
     destruct A2 as [A2l _].
-    assert (S2_1 : Phi B /\ (Phi B → B = C)).
+    assert (S2_1 : Phi B ∧ (Phi B → B = C)).
     { 
       clear S1.
       now Conj A1 A2l S2_1. 
@@ -787,14 +787,14 @@ Proof.
   assert (S3 : (iota_f s1 Phi (fun x => A = Iota s1 x)
     ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
       (fun y => Iota s1 x = Iota s2 y)))
-  -> exists c, (Phi x <[- x -]> (x = A)) /\ (Phi x <[- x -]> (x = c)) 
+  -> exists c, (Phi x <[- x -]> (x = A)) ∧ (Phi x <[- x -]> (x = c)) 
       ∧ iota_f s2 Psi (fun x => c = (Iota s2 x))).
   { now rewrite <- n10_35 in S2. }
   assert (S4 : (iota_f s1 Phi (fun x => A = Iota s1 x)
     ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
       (fun y => Iota s1 x = Iota s2 y)))
-  -> exists c, (Phi x <[- x -]> (x = A)) /\ (A = c)
-      /\ iota_f s2 Psi (fun x => c = (Iota s2 x))).
+  -> exists c, (Phi x <[- x -]> (x = A)) ∧ (A = c)
+      ∧ iota_f s2 Psi (fun x => c = (Iota s2 x))).
   {
     intros Hp.
     pose proof (S3 Hp) as S3.
@@ -830,9 +830,9 @@ Proof.
   assert (S1 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
     ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
     -> ((exists a b, (Phi x <[- x -]> (x = a)) 
-          /\ (Psi x <[- x -]> (x = b)) /\ (a = b)))
-        /\ (exists c d, (Psi x <[- x -]> (x = c)) 
-          /\ (Chi x <[- x -]> (x = d)) /\ (c = d))).
+          ∧ (Psi x <[- x -]> (x = b)) ∧ (a = b)))
+        ∧ (exists c d, (Psi x <[- x -]> (x = c)) 
+          ∧ (Chi x <[- x -]> (x = d)) ∧ (c = d))).
   {
     pose proof (n14_112 s1 s2 Phi Psi
       (fun x y => Iota s1 x = Iota s2 y)) as n14_112a.
@@ -843,7 +843,7 @@ Proof.
     assert (C1 : (iota_f2 s1 s2 Phi Psi (λ x y, x = y)
         → ∃ b c, (Phi x <[- x -]> x = b) 
           ∧ (Psi x <[- x -]> x = c) ∧ b = c)
-      /\ (iota_f2 s2 s3 Psi Chi (λ x y, x = y)
+      ∧ (iota_f2 s2 s3 Psi Chi (λ x y, x = y)
       → ∃ b c, (Psi x <[- x -]> x = b)
           ∧ (Chi x <[- x -]> x = c) ∧ b = c)).
     { now Conj n14_113al n14_113bl C1. }
@@ -858,8 +858,8 @@ Proof.
   }
   assert (S2 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
       ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
-    -> ((exists a, (Phi x <[- x -]> (x = a)) /\ (Psi x <[- x -]> (x = a)))
-      /\ (exists c, (Psi x <[- x -]> (x = c)) /\ (Chi x <[- x -]> (x = c))))).
+    -> ((exists a, (Phi x <[- x -]> (x = a)) ∧ (Psi x <[- x -]> (x = a)))
+      ∧ (exists c, (Psi x <[- x -]> (x = c)) ∧ (Chi x <[- x -]> (x = c))))).
   {
     (* simplifications... look at how organized it has been! *)
     intro Hp.
@@ -883,16 +883,16 @@ Proof.
   assert (S3 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
       ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
     -> exists a c, (Phi x <[- x -]> (x = a))
-      /\ (Psi x <[- x -]> (x = a)) /\ (Psi x <[- x -]> (x = c))
-      /\ (Chi x <[- x -]> (x = c))).
+      ∧ (Psi x <[- x -]> (x = a)) ∧ (Psi x <[- x -]> (x = c))
+      ∧ (Chi x <[- x -]> (x = c))).
   {
     rewrite <- n11_54 in S2.
     now setoid_rewrite -> n4_32 in S2.
   }
   assert (S4 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
       ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
-    -> exists a c, (Phi x <[- x -]> (x = a)) /\ (Chi x <[- x -]> (x = c))
-      /\ (a = c)).
+    -> exists a c, (Phi x <[- x -]> (x = a)) ∧ (Chi x <[- x -]> (x = c))
+      ∧ (a = c)).
   {
     (* simplifications to avoid all the tedious works *)
     (* *11.42 ignored *)
@@ -950,7 +950,7 @@ Theorem n14_145 (A : Prop) (s1 s2 : string) (Phi Psi : Prop → Prop) :
     ∧ (iota_f s2 Psi (fun x => A = (Iota s2 x))))
   → (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))).
 Proof.
-  
+
 Admitted.
 
 Theorem n14_15 (B : Prop) (s : string) (Phi Psi : Prop → Prop) : 
