@@ -827,11 +827,40 @@ Proof.
     ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
     -> ((exists a b, (Phi x <[- x -]> (x = a)) 
           /\ (Psi x <[- x -]> (x = b)) /\ (a = b)))
-        /\ (exists c d, (Psi x <[- x -]> (x = c) 
-          /\ (Chi x <[- x -]> (x = d)) /\ (c = d)))).
+        /\ (exists c d, (Psi x <[- x -]> (x = c)) 
+          /\ (Chi x <[- x -]> (x = d)) /\ (c = d))).
   {
-    pose proof n14_113 as n14_113.
+    pose proof (n14_112 s1 s2 Phi Psi
+      (fun x y => Iota s1 x = Iota s2 y)) as n14_112a.
+    destruct n14_112a as [n14_112al _].
+    pose proof (n14_112 s2 s3 Psi Chi
+      (fun x y => Iota s2 x = Iota s3 y)) as n14_112b.
+    destruct n14_112b as [n14_112bl _].
+    assert (C1 : (iota_f2 s1 s2 Phi Psi (λ x y, x = y)
+        → ∃ b c, (Phi x <[- x -]> x = b) 
+          ∧ (Psi x <[- x -]> x = c) ∧ b = c)
+      /\ (iota_f2 s2 s3 Psi Chi (λ x y, x = y)
+      → ∃ b c, (Psi x <[- x -]> x = b)
+          ∧ (Chi x <[- x -]> x = c) ∧ b = c)).
+    { now Conj n14_113al n14_113bl C1. }
+    pose proof (n3_47
+      (iota_f2 s1 s2 Phi Psi (fun x y => Iota s1 x = Iota s2 y))
+      (iota_f2 s2 s3 Psi Chi (fun x y => Iota s2 x = Iota s3 y))
+      (∃ b c, (Phi x <[- x -]> x = b) 
+        ∧ (Psi x <[- x -]> x = c) ∧ b = c)
+      (∃ b c, (Psi x <[- x -]> x = b)
+        ∧ (Chi x <[- x -]> x = c) ∧ b = c)) as n3_47.
+    now MP n3_47 C1.
   }
+  assert (S2 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
+      ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
+    -> ((exists a, (Phi x <[- x -]> (x = a)) /\ (Psi x <[- x -]> (x = a)))
+      /\ (exists c, (Psi x <[- x -]> (x = c)) /\ (Chi x <[- x -]> (x = c))))).
+  {
+    (* workable but too tedious to complete at the moment *)
+    pose proof n13_195 as n13_195.
+  }
+  
 Admitted.
 
 Theorem n14_145 (A : Prop) (s1 s2 : string) (Phi Psi : Prop → Prop) : 
