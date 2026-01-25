@@ -222,14 +222,14 @@ Proof.
   -> ((Phi x ∧ Phi y) -[ x y ]> (x = y))).
   {
     intros Hp.
-    pose proof (S2 Hp) as S2_1.
+    pose proof (S2 Hp) as S2.
     (* simplifications... don't want to figure out how to do 
     it correctly atm *)
     intros x y.
-    pose proof (S2_1 x y) as S2_2.
-    destruct S2_2 as [S2_2l _].
+    pose proof (S2 x y) as S2.
+    destruct S2 as [S2l _].
     pose proof (n13_172 B x y) as n13_172.
-    now Syll S2_2l n13_172 S3.
+    now Syll S2l n13_172 S3.
   }
   assert (S4 : (exists b, (Phi x <[- x -]> (x = b)))
     -> ((Phi x ∧ Phi y) -[ x y ]> (x = y))).
@@ -275,13 +275,16 @@ Proof.
   {
     (* Simplifications... *)
     intro Hp.
-    pose proof (S2 Hp) as S2_1.
-    destruct S2_1 as [A1 A2].
+    pose proof (S2 Hp) as S2.
+    destruct S2 as [A1 A2].
     destruct A2 as [A2l _].
-    Conj A1 A2l S2_2.
-    pose proof Ass3_35 as _Ass3_35.
+    assert (S2_1 : Phi B /\ (Phi B → B = C)).
+    { 
+      clear S1.
+      now Conj A1 A2l S2_1. 
+    }
     pose proof (Ass3_35 (Phi B) (B = C)) as Ass3_35.
-    now MP Ass3_35 S2_2.
+    now MP Ass3_35 S2_1.
   }
   exact S3.
 Admitted.
@@ -485,8 +488,8 @@ Proof.
     MP n3_47 C1.
     (* simplification for syll *)
     intros Hp.
-    pose proof (S2 Hp) as S2_2.
-    now Syll S2_2 n3_47 S3.
+    pose proof (S2 Hp) as S2.
+    now Syll S2 n3_47 S3.
   }
   assert (S4 : (exists x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
     -> (((Phi Z W) ∧ (Phi U V)) -> ((Z = U) ∧ (W = V)))).
@@ -786,9 +789,33 @@ Proof.
       (fun y => Iota s1 x = Iota s2 y)))
   -> exists c, (Phi x <[- x -]> (x = A)) /\ (Phi x <[- x -]> (x = c)) 
       ∧ iota_f s2 Psi (fun x => c = (Iota s2 x))).
+  { now rewrite <- n10_35 in S2. }
+  assert (S4 : (iota_f s1 Phi (fun x => A = Iota s1 x)
+    ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
+      (fun y => Iota s1 x = Iota s2 y)))
+  -> exists c, (Phi x <[- x -]> (x = A)) /\ (A = c)
+      /\ iota_f s2 Psi (fun x => c = (Iota s2 x))).
   {
-    
+    intros Hp.
+    pose proof (S3 Hp) as S3.
+    (* I don't think here is provable *)
+    pose proof n14_121 as n14_121.
+    admit.
   }
+  assert (S5 : iota_f s1 Phi (fun x => A = Iota s1 x)
+      ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
+        (fun y => Iota s1 x = Iota s2 y))
+    → iota_f s2 Psi (fun x => A = Iota s2 x)).
+  {
+    (* I think it could be that *14.121 should be used in last step
+    but in that case the *3.27 here will not be used. Aka S4 has been
+    typed wrong in original text with an extra `<->` term
+    TODO: we can correct both of the steps in the future *)
+    pose proof Simp3_27 as Simp3_27.
+    pose proof n13_195 as n13_195.
+    admit.
+  }
+  exact S5.
 Admitted.
 
 Theorem n14_144 (s1 s2 s3 : string) (Phi Psi Chi : Prop → Prop) : 
