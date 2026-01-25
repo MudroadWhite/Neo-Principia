@@ -319,15 +319,15 @@ Proof.
     }
     Syll S8 S8_1 S8_2.
     pose proof (n10_21 (fun x => ¬ φ x) (¬ P)) as n10_21.
-    destruct n10_21 as [n10_21l n10_21r].
-    clear S1 S2 S3 S4 S5 S6 S7 n10_11 n10_21l S8 S8_1.
-    now Syll S8_2 n10_21r S9.
+    destruct n10_21 as [_ n10_21].
+    clear S1 S2 S3 S4 S5 S6 S7 n10_11 S8 S8_1.
+    now Syll S8_2 n10_21 S9.
   }
   assert (S10 : (∀ x, (φ x → P)) → (∃ x, φ x) → P).
   {
-    destruct S2 as [S2_l S2_r].
-    clear S1 S3 S4 S5 S6 S7 S8 S2_l.
-    now Syll S9 S2_r S10.
+    destruct S2 as [_ S2].
+    clear S1 S3 S4 S5 S6 S7 S8.
+    now Syll S9 S2 S10.
   }
   assert (S11 : (∀ x, φ x → P) ↔ ((∃ x, φ x) → P)).
   {
@@ -387,7 +387,7 @@ Theorem n10_253 (φ : Prop → Prop) : ¬(∀ x, φ x) → (∃ x, ¬φ x).
 Proof.
   pose proof (n4_2 (¬ ∀ x, φ x)) as n4_2.
   rewrite -> n9_01 in n4_2 at 2.
-  now destruct n4_2 as [n4_2l n4_2r].
+  now destruct n4_2.
 Qed.
 
 Theorem n10_252_alt (φ : Prop → Prop) : ¬(∃ x, φ x) ↔ (∀ x, ¬ φ x).
@@ -719,7 +719,7 @@ Proof.
     (* n10_221 ignored *)
     (* Technically we need to use `Equiv` and `Simp`. For convinience we use 
     `destruct` immediately *)
-    now destruct n10_22a as [n10_22l n10_22r].
+    now destruct n10_22a.
   }
   assert (S2 : ((∀ x, φ x → ψ x) ∧ (∀ x, ψ x → χ x))
     → ∀ x, (φ x → χ x)).

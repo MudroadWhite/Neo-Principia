@@ -1425,10 +1425,9 @@ Proof.
       (∃ w, χ w)
       ((∀ z w, φ z ∧ χ w → ψ z ∧ θ w)
         → ψ Z)) as n4_87.
-    destruct n4_87 as [n4_87l n4_87mr].
-    clear n4_87mr.
-    rewrite -> n4_87l in S5_1.
-    clear n4_87l.
+    destruct n4_87 as [n4_87 _].
+    rewrite -> n4_87 in S5_1.
+    clear n4_87.
     rewrite -> Comm_Equiv in S5_1.
     pose proof (Comm2_04 
       (φ Z)
@@ -1490,10 +1489,9 @@ Proof.
       (∃ z, φ z)
       ((∀ z w, φ z ∧ χ w → ψ z ∧ θ w)
         → θ W)) as n4_87.
-    destruct n4_87 as [n4_87l n4_87mr].
-    clear n4_87mr.
-    rewrite -> n4_87l in S5_3.
-    clear n4_87l.
+    destruct n4_87 as [n4_87 _].
+    rewrite -> n4_87 in S5_3.
+    clear n4_87.
     rewrite -> Comm_Equiv in S5_3.
     pose proof (Comm2_04 
       (χ W)
