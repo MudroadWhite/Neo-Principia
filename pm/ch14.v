@@ -823,6 +823,10 @@ Theorem n14_144 (s1 s2 s3 : string) (Phi Psi Chi : Prop → Prop) :
     ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
   → iota_f2 s1 s3 Phi Chi (fun x y => (Iota s1 x) = (Iota s3 y)).
 Proof.
+  (* TOOLS *)
+  set (X := Individual "x").
+  set (Y := Individual "y").
+  (* ******** *)
   assert (S1 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
     ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
     -> ((exists a b, (Phi x <[- x -]> (x = a)) 
@@ -857,17 +861,96 @@ Proof.
     -> ((exists a, (Phi x <[- x -]> (x = a)) /\ (Psi x <[- x -]> (x = a)))
       /\ (exists c, (Psi x <[- x -]> (x = c)) /\ (Chi x <[- x -]> (x = c))))).
   {
-    (* workable but too tedious to complete at the moment *)
-    pose proof n13_195 as n13_195.
+    (* simplifications... look at how organized it has been! *)
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    destruct S1 as [S1l S1r].
+    setoid_rewrite -> n4_3 in S1l.
+    setoid_rewrite -> n4_3 in S1l at 2.
+    setoid_rewrite -> n4_32 in S1l.
+    setoid_rewrite -> n13_16 in S1l at 1.
+    setoid_rewrite -> n13_195 in S1l.
+    setoid_rewrite -> n4_3 in S1l.
+    setoid_rewrite -> n4_3 in S1r.
+    setoid_rewrite -> n4_3 in S1r at 2.
+    setoid_rewrite -> n4_32 in S1r.
+    setoid_rewrite -> n13_16 in S1r at 1.
+    setoid_rewrite -> n13_195 in S1r.
+    setoid_rewrite -> n4_3 in S1r.
+    clear Hp.
+    now Conj S1l S1r C1.
   }
-  
-Admitted.
+  assert (S3 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
+      ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
+    -> exists a c, (Phi x <[- x -]> (x = a))
+      /\ (Psi x <[- x -]> (x = a)) /\ (Psi x <[- x -]> (x = c))
+      /\ (Chi x <[- x -]> (x = c))).
+  {
+    rewrite <- n11_54 in S2.
+    now setoid_rewrite -> n4_32 in S2.
+  }
+  assert (S4 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
+      ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
+    -> exists a c, (Phi x <[- x -]> (x = a)) /\ (Chi x <[- x -]> (x = c))
+      /\ (a = c)).
+  {
+    (* simplifications to avoid all the tedious works *)
+    (* *11.42 ignored *)
+    intro Hp.
+    pose proof (S3 Hp) as S3.
+    pose proof n4_32 as n4_32.
+    setoid_rewrite <- n4_32 in S3.
+    setoid_rewrite <- n4_32 in S3.
+    setoid_rewrite -> n4_3 in S3.
+    setoid_rewrite -> n4_32 in S3.
+    setoid_rewrite <- n4_32 in S3.
+    setoid_rewrite -> n4_3 in S3 at 2.
+    setoid_rewrite -> n4_3 in S3.
+    clear Hp.
+    (* Now we are going to construct something, "bottom up",
+    with ad-hoc individuals *)
+    pose proof (n14_121 X Y Psi) as n14_121.
+    pose proof (Fact3_45
+      ((Psi x <[- x -]> x = X) ∧ Psi x <[- x -]> x = Y)
+      (X = Y)
+      ((Phi x <[- x -]> x = X) ∧ Chi x <[- x -]> x = Y)) as Fact3_45.
+    MP Fact3_45 n14_121.
+    pose proof (n11_11 X Y (fun a c =>
+        ((Psi x <[- x -]> x = a) ∧ Psi x <[- x -]> x = c)
+        ∧ (Phi x <[- x -]> x = a) ∧ Chi x <[- x -]> x = c
+      → a = c ∧ (Phi x <[- x -]> x = a) ∧ Chi x <[- x -]> x = c)) 
+      as n11_11.
+    MP n11_11 Fact3_45.
+    pose proof (n11_34
+      (fun x y =>
+        (((Psi x0 <[- x0 -]> x0 = x) ∧ Psi x0 <[- x0 -]> x0 = y)
+        ∧ (Phi x0 <[- x0 -]> x0 = x) ∧ Chi x0 <[- x0 -]> x0 = y))
+      (fun x y => x = y
+        ∧ (Phi x0 <[- x0 -]> x0 = x) ∧ Chi x0 <[- x0 -]> x0 = y)) 
+      as n11_34.
+    MP n11_34 n11_11.
+    clear n4_32 n14_121 Fact3_45 n11_11.
+    MP n11_34 S3.
+    setoid_rewrite -> n4_3 in n11_34.
+    now setoid_rewrite -> n4_32 in n11_34.
+  }
+  assert (S5 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
+      ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
+    → iota_f2 s1 s3 Phi Chi (fun x y => (Iota s1 x) = (Iota s3 y))).
+  {
+    pose proof (n14_112 s1 s3 Phi Chi (fun a c => (Iota s1 a) = (Iota s3 c))) 
+      as n14_112.
+    now rewrite <- n14_112 in S4.
+  }
+  exact S5.
+Qed.
 
 Theorem n14_145 (A : Prop) (s1 s2 : string) (Phi Psi : Prop → Prop) : 
   ((iota_f s1 Phi (fun x => A = (Iota s1 x))) 
     ∧ (iota_f s2 Psi (fun x => A = (Iota s2 x))))
   → (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))).
 Proof.
+  
 Admitted.
 
 Theorem n14_15 (B : Prop) (s : string) (Phi Psi : Prop → Prop) : 
