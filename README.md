@@ -1,5 +1,5 @@
 # Neo Principia
-[![Screenshot](./header.png)](https://www.youtube.com/watch?v=aBUFiQV30eM)
+[![Screenshot](./header.png)](https://www.youtube.com/watch?v=MMD9n-YZ93o)
 
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
