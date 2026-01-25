@@ -1413,9 +1413,9 @@ Proof.
         (φ Z ∧ (∃ w, χ w) → ψ Z)
       ).
       {
-        intro H.
+        intro Hp.
         pose proof (Simp3_26 (ψ Z) (∃ w, θ w)) as Simp3_26.
-        now Syll H Simp3_26 S5_1_1.
+        now Syll Hp Simp3_26 S5_1_1.
       }
       now Syll S5 S5_1_1 S5_1.
     }
@@ -1478,9 +1478,9 @@ Proof.
         →
         (χ W ∧ (∃ z, φ z) → θ W)).
       {
-        intro H.
+        intro Hp.
         pose proof (Simp3_26 (θ W) (∃ z, ψ z)) as Simp3_26.
-        now Syll H Simp3_26 S5_3_2.
+        now Syll Hp Simp3_26 S5_3_2.
       }
       now Syll S5_2 S5_3_1 S5_3.
     }
@@ -1514,8 +1514,8 @@ Proof.
       ((φ z -[z]> ψ z) ∧ (χ w -[w]> θ w))).
   {
     (* n3_47 ignored. Here we try to save the routine... *)
-    intro H.
-    destruct H as [HS8 HS7].
+    intro Hp.
+    destruct Hp as [HS8 HS7].
     pose proof (S7 HS7) as S7.
     pose proof (S8 HS8) as S8.
     assert (C1 : 
@@ -1537,9 +1537,9 @@ Proof.
   {
     clear S7 S8.
     (* Similarly, we save the rountine *)
-    intro H.
-    pose proof (S9 H) as S9.
-    clear H.
+    intro Hp.
+    pose proof (S9 Hp) as S9.
+    clear Hp.
     Conj S2 S9 C1.
     now Equiv C1.
   }

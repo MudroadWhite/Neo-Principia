@@ -313,8 +313,8 @@ Proof.
     (* A demonstration of recursive `Syll`
     maybe there's even better and more natural way to handle this *)
     {
-      intro H.
-      Syll H n10_11 H0.
+      intro Hp.
+      Syll Hp n10_11 H0.
       exact H0.
     }
     Syll S8 S8_1 S8_2.
