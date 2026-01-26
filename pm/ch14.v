@@ -991,10 +991,14 @@ Proof.
     → (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y)))).
   {
     destruct S4 as [S4 _].
-    pose proof n10_24 as n10_24.
-    pose proof n14_112 as n14_112.
+    pose proof (n10_24 (fun a => ∃ b, (Phi x <[- x -]> x = a) 
+      ∧ (Psi x <[- x -]> x = b) ∧ a = b) A) as n10_24.
+    Syll n10_24 S4 S4_1.
+    pose proof (n14_112 s1 s2 Phi Psi (fun a b => a = b)) as n14_112.
+    now rewrite <- n14_112 in S4_1.
   }
-Admitted.
+  exact S5.
+Qed.
 
 Theorem n14_15 (B : Prop) (s : string) (Phi Psi : Prop → Prop) : 
   (iota_f s Phi (fun x => (Iota s x) = B))
