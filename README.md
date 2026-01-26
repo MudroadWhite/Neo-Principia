@@ -1,5 +1,5 @@
 # Neo Principia
-[![Screenshot](./header.png)](https://www.youtube.com/watch?v=aBUFiQV30eM)
+[![Screenshot](./header.png)](https://www.youtube.com/watch?v=MMD9n-YZ93o)
 
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
@@ -40,7 +40,7 @@ Our current expectation is successfully express everything **before chapter 14**
 ## How well have you formalized?
 Which means 2 questions:
 
-- **How much have you formalized?** 176 - 94 = 82 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
+- **How much have you formalized?** 179 - 94 = 85 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
 - **How deep can you formalize?** We won't construct the deep embedding, as explained above. See [audit](./docs/5_audit.md) for secondary limitations.
 
 ## Running the code
@@ -67,8 +67,9 @@ IDEs for Coq/Rocq varies, but here is my preference:
 - Extension installed on VSCode, in its remote WSL environment: VSCoq v0.3.7 from [OpenVSX](https://open-vsx.org/extension/maximedenes/vscoq).
 
 ## To contribute
-Although I have tried to organize the issues well to indicate the current progress, I don't have rich experience on collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
+Although I have tried to organize the issues well to indicate the current progress, I don't have rich experience in collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
 
 ## Related works
-- [Landon Elkind's formalization on  Principia Mathematica](https://github.com/LogicalAtomist/principia)
-- [Randall Holmes's formalization on ramified type theory](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT)
+- [Landon Elkind's formalization of Principia Mathematica](https://github.com/LogicalAtomist/principia)
+- [ndrwnaguib's formalization in Lean](https://github.com/ndrwnaguib/principia)
+- [Randall Holmes's formalization of ramified type theory](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT)

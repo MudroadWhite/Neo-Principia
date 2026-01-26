@@ -3,10 +3,12 @@ This chapter discusses the tactics we generally use for every proofs in deeper d
 
 Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from Modus Ponens and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.
 
-As a consequence, We don't need fancy tactics to formalize the theorems. We want the tactics to 1. follow the proof; 2. if the proof contains a tedious routine, simplify the proof without breaking the proof down. Since the following sections are roughly organized by "constructors" for each kind of propositions, within which we further add extra ways to simplify the proofs, it seems to be necessary to state beforehead, what do we concern for simplifications.
+As a consequence, We don't need fancy tactics to formalize the theorems. We want the tactics to 1. follow the proof; 2. simplify common and tedious routines without breaking the proof down. 
+
+Since the following sections are roughly organized by "constructors" for each kind of propositions, within which we further add extra ways to simplify the proofs, it seems to be necessary to state beforehead, when do we simplify a proof.
 
 ## 0. Rules to simplify routines
-We can use a new tactic to simplify a tedious part of proof down, if
+We can use a new tactic to simplify a tedious part of proof, if
 - The tactic is general enough(why not) to apply the simplification
 - We clearly identified the theorem used in original routine
 - We clearly identified the types of parameters, for theorems in original routine. Parameters' types matter
@@ -36,7 +38,7 @@ Technically speaking, if we completely follow the deduction rules in PM's logic 
 
 There's also a much more convenient routine provided in chapter 4, for `↔` rules to apply on `↔` propositions. 
 
-Generally still, it's straightforward that all these routines are quite a lot just for a single rewrite with `↔`. To simplify the procedure, Rocq's `rewrite` tactic shrinks everything into one line, so we are allowed to use it providing that we can always expand these `rewrite`s into a sequence of `Simp`, `MP`, `Conj` and `Equiv`, or more.
+It's straightforward that all these routines are quite a lot just for a single rewrite with `↔`. Rocq's `rewrite` tactic shrinks everything into one line, so we should use it providing that we can always expand these `rewrite`s into a sequence of `Simp`, `MP`, `Conj` and `Equiv`, or more.
 - \[Simplification\]`rewrite -> thm` on `↔` is **allowed**.
 - \[Simplification\]`rewrite <- thm` on `↔` is **allowed**.
 - \[Simplification\]The `at` variant is **allowed**, to specify the targeted subterm. Refining the subterm is a finite repetition of `MP`s and `Syll`s. Beside using `at`, we can also provide the full parameter list for `thm` to `rewrite`.
@@ -89,7 +91,7 @@ TODO: rewrite this part in the future: where to simplify is highly unpredictable
 Either for "historical reasons"(this project really doesn't have a history), or when we want to work through a proof quickly, and we didn't figure out the correct way to write the proof, "technical hacks" arises for proof completions. The most common ones are listed below, but they might never appear in the proofs. This is because: unless there is a severe technical barrier, they are **recommended** to be taken down.
 - \[Simplification\]`replace...with` is a valid and flexible substitution for rewriting, but it's too heavy.
 - \[Simplification\]`apply propositional_extentionality` might occur inside `replace...with` blocks. Its purpose is to change the goal of `=` form into a goal of `↔` form for easier reasoning. It might work against original text.
-- \[Simplification\]`intro` introduces the premise as a hypothesis. `intro Hp`, as utilized in chapter 5 & 10, has proven its harmlessness. Other from `intro Hp`, other occurrences should be eliminated.
+- \[Simplification\]`intro` introduces the premise as a hypothesis. `intro Hp`, as utilized in chapter 5 & 10, has proven its harmlessness. Other from `intro Hp`, other occurrences should be eliminated. The proposition `S` to be applied to, has to be replaced completely with `pose proof (S Hp) as S`.
 - \[Simplification\]`now tactic thm ...` says that, if the `tactic` we use can directly provide a result that is not very far from the goal, then we prove the goal immediately. Typically it's very useful for saving a line of `exact thm`. Every line of `now tactic thm` can be turned back into `tactic thm` for readers to check if it does indeed generate a proposition that is exactly the same as the goal, and this tactic is **recommended** to use.
 - \[Simplification\]Further exceptions not being listed above, for example in chapter 11, have to be explicitly stated with a comment that a simplification has happened. This is **recommended** to be taken down in the future.
 
