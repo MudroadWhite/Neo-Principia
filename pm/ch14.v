@@ -1002,17 +1002,35 @@ Qed.
 
 Theorem n14_15 (B : Prop) (s : string) (Phi Psi : Prop → Prop) : 
   (iota_f s Phi (fun x => (Iota s x) = B))
-  → (iota_f s Phi (fun x => Psi (Iota s x))
-    ↔ Psi B).
+  → (iota_f s Phi (fun x => Psi (Iota s x)) ↔ Psi B).
 Proof.
+  assert (S1 : (iota_f s Phi (fun x => (Iota s x) = B))
+    -> (exists c, (Phi x <[- x -]> (x = c)) /\ (c = B))).
+  { apply n14_1. }
+  assert (S2 : (iota_f s Phi (fun x => (Iota s x) = B))
+    -> (Phi x <[- x -]> (x = B))).
+  {
+    setoid_rewrite -> n4_3 in S1.
+    now rewrite -> n13_195 in S1.
+  }
+  assert (S3 : (iota_f s Phi (fun x => (Iota s x) = B))
+    -> ((iota_f s Phi Psi) <-> exists c, 
+      ((x = B) <[- x -]> (x = c)) /\ Psi c)).
+  {
+    (* I doubt if that is some allowed step in the system.
+    I conclude this cannot be proven *)
+    admit.
+  }
 Admitted.
 
+(* TODO: rewrite the proposition in iota_f style *)
 Theorem n14_16 (s1 s2 s3 : string) (Phi Psi Chi : Prop → Prop) :
   (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y)))
   →
   (iota_f2 s1 s2 Phi Psi (fun x y => 
     (Chi (Iota s1 x)) = (Chi (Iota s2 y)))).
 Proof.
+  assert (S1 : )
 Admitted.
 
 Theorem n14_17 (B : Prop) (Phi : Prop → Prop) : 
