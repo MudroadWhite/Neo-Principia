@@ -1138,7 +1138,7 @@ Proof.
     pose proof (n11_32 (fun x y => (φ x → ψ x) ∧ (φ y → ψ y))
       (fun x y => φ x ∧ φ y → ψ x ∧ ψ y)) as n11_32.
     MP n11_32 n11_11.
-    destruct S1 as [S1l S1r]. clear S1r.
+    destruct S1 as [S1l _].
     now Syll S1 n11_32 S2.
   }
   assert (S3 : (∀ x y, (φ x ∧ φ y) → (ψ x ∧ ψ y)) 
@@ -1254,18 +1254,6 @@ Proof.
   exact S4.
 Qed.
 
-(* It seems that n4_87 is not translated correctly, so here we temporarily
-use a correct form.
-TODO: move this into ch4 *)
-Theorem n4_87_corrected (P Q R : Prop) :
-  (((P ∧ Q) → R) ↔ (P → (Q → R)))
-  ∧
-  ((P → (Q → R)) ↔ (Q → (P → R)))
-  ∧ 
-  ((Q → (P → R)) ↔ ((Q ∧ P) → R)).
-Proof.
-Admitted.
-
 Theorem n11_62 (φ : Prop → Prop) (ψ χ : Prop → Prop → Prop) :
   ((φ x ∧ ψ x y) -[x y]> χ x y) ↔ (φ x -[x]> (ψ x y -[y]> χ x y)).
 Proof.
@@ -1276,8 +1264,8 @@ Proof.
   assert (S1 : ((φ x ∧ ψ x y) -[x y]> χ x y) 
     ↔ (∀ x y, φ x → (ψ x y → χ x y))).
   {
-    pose proof (n4_87_corrected (φ X) (ψ X Y) (χ X Y)) as n4_87.
-    destruct n4_87 as [n4_87l n4_87mr]. clear n4_87mr.
+    pose proof (n4_87 (φ X) (ψ X Y) (χ X Y)) as n4_87.
+    destruct n4_87 as [n4_87l _].
     pose proof (n11_11 X Y (fun x y => 
       (φ x ∧ ψ x y → χ x y) ↔ (φ x → ψ x y → χ x y)))as n11_11.
     MP n11_11 n4_87l.
@@ -1425,22 +1413,21 @@ Proof.
         (φ Z ∧ (∃ w, χ w) → ψ Z)
       ).
       {
-        intro H.
+        intro Hp.
         pose proof (Simp3_26 (ψ Z) (∃ w, θ w)) as Simp3_26.
-        now Syll H Simp3_26 S5_1_1.
+        now Syll Hp Simp3_26 S5_1_1.
       }
       now Syll S5 S5_1_1 S5_1.
     }
     rewrite -> Comm_Equiv in S5_1.
-    pose proof (n4_87_corrected
+    pose proof (n4_87
       (φ Z)
       (∃ w, χ w)
       ((∀ z w, φ z ∧ χ w → ψ z ∧ θ w)
         → ψ Z)) as n4_87.
-    destruct n4_87 as [n4_87l n4_87mr].
-    clear n4_87mr.
-    rewrite -> n4_87l in S5_1.
-    clear n4_87l.
+    destruct n4_87 as [n4_87 _].
+    rewrite -> n4_87 in S5_1.
+    clear n4_87.
     rewrite -> Comm_Equiv in S5_1.
     pose proof (Comm2_04 
       (φ Z)
@@ -1490,22 +1477,21 @@ Proof.
         →
         (χ W ∧ (∃ z, φ z) → θ W)).
       {
-        intro H.
+        intro Hp.
         pose proof (Simp3_26 (θ W) (∃ z, ψ z)) as Simp3_26.
-        now Syll H Simp3_26 S5_3_2.
+        now Syll Hp Simp3_26 S5_3_2.
       }
       now Syll S5_2 S5_3_1 S5_3.
     }
     rewrite -> Comm_Equiv in S5_3.
-    pose proof (n4_87_corrected
+    pose proof (n4_87
       (χ W)
       (∃ z, φ z)
       ((∀ z w, φ z ∧ χ w → ψ z ∧ θ w)
         → θ W)) as n4_87.
-    destruct n4_87 as [n4_87l n4_87mr].
-    clear n4_87mr.
-    rewrite -> n4_87l in S5_3.
-    clear n4_87l.
+    destruct n4_87 as [n4_87 _].
+    rewrite -> n4_87 in S5_3.
+    clear n4_87.
     rewrite -> Comm_Equiv in S5_3.
     pose proof (Comm2_04 
       (χ W)
@@ -1526,12 +1512,17 @@ Proof.
       ((φ z -[z]> ψ z) ∧ (χ w -[w]> θ w))).
   {
     (* n3_47 ignored. Here we try to save the routine... *)
-    intro H.
-    destruct H as [HS8 HS7].
-    pose proof (S7 HS7) as S7_1.
-    pose proof (S8 HS8) as S8_1.
-    clear S7 S8.
-    Conj S7_1 S8_1 C1.
+    intro Hp.
+    destruct Hp as [HS8 HS7].
+    pose proof (S7 HS7) as S7.
+    pose proof (S8 HS8) as S8.
+    assert (C1 : 
+      ((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w  → φ z -[ z ]> ψ z )
+      ∧ ((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w → χ w -[ w ]> θ w)).
+    {
+      clear S2 HS7 HS8.
+      now Conj S7 S8 C1.
+    }
     pose proof (Comp3_43 
       (∀ z w, φ z ∧ χ w → ψ z ∧ θ w)
       (∀ z, φ z → ψ z)
@@ -1544,10 +1535,10 @@ Proof.
   {
     clear S7 S8.
     (* Similarly, we save the rountine *)
-    intro H.
-    pose proof (S9 H) as S9_1.
-    clear S9 H.
-    Conj S2 S9_1 C1.
+    intro Hp.
+    pose proof (S9 Hp) as S9.
+    clear Hp.
+    Conj S2 S9 C1.
     now Equiv C1.
   }
   exact S10.

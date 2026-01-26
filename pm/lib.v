@@ -12,10 +12,12 @@ Export ClassicalFacts.
 Export PropExtensionality.
 Export String.
 
-(* cf.p.23: `=` propositions are allowed to be turned into `<->` propositions. An 
+(* TODO: redesign <[- x -]> in chapter 10, 11 and eliminate the repetitive definitions on them *)
+
+(* cf.p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
 Theorem eq_to_equiv : forall (P Q : Prop),
-  (P = Q) -> (P <-> Q).
+  (P = Q) → (P ↔ Q).
 Proof.
   intros P Q H.
   split; try rewrite -> H; trivial.
@@ -43,12 +45,12 @@ Should we treat `!` as something being denotational just like the dot notations 
 (* Module Predicate.
   Record t {n : nat} : Type := {
     (* This `fix_param` seems to be mostly unused, and might be deleted in the future *)
-    fix_param (X : Prop) := fun (f' : Prop -> Prop) => f' X;
-    fix_func (f : Prop -> Prop) := fun (X' : Prop) => f X';
+    fix_param (X : Prop) := fun (f' : Prop → Prop) => f' X;
+    fix_func (f : Prop → Prop) := fun (X' : Prop) => f X';
   }.
 End Predicate. *)
 (* Just declares a function is a predicate of order n *)
-Definition Predicate (n : nat) : Type := (Prop -> Prop).
+Definition Predicate (n : nat) : Type := (Prop → Prop).
 (* Experimental: Similar to `Individual`s, sometimes we need to introduce a predicate(?). Is it unnecessary? *)
 Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
 
@@ -56,17 +58,69 @@ Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
   To be uncommented when the notation is fixed *)
 (* Module Predicate2.
   Record t (n : nat) := {
-    fix_param (X Y : Prop) := fun (f' : Prop -> Prop -> Prop) => f' X Y;
-    fix_func (f : Prop -> Prop -> Prop) := fun (X' Y' : Prop) => f X' Y';
+    fix_param (X Y : Prop) := fun (f' : Prop → Prop → Prop) => f' X Y;
+    fix_func (f : Prop → Prop → Prop) := fun (X' Y' : Prop) => f X' Y';
   }.
 End Predicate2. *)
 (* TODO: maybe we should synthesize these 2 types into one inductive type with the name of "constituent" *)
+
+(* Notation support for chapter 14, descriptions *)
+Definition Iota (s : string) (x : Prop) : Prop := x.
+
+Example iota_function (i1 i2 : Prop) : Prop → Prop :=
+  fun x =>
+    (Iota "Phi" i1) = (Iota "Psi" i2).
+
+(* TODO: maybe we can recollect all the functions for iota into an 
+  inductive type *)
+
+(* `_f` suffix means it's for typical (untyped) functions. Here we only define
+  the signature to avoid repetitive definitions, and the actual definition starts 
+  after *14.01. *)
+Definition iota_f 
+  (* s is just a string for identification *)
+  (s : string)
+  (Phi : Prop → Prop) 
+  (* This function below is supposed to be a function of the iota term. Since the 
+  variable is provided within the proposition, we only type it just as a normal 
+  function. Unavailability of the existential `b` var from an external view is the 
+  major reason why this notation is hard to define.
+  While the definition doesn't express anything, this function is allowed to use 
+  `Iota s1` in its body *)
+  (Psi : Prop → Prop) : Prop. Admitted.
+
+Example scoped_iota_expression (Phi : Prop → Prop) :=
+  iota_f "Phi" Phi 
+    (* A function will be written like this... *)
+    (fun b => (Iota "Phi" b) = (Iota "Phi" b)).
+
+(* iota's predicate, "Exists" which states that a description exist. My understanding
+is that `E` in `E!` is the capital letter of `Exists` and `!` indicates that it is a 
+predicate. 
+
+TODO: give this iota_E the correct `Predicate` type
+*)
+Definition iota_E (Phi : Prop → Prop) : Prop. Admitted.
+
+(* cf. p174, example after *14.03. Interpretation for a function containing 
+  multiple descriptions *)
+Definition iota_f2 (s1 s2 : string) (Phi Psi : Prop → Prop)
+  (f : Prop → Prop → Prop) : Prop. Admitted.
+
+(* cf. p174, explanation after *14.04. The iota variant where inner function has 
+  larger scope than outer function. This variant will be proven later unecessary. 
+
+  The original definition depends on `iota_f2`. The function `iota_f` here, 
+  provided with parameters, gets a similar role to the idea of scope
+*)
+Definition iota_f2_1 (s1 s2 : string) (Phi Psi : Prop → Prop)
+  (f : Prop → Prop → Prop) : Prop. Admitted.
 
 (* ******** *)
 (* AGGREGATED TODOS *)
 (* ******** *)
 (* TODO:
-Add scope for each of the chapter, on definitions of `~` and `\/`, since they are supposed to be only work on "one type of propositions"
+Add scope for each of the chapter, on definitions of `~` and `∨`, since they are supposed to be only work on "one type of propositions"
 Should we also add scope for `MP` and `Syll`?
 Design a `comma` predicate  which works like a `id` `to enforce "lazy evaluation" on quantifiers 
 *)
@@ -96,9 +150,9 @@ this operator
 apparent variable "appears to be" the only variables, while "real variables" include the actual variants to be concluded
 
 ~p.20: 
-- (Ax, Px -> Q x) -> (Ax, Px) -> (Ax, Qx) requires that P Q takes arguments "of the same type". -> p.49
-- formal implication: the `->` wrapped up in `forall`s. It bypassed the problem that `P -> Q = ~P \/ Q`, and restrict that we have to 
-know `forall x, P x -> Q x` and `P X` to get `Q X`.
+- (Ax, Px → Q x) → (Ax, Px) → (Ax, Qx) requires that P Q takes arguments "of the same type". → p.49
+- formal implication: the `→` wrapped up in `forall`s. It bypassed the problem that `P → Q = ~P ∨ Q`, and restrict that we have to 
+know `forall x, P x → Q x` and `P X` to get `Q X`.
 
 ~p.22:
 (TODO)`=` is not defined until chapter 13, and this is being explained in chapter 2/chapter II.
@@ -148,19 +202,19 @@ of a function taking the same type
 - (notes on *1.01)the rules for definitional equality is out of the theory
 
 ~p.127:
-- Chapter II has explained that ~ and \/ should have different meaning on different propositions. Guess: we cannot define a
+- Chapter II has explained that ~ and ∨ should have different meaning on different propositions. Guess: we cannot define a
 negation on "all" propositions attributing to Russell's paradox
 
 ~p.128:
-- Goal of ch9: focus on definition of `~` and `\/` defined in *1 - *5 limited to eprops. Extend their definitions to 1st orde props
+- Goal of ch9: focus on definition of `~` and `∨` defined in *1 - *5 limited to eprops. Extend their definitions to 1st orde props
 - The support of `forall` and `exists` seems to be only for demonstration purpose - if we take them as primitive ideas, we can 
   conclude "upgraded" versions of propositions "just as in" ch1-5.
 - the important parts seems to be *1.2 - *1.6; A new way is used for analogue of 1.7 - 1.72
 - Real variables doesn't have types(??), and can be instantiated with any proposition of any orders???
 - Summary:
   - elementary propositions are initially admitted, along with their types
-  - definition of `~` and `\/` depends on proposition types
-  - definition of function depends on type of `~` and `\/`
+  - definition of `~` and `∨` depends on proposition types
+  - definition of function depends on type of `~` and `∨`
   - order of a proposition depends on its parameter's types
 
 ~p.138:

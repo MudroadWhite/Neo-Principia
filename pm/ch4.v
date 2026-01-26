@@ -1255,31 +1255,37 @@ Proof.
 Qed.
 
 Theorem n4_87 (P Q R : Prop) :
-  (((P ∧ Q) → R) ↔ (P → Q → R)) ↔ 
-      ((Q → (P → R)) ↔ (Q ∧ P → R)).
+  (((P ∧ Q) → R) ↔ (P → (Q → R)))
+  ∧
+  ((P → (Q → R)) ↔ (Q → (P → R)))
+  ∧ 
+  ((Q → (P → R)) ↔ ((Q ∧ P) → R)).
 Proof.
-  pose proof (Exp3_3 P Q R) as Exp3_3a.
-  pose proof (Imp3_31 P Q R) as Imp3_31a.
-  Conj Exp3_3a Imp3_31a Ca.
-  Equiv Ca.
-  pose proof (Exp3_3 Q P R) as Exp3_3b.
-  pose proof (Imp3_31 Q P R) as Imp3_31b.
-  Conj Exp3_3b Imp3_31b Cb.
-  Equiv Cb.
-  pose proof (n4_21 (Q→P→R) (Q∧P→R)) as n4_21a.
-  apply propositional_extensionality in n4_21a.
-  replace ((Q∧P→R)↔(Q→P→R)) with 
-    ((Q→P→R)↔(Q∧P→R)) in Cb
-    by now apply n4_21a.
-  pose proof (Simp2_02 ((P∧Q→R)↔(P→Q→R))
-    ((Q→P→R)↔(Q∧P→R))) as Simp2_02a.
-  MP Simp2_02a Cb.
-  pose proof (Simp2_02 ((Q→P→R)↔(Q∧P→R)) 
-    ((P∧Q→R)↔(P→Q→R))) as Simp2_02b.
-  MP Simp2_02b Ca.
-  Conj Simp2_02a Simp2_02b Cc.
-  Equiv Cc.
-  exact Cc.
+  pose proof Exp3_3 as _Exp3_3.
+  pose proof Imp3_31 as _Imp3_31.
+  pose proof Comm2_04 as _Comm2_04.
+  assert (S1 : ((P ∧ Q) → R) ↔ (P → (Q → R))).
+  {
+    pose proof (Exp3_3 P Q R) as Exp3_3.
+    pose proof (Imp3_31 P Q R) as Imp3_31.
+    Conj Exp3_3 Imp3_31 C1.
+    now Equiv C1.
+  }
+  assert (S2 : (P → (Q → R)) ↔ (Q → (P → R))).
+  {
+    pose proof (Comm2_04 P Q R) as Comm2_04a.
+    pose proof (Comm2_04 Q P R) as Comm2_04b.
+    Conj Comm2_04a Comm2_04b C1.
+    now Equiv C1.
+  }
+  assert (S3 : (Q → (P → R)) ↔ ((Q ∧ P) → R)).
+  {
+    pose proof (Imp3_31 Q P R) as Imp3_31.
+    pose proof (Exp3_3 Q P R) as Exp3_3.
+    Conj Imp3_31 Exp3_3 C1.
+    now Equiv C1.
+  }
+  Conj S2 S3 C1.
+  clear S2 S3.
+  now Conj S1 C1 C2.
 Qed.
-(*The proof sketch cites Comm2_04.This 
-  bit of the sketch was indecipherable.*)

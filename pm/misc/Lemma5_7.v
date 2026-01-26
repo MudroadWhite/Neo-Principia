@@ -19,16 +19,16 @@ Proof.
   replace (((P ↔ Q) ∧ (P ↔ R)) ∧ (R ↔ S)) with 
     ((P ↔ Q) ∧((P ↔ R) ∧ (R ↔ S))) in Imp3_31a.
   2: {
-    pose (n4_32 (P <-> Q) (P <-> R) (R <-> S)) as n4_32a.
+    pose (n4_32 (P ↔ Q) (P ↔ R) (R ↔ S)) as n4_32a.
     apply propositional_extensionality.
     symmetry in n4_32a.
     exact n4_32a.
   }
   replace ((P ↔ R) ∧ (R ↔ S)) with ((R ↔ S) ∧ (P ↔ R)) in Imp3_31a
-    by (apply propositional_extensionality; exact (n4_3 (R <-> S) (P <-> R))).
+    by (apply propositional_extensionality; exact (n4_3 (R ↔ S) (P ↔ R))).
   replace ((P ↔ Q) ∧ (R ↔ S) ∧ (P ↔ R)) with 
     (((P ↔ Q) ∧ (R ↔ S)) ∧ (P ↔ R)) in Imp3_31a
-    by (apply propositional_extensionality; exact (n4_32 (P <-> Q) (R <-> S) (P <-> R))).
+    by (apply propositional_extensionality; exact (n4_32 (P ↔ Q) (R ↔ S) (P ↔ R))).
   pose (Exp3_3 ((P ↔ Q) ∧ (R ↔ S)) (P↔R) (Q↔S)) as Exp3_3b.
   MP Exp3_3b Imp3_31a.
   exact Exp3_3b.
