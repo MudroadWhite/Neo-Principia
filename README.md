@@ -71,4 +71,5 @@ Although I have tried to organize the issues well to indicate the current progre
 
 ## Related works
 - [Landon Elkind's formalization of Principia Mathematica](https://github.com/LogicalAtomist/principia)
+- [ndrwnaguib's formalization in Lean](https://github.com/ndrwnaguib/principia)
 - [Randall Holmes's formalization of ramified type theory](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT)
