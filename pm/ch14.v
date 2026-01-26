@@ -1017,21 +1017,88 @@ Proof.
     -> ((iota_f s Phi Psi) <-> exists c, 
       ((x = B) <[- x -]> (x = c)) /\ Psi c)).
   {
-    (* I doubt if that is some allowed step in the system.
-    I conclude this cannot be proven *)
-    admit.
+    (* Simplification: for this step to be performed, S2 has become the 
+    one to rewrite on the others. Technically speaking this involves the 
+    alternative form for `Syll` *)
+    intro Hp.
+    pose proof (S2 Hp) as S2.
+    pose proof (n14_1 s Phi Psi) as n14_1.
+    now setoid_rewrite -> S2 in n14_1.
   }
-Admitted.
+  assert (S4 : (iota_f s Phi (fun x => (Iota s x) = B))
+    → (iota_f s Phi Psi ↔ Psi B)).
+  { now rewrite -> n13_192 in S3. }
+  exact S4.
+Qed.
 
-(* TODO: rewrite the proposition in iota_f style *)
-Theorem n14_16 (s1 s2 s3 : string) (Phi Psi Chi : Prop → Prop) :
-  (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y)))
+Theorem n14_16 (s1 s2 : string) (Phi Psi Chi : Prop → Prop) :
+  iota_f s1 Phi (fun x => iota_f s2 Psi 
+    (fun y => (Iota s1 x) = (Iota s2 y)))
   →
-  (iota_f2 s1 s2 Phi Psi (fun x y => 
-    (Chi (Iota s1 x)) = (Chi (Iota s2 y)))).
+  (iota_f s1 Phi Chi ↔ iota_f s2 Psi Chi).
 Proof.
-  assert (S1 : )
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : iota_f s1 Phi (fun x => iota_f s2 Psi 
+    (fun y => (Iota s1 x) = (Iota s2 y)))
+    -> exists b, (Phi x <[- x -]> (x = b)) /\ 
+      iota_f s2 Psi (fun y => b = Iota s2 y)).
+  { apply n14_1. }
+  assert (S2 : (Phi x <[- x -]> (x = B)) 
+    -> (iota_f s1 Phi Chi <-> (exists c, 
+      ((x = B) <[- x -]> (x = c)) /\ Chi c))).
+  {
+    (* simplification as the same as previous one
+    we might need to use P -> P in normal way *)
+    intro Hp.
+    pose proof (n14_1 s1 Phi Chi) as n14_1.
+    now setoid_rewrite -> Hp in n14_1.
+  }
+  assert (S3 : (Phi x <[- x -]> (x = B)) -> 
+    (iota_f s1 Phi Chi <-> Chi B)).
+  { now rewrite -> n13_192 in S2. }
+  assert (S4 : iota_f s2 Psi (fun y => B = (Iota s2 y))
+    -> (Chi B <-> iota_f s2 Psi (fun y => Chi (Iota s2 y)))).
+  {
+    pose proof (n14_15 B s2 Psi Chi) as n14_15.
+    rewrite <- n14_13 in n14_15.
+    now rewrite <- n4_21 in n14_15.
+  }
+  assert (S5 : ((Phi x <[- x -]> (x = B)) /\ 
+      iota_f s2 Psi (fun y => B = (Iota s2 y)))
+    -> (iota_f s1 Phi Chi <-> iota_f s2 Psi Chi)).
+  {
+    assert (C1 : ((∀ x : Prop, Phi x ↔ x = B) 
+        → iota_f s1 Phi Chi ↔ Chi B)
+      ∧ (iota_f s2 Psi (λ y : Prop, B = Iota s2 y)
+        → Chi B ↔ iota_f s2 Psi (λ y : Prop, Chi (Iota s2 y)))).
+    { clear S1 S2. now Conj S3 S4 C1. }
+    pose proof (n3_47
+      (Phi x <[- x -]> x = B)
+      (iota_f s2 Psi (λ y, B = Iota s2 y))
+      (iota_f s1 Phi Chi <-> Chi B)
+      (Chi B <-> iota_f s2 Psi (λ y, Chi (Iota s2 y)))) as n3_47.
+    MP n3_47 C1.
+    pose proof (n4_22 (iota_f s1 Phi Chi) (Chi B)
+      (iota_f s2 Psi (λ y : Prop, Chi (Iota s2 y)))) as n4_22.
+    now Syll n3_47 n4_22 S5.
+  }
+  assert (S6 : iota_f s1 Phi (fun x => iota_f s2 Psi 
+      (fun y => (Iota s1 x) = (Iota s2 y)))
+    → iota_f s1 Phi Chi ↔ iota_f s2 Psi Chi).
+  {
+    (* *10.2 ignored -  it doesn't fit in *)
+    pose proof n10_11 as _n10_11.
+    pose proof (n10_11 B (fun b =>
+      ((∀ x, Phi x ↔ x = b) ∧ iota_f s2 Psi (λ y, b = Iota s2 y))
+      -> (iota_f s1 Phi Chi ↔ iota_f s2 Psi Chi))) as n10_11.
+    MP n10_11 S5.
+    rewrite -> n10_23 in n10_11.
+    now Syll S1 n10_11 S6.
+  }
+  exact S6.
+Qed.
 
 Theorem n14_17 (B : Prop) (Phi : Prop → Prop) : 
   (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B))
