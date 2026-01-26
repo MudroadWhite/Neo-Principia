@@ -40,7 +40,7 @@ Our current expectation is successfully express everything **before chapter 14**
 ## How well have you formalized?
 Which means 2 questions:
 
-- **How much have you formalized?** 176 - 94 = 82 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
+- **How much have you formalized?** 179 - 94 = 85 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
 - **How deep can you formalize?** We won't construct the deep embedding, as explained above. See [audit](./docs/5_audit.md) for secondary limitations.
 
 ## Running the code
