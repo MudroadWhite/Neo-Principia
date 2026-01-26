@@ -13,7 +13,8 @@ Require Import Logic.FunctionalExtensionality.
 
 (* TODO:
 - design a notation for all the iota functions
-- fix all the `replace`s *)
+- fix all the `replace`s and `admit`s 
+*)
 
 (* 
 The decription, or I would personally call it the iota operator, designs a special kind of 
@@ -44,11 +45,11 @@ Declare Scope single_description. *)
 Open Scope single_app_equiv.
 
 Definition n14_01 (s : string) (Phi Psi : Prop → Prop) : 
-  (iota_f s Phi Psi) = exists b, (Phi x <[- x -]> (x = b)) ∧ Psi b. 
+  (iota_f s Phi Psi) = ∃ b, (Phi x <[- x -]> (x = b)) ∧ Psi b. 
 Admitted.
 
 Definition n14_02 (Phi : Prop → Prop) :
-  (iota_E Phi) = exists b, (Phi x <[- x -]> (x = b)). 
+  (iota_E Phi) = ∃ b, (Phi x <[- x -]> (x = b)). 
 Admitted.
 
 Definition n14_03 (s1 s2 : string) (Phi Psi : Prop → Prop) (f : Prop → Prop → Prop) :
@@ -62,7 +63,7 @@ Definition n14_04 (s1 s2 : string) (Phi Psi : Prop → Prop) (f : Prop → Prop 
 Admitted.
 
 Theorem n14_1 (s : string) (Phi Psi : Prop → Prop) : (iota_f s Phi Psi) ↔ 
-  exists b, (Phi x <[- x -]> (x = b)) ∧ Psi b.
+  ∃ b, (Phi x <[- x -]> (x = b)) ∧ Psi b.
 Proof.
   pose proof (n4_2 (iota_f s Phi Psi)) as n4_2.
   now rewrite -> n14_01 in n4_2 at 2.
@@ -73,11 +74,11 @@ Qed.
   another definition copying `iota_f` to indicate it is getting 
   scope notation in the text... *)
 Theorem n14_101 (s : string) (Phi Psi : Prop → Prop) : (iota_f s Phi Psi) ↔ 
-  exists b, (Phi x <[- x -]> (x = b)) ∧ Psi b.
+  ∃ b, (Phi x <[- x -]> (x = b)) ∧ Psi b.
 Proof. exact (n14_1 s Phi Psi). Qed.
 
 Theorem n14_11  (Phi : Prop → Prop) : (iota_E Phi) 
-  ↔ (exists b, Phi x <[- x -]> (x = b)).
+  ↔ (∃ b, Phi x <[- x -]> (x = b)).
 Proof.
   pose proof (n4_2 (iota_E Phi)) as n4_2.
   now rewrite -> n14_02 in n4_2 at 2.
@@ -85,7 +86,7 @@ Qed.
 
 Theorem n14_111 (s1 s2 : string) (Phi Psi : Prop → Prop) 
   (f : Prop → Prop → Prop) :
-  (iota_f2_1 s2 s1 Psi Phi f) ↔ (exists b c, 
+  (iota_f2_1 s2 s1 Psi Phi f) ↔ (∃ b c, 
     (Phi x <[- x -]> (x = b)) ∧ (Psi x <[- x -]> (x = c)) ∧ (f b c)).
 Proof.
   assert (S1 : iota_f2_1 s2 s1 Psi Phi f ↔ 
@@ -98,7 +99,7 @@ Proof.
   }
   assert (S2 : iota_f2_1 s2 s1 Psi Phi f ↔ 
     (iota_f s2 Psi (fun c =>
-      exists b, (Phi x <[- x -]> (x = b)) ∧ f b c))).
+      ∃ b, (Phi x <[- x -]> (x = b)) ∧ f b c))).
   {
     replace (λ c, iota_f s1 Phi (λ b, f (Iota s1 b) (Iota s2 c)))
     with (λ c, iota_f s1 Phi (λ b, f b c))
@@ -106,7 +107,7 @@ Proof.
     (* Simplification: this place needs functional extentionality for our designed 
     notation of iota. Seems like the only way to survive *)
     assert (S1_1 : (λ c, iota_f s1 Phi (λ b, f b c))
-      = (λ c, (exists b, (Phi x <[- x -]> (x = b)) ∧ f b c))).
+      = (λ c, (∃ b, (Phi x <[- x -]> (x = b)) ∧ f b c))).
     {
       extensionality c. (* function extentionality *)
       pose proof (n14_1 s1 Phi (fun b => f b c)) as n14_1.
@@ -115,11 +116,11 @@ Proof.
     now rewrite -> S1_1 in S1.
   }
   assert (S3 : iota_f2_1 s2 s1 Psi Phi f ↔ 
-    (exists c, (Psi x <[- x -]> (x = c)) 
-    ∧ exists b, (Phi x <[- x -]> (x = b)) ∧ f b c)).
+    (∃ c, (Psi x <[- x -]> (x = c)) 
+    ∧ ∃ b, (Phi x <[- x -]> (x = b)) ∧ f b c)).
   { now rewrite -> n14_1 in S2. }
   assert (S4 : iota_f2_1 s2 s1 Psi Phi f ↔ 
-    (exists b c, (Phi x <[- x -]> (x = b)) ∧ (Psi x <[- x -]> (x = c))
+    (∃ b c, (Phi x <[- x -]> (x = b)) ∧ (Psi x <[- x -]> (x = c))
       ∧ f b c)).
   {
     pose proof (n11_55
@@ -142,7 +143,7 @@ Admitted.
 
 Theorem n14_112 (s1 s2 : string) (Phi Psi : Prop → Prop) 
   (f : Prop → Prop → Prop) : 
-  (iota_f2 s1 s2 Phi Psi f) ↔ exists b c, 
+  (iota_f2 s1 s2 Phi Psi f) ↔ ∃ b c, 
     (Phi x <[- x -]> x = b) ∧ (Psi x <[- x -]> x = c) ∧ f b c.
 Proof.
   assert (S1 : (iota_f2 s1 s2 Phi Psi f) ↔ (iota_f s1 Phi 
@@ -152,14 +153,14 @@ Proof.
     now rewrite -> n14_03 in n4_2 at 2.
   }
   assert (S2 : (iota_f2 s1 s2 Phi Psi f) ↔ (iota_f s1 Phi (fun b => 
-    exists c, (Psi x <[- x -]> (x = c)) ∧ f b c))).
+    ∃ c, (Psi x <[- x -]> (x = c)) ∧ f b c))).
   {
     replace ((λ b, iota_f s2 Psi
       (λ c, f (Iota s1 b) (Iota s2 c))))
     with (λ b, iota_f s2 Psi (λ c, f b c))
     in S1 by reflexivity.
     assert (S1_1 : (λ b, iota_f s2 Psi (λ c : Prop, f b c))
-      = (λ b, exists c, (Psi x <[- x -]> (x = c)) ∧ f b c)).
+      = (λ b, ∃ c, (Psi x <[- x -]> (x = c)) ∧ f b c)).
     {
       extensionality b.
       pose proof (n14_1 s2 Psi (fun c => f b c)) as n14_1. 
@@ -167,10 +168,10 @@ Proof.
     }
     now rewrite -> S1_1 in S1.
   }
-  assert (S3 : (iota_f2 s1 s2 Phi Psi f) ↔ exists b, 
-    (Phi x <[- x -]> x = b) ∧ (exists c, (Psi x <[- x -]> x = c) ∧ f b c)).
+  assert (S3 : (iota_f2 s1 s2 Phi Psi f) ↔ ∃ b, 
+    (Phi x <[- x -]> x = b) ∧ (∃ c, (Psi x <[- x -]> x = c) ∧ f b c)).
   { now rewrite -> n14_1 in S2. } 
-  assert (S4 : (iota_f2 s1 s2 Phi Psi f) ↔ exists b c, 
+  assert (S4 : (iota_f2 s1 s2 Phi Psi f) ↔ ∃ b c, 
     (Phi x <[- x -]> x = b) ∧ (Psi x <[- x -]> x = c) ∧ f b c).
   { admit. }
 Admitted.
@@ -194,7 +195,7 @@ Proof.
   set (B := Individual "b").
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : iota_E Phi -> exists b, Phi x <[- x -]> x = b).
+  assert (S1 : iota_E Phi -> ∃ b, Phi x <[- x -]> x = b).
   {
     pose proof (n14_11 Phi) as n14_11.
     (* simplification: we use `Simp` if necessary *)
@@ -231,7 +232,7 @@ Proof.
     pose proof (n13_172 B x y) as n13_172.
     now Syll S2l n13_172 S3.
   }
-  assert (S4 : (exists b, (Phi x <[- x -]> (x = b)))
+  assert (S4 : (∃ b, (Phi x <[- x -]> (x = b)))
     -> ((Phi x ∧ Phi y) -[ x y ]> (x = y))).
   {
     pose proof (n10_11 B (fun b =>
@@ -294,7 +295,7 @@ Open Scope single_app_impl.
 Theorem n14_122 (B : Prop) (Phi : Prop → Prop) :
   ((Phi x <[- x -]> (x = B)) ↔ ((Phi x -[ x ]> (x = B)) ∧ Phi B))
   ∧
-  (((Phi x -[ x ]> (x = B)) ∧ Phi B) ↔ ((Phi x -[ x ]> (x = B)) ∧ exists x, Phi x)). 
+  (((Phi x -[ x ]> (x = B)) ∧ Phi B) ↔ ((Phi x -[ x ]> (x = B)) ∧ ∃ x, Phi x)). 
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
@@ -327,24 +328,24 @@ Proof.
     now MP n10_27 n10_11.
   }
   assert (S5 : (Phi x -[ x ]> (x = B))
-    -> ((exists x, Phi x) ↔ (exists x, Phi x ∧ (x = B)))).
+    -> ((∃ x, Phi x) ↔ (∃ x, Phi x ∧ (x = B)))).
   {
     pose proof (n10_281 Phi (fun x => Phi x ∧ x = B)) 
       as n10_281.
     now Syll S4 n10_281 S5.
   }
-  assert (S6 : (Phi x -[ x ]> (x = B)) -> ((exists x, 
+  assert (S6 : (Phi x -[ x ]> (x = B)) -> ((∃ x, 
     Phi x) ↔ Phi B)).
   {
     setoid_rewrite -> n4_3 in S5 at 2.
     now rewrite -> n13_195 in S5.
   }
-  assert (S7 : ((Phi x -[ x ]> (x = B)) ∧ (exists x, Phi x))
+  assert (S7 : ((Phi x -[ x ]> (x = B)) ∧ (∃ x, Phi x))
     ↔ ((Phi x -[ x ]> (x = B)) ∧ Phi B)).
   { now rewrite -> n5_32 in S6. }
   assert (S8 : ((Phi x <[- x -]> (x = B)) ↔ ((Phi x -[ x ]> (x = B)) ∧ Phi B))
     ∧ (((Phi x -[ x ]> (x = B)) ∧ Phi B) 
-      ↔ ((Phi x -[ x ]> (x = B)) ∧ exists x, Phi x))).
+      ↔ ((Phi x -[ x ]> (x = B)) ∧ ∃ x, Phi x))).
   {
     clear S1 S3 S4 S5 S6.
     now Conj S2 S7 S8.
@@ -360,7 +361,7 @@ Theorem n14_123 (X Y : Prop) (Phi : Prop → Prop → Prop) :
     ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y))
   ∧
   (((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y)
-    ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ exists z w, Phi z w)).
+    ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ ∃ z w, Phi z w)).
 Proof.
   (* TOOLS *)
   set (Z := Individual "z").
@@ -401,7 +402,7 @@ Proof.
     now MP n11_32 n11_11.
   }
   assert (S5 : (Phi z w -[ z w ]> ((z = X) ∧ (w = Y)))
-    -> ((exists z w, Phi z w) ↔ (exists z w, 
+    -> ((∃ z w, Phi z w) ↔ (∃ z w, 
       Phi z w ∧ (z = X) ∧ (w = Y)))).
   {
     pose proof (n11_341 Phi (fun z w => 
@@ -409,20 +410,20 @@ Proof.
     now Syll n11_341 S4 S5.
   }
   assert (S6 : (Phi z w -[ z w ]> ((z = X) ∧ (w = Y)))
-    -> ((exists z w, Phi z w) ↔ Phi X Y)).
+    -> ((∃ z w, Phi z w) ↔ Phi X Y)).
   {
     setoid_rewrite -> n4_3 in S5 at 3.
     setoid_rewrite -> n4_32 in S5.
     now rewrite -> n13_22 in S5.
   }
   assert (S7 : ((Phi z w -[ z w ]> ((z = X) ∧ (w = Y)))
-      ∧ (exists z w, Phi z w)
+      ∧ (∃ z w, Phi z w)
     ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y))).
   { now rewrite -> n5_32 in S6. }
   assert (S8 : ((Phi z w <[- z w -]> (z = X ∧ w = Y)) 
       ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y))
     ∧ (((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y)
-      ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ exists z w, Phi z w))).
+      ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ ∃ z w, Phi z w))).
   {
     clear S1 S3 S4 S5 S6.
     now Conj S2 S7 S8.
@@ -432,9 +433,9 @@ Admitted.
 
 (* TODO: 4-var impl notation will be supported in the future *)
 Theorem n14_124 (Phi : Prop → Prop → Prop) : 
-  (exists x y, (Phi z w <[- z w -]> (z = x ∧ w = y)))
-  ↔ ((exists x y, Phi x y) 
-    ∧ forall z w u v, (Phi z w ∧ Phi u v) → (z = u ∧ w = v)). 
+  (∃ x y, (Phi z w <[- z w -]> (z = x ∧ w = y)))
+  ↔ ((∃ x y, Phi x y) 
+    ∧ ∀ z w u v, (Phi z w ∧ Phi u v) → (z = u ∧ w = v)). 
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
@@ -444,8 +445,8 @@ Proof.
   set (U := Individual "u").
   set (V := Individual "v").
   (* ******** *)
-  assert (S1 : (exists x y, (Phi z w <[- z w -]> (z = x ∧ w = y)))
-    -> exists x y, Phi x y).
+  assert (S1 : (∃ x y, (Phi z w <[- z w -]> (z = x ∧ w = y)))
+    -> ∃ x y, Phi x y).
   { 
     (* This can be done as in some previous chapter, but I 
     don't want to fill out at the moment *)
@@ -491,7 +492,7 @@ Proof.
     pose proof (S2 Hp) as S2.
     now Syll S2 n3_47 S3.
   }
-  assert (S4 : (exists x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
+  assert (S4 : (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
     -> (((Phi Z W) ∧ (Phi U V)) -> ((Z = U) ∧ (W = V)))).
   {
     pose proof (n11_11 X Y (fun x y =>
@@ -501,24 +502,24 @@ Proof.
     MP n11_11 S3.
     now rewrite -> n11_35 in n11_11.
   }
-  assert (S5 : (exists x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
-    -> (forall z w u v, (Phi z w ∧ Phi u v) -> ((z = u) ∧ (w = v)))).
+  assert (S5 : (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
+    -> (∀ z w u v, (Phi z w ∧ Phi u v) -> ((z = u) ∧ (w = v)))).
   {
     (* For 4 variables, the generalization has applied twice! *)
     pose proof (n11_11 U V (fun u v =>
-      (exists x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
+      (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
       -> (((Phi Z W) ∧ (Phi u v)) -> ((Z = u) ∧ (W = v))))) 
       as n11_11a.
     MP n11_11a S4.
     rewrite <- n11_3 in n11_11a.
     pose proof (n11_11 Z W (fun z w =>
-    (exists x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
-      -> (forall u v, ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v)))
+    (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
+      -> (∀ u v, ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v)))
       )) as n11_11b.
     MP n11_11b n11_11a.
     now rewrite <- n11_3 in n11_11b.
   }
-  assert (S6 : ((Phi X Y) ∧ (forall z w u v, 
+  assert (S6 : ((Phi X Y) ∧ (∀ z w u v, 
     ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v)))
       -> (Phi X Y ∧ ((Phi z w ∧ Phi X Y) -[ z w ]> ((z = X) ∧ (w = Y)))))).
   {
@@ -541,7 +542,7 @@ Proof.
     2: { apply propositional_extensionality; now rewrite -> n4_3. }
     exact Fact3_45.
   }
-  assert (S7 : ((Phi X Y) ∧ (forall z w u v, 
+  assert (S7 : ((Phi X Y) ∧ (∀ z w u v, 
     ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v))))
     -> (Phi X Y ∧ (Phi z w -[ z w ]> ((z = X) ∧ (w = Y))))).
   {
@@ -550,7 +551,7 @@ Proof.
     (* rewrite <- n5_33 in S6. *)
     admit.
   }
-  assert (S8 : ((Phi X Y) ∧ (forall z w u v, 
+  assert (S8 : ((Phi X Y) ∧ (∀ z w u v, 
     ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v))))
     -> (Phi z w <[- z w -]> ((z = X) ∧ (w = Y)))).
   {
@@ -562,18 +563,18 @@ Proof.
     2: { apply propositional_extensionality. now rewrite -> n4_3. }
     now rewrite <- n14_123l in S7.
   }
-  assert (S9 : ((exists x y, Phi x y) ∧ (forall z w u v,
+  assert (S9 : ((∃ x y, Phi x y) ∧ (∀ z w u v,
       (Phi z w ∧ Phi u v) -> ((z = u) ∧ (w = v)))
-    -> (exists x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y))))).
+    -> (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y))))).
   {
     pose proof n11_45 as _n11_45.
     pose proof (n11_11 X Y (fun x y =>
-      ((Phi x y) ∧ (forall z w u v, 
+      ((Phi x y) ∧ (∀ z w u v, 
         ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v))))
         -> (Phi z w <[- z w -]> ((z = x) ∧ (w = y))))) as n11_11.
     MP n11_11 S8.
     pose proof (n11_34
-      (fun x y => Phi x y ∧ (forall z w u v,
+      (fun x y => Phi x y ∧ (∀ z w u v,
         (Phi z w ∧ Phi u v) -> ((z = u) ∧ (w = v))))
       (fun x y => (Phi z w <[- z w -]> ((z = x) ∧ (w = y))))) 
       as n11_34.
@@ -613,7 +614,7 @@ Proof.
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (iota_f s Phi (fun x => A = (Iota s x)))
-    ↔ (exists b, (Phi x <[- x -]> (x = b)) ∧ A = b)).
+    ↔ (∃ b, (Phi x <[- x -]> (x = b)) ∧ A = b)).
   { apply n14_1. }
   assert (S2 : ((Phi x <[- x -]> (x = B)) ∧ (A = B))
     ↔ ((Phi x <[- x -]> (x = B)) ∧ (B = A))).
@@ -627,8 +628,8 @@ Proof.
     2: { apply propositional_extensionality. now rewrite -> n4_3. }
     exact n4_36.
   }
-  assert (S3 : (exists b, (Phi x <[- x -]> x = b) ∧ (A = b))
-    ↔ (exists b, (Phi x <[- x -]> x = b) ∧ (b = A))).
+  assert (S3 : (∃ b, (Phi x <[- x -]> x = b) ∧ (A = b))
+    ↔ (∃ b, (Phi x <[- x -]> x = b) ∧ (b = A))).
   {
     pose proof (n10_11 B (fun b => 
         ((Phi x <[- x -]> (x = b)) ∧ (A = b))
@@ -639,7 +640,7 @@ Proof.
       (fun b => (Phi x <[- x -]> (x = b)) ∧ (b = A))) as n10_281.
     now MP n10_281 n10_11.
   }
-  assert (S4 : (exists b, (Phi x <[- x -]> x = b) ∧ (A = b))
+  assert (S4 : (∃ b, (Phi x <[- x -]> x = b) ∧ (A = b))
     ↔ (iota_f s Phi (fun x => (Iota s x) = A))).
   { now rewrite <- (n14_1 s Phi  (fun b => b = A)) in S3. }
   assert (S5 : (iota_f s Phi (fun x => A = (Iota s x)))
@@ -661,18 +662,18 @@ Theorem n14_131 (Phi Psi : Prop → Prop) :
 Proof.
   assert (S1 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
       (Iota "Phi" x) = (Iota "Psi" y)))
-    ↔ (exists b, (Phi x <[- x -]> (x = b)) 
+    ↔ (∃ b, (Phi x <[- x -]> (x = b)) 
       ∧ iota_f "Psi" Psi (fun y => b = (Iota "Psi" y)))).
   { apply n14_1. }
   assert (S2 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
       (Iota "Phi" x) = (Iota "Psi" y)))
-    ↔ (exists b, (Phi x <[- x -]> (x = b)) 
-      ∧ (exists c, (Psi x <[- x -]> (x = c)) ∧ (b = c)))).
+    ↔ (∃ b, (Phi x <[- x -]> (x = b)) 
+      ∧ (∃ c, (Psi x <[- x -]> (x = c)) ∧ (b = c)))).
   { now setoid_rewrite -> n14_1 in S1 at 3. }
   assert (S3 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
       (Iota "Phi" x) = (Iota "Psi" y)))
-    ↔ (exists c, (Psi x <[- x -]> (x = c))
-      ∧ (exists b, (Phi x <[- x -]> (x = b)) ∧ (b = c)))).
+    ↔ (∃ c, (Psi x <[- x -]> (x = c))
+      ∧ (∃ b, (Phi x <[- x -]> (x = b)) ∧ (b = c)))).
   {
     setoid_rewrite -> n4_3 in S2 at 2.
     setoid_rewrite -> n4_3 in S2 at 3.
@@ -682,12 +683,12 @@ Proof.
   }
   assert (S4 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
       (Iota "Phi" x) = (Iota "Psi" y)))
-    ↔ (exists c, (Psi x <[- x -]> (x = c)) 
+    ↔ (∃ c, (Psi x <[- x -]> (x = c)) 
       ∧ iota_f "Phi" Phi (fun x => (Iota "Phi" x) = c))).
   { now setoid_rewrite <- (n14_1 "Phi") in S3 at 2. }
   assert (S5 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
       (Iota "Phi" x) = (Iota "Psi" y)))
-    ↔ (exists c, (Psi x <[- x -]> (x = c)) 
+    ↔ (∃ c, (Psi x <[- x -]> (x = c)) 
       ∧ iota_f "Phi" Phi (fun x => c = (Iota "Phi" x)))).
   { now setoid_rewrite <- n14_13 in S4. }
   assert (S6 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi 
@@ -704,7 +705,7 @@ Theorem n14_131_alt (s1 s2 : string) (Phi Psi : Prop → Prop) :
   iota_f2 s2 s1 Psi Phi (fun x y => (Iota s2 y) = (Iota s1 x)). 
 Proof.
   assert (S1 : iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
-    ↔ exists b c, (Phi x <[- x -]> (x = b)) 
+    ↔ ∃ b c, (Phi x <[- x -]> (x = b)) 
       ∧ (Psi x <[- x -]> (x = c)) ∧ (b = c)).
   {
     (* We use the definition of iota_f2 instead, for the obvious reason.
@@ -712,7 +713,7 @@ Proof.
     apply n14_112.
   }
   assert (S2 : iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
-    ↔ exists b c, (Psi x <[- x -]> (x = c)) 
+    ↔ ∃ b c, (Psi x <[- x -]> (x = c)) 
       ∧ (Phi x <[- x -]> (x = b)) ∧ (c = b)).
   {
     (* *11.11, *11.341 ignored *)
@@ -754,8 +755,8 @@ Proof.
   assert (S1 : (iota_f s1 Phi (fun x => A = Iota s1 x)
       ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
         (fun y => Iota s1 x = Iota s2 y)))
-    -> ((exists b, (Phi x <[- x -]> (x = b)) ∧ (A = b)) 
-      ∧ (exists c, (Phi x <[- x -]> (x = c)) ∧ iota_f s2 Psi 
+    -> ((∃ b, (Phi x <[- x -]> (x = b)) ∧ (A = b)) 
+      ∧ (∃ c, (Phi x <[- x -]> (x = c)) ∧ iota_f s2 Psi 
         (fun x => c = (Iota s2 x))))).
   {
     pose proof (n14_1 s1 Phi (fun b => A = Iota s1 b)) 
@@ -777,7 +778,7 @@ Proof.
     ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
       (fun y => Iota s1 x = Iota s2 y)))
   -> ((Phi x <[- x -]> (x = A))
-    ∧ (exists c, (Phi x <[- x -]> (x = c)) ∧ iota_f s2 Psi 
+    ∧ (∃ c, (Phi x <[- x -]> (x = c)) ∧ iota_f s2 Psi 
         (fun x => c = (Iota s2 x))))).
   {
     setoid_rewrite -> n4_3 in S1 at 3.
@@ -787,13 +788,13 @@ Proof.
   assert (S3 : (iota_f s1 Phi (fun x => A = Iota s1 x)
     ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
       (fun y => Iota s1 x = Iota s2 y)))
-  -> exists c, (Phi x <[- x -]> (x = A)) ∧ (Phi x <[- x -]> (x = c)) 
+  -> ∃ c, (Phi x <[- x -]> (x = A)) ∧ (Phi x <[- x -]> (x = c)) 
       ∧ iota_f s2 Psi (fun x => c = (Iota s2 x))).
   { now rewrite <- n10_35 in S2. }
   assert (S4 : (iota_f s1 Phi (fun x => A = Iota s1 x)
     ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
       (fun y => Iota s1 x = Iota s2 y)))
-  -> exists c, (Phi x <[- x -]> (x = A)) ∧ (A = c)
+  -> ∃ c, (Phi x <[- x -]> (x = A)) ∧ (A = c)
       ∧ iota_f s2 Psi (fun x => c = (Iota s2 x))).
   {
     intros Hp.
@@ -829,9 +830,9 @@ Proof.
   (* ******** *)
   assert (S1 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
     ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
-    -> ((exists a b, (Phi x <[- x -]> (x = a)) 
+    -> ((∃ a b, (Phi x <[- x -]> (x = a)) 
           ∧ (Psi x <[- x -]> (x = b)) ∧ (a = b)))
-        ∧ (exists c d, (Psi x <[- x -]> (x = c)) 
+        ∧ (∃ c d, (Psi x <[- x -]> (x = c)) 
           ∧ (Chi x <[- x -]> (x = d)) ∧ (c = d))).
   {
     pose proof (n14_112 s1 s2 Phi Psi
@@ -858,8 +859,8 @@ Proof.
   }
   assert (S2 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
       ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
-    -> ((exists a, (Phi x <[- x -]> (x = a)) ∧ (Psi x <[- x -]> (x = a)))
-      ∧ (exists c, (Psi x <[- x -]> (x = c)) ∧ (Chi x <[- x -]> (x = c))))).
+    -> ((∃ a, (Phi x <[- x -]> (x = a)) ∧ (Psi x <[- x -]> (x = a)))
+      ∧ (∃ c, (Psi x <[- x -]> (x = c)) ∧ (Chi x <[- x -]> (x = c))))).
   {
     (* simplifications... look at how organized it has been! *)
     intro Hp.
@@ -882,7 +883,7 @@ Proof.
   }
   assert (S3 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
       ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
-    -> exists a c, (Phi x <[- x -]> (x = a))
+    -> ∃ a c, (Phi x <[- x -]> (x = a))
       ∧ (Psi x <[- x -]> (x = a)) ∧ (Psi x <[- x -]> (x = c))
       ∧ (Chi x <[- x -]> (x = c))).
   {
@@ -891,7 +892,7 @@ Proof.
   }
   assert (S4 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
       ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
-    -> exists a c, (Phi x <[- x -]> (x = a)) ∧ (Chi x <[- x -]> (x = c))
+    -> ∃ a c, (Phi x <[- x -]> (x = a)) ∧ (Chi x <[- x -]> (x = c))
       ∧ (a = c)).
   {
     (* simplifications to avoid all the tedious works *)
@@ -951,7 +952,7 @@ Theorem n14_145 (A : Prop) (s1 s2 : string) (Phi Psi : Prop → Prop) :
   → (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))).
 Proof.
   assert (S1 : (iota_f s1 Phi (fun x => A = (Iota s1 x)))
-    <-> exists b, (Phi x <[- x -]> (x = b)) /\ (A = b)).
+    <-> ∃ b, (Phi x <[- x -]> (x = b)) /\ (A = b)).
   { apply n14_1. }
   assert (S2 : (iota_f s1 Phi (fun x => A = (Iota s1 x)))
     <-> (Phi x <[- x -]> (x = A))).
@@ -962,7 +963,7 @@ Proof.
   }
   assert (S3 : ((iota_f s1 Phi (fun x => A = (Iota s1 x))) 
       ∧ (iota_f s2 Psi (fun x => A = (Iota s2 x))))
-    <-> ((Phi x <[- x -]> (x = A)) /\ (exists b,
+    <-> ((Phi x <[- x -]> (x = A)) /\ (∃ b,
       (Psi x <[- x -]> (x = b)) /\ (A = b)))).
   {
     pose proof (n14_1 s2 Psi (fun x => A = (Iota s2 x))) 
@@ -983,7 +984,7 @@ Proof.
   }
   assert (S4 : ((iota_f s1 Phi (fun x => A = (Iota s1 x))) 
       ∧ (iota_f s2 Psi (fun x => A = (Iota s2 x))))
-    <-> (exists b, (Phi x <[- x -]> (x = A))
+    <-> (∃ b, (Phi x <[- x -]> (x = A))
       /\ (Psi x <[- x -]> (x = b)) /\ (A = b))).
   { now rewrite <- n10_35 in S3. }
   assert (S5 : ((iota_f s1 Phi (fun x => A = (Iota s1 x))) 
@@ -1005,7 +1006,7 @@ Theorem n14_15 (B : Prop) (s : string) (Phi Psi : Prop → Prop) :
   → (iota_f s Phi (fun x => Psi (Iota s x)) ↔ Psi B).
 Proof.
   assert (S1 : (iota_f s Phi (fun x => (Iota s x) = B))
-    -> (exists c, (Phi x <[- x -]> (x = c)) /\ (c = B))).
+    -> (∃ c, (Phi x <[- x -]> (x = c)) /\ (c = B))).
   { apply n14_1. }
   assert (S2 : (iota_f s Phi (fun x => (Iota s x) = B))
     -> (Phi x <[- x -]> (x = B))).
@@ -1014,7 +1015,7 @@ Proof.
     now rewrite -> n13_195 in S1.
   }
   assert (S3 : (iota_f s Phi (fun x => (Iota s x) = B))
-    -> ((iota_f s Phi Psi) <-> exists c, 
+    -> ((iota_f s Phi Psi) <-> ∃ c, 
       ((x = B) <[- x -]> (x = c)) /\ Psi c)).
   {
     (* Simplification: for this step to be performed, S2 has become the 
@@ -1042,11 +1043,11 @@ Proof.
   (* ******** *)
   assert (S1 : iota_f s1 Phi (fun x => iota_f s2 Psi 
     (fun y => (Iota s1 x) = (Iota s2 y)))
-    -> exists b, (Phi x <[- x -]> (x = b)) /\ 
+    -> ∃ b, (Phi x <[- x -]> (x = b)) /\ 
       iota_f s2 Psi (fun y => b = Iota s2 y)).
   { apply n14_1. }
   assert (S2 : (Phi x <[- x -]> (x = B)) 
-    -> (iota_f s1 Phi Chi <-> (exists c, 
+    -> (iota_f s1 Phi Chi <-> (∃ c, 
       ((x = B) <[- x -]> (x = c)) /\ Chi c))).
   {
     (* simplification as the same as previous one
@@ -1103,21 +1104,22 @@ Qed.
 Theorem n14_17 (B : Prop) (Phi : Prop → Prop) : 
   (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B))
   ↔
-  (forall Psi : Predicate 1, iota_f "Phi" Phi (fun x =>
+  (∀ Psi : Predicate 1, iota_f "Phi" Phi (fun x =>
     Psi (Iota "Phi" x) ↔ Psi B)).
 Proof.
+
 Admitted.
 
 Theorem n14_171 (B : Prop) (Phi : Prop → Prop) : 
   (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B))
   ↔
-  (forall Psi : Predicate 1, iota_f "Phi" Phi (fun x =>
+  (∀ Psi : Predicate 1, iota_f "Phi" Phi (fun x =>
     Psi B → Psi (Iota "Phi" x))).
 Proof.
 Admitted.
 
 Theorem n14_18 (Phi Psi : Prop → Prop) :
-  iota_E Phi → (forall x, Psi x → iota_f "Phi" Phi (fun x =>
+  iota_E Phi → (∀ x, Psi x → iota_f "Phi" Phi (fun x =>
     Psi (Iota "Phi" x))).
 Proof.
 Admitted.
@@ -1128,7 +1130,7 @@ Theorem n14_2 (X A : Prop) :
 Proof.
 Admitted.
 
-Theorem n14_201 (Phi : Prop → Prop) : iota_E Phi → exists x, Phi x. 
+Theorem n14_201 (Phi : Prop → Prop) : iota_E Phi → ∃ x, Phi x. 
 Proof.
 Admitted.
 
@@ -1142,17 +1144,17 @@ Proof.
 Admitted.
 
 Theorem n14_203 (Phi : Prop → Prop) : iota_E Phi 
-  ↔ ((exists x, Phi x) ∧ ((Phi x ∧ Phi y)) -[ x y ]> (x = y)).
+  ↔ ((∃ x, Phi x) ∧ ((Phi x ∧ Phi y)) -[ x y ]> (x = y)).
 Proof.
 Admitted.
 
 Theorem n14_204 (B : Prop) (Phi : Prop → Prop) : iota_E Phi 
-  ↔ exists b, (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = b)).
+  ↔ ∃ b, (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = b)).
 Proof.
 Admitted.
 
 Theorem n14_205 (Phi Psi : Prop → Prop) : (iota_f "Phi" Phi Psi)
-  ↔ exists b, (iota_f "Phi" Phi (fun x => b = (Iota "Phi" x))) ∧ Psi b.
+  ↔ ∃ b, (iota_f "Phi" Phi (fun x => b = (Iota "Phi" x))) ∧ Psi b.
 Proof.
 Admitted.
 
@@ -1190,7 +1192,7 @@ Proof.
 Admitted.
 
 Theorem n14_26 (Phi Psi : Prop → Prop) : iota_E Phi 
-  → exists x, ((Phi x ∧ Psi x) ↔ iota_f "Phi" Phi Psi)
+  → ∃ x, ((Phi x ∧ Psi x) ↔ iota_f "Phi" Phi Psi)
     ∧ ((iota_f "Phi" Phi Psi) ↔ (Phi x <[- x -]> Psi x)).
 Proof.
 Admitted.
