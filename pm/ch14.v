@@ -1129,8 +1129,8 @@ Qed.
 Theorem n14_17 (B : Prop) (s : string) (Phi : Prop → Prop) : 
   (iota_f s Phi (fun x => (Iota s x) = B))
   ↔
-  (∀ Psi : Predicate 1, iota_f s Phi (fun x =>
-    Psi (Iota s x) ↔ Psi B)).
+  (∀ Psi : Predicate 1, (iota_f s Phi (fun x =>
+    Psi (Iota s x)) ↔ Psi B)).
 Proof.
   (* TOOLS *)
   set (IChi := Intro_pred "Chi" 1).
@@ -1148,7 +1148,9 @@ Proof.
     with predicates. During formalization, we find out that there are even
     shorter ways to finish the proof, *but* that is due to our lack in setting
     up correct abstraction. We prefer the most conservative way to procceed
-    on this step *)
+    on this step. In this way, quantified propositions will not be passed as
+    parameters into functions/predicates so that the types should still be
+    correct *)
   assert (S2 : ((IChi x <[- x -]> (x = B)) 
       /\ (forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B))
     -> (iota_f s Phi (fun x => (Iota s x) = B) <-> (B = B))).
@@ -1174,8 +1176,10 @@ Proof.
     clear n10_1a n10_1b C1.
     rewrite -> n4_3 in n4_22.
     Syll n3_47 n4_22 Sy1.
-    (* Now we're going to instantiate `IChi`
-      by applying n10_1 and n10_11 variants *)
+    (* We can see that in the original text, `IChi` has been substituted into
+    a concrete function. Our analogue here is generalizing over this "Predicate"
+    whose body is currently an "admitted" definition to further substitute into
+    a concrete definition, by applying n10_1 and n10_11 variants *)
     pose proof (n10_11_pred IChi (fun p => 
       iota_f s Phi p ↔ B = B)) as n10_11a.
     clear n3_47 n4_22.
@@ -1191,12 +1195,48 @@ Proof.
         <-> Psi B))
     -> iota_f s Phi (fun x => (Iota s x) = B)).
   {
-    (* As always, this is somthing out of the context.
-    We should add a special rule for n13_15 in the future *)
+    (* Similar as previous one, this application on n13_15 is somthing 
+    out of the context. We should add a special rule for n13_15 in the 
+    future *)
     pose proof n13_15 as n13_15.
     admit.
   }
-  assert (S4 : )
+  assert (S4 : (exists Chi : Predicate 1, (Chi x <[- x -]> (x = B)))
+    -> ((forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B)
+      -> iota_f s Phi (fun x => x = B))).
+  {
+    pose proof (Exp3_3 (IChi x <[- x -]> x = B)
+      (forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B)
+      (iota_f s Phi (λ x : Prop, Iota s x = B))) as Exp3_3.
+    MP Exp3_3 S3.
+    pose proof (n10_11_pred IChi (fun p =>
+      (p x <[- x -]> x = B)
+      -> (forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B)
+      -> iota_f s Phi (λ x : Prop, Iota s x = B))) as n10_11.
+    MP n10_11 Exp3_3.
+    now rewrite -> n10_23_pred in n10_11.
+  }
+  assert (S5 : exists Chi : Predicate 1, Chi x <[- x -]> (x = B)).
+  {
+    pose proof (n12_1 (fun x => x = B)) as n12_1.
+    now setoid_rewrite -> n4_21 in n12_1.
+  }
+  assert (S6 : (forall Psi : Predicate 1, 
+      (iota_f s Phi Psi) <-> Psi B) 
+    -> iota_f s Phi (fun x => (Iota s x) = B)).
+  { now MP S4 S5. }
+  assert (S7 : (iota_f s Phi (fun x => (Iota s x) = B))
+    ↔ (∀ Psi : Predicate 1, (iota_f s Phi (fun x =>
+      Psi (Iota s x)) ↔ Psi B))).
+  {
+    assert (C1 : (iota_f s Phi (λ x, Iota s x = B)
+        → forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B)
+      /\ ((forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B)
+        → iota_f s Phi (λ x, Iota s x = B))).
+    { clear S2 S3 S4 S5. now Conj S1 S6 C1. }
+    now Equiv C1.
+  }
+  exact S7.
 Admitted.
 
 Theorem n14_171 (B : Prop) (s : string) (Phi : Prop → Prop) : 
@@ -1205,6 +1245,7 @@ Theorem n14_171 (B : Prop) (s : string) (Phi : Prop → Prop) :
   (∀ Psi : Predicate 1, iota_f s Phi (fun x =>
     Psi B → Psi (Iota s x))).
 Proof.
+  
 Admitted.
 
 Theorem n14_18 (Phi Psi : Prop → Prop) :
