@@ -16,8 +16,8 @@ TODO: expand the idea: This seems to be the only way to quantify the functions
 
 (* EXPERIMENTAL: axioms in this chapter aren't stable, since our definition of `Predicate` should 
 be subject to refinements *)
-Definition n12_1 (Phi : Prop → Prop) : 
-  exists f : (Predicate 1), (Phi x) <[- x -]> (f x).
+Definition n12_1 (φ : Prop → Prop) : 
+  exists f : (Predicate 1), (φ x) <[- x -]> (f x).
 Admitted.
 
 (* To be uncommented *)
