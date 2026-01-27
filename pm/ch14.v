@@ -285,7 +285,8 @@ Proof.
   assert (S2 : ((Phi x <[- x -]> x = B) ∧ (Phi x <[- x -]> x = C))
     -> (Phi B ∧ (Phi B ↔ (B = C)))).
   {
-    (* I don't know why *13.15 is being used here in such a way *)
+    (* TODO: Design a special rule for *13.15. This is something unusual
+      for the rewriting system *)
     pose proof n13_15.
     admit.
   }
@@ -466,7 +467,7 @@ Proof.
   assert (S1 : (∃ x y, (Phi z w <[- z w -]> (z = x ∧ w = y)))
     -> ∃ x y, Phi x y).
   { 
-    (* This can be done as in some previous chapter, but I 
+    (* TODO: this can be done as in some previous chapter, but I 
     don't want to fill out at the moment *)
     pose proof n14_123 as n14_123.
     pose proof Simp3_27 as Simp3_27.
@@ -564,8 +565,7 @@ Proof.
     ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v))))
     -> (Phi X Y ∧ (Phi z w -[ z w ]> ((z = X) ∧ (w = Y))))).
   {
-    (* I don't think *5.33 can be directly applied here and we need
-    a quantified version *)
+    (* TODO: design the n5_33 on a quantified version to procceed *)
     pose proof n5_33 as n5_33.
     (* rewrite <- n5_33 in S6. *)
     admit.
@@ -668,29 +668,28 @@ Proof.
   exact S5.
 Qed.
 
-(* TODO: rewrite the definition correctly *)
 (* There are 2 ways to intrepret the iotas in this proposition. Original text
 has also given both ways to interpre them correspondingly. It seems that
 we will take the one-at-a-time as the usual way *)
-Theorem n14_131 (Phi Psi : Prop → Prop) : 
-  iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
-    (Iota "Phi" x) = (Iota "Psi" y)))
+Theorem n14_131 (s1 s2 : string) (Phi Psi : Prop → Prop) : 
+  iota_f s1 Phi (fun x => iota_f s1 Psi (fun y =>
+    (Iota s1 x) = (Iota s1 y)))
   ↔
-  iota_f "Psi" Psi (fun y => iota_f "Phi" Phi (fun x =>
-    (Iota "Psi" y) = (Iota "Phi" x))).
+  iota_f s1 Psi (fun y => iota_f s1 Phi (fun x =>
+    (Iota s1 y) = (Iota s1 x))).
 Proof.
-  assert (S1 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
-      (Iota "Phi" x) = (Iota "Psi" y)))
+  assert (S1 : iota_f s1 Phi (fun x => iota_f s1 Psi (fun y =>
+      (Iota s1 x) = (Iota s1 y)))
     ↔ (∃ b, (Phi x <[- x -]> (x = b)) 
-      ∧ iota_f "Psi" Psi (fun y => b = (Iota "Psi" y)))).
+      ∧ iota_f s1 Psi (fun y => b = (Iota s1 y)))).
   { apply n14_1. }
-  assert (S2 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
-      (Iota "Phi" x) = (Iota "Psi" y)))
+  assert (S2 : iota_f s1 Phi (fun x => iota_f s1 Psi (fun y =>
+      (Iota s1 x) = (Iota s1 y)))
     ↔ (∃ b, (Phi x <[- x -]> (x = b)) 
       ∧ (∃ c, (Psi x <[- x -]> (x = c)) ∧ (b = c)))).
   { now setoid_rewrite -> n14_1 in S1 at 3. }
-  assert (S3 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
-      (Iota "Phi" x) = (Iota "Psi" y)))
+  assert (S3 : iota_f s1 Phi (fun x => iota_f s1 Psi (fun y =>
+      (Iota s1 x) = (Iota s1 y)))
     ↔ (∃ c, (Psi x <[- x -]> (x = c))
       ∧ (∃ b, (Phi x <[- x -]> (x = b)) ∧ (b = c)))).
   {
@@ -700,21 +699,21 @@ Proof.
     setoid_rewrite <- n4_3 in S2 at 3.
     now setoid_rewrite <- n4_3 in S2 at 2.
   }
-  assert (S4 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
-      (Iota "Phi" x) = (Iota "Psi" y)))
+  assert (S4 : iota_f s1 Phi (fun x => iota_f s1 Psi (fun y =>
+      (Iota s1 x) = (Iota s1 y)))
     ↔ (∃ c, (Psi x <[- x -]> (x = c)) 
-      ∧ iota_f "Phi" Phi (fun x => (Iota "Phi" x) = c))).
-  { now setoid_rewrite <- (n14_1 "Phi") in S3 at 2. }
-  assert (S5 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi (fun y =>
-      (Iota "Phi" x) = (Iota "Psi" y)))
+      ∧ iota_f s1 Phi (fun x => (Iota s1 x) = c))).
+  { now setoid_rewrite <- (n14_1 s1) in S3 at 2. }
+  assert (S5 : iota_f s1 Phi (fun x => iota_f s1 Psi (fun y =>
+      (Iota s1 x) = (Iota s1 y)))
     ↔ (∃ c, (Psi x <[- x -]> (x = c)) 
-      ∧ iota_f "Phi" Phi (fun x => c = (Iota "Phi" x)))).
+      ∧ iota_f s1 Phi (fun x => c = (Iota s1 x)))).
   { now setoid_rewrite <- n14_13 in S4. }
-  assert (S6 : iota_f "Phi" Phi (fun x => iota_f "Psi" Psi 
-      (fun y => (Iota "Phi" x) = (Iota "Psi" y)))
-    ↔ iota_f "Psi" Psi (fun y => iota_f "Phi" Phi (fun x =>
-      (Iota "Psi" y) = (Iota "Phi" x)))).
-  { now rewrite <- (n14_1 "Psi") in S5. }
+  assert (S6 : iota_f s1 Phi (fun x => iota_f s1 Psi 
+      (fun y => (Iota s1 x) = (Iota s1 y)))
+    ↔ iota_f s1 Psi (fun y => iota_f s1 Phi (fun x =>
+      (Iota s1 y) = (Iota s1 x)))).
+  { now rewrite <- (n14_1 s1) in S5. }
   exact S6.
 Qed.
 
@@ -1146,12 +1145,13 @@ Proof.
     now rewrite -> n10_21_pred in n14_15.
   }
   (* The following step is a beautiful demonstration on how our iota works
-    with predicates *)
+    with predicates. During formalization, we find out that there are even
+    shorter ways to finish the proof, *but* that is due to our lack in setting
+    up correct abstraction. We prefer the most conservative way to procceed
+    on this step *)
   assert (S2 : ((IChi x <[- x -]> (x = B)) 
-    /\ (forall Psi : Predicate 1, iota_f s Phi Psi
-      <-> Psi B))
-    -> (iota_f s Phi (fun x => (Iota s x) = B)
-      <-> (B = B))).
+      /\ (forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B))
+    -> (iota_f s Phi (fun x => (Iota s x) = B) <-> (B = B))).
   {
     (* left part of the /\ *)
     pose proof (n10_1 (fun x => IChi x <-> (x = B)) B) 
