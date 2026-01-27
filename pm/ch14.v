@@ -42,6 +42,16 @@ The definitions are being put into the `lib.v`.
 (* TODO: make the definitions into a notation in the future 
 Declare Scope single_description. *)
 
+(* Predicative variant *)
+Definition n10_11_pred (Y : Predicate 1) (φ : Predicate 1 → Prop)
+  : φ Y → ∀ x, φ x.
+Admitted.
+
+(* Predicative variant *)
+Definition n10_21_pred (φ : Predicate 1 → Prop) (P : Prop) :
+  (∀ x : Predicate 1, P → φ x) ↔ (P → (∀ x : Predicate 1, φ x)).
+Admitted.
+
 Open Scope single_app_equiv.
 
 Definition n14_01 (s : string) (Phi Psi : Prop → Prop) : 
@@ -548,6 +558,7 @@ Proof.
   {
     (* I don't think *5.33 can be directly applied here and we need
     a quantified version *)
+    pose proof n5_33 as n5_33.
     (* rewrite <- n5_33 in S6. *)
     admit.
   }
@@ -1032,6 +1043,13 @@ Proof.
   exact S4.
 Qed.
 
+(* Predicative Variant *)
+Definition n14_15_pred (B : Prop) (s : string) (Phi : Prop → Prop) 
+  (Psi : Predicate 1) : 
+  (iota_f s Phi (fun x => (Iota s x) = B))
+  → (iota_f s Phi (fun x => Psi (Iota s x)) ↔ Psi B).
+Admitted.
+
 Theorem n14_16 (s1 s2 : string) (Phi Psi Chi : Prop → Prop) :
   iota_f s1 Phi (fun x => iota_f s2 Psi 
     (fun y => (Iota s1 x) = (Iota s2 y)))
@@ -1101,20 +1119,40 @@ Proof.
   exact S6.
 Qed.
 
-Theorem n14_17 (B : Prop) (Phi : Prop → Prop) : 
-  (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B))
+Theorem n14_17 (B : Prop) (s : string) (Phi : Prop → Prop) : 
+  (iota_f s Phi (fun x => (Iota s x) = B))
   ↔
-  (∀ Psi : Predicate 1, iota_f "Phi" Phi (fun x =>
-    Psi (Iota "Phi" x) ↔ Psi B)).
+  (∀ Psi : Predicate 1, iota_f s Phi (fun x =>
+    Psi (Iota s x) ↔ Psi B)).
 Proof.
-
+  (* TOOLS *)
+  set (Chi := Intro_pred "Chi" 1).
+  (* ******** *)
+  assert (S1 : iota_f s Phi (fun x => (Iota s x) = B)
+    -> (∀ Psi : Predicate 1, (iota_f s Phi (fun x =>
+      Psi (Iota s x)) ↔ Psi B))).
+  {
+    (* *10.11 ignored *)
+    pose proof (n14_15_pred B s Phi)as n14_15.
+    now rewrite -> n10_21_pred in n14_15.
+  }
+  assert (S2 : ((Chi x <[- x -]> (x = B)) 
+    /\ (forall Psi : Predicate 1, iota_f s Phi Psi
+      <-> Psi B))
+    -> (iota_f s Phi (fun x => (Iota "Phi" x) = B)
+      <-> (B = B))).
+  {
+    Close Scope single_app_equiv.
+    pose proof n10_1 as n10_1.
+    pose proof n4_22 as n4_22.
+  }
 Admitted.
 
-Theorem n14_171 (B : Prop) (Phi : Prop → Prop) : 
-  (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B))
+Theorem n14_171 (B : Prop) (s : string) (Phi : Prop → Prop) : 
+  (iota_f s Phi (fun x => (Iota s x) = B))
   ↔
-  (∀ Psi : Predicate 1, iota_f "Phi" Phi (fun x =>
-    Psi B → Psi (Iota "Phi" x))).
+  (∀ Psi : Predicate 1, iota_f s Phi (fun x =>
+    Psi B → Psi (Iota s x))).
 Proof.
 Admitted.
 
