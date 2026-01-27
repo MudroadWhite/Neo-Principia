@@ -213,14 +213,14 @@ Proof.
   set (B := Individual "b").
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : iota_E Phi -> ∃ b, Phi x <[- x -]> x = b).
+  assert (S1 : iota_E Phi → ∃ b, Phi x <[- x -]> x = b).
   {
     pose proof (n14_11 Phi) as n14_11.
     (* simplification: we use `Simp` if necessary *)
     now destruct n14_11.
   }
   assert (S2 : (Phi x <[- x -]> x = B) 
-    -> ((Phi x ∧ Phi y) <[- x y -]> (x = B ∧ y = B))).
+    → ((Phi x ∧ Phi y) <[- x y -]> (x = B ∧ y = B))).
   {
     (* NOTE: this place shows that we cannot assign a instance 
     automatically: in this complicated situation we are having 
@@ -238,7 +238,7 @@ Proof.
     now rewrite <- n11_3 in n11_11.
   }
   assert (S3 : (Phi x <[- x -]> x = B) 
-  -> ((Phi x ∧ Phi y) -[ x y ]> (x = y))).
+  → ((Phi x ∧ Phi y) -[ x y ]> (x = y))).
   {
     intros Hp.
     pose proof (S2 Hp) as S2.
@@ -251,7 +251,7 @@ Proof.
     now Syll S2l n13_172 S3.
   }
   assert (S4 : (∃ b, (Phi x <[- x -]> (x = b)))
-    -> ((Phi x ∧ Phi y) -[ x y ]> (x = y))).
+    → ((Phi x ∧ Phi y) -[ x y ]> (x = y))).
   {
     pose proof (n10_11 B (fun b =>
       Phi x <[- x -]> x = b  →  (Phi x ∧ Phi y) -[ x y ]> (x = y)
@@ -271,7 +271,7 @@ Theorem n14_121 (B C : Prop) (Phi : Prop → Prop) :
   → B = C. 
 Proof.
   assert (S1 : ((Phi x <[- x -]> x = B) ∧ (Phi x <[- x -]> x = C))
-    -> ((Phi B ↔ (B = B)) ∧ (Phi B ↔ (B = C)))).
+    → ((Phi B ↔ (B = B)) ∧ (Phi B ↔ (B = C)))).
   {
     pose proof (n10_1 (fun x => Phi x ↔ (x = B)) B) as n10_1a.
     pose proof (n10_1 (fun x => Phi x ↔ (x = C)) B) as n10_1b.
@@ -283,7 +283,7 @@ Proof.
     now MP n3_47 C1.
   }
   assert (S2 : ((Phi x <[- x -]> x = B) ∧ (Phi x <[- x -]> x = C))
-    -> (Phi B ∧ (Phi B ↔ (B = C)))).
+    → (Phi B ∧ (Phi B ↔ (B = C)))).
   {
     (* TODO: Design a special rule for *13.15. This is something unusual
       for the rewriting system *)
@@ -291,7 +291,7 @@ Proof.
     admit.
   }
   assert (S3 : ((Phi x <[- x -]> x = B) ∧ (Phi x <[- x -]> x = C))
-    -> (B = C)).
+    → (B = C)).
   {
     (* Simplifications... *)
     intro Hp.
@@ -328,32 +328,32 @@ Proof.
     pose proof (n13_191 B Phi) as n13_191.
     now rewrite -> n13_191 in S1.
   }
-  assert (S3 : (Phi X -> (X = B))
-    -> (Phi X ↔ (Phi X ∧ (X = B)))).
+  assert (S3 : (Phi X → (X = B))
+    → (Phi X ↔ (Phi X ∧ (X = B)))).
   {
     pose proof (n4_71 (Phi X) (X = B)) as n4_71.
     now destruct n4_71.
   }
   assert (S4 : (Phi x -[ x ]> (x = B))
-    -> (Phi x <[- x -]> (Phi x ∧ (x = B)))).
+    → (Phi x <[- x -]> (Phi x ∧ (x = B)))).
   {
     pose proof (n10_11 X (fun x =>
-      (Phi x -> (x = B)) -> (Phi x 
+      (Phi x → (x = B)) → (Phi x 
         ↔ (Phi x ∧ (x = B))))) as n10_11.
     MP n10_11 S3.
-    pose proof (n10_27 (fun x => Phi x -> (x = B))
+    pose proof (n10_27 (fun x => Phi x → (x = B))
       (fun x => Phi x ↔ (Phi x ∧ (x = B)))) 
       as n10_27.
     now MP n10_27 n10_11.
   }
   assert (S5 : (Phi x -[ x ]> (x = B))
-    -> ((∃ x, Phi x) ↔ (∃ x, Phi x ∧ (x = B)))).
+    → ((∃ x, Phi x) ↔ (∃ x, Phi x ∧ (x = B)))).
   {
     pose proof (n10_281 Phi (fun x => Phi x ∧ x = B)) 
       as n10_281.
     now Syll S4 n10_281 S5.
   }
-  assert (S6 : (Phi x -[ x ]> (x = B)) -> ((∃ x, 
+  assert (S6 : (Phi x -[ x ]> (x = B)) → ((∃ x, 
     Phi x) ↔ Phi B)).
   {
     setoid_rewrite -> n4_3 in S5 at 2.
@@ -391,37 +391,37 @@ Proof.
       ∧ (((z = X ∧ w = Y) -[ z w ]> Phi z w)))).
   {
     pose proof (n11_31 
-      (fun z w => Phi z w -> (z = X ∧ w = Y))
-      (fun z w => ((z = X ∧ w = Y) -> Phi z w))) as n11_31a.
+      (fun z w => Phi z w → (z = X ∧ w = Y))
+      (fun z w => ((z = X ∧ w = Y) → Phi z w))) as n11_31a.
     symmetry in n11_31a.
-    (* TODO: unify the foralls into one forall and perform equiv in it *)
+    (* TODO: unify the ∀s into one ∀ and perform equiv in it *)
     (* rewrite <- Equiv4_01 in n11_31a. *)
     admit.
   }
   assert (S2 : (Phi z w <[- z w -]> (z = X ∧ w = Y)) 
     ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y)).
   { now rewrite -> n13_21 in S1. }
-  assert (S3 : (Phi Z W -> ((Z = X) ∧ (W = Y)))
-    -> (Phi Z W ↔ (Phi Z W ∧ (Z = X) ∧ (W = Y)))).
+  assert (S3 : (Phi Z W → ((Z = X) ∧ (W = Y)))
+    → (Phi Z W ↔ (Phi Z W ∧ (Z = X) ∧ (W = Y)))).
   {
     pose proof (n4_71 (Phi Z W) ((Z = X) ∧ (W = Y))) as n4_71.
     now destruct n4_71.
   } 
   assert (S4 : (Phi z w -[ z w ]> ((z = X) ∧ (w = Y)))
-    -> (Phi z w <[- z w -]> (Phi z w ∧ (z = X) ∧ (w = Y)))).
+    → (Phi z w <[- z w -]> (Phi z w ∧ (z = X) ∧ (w = Y)))).
   {
     pose proof (n11_11 Z W (fun z w =>
-      (Phi z w -> ((z = X) ∧ (w = Y)))
-        -> (Phi z w ↔ (Phi z w 
+      (Phi z w → ((z = X) ∧ (w = Y)))
+        → (Phi z w ↔ (Phi z w 
           ∧ (z = X) ∧ (w = Y))))) as n11_11.
     MP n11_11 S4.
-    pose proof (n11_32 (fun z w => Phi z w -> ((z = X) ∧ (w = Y)))
+    pose proof (n11_32 (fun z w => Phi z w → ((z = X) ∧ (w = Y)))
       (fun z w => Phi z w ↔ (Phi z w 
         ∧ (z = X) ∧ (w = Y)))) as n11_32.
     now MP n11_32 n11_11.
   }
   assert (S5 : (Phi z w -[ z w ]> ((z = X) ∧ (w = Y)))
-    -> ((∃ z w, Phi z w) ↔ (∃ z w, 
+    → ((∃ z w, Phi z w) ↔ (∃ z w, 
       Phi z w ∧ (z = X) ∧ (w = Y)))).
   {
     pose proof (n11_341 Phi (fun z w => 
@@ -429,7 +429,7 @@ Proof.
     now Syll n11_341 S4 S5.
   }
   assert (S6 : (Phi z w -[ z w ]> ((z = X) ∧ (w = Y)))
-    -> ((∃ z w, Phi z w) ↔ Phi X Y)).
+    → ((∃ z w, Phi z w) ↔ Phi X Y)).
   {
     setoid_rewrite -> n4_3 in S5 at 3.
     setoid_rewrite -> n4_32 in S5.
@@ -465,7 +465,7 @@ Proof.
   set (V := Individual "v").
   (* ******** *)
   assert (S1 : (∃ x y, (Phi z w <[- z w -]> (z = x ∧ w = y)))
-    -> ∃ x y, Phi x y).
+    → ∃ x y, Phi x y).
   { 
     (* TODO: this can be done as in some previous chapter, but I 
     don't want to fill out at the moment *)
@@ -474,8 +474,8 @@ Proof.
     admit.
   }
   assert (S2 : (Phi z w <[- z w -]> ((z = X) ∧ (w = Y)))
-    -> (((Phi Z W) ∧ (Phi U V))
-      -> (Z = X ∧ W = Y ∧ U = X ∧ V = Y))).
+    → (((Phi Z W) ∧ (Phi U V))
+      → (Z = X ∧ W = Y ∧ U = X ∧ V = Y))).
   {
     pose proof (n11_1 Z W (fun z w =>
       (Phi z w) ↔ ((z = X) ∧ (w = Y)))) as n11_1a.
@@ -488,7 +488,7 @@ Proof.
     admit.
   }
   assert (S3 : (Phi z w <[- z w -]> ((z = X) ∧ (w = Y)))
-    -> (((Phi Z W) ∧ (Phi U V)) -> ((Z = U) ∧ (W = V)))).
+    → (((Phi Z W) ∧ (Phi U V)) → ((Z = U) ∧ (W = V)))).
   {
     (* simplification: tedious reordering... *)
     assert (S2_1 : (Z = X ∧ W = Y ∧ U = X ∧ V = Y)
@@ -512,35 +512,35 @@ Proof.
     now Syll S2 n3_47 S3.
   }
   assert (S4 : (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
-    -> (((Phi Z W) ∧ (Phi U V)) -> ((Z = U) ∧ (W = V)))).
+    → (((Phi Z W) ∧ (Phi U V)) → ((Z = U) ∧ (W = V)))).
   {
     pose proof (n11_11 X Y (fun x y =>
       (Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
-        -> (((Phi Z W) ∧ (Phi U V)) -> ((Z = U) ∧ (W = V))))) 
+        → (((Phi Z W) ∧ (Phi U V)) → ((Z = U) ∧ (W = V))))) 
       as n11_11.
     MP n11_11 S3.
     now rewrite -> n11_35 in n11_11.
   }
   assert (S5 : (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
-    -> (∀ z w u v, (Phi z w ∧ Phi u v) -> ((z = u) ∧ (w = v)))).
+    → (∀ z w u v, (Phi z w ∧ Phi u v) → ((z = u) ∧ (w = v)))).
   {
     (* For 4 variables, the generalization has applied twice! *)
     pose proof (n11_11 U V (fun u v =>
       (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
-      -> (((Phi Z W) ∧ (Phi u v)) -> ((Z = u) ∧ (W = v))))) 
+      → (((Phi Z W) ∧ (Phi u v)) → ((Z = u) ∧ (W = v))))) 
       as n11_11a.
     MP n11_11a S4.
     rewrite <- n11_3 in n11_11a.
     pose proof (n11_11 Z W (fun z w =>
     (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
-      -> (∀ u v, ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v)))
+      → (∀ u v, ((Phi z w) ∧ (Phi u v)) → ((z = u) ∧ (w = v)))
       )) as n11_11b.
     MP n11_11b n11_11a.
     now rewrite <- n11_3 in n11_11b.
   }
   assert (S6 : ((Phi X Y) ∧ (∀ z w u v, 
-    ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v)))
-      -> (Phi X Y ∧ ((Phi z w ∧ Phi X Y) -[ z w ]> ((z = X) ∧ (w = Y)))))).
+    ((Phi z w) ∧ (Phi u v)) → ((z = u) ∧ (w = v)))
+      → (Phi X Y ∧ ((Phi z w ∧ Phi X Y) -[ z w ]> ((z = X) ∧ (w = Y)))))).
   {
     (* The ordering here is annoying... *)
     pose proof (n11_1 X Y (fun u v =>
@@ -562,8 +562,8 @@ Proof.
     exact Fact3_45.
   }
   assert (S7 : ((Phi X Y) ∧ (∀ z w u v, 
-    ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v))))
-    -> (Phi X Y ∧ (Phi z w -[ z w ]> ((z = X) ∧ (w = Y))))).
+    ((Phi z w) ∧ (Phi u v)) → ((z = u) ∧ (w = v))))
+    → (Phi X Y ∧ (Phi z w -[ z w ]> ((z = X) ∧ (w = Y))))).
   {
     (* TODO: design the n5_33 on a quantified version to procceed *)
     pose proof n5_33 as n5_33.
@@ -571,8 +571,8 @@ Proof.
     admit.
   }
   assert (S8 : ((Phi X Y) ∧ (∀ z w u v, 
-    ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v))))
-    -> (Phi z w <[- z w -]> ((z = X) ∧ (w = Y)))).
+    ((Phi z w) ∧ (Phi u v)) → ((z = u) ∧ (w = v))))
+    → (Phi z w <[- z w -]> ((z = X) ∧ (w = Y)))).
   {
     pose proof (n14_123 X Y Phi) as n14_123.
     destruct n14_123 as [n14_123l _].
@@ -583,18 +583,18 @@ Proof.
     now rewrite <- n14_123l in S7.
   }
   assert (S9 : ((∃ x y, Phi x y) ∧ (∀ z w u v,
-      (Phi z w ∧ Phi u v) -> ((z = u) ∧ (w = v)))
-    -> (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y))))).
+      (Phi z w ∧ Phi u v) → ((z = u) ∧ (w = v)))
+    → (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y))))).
   {
     pose proof n11_45 as _n11_45.
     pose proof (n11_11 X Y (fun x y =>
       ((Phi x y) ∧ (∀ z w u v, 
-        ((Phi z w) ∧ (Phi u v)) -> ((z = u) ∧ (w = v))))
-        -> (Phi z w <[- z w -]> ((z = x) ∧ (w = y))))) as n11_11.
+        ((Phi z w) ∧ (Phi u v)) → ((z = u) ∧ (w = v))))
+        → (Phi z w <[- z w -]> ((z = x) ∧ (w = y))))) as n11_11.
     MP n11_11 S8.
     pose proof (n11_34
       (fun x y => Phi x y ∧ (∀ z w u v,
-        (Phi z w ∧ Phi u v) -> ((z = u) ∧ (w = v))))
+        (Phi z w ∧ Phi u v) → ((z = u) ∧ (w = v))))
       (fun x y => (Phi z w <[- z w -]> ((z = x) ∧ (w = y))))) 
       as n11_34.
     MP n11_34 n11_11.
@@ -773,7 +773,7 @@ Proof.
   assert (S1 : (iota_f s1 Phi (fun x => A = Iota s1 x)
       ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
         (fun y => Iota s1 x = Iota s2 y)))
-    -> ((∃ b, (Phi x <[- x -]> (x = b)) ∧ (A = b)) 
+    → ((∃ b, (Phi x <[- x -]> (x = b)) ∧ (A = b)) 
       ∧ (∃ c, (Phi x <[- x -]> (x = c)) ∧ iota_f s2 Psi 
         (fun x => c = (Iota s2 x))))).
   {
@@ -795,7 +795,7 @@ Proof.
   assert (S2 : (iota_f s1 Phi (fun x => A = Iota s1 x)
     ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
       (fun y => Iota s1 x = Iota s2 y)))
-  -> ((Phi x <[- x -]> (x = A))
+  → ((Phi x <[- x -]> (x = A))
     ∧ (∃ c, (Phi x <[- x -]> (x = c)) ∧ iota_f s2 Psi 
         (fun x => c = (Iota s2 x))))).
   {
@@ -806,13 +806,13 @@ Proof.
   assert (S3 : (iota_f s1 Phi (fun x => A = Iota s1 x)
     ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
       (fun y => Iota s1 x = Iota s2 y)))
-  -> ∃ c, (Phi x <[- x -]> (x = A)) ∧ (Phi x <[- x -]> (x = c)) 
+  → ∃ c, (Phi x <[- x -]> (x = A)) ∧ (Phi x <[- x -]> (x = c)) 
       ∧ iota_f s2 Psi (fun x => c = (Iota s2 x))).
   { now rewrite <- n10_35 in S2. }
   assert (S4 : (iota_f s1 Phi (fun x => A = Iota s1 x)
     ∧ iota_f s1 Phi (fun x => iota_f s2 Psi 
       (fun y => Iota s1 x = Iota s2 y)))
-  -> ∃ c, (Phi x <[- x -]> (x = A)) ∧ (A = c)
+  → ∃ c, (Phi x <[- x -]> (x = A)) ∧ (A = c)
       ∧ iota_f s2 Psi (fun x => c = (Iota s2 x))).
   {
     intros Hp.
@@ -828,7 +828,7 @@ Proof.
   {
     (* I think it could be that *14.121 should be used in last step
     but in that case the *3.27 here will not be used. Aka S4 has been
-    typed wrong in original text with an extra `<->` term
+    typed wrong in original text with an extra `↔` term
     TODO: we can correct both of the steps in the future *)
     pose proof Simp3_27 as Simp3_27.
     pose proof n13_195 as n13_195.
@@ -848,7 +848,7 @@ Proof.
   (* ******** *)
   assert (S1 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
     ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
-    -> ((∃ a b, (Phi x <[- x -]> (x = a)) 
+    → ((∃ a b, (Phi x <[- x -]> (x = a)) 
           ∧ (Psi x <[- x -]> (x = b)) ∧ (a = b)))
         ∧ (∃ c d, (Psi x <[- x -]> (x = c)) 
           ∧ (Chi x <[- x -]> (x = d)) ∧ (c = d))).
@@ -877,7 +877,7 @@ Proof.
   }
   assert (S2 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
       ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
-    -> ((∃ a, (Phi x <[- x -]> (x = a)) ∧ (Psi x <[- x -]> (x = a)))
+    → ((∃ a, (Phi x <[- x -]> (x = a)) ∧ (Psi x <[- x -]> (x = a)))
       ∧ (∃ c, (Psi x <[- x -]> (x = c)) ∧ (Chi x <[- x -]> (x = c))))).
   {
     (* simplifications... look at how organized it has been! *)
@@ -901,7 +901,7 @@ Proof.
   }
   assert (S3 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
       ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
-    -> ∃ a c, (Phi x <[- x -]> (x = a))
+    → ∃ a c, (Phi x <[- x -]> (x = a))
       ∧ (Psi x <[- x -]> (x = a)) ∧ (Psi x <[- x -]> (x = c))
       ∧ (Chi x <[- x -]> (x = c))).
   {
@@ -910,7 +910,7 @@ Proof.
   }
   assert (S4 : (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))
       ∧ iota_f2 s2 s3 Psi Chi (fun x y => (Iota s2 x) = (Iota s3 y)))
-    -> ∃ a c, (Phi x <[- x -]> (x = a)) ∧ (Chi x <[- x -]> (x = c))
+    → ∃ a c, (Phi x <[- x -]> (x = a)) ∧ (Chi x <[- x -]> (x = c))
       ∧ (a = c)).
   {
     (* simplifications to avoid all the tedious works *)
@@ -970,10 +970,10 @@ Theorem n14_145 (A : Prop) (s1 s2 : string) (Phi Psi : Prop → Prop) :
   → (iota_f2 s1 s2 Phi Psi (fun x y => (Iota s1 x) = (Iota s2 y))).
 Proof.
   assert (S1 : (iota_f s1 Phi (fun x => A = (Iota s1 x)))
-    <-> ∃ b, (Phi x <[- x -]> (x = b)) /\ (A = b)).
+    ↔ ∃ b, (Phi x <[- x -]> (x = b)) ∧ (A = b)).
   { apply n14_1. }
   assert (S2 : (iota_f s1 Phi (fun x => A = (Iota s1 x)))
-    <-> (Phi x <[- x -]> (x = A))).
+    ↔ (Phi x <[- x -]> (x = A))).
   {
     setoid_rewrite -> n4_3 in S1 at 2.
     setoid_rewrite -> n13_16 in S1 at 2.
@@ -981,15 +981,15 @@ Proof.
   }
   assert (S3 : ((iota_f s1 Phi (fun x => A = (Iota s1 x))) 
       ∧ (iota_f s2 Psi (fun x => A = (Iota s2 x))))
-    <-> ((Phi x <[- x -]> (x = A)) /\ (∃ b,
-      (Psi x <[- x -]> (x = b)) /\ (A = b)))).
+    ↔ ((Phi x <[- x -]> (x = A)) ∧ (∃ b,
+      (Psi x <[- x -]> (x = b)) ∧ (A = b)))).
   {
     pose proof (n14_1 s2 Psi (fun x => A = (Iota s2 x))) 
       as n14_1.
       simpl in n14_1.
     assert (C1 : (iota_f s1 Phi (λ x, A = Iota s1 x) 
         ↔ Phi x <[- x -]> x = A)
-      /\ (iota_f s2 Psi (λ x, A = Iota s2 x)
+      ∧ (iota_f s2 Psi (λ x, A = Iota s2 x)
         ↔ ∃ b, ( Psi x <[- x -]> x = b) ∧ A = Iota s2 b)).
     { clear S1. now Conj S2 n14_1 C1. }
     pose proof (n4_38
@@ -1002,8 +1002,8 @@ Proof.
   }
   assert (S4 : ((iota_f s1 Phi (fun x => A = (Iota s1 x))) 
       ∧ (iota_f s2 Psi (fun x => A = (Iota s2 x))))
-    <-> (∃ b, (Phi x <[- x -]> (x = A))
-      /\ (Psi x <[- x -]> (x = b)) /\ (A = b))).
+    ↔ (∃ b, (Phi x <[- x -]> (x = A))
+      ∧ (Psi x <[- x -]> (x = b)) ∧ (A = b))).
   { now rewrite <- n10_35 in S3. }
   assert (S5 : ((iota_f s1 Phi (fun x => A = (Iota s1 x))) 
       ∧ (iota_f s2 Psi (fun x => A = (Iota s2 x))))
@@ -1024,17 +1024,17 @@ Theorem n14_15 (B : Prop) (s : string) (Phi Psi : Prop → Prop) :
   → (iota_f s Phi (fun x => Psi (Iota s x)) ↔ Psi B).
 Proof.
   assert (S1 : (iota_f s Phi (fun x => (Iota s x) = B))
-    -> (∃ c, (Phi x <[- x -]> (x = c)) /\ (c = B))).
+    → (∃ c, (Phi x <[- x -]> (x = c)) ∧ (c = B))).
   { apply n14_1. }
   assert (S2 : (iota_f s Phi (fun x => (Iota s x) = B))
-    -> (Phi x <[- x -]> (x = B))).
+    → (Phi x <[- x -]> (x = B))).
   {
     setoid_rewrite -> n4_3 in S1.
     now rewrite -> n13_195 in S1.
   }
   assert (S3 : (iota_f s Phi (fun x => (Iota s x) = B))
-    -> ((iota_f s Phi Psi) <-> ∃ c, 
-      ((x = B) <[- x -]> (x = c)) /\ Psi c)).
+    → ((iota_f s Phi Psi) ↔ ∃ c, 
+      ((x = B) <[- x -]> (x = c)) ∧ Psi c)).
   {
     (* Simplification: for this step to be performed, S2 has become the 
     one to rewrite on the others. Technically speaking this involves the 
@@ -1068,32 +1068,32 @@ Proof.
   (* ******** *)
   assert (S1 : iota_f s1 Phi (fun x => iota_f s2 Psi 
     (fun y => (Iota s1 x) = (Iota s2 y)))
-    -> ∃ b, (Phi x <[- x -]> (x = b)) /\ 
+    → ∃ b, (Phi x <[- x -]> (x = b)) ∧ 
       iota_f s2 Psi (fun y => b = Iota s2 y)).
   { apply n14_1. }
   assert (S2 : (Phi x <[- x -]> (x = B)) 
-    -> (iota_f s1 Phi Chi <-> (∃ c, 
-      ((x = B) <[- x -]> (x = c)) /\ Chi c))).
+    → (iota_f s1 Phi Chi ↔ (∃ c, 
+      ((x = B) <[- x -]> (x = c)) ∧ Chi c))).
   {
     (* simplification as the same as previous one
-    we might need to use P -> P in normal way *)
+    we might need to use P → P in normal way *)
     intro Hp.
     pose proof (n14_1 s1 Phi Chi) as n14_1.
     now setoid_rewrite -> Hp in n14_1.
   }
-  assert (S3 : (Phi x <[- x -]> (x = B)) -> 
-    (iota_f s1 Phi Chi <-> Chi B)).
+  assert (S3 : (Phi x <[- x -]> (x = B)) → 
+    (iota_f s1 Phi Chi ↔ Chi B)).
   { now rewrite -> n13_192 in S2. }
   assert (S4 : iota_f s2 Psi (fun y => B = (Iota s2 y))
-    -> (Chi B <-> iota_f s2 Psi (fun y => Chi (Iota s2 y)))).
+    → (Chi B ↔ iota_f s2 Psi (fun y => Chi (Iota s2 y)))).
   {
     pose proof (n14_15 B s2 Psi Chi) as n14_15.
     rewrite <- n14_13 in n14_15.
     now rewrite <- n4_21 in n14_15.
   }
-  assert (S5 : ((Phi x <[- x -]> (x = B)) /\ 
+  assert (S5 : ((Phi x <[- x -]> (x = B)) ∧ 
       iota_f s2 Psi (fun y => B = (Iota s2 y)))
-    -> (iota_f s1 Phi Chi <-> iota_f s2 Psi Chi)).
+    → (iota_f s1 Phi Chi ↔ iota_f s2 Psi Chi)).
   {
     assert (C1 : ((∀ x : Prop, Phi x ↔ x = B) 
         → iota_f s1 Phi Chi ↔ Chi B)
@@ -1103,8 +1103,8 @@ Proof.
     pose proof (n3_47
       (Phi x <[- x -]> x = B)
       (iota_f s2 Psi (λ y, B = Iota s2 y))
-      (iota_f s1 Phi Chi <-> Chi B)
-      (Chi B <-> iota_f s2 Psi (λ y, Chi (Iota s2 y)))) as n3_47.
+      (iota_f s1 Phi Chi ↔ Chi B)
+      (Chi B ↔ iota_f s2 Psi (λ y, Chi (Iota s2 y)))) as n3_47.
     MP n3_47 C1.
     pose proof (n4_22 (iota_f s1 Phi Chi) (Chi B)
       (iota_f s2 Psi (λ y : Prop, Chi (Iota s2 y)))) as n4_22.
@@ -1118,7 +1118,7 @@ Proof.
     pose proof n10_11 as _n10_11.
     pose proof (n10_11 B (fun b =>
       ((∀ x, Phi x ↔ x = b) ∧ iota_f s2 Psi (λ y, b = Iota s2 y))
-      -> (iota_f s1 Phi Chi ↔ iota_f s2 Psi Chi))) as n10_11.
+      → (iota_f s1 Phi Chi ↔ iota_f s2 Psi Chi))) as n10_11.
     MP n10_11 S5.
     rewrite -> n10_23 in n10_11.
     now Syll S1 n10_11 S6.
@@ -1137,7 +1137,7 @@ Proof.
   set (X := Individual "x").
   (* ******** *)
   assert (S1 : iota_f s Phi (fun x => (Iota s x) = B)
-    -> (∀ Psi : Predicate 1, (iota_f s Phi (fun x =>
+    → (∀ Psi : Predicate 1, (iota_f s Phi (fun x =>
       Psi (Iota s x)) ↔ Psi B))).
   {
     (* *10.11 ignored *)
@@ -1152,13 +1152,13 @@ Proof.
     parameters into functions/predicates so that the types should still be
     correct *)
   assert (S2 : ((IChi x <[- x -]> (x = B)) 
-      /\ (forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B))
-    -> (iota_f s Phi (fun x => (Iota s x) = B) <-> (B = B))).
+      ∧ (∀ Psi : Predicate 1, iota_f s Phi Psi ↔ Psi B))
+    → (iota_f s Phi (fun x => (Iota s x) = B) ↔ (B = B))).
   {
-    (* left part of the /\ *)
-    pose proof (n10_1 (fun x => IChi x <-> (x = B)) B) 
+    (* left part of the ∧ *)
+    pose proof (n10_1 (fun x => IChi x ↔ (x = B)) B) 
       as n10_1a.
-    (* right part of the /\ *)
+    (* right part of the ∧ *)
     pose proof (n10_1_pred (fun x : Predicate 1 => 
       (iota_f s Phi x) ↔ x B) IChi) as n10_1b.
     assert (C1 : ((∀ x, IChi x ↔ x = B) → IChi B ↔ B = B)
@@ -1191,9 +1191,9 @@ Proof.
     now Syll Sy2 n10_1c S2.
   }
   assert (S3 : ((IChi x <[- x -]> (x = B)) 
-      /\ (forall Psi : Predicate 1, iota_f s Phi Psi
-        <-> Psi B))
-    -> iota_f s Phi (fun x => (Iota s x) = B)).
+      ∧ (∀ Psi : Predicate 1, iota_f s Phi Psi
+        ↔ Psi B))
+    → iota_f s Phi (fun x => (Iota s x) = B)).
   {
     (* Similar as previous one, this application on n13_15 is somthing 
     out of the context. We should add a special rule for n13_15 in the 
@@ -1201,37 +1201,37 @@ Proof.
     pose proof n13_15 as n13_15.
     admit.
   }
-  assert (S4 : (exists Chi : Predicate 1, (Chi x <[- x -]> (x = B)))
-    -> ((forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B)
-      -> iota_f s Phi (fun x => x = B))).
+  assert (S4 : (∃ Chi : Predicate 1, (Chi x <[- x -]> (x = B)))
+    → ((∀ Psi : Predicate 1, iota_f s Phi Psi ↔ Psi B)
+      → iota_f s Phi (fun x => x = B))).
   {
     pose proof (Exp3_3 (IChi x <[- x -]> x = B)
-      (forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B)
+      (∀ Psi : Predicate 1, iota_f s Phi Psi ↔ Psi B)
       (iota_f s Phi (λ x : Prop, Iota s x = B))) as Exp3_3.
     MP Exp3_3 S3.
     pose proof (n10_11_pred IChi (fun p =>
       (p x <[- x -]> x = B)
-      -> (forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B)
-      -> iota_f s Phi (λ x : Prop, Iota s x = B))) as n10_11.
+      → (∀ Psi : Predicate 1, iota_f s Phi Psi ↔ Psi B)
+      → iota_f s Phi (λ x : Prop, Iota s x = B))) as n10_11.
     MP n10_11 Exp3_3.
     now rewrite -> n10_23_pred in n10_11.
   }
-  assert (S5 : exists Chi : Predicate 1, Chi x <[- x -]> (x = B)).
+  assert (S5 : ∃ Chi : Predicate 1, Chi x <[- x -]> (x = B)).
   {
     pose proof (n12_1 (fun x => x = B)) as n12_1.
     now setoid_rewrite -> n4_21 in n12_1.
   }
-  assert (S6 : (forall Psi : Predicate 1, 
-      (iota_f s Phi Psi) <-> Psi B) 
-    -> iota_f s Phi (fun x => (Iota s x) = B)).
+  assert (S6 : (∀ Psi : Predicate 1, 
+      (iota_f s Phi Psi) ↔ Psi B) 
+    → iota_f s Phi (fun x => (Iota s x) = B)).
   { now MP S4 S5. }
   assert (S7 : (iota_f s Phi (fun x => (Iota s x) = B))
     ↔ (∀ Psi : Predicate 1, (iota_f s Phi (fun x =>
       Psi (Iota s x)) ↔ Psi B))).
   {
     assert (C1 : (iota_f s Phi (λ x, Iota s x = B)
-        → forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B)
-      /\ ((forall Psi : Predicate 1, iota_f s Phi Psi <-> Psi B)
+        → ∀ Psi : Predicate 1, iota_f s Phi Psi ↔ Psi B)
+      ∧ ((∀ Psi : Predicate 1, iota_f s Phi Psi ↔ Psi B)
         → iota_f s Phi (λ x, Iota s x = B))).
     { clear S2 S3 S4 S5. now Conj S1 S6 C1. }
     now Equiv C1.
@@ -1242,30 +1242,30 @@ Admitted.
 Theorem n14_171 (B : Prop) (s : string) (Phi : Prop → Prop) : 
   (iota_f s Phi (fun x => (Iota s x) = B))
   ↔
-  (∀ Psi : Predicate 1, Psi B -> iota_f s Phi Psi).
+  (∀ Psi : Predicate 1, Psi B → iota_f s Phi Psi).
 Proof.
   assert (S1 : (iota_f s Phi (fun x => (Iota s x) = B))
-    -> (∀ Psi : Predicate 1, Psi B -> iota_f s Phi Psi)).
+    → (∀ Psi : Predicate 1, Psi B → iota_f s Phi Psi)).
   { apply n14_17. }
-  assert (S2 : (∀ Psi : Predicate 1, Psi B -> iota_f s Phi Psi)
-    -> ((B = B) -> iota_f s Phi (fun x => (Iota s x) = B))).
+  assert (S2 : (∀ Psi : Predicate 1, Psi B → iota_f s Phi Psi)
+    → ((B = B) → iota_f s Phi (fun x => (Iota s x) = B))).
   {
     (* *12.1 ignored - I don't know if we need this or how is
     it being used actually. This might be something important *)
     pose proof (n10_1_pred
-      (fun p => p B -> iota_f s Phi p) 
+      (fun p => p B → iota_f s Phi p) 
       (fun x => x = B)) as n10_1.
     exact n10_1.
   }
-  assert (S3 : (∀ Psi : Predicate 1, Psi B -> iota_f s Phi Psi)
-    -> iota_f s Phi (fun x => (Iota s x) = B)).
+  assert (S3 : (∀ Psi : Predicate 1, Psi B → iota_f s Phi Psi)
+    → iota_f s Phi (fun x => (Iota s x) = B)).
   {
     (* as always... *)
     pose proof n13_15 as n13_15.
     admit.
   }
   assert (S4 : (iota_f s Phi (fun x => (Iota s x) = B))
-    ↔ (∀ Psi : Predicate 1, Psi B -> iota_f s Phi Psi)).
+    ↔ (∀ Psi : Predicate 1, Psi B → iota_f s Phi Psi)).
   {
     clear S2.
     Conj S1 S3 C1.
@@ -1281,12 +1281,12 @@ Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
-  assert (S1 : (forall x, Psi x) -> Psi B).
+  assert (S1 : (∀ x, Psi x) → Psi B).
   { apply n10_1. }
-  assert (S2 : ((Phi x <[- x -]> (x = B)) /\ (forall x, Psi x))
-    -> ((Phi x <[- x -]> (x = B)) /\ Psi B)).
+  assert (S2 : ((Phi x <[- x -]> (x = B)) ∧ (∀ x, Psi x))
+    → ((Phi x <[- x -]> (x = B)) ∧ Psi B)).
   {
-    pose proof (Fact3_45 (forall x, Psi x)
+    pose proof (Fact3_45 (∀ x, Psi x)
       (Psi B) ((Phi x <[- x -]> (x = B)))) as Fact3_45.
     MP Fact3_45 S1.
     rewrite -> n4_3 in Fact3_45.
@@ -1296,26 +1296,26 @@ Proof.
     2: { apply propositional_extensionality. now rewrite -> n4_3. }
     exact Fact3_45.
   }
-  assert (S3 : ((exists b, (Phi x <[- x -]> (x = b)) /\ forall x, Psi x))
-    -> (exists b, (Phi x <[- x -]> (x = b)) /\ Psi b)).
+  assert (S3 : ((∃ b, (Phi x <[- x -]> (x = b)) ∧ ∀ x, Psi x))
+    → (∃ b, (Phi x <[- x -]> (x = b)) ∧ Psi b)).
   {
     pose proof (n10_11 B (fun b =>
-      ((Phi x <[- x -]> (x = b)) /\ (forall x, Psi x))
-      -> ((Phi x <[- x -]> (x = b)) /\ Psi b))) as n10_11.
+      ((Phi x <[- x -]> (x = b)) ∧ (∀ x, Psi x))
+      → ((Phi x <[- x -]> (x = b)) ∧ Psi b))) as n10_11.
     MP n10_11 S2.
     pose proof (n10_28
-      (fun b => (Phi x <[- x -]> (x = b)) /\ (forall x, Psi x))
-      (fun b => (Phi x <[- x -]> (x = b)) /\ Psi b)) as n10_28.
+      (fun b => (Phi x <[- x -]> (x = b)) ∧ (∀ x, Psi x))
+      (fun b => (Phi x <[- x -]> (x = b)) ∧ Psi b)) as n10_28.
     now MP n10_28 n10_11.
   }
-  assert (S4 : ((exists b, (Phi x <[- x -]> (x = b))) /\ forall x, Psi x)
-    -> (exists b, (Phi x <[- x -]> (x = b)) /\ Psi b)).
+  assert (S4 : ((∃ b, (Phi x <[- x -]> (x = b))) ∧ ∀ x, Psi x)
+    → (∃ b, (Phi x <[- x -]> (x = b)) ∧ Psi b)).
   {
     setoid_rewrite n4_3 in S3 at 1.
     rewrite -> n10_35 in S3.
     now rewrite -> n4_3 in S3 at 1.
   }
-  assert (S5 : (iota_E Phi /\ ∀ x, Psi x) → iota_f s Phi (fun x =>
+  assert (S5 : (iota_E Phi ∧ ∀ x, Psi x) → iota_f s Phi (fun x =>
     Psi (Iota s x))).
   {
     rewrite <- (n14_1 s) in S4.
