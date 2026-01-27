@@ -36,18 +36,26 @@ starting with `(fun x => ...)`, in contrast to just building an arbitary proposi
 variables immediately. The resulted notation is quite different from how it looks like originally, 
 but it can correctly express what should a iota do and limit its scope as in the text.
 
+From n14_17 and onward, we're seeing how iota should cope with the predicative functions. Currently
+we are still letting iotas being "untyped", that is, being constructed based on untyped function. 
+Whether we can restrict the iotas to typed functions only is a future question.
+
 The definitions are being put into the `lib.v`. 
 *)
 
 (* TODO: make the definitions into a notation in the future 
 Declare Scope single_description. *)
 
-(* Predicative variant *)
-Definition n10_11_pred (Y : Predicate 1) (φ : Predicate 1 → Prop)
-  : φ Y → ∀ x, φ x.
+Definition n10_1_pred (φ : Predicate 1 → Prop) (Y : Predicate 1) : 
+  (∀ x, φ x) → φ Y.
 Admitted.
 
-(* Predicative variant *)
+Definition n10_11_pred (Y : Predicate 1) (φ : Predicate 1 → Prop) : 
+  φ Y → ∀ x, φ x.
+Admitted.
+
+(* NOTE: note that how the `P` here has to be Prop while the `Y` in n10_1
+variant is set to `Predicate 1` *)
 Definition n10_21_pred (φ : Predicate 1 → Prop) (P : Prop) :
   (∀ x : Predicate 1, P → φ x) ↔ (P → (∀ x : Predicate 1, φ x)).
 Admitted.
@@ -385,7 +393,7 @@ Proof.
       (fun z w => Phi z w -> (z = X ∧ w = Y))
       (fun z w => ((z = X ∧ w = Y) -> Phi z w))) as n11_31a.
     symmetry in n11_31a.
-    (* Seems like the `Equiv` here isn't supported very well *)
+    (* TODO: unify the foralls into one forall and perform equiv in it *)
     (* rewrite <- Equiv4_01 in n11_31a. *)
     admit.
   }
@@ -1126,26 +1134,69 @@ Theorem n14_17 (B : Prop) (s : string) (Phi : Prop → Prop) :
     Psi (Iota s x) ↔ Psi B)).
 Proof.
   (* TOOLS *)
-  set (Chi := Intro_pred "Chi" 1).
+  set (IChi := Intro_pred "Chi" 1).
+  set (X := Individual "x").
   (* ******** *)
   assert (S1 : iota_f s Phi (fun x => (Iota s x) = B)
     -> (∀ Psi : Predicate 1, (iota_f s Phi (fun x =>
       Psi (Iota s x)) ↔ Psi B))).
   {
     (* *10.11 ignored *)
-    pose proof (n14_15_pred B s Phi)as n14_15.
+    pose proof (n14_15_pred B s Phi) as n14_15.
     now rewrite -> n10_21_pred in n14_15.
   }
-  assert (S2 : ((Chi x <[- x -]> (x = B)) 
+  (* The following step is a beautiful demonstration on how our iota works
+    with predicates *)
+  assert (S2 : ((IChi x <[- x -]> (x = B)) 
     /\ (forall Psi : Predicate 1, iota_f s Phi Psi
       <-> Psi B))
-    -> (iota_f s Phi (fun x => (Iota "Phi" x) = B)
+    -> (iota_f s Phi (fun x => (Iota s x) = B)
       <-> (B = B))).
   {
-    Close Scope single_app_equiv.
-    pose proof n10_1 as n10_1.
-    pose proof n4_22 as n4_22.
+    (* left part of the /\ *)
+    pose proof (n10_1 (fun x => IChi x <-> (x = B)) B) 
+      as n10_1a.
+    (* right part of the /\ *)
+    pose proof (n10_1_pred (fun x : Predicate 1 => 
+      (iota_f s Phi x) ↔ x B) IChi) as n10_1b.
+    assert (C1 : ((∀ x, IChi x ↔ x = B) → IChi B ↔ B = B)
+      ∧ ((∀ x : Predicate 1, iota_f s Phi x ↔ x B) 
+        → iota_f s Phi IChi ↔ IChi B)).
+    { now Conj n10_1a n10_1b C1. }
+    pose proof (n3_47
+      (∀ x, IChi x ↔ x = B)
+      (∀ x : Predicate 1, iota_f s Phi x ↔ x B)
+      (IChi B ↔ B = B)
+      (iota_f s Phi IChi ↔ IChi B)) as n3_47.
+    MP n3_47 C1.
+    pose proof (n4_22 (iota_f s Phi IChi) (IChi B)
+      (B = B)) as n4_22.
+    clear n10_1a n10_1b C1.
+    rewrite -> n4_3 in n4_22.
+    Syll n3_47 n4_22 Sy1.
+    (* Now we're going to instantiate `IChi`
+      by applying n10_1 and n10_11 variants *)
+    pose proof (n10_11_pred IChi (fun p => 
+      iota_f s Phi p ↔ B = B)) as n10_11a.
+    clear n3_47 n4_22.
+    Syll Sy1 n10_11a Sy2.
+    pose proof (n10_1_pred
+      (fun p => iota_f s Phi p ↔ B = B)
+      (fun x => Iota s x = B)) as n10_1c.
+    clear Sy1 n10_11a.
+    now Syll Sy2 n10_1c S2.
   }
+  assert (S3 : ((IChi x <[- x -]> (x = B)) 
+      /\ (forall Psi : Predicate 1, iota_f s Phi Psi
+        <-> Psi B))
+    -> iota_f s Phi (fun x => (Iota s x) = B)).
+  {
+    (* As always, this is somthing out of the context.
+    We should add a special rule for n13_15 in the future *)
+    pose proof n13_15 as n13_15.
+    admit.
+  }
+  assert (S4 : )
 Admitted.
 
 Theorem n14_171 (B : Prop) (s : string) (Phi : Prop → Prop) : 
