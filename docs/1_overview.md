@@ -9,6 +9,8 @@ Proposing Principia Mathematica is a matter of theory, and verifying such a theo
 
 This project shows the power of type-theory-based modern formal verifiers, with only mediocre technology being used. This project [sculpts a better base](https://x.com/jdlichtman/status/2015174938865655950) for others to craft, and exposes how much of PM cannot be automated. It is to be detected bugs easily, modified easily, executed with controlled automation, and maybe built on with better abstractions. It saves you the time to buy a physical copy of the book, flip the pages with anxiety and boredom just to grind every line of proofs written in a ruthless massive tomb that appears in your dream and drags your hair into a mess every night. This project can inspire indie gamedevs whose core goal is making mediocre ideas into games; the flood of Principia Mathematica jokes therefore continues on X.
 
+This is a project where you can appreciate the code line by line.
+
 ## Who did what
 All of chapter 1 - 5 are directly attributed to [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia).
 
