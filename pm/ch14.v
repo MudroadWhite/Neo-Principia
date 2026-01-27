@@ -1242,21 +1242,47 @@ Admitted.
 Theorem n14_171 (B : Prop) (s : string) (Phi : Prop → Prop) : 
   (iota_f s Phi (fun x => (Iota s x) = B))
   ↔
-  (∀ Psi : Predicate 1, iota_f s Phi (fun x =>
-    Psi B → Psi (Iota s x))).
+  (∀ Psi : Predicate 1, Psi B -> iota_f s Phi Psi).
 Proof.
-  
+  assert (S1 : (iota_f s Phi (fun x => (Iota s x) = B))
+    -> (∀ Psi : Predicate 1, Psi B -> iota_f s Phi Psi)).
+  { apply n14_17. }
+  assert (S2 : (∀ Psi : Predicate 1, Psi B -> iota_f s Phi Psi)
+    -> ((B = B) -> iota_f s Phi (fun x => (Iota s x) = B))).
+  {
+    (* *12.1 ignored - I don't know if we need this or how is
+    it being used actually. This might be something important *)
+    pose proof (n10_1_pred
+      (fun p => p B -> iota_f s Phi p) 
+      (fun x => x = B)) as n10_1.
+    exact n10_1.
+  }
+  assert (S3 : (∀ Psi : Predicate 1, Psi B -> iota_f s Phi Psi)
+    -> iota_f s Phi (fun x => (Iota s x) = B)).
+  {
+    (* as always... *)
+    pose proof n13_15 as n13_15.
+    admit.
+  }
+  assert (S4 : (iota_f s Phi (fun x => (Iota s x) = B))
+    ↔ (∀ Psi : Predicate 1, Psi B -> iota_f s Phi Psi)).
+  {
+    clear S2.
+    Conj S1 S3 C1.
+    now Equiv C1.
+  }
+  exact S4.
 Admitted.
 
-Theorem n14_18 (Phi Psi : Prop → Prop) :
-  iota_E Phi → (∀ x, Psi x → iota_f "Phi" Phi (fun x =>
-    Psi (Iota "Phi" x))).
+Theorem n14_18 (s : string) (Phi Psi : Prop → Prop) :
+  iota_E Phi → (∀ x, Psi x → iota_f s Phi (fun x =>
+    Psi (Iota s x))).
 Proof.
 Admitted.
 
-Theorem n14_2 (X A : Prop) : 
-  (iota_f "=a" (fun x => x = A)
-    (fun y => (Iota "=a" y) = A)).
+Theorem n14_2 (X A : Prop) (s : string) : 
+  (iota_f s (fun x => x = A)
+    (fun y => (Iota s y) = A)).
 Proof.
 Admitted.
 
