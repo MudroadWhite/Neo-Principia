@@ -1275,10 +1275,61 @@ Proof.
 Admitted.
 
 Theorem n14_18 (s : string) (Phi Psi : Prop → Prop) :
-  iota_E Phi → (∀ x, Psi x → iota_f s Phi (fun x =>
+  iota_E Phi → ((∀ x, Psi x) → iota_f s Phi (fun x =>
     Psi (Iota s x))).
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : (forall x, Psi x) -> Psi B).
+  { apply n10_1. }
+  assert (S2 : ((Phi x <[- x -]> (x = B)) /\ (forall x, Psi x))
+    -> ((Phi x <[- x -]> (x = B)) /\ Psi B)).
+  {
+    pose proof (Fact3_45 (forall x, Psi x)
+      (Psi B) ((Phi x <[- x -]> (x = B)))) as Fact3_45.
+    MP Fact3_45 S1.
+    rewrite -> n4_3 in Fact3_45.
+    replace (Psi B ∧ (Phi x <[- x -]> x = B))
+      with ((Phi x <[- x -]> x = B) ∧ Psi B)
+      in Fact3_45.
+    2: { apply propositional_extensionality. now rewrite -> n4_3. }
+    exact Fact3_45.
+  }
+  assert (S3 : ((exists b, (Phi x <[- x -]> (x = b)) /\ forall x, Psi x))
+    -> (exists b, (Phi x <[- x -]> (x = b)) /\ Psi b)).
+  {
+    pose proof (n10_11 B (fun b =>
+      ((Phi x <[- x -]> (x = b)) /\ (forall x, Psi x))
+      -> ((Phi x <[- x -]> (x = b)) /\ Psi b))) as n10_11.
+    MP n10_11 S2.
+    pose proof (n10_28
+      (fun b => (Phi x <[- x -]> (x = b)) /\ (forall x, Psi x))
+      (fun b => (Phi x <[- x -]> (x = b)) /\ Psi b)) as n10_28.
+    now MP n10_28 n10_11.
+  }
+  assert (S4 : ((exists b, (Phi x <[- x -]> (x = b))) /\ forall x, Psi x)
+    -> (exists b, (Phi x <[- x -]> (x = b)) /\ Psi b)).
+  {
+    setoid_rewrite n4_3 in S3 at 1.
+    rewrite -> n10_35 in S3.
+    now rewrite -> n4_3 in S3 at 1.
+  }
+  assert (S5 : (iota_E Phi /\ ∀ x, Psi x) → iota_f s Phi (fun x =>
+    Psi (Iota s x))).
+  {
+    rewrite <- (n14_1 s) in S4.
+    now rewrite <- n14_11 in S4.
+  }
+  assert (S6 : iota_E Phi → ((∀ x, Psi x) → iota_f s Phi (fun x =>
+    Psi (Iota s x)))).
+  {
+    pose proof (Exp3_3 (iota_E Phi) (∀ x, Psi x)
+      (iota_f s Phi (fun x => Psi (Iota s x)))) as Exp3_3.
+    now MP Exp3_3 S5.
+  }
+  exact S6.
+Qed.
 
 Theorem n14_2 (X A : Prop) (s : string) : 
   (iota_f s (fun x => x = A)
