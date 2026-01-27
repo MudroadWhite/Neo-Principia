@@ -16,14 +16,14 @@ TODO: expand the idea: This seems to be the only way to quantify the functions
 
 (* EXPERIMENTAL: axioms in this chapter aren't stable, since our definition of `Predicate` should 
 be subject to refinements *)
-Definition n12_1 (X : Prop) (Phi : Prop → Prop) : 
-  exists f : (Predicate 1), (Phi X) <[- x -]> (f x).
+Definition n12_1 (Phi : Prop → Prop) : 
+  exists f : (Predicate 1), (Phi x) <[- x -]> (f x).
 Admitted.
 
 (* To be uncommented *)
-(* Definition n12_11 (X Y : Prop) (f Phi : Prop → Prop → Prop) :
+(* Definition n12_11 (f Phi : Prop → Prop → Prop) :
   exists fPsi : Prop → Prop → Prop,
-    exists f : Predicate2.t 1, (Phi X Y) <[- x y -]> (f.(Predicate2.fix_func 1) x y fPsi).
+    exists f : Predicate2.t 1, (Phi x y) <[- x y -]> (f.(Predicate2.fix_func 1) x y fPsi).
 Admitted. *)
 
 Close Scope single_app_equiv.
