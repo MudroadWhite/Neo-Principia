@@ -12,6 +12,7 @@ Require Import PM.pm.ch12.
 TODO: 
 - investigate a convenient `∧` construction
 - replace ~= with the /= unicode symbol
+- fill in missing proofs
 *)
 
 (* Experimental: provide variated theorems to be used in this chapter
@@ -75,8 +76,10 @@ Theorem n13_101 (X Y : Prop) (ψ : Prop → Prop) :
 Proof.
   assert (S1 : (∃ φ : Predicate 1, (ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y))).
   {
-    (* I don't think this is provable! *)
-    pose proof n12_1 as n12_1.
+    (* TODO: This proposition is provable if we manually introduce a 
+    predicative placeholder to instantiate n12_1 *)
+    pose proof n12_1 as n12_1a.
+    pose proof n12_1 as n12_1b.
     admit.
   }
   assert (S2 : (X = Y) → ∀ φ : Predicate 1, φ X → φ Y).
