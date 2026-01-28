@@ -1331,37 +1331,121 @@ Proof.
   exact S6.
 Qed.
 
-Theorem n14_2 (X A : Prop) (s : string) : 
-  (iota_f s (fun x => x = A)
-    (fun y => (Iota s y) = A)).
+Theorem n14_2 (A : Prop) (s : string) : 
+  iota_f s (fun x => x = A) (fun y => (Iota s y) = A).
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (X := Individual "x").
+  (* ******** *)
+  assert (S1 : (iota_f s (fun x => x = A) (fun y => (Iota s y) = A))
+    <-> (exists b, ((x = A) <[- x -]> (x = b)) /\ (b = A))).
+  { apply n14_101. }
+  assert (S2 : (iota_f s (fun x => x = A) (fun y => (Iota s y) = A))
+    <-> ((x = A) <[- x -]> (x = A))).
+  {
+    setoid_rewrite -> n4_3 in S1 at 2.
+    now rewrite -> (n13_195 A) in S1.
+  }
+  assert (S3 : iota_f s (fun x => x = A) (fun y => (Iota s y) = A)).
+  {
+    (* I think Id2_08 is unclear to use, so we use another way
+    to do this instead... *)
+    pose proof (n4_2 (X = A)) as n4_2.
+    pose proof (n10_11 X (fun x => x = A ↔ x = A)) as n10_11.
+    MP n10_11 n4_2.
+    now rewrite <- S2 in n10_11.
+  }
+  exact S3.
+Qed.
 
 Theorem n14_201 (Phi : Prop → Prop) : iota_E Phi → ∃ x, Phi x. 
 Proof.
+  (* TOOLS *)
+  set (X := Individual "x").
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : iota_E Phi -> exists b, (Phi x <[- x -]> (x = b))).
+  { apply n14_11. }
+  assert (S2 : iota_E Phi -> exists b, (Phi b <-> (b = b))).
+  {
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    pose proof (n10_1 (fun x => Phi x <-> (x = B)) B) as n10_1.
+    (* Note that we're having quantifiers in the function body *)
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> x = b) 
+      -> (Phi b <-> (b = b)))) as n10_11.
+    MP n10_11 n10_1.
+    pose proof (n10_28
+      (fun b => Phi x <[- x -]> x = b)
+      (fun b => Phi b ↔ b = b)) as n10_28.
+    MP n10_28 n10_11.
+    now MP n10_28 S1.
+  }
+  assert (S3 : iota_E Phi -> exists x, Phi x).
+  {
+    pose proof n13_15 as n13_15.
+    admit.
+  }
+  exact S3.
 Admitted.
 
-Theorem n14_202 (B : Prop) (Phi : Prop → Prop) : 
-  ((Phi x <[- x -]> x = B) ↔ (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B)))
+Theorem n14_202 (B : Prop) (s : string) (Phi : Prop → Prop) : 
+  ((Phi x <[- x -]> x = B) ↔ (iota_f s Phi (fun x => (Iota s x) = B)))
   ∧
-  ((iota_f "Phi" Phi (fun x => (Iota "Phi" x) = B)) ↔ (Phi x <[- x -]> B = x))
+  ((iota_f s Phi (fun x => (Iota s x) = B)) ↔ (Phi x <[- x -]> B = x))
   ∧
-  ((Phi x <[- x -]> B = x) ↔ (iota_f "Phi" Phi (fun x => B = (Iota "Phi" x)))).
+  ((Phi x <[- x -]> B = x) ↔ (iota_f s Phi (fun x => B = (Iota s x)))).
 Proof.
-Admitted.
+  assert (S1 : (iota_f s Phi (fun x => (Iota s x) = B))
+    <-> (exists c, (Phi x <[- x -]> (x = c)) /\ (c = B))).
+  { apply n14_1. }
+  assert (S2 : (iota_f s Phi (fun x => (Iota s x) = B))
+    <-> (Phi x <[- x -]> (x = B))).
+  {
+    setoid_rewrite -> n4_3 in S1 at 2.
+    now rewrite -> n13_195 in S1.
+  }
+  assert (S3 : ((Phi x <[- x -]> x = B) ↔ (iota_f s Phi (fun x => (Iota s x) = B)))
+    ∧ ((iota_f s Phi (fun x => (Iota s x) = B)) ↔ (Phi x <[- x -]> B = x))
+    ∧ ((Phi x <[- x -]> B = x) ↔ (iota_f s Phi (fun x => B = (Iota s x))))).
+  {
+    assert (S3_1 : ((Phi x <[- x -]> x = B) ↔ (iota_f s Phi (fun x => (Iota s x) = B)))).
+    { now rewrite -> n4_21 in S2. }
+    assert (S3_2 : ((iota_f s Phi (fun x => (Iota s x) = B)) ↔ (Phi x <[- x -]> B = x))).
+    { now setoid_rewrite -> n13_16 in S2 at 2. }
+    assert (S3_3 : ((Phi x <[- x -]> B = x) ↔ (iota_f s Phi (fun x => B = (Iota s x))))).
+    {
+      assert (S3_3 : (iota_f s Phi (fun x => B = (Iota s x)))
+        <-> (exists c, (Phi x <[- x -]> (x = c)) /\ (B = c))).
+      { apply n14_1. }
+      setoid_rewrite -> n4_3 in S3_3 at 2.
+      setoid_rewrite -> n13_16 in S3_3 at 2.
+      rewrite -> n13_195 in S3_3.
+      rewrite -> n4_21 in S3_3.
+      now setoid_rewrite -> n13_16 in S3_3 at 1.
+    }
+    assert (C1 : (iota_f s Phi (λ x, Iota s x = B) ↔  Phi x <[- x -]> B = x)
+      /\ (Phi x <[- x -]> B = x  ↔ iota_f s Phi (λ x, B = Iota s x))).
+    { clear S3_1. now Conj S3_2 S3_3 C1. }
+    clear S2 S3_2 S3_3.
+    now Conj S3_1 C1 S3.
+  }
+  exact S3.
+Qed.
 
 Theorem n14_203 (Phi : Prop → Prop) : iota_E Phi 
   ↔ ((∃ x, Phi x) ∧ ((Phi x ∧ Phi y)) -[ x y ]> (x = y)).
 Proof.
+  
 Admitted.
 
-Theorem n14_204 (B : Prop) (Phi : Prop → Prop) : iota_E Phi 
-  ↔ ∃ b, (iota_f "Phi" Phi (fun x => (Iota "Phi" x) = b)).
+Theorem n14_204 (B : Prop) (s : string) (Phi : Prop → Prop) : iota_E Phi 
+  ↔ ∃ b, (iota_f s Phi (fun x => (Iota s x) = b)).
 Proof.
 Admitted.
 
-Theorem n14_205 (Phi Psi : Prop → Prop) : (iota_f "Phi" Phi Psi)
-  ↔ ∃ b, (iota_f "Phi" Phi (fun x => b = (Iota "Phi" x))) ∧ Psi b.
+Theorem n14_205 (s : string) (Phi Psi : Prop → Prop) : (iota_f s Phi Psi)
+  ↔ ∃ b, (iota_f s Phi (fun x => b = (Iota s x))) ∧ Psi b.
 Proof.
 Admitted.
 
