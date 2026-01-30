@@ -18,13 +18,12 @@ Compatability.
 - "Just as it is": Clear proof structure, clean, maybe beautiful proof window. Forward style reasoning as Principia's direction.
 
 ## Can you make sure that the code/proof is 100% correct?
-No. 
+No. Successful `Qed`s are still false positives, due to a lot of delicate details. For example: 
 
-- This depends on how much and deep you interpret the terms. There exist ideas expressed in natural language, not with formulae. They will be written as comments in our code.
-- Successful `Qed`s are still false positives, due to a lot of delicate details. For example, `Ltac` isn't well designed, important details are not expressed in propositions, etc.. I have caught several bugs in the repo because of them.
-- Our designs on notations still rely on manual checks.
-- I didn't deeply examine the code in chapter 1 - 5.
-- Under our interpretation, a few places out of the vast seem to be unprovable!
+- `Ltac` isn't well designed
+- Some propositions are written as comments that require a deeper interpretation
+- I didn't deeply examine the code in chapter 1 - 5
+- Lots of places still rely on manual checks. In particular, PM doesn't have its own type notation, so we cannot ensure our proof preserves the type.
 
 ## Can Principia Mathematica can be completely formalized?
 **Yes**: With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system with which all advanced mathematical ideas are built on, formalizing PM is already theoretically accessible.
