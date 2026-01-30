@@ -60,7 +60,7 @@ Now we come to naming conventions for (lhs) parameters.
 - Real variables are variables that can directly instantiated. They're usually upper case literals like `X`.
 
 ## 5. What's under a single proof?
-If its correspondence in original text has splited the proof into several steps, rather than just citing related theorems for hints, we call this theorem comes with a "long proof". 
+For a theorem, if it has been splitted into several steps to prove in the text, rather than just citing related theorems for hints, we call this theorem comes with a "long proof". Otherwise it has a short proof.
 
 - Our structure is **not required** to be enforced on short proofs.
 
