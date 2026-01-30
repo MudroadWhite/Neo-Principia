@@ -14,6 +14,7 @@ Require Import Logic.FunctionalExtensionality.
 (* TODO:
 - design a notation for all the iota functions
 - fix all the `replace`s and `admit`s 
+- fill in missing proofs
 *)
 
 (* 
@@ -1436,12 +1437,98 @@ Qed.
 Theorem n14_203 (Phi : Prop → Prop) : iota_E Phi 
   ↔ ((∃ x, Phi x) ∧ ((Phi x ∧ Phi y)) -[ x y ]> (x = y)).
 Proof.
-  
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : iota_E Phi -> ((exists x, Phi x) 
+    /\ (Phi x /\ Phi y) -[ x y ]> (x = y))).
+  {
+    pose proof (n14_201 Phi) as n14_201.
+    pose proof (n14_12 Phi) as n14_12.
+    Conj n14_201 n14_12 C1.
+    now rewrite -> n4_76 in C1.
+  }
+  assert (S2 : (Phi B /\ ((Phi x /\ Phi y) -[ x y ]> (x = y)))
+    -> (Phi B /\ ((Phi x /\ Phi B) -[ x ]> (x = B)))).
+  {
+    pose proof (n10_1 (fun y => 
+      (Phi x ∧ Phi y) -[ x ]> x = y) B) as n10_1.
+    simpl in n10_1. (* This cannot be deleted *)
+    setoid_rewrite -> n13_16 in n10_1 at 1.
+    pose proof (Fact3_45
+      ((Phi x0 ∧ Phi x) -[ x x0 ]> x = x0)
+      ((Phi x ∧ Phi B) -[ x ]> x = B)
+      (Phi B)) as Fact3_45.
+    MP Fact3_45 n10_1.
+    rewrite -> n4_3 in Fact3_45.
+    setoid_rewrite -> n4_3 in Fact3_45 at 2.
+    now setoid_rewrite -> n4_3 in Fact3_45 at 3.
+  }
+  assert (S3 : (Phi B /\ ((Phi x /\ Phi y) -[ x y ]> (x = y)))
+    -> (Phi B /\ (Phi x -[ x ]> (x = B)))).
+  {
+    (* TODO: We can use an extra `X` to instantiate the 
+      forall and obtain the result, but for now it is too tedious *)
+    pose proof n5_33 as n5_33.
+    admit.
+  }
+  assert (S4 : (Phi B /\ ((Phi x /\ Phi y) -[ x y ]> (x = y)))
+    -> (((x = B) -[ x ]> Phi x) /\ (Phi x -[ x ]> (x = B)))).
+  {
+    pose proof (n13_191 B Phi) as n13_191.
+    now rewrite <- n13_191 in S3 at 2.
+  }
+  assert (S5 : (Phi B /\ ((Phi x /\ Phi y) -[ x y ]> (x = y)))
+    -> (Phi x <[- x -]> (x = B))).
+  {
+    (* Simplifications... *)
+    intro Hp.
+    pose proof (S4 Hp) as S4.
+    rewrite <- n10_22 in S4.
+    (* TODO: instantiate X and then generalize... or find another theorem
+    to use *)
+    admit.
+  }
+  assert (S6 : (exists b, Phi b /\ ((Phi x /\ Phi y) -[ x y ]> (x = y)))
+    -> (exists b, Phi x <[- x -]> (x = b))).
+  {
+    (* *10.1 ignored - I think its the wrong one *)
+    pose proof (n10_11 B (fun b => Phi b ∧ 
+        ((Phi x ∧ Phi y) -[ x y ]> x = y)
+      → (Phi x <[- x -]> x = b))) as n10_11.
+    (* simpl in n10_1. *)
+    MP n10_11 S5.
+    pose proof (n10_28
+      (fun b => Phi b ∧ ((Phi x ∧ Phi y) -[ x y ]> x = y))
+      (fun b => (Phi x <[- x -]> x = b))) as n10_28.
+    now MP n10_28 n10_11.
+  }
+  assert (S7 : (exists b, Phi b) /\ ((Phi x /\ Phi y) -[ x y ]> (x = y))
+    -> (exists b, Phi x <[- x -]> (x = b))).
+  {
+    setoid_rewrite -> n4_3 in S6 at 1.
+    rewrite -> n10_35 in S6.
+    now setoid_rewrite -> n4_3 in S6 at 1.
+  }
+  assert (S8 : (exists b, Phi b) /\ ((Phi x /\ Phi y) -[ x y ]> (x = y))
+    -> iota_E Phi).
+  {
+    now rewrite <- n14_11 in S7.
+  }
+  assert (S9 : iota_E Phi 
+    ↔ ((∃ x, Phi x) ∧ ((Phi x ∧ Phi y)) -[ x y ]> (x = y))).
+  {
+    clear S2 S3 S4 S5 S6 S7.
+    Conj S1 S8 S9.
+    now Equiv S9.
+  }
+  exact S9.
 Admitted.
 
 Theorem n14_204 (B : Prop) (s : string) (Phi : Prop → Prop) : iota_E Phi 
   ↔ ∃ b, (iota_f s Phi (fun x => (Iota s x) = b)).
 Proof.
+  
 Admitted.
 
 Theorem n14_205 (s : string) (Phi Psi : Prop → Prop) : (iota_f s Phi Psi)
