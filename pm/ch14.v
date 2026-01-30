@@ -1528,17 +1528,65 @@ Admitted.
 Theorem n14_204 (B : Prop) (s : string) (Phi : Prop → Prop) : iota_E Phi 
   ↔ ∃ b, (iota_f s Phi (fun x => (Iota s x) = b)).
 Proof.
-  
-Admitted.
+  (* TOOLS *)
+  (* ******** *)
+  (* Notice that the following proposition involves 2 quantifiers already, 
+    so it might have a higher type..? *)
+  assert (S1 : forall b, (Phi x <[- x -]> (x = b))
+    <-> iota_f s Phi (fun x => (Iota s x) = b)).
+  {
+    pose proof (n14_202 B s Phi) as n14_202.
+    (* simplifictaions *)
+    destruct n14_202 as [n14_202l _].
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> x = b) <->
+      iota_f s Phi (λ x, Iota s x = b))) as n10_11.
+    now MP n10_11 n14_202l.
+  }
+  assert (S2 : (exists b, (Phi x <[- x -]> (x = b)))
+    <-> (exists b, iota_f s Phi (λ x, Iota s x = b))).
+  {
+    pose proof (n10_281 (fun b => Phi x <[- x -]> x = b)
+      (fun b => iota_f s Phi (λ x, Iota s x = b))) as n10_281.
+    now MP n10_281 S1.
+  }
+  assert (S3 : iota_E Phi ↔ ∃ b, (iota_f s Phi (fun x => 
+    (Iota s x) = b))).
+  { now rewrite <- n14_11 in S2. }
+  exact S3.
+Qed.
 
 Theorem n14_205 (s : string) (Phi Psi : Prop → Prop) : (iota_f s Phi Psi)
   ↔ ∃ b, (iota_f s Phi (fun x => b = (Iota s x))) ∧ Psi b.
 Proof.
+  set (B := Individual "b").
+  pose proof n14_1 as _n14_1.
+  pose proof (n14_202 B s Phi) as n14_202.
+  destruct n14_202 as [_ n14_202r].
+  destruct n14_202r as [_ n14_202rr].
+  setoid_rewrite -> n13_16 in n14_202rr at 1.
+  (* TODO: generalize n14_202rr with `exist` and finish the proof *)
 Admitted.
 
 Theorem n14_21 (Phi Psi : Prop → Prop) : (iota_f "Phi" Phi Psi) → iota_E Phi.
 Proof.
-Admitted.
+  assert (S1 : iota_f "Phi" Phi Psi -> exists b, 
+    (Phi x <[- x -]> (x = b)) /\ Psi b).
+  { apply n14_1. }
+  assert (S2 : iota_f "Phi" Phi Psi -> exists b, 
+    (Phi x <[- x -]> (x = b))).
+  {
+    (* simplifications *)
+    intros Hp.
+    pose proof (S1 Hp) as S1.
+    pose proof (n10_5
+      (fun b => Phi x <[- x -]> (x = b)) Psi) as n10_5.
+    MP n10_5 S1.
+    now destruct n10_5.
+  }
+  assert (S3 : iota_f "Phi" Phi Psi -> iota_E Phi).
+  { now rewrite <- n14_11 in S2. }
+  exact S3.
+Qed.
 
 Theorem n14_22 (Phi : Prop → Prop) : iota_E Phi ↔ iota_f "Phi" Phi Phi.
 Proof.
