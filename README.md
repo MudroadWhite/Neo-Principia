@@ -23,7 +23,7 @@ No. Successful `Qed`s are still false positives, due to a lot of delicate detail
 - `Ltac` isn't well designed
 - Some propositions are written as comments that require a deeper interpretation
 - I didn't deeply examine the code in chapter 1 - 5
-- Our notations still rely on manual checks. In particular, PM doesn't have its own type notation, so we cannot ensure our proof preserves the type.
+- Lots of places still rely on manual checks. In particular, PM doesn't have its own type notation, so we cannot ensure our proof preserves the type.
 
 ## Can Principia Mathematica can be completely formalized?
 **Yes**: With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system with which all advanced mathematical ideas are built on, formalizing PM is already theoretically accessible.
