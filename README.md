@@ -24,7 +24,7 @@ No.
 - Successful `Qed`s are still false positives, due to a lot of delicate details. For example, `Ltac` isn't well designed, important details are not expressed in propositions, etc.. I have caught several bugs in the repo because of them.
 - Our designs on notations still rely on manual checks.
 - I didn't deeply examine the code in chapter 1 - 5.
-- Under our interpretation, a few places out of the vast seem to be unprovable!
+- In our code, a few of the theorems are still unprovable! They might either because it is really unprovable, or mostly just that we didn't figure out the correct way to prove it.
 
 ## Can Principia Mathematica can be completely formalized?
 **Yes**: With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system with which all advanced mathematical ideas are built on, formalizing PM is already theoretically accessible.
