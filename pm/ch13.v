@@ -12,7 +12,7 @@ Require Import PM.pm.ch12.
 TODO: 
 - investigate a convenient `∧` construction
 - replace ~= with the /= unicode symbol
-- fill in missing proofs
+- fill in missing proofs. I believe that all admitted places are actually provable
 *)
 
 (* Experimental: provide variated theorems to be used in this chapter
@@ -89,11 +89,6 @@ Proof.
   assert (S3 : (X = Y) → (∀ φ : Predicate 1, 
     ((ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y)) → (ψ X → ψ Y))).
   {
-    (* I think this step is also unobtainable: we only have an
-    assertion that there "some" φs satisfie the condition, but 
-    eventually we have to prove that "all" φs satisfy the condition.
-    Below is an incomplete attempt for the proof.
-    *)
     destruct S1 as [φ HS1].
     destruct HS1 as [HS1_1 HS1_2].
     pose proof (n4_84 (ψ X) (φ X) (φ Y)) as n4_84.
@@ -101,7 +96,8 @@ Proof.
     pose proof (n4_85 (ψ Y) (φ Y) (ψ X)) as n4_85.
     MP n4_84 HS1_2.
     rewrite -> n4_84 in n4_85.
-    (* setoid_rewrite <- n4_85 in S2. *)
+    (* TODO: use varied generalizations correctly to finish the proof*)
+    setoid_rewrite <- n4_85 in S2.
     admit.
   }
   assert (S4 : (X = Y) → (∃ φ : Predicate 1, 
