@@ -97,7 +97,7 @@ Proof.
     MP n4_84 HS1_2.
     rewrite -> n4_84 in n4_85.
     (* TODO: use varied generalizations correctly to finish the proof*)
-    setoid_rewrite <- n4_85 in S2.
+    (* setoid_rewrite <- n4_85 in S2. *)
     admit.
   }
   assert (S4 : (X = Y) → (∃ φ : Predicate 1, 

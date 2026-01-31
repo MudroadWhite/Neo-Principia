@@ -78,7 +78,7 @@ Definition n14_03 (s1 s2 : string) (Phi Psi : Prop → Prop) (f : Prop → Prop 
 Admitted.
 
 Definition n14_04 (s1 s2 : string) (Phi Psi : Prop → Prop) (f : Prop → Prop → Prop) : 
-  (iota_f2_1 s2 s1 Psi Phi f) = iota_f2 s2 s1 Psi Phi (fun x y => f y x).
+  (iota_f2_rev s2 s1 Psi Phi f) = iota_f2 s2 s1 Psi Phi (fun x y => f y x).
 Admitted.
 
 Theorem n14_1 (s : string) (Phi Psi : Prop → Prop) : (iota_f s Phi Psi) ↔ 
@@ -105,18 +105,18 @@ Qed.
 
 Theorem n14_111 (s1 s2 : string) (Phi Psi : Prop → Prop) 
   (f : Prop → Prop → Prop) :
-  (iota_f2_1 s2 s1 Psi Phi f) ↔ (∃ b c, 
+  (iota_f2_rev s2 s1 Psi Phi f) ↔ (∃ b c, 
     (Phi x <[- x -]> (x = b)) ∧ (Psi x <[- x -]> (x = c)) ∧ (f b c)).
 Proof.
-  assert (S1 : iota_f2_1 s2 s1 Psi Phi f ↔ 
+  assert (S1 : iota_f2_rev s2 s1 Psi Phi f ↔ 
     iota_f s2 Psi (fun c => iota_f s1 Phi 
       (fun b => f (Iota s1 b) (Iota s2 c)))).
   {
-    pose proof (n4_2 (iota_f2_1 s2 s1 Psi Phi f)) as n4_2.
+    pose proof (n4_2 (iota_f2_rev s2 s1 Psi Phi f)) as n4_2.
     rewrite -> n14_04 in n4_2 at 2.
     now rewrite -> (n14_03 s2 s1) in n4_2.
   }
-  assert (S2 : iota_f2_1 s2 s1 Psi Phi f ↔ 
+  assert (S2 : iota_f2_rev s2 s1 Psi Phi f ↔ 
     (iota_f s2 Psi (fun c =>
       ∃ b, (Phi x <[- x -]> (x = b)) ∧ f b c))).
   {
@@ -134,11 +134,11 @@ Proof.
     }
     now rewrite -> S1_1 in S1.
   }
-  assert (S3 : iota_f2_1 s2 s1 Psi Phi f ↔ 
+  assert (S3 : iota_f2_rev s2 s1 Psi Phi f ↔ 
     (∃ c, (Psi x <[- x -]> (x = c)) 
     ∧ ∃ b, (Phi x <[- x -]> (x = b)) ∧ f b c)).
   { now rewrite -> n14_1 in S2. }
-  assert (S4 : iota_f2_1 s2 s1 Psi Phi f ↔ 
+  assert (S4 : iota_f2_rev s2 s1 Psi Phi f ↔ 
     (∃ b c, (Phi x <[- x -]> (x = b)) ∧ (Psi x <[- x -]> (x = c))
       ∧ f b c)).
   {
@@ -1567,12 +1567,12 @@ Proof.
   (* TODO: generalize n14_202rr with `exist` and finish the proof *)
 Admitted.
 
-Theorem n14_21 (Phi Psi : Prop → Prop) : (iota_f "Phi" Phi Psi) → iota_E Phi.
+Theorem n14_21 (s : string) (Phi Psi : Prop → Prop) : (iota_f s Phi Psi) → iota_E Phi.
 Proof.
-  assert (S1 : iota_f "Phi" Phi Psi -> exists b, 
+  assert (S1 : iota_f s Phi Psi -> exists b, 
     (Phi x <[- x -]> (x = b)) /\ Psi b).
   { apply n14_1. }
-  assert (S2 : iota_f "Phi" Phi Psi -> exists b, 
+  assert (S2 : iota_f s Phi Psi -> exists b, 
     (Phi x <[- x -]> (x = b))).
   {
     (* simplifications *)
@@ -1583,24 +1583,109 @@ Proof.
     MP n10_5 S1.
     now destruct n10_5.
   }
-  assert (S3 : iota_f "Phi" Phi Psi -> iota_E Phi).
+  assert (S3 : iota_f s Phi Psi -> iota_E Phi).
   { now rewrite <- n14_11 in S2. }
   exact S3.
 Qed.
 
-Theorem n14_22 (Phi : Prop → Prop) : iota_E Phi ↔ iota_f "Phi" Phi Phi.
+Theorem n14_22 (s : string) (Phi : Prop → Prop) : iota_E Phi ↔ iota_f s Phi Phi.
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : (Phi x <[- x -]> (x = B)) -> Phi B).
+  { apply n14_122. }
+  assert (S2 : (Phi x <[- x -]> (x = B)) 
+    <-> ((Phi x <[- x -]> (x = B)) /\ Phi B)).
+  { now rewrite -> n4_71 in S1. }
+  assert (S3 : (exists b, (Phi x <[- x -]> (x = b))) 
+    <-> (exists b, (Phi x <[- x -]> (x = b)) /\ Phi b)).
+  { 
+    pose proof (n10_11 B (fun b => Phi x <[- x -]> x = b
+      ↔ (Phi x <[- x -]> x = b) ∧ Phi b)) as n10_11.
+    MP n10_11 S2.
+    pose proof (n10_281 (fun b => Phi x <[- x -]> x = b)
+      (fun b => (Phi x <[- x -]> x = b) ∧ Phi b)) as n10_281.
+    now MP n10_281 n10_11.
+  }
+  assert (S4 : iota_E Phi ↔ iota_f s Phi Phi).
+  { now rewrite <- n14_11, <- (n14_101 s) in S3. }
+  exact S4.
+Qed.
 
-Theorem n14_23 (Phi Psi : Prop → Prop) : iota_E (fun x => Phi x ∧ Psi x) 
-  ↔ iota_f "Phi x ∧ Psi x" (fun x => Phi x ∧ Psi x) Phi.
+(* This is a proposition where iotas are more than just a function. 
+  Correspondingly we set up some ad hoc and very simple rules for its
+  string representatives. *)
+Theorem n14_23 (s1 s2 : string) (Phi Psi : Prop → Prop) : iota_E (fun x => Phi x ∧ Psi x) 
+  ↔ iota_f (s1 ++ "/\" ++ s2) (fun x => Phi x ∧ Psi x) Phi.
 Proof.
-Admitted.
+  (* TOOLS *)
+  Open Scope string.
+  set (s := s1 ++ "/\" ++ s2).
+  Close Scope string.
+  (* ******** *)
+  assert (S1 : iota_E (fun x => Phi x ∧ Psi x)
+    <-> iota_f s (fun x => Phi x /\ Psi x)
+      (fun x => Phi (Iota s x) /\ Psi (Iota s x))).
+  { apply n14_22. }
+  assert (S2 : iota_E (fun x => Phi x ∧ Psi x) -> iota_f s 
+    (fun x => Phi x /\ Psi x) Phi).
+  {
+    pose proof n10_5 as _n10_5.
+    pose proof Simp3_26 as _Simp3_26.
+    destruct S1 as [S1_l _].
+    (* simplifications *)
+    intro Hp.
+    pose proof (S1_l Hp) as S1_l.
+    rewrite -> n14_01 in S1_l.
+    setoid_rewrite <- n4_32 in S1_l.
+    pose proof (n10_5
+      (fun b => ((Phi x ∧ Psi x) <[- x -]> x = b) 
+        ∧ Phi (Iota s b))
+      (fun b => Psi (Iota s b))) as n10_5a.
+    MP n10_5a S1_l.
+    (* Note that we have to use mere `x` manually here instead
+    of `Iota s x` to perform rewrite for n14_01 *)
+    pose proof (Simp3_26
+      (∃ x, ((Phi x0 ∧ Psi x0) <[- x0 -]> x0 = x) ∧ Phi x)
+        (* ∧ Phi (Iota s x)) *)
+      (∃ x, Psi (Iota s x))) as Simp3_26.
+    MP Simp3_26 n10_5a.
+    now rewrite <- (n14_01 s (fun x => Phi x ∧ Psi x) Phi) in Simp3_26.
+  }
+  assert (S3 : iota_f s (fun x => Phi x /\ Psi x) Phi
+    -> iota_E (fun x => Phi x /\ Psi x)).
+  { apply n14_21. }
+  assert (S4 : iota_E (fun x => Phi x ∧ Psi x) 
+    ↔ iota_f (s1 ++ "/\" ++ s2) (fun x => Phi x ∧ Psi x) Phi).
+  {
+    clear S1. 
+    now Syll S2 S3 S4.
+  }
+  exact S4.
+Qed.
 
-Theorem n14_24 (Phi : Prop → Prop) : iota_E Phi 
-  ↔ iota_f "Phi" Phi (fun x => Phi y <[- y -]> y = (Iota "Phi" x)).
+Theorem n14_24 (s : string) (Phi : Prop → Prop) : iota_E Phi 
+  ↔ iota_f s Phi (fun x => Phi y <[- y -]> y = (Iota s x)).
 Proof.
-Admitted.
+  assert (S1 : iota_f s Phi (fun x => Phi y <[- y -]> y = (Iota s x))
+    <-> exists b, (Phi y <[- y -]> (y = b)) 
+      /\ (Phi y <[- y -]> (y = b))).
+  { apply n14_1. }
+  assert (S2 : iota_f s Phi (fun x => Phi y <[- y -]> y = (Iota s x))
+    <-> exists b, (Phi y <[- y -]> (y = b))).
+  {
+    (* n10_281 ignored *)
+    now setoid_rewrite <- n4_24 in S1.
+  }
+  assert (S3 : iota_f s Phi (fun x => Phi y <[- y -]> y = (Iota s x))
+    <-> iota_E Phi).
+  { now rewrite <- n14_11 in S2. }
+  assert (S4 : iota_E Phi 
+    ↔ iota_f s Phi (fun x => Phi y <[- y -]> y = (Iota s x))).
+  { now rewrite -> n4_21 in S3. }
+  exact S4.
+Qed.
 
 Theorem n14_241 (Phi : Prop → Prop) : iota_E Phi 
   → (Phi y <[- y -]> iota_f "Phi" Phi (fun x => y = (Iota "Phi" x))).

@@ -113,7 +113,7 @@ Definition iota_f2 (s1 s2 : string) (Phi Psi : Prop → Prop)
   The original definition depends on `iota_f2`. The function `iota_f` here, 
   provided with parameters, gets a similar role to the idea of scope
 *)
-Definition iota_f2_1 (s1 s2 : string) (Phi Psi : Prop → Prop)
+Definition iota_f2_rev (s1 s2 : string) (Phi Psi : Prop → Prop)
   (f : Prop → Prop → Prop) : Prop. Admitted.
 
 (* ******** *)
