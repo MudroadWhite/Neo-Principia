@@ -1687,13 +1687,47 @@ Proof.
   exact S4.
 Qed.
 
-Theorem n14_241 (Phi : Prop → Prop) : iota_E Phi 
-  → (Phi y <[- y -]> iota_f "Phi" Phi (fun x => y = (Iota "Phi" x))).
+Theorem n14_241 (s : string) (Phi : Prop → Prop) : iota_E Phi
+  → (Phi y <[- y -]> iota_f s Phi (fun x => y = (Iota s x))).
 Proof.
+  (* TOOLS *)
+  set (X := Individual "x").
+  set (Y := Individual "y").
+  (* ******** *)
+  assert (S1 : iota_E Phi -> ((Phi Y /\ Phi X) -> (Y = X))).
+  {
+    pose proof (n14_203 Phi) as n14_203.
+    destruct n14_203 as [n14_203l _].
+    (* simplifications... TODO: this can be removed easily in the future *)
+    intro Hp.
+    pose proof (n14_203l Hp) as n14_203l.
+    pose proof (Simp3_27 (∃ x, Phi x) ((Phi x ∧ Phi y) -[ x y ]> x = y)) 
+      as Simp3_27.
+    MP Simp3_27 n14_203l.
+    (* I doubt if this is allowed in the system... *)
+    pose proof (n10_1 (fun x => (Phi x ∧ Phi y) -[ y ]> x = y) X) 
+      as n10_1a.
+    MP n10_1a Simp3_27.
+    pose proof (n10_1 (fun y => (Phi X ∧ Phi y) -> X = y) Y)
+      as n10_1b.
+    MP n10_1b n10_1a.
+    now rewrite -> n13_16, -> n4_3 in n10_1b.
+  }
+  assert (S2 : iota_E Phi -> (Phi Y -> (Phi X -> (Y = X)))).
+  {
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    pose proof (Exp3_3 (Phi Y) (Phi X) (Y = X)) as Exp3_3.
+    now MP Exp3_3 S1.
+  }
+  assert (S3 : iota_E Phi -> (Phi Y -> (Phi x -[ x ]> (Y = x)))).
+  {
+    
+  }
 Admitted.
 
-Theorem n14_242 (B : Prop) (Phi Psi : Prop → Prop) : (Phi x <[- x -]> x = B)
-  → (Psi B ↔ iota_f "Phi" Phi Psi).
+Theorem n14_242 (B : Prop) (s : string) (Phi Psi : Prop → Prop) : (Phi x <[- x -]> x = B)
+  → (Psi B ↔ iota_f s Phi Psi).
 Proof.
 Admitted.
 
