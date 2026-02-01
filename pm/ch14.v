@@ -1756,7 +1756,13 @@ Qed.
 Theorem n14_242 (B : Prop) (s : string) (Phi Psi : Prop → Prop) : (Phi x <[- x -]> x = B)
   → (Psi B ↔ iota_f s Phi Psi).
 Proof.
-Admitted.
+  pose proof (n14_202 B s Phi) as n14_202.
+  destruct n14_202 as [n14_202l _].
+  destruct n14_202l as [n14_202ll _].
+  pose proof (n14_15 B s Phi Psi) as n14_15.
+  Syll n14_202ll n14_15 S1.
+  now rewrite -> n4_21 in S1.
+Qed.
 
 Theorem n14_25 (Phi Psi : Prop → Prop) : iota_E Phi 
   → ((Phi x <[- x -]> Psi x) ↔ iota_f "Phi" Phi Psi).
