@@ -34,7 +34,12 @@ No. Successful `Qed`s are still false positives, due to a lot of delicate detail
 
 [This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) seems to arrive at similar observations. See paper in the repo on its in-depth discussions of PM's functions.
 
-Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. This allows us to retain tolerance to explore the odds, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*.
+We want to use shallow embedding to express as much as we can in Principia Mathematica. While this doesn't allow 100% correctness, we are rewarded to retain tolerance to explore the odds, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*.
+
+### Goal and milestone
+
+- **Ongoing:** Finish chapter 14 to determine if we want to switch to deep embedding immediately.
+- **2025.10:** Chapter 9, the first chapter after chapter 5 has been finished. Chapter 9 has a "lot" of things to add over chapter 5, so the completion of this chapter has been a lot of mind works and experiments.
 
 ## How well have you formalized?
 Which means 2 questions:
