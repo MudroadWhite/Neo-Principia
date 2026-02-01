@@ -39,7 +39,7 @@ We want to use shallow embedding to express Principia Mathematica as much as we 
 ### Goal and milestone
 
 - **Ongoing:** Finish chapter 14 to determine if we want to switch to deep embedding immediately.
-- **2025.10:** Chapter 9, the first chapter after chapter 5 has been finished. Chapter 9 has a "lot" of things to add over chapter 5, so the completion of this chapter has been a lot of mind works and experiments.
+- **2025.10:** Chapter 9, the first chapter after chapter 5 has been finished. Chapter 9 has a "lot" of things to add over chapter 5, so the completion of this chapter involves a lot of mind works and deprecated experiments.
 
 ## How well have you formalized?
 Which means 2 questions:
