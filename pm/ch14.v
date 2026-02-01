@@ -1764,21 +1764,117 @@ Proof.
   now rewrite -> n4_21 in S1.
 Qed.
 
-Theorem n14_25 (Phi Psi : Prop → Prop) : iota_E Phi 
-  → ((Phi x <[- x -]> Psi x) ↔ iota_f "Phi" Phi Psi).
+Theorem n14_25 (s : string) (Phi Psi : Prop → Prop) : iota_E Phi 
+  → ((Phi x -[ x ]> Psi x) ↔ iota_f s Phi Psi).
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  set (X := Individual "x").
+  (* ******** *)
+  assert (S1 : (Phi x <[- x -]> (x = B)) -> ((Phi x -[ x ]> Psi x)
+    <-> ((x = B) -[ x ]> Psi x))).
+  {
+    pose proof (n4_84 (Phi X) (X = B) (Psi X)) as n4_84.
+    pose proof (n10_11 X (fun x =>
+      (Phi x ↔ x = B) -> ((Phi x → Psi x) <-> (x = B → Psi x))))
+      as n10_11.
+    MP n10_11 n4_84.
+    pose proof (n10_27 (fun x => Phi x ↔ x = B)
+      (fun x => (Phi x → Psi x) ↔ (x = B → Psi x))) as n10_27.
+    MP n10_27 n10_11.
+    pose proof (n10_271 (fun z => Phi z → Psi z)
+      (fun z => z = B → Psi z)) as n10_271.
+    now Syll n10_27 n10_271 S1.
+  }
+  assert (S2 : (Phi x <[- x -]> (x = B)) -> ((Phi x -[ x ]> Psi x)
+    <-> Psi B)).
+  { now rewrite -> n13_191 in S1. }
+  assert (S3 : (Phi x <[- x -]> (x = B)) -> ((Phi x -[ x ]> Psi x)
+    <-> iota_f s Phi Psi)).
+  {
+    (* simplifications *)
+    intro Hp.
+    pose proof (S2 Hp) as S2.
+    pose proof (n14_242 B s Phi Psi) as n14_242.
+    MP n14_242 Hp.
+    now rewrite -> n14_242 in S2.
+  }
+  assert (S4 : (exists b, Phi x <[- x -]> (x = b)) 
+    -> ((Phi x -[ x ]> Psi x) <-> iota_f s Phi Psi)).
+  {
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> (x = b)) 
+      -> ((Phi x -[ x ]> Psi x) <-> iota_f s Phi Psi))) as n10_11.
+    MP n10_11 S3.
+    now rewrite -> n10_23 in n10_11.
+  }
+  assert (S5 : iota_E Phi → ((Phi x -[ x ]> Psi x) 
+    ↔ iota_f s Phi Psi)).
+  { now rewrite <- n14_11 in S4. }
+  exact S5.
+Qed.
 
-Theorem n14_26 (Phi Psi : Prop → Prop) : iota_E Phi 
-  → ∃ x, ((Phi x ∧ Psi x) ↔ iota_f "Phi" Phi Psi)
-    ∧ ((iota_f "Phi" Phi Psi) ↔ (Phi x <[- x -]> Psi x)).
+Theorem n14_26 (s : string) (Phi Psi : Prop → Prop) : iota_E Phi 
+  → ((∃ x, Phi x ∧ Psi x) ↔ iota_f s Phi Psi)
+    ∧ ((iota_f s Phi Psi) ↔ (Phi x -[ x ]> Psi x)).
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : iota_E Phi -> exists b, Phi x <[- x -]> (x = b)).
+  { apply n14_11. }
+  assert (S2 : (Phi x <[- x -]> (x = B))
+    -> ((Phi x /\ Psi x) <[- x -]> ((x = B) /\ Psi x))).
+  { apply n10_311. }
+  assert (S3 : (Phi x <[- x -]> (x = B))
+    -> ((exists x, Phi x /\ Psi x) <-> (exists x, (x = B) /\ Psi x))).
+  {
+    pose proof (n10_281 (fun x => Phi x /\ Psi x)
+      (fun x => (x = B) /\ Psi x)) as n10_281.
+    now Syll S2 n10_281 S3.
+  }
+  assert (S4 : (Phi x <[- x -]> (x = B))
+    -> ((exists x, Phi x /\ Psi x) <-> Psi B)).
+  { now rewrite -> n13_195 in S3. }
+  assert (S5 : (Phi x <[- x -]> (x = B))
+    -> ((exists x, Phi x /\ Psi x) <-> iota_f s Phi Psi)).
+  { 
+    (* simplifications *)
+    intro Hp.
+    pose proof (S4 Hp) as S4.
+    pose proof (n14_242 B s Phi Psi) as n14_242.
+    MP n14_242 Hp.
+    now rewrite -> n14_242 in S4.
+  }
+  assert (S6 : (exists b, Phi x <[- x -]> (x = b))
+    -> ((exists x, Phi x /\ Psi x) <-> iota_f s Phi Psi)).
+  {
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> (x = b))
+      -> ((exists x, Phi x /\ Psi x) <-> iota_f s Phi Psi))) 
+      as n10_11.
+    MP n10_11 S5.
+    now rewrite -> n10_23 in n10_11.
+  }
+  assert (S7 : iota_E Phi 
+    → ((∃ x, Phi x ∧ Psi x) ↔ iota_f s Phi Psi)
+      ∧ ((iota_f s Phi Psi) ↔ (Phi x -[ x ]> Psi x))).
+  {
+    (* simplifications *)
+    intro Hp.
+    clear S2 S3 S4 S5.
+    pose proof (S1 Hp) as S1.
+    MP S6 S1.
+    pose proof (n14_25 s Phi Psi) as n14_25.
+    MP n14_25 Hp.
+    rewrite -> n4_21 in n14_25.
+    now Conj S1 n14_25 S7.
+  }
+  exact S7.
+Qed.
 
-Theorem n14_27 (Phi Psi : Prop → Prop) : iota_E Phi 
+Theorem n14_27 (s1 s2 : string) (Phi Psi : Prop → Prop) : iota_E Phi 
   → ((Phi x <[- x -]> Psi x) 
-    ↔ iota_f2 "Phi" "Psi" Phi Psi (fun x y =>
-      (Iota "Phi" x) = (Iota "Psi" y))).
+    ↔ iota_f2 s1 s2 Phi Psi (fun x y =>
+      (Iota s1 x) = (Iota s2 y))).
 Proof.
 Admitted.
 
