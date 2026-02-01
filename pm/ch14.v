@@ -1871,11 +1871,65 @@ Proof.
   exact S7.
 Qed.
 
+(* TODO: rewrite the iota_f2 as double iota_f *)
 Theorem n14_27 (s1 s2 : string) (Phi Psi : Prop → Prop) : iota_E Phi 
   → ((Phi x <[- x -]> Psi x) 
     ↔ iota_f2 s1 s2 Phi Psi (fun x y =>
       (Iota s1 x) = (Iota s2 y))).
 Proof.
+  (* TOOLS *)
+  set (B := Individual "b").
+  set (X := Individual "x").
+  (* ******** *)
+  assert (S1 : (Phi X <-> (X = B)) 
+    -> ((Phi X <-> Psi X) <-> (Psi X <-> (X = B)))).
+  { 
+    pose proof n4_86 as _n4_86.
+    pose proof (n4_86 (Phi X) (X = B) (Psi X)) as n4_86.
+     (*simplification  *)
+    intro Hp.
+    MP n4_86 Hp.
+    now setoid_rewrite -> n4_21 in n4_86 at 3.
+  }
+  assert (S2 : (Phi x <[- x -]> (x = B)) 
+    -> (forall x, (Phi x <-> Psi x) <-> (Psi x <-> (x = B)))).
+  {
+    pose proof (n10_11 X (fun x =>
+      (Phi x <-> (x = B)) -> ((Phi x <-> Psi x) 
+        <-> (Psi x <-> (x = B))))) as n10_11.
+    MP n10_11 S1.
+    pose proof (n10_27 (fun x => Phi x <-> (x = B))
+      (fun x => (Phi x <-> Psi x) <-> (Psi x <-> (x = B)))) as n10_27.
+    now MP n10_27 n10_11.
+  }
+  assert (S3 : (Phi x <[- x -]> (x = B))
+    -> ((Phi x <[- x -]> Psi x) <-> (Psi x <[- x -]> (x = B)))).
+  {
+    pose proof (n10_271 (fun x => Phi x <-> Psi x)
+      (fun x => Psi x <-> (x = B))) as n10_271.
+    now Syll S2 n10_271 S3.
+  }
+  assert (S4 : (Phi x <[- x -]> (x = B))
+    -> ((Phi x <[- x -]> Psi x) <-> iota_f s2 Psi (fun x =>
+      (B = (Iota s2 x))))).
+  {
+    pose proof (n14_202 B s2 Psi) as n14_202.
+    destruct n14_202 as [_ n14_202r].
+    destruct n14_202r as [_ n14_202rr].
+    setoid_rewrite -> n13_16 in S3 at 2.
+    now rewrite -> n14_202rr in S3.
+  }
+  assert (S5 : (Phi x <[- x -]> (x = B))
+    -> ((Phi x <[- x -]> Psi x) <-> iota_f s2 Psi (fun x =>
+      iota_f2 s1 s2 Phi Psi (fun x y =>
+        (Iota s1 x) = (Iota s2 y))))).
+  {
+    (* TODO: currently stuck: the proof interprets the 
+      equation as double iota_f *)
+    pose proof n14_242 as n14_242.
+    admit.
+  }
+  admit.
 Admitted.
 
 Theorem n14_271 (Phi Psi : Prop → Prop) : (Phi x <[- x -]> Psi x)
@@ -1883,12 +1937,14 @@ Theorem n14_271 (Phi Psi : Prop → Prop) : (Phi x <[- x -]> Psi x)
 Proof.
 Admitted.
 
+(* TODO: similarly, check the iota_f2 as double iota_f *)
 Theorem n14_272 (Phi Psi Chi : Prop → Prop) : (Phi x <[- x -]> Psi x)
   → (iota_f2 "Phi" "Psi" Phi Psi (fun x y =>
     Chi (Iota "Phi" x) ↔ Chi (Iota "Psi" y))).
 Proof.
 Admitted.
 
+(* TODO: similarly, check the iota_f2 as double iota_f *)
 Theorem n14_28 (Phi : Prop → Prop) : iota_E Phi
   ↔ (iota_f2 "Phi" "Phi" Phi Phi (fun x y =>
     (Iota "Phi" x) = (Iota "Phi" y))).
