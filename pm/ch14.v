@@ -71,6 +71,10 @@ Definition n14_02 (Phi : Prop → Prop) :
   (iota_E Phi) = ∃ b, (Phi x <[- x -]> (x = b)). 
 Admitted.
 
+(* Although `iota_f2` has been defined, expressions that involves 2 functions often
+  comes up with the default interpretations as two `iota_f` rather than one `iota_f2`.
+  While this doen't affect significantly how the definition organizes, it still affects
+  how we should write down a theorem *)
 Definition n14_03 (s1 s2 : string) (Phi Psi : Prop → Prop) (f : Prop → Prop → Prop) :
   (iota_f2 s1 s2 Phi Psi f) = 
     iota_f s1 Phi (fun b => iota_f s2 Psi 
