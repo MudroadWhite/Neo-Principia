@@ -1964,17 +1964,74 @@ Proof.
   assert (S1 : (Phi X <-> Psi X) -> ((Phi X <-> (X = B)) 
     <-> (Psi X <-> (X = B)))).
   { apply n4_86. }
-  assert (S2 : (Phi X <-> Psi X) -> (forall x, (Phi x <-> (x = B)) 
+  assert (S2 : (Phi x <[- x -]> Psi x) -> (forall x, (Phi x <-> (x = B)) 
     <-> (Psi x <-> (x = B)))).
   {
-    
+    pose proof (n10_11 X (fun x => ((Phi x <-> Psi x) -> (Phi x <-> (x = B)) 
+      <-> (Psi x <-> (x = B))))) as n10_11.
+    MP n10_11 S1.
+    pose proof (n10_27 (fun x => Phi x <-> Psi x)
+      (fun x => (Phi x <-> (x = B)) <-> (Psi x <-> (x = B)))) as n10_27.
+    now MP n10_27 n10_11.
   }
-Admitted.
+  assert (S3 : (Phi x <[- x -]> Psi x) -> ((forall x, Phi x <-> (x = B)) 
+    <-> (forall x, Psi x <-> (x = B)))).
+  {
+    intro Hp.
+    pose proof (S2 Hp) as S2.
+    pose proof (n10_271 (fun x => Phi x <-> (x = B))
+      (fun x => Psi x <-> (x = B))) as n10_271.
+    clear S1.
+    now MP n10_271 S2.
+  }
+  assert (S4 : (Phi x <[- x -]> Psi x) -> forall b, (forall x, Phi x <-> (x = b)) 
+    <-> (forall x, Psi x <-> (x = b))).
+  {
+    pose proof (n10_11 B (fun b => Phi x <[- x -]> Psi x 
+      -> (Phi x <[- x -]> x = b ↔ Psi x <[- x -]> x = b))) as n10_11.
+    MP n10_11 S3.
+    now rewrite -> n10_21 in n10_11.
+  }
+  assert (S5 : (Phi x <[- x -]> Psi x) -> ((exists b, Phi x <[- x -]> (x = b))
+    <-> (exists b, Psi x <[- x -]> (x = b)))).
+  {
+    pose proof (n10_281 (fun b => Phi x <[- x -]> (x = b))
+      (fun b => Psi x <[- x -]> (x = b))) as n10_281.
+    now Syll n10_281 S4 S5.
+  }
+  assert (S6 : (Phi x <[- x -]> Psi x) → ((iota_E Phi) ↔ (iota_E Psi))).
+  { now repeat rewrite <- n14_02 in S5. }
+  exact S6.
+Qed.
 
 Theorem n14_272 (s1 s2 : string) (Phi Psi Chi : Prop → Prop) : (Phi x <[- x -]> Psi x)
   → iota_f s1 Phi (fun x => iota_f s2 Psi (fun y => 
     Chi (Iota s1 x) ↔ Chi (Iota s2 y))).
 Proof.
+  (* TOOLS *)
+  set (B := Individual "b").
+  set (X := Individual "x").
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
+      (Equiv4_01 P0 Q0)) as Equiv4_01a.
+  (* ******** *)
+  assert (S1 : (Phi X <-> Psi X) -> ((Phi X <-> (X = B)) <-> (Psi X <-> (X = B)))).
+  { apply n4_86. }
+  assert (S2 : (Phi x <[- x -]> Psi x) -> ((Phi x <[- x -]> (x = B)
+    <-> (Psi x <[- x -]> (x = B))))).
+  {
+    pose proof (n10_11 X (fun x => (Phi x <-> Psi x) -> ((Phi x <-> (x = B)) 
+      <-> (Psi x <-> (x = B))))) as n10_11.
+    MP n10_11 S1.
+    pose proof (n10_27 (fun x => Phi x <-> Psi x)
+      (fun x => (Phi x <-> (x = B)) <-> (Psi x <-> (x = B)))) as n10_27.
+    MP n10_27 n10_11.
+    (* setoid_rewrite -> Equiv4_01a in n10_27. *)
+    (* setoid_rewrite -> n10_22 in n10_27 at 2. *)
+    (* This is the only occurence of *10.414 and I wonder if it is actually
+    provable here *)
+    pose proof (n10_414) as n10_414.
+    admit.
+  }
 Admitted.
 
 Theorem n14_28 (s : string) (Phi : Prop → Prop) : iota_E Phi
