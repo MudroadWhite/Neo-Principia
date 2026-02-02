@@ -1957,64 +1957,66 @@ Qed.
 Theorem n14_271 (Phi Psi : Prop → Prop) : (Phi x <[- x -]> Psi x)
   → ((iota_E Phi) ↔ (iota_E Psi)).
 Proof.
+  (* TOOLS *)
+  set (X := Individual "x").
+  (* ******** *)
+  
 Admitted.
 
-(* TODO: similarly, check the iota_f2 as double iota_f *)
-Theorem n14_272 (Phi Psi Chi : Prop → Prop) : (Phi x <[- x -]> Psi x)
-  → (iota_f2 "Phi" "Psi" Phi Psi (fun x y =>
-    Chi (Iota "Phi" x) ↔ Chi (Iota "Psi" y))).
+Theorem n14_272 (s1 s2 : string) (Phi Psi Chi : Prop → Prop) : (Phi x <[- x -]> Psi x)
+  → iota_f s1 Phi (fun x => iota_f s2 Psi (fun y => 
+    Chi (Iota s1 x) ↔ Chi (Iota s2 y))).
 Proof.
 Admitted.
 
-(* TODO: similarly, check the iota_f2 as double iota_f *)
-Theorem n14_28 (Phi : Prop → Prop) : iota_E Phi
-  ↔ (iota_f2 "Phi" "Phi" Phi Phi (fun x y =>
-    (Iota "Phi" x) = (Iota "Phi" y))).
+Theorem n14_28 (s : string) (Phi : Prop → Prop) : iota_E Phi
+  ↔ iota_f s Phi (fun x => iota_f s Phi (fun y => 
+    Iota s x = Iota s y)).
 Proof.
 Admitted.
 
-Theorem n14_3 (Phi Chi f : Prop → Prop) : 
+Theorem n14_3 (s : string) (Phi Chi f : Prop → Prop) : 
   (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ iota_E Phi)
   →
-  ((f (iota_f "Phi" Phi Chi)) ↔ iota_f "Phi" Phi (fun x =>
-    f (Chi (Iota "Phi" x)))).
+  ((f (iota_f s Phi Chi)) ↔ iota_f s Phi (fun x =>
+    f (Chi (Iota s x)))).
 Proof.
 Admitted.
 
-Theorem n14_31 (P : Prop) (Phi Chi : Prop → Prop) : iota_E Phi
-  → ((iota_f "Phi" Phi (fun x => P ∨ Chi (Iota "Phi" x)))
-    ↔ P ∨ (iota_f "Phi" Phi Chi)).
+Theorem n14_31 (P : Prop) (s : string) (Phi Chi : Prop → Prop) : iota_E Phi
+  → ((iota_f s Phi (fun x => P ∨ Chi (Iota s x)))
+    ↔ P ∨ (iota_f s Phi Chi)).
 Proof.
 Admitted.
 
-Theorem n14_32 (Phi Chi : Prop → Prop) : iota_E Phi
-  ↔ ((iota_f "Phi" Phi (fun x => ~ Chi (Iota "Phi" x)))
-    ↔ ~ (iota_f "Phi" Phi Chi)).
+Theorem n14_32 (s : string) (Phi Chi : Prop → Prop) : iota_E Phi
+  ↔ ((iota_f s Phi (fun x => ~ Chi (Iota s x)))
+    ↔ ~ (iota_f s Phi Chi)).
 Proof.
 Admitted.
 
-Theorem n14_33 (P : Prop) (Phi Chi : Prop → Prop) : iota_E Phi
-  → ((iota_f "Phi" Phi (fun x => P → Chi (Iota "Phi" x)))
-    ↔ (P → iota_f "Phi" Phi Chi)).
+Theorem n14_33 (P : Prop) (s : string) (Phi Chi : Prop → Prop) : iota_E Phi
+  → ((iota_f s Phi (fun x => P → Chi (Iota s x)))
+    ↔ (P → iota_f s Phi Chi)).
 Proof.
 Admitted.
 
 (* Is there a typo in this proposition? An identitical conclusion? *)
-Theorem n14_331 (P : Prop) (Phi Chi : Prop → Prop) : iota_E Phi
-  → ((iota_f "Phi" Phi (fun x => Chi (Iota "Phi" x) → P))
-    ↔ (iota_f "Phi" Phi (fun x => Chi (Iota "Phi" x) → P))).
+Theorem n14_331 (P : Prop) (s : string) (Phi Chi : Prop → Prop) : iota_E Phi
+  → ((iota_f s Phi (fun x => Chi (Iota s x) → P))
+    ↔ (iota_f s Phi (fun x => Chi (Iota s x) → P))).
 Proof.
 Admitted.
 
-Theorem n14_332 (P : Prop) (Phi Chi : Prop → Prop) : iota_E Phi
-  → ((iota_f "Phi" Phi (fun x => P ↔ Chi (Iota "Phi" x)))
-    ↔ (P ↔ (iota_f "Phi" Phi Chi))).
+Theorem n14_332 (P : Prop) (s : string) (Phi Chi : Prop → Prop) : iota_E Phi
+  → ((iota_f s Phi (fun x => P ↔ Chi (Iota s x)))
+    ↔ (P ↔ (iota_f s Phi Chi))).
 Proof.
 Admitted.
 
-Theorem n14_34 (P : Prop) (Phi Chi : Prop → Prop) : 
-  (P ∧ iota_f "Phi" Phi Chi) ↔ iota_f "Phi" Phi (fun x =>
-    P ∧ Chi (Iota "Phi" x)).
+Theorem n14_34 (P : Prop) (s : string) (Phi Chi : Prop → Prop) : 
+  (P ∧ iota_f s Phi Chi) ↔ iota_f s Phi (fun x =>
+    P ∧ Chi (Iota s x)).
 Proof.
 Admitted.
 
