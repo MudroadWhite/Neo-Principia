@@ -1958,9 +1958,17 @@ Theorem n14_271 (Phi Psi : Prop → Prop) : (Phi x <[- x -]> Psi x)
   → ((iota_E Phi) ↔ (iota_E Psi)).
 Proof.
   (* TOOLS *)
+  set (B := Individual "b").
   set (X := Individual "x").
   (* ******** *)
-  
+  assert (S1 : (Phi X <-> Psi X) -> ((Phi X <-> (X = B)) 
+    <-> (Psi X <-> (X = B)))).
+  { apply n4_86. }
+  assert (S2 : (Phi X <-> Psi X) -> (forall x, (Phi x <-> (x = B)) 
+    <-> (Psi x <-> (x = B)))).
+  {
+    
+  }
 Admitted.
 
 Theorem n14_272 (s1 s2 : string) (Phi Psi Chi : Prop → Prop) : (Phi x <[- x -]> Psi x)
