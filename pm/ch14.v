@@ -2005,40 +2005,126 @@ Proof.
 Qed.
 
 Theorem n14_272 (s1 s2 : string) (Phi Psi Chi : Prop → Prop) : (Phi x <[- x -]> Psi x)
-  → iota_f s1 Phi (fun x => iota_f s2 Psi (fun y => 
-    Chi (Iota s1 x) ↔ Chi (Iota s2 y))).
+  → iota_f s1 Phi Chi <-> iota_f s2 Psi Chi.
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   set (X := Individual "x").
-  set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
-      (Equiv4_01 P0 Q0)) as Equiv4_01a.
   (* ******** *)
   assert (S1 : (Phi X <-> Psi X) -> ((Phi X <-> (X = B)) <-> (Psi X <-> (X = B)))).
   { apply n4_86. }
-  assert (S2 : (Phi x <[- x -]> Psi x) -> ((Phi x <[- x -]> (x = B)
-    <-> (Psi x <[- x -]> (x = B))))).
+  assert (S2 : (Phi x <[- x -]> Psi x) -> ((Phi x <[- x -]> (x = B))
+    <-> (Psi x <[- x -]> (x = B)))).
   {
     pose proof (n10_11 X (fun x => (Phi x <-> Psi x) -> ((Phi x <-> (x = B)) 
       <-> (Psi x <-> (x = B))))) as n10_11.
     MP n10_11 S1.
-    pose proof (n10_27 (fun x => Phi x <-> Psi x)
-      (fun x => (Phi x <-> (x = B)) <-> (Psi x <-> (x = B)))) as n10_27.
+    pose proof (n10_27 (fun x => Phi x ↔ Psi x)
+      (fun x => (Phi x ↔ x = B) ↔ (Psi x ↔ x = B))) as n10_27.
     MP n10_27 n10_11.
-    (* setoid_rewrite -> Equiv4_01a in n10_27. *)
-    (* setoid_rewrite -> n10_22 in n10_27 at 2. *)
-    (* This is the only occurence of *10.414 and I wonder if it is actually
-    provable here *)
-    pose proof (n10_414) as n10_414.
+    (* simplifications *)
+    intro Hp.
+    MP n10_27 Hp.
+    (* The connection from S1 to n10_414 is quite weak here
+    TODO: (Phi x ↔ x = B) <[- x -]> (Psi x ↔ x = B) 
+      -> (Phi x <[- x -]> Psi x) /\ ((x = B <[- x -]> x = B))
+    Alternatively... can we derive the result directly from n10_27?
+    *)
+    pose proof n10_414 as _n10_414.
+    (* This is such a wild replacement for a theorem to have,
+      with *4.2 involves just like *13.15! I doubt if this is 
+      provable
+    *)
+    pose proof (n10_414 
+      (fun x => Phi x)
+      (fun x => x = B)
+      (fun x => Psi x)
+      (fun x => x = B)) as n10_414.
+      simpl in n10_414.
     admit.
   }
+  assert (S3 : (Phi x <[- x -]> Psi x) 
+    -> (((Phi x <[- x -]> (x = B)) /\ Chi B) 
+      <-> ((Psi x <[- x -]> (x = B)) /\ Chi B))).
+  {
+    intro Hp.
+    pose proof (S2 Hp) as S2.
+    (* simplifications *)
+    destruct S2 as [S2l S2r].
+    pose proof (Fact3_45 (Phi x <[- x -]> x = B) 
+      (Psi x <[- x -]> x = B) (Chi B)) as Fact3_45a.
+    MP Fact3_45a S2l.
+    pose proof (Fact3_45 (Psi x <[- x -]> x = B) 
+      (Phi x <[- x -]> x = B) (Chi B)) as Fact3_45b.
+    MP Fact3_45b S2r.
+    clear S1 S2l S2r Hp.
+    Conj Fact3_45a Fact3_45b S3.
+    now Equiv S3.
+  }
+  assert (S4 : (Phi x <[- x -]> Psi x) 
+    -> (forall b, ((Phi x <[- x -]> (x = b)) /\ Chi b) 
+      <-> ((Psi x <[- x -]> (x = b)) /\ Chi b))).
+  {
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> Psi x) 
+      -> (((Phi x <[- x -]> (x = b)) /\ Chi b) 
+        <-> ((Psi x <[- x -]> (x = b)) /\ Chi b)))) as n10_11.
+    MP n10_11 S3.
+    now rewrite -> n10_21 in n10_11.
+  }
+  assert (S5 : (Phi x <[- x -]> Psi x)
+    -> ((exists b, (Phi x <[- x -]> (x = b)) /\ Chi b) 
+      <-> (exists b, (Psi x <[- x -]> (x = b)) /\ Chi b))).
+  {
+    pose proof (n10_281 (fun b => (Phi x <[- x -]> x = b) ∧ Chi b)
+      (fun b => (Psi x <[- x -]> x = b) ∧ Chi b)) as n10_281.
+    now Syll S4 n10_281 S5.
+  }
+  assert (S6 : (Phi x <[- x -]> Psi x)
+    → iota_f s1 Phi Chi <-> iota_f s2 Psi Chi).
+  { now rewrite <- (n14_101 s1 Phi), <- (n14_101 s2 Psi) in S5. }
+  exact S6.
 Admitted.
 
+(* As the substitution on `B` in the proof substitutes on both side
+of the `=`, our treatment on iota here varies again: we should write
+
+`iota_f s Phi (fun x => iota_f s Phi (fun y => Iota s x = Iota s y))`
+
+if it has been a fixed interpretation. However if we are following the 
+proof, now we will see what is going on...
+ *)
 Theorem n14_28 (s : string) (Phi : Prop → Prop) : iota_E Phi
-  ↔ iota_f s Phi (fun x => iota_f s Phi (fun y => 
-    Iota s x = Iota s y)).
+  ↔ iota_f s Phi (fun x => Iota s x = Iota s x).
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : (Phi x <[- x -]> (x = B)) <-> ((Phi x <[- x -]> (x = B))
+    /\ (B = B))).
+  {
+    (* Here it comes again: the n13_15... being used correctly though *)
+    pose proof (n13_15 B) as n13_15.
+    pose proof (n4_73 (Phi x <[- x -]> (x = B)) (B = B)) as n4_73.
+    now MP n4_73 n13_15.
+  }
+  assert (S2 : (exists b, Phi x <[- x -]> (x = b)) <-> (exists b, 
+    (Phi x <[- x -]> (x = b)) /\ (b = b))).
+  {
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> (x = b)) 
+      <-> ((Phi x <[- x -]> (x = b)) /\ (b = b)))) as n10_11.
+    MP n10_11 S1.
+    pose proof (n10_281 (fun b => Phi x <[- x -]> (x = b))
+      (fun b => (Phi x <[- x -]> (x = b)) /\ (b = b))) as n10_281.
+    now MP n10_281 n10_11.
+  }
+  assert (S3 : iota_E Phi ↔ iota_f s Phi (fun x => 
+    Iota s x = Iota s x)).
+  {
+    rewrite <- n14_11 in S2.
+    now rewrite <- (n14_1 s Phi) in S2.
+  }
+  exact S3.
+Qed.
 
 Theorem n14_3 (s : string) (Phi Chi f : Prop → Prop) : 
   (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ iota_E Phi)
