@@ -36,10 +36,7 @@ No. Successful `Qed`s are still false positives, due to a lot of delicate detail
 
 We want to use shallow embedding to express Principia Mathematica as much as we can. While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*.
 
-### Goal and milestone
-
-- **Ongoing:** Finish chapter 14 to determine if we want to switch to deep embedding immediately.
-- **2025.10:** Chapter 9, the first chapter after chapter 5 has been finished. Chapter 9 has a "lot" of things to add over chapter 5, so the completion of this chapter involves a lot of mind works and deprecated experiments.
+See [project goal and milestones](./docs/1_overview.md/#project-goal-and-milestones) for further details.
 
 ## How well have you formalized?
 Which means 2 questions:

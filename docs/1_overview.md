@@ -7,7 +7,7 @@ We also have a type system, defaulted by most people, in Rocq. Propositions are 
 ## What is the value of this project?
 Proposing Principia Mathematica is a matter of theory, and verifying such a theory is a matter of application. This project aims to be a scythe to [demystify a myth](https://x.com/davidbessis/status/2015756436081357110). This project wraps up math and philosophy ideas, writes down, organizes and iterates like a product. This project is a small world to communicate, between math, philosophy and computer science people.
 
-This project shows the power of type-theory-based modern formal verifiers, with only [mediocre](https://www.youtube.com/watch?v=LKiBlGDfRU8) technology being used. This project [sculpts a better checkpoint](https://x.com/jdlichtman/status/2015174938865655950) for others to craft, and exposes how much of PM cannot be automated. It is to be detected bugs easily, modified easily, executed with controlled automation, and maybe built on with better abstractions. It saves you the time to buy a physical copy of the book, flip the pages with anxiety and boredom just to grind every line of proofs written in a [ruthless massive tomb](https://www.youtube.com/watch?v=aBUFiQV30eM) that appears in your dream and drags your hair into a mess every night. This project can inspire indie gamedevs whose core goal is making mediocre ideas into games; the flood of Principia Mathematica jokes therefore continues on X.
+This project shows the power of type-theory-based modern formal verifiers, with only mediocre technology being used. This project [sculpts a better checkpoint](https://x.com/jdlichtman/status/2015174938865655950) for others to craft, and exposes how much of PM cannot be automated. It is to be detected bugs easily, modified easily, executed with controlled automation, and maybe built on with better abstractions. It saves you the time to buy a physical copy of the book, flip the pages with anxiety and boredom just to grind every line of proofs written in a [ruthless massive tomb](https://www.youtube.com/watch?v=aBUFiQV30eM) that appears in your dream and drags your hair into a mess every night. This project can inspire indie gamedevs whose core goal is making mediocre ideas into games; the flood of Principia Mathematica jokes therefore continues on X.
 
 This is a project where you can read and write the code line by line.
 
@@ -19,3 +19,11 @@ I started this project by
 - [x] Simplifying `Nicod1_4.v`, `Yuelin.v`, `Jorgensen3_47.v`, `Lemma5_7.v`, cutting down 20% of their LoC and greatly enhance readability
 - [x] Simplifying, bug-picking chapter 1 - 5, cutting down \~1k LoC in total
 - [x] Summary on rest of the works can be found at the beginning of [mechanics](./3_mechanics.md).
+
+## Project goal and milestones
+
+**Ongoing: Finish chapter 14 to determine if we want to switch to deep embedding immediately.**
+
+**2025.10:** Chapter 9, the first chapter after chapter 5 has been finished. Chapter 9 has a "lot" of things to add over chapter 5, so the completion of this chapter involves a lot of mind works and deprecated experiments.
+
+**2025.9:** We have up a workable environment for Landon's project, and successfully compiled the full content of chapter 1 - 5.
