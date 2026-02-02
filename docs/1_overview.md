@@ -24,6 +24,6 @@ I started this project by
 
 **Ongoing: Finish chapter 14 to determine if we want to switch to deep embedding immediately.**
 
-**2025.10:** Chapter 9, the first chapter after chapter 5 has been finished. Chapter 9 has a "lot" of things to add over chapter 5, so the completion of this chapter involves a lot of mind works and deprecated experiments.
+**2025.10:** Chapter 9, the first chapter after chapter 5, has been finished. Chapter 9 has a *lot* of things to add over chapter 5, so the completion of this chapter involves a lot of mind works and deprecated experiments.
 
-**2025.9:** We have up a workable environment for Landon's project, and successfully compiled the full content of chapter 1 - 5.
+**2025.9:** Neo Principia, this project, has been started and established. We have set up a workable environment for Landon's project and successfully compiled the full content of chapter 1 - 5.
