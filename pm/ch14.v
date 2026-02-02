@@ -392,18 +392,22 @@ Proof.
   (* TOOLS *)
   set (Z := Individual "z").
   set (W := Individual "w").
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
+    (Equiv4_01 P0 Q0)) as Equiv4_01a.
   (* ******** *)
   assert (S1 : (Phi z w <[- z w -]> (z = X ∧ w = Y)) 
     ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) 
       ∧ (((z = X ∧ w = Y) -[ z w ]> Phi z w)))).
   {
     pose proof (n11_31 
-      (fun z w => Phi z w → (z = X ∧ w = Y))
-      (fun z w => ((z = X ∧ w = Y) → Phi z w))) as n11_31a.
-    symmetry in n11_31a.
-    (* TODO: unify the ∀s into one ∀ and perform equiv in it *)
-    (* rewrite <- Equiv4_01 in n11_31a. *)
-    admit.
+      (fun z w => Phi z w → ((z = X) ∧ (w = Y)))
+      (fun z w => (((z = X) ∧ (w = Y)) → Phi z w))) as n11_31a.
+    rewrite -> n11_31 in n11_31a.
+    (* NOTE: this place seems to be uneliminatable *)
+    replace (∀ x y, (Phi x y → x = X ∧ y = Y) ∧ (x = X ∧ y = Y → Phi x y))
+      with (∀ x y, Phi x y <-> x = X ∧ y = Y) in n11_31a at 1
+      by apply n11_06.
+    now rewrite <- n11_31 in n11_31a.
   }
   assert (S2 : (Phi z w <[- z w -]> (z = X ∧ w = Y)) 
     ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y)).
@@ -455,7 +459,7 @@ Proof.
     now Conj S2 S7 S8.
   }
   exact S8.
-Admitted.
+Qed.
 
 (* TODO: 4-var impl notation will be supported in the future *)
 Theorem n14_124 (Phi : Prop → Prop → Prop) : 
@@ -474,11 +478,19 @@ Proof.
   assert (S1 : (∃ x y, (Phi z w <[- z w -]> (z = x ∧ w = y)))
     → ∃ x y, Phi x y).
   { 
-    (* TODO: this can be done as in some previous chapter, but I 
-    don't want to fill out at the moment *)
-    pose proof n14_123 as n14_123.
-    pose proof Simp3_27 as Simp3_27.
-    admit.
+    pose proof (n14_123 X Y Phi) as n14_123.
+    destruct n14_123 as [n14_123l _].
+    destruct n14_123l as [n14_123ll _].
+    pose proof (Simp3_27
+      (Phi z w -[ z w ]> z = X ∧ w = Y)
+      (Phi X Y)) as Simp3_27.
+    Syll n14_123l Simp3_27 Sy1.
+    pose proof (n11_11 X Y (fun x y =>
+      Phi z w <[- z w -]> z = x ∧ w = y → Phi x y)) as n11_11.
+    MP n11_11 Sy1.
+    pose proof (n11_34 (fun x y => Phi z w <[- z w -]> z = x ∧ w = y)
+      Phi) as n11_34.
+    now MP n11_34 n11_11.
   }
   assert (S2 : (Phi z w <[- z w -]> ((z = X) ∧ (w = Y)))
     → (((Phi Z W) ∧ (Phi U V))
