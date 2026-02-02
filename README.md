@@ -48,7 +48,7 @@ Which means 2 questions:
 - **How deep can you formalize?** We won't construct the deep embedding, as explained above. See [audit](./docs/5_audit.md) for secondary limitations.
 
 ## Running the code
-Coq/Rocq version: 8.20.0, installed with the [opam](https://opam.ocaml.org/) environment:
+Coq/Rocq version: >= 8.20.0, installed with the [opam](https://opam.ocaml.org/) environment:
 
 ```bash
 opam update
@@ -61,6 +61,8 @@ make
 ```
 
 The `Makefile` for `make` is supposed to automatically detect all `.v` files under the `pm` folder, generate the `_CoqProject` file and compile the whole folder.
+
+(Minimum requirement for Coq is currently under investigation.)
 
 ### Running the code, line by line
 IDEs for Coq/Rocq varies, but here is my preference:
