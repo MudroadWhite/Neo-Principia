@@ -12,38 +12,37 @@ Require Import PM.pm.ch12.
 TODO: 
 - investigate a convenient `∧` construction
 - replace ~= with the /= unicode symbol
+- fill in missing proofs. I believe that all admitted places are actually provable
 *)
 
 (* Experimental: provide variated theorems to be used in this chapter
   In the future, we might want to change `Prop → Prop` into `A → Prop`
   for common theorems starting from ch1 *)
-Module Variants.
-  Definition n10_11_pred (Y : Predicate 1) (φ : Predicate 1 → Prop)
-    : φ Y → ∀ x, φ x.
-  Admitted.
+Definition n10_11_pred (Y : Predicate 1) (φ : Predicate 1 → Prop)
+  : φ Y → ∀ x, φ x.
+Admitted.
 
-  Definition n10_21_pred (φ : Predicate 1 → Prop) (P : Prop) :
-    (∀ x : Predicate 1, P → φ x) ↔ (P → (∀ x : Predicate 1, φ x)).
-  Admitted.
+Definition n10_21_pred (φ : Predicate 1 → Prop) (P : Prop) :
+  (∀ x : Predicate 1, P → φ x) ↔ (P → (∀ x : Predicate 1, φ x)).
+Admitted.
 
-  Definition n10_22_pred (φ ψ : Predicate 1 → Prop) :
-    (∀ x : Predicate 1, φ x ∧ ψ x)
-    ↔ (∀ x : Predicate 1, φ x) ∧ ∀ x : Predicate 1, ψ x.
-  Admitted.
+Definition n10_22_pred (φ ψ : Predicate 1 → Prop) :
+  (∀ x : Predicate 1, φ x ∧ ψ x)
+  ↔ (∀ x : Predicate 1, φ x) ∧ ∀ x : Predicate 1, ψ x.
+Admitted.
 
-  Definition n10_23_pred (φ : Predicate 1 → Prop) (P : Prop) :
-    (∀ x : Predicate 1, φ x → P) ↔ ((∃ x : Predicate 1, φ x) → P).
-  Admitted.
+Definition n10_23_pred (φ : Predicate 1 → Prop) (P : Prop) :
+  (∀ x : Predicate 1, φ x → P) ↔ ((∃ x : Predicate 1, φ x) → P).
+Admitted.
 
-  Definition n10_3_pred (φ ψ χ : Predicate 1 → Prop) :
-    (∀ x : Predicate 1, φ x → ψ x) ∧ (∀ x : Predicate 1, ψ x → χ x)
-    → ∀ x : Predicate 1, φ x → χ x.
-  Admitted.
+Definition n10_3_pred (φ ψ χ : Predicate 1 → Prop) :
+  (∀ x : Predicate 1, φ x → ψ x) ∧ (∀ x : Predicate 1, ψ x → χ x)
+  → ∀ x : Predicate 1, φ x → χ x.
+Admitted.
 
-  Definition n10_32_pred (φ ψ : Predicate 1 → Prop) :
-    (∀ x : Predicate 1, φ x ↔ ψ x) ↔ ∀ x : Predicate 1, ψ x ↔ φ x.
-  Admitted.
-End Variants.
+Definition n10_32_pred (φ ψ : Predicate 1 → Prop) :
+  (∀ x : Predicate 1, φ x ↔ ψ x) ↔ ∀ x : Predicate 1, ψ x ↔ φ x.
+Admitted.
 
 (* 
 p.165: `φ x^` without a `!` will be a function with order unspecified, and this kind of function is
@@ -77,8 +76,10 @@ Theorem n13_101 (X Y : Prop) (ψ : Prop → Prop) :
 Proof.
   assert (S1 : (∃ φ : Predicate 1, (ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y))).
   {
-    (* I don't think this is provable! *)
-    pose proof n12_1 as n12_1.
+    (* TODO: This proposition is provable if we manually introduce a 
+    predicative placeholder to instantiate n12_1 *)
+    pose proof n12_1 as n12_1a.
+    pose proof n12_1 as n12_1b.
     admit.
   }
   assert (S2 : (X = Y) → ∀ φ : Predicate 1, φ X → φ Y).
@@ -88,11 +89,6 @@ Proof.
   assert (S3 : (X = Y) → (∀ φ : Predicate 1, 
     ((ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y)) → (ψ X → ψ Y))).
   {
-    (* I think this step is also unobtainable: we only have an
-    assertion that there "some" φs satisfie the condition, but 
-    eventually we have to prove that "all" φs satisfy the condition.
-    Below is an incomplete attempt for the proof.
-    *)
     destruct S1 as [φ HS1].
     destruct HS1 as [HS1_1 HS1_2].
     pose proof (n4_84 (ψ X) (φ X) (φ Y)) as n4_84.
@@ -100,13 +96,14 @@ Proof.
     pose proof (n4_85 (ψ Y) (φ Y) (ψ X)) as n4_85.
     MP n4_84 HS1_2.
     rewrite -> n4_84 in n4_85.
+    (* TODO: use varied generalizations correctly to finish the proof*)
     (* setoid_rewrite <- n4_85 in S2. *)
     admit.
   }
   assert (S4 : (X = Y) → (∃ φ : Predicate 1, 
     ((ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y))) → (ψ X → ψ Y)).
   {
-    now rewrite -> Variants.n10_23_pred in S3.
+    now rewrite -> n10_23_pred in S3.
   }
   assert (S5 : (X = Y) → (ψ X → ψ Y)).
   {
@@ -132,7 +129,7 @@ Proof.
   {
     (* TODO: make a matrix and generalize it; eventually 
       apply n10_22 *)
-    pose proof Variants.n10_22_pred as n10_22.
+    pose proof n10_22_pred as n10_22.
     admit.
   }
   assert (S2 : (∀ φ : Predicate 1, φ X ↔ φ Y)
@@ -164,10 +161,10 @@ Proof.
   }
   assert (S7 : (X = Y) → (∀ φ : Predicate 1, φ X ↔ φ Y)).
   {
-    pose proof (Variants.n10_11_pred Iφ (fun P =>
+    pose proof (n10_11_pred Iφ (fun P =>
       X = Y → P X ↔ P Y)) as n10_11.
     MP n10_11 S6.
-    pose proof (Variants.n10_21_pred (fun P =>
+    pose proof (n10_21_pred (fun P =>
       P X ↔ P Y) (X = Y)) as n10_21.
     now rewrite -> n10_21 in n10_11.
   }
@@ -227,7 +224,7 @@ Qed.
 Theorem n13_15 (X : Prop) : X = X.
 Proof.
   pose proof (Id2_08 X) as Id2_08.
-  pose proof (Variants.n10_11_pred
+  pose proof (n10_11_pred
     (fun x => x)
     (fun P => P X → P X)
   ) as n10_11.
@@ -239,7 +236,7 @@ Qed.
 Theorem n13_16 (X Y : Prop) : (X = Y) ↔ (Y = X).
 Proof.
   pose proof (n13_11 X Y) as n13_11a.
-  rewrite -> Variants.n10_32_pred in n13_11a.
+  rewrite -> n10_32_pred in n13_11a.
   now rewrite <- n13_11 in n13_11a.
 Qed.
 
@@ -261,7 +258,7 @@ Proof.
   {
     intros Hp.
     pose proof (S1 Hp) as S1.
-    pose proof (Variants.n10_3_pred
+    pose proof (n10_3_pred
       (fun P => P X) (fun P => P Y) (fun P => P Z)) as n10_3_pred.
     now MP n10_3_pred S1.
   }

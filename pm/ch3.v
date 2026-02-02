@@ -55,7 +55,7 @@ to perform the `Conj`. We have to
 Ltac Conj H1 H2 C :=
   let C := fresh C in lazymatch goal with 
     | [ H1 : ?P, H2 : ?Q |- _ ] =>  
-      (pose (Conj3_03 P Q) as C; simpl in C;
+      (pose proof (Conj3_03 P Q) as C; simpl in C;
       MP Conj3_03 P; MP Conj3_03 Q)
 end.
 
@@ -98,10 +98,10 @@ Qed.
 Theorem n3_14 (P Q : Prop) :
   (¬P ∨ ¬Q) → ¬(P ∧ Q).
 Proof.
-  pose proof(n3_1 P Q) as n3_1a.
-  pose proof(Transp2_16 (P∧Q) (¬(¬P∨¬Q))) as Transp2_16a.
+  pose proof proof(n3_1 P Q) as n3_1a.
+  pose proof proof(Transp2_16 (P∧Q) (¬(¬P∨¬Q))) as Transp2_16a.
   MP Transp2_16a n3_1a.
-  pose proof(n2_12 (¬P∨¬Q)) as n2_12a.
+  pose proof proof(n2_12 (¬P∨¬Q)) as n2_12a.
   Syll n2_12a Transp2_16a S.
   exact S.
 Qed.
