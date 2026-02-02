@@ -526,7 +526,7 @@ Proof.
   assert (S2 : (∀ z, φ z ↔ ψ z) → ((∀ z, φ z) → (∀ z, ψ z))).
   {
     (* `Hp` always have to be after the line where `Hp` is declared. All
-      theorems involved are suppose proof proofd to be match directly on the conclusion 
+      theorems involved are supposed to be match directly on the conclusion 
       part of the proposition, with `Hp` removed from the goal.
       This isn't something breaking the rule, as we can always proceed with 
       `Syll`s. But I think a slight intro of `Hp` adds a tiny spice aligned 

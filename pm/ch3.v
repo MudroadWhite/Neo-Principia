@@ -98,10 +98,10 @@ Qed.
 Theorem n3_14 (P Q : Prop) :
   (¬P ∨ ¬Q) → ¬(P ∧ Q).
 Proof.
-  pose proof proof(n3_1 P Q) as n3_1a.
-  pose proof proof(Transp2_16 (P∧Q) (¬(¬P∨¬Q))) as Transp2_16a.
+  pose proof (n3_1 P Q) as n3_1a.
+  pose proof (Transp2_16 (P∧Q) (¬(¬P∨¬Q))) as Transp2_16a.
   MP Transp2_16a n3_1a.
-  pose proof proof(n2_12 (¬P∨¬Q)) as n2_12a.
+  pose proof (n2_12 (¬P∨¬Q)) as n2_12a.
   Syll n2_12a Transp2_16a S.
   exact S.
 Qed.
