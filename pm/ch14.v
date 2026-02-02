@@ -131,14 +131,16 @@ Proof.
     See: n13_101 *)
     (* Simplification: currently we use functional extentionality as
     a shortcut. THIS SHOULD BE ELIMINATED IN THE FUTURE *)
-    assert (S1_1 : (λ c, iota_f s1 Phi (λ b, f b c))
-      = (λ c, (∃ b, (Phi x <[- x -]> (x = b)) ∧ f b c))).
-    {
+    replace (λ c, iota_f s1 Phi (λ b, f b c))
+      with (λ c, (∃ b, (Phi x <[- x -]> (x = b)) ∧ f b c))
+      in S1.
+    2: {
       extensionality c. (* function extentionality *)
+      apply propositional_extensionality.
       pose proof (n14_1 s1 Phi (fun b => f b c)) as n14_1.
-      now apply propositional_extensionality.
+      now symmetry.
     }
-    now rewrite -> S1_1 in S1.
+    exact S1.
   }
   assert (S3 : iota_f2_rev s2 s1 Psi Phi f ↔ 
     (∃ c, (Psi x <[- x -]> (x = c)) 
@@ -392,18 +394,22 @@ Proof.
   (* TOOLS *)
   set (Z := Individual "z").
   set (W := Individual "w").
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
+    (Equiv4_01 P0 Q0)) as Equiv4_01a.
   (* ******** *)
   assert (S1 : (Phi z w <[- z w -]> (z = X ∧ w = Y)) 
     ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) 
       ∧ (((z = X ∧ w = Y) -[ z w ]> Phi z w)))).
   {
     pose proof (n11_31 
-      (fun z w => Phi z w → (z = X ∧ w = Y))
-      (fun z w => ((z = X ∧ w = Y) → Phi z w))) as n11_31a.
-    symmetry in n11_31a.
-    (* TODO: unify the ∀s into one ∀ and perform equiv in it *)
-    (* rewrite <- Equiv4_01 in n11_31a. *)
-    admit.
+      (fun z w => Phi z w → ((z = X) ∧ (w = Y)))
+      (fun z w => (((z = X) ∧ (w = Y)) → Phi z w))) as n11_31a.
+    rewrite -> n11_31 in n11_31a.
+    (* NOTE: this place seems to be uneliminatable *)
+    replace (∀ x y, (Phi x y → x = X ∧ y = Y) ∧ (x = X ∧ y = Y → Phi x y))
+      with (∀ x y, Phi x y <-> x = X ∧ y = Y) in n11_31a at 1
+      by apply n11_06.
+    now rewrite <- n11_31 in n11_31a.
   }
   assert (S2 : (Phi z w <[- z w -]> (z = X ∧ w = Y)) 
     ↔ ((Phi z w -[ z w ]> (z = X ∧ w = Y)) ∧ Phi X Y)).
@@ -455,7 +461,7 @@ Proof.
     now Conj S2 S7 S8.
   }
   exact S8.
-Admitted.
+Qed.
 
 (* TODO: 4-var impl notation will be supported in the future *)
 Theorem n14_124 (Phi : Prop → Prop → Prop) : 
@@ -474,11 +480,19 @@ Proof.
   assert (S1 : (∃ x y, (Phi z w <[- z w -]> (z = x ∧ w = y)))
     → ∃ x y, Phi x y).
   { 
-    (* TODO: this can be done as in some previous chapter, but I 
-    don't want to fill out at the moment *)
-    pose proof n14_123 as n14_123.
-    pose proof Simp3_27 as Simp3_27.
-    admit.
+    pose proof (n14_123 X Y Phi) as n14_123.
+    destruct n14_123 as [n14_123l _].
+    destruct n14_123l as [n14_123ll _].
+    pose proof (Simp3_27
+      (Phi z w -[ z w ]> z = X ∧ w = Y)
+      (Phi X Y)) as Simp3_27.
+    Syll n14_123l Simp3_27 Sy1.
+    pose proof (n11_11 X Y (fun x y =>
+      Phi z w <[- z w -]> z = x ∧ w = y → Phi x y)) as n11_11.
+    MP n11_11 Sy1.
+    pose proof (n11_34 (fun x y => Phi z w <[- z w -]> z = x ∧ w = y)
+      Phi) as n11_34.
+    now MP n11_34 n11_11.
   }
   assert (S2 : (Phi z w <[- z w -]> ((z = X) ∧ (w = Y)))
     → (((Phi Z W) ∧ (Phi U V))
@@ -2126,50 +2140,383 @@ Proof.
   exact S3.
 Qed.
 
+(* What a terrible looking theorem to prove *)
 Theorem n14_3 (s : string) (Phi Chi f : Prop → Prop) : 
   (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ iota_E Phi)
   →
   ((f (iota_f s Phi Chi)) ↔ iota_f s Phi (fun x =>
     f (Chi (Iota s x)))).
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi Chi <-> Chi B)).
+  { 
+    pose proof (n14_242 B s Phi Chi) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S2 : (((p <-> q) -[ p q ]> (f p <-> f q))
+      /\ (Phi x <[- x -]> (x = B)))
+    -> f (iota_f s Phi Chi) <-> f (Chi B)).
+  {
+    (* This is a very special one: it doesn't cite any theorems at all
+    and I think this specific step might be ill-formed *)
+    (* Simplifications - we might investigate later to determine if there is
+    actually a normal way to form the proof, i.e. every step comes with
+    a cited theorem *)
+    intro Hp.
+    destruct Hp as [Hp1 Hp2].
+    MP S1 Hp2.
+    pose proof (Hp1 (iota_f s Phi Chi) (Chi B)) as Hp1.
+    now MP Hp1 S1.
+  }
+  assert (S3 : (Phi x <[- x -]> (x = B))
+    -> ((iota_f s Phi (fun x => f (Chi x))) <-> f (Chi B))).
+  {
+    pose proof (n14_242 B s Phi (fun x => f (Chi x))) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S4 : (((p <-> q) -[ p q ]> (f p <-> f q))
+      /\ (Phi x <[- x -]> (x = B)))
+    -> (f (iota_f s Phi Chi) <-> iota_f s Phi (fun x => f (Chi x)))).
+  {
+    (* simplification *)
+    intro Hp.
+    pose proof (S2 Hp) as S2.
+    destruct Hp as [Hp1 Hp2].
+    MP S3 Hp2.
+    now rewrite <- S3 in S2.
+  }
+  assert (S5 : (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ iota_E Phi)
+    → ((f (iota_f s Phi Chi)) ↔ iota_f s Phi (fun x =>
+      f (Chi (Iota s x))))).
+  {
+    pose proof (n10_11 B (fun b =>
+      ((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ (∀ x, Phi x ↔ x = b)
+      → f (iota_f s Phi Chi) ↔ iota_f s Phi (λ x, f (Chi x)))) 
+      as n10_11.
+    MP n10_11 S4.
+    rewrite -> n10_23 in n10_11.
+    rewrite -> n10_35 in n10_11.
+    rewrite <- n14_11 in n10_11.
+    now replace (λ x, f (Chi x)) with (λ x, f (Chi (Iota s x)))
+      in n10_11 by reflexivity.
+  }
+  exact S5.
+Qed.
 
+(* NOTE: original text mentioned here something about the axiom of reducibility *)
 Theorem n14_31 (P : Prop) (s : string) (Phi Chi : Prop → Prop) : iota_E Phi
   → ((iota_f s Phi (fun x => P ∨ Chi (Iota s x)))
     ↔ P ∨ (iota_f s Phi Chi)).
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi (fun x => P \/ Chi (Iota s x)) <-> (P \/ Chi B))).
+  {
+    pose proof (n14_242 B s Phi (fun x => P \/ Chi x)) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S2 : (Phi x <[- x -]> (x = B)) -> ((iota_f s Phi Chi) 
+    <-> Chi B)).
+  {
+    pose proof (n14_242 B s Phi Chi) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S3 : (Phi x <[- x -]> (x = B)) 
+    -> ((P \/ iota_f s Phi Chi) <-> (P \/ Chi B))).
+  {
+    pose proof (n4_37 (iota_f s Phi Chi) (Chi B) P) as n4_37.
+    Syll S2 n4_37 S3.
+    setoid_rewrite -> n4_31 in S3 at 1.
+    now setoid_rewrite -> n4_31 in S3 at 2.
+  }
+  assert (S4 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi (fun x => P \/ Chi (Iota s x)) 
+      <-> (P \/ iota_f s Phi Chi))).
+  {
+    (* simplification *)
+    clear S2.
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    pose proof (S3 Hp) as S3.
+    now rewrite <- S3 in S1.
+  }
+  assert (S5 : iota_E Phi → ((iota_f s Phi (fun x => P ∨ Chi (Iota s x)))
+    ↔ P ∨ (iota_f s Phi Chi))).
+  {
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> (x = b))
+      -> (iota_f s Phi (fun x => P \/ Chi (Iota s x)) 
+        <-> (P \/ iota_f s Phi Chi)))) as n10_11.
+    MP n10_11 S4.
+    rewrite -> n10_23 in n10_11.
+    now rewrite <- n14_11 in n10_11.
+  }
+  exact S5.
+Qed.
 
 Theorem n14_32 (s : string) (Phi Chi : Prop → Prop) : iota_E Phi
   ↔ ((iota_f s Phi (fun x => ~ Chi (Iota s x)))
     ↔ ~ (iota_f s Phi Chi)).
 Proof.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi (fun x => ~ Chi (Iota s x)) <-> ~ Chi B)).
+  {
+    pose proof (n14_242 B s Phi (fun x => ~ Chi x)) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S2 : (Phi x <[- x -]> (x = B)) -> ((iota_f s Phi Chi) 
+    <-> Chi B)).
+  {
+    pose proof (n14_242 B s Phi Chi) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S3 : (Phi x <[- x -]> (x = B)) 
+    -> ((~ iota_f s Phi Chi) <-> ~ Chi B)).
+  { now rewrite -> Transp4_11 in S2. }
+  assert (S4 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi (fun x => ~ Chi (Iota s x)) 
+      <-> ~ iota_f s Phi Chi)).
+  {
+    (* simplification *)
+    clear S2.
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    pose proof (S3 Hp) as S3.
+    now rewrite <- S3 in S1.
+  }
+  assert (S5 : iota_E Phi -> ((iota_f s Phi (fun x => ~ Chi (Iota s x)))
+    ↔ ~ (iota_f s Phi Chi))).
+  {
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> (x = b))
+      -> (iota_f s Phi (fun x => ~ Chi (Iota s x)) 
+        <-> ~ iota_f s Phi Chi))) as n10_11.
+    MP n10_11 S4.
+    rewrite -> n10_23 in n10_11.
+    now rewrite <- n14_11 in n10_11.
+  }
+  assert (S6 : ((iota_f s Phi (fun x => ~ Chi (Iota s x)))
+    ↔ ~ (iota_f s Phi Chi)) -> iota_E Phi).
+  {
+    (* TODO:
+    - reorganize two iota_fs into one huge iota_f
+    - apply n14_21
+    should be ok, otherwise this is a nasty typo in original text
+    *)
+    admit.
+  }
+  assert (S7 : iota_E Phi ↔ ((iota_f s Phi (fun x => ~ Chi (Iota s x)))
+    ↔ ~ (iota_f s Phi Chi))).
+  {
+    clear S1 S2 S3 S4.
+    Conj S5 S6 S7.
+    now Equiv S7.
+  }
+  exact S7.
 Admitted.
 
+(* In original text, we can see straightforward that the citations are not
+completely in the same order *)
 Theorem n14_33 (P : Prop) (s : string) (Phi Chi : Prop → Prop) : iota_E Phi
   → ((iota_f s Phi (fun x => P → Chi (Iota s x)))
     ↔ (P → iota_f s Phi Chi)).
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi (fun x => P -> Chi (Iota s x)) <-> (P -> Chi B))).
+  {
+    pose proof (n14_242 B s Phi (fun x => P -> Chi x)) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S2 : (Phi x <[- x -]> (x = B)) -> ((iota_f s Phi Chi) 
+    <-> Chi B)).
+  {
+    pose proof (n14_242 B s Phi Chi) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S3 : (Phi x <[- x -]> (x = B)) 
+    -> ((P -> iota_f s Phi Chi) <-> (P -> Chi B))).
+  { 
+    (* simplification *)
+    intro Hp.
+    pose proof (S2 Hp) as S2.
+    pose proof (n4_85 (iota_f s Phi Chi) (Chi B) P) as n4_85.
+    clear S1.
+    now MP n4_85 S2.
+  }
+  assert (S4 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi (fun x => P -> Chi (Iota s x)) 
+      <-> (P -> iota_f s Phi Chi))).
+  {
+    (* simplification *)
+    clear S2.
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    pose proof (S3 Hp) as S3.
+    now rewrite <- S3 in S1.
+  }
+  assert (S5 : iota_E Phi -> ((iota_f s Phi (fun x => P -> Chi (Iota s x)))
+    ↔ (P -> (iota_f s Phi Chi)))).
+  {
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> (x = b))
+      -> (iota_f s Phi (fun x => P -> Chi (Iota s x)) 
+        <-> (P -> iota_f s Phi Chi)))) as n10_11.
+    MP n10_11 S4.
+    rewrite -> n10_23 in n10_11.
+    now rewrite <- n14_11 in n10_11.
+  }
+  exact S5.
+Qed.
 
-(* Is there a typo in this proposition? An identitical conclusion? *)
 Theorem n14_331 (P : Prop) (s : string) (Phi Chi : Prop → Prop) : iota_E Phi
-  → ((iota_f s Phi (fun x => Chi (Iota s x) → P))
-    ↔ (iota_f s Phi (fun x => Chi (Iota s x) → P))).
+  → ((iota_f s Phi Chi → P) ↔ (iota_f s Phi (fun x => 
+    Chi (Iota s x) → P))).
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi (fun x => Chi (Iota s x) -> P) <-> (Chi B -> P))).
+  {
+    pose proof (n14_242 B s Phi (fun x => Chi x -> P)) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S2 : (Phi x <[- x -]> (x = B)) -> ((iota_f s Phi Chi) 
+    <-> Chi B)).
+  {
+    pose proof (n14_242 B s Phi Chi) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S3 : (Phi x <[- x -]> (x = B)) 
+    -> (((iota_f s Phi Chi) -> P) <-> (Chi B -> P))).
+  { 
+    (* simplification *)
+    intro Hp.
+    pose proof (S2 Hp) as S2.
+    pose proof (n4_84 (iota_f s Phi Chi) (Chi B) P) as n4_85.
+    clear S1.
+    now MP n4_85 S2.
+  }
+  assert (S4 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi (fun x => Chi (Iota s x) -> P)
+      <-> ((iota_f s Phi Chi) -> P))).
+  {
+    (* simplification *)
+    clear S2.
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    pose proof (S3 Hp) as S3.
+    now rewrite <- S3 in S1.
+  }
+  assert (S5 : iota_E Phi -> ((iota_f s Phi (fun x => Chi (Iota s x) -> P))
+    ↔ (iota_f s Phi Chi -> P))).
+  {
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> (x = b))
+      -> (iota_f s Phi (fun x => Chi (Iota s x) -> P) 
+        <-> (iota_f s Phi Chi -> P)))) as n10_11.
+    MP n10_11 S4.
+    rewrite -> n10_23 in n10_11.
+    now rewrite <- n14_11 in n10_11.
+  }
+  (* What a lovely reversion, it has been so unorganized *)
+  assert (S6 : iota_E Phi → ((iota_f s Phi Chi → P) 
+    ↔ (iota_f s Phi (fun x => Chi (Iota s x) → P)))).
+  { now rewrite -> n4_21 in S5. }
+  exact S6.
+Qed.
 
 Theorem n14_332 (P : Prop) (s : string) (Phi Chi : Prop → Prop) : iota_E Phi
   → ((iota_f s Phi (fun x => P ↔ Chi (Iota s x)))
     ↔ (P ↔ (iota_f s Phi Chi))).
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi (fun x => P <-> Chi (Iota s x)) <-> (P <-> Chi B))).
+  {
+    pose proof (n14_242 B s Phi (fun x => P <-> Chi x)) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S2 : (Phi x <[- x -]> (x = B)) -> ((iota_f s Phi Chi) 
+    <-> Chi B)).
+  {
+    pose proof (n14_242 B s Phi Chi) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S3 : (Phi x <[- x -]> (x = B)) 
+    -> ((P <-> iota_f s Phi Chi) <-> (P <-> Chi B))).
+  { 
+    (* simplification *)
+    intro Hp.
+    pose proof (S2 Hp) as S2.
+    pose proof (n4_86 (iota_f s Phi Chi) (Chi B) P) as n4_86.
+    clear S1.
+    setoid_rewrite -> n4_21 in n4_86 at 3.
+    setoid_rewrite -> n4_21 in n4_86 at 4.
+    now MP n4_86 S2.
+  }
+  assert (S4 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi (fun x => P <-> Chi (Iota s x)) 
+      <-> (P <-> iota_f s Phi Chi))).
+  {
+    (* simplification *)
+    clear S2.
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    pose proof (S3 Hp) as S3.
+    now rewrite <- S3 in S1.
+  }
+  assert (S5 : iota_E Phi -> ((iota_f s Phi (fun x => P <-> Chi (Iota s x)))
+    ↔ (P <-> (iota_f s Phi Chi)))).
+  {
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> (x = b))
+      -> (iota_f s Phi (fun x => P <-> Chi (Iota s x)) 
+        <-> (P <-> iota_f s Phi Chi)))) as n10_11.
+    MP n10_11 S4.
+    rewrite -> n10_23 in n10_11.
+    now rewrite <- n14_11 in n10_11.
+  }
+  exact S5.
+Qed.
 
 Theorem n14_34 (P : Prop) (s : string) (Phi Chi : Prop → Prop) : 
   (P ∧ iota_f s Phi Chi) ↔ iota_f s Phi (fun x =>
     P ∧ Chi (Iota s x)).
 Proof.
-Admitted.
+  assert (S1 : (P ∧ iota_f s Phi Chi) <-> (P /\ (exists b, 
+    (Phi x <[- x -]> (x = b)) /\ Chi b))).
+  { 
+    pose proof (n14_1 s Phi Chi) as n14_1.
+    pose proof (n4_36 (iota_f s Phi Chi) (∃ b, (Phi x <[- x -]> x = b) ∧ Chi b)
+      P) as n4_36.
+    MP n4_36 n14_1.
+    rewrite -> n4_3 in n4_36.
+    now setoid_rewrite -> n4_3 in n4_36 at 3.
+  }
+  assert (S2 : (P ∧ iota_f s Phi Chi) <-> (exists b, 
+    P /\ ((Phi x <[- x -]> (x = b)) /\ Chi b))).
+  { now rewrite <- n10_35 in S1. }
+  assert (S3 : (P ∧ iota_f s Phi Chi) ↔ iota_f s Phi (fun x =>
+    P ∧ Chi (Iota s x))).
+  {
+    pose proof n14_1 as _n14_1.
+    pose proof n4_32 as _n4_32.
+    setoid_rewrite -> n4_3 in S2 at 4.
+    setoid_rewrite <- n4_32 in S2.
+    setoid_rewrite -> n4_3 in S2 at 3.
+    now rewrite <- (n14_1 s) in S2.
+  }
+  exact S3.
+Qed.
 
 Close Scope single_app_equiv.
 Close Scope single_app_impl.
