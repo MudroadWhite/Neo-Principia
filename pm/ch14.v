@@ -131,14 +131,16 @@ Proof.
     See: n13_101 *)
     (* Simplification: currently we use functional extentionality as
     a shortcut. THIS SHOULD BE ELIMINATED IN THE FUTURE *)
-    assert (S1_1 : (λ c, iota_f s1 Phi (λ b, f b c))
-      = (λ c, (∃ b, (Phi x <[- x -]> (x = b)) ∧ f b c))).
-    {
+    replace (λ c, iota_f s1 Phi (λ b, f b c))
+      with (λ c, (∃ b, (Phi x <[- x -]> (x = b)) ∧ f b c))
+      in S1.
+    2: {
       extensionality c. (* function extentionality *)
+      apply propositional_extensionality.
       pose proof (n14_1 s1 Phi (fun b => f b c)) as n14_1.
-      now apply propositional_extensionality.
+      now symmetry.
     }
-    now rewrite -> S1_1 in S1.
+    exact S1.
   }
   assert (S3 : iota_f2_rev s2 s1 Psi Phi f ↔ 
     (∃ c, (Psi x <[- x -]> (x = c)) 
@@ -2138,13 +2140,69 @@ Proof.
   exact S3.
 Qed.
 
+(* What a terrible looking theorem to prove *)
 Theorem n14_3 (s : string) (Phi Chi f : Prop → Prop) : 
   (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ iota_E Phi)
   →
   ((f (iota_f s Phi Chi)) ↔ iota_f s Phi (fun x =>
     f (Chi (Iota s x)))).
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (B := Individual "b").
+  (* ******** *)
+  assert (S1 : (Phi x <[- x -]> (x = B))
+    -> (iota_f s Phi Chi <-> Chi B)).
+  { 
+    pose proof (n14_242 B s Phi Chi) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S2 : (((p <-> q) -[ p q ]> (f p <-> f q))
+      /\ (Phi x <[- x -]> (x = B)))
+    -> f (iota_f s Phi Chi) <-> f (Chi B)).
+  {
+    (* This is a very special one: it doesn't cite any theorems at all
+    and I think this specific step might be ill-formed *)
+    (* Simplifications *)
+    intro Hp.
+    destruct Hp as [Hp1 Hp2].
+    MP S1 Hp2.
+    pose proof (Hp1 (iota_f s Phi Chi) (Chi B)) as Hp1.
+    now MP Hp1 S1.
+  }
+  assert (S3 : (Phi x <[- x -]> (x = B))
+    -> ((iota_f s Phi (fun x => f (Chi x))) <-> f (Chi B))).
+  {
+    pose proof (n14_242 B s Phi (fun x => f (Chi x))) as n14_242.
+    now rewrite -> n4_21 in n14_242.
+  }
+  assert (S4 : (((p <-> q) -[ p q ]> (f p <-> f q))
+      /\ (Phi x <[- x -]> (x = B)))
+    -> (f (iota_f s Phi Chi) <-> iota_f s Phi (fun x => f (Chi x)))).
+  {
+    (* simplification *)
+    intro Hp.
+    pose proof (S2 Hp) as S2.
+    destruct Hp as [Hp1 Hp2].
+    MP S3 Hp2.
+    now rewrite <- S3 in S2.
+  }
+  assert (S5 : (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ iota_E Phi)
+    → ((f (iota_f s Phi Chi)) ↔ iota_f s Phi (fun x =>
+      f (Chi (Iota s x))))).
+  {
+    pose proof (n10_11 B (fun b =>
+      ((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ (∀ x, Phi x ↔ x = b)
+      → f (iota_f s Phi Chi) ↔ iota_f s Phi (λ x, f (Chi x)))) 
+      as n10_11.
+    MP n10_11 S4.
+    rewrite -> n10_23 in n10_11.
+    rewrite -> n10_35 in n10_11.
+    rewrite <- n14_11 in n10_11.
+    now replace (λ x, f (Chi x)) with (λ x, f (Chi (Iota s x)))
+      in n10_11 by reflexivity.
+  }
+  exact S5.
+Qed.
 
 Theorem n14_31 (P : Prop) (s : string) (Phi Chi : Prop → Prop) : iota_E Phi
   → ((iota_f s Phi (fun x => P ∨ Chi (Iota s x)))
