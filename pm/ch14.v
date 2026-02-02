@@ -126,8 +126,11 @@ Proof.
   {
     replace (λ c, iota_f s1 Phi (λ b, f (Iota s1 b) (Iota s2 c)))
       with (λ c, iota_f s1 Phi (λ b, f b c)) in S1 by reflexivity.
-    (* Simplification: this place needs functional extentionality for our designed 
-    notation of iota. Seems like the only way to survive *)
+    (* TODO: we actually don't need extentionality, and this should be also
+    obtainable just by using theorems in ch13.
+    See: n13_101 *)
+    (* Simplification: currently we use functional extentionality as
+    a shortcut. THIS SHOULD BE ELIMINATED IN THE FUTURE *)
     assert (S1_1 : (λ c, iota_f s1 Phi (λ b, f b c))
       = (λ c, (∃ b, (Phi x <[- x -]> (x = b)) ∧ f b c))).
     {
@@ -180,6 +183,7 @@ Proof.
     replace ((λ b, iota_f s2 Psi (λ c, f (Iota s1 b) (Iota s2 c))))
       with (λ b, iota_f s2 Psi (λ c, f b c)) in S1 
       by reflexivity.
+    (* TODO: eliminate the usage of function extensionality in the futrue *)
     assert (S1_1 : (λ b, iota_f s2 Psi (λ c : Prop, f b c))
       = (λ b, ∃ c, (Psi x <[- x -]> (x = c)) ∧ f b c)).
     {
@@ -1875,11 +1879,9 @@ Proof.
   exact S7.
 Qed.
 
-(* TODO: rewrite the iota_f2 as double iota_f *)
 Theorem n14_27 (s1 s2 : string) (Phi Psi : Prop → Prop) : iota_E Phi 
-  → ((Phi x <[- x -]> Psi x) 
-    ↔ iota_f2 s1 s2 Phi Psi (fun x y =>
-      (Iota s1 x) = (Iota s2 y))).
+  → ((Phi x <[- x -]> Psi x) ↔ iota_f s1 Phi (fun x => 
+    iota_f s2 Psi (fun y => (Iota s1 x) = (Iota s2 y)))).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
@@ -1924,17 +1926,33 @@ Proof.
     now rewrite -> n14_202rr in S3.
   }
   assert (S5 : (Phi x <[- x -]> (x = B))
-    -> ((Phi x <[- x -]> Psi x) <-> iota_f s2 Psi (fun x =>
-      iota_f2 s1 s2 Phi Psi (fun x y =>
-        (Iota s1 x) = (Iota s2 y))))).
+    -> ((Phi x <[- x -]> Psi x) <-> iota_f s1 Phi (fun x => iota_f s2 Psi 
+      (fun y => (Iota s1 x) = (Iota s2 y))))).
   {
-    (* TODO: currently stuck: the proof interprets the 
-      equation as double iota_f *)
-    pose proof n14_242 as n14_242.
-    admit.
+    (* simplifications *)
+    intro Hp.
+    pose proof (S4 Hp) as S4.
+    pose proof (n14_242 B s1 Phi (fun x => iota_f s2 Psi 
+      (λ y, Iota s1 x = Iota s2 y))) as n14_242.
+    MP n14_242 Hp.
+    now rewrite -> n14_242 in S4.
   }
-  admit.
-Admitted.
+  assert (S6 : iota_E Phi → ((Phi x <[- x -]> Psi x) 
+    ↔ iota_f s1 Phi (fun x => iota_f s2 Psi (fun y => 
+      (Iota s1 x) = (Iota s2 y))))).
+  {
+    pose proof (n10_11 B (fun b => (Phi x <[- x -]> (x = b))
+      -> ((Phi x <[- x -]> Psi x) <-> iota_f s1 Phi (fun x => iota_f s2 Psi 
+      (fun y => (Iota s1 x) = (Iota s2 y)))))) 
+      as n10_11.
+    MP n10_11 S5.
+    rewrite -> n10_23 in n10_11.
+    pose proof (n14_11 Phi) as n14_11.
+    destruct n14_11 as [n14_11l _].
+    now Syll n14_11l n10_11 S6.
+  }
+  exact S6.
+Qed.
 
 Theorem n14_271 (Phi Psi : Prop → Prop) : (Phi x <[- x -]> Psi x)
   → ((iota_E Phi) ↔ (iota_E Psi)).
