@@ -11,3 +11,4 @@ CoqMakefile.conf
 pm_1.pdf
 .vscode/
 _CoqProject
+.gitignore
