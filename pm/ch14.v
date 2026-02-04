@@ -1092,7 +1092,7 @@ Proof.
     pose proof (n14_1 s1 Phi Chi) as n14_1.
     now setoid_rewrite -> Hp in n14_1.
   }
-  assert (S3 : (Phi x <[- x -]> (x = B)) → 
+  assert (S3 : (Phi x <[- x -]> (x = B)) →
     (iota_f s1 Phi Chi ↔ Chi B)).
   { now rewrite -> n13_192 in S2. }
   assert (S4 : iota_f s2 Psi (fun y => B = (Iota s2 y))

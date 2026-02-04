@@ -676,7 +676,7 @@ Proof.
       (φ A ∨ ¬ φ A → X = A → φ X ∨ ¬ φ X)) as Simp3_26.
     now MP Simp3_26 S7.
   }
-  assert (S9 : (φ A ∨ ¬ φ A) → 
+  assert (S9 : (φ A ∨ ¬ φ A) →
     ((φ X ∨ ¬ φ X) ↔ (X = A ∨ ¬ (X = A)))).
   {
     pose proof (n5_35 (φ A ∨ ¬ φ A) (φ X ∨ ¬ φ X)

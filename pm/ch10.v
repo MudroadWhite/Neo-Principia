@@ -615,7 +615,7 @@ Proof.
   setoid_rewrite <- Equiv4_01a in n10_22.
   (* We don't clear both branches because both of them are being used *)
   destruct n10_22 as [n10_22l n10_22r]. 
-  assert (Sa : (∀ x, φ x ↔ ψ x) → 
+  assert (Sa : (∀ x, φ x ↔ ψ x) →
     (∃ x, φ x) → (∃ x, ψ x)).
   {
     pose proof (Simp3_26 (∀ x, φ x → ψ x) (∀ x, ψ x → φ x))
@@ -624,7 +624,7 @@ Proof.
     pose proof (n10_28 φ ψ) as n10_28a.
     now Syll n10_22l1 n10_28a Sa.
   }
-  assert (Sb : (∀ x, φ x ↔ ψ x) → 
+  assert (Sb : (∀ x, φ x ↔ ψ x) →
     (∃ x, ψ x) → (∃ x, φ x)).
   {
     pose proof (Simp3_27 (∀ x, φ x → ψ x) (∀ x, ψ x → φ x))
@@ -1411,10 +1411,10 @@ Proof.
   {
     pose proof (n10_413 φ ψ χ θ) as n10_413.
     assert (C1 :
-      (( φ x<[-x-]>χ x ) ∧  ψ x<[-x-]>θ x  → 
+      (( φ x<[-x-]>χ x ) ∧  ψ x<[-x-]>θ x  →
         (ψ x → φ x)<[-x-]>(θ x → χ x))
       ∧
-      (( φ x<[-x-]>χ x ) ∧  ψ x<[-x-]>θ x  → 
+      (( φ x<[-x-]>χ x ) ∧  ψ x<[-x-]>θ x  →
         (φ x → ψ x)<[-x-]>(χ x → θ x) )).
     { now Conj S1 n10_413 C1. }
     pose proof (n10_4

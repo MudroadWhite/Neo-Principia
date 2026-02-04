@@ -1234,7 +1234,7 @@ Proof.
   (* TOOLS *)
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : (∃ y, (φ x -[x]> ψ x y)) → 
+  assert (S1 : (∃ y, (φ x -[x]> ψ x y)) →
     (∀ x, ∃ y, φ x → ψ x y)).
   { apply n11_26. }
   assert (S2 : (∃ y, φ X → ψ X y) → (φ X → ∃ y, ψ X y)).

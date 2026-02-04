@@ -284,7 +284,7 @@ Proof.
   rewrite Equiv4_01 in n5_17a.
   pose proof (Simp3_26 
     ((((P ↔ Q) ∨ (P ↔ ¬ Q)) ∧ ¬ ((P ↔ Q) ∧ (P ↔ ¬ Q)))
-    → ((P ↔ Q) ↔ ¬ (P ↔ ¬ Q))) (((P ↔ Q) ↔ ¬ (P ↔ ¬ Q)) → 
+    → ((P ↔ Q) ↔ ¬ (P ↔ ¬ Q))) (((P ↔ Q) ↔ ¬ (P ↔ ¬ Q)) →
     (((P ↔ Q) ∨ (P ↔ ¬ Q)) ∧ ¬ ((P ↔ Q) ∧ (P ↔ ¬ Q))))) as Simp3_26a. (*not cited*)
   MP Simp3_26a n5_17a.
   MP Simp3_26a C.
@@ -587,13 +587,13 @@ Proof.
   pose proof (n5_3 (P → Q) (P → R) (P → (Q ∧ R))) as n5_3a.
   rewrite Equiv4_01 in n5_3a.
   pose proof (Simp3_26 
-    ((((P → Q) ∧ (P → R)) → (P → (Q ∧ R))) → 
+    ((((P → Q) ∧ (P → R)) → (P → (Q ∧ R))) →
     (((P → Q) ∧ (P → R)) → ((P → Q) ∧ (P → (Q ∧ R)))))
     ((((P → Q) ∧ (P → R)) → ((P → Q) ∧ (P → (Q ∧ R))))
     → (((P → Q) ∧ (P → R)) → (P → (Q ∧ R))))) as Simp3_26b.
   MP Simp3_26b n5_3a.
   pose proof (Simp3_27 
-  ((((P → Q) ∧ (P → R)) → (P → (Q ∧ R))) → 
+  ((((P → Q) ∧ (P → R)) → (P → (Q ∧ R))) →
   (((P → Q) ∧ (P → R)) → ((P → Q) ∧ (P → (Q ∧ R)))))
   ((((P → Q) ∧ (P → R)) → ((P → Q) ∧ (P → (Q ∧ R))))
   → (((P → Q) ∧ (P → R)) → (P → (Q ∧ R))))) as Simp3_27b.
