@@ -1256,9 +1256,9 @@ Qed.
 
 Theorem n4_87 (P Q R : Prop) :
   (((P ∧ Q) → R) ↔ (P → (Q → R)))
-  ∧ 
+  ∧
   ((P → (Q → R)) ↔ (Q → (P → R)))
-  ∧ 
+  ∧
   ((Q → (P → R)) ↔ ((Q ∧ P) → R)).
 Proof.
   pose proof Exp3_3 as _Exp3_3.

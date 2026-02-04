@@ -63,7 +63,7 @@ Admitted.
 Open Scope single_app_impl.
 
 Theorem n13_1 (X Y : Prop) : 
-  (X = Y) ↔ 
+  (X = Y) ↔
     (∀ φ : Predicate 1, (φ X) → (φ Y)).
 Proof.
   pose proof (n4_2 (X = Y)) as n4_2.
@@ -118,7 +118,7 @@ Admitted.
 Open Scope single_app_equiv.
 
 Theorem n13_11 (X Y : Prop) :
-  (X = Y) ↔ 
+  (X = Y) ↔
     (∀ φ : Predicate 1, (φ X) ↔ (φ Y)).
 Proof.
   (* TOOLS *)

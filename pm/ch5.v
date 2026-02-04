@@ -476,7 +476,7 @@ Proof.
       ((P → (Q → R) ↔ (P ∧ Q → R)) ↔ (P ∧ (Q → R) ↔ P ∧ (P ∧ Q → R))) 
       with 
       (((P → (Q → R) ↔ (P ∧ Q → R)) → (P ∧ (Q → R) ↔ P ∧ (P ∧ Q → R)))
-      ∧ 
+      ∧
       ((P ∧ (Q → R) ↔ P ∧ (P ∧ Q → R) → (P → (Q → R) ↔ (P ∧ Q → R))))) 
       in n5_32a by now rewrite Equiv4_01.
   pose proof (Simp3_26  
@@ -927,15 +927,15 @@ Proof.
   pose proof (Exp3_3 (P ↔ (R ∨ Q)) ((R ∨ Q) ↔ Q) (P ↔ Q)) as Exp3_3a.
   MP Exp3_3a n4_22b.
   Syll n4_22a Exp3_3a Sa.
-  pose proof (Imp3_31 ((P ↔ (R ∨ P)) ∧ 
+  pose proof (Imp3_31 ((P ↔ (R ∨ P)) ∧
     ((R ∨ P) ↔ (R ∨ Q))) ((R ∨ Q) ↔ Q) (P ↔ Q)) as Imp3_31a.
   MP Imp3_31a Sa.
   pose proof (n4_32 (P ↔ R ∨ P) (R ∨ P ↔ R ∨ Q) (R ∨ Q ↔ Q)) as n4_32a.
   apply propositional_extensionality in n4_32a.
   symmetry in n4_32a.
-  replace (((P ↔ (R ∨ P)) ∧ ((R ∨ P) ↔ 
+  replace (((P ↔ (R ∨ P)) ∧ ((R ∨ P) ↔
       (R ∨ Q))) ∧ ((R ∨ Q) ↔ Q)) with 
-    ((P ↔ (R ∨ P)) ∧ (((R ∨ P) ↔ 
+    ((P ↔ (R ∨ P)) ∧ (((R ∨ P) ↔
       (R ∨ Q)) ∧ ((R ∨ Q) ↔ Q))) in Imp3_31a 
     by now apply n4_32a.
   pose proof (n4_3 (R ∨ Q ↔ Q) (R ∨ P ↔ R ∨ Q)) as n4_3a.
@@ -945,9 +945,9 @@ Proof.
     by now apply n4_3a.
   pose proof (n4_32 (P ↔ R ∨ P) (R ∨ Q ↔ Q) (R ∨ P ↔ R ∨ Q)) as n4_32b.
   apply propositional_extensionality in n4_32b.
-  replace ((P ↔ (R ∨ P)) ∧ 
+  replace ((P ↔ (R ∨ P)) ∧
       ((R ∨ Q ↔ Q) ∧ (R ∨ P ↔ R ∨ Q))) with 
-    (((P ↔ (R ∨ P)) ∧ (R ∨ Q ↔ Q)) ∧ 
+    (((P ↔ (R ∨ P)) ∧ (R ∨ Q ↔ Q)) ∧
       (R ∨ P ↔ R ∨ Q)) in Imp3_31a
     by now apply n4_32b.
   pose proof (Exp3_3 
@@ -995,11 +995,11 @@ Proof.
     R (P ↔ Q)) as n4_77a.
   rewrite Equiv4_01 in n4_77a.
   pose proof (Simp3_26 
-    ((R → P ∨ R ↔ Q ∨ R) ∧ 
+    ((R → P ∨ R ↔ Q ∨ R) ∧
       (P ↔ Q → P ∨ R ↔ Q ∨ R)
     → R ∨ (P ↔ Q) → P ∨ R ↔ Q ∨ R)
     ((R ∨ (P ↔ Q) → P ∨ R ↔ Q ∨ R)
-      → (R → P ∨ R ↔ Q ∨ R) ∧ 
+      → (R → P ∨ R ↔ Q ∨ R) ∧
         (P ↔ Q → P ∨ R ↔ Q ∨ R))) as Simp3_26a.
   MP Simp3_26 n4_77a.
   MP Simp3_26a Cc.
@@ -1106,7 +1106,7 @@ Theorem n5_75 (P Q R : Prop) :
 Proof.
   pose proof (n5_6 P Q R) as n5_6a.
   replace ((P ∧ ¬ Q → R) ↔ (P → Q ∨ R)) with 
-      (((P ∧ ¬ Q → R) → (P → Q ∨ R)) ∧ 
+      (((P ∧ ¬ Q → R) → (P → Q ∨ R)) ∧
       ((P → Q ∨ R) → (P ∧ ¬ Q → R))) in n5_6a
       by now rewrite Equiv4_01.
   pose proof (Simp3_27 

@@ -832,7 +832,7 @@ Proof.
     as Equiv4_01a.
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : ((φ x) <[- x -]> (ψ x)) ↔ 
+  assert (S1 : ((φ x) <[- x -]> (ψ x)) ↔
     ((φ x -[ x ]> ψ x) ∧ (ψ x -[ x ]> φ x))).
   {
     pose proof (n10_22
@@ -844,15 +844,15 @@ Proof.
     2: { apply Equiv4_01. }
     exact n10_22.
   }
-  assert (S2 : ((φ x) <[-x-]> (ψ x)) ↔ 
+  assert (S2 : ((φ x) <[-x-]> (ψ x)) ↔
     ((ψ x -[x]> φ x) ∧ (φ x -[x]> ψ x))).
   {
     pose proof (n4_3 ((φ x) -[x]> (ψ x)) ((ψ x) -[x]> (φ x))) 
       as n4_3.
-    assert (C1 : ((φ x <[- x -]> ψ x) ↔ 
+    assert (C1 : ((φ x <[- x -]> ψ x) ↔
       ((φ x -[x]> ψ x) ∧ (ψ x -[x]> φ x)))
       ∧
-      ((φ x -[x]> ψ x) ∧ ψ x -[x]> φ x ↔ 
+      ((φ x -[x]> ψ x) ∧ ψ x -[x]> φ x ↔
       (ψ x -[x]> φ x) ∧ φ x -[x]> ψ x)).
     { now Conj S1 n4_3 C1. }
     pose proof (n4_22
@@ -862,7 +862,7 @@ Proof.
     ) as n4_22.
     now MP n4_22 C1.
   }
-  assert (S3 : ((φ x) <[- x -]> (ψ x)) ↔ 
+  assert (S3 : ((φ x) <[- x -]> (ψ x)) ↔
     ((ψ x) <[- x -]> (φ x))).
   {
     pose proof (n10_22 
@@ -1413,7 +1413,7 @@ Proof.
     assert (C1 :
       (( φ x<[-x-]>χ x ) ∧  ψ x<[-x-]>θ x  → 
         (ψ x → φ x)<[-x-]>(θ x → χ x))
-      ∧ 
+      ∧
       (( φ x<[-x-]>χ x ) ∧  ψ x<[-x-]>θ x  → 
         (φ x → ψ x)<[-x-]>(χ x → θ x) )).
     { now Conj S1 n10_413 C1. }
@@ -1473,12 +1473,12 @@ Proof.
 Qed.
 
 Theorem n10_43 (φ ψ : Prop → Prop) (X : Prop) :
-  ((φ z <[- z -]> ψ z) ∧ φ X) ↔ 
+  ((φ z <[- z -]> ψ z) ∧ φ X) ↔
   ((φ z <[- z -]> ψ z) ∧ ψ X).
 Proof.
   assert (S1 : (φ z <[- z -]> ψ z) → (φ X ↔ ψ X)).
   { now apply n10_1. }
-  assert (S2 : ((φ z <[- z -]> ψ z) ∧ φ X) ↔ 
+  assert (S2 : ((φ z <[- z -]> ψ z) ∧ φ X) ↔
     ((φ z <[- z -]> ψ z) ∧ ψ X)).
   { now rewrite -> n5_32 in S1. }
   exact S2.
