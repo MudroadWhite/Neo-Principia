@@ -1431,7 +1431,7 @@ Proof.
       rewrite -> n4_21 in S3_3.
       now setoid_rewrite -> n13_16 in S3_3 at 1.
     }
-    assert (C1 : (iota_f s Phi (λ x, Iota s x = B) ↔  Phi x <[- x -]> B = x)
+    assert (C1 : (iota_f s Phi (λ x, Iota s x = B) ↔ Phi x <[- x -]> B = x)
       /\ (Phi x <[- x -]> B = x  ↔ iota_f s Phi (λ x, B = Iota s x))).
     { clear S3_1. now Conj S3_2 S3_3 C1. }
     clear S2 S3_2 S3_3.

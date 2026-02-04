@@ -156,7 +156,7 @@ Theorem n10_21 (φ : Prop → Prop) (P : Prop) :
 Proof. 
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
     as Impl1_01a.
-  pose proof (n10_2 φ (¬P)) as n10_2.
+  pose proof (n10_2 φ (¬ P)) as n10_2.
   now repeat setoid_rewrite <- Impl1_01a in n10_2.
 Qed.
 
@@ -366,7 +366,7 @@ Proof.
   now Syll n10_1 n10_24 S1.
 Qed.
 
-Theorem n10_251 (φ : Prop → Prop) : (∀ x, ¬φ x) → ¬(∀ x, φ x).
+Theorem n10_251 (φ : Prop → Prop) : (∀ x, ¬ φ x) → ¬ (∀ x, φ x).
 Proof.
   pose proof (n10_25 φ) as n10_25.
   pose proof (Transp2_16 (∀ x, φ x) (∃ x, φ x)) 
@@ -377,27 +377,27 @@ Proof.
   now Syll n2_12 Transp2_16 S1.
 Qed.
 
-Theorem n10_252 (φ : Prop → Prop) : ¬(∃ x, φ x) ↔ (∀ x, ¬ φ x).
+Theorem n10_252 (φ : Prop → Prop) : ¬ (∃ x, φ x) ↔ (∀ x, ¬ φ x).
 Proof.
   pose proof (n4_2 (∀ x, ¬ φ x)) as n4_2.
   now rewrite <- n9_02 in n4_2 at 1.
 Qed.
 
-Theorem n10_253 (φ : Prop → Prop) : ¬(∀ x, φ x) → (∃ x, ¬φ x).
+Theorem n10_253 (φ : Prop → Prop) : ¬ (∀ x, φ x) → (∃ x, ¬ φ x).
 Proof.
   pose proof (n4_2 (¬ ∀ x, φ x)) as n4_2.
   rewrite -> n9_01 in n4_2 at 2.
   now destruct n4_2.
 Qed.
 
-Theorem n10_252_alt (φ : Prop → Prop) : ¬(∃ x, φ x) ↔ (∀ x, ¬ φ x).
+Theorem n10_252_alt (φ : Prop → Prop) : ¬ (∃ x, φ x) ↔ (∀ x, ¬ φ x).
 Proof.
   pose proof (n4_13 (∀ x, ¬ φ x)) as n4_13.
   rewrite <- n10_01 in n4_13 at 1.
   now symmetry in n4_13.
 Qed.
 
-Theorem n10_253_alt (φ : Prop → Prop) : (¬(∀ x, φ x)) ↔ (∃ x, ¬φ x).
+Theorem n10_253_alt (φ : Prop → Prop) : (¬ (∀ x, φ x)) ↔ (∃ x, ¬ φ x).
 Proof.
   (* TOOLS *)
   set (Y := Individual "y").
@@ -405,50 +405,50 @@ Proof.
   (* ******** *)
   assert (S1 : (∀ x, φ x) → φ Y).
   { exact (n10_1 φ Y). }
-  assert (S2 : (∀ x, φ x) → ¬ ¬ φ Y).
+  assert (S2 : (∀ x, φ x) → ¬¬ φ Y).
   {
     pose proof (n2_12 (φ Y)) as n2_12.
     now Syll S1 n2_12 S2.
   }
-  assert (S3 : (∀ x, φ x) → ∀ y, ¬ ¬ φ y).
+  assert (S3 : (∀ x, φ x) → ∀ y, ¬¬ φ y).
   {
     (* n10_21 is unused *)
     pose proof (n10_11 Y (fun y => ¬¬ φ y)) as n10_11.
     now Syll S2 n10_21 S3.
   }
-  assert (S4 : (¬(∀ y, ¬ ¬ φ y)) → ¬(∀ x, φ x)).
+  assert (S4 : (¬ (∀ y, ¬¬ φ y)) → ¬ (∀ x, φ x)).
   {
-    pose proof (Transp2_16 (∀ x, φ x) (∀ y, ¬ ¬ φ y)) as Transp2_16.
+    pose proof (Transp2_16 (∀ x, φ x) (∀ y, ¬¬ φ y)) as Transp2_16.
     now MP Transp2_16 S3.
   }
-  assert (S5 : (∃ y, ¬ φ y) → ¬(∀ x, φ x)).
+  assert (S5 : (∃ y, ¬ φ y) → ¬ (∀ x, φ x)).
   { now rewrite <- n10_01 in S4. }
-  assert (S6 : (∀ y, ¬ ¬ φ y) → ¬ ¬ φ X).
+  assert (S6 : (∀ y, ¬¬ φ y) → ¬¬ φ X).
   {
-    exact (n10_1 (fun x => ¬ ¬ φ x) X).
+    exact (n10_1 (fun x => ¬¬ φ x) X).
   }
-  assert (S7 : (∀ y, ¬ ¬ φ y) → φ X).
+  assert (S7 : (∀ y, ¬¬ φ y) → φ X).
   {
     pose proof (n2_14 (φ X)) as n2_14.
     now Syll S6 n2_14 S7.
   }
-  assert (S8 : (∀ y, ¬ ¬ φ y) → (∀ x, φ x)).
+  assert (S8 : (∀ y, ¬¬ φ y) → (∀ x, φ x)).
   {
     (* n10_21 is ignored *)
     pose proof (n10_11 X φ) as n10_11.
     now Syll S7 n10_11 S8.
   }
-  assert (S9 : (¬(∀ x, φ x)) → ¬(∀ y, ¬ ¬ φ y)).
+  assert (S9 : (¬ (∀ x, φ x)) → ¬ (∀ y, ¬¬ φ y)).
   {
-    pose proof (Transp2_16  (∀ y, ¬ ¬ φ y) (∀ x, φ x)) as Transp2_16.
+    pose proof (Transp2_16  (∀ y, ¬¬ φ y) (∀ x, φ x)) as Transp2_16.
     now MP Transp2_16 S8.
   }
-  assert (S10 : (¬(∀ x, φ x)) → ∃ y, ¬(φ y)).
+  assert (S10 : (¬ (∀ x, φ x)) → ∃ y, ¬ (φ y)).
   { now rewrite <- n10_01 in S9. }
-  assert (S11 : (¬(∀ x, φ x)) ↔ ∃ x, ¬ φ x).
+  assert (S11 : (¬ (∀ x, φ x)) ↔ ∃ x, ¬ φ x).
   {
-    assert (C1 : ((¬(∀ x, φ x)) → ∃ x, ¬ φ x)
-      ∧ ((∃ x, ¬ φ x) → ¬(∀ x, φ x))).
+    assert (C1 : ((¬ (∀ x, φ x)) → ∃ x, ¬ φ x)
+      ∧ ((∃ x, ¬ φ x) → ¬ (∀ x, φ x))).
     {
       clear S1 S2 S3 S4 S6 S7 S8 S9.
       move S10 after S5.
@@ -574,17 +574,17 @@ Proof.
   (* ******** *)
   assert (S1 : (∀ x, φ x → ψ x) → (φ Y → ψ Y)).
   { exact (n10_1 (fun x => φ x → ψ x) Y). }
-  assert (S2 : (∀ x, φ x → ψ x) → ((¬ψ Y) → (¬φ Y))).
+  assert (S2 : (∀ x, φ x → ψ x) → ((¬ ψ Y) → (¬ φ Y))).
   {
     pose proof (Transp2_16 (φ Y) (ψ Y)) as Transp2_16.
     now Syll S1 Transp2_16 S2.
   }
-  assert (S3 : (∀ x, φ x → ψ x) → ∀ y, (¬ψ y) → (¬φ y)).
+  assert (S3 : (∀ x, φ x → ψ x) → ∀ y, (¬ ψ y) → (¬ φ y)).
   {
     pose proof (n10_11 Y (fun y => (∀ x, φ x → ψ x) 
-      → ((¬ψ y) → (¬φ y)))) as n10_11.
+      → ((¬ ψ y) → (¬ φ y)))) as n10_11.
     MP n10_11 S2.
-    now rewrite -> (n10_21 (fun y => (¬ψ y) → (¬φ y)) ((∀ x, φ x → ψ x)))
+    now rewrite -> (n10_21 (fun y => (¬ ψ y) → (¬ φ y)) ((∀ x, φ x → ψ x)))
       in n10_11.
   }
   assert (S4 : (∀ x, φ x → ψ x) → ((∀ y, ¬ ψ y) → (∀ y, ¬ φ y))).
@@ -1005,23 +1005,23 @@ Qed.
 Theorem n10_34 (φ : Prop → Prop) (P : Prop) :
   (∃ x, φ x → P) ↔ ((∀ x, φ x) → P).
 Proof.
-  assert (S1 : (∃ x, φ x → P) ↔ ¬(∀ x, ¬(φ x → P))).
+  assert (S1 : (∃ x, φ x → P) ↔ ¬ (∀ x, ¬ (φ x → P))).
   {
     pose proof (n4_2 (∃ x, φ x → P)) as n4_2.
     now rewrite -> n10_01 in n4_2 at 2.
   }
-  assert (S2 : (∃ x, φ x → P) ↔ ¬(∀ x, φ x ∧ ¬P)).
+  assert (S2 : (∃ x, φ x → P) ↔ ¬ (∀ x, φ x ∧ ¬ P)).
   {
     (* n10_271 ignored *)
     now setoid_rewrite -> n4_61 in S1.
   }
-  assert (S3 : (∃ x, φ x → P) ↔ ¬((∀ x, φ x) ∧ ¬P)).
+  assert (S3 : (∃ x, φ x → P) ↔ ¬ ((∀ x, φ x) ∧ ¬ P)).
   {
     (* In rigorous sense we should somehow use transitivity on equiv relation,
      or MP then compose proof back  *)
     now rewrite -> n10_33 in S2.
   }
-  assert (S4 : (∃ x, φ x → P) ↔ (¬∀ x, φ x) ∨ P).
+  assert (S4 : (∃ x, φ x → P) ↔ (¬ ∀ x, φ x) ∨ P).
   { now setoid_rewrite -> n4_53 in S3. }
   assert (S5 : (∃ x, φ x → P) ↔ ((∀ x, φ x ) → P)).
   { now setoid_rewrite <- n4_6 in S4. }
@@ -1099,24 +1099,24 @@ Proof.
   (* TOOLS *)
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : (φ X ∨ P) ↔ ((¬φ X) → P)).
+  assert (S1 : (φ X ∨ P) ↔ ((¬ φ X) → P)).
   {
     pose proof (n4_64 (φ X) P) as n4_64.
     now symmetry in n4_64.
   }
-  assert (S2 : ∀ x, (φ x ∨ P) ↔ ((¬φ x) → P)).
+  assert (S2 : ∀ x, (φ x ∨ P) ↔ ((¬ φ x) → P)).
   {
-    pose proof (n10_11 X (fun x => (φ x ∨ P) ↔ ((¬φ x) → P))) 
+    pose proof (n10_11 X (fun x => (φ x ∨ P) ↔ ((¬ φ x) → P))) 
       as n10_11.
     now MP n10_11 S1.
   }
-  assert (S3 : (∃ x, φ x ∨ P) ↔ (∃ x, (¬φ x) → P)).
+  assert (S3 : (∃ x, φ x ∨ P) ↔ (∃ x, (¬ φ x) → P)).
   {
-    pose proof (n10_281 (fun x => φ x ∨ P) (fun x => (¬φ x) → P)) 
+    pose proof (n10_281 (fun x => φ x ∨ P) (fun x => (¬ φ x) → P)) 
       as n10_281.
     now MP n10_281 S2.
   }
-  assert (S4 : (∃ x, φ x ∨ P) ↔ ((∀ x, ¬φ x) → P)).
+  assert (S4 : (∃ x, φ x ∨ P) ↔ ((∀ x, ¬ φ x) → P)).
   {
     (* Same as previous attempts, here we directly use `rewrite` rather than
     going on all the decomposing and recomposing *)
@@ -1137,7 +1137,7 @@ Proof.
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
     as Impl1_01a.
   (* ******** *)
-  pose proof (n10_36 φ (¬P)) as n10_36.
+  pose proof (n10_36 φ (¬ P)) as n10_36.
   rewrite -> n4_31 in n10_36.
   rewrite <- Impl1_01 in n10_36.
   setoid_rewrite -> n4_31 in n10_36.
@@ -1204,8 +1204,8 @@ Proof.
       as Simp3_26b.
     Syll n10_22bl Simp3_26b n10_22bl_1.
     clear n10_22al n10_22bl Simp3_26a Simp3_26b.
-    assert (C1 : (φ x<[-x-]>χ x  →  φ x-[x]>χ x)
-      ∧ (ψ x<[-x-]>θ x  →  ψ x-[x]>θ x)).
+    assert (C1 : (φ x<[-x-]>χ x → φ x-[x]>χ x)
+      ∧ (ψ x<[-x-]>θ x → ψ x-[x]>θ x)).
     { now Conj n10_22al_1 n10_22bl_1 C1. }
     pose proof (n3_47 
       (φ x <[-x-]> χ x) (ψ x <[-x-]> θ x)
@@ -1229,8 +1229,8 @@ Proof.
       as Simp3_27b.
     Syll n10_22bl Simp3_27b n10_22bl_1.
     clear n10_22al n10_22bl Simp3_27a Simp3_27b.
-    assert (C1 : (φ x<[-x-]>χ x  →  χ x-[x]>φ x )
-      ∧ (ψ x<[-x-]>θ x  →  θ x-[x]>ψ x )).
+    assert (C1 : (φ x<[-x-]>χ x → χ x-[x]>φ x )
+      ∧ (ψ x<[-x-]>θ x → θ x-[x]>ψ x )).
     { now Conj n10_22al_1 n10_22bl_1 C1. }
     pose proof (n3_47
       (φ x<[-x-]>χ x) (ψ x<[-x-]>θ x)
@@ -1277,42 +1277,42 @@ Proof.
   (* ******** *)
   assert (S1 : (∀ x, φ x) → φ Y).
   { now apply n10_1. }
-  assert (S2 : (∀ x, φ x) → (φ Y ∨  ψ Y)).
+  assert (S2 : (∀ x, φ x) → (φ Y ∨ ψ Y)).
   {
     pose proof (n2_2 (φ Y) (ψ Y)) as n2_2.
     now Syll S1 n2_2 S2.
   }
   assert (S3 : (∀ x, ψ x) → ψ Y).
   { now apply n10_1. }
-  assert (S4 : (∀ x, ψ x) → (φ Y ∨  ψ Y)).
+  assert (S4 : (∀ x, ψ x) → (φ Y ∨ ψ Y)).
   {
     pose proof (Add1_3 (φ Y) (ψ Y)) as Add1_3.
     now Syll S2 Add1_3 S3.
   }
-  assert (S5 : ((∀ x, φ x) → (φ Y ∨  ψ Y))
-    ∧ ((∀ x, ψ x) → (φ Y ∨  ψ Y))).
+  assert (S5 : ((∀ x, φ x) → (φ Y ∨ ψ Y))
+    ∧ ((∀ x, ψ x) → (φ Y ∨ ψ Y))).
   {
-    pose proof (n10_13 (fun y => (∀ x, φ x) → (φ y ∨  ψ y))
-      (fun y => (∀ x, ψ x) → (φ y ∨  ψ y)) Y) as n10_13.
+    pose proof (n10_13 (fun y => (∀ x, φ x) → (φ y ∨ ψ y))
+      (fun y => (∀ x, ψ x) → (φ y ∨ ψ y)) Y) as n10_13.
     MP n10_13 S2.
     now MP n10_13 S4.
   }
-  assert (S6 : ((∀ x, φ x) ∨  (∀ x, ψ x)) 
-    → (φ Y ∨  ψ Y)).
+  assert (S6 : ((∀ x, φ x) ∨ (∀ x, ψ x)) 
+    → (φ Y ∨ ψ Y)).
   {
     pose proof (n3_44 (φ Y ∨ ψ Y) (∀ x, φ x)
       (∀ x, ψ x)) as n3_44.
     now MP n3_44 S5.
   }
-  assert (S7 : ((∀ x, φ x) ∨  (∀ x, ψ x)) 
-    → (∀ y, φ y ∨  ψ y)).
+  assert (S7 : ((∀ x, φ x) ∨ (∀ x, ψ x)) 
+    → (∀ y, φ y ∨ ψ y)).
   {
     pose proof (n10_11 Y
-      (fun y => ((∀ x, φ x) ∨  (∀ x, ψ x)) 
-        → (φ y ∨  ψ y))) as n10_11.
+      (fun y => ((∀ x, φ x) ∨ (∀ x, ψ x)) 
+        → (φ y ∨ ψ y))) as n10_11.
     MP n10_11 S6.
-    pose proof (n10_21 (fun y => φ y ∨  ψ y)
-      ((∀ x, φ x) ∨  (∀ x, ψ x))) as n10_21.
+    pose proof (n10_21 (fun y => φ y ∨ ψ y)
+      ((∀ x, φ x) ∨ (∀ x, ψ x))) as n10_21.
     (* We don't use `MP` here and directly rewrite *)
     now rewrite -> n10_21 in n10_11.
   }
@@ -1333,7 +1333,7 @@ Proof.
       (fun x => ψ x ↔ θ x) X).
   }
   assert (S2 : ((φ x <[- x -]> χ x) ∧ ((ψ x <[- x -]> θ x)))
-    → ((φ X ∨  ψ X) ↔ (χ X ∨  θ X))).
+    → ((φ X ∨ ψ X) ↔ (χ X ∨ θ X))).
   {
     pose proof (n4_39 (φ X) (ψ X) (χ X) (θ X)) as n4_39.
     now Syll n4_39 S1 S2.
@@ -1344,11 +1344,11 @@ Proof.
     pose proof (n10_11 X
       (fun x0 =>
         ((φ x <[- x -]> χ x) ∧ ((ψ x <[- x -]> θ x)))
-          → ((φ x0 ∨  ψ x0) ↔ (χ x0 ∨  θ x0)))) 
+          → ((φ x0 ∨ ψ x0) ↔ (χ x0 ∨ θ x0)))) 
       as n10_11.
     MP n10_11 S2.
     pose proof (n10_21
-      (fun x0 => ((φ x0 ∨  ψ x0) ↔ (χ x0 ∨  θ x0)))
+      (fun x0 => ((φ x0 ∨ ψ x0) ↔ (χ x0 ∨ θ x0)))
       ((φ x <[- x -]> χ x) ∧ ((ψ x <[- x -]> θ x)))
     ) as n10_21.
     now rewrite -> n10_21 in n10_11.
@@ -1378,7 +1378,7 @@ Proof.
     as Impl1_01a.
   (* ******** *)
   assert (S1 : ((φ x <[- x -]> χ x) ∧ ((ψ x <[- x -]> θ x)))
-  → ((¬φ x) ∨  ψ x) <[- x -]> ((¬χ x) ∨  θ x)).
+  → ((¬ φ x) ∨ ψ x) <[- x -]> ((¬ χ x) ∨ θ x)).
   {
     pose proof (n10_411 (fun x => ¬ φ x) ψ 
       (fun x => ¬ χ x) θ) as n10_411.
@@ -1411,10 +1411,10 @@ Proof.
   {
     pose proof (n10_413 φ ψ χ θ) as n10_413.
     assert (C1 :
-      (( φ x<[-x-]>χ x ) ∧  ψ x<[-x-]>θ x  →  
+      (( φ x<[-x-]>χ x ) ∧  ψ x<[-x-]>θ x  → 
         (ψ x → φ x)<[-x-]>(θ x → χ x))
-      ∧
-      (( φ x<[-x-]>χ x ) ∧  ψ x<[-x-]>θ x  →  
+      ∧ 
+      (( φ x<[-x-]>χ x ) ∧  ψ x<[-x-]>θ x  → 
         (φ x → ψ x)<[-x-]>(χ x → θ x) )).
     { now Conj S1 n10_413 C1. }
     pose proof (n10_4
@@ -1449,11 +1449,11 @@ Proof.
       (fun x => ¬ φ x) (fun x => ¬ ψ x)) as n10_22.
     now symmetry in n10_22.
   }
-  assert (S2 : (¬((∀ x, ¬ φ x) ∧ (∀ x, ¬ ψ x)))
-    ↔ (¬(∀ x, (¬ φ x) ∧ (¬ ψ x)))).
+  assert (S2 : (¬ ((∀ x, ¬ φ x) ∧ (∀ x, ¬ ψ x)))
+    ↔ (¬ (∀ x, (¬ φ x) ∧ (¬ ψ x)))).
   { now rewrite -> Transp4_11 in S1. }
-  assert (S3 : ((¬(∀ x, ¬ φ x)) ∨  (¬(∀ x, ¬ ψ x)))
-    ↔ (¬(∀ x, ¬(φ x ∨ ψ x)))).
+  assert (S3 : ((¬ (∀ x, ¬ φ x)) ∨ (¬ (∀ x, ¬ ψ x)))
+    ↔ (¬ (∀ x, ¬ (φ x ∨ ψ x)))).
   {
     rewrite -> n4_51 in S2.
     pose proof n4_56 as n4_56.
@@ -1473,12 +1473,12 @@ Proof.
 Qed.
 
 Theorem n10_43 (φ ψ : Prop → Prop) (X : Prop) :
-  ((φ z <[- z -]> ψ z) ∧ φ X) ↔
+  ((φ z <[- z -]> ψ z) ∧ φ X) ↔ 
   ((φ z <[- z -]> ψ z) ∧ ψ X).
 Proof.
   assert (S1 : (φ z <[- z -]> ψ z) → (φ X ↔ ψ X)).
   { now apply n10_1. }
-  assert (S2 : ((φ z <[- z -]> ψ z) ∧ φ X) ↔
+  assert (S2 : ((φ z <[- z -]> ψ z) ∧ φ X) ↔ 
     ((φ z <[- z -]> ψ z) ∧ ψ X)).
   { now rewrite -> n5_32 in S1. }
   exact S2.
@@ -1525,12 +1525,12 @@ Proof.
 Qed.
 
 Theorem n10_51 (φ ψ : Prop → Prop) :
-  ¬(∃ x, φ x ∧ ψ x) ↔ (φ x -[ x ]> ¬ ψ x).
+  ¬ (∃ x, φ x ∧ ψ x) ↔ (φ x -[ x ]> ¬ ψ x).
 Proof.
-  assert (S1 : (¬(∃ x, φ x ∧ ψ x)) 
-    ↔ (∀ x, ¬(φ x ∧ ψ x))).
+  assert (S1 : (¬ (∃ x, φ x ∧ ψ x)) 
+    ↔ (∀ x, ¬ (φ x ∧ ψ x))).
   { now apply n10_252. }
-  assert (S2 : ¬(∃ x, φ x ∧ ψ x) ↔ (φ x -[ x ]> ¬ ψ x)).
+  assert (S2 : ¬ (∃ x, φ x ∧ ψ x) ↔ (φ x -[ x ]> ¬ ψ x)).
   {
     (* n10_271 ignored *)
     setoid_rewrite -> n4_51 in S1.
@@ -1556,7 +1556,7 @@ Proof.
 Qed.
 
 Theorem n10_53 (φ ψ : Prop → Prop) :
-  ¬(∃ x, φ x) → (φ x -[ x ]> ψ x).
+  ¬ (∃ x, φ x) → (φ x -[ x ]> ψ x).
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
@@ -1574,7 +1574,7 @@ Proof.
       as n10_27.
     now MP n10_27 S1.
   }
-  assert (S3 : ¬(∃ x, φ x) → (φ x -[ x ]> ψ x)).
+  assert (S3 : ¬ (∃ x, φ x) → (φ x -[ x ]> ψ x)).
   { now rewrite <- n10_252 in S2. }
   exact S3.
 Qed.
@@ -1595,13 +1595,13 @@ Proof.
     now setoid_rewrite -> Impl1_01a in n4_2 at 2.
   }
   assert (S2 : (φ y -[ y ]> (P ∨ ψ y)) 
-    ↔ (∀ y, P ∨ (¬φ y) ∨ ψ y)).
+    ↔ (∀ y, P ∨ (¬ φ y) ∨ ψ y)).
   {
     (* n10_271 ignored *)
     now setoid_rewrite -> Assoc1_5Eq in S1.
   }
   assert (S3 : (φ y -[ y ]> (P ∨ ψ y)) 
-    ↔ (P ∨ (∀ y, (¬φ y) ∨ ψ y))).
+    ↔ (P ∨ (∀ y, (¬ φ y) ∨ ψ y))).
   { now rewrite -> n10_2 in S2. }
   assert (S4 : (φ y -[ y ]> (P ∨ ψ y)) ↔ (P ∨ (φ y -[ y ]> ψ y))).
   { now setoid_rewrite <- Impl1_01a in S3. }
@@ -1613,7 +1613,7 @@ Theorem n10_542 (φ ψ : Prop → Prop) (P : Prop) :
 Proof.
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
     as Impl1_01a.
-  pose proof (n10_541 φ ψ (¬P)) as n10_541.
+  pose proof (n10_541 φ ψ (¬ P)) as n10_541.
   now setoid_rewrite <- Impl1_01a in n10_541.
 Qed.
 
