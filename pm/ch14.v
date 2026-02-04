@@ -158,8 +158,8 @@ Proof.
     (* We can see that there are some (non?)trivial steps that still need to be
     finished... *)
     pose proof (n11_42
-      (fun x y => (Psi x0 <[- x0 -]> x0 = x ))
-      (fun x y => (Phi x0 <[- x0 -]> x0 = y ) ∧ f y x)
+      (fun x y => (Psi x0 <[- x0 -]> x0 = x))
+      (fun x y => (Phi x0 <[- x0 -]> x0 = y) ∧ f y x)
     ) as n11_42. simpl in n11_42.
     (* rewrite -> n11_42 in S3. *)
     pose proof n11_58 as n11_58.
@@ -502,7 +502,7 @@ Proof.
       (Phi z w) ↔ ((z = X) ∧ (w = Y)))) as n11_1a.
     pose proof (n11_1 U V (fun z w =>
       (Phi z w) ↔ ((z = X) ∧ (w = Y)))) as n11_1b.
-    pose proof (n3_47 ) as n3_47.
+    pose proof (n3_47) as n3_47.
     (* Involves some very complicated treatments on destructing
     and recombining the ↔s. We might want to abstract such 
     procedure into a new theorem *)
@@ -616,13 +616,13 @@ Proof.
     rewrite -> n11_45 in n11_34.
     now rewrite -> n4_3 in n11_34 at 1.
   }
-  assert (S10 : (∃ x y,  Phi z w <[- z w -]> z = x ∧ w = y )
+  assert (S10 : (∃ x y,  Phi z w <[- z w -]> z = x ∧ w = y)
     ↔ (∃ x y, Phi x y) 
       ∧ ∀ z w u v, Phi z w ∧ Phi u v → z = u ∧ w = v).
   {
     clear S2 S3 S4 S6 S7 S8.
-    assert (C1 : ((∃ x y,  Phi z w <[- z w -]> z = x ∧ w = y ) → ∃ x y : Prop, Phi x y)
-      ∧ ((∃ x y,  Phi z w <[- z w -]> z = x ∧ w = y )
+    assert (C1 : ((∃ x y,  Phi z w <[- z w -]> z = x ∧ w = y) → ∃ x y : Prop, Phi x y)
+      ∧ ((∃ x y,  Phi z w <[- z w -]> z = x ∧ w = y)
         → ∀ z w u v, Phi z w ∧ Phi u v → z = u ∧ w = v)).
     { clear S9. now Conj S1 S5 C1. }
     pose proof (Comp3_43
@@ -1007,7 +1007,7 @@ Proof.
       (iota_f s1 Phi (fun x => A = (Iota s1 x)))
       (iota_f s2 Psi (λ x : Prop, A = Iota s2 x))
       (Phi x <[- x -]> (x = A))
-      (∃ b, (Psi x <[- x -]> x = b ) ∧ A = Iota s2 b)) 
+      (∃ b, (Psi x <[- x -]> x = b) ∧ A = Iota s2 b)) 
       as n4_38.
     now MP n4_38 C1.
   }

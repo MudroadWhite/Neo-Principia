@@ -444,7 +444,7 @@ Proof.
   assert (S2 : ψ B → (∃ c, ((x = B) <[- x -]> (x = c)) ∧ ψ c)).
   {
     pose proof (n10_24 (fun c =>
-      (x = B <[- x -]> x = c ) ∧ ψ c) B) as n10_24.
+      (x = B <[- x -]> x = c) ∧ ψ c) B) as n10_24.
     now Syll S1 n10_24 S2.
   }
   assert (S3 : ((x = B <[- x -]> x = C) ∧ (ψ C)) 
@@ -606,7 +606,7 @@ Proof.
     ↔ ((z = X) -[ z ]> ((w = Y) -[ w ]> (φ z w)))).
   { apply n11_62. }
   assert (S2 : (((z = X) ∧ (w = Y)) -[ z w ]> (φ z w))
-    ↔ ((w = Y) -[ w ]> φ X w )).
+    ↔ ((w = Y) -[ w ]> φ X w)).
   { now rewrite -> n13_191 in S1. }
   assert (S3 : (((z = X) ∧ (w = Y)) -[ z w ]> (φ z w)) ↔ (φ X Y)).
   { now rewrite -> n13_191 in S2. }

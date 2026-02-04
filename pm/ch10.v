@@ -42,7 +42,7 @@ Notation " A -[ x : P ]> B " := (∀ (x : P), A → B)
 Open Scope single_app_impl.
 Open Scope single_app_equiv.
 
-Notation " A -[ x ]> B " := ((A -[ x : Prop ]> B ))
+Notation " A -[ x ]> B " := ((A -[ x : Prop ]> B))
   (at level 80, x name, right associativity,
   format " A '/' '[ ' -[ x ]> ']' '/' B ")
   : single_app_impl.
@@ -1023,7 +1023,7 @@ Proof.
   }
   assert (S4 : (∃ x, φ x → P) ↔ (¬ ∀ x, φ x) ∨ P).
   { now setoid_rewrite -> n4_53 in S3. }
-  assert (S5 : (∃ x, φ x → P) ↔ ((∀ x, φ x ) → P)).
+  assert (S5 : (∃ x, φ x → P) ↔ ((∀ x, φ x) → P)).
   { now setoid_rewrite <- n4_6 in S4. }
   exact S5.
 Qed.
@@ -1229,12 +1229,12 @@ Proof.
       as Simp3_27b.
     Syll n10_22bl Simp3_27b n10_22bl_1.
     clear n10_22al n10_22bl Simp3_27a Simp3_27b.
-    assert (C1 : (φ x <[- x -]> χ x → χ x -[ x ]> φ x )
-      ∧ (ψ x <[- x -]> θ x → θ x -[ x ]> ψ x )).
+    assert (C1 : (φ x <[- x -]> χ x → χ x -[ x ]> φ x)
+      ∧ (ψ x <[- x -]> θ x → θ x -[ x ]> ψ x)).
     { now Conj n10_22al_1 n10_22bl_1 C1. }
     pose proof (n3_47
       (φ x <[- x -]> χ x) (ψ x <[- x -]> θ x)
-      (χ x -[ x ]> φ x ) (θ x -[ x ]> ψ x)
+      (χ x -[ x ]> φ x) (θ x -[ x ]> ψ x)
     ) as n3_47.
     MP n3_47 C1.
     pose proof (n10_39 χ θ φ ψ) as n10_39.
@@ -1248,7 +1248,7 @@ Proof.
       ((φ x <[- x -]> χ x) ∧ ψ x <[- x -]> θ x 
         → (φ x ∧ ψ x) -[ x ]> χ x ∧ θ x)
       ∧
-      ((φ x <[- x -]> χ x ) ∧ ψ x <[- x -]> θ x 
+      ((φ x <[- x -]> χ x) ∧ ψ x <[- x -]> θ x 
         → (χ x ∧ θ x) -[ x ]> φ x ∧ ψ x)).
     { now Conj S1 S3 C1. }
     pose proof (Comp3_43
@@ -1411,11 +1411,11 @@ Proof.
   {
     pose proof (n10_413 φ ψ χ θ) as n10_413.
     assert (C1 :
-      ((φ x <[- x -]> χ x ) ∧  ψ x <[- x -]> θ x  →
+      ((φ x <[- x -]> χ x) ∧  ψ x <[- x -]> θ x  →
         (ψ x → φ x) <[- x -]> (θ x → χ x))
       ∧
-      ((φ x <[- x -]> χ x ) ∧  ψ x <[- x -]> θ x  →
-        (φ x → ψ x) <[- x -]> (χ x → θ x) )).
+      ((φ x <[- x -]> χ x) ∧  ψ x <[- x -]> θ x  →
+        (φ x → ψ x) <[- x -]> (χ x → θ x))).
     { now Conj S1 n10_413 C1. }
     pose proof (n10_4
       (fun x => ψ x → φ x)
@@ -1424,7 +1424,7 @@ Proof.
       (fun x => χ x → θ x)
       ) as n10_4.
     pose proof (n4_76
-      ((φ x <[- x -]> χ x ) ∧  ψ x <[- x -]> θ x)
+      ((φ x <[- x -]> χ x) ∧  ψ x <[- x -]> θ x)
       ((ψ x → φ x) <[- x -]> (θ x → χ x))
       ((φ x → ψ x) <[- x -]> (χ x → θ x))
       ) as n4_76.
@@ -1654,7 +1654,7 @@ Proof.
     rewrite -> n5_32 in S3.
     rewrite -> n4_3 in S3.
     pose proof n4_3.
-    now rewrite -> (n4_3 (φ x -[ x ]> ψ x ) (∃ x, φ x)) in S3.
+    now rewrite -> (n4_3 (φ x -[ x ]> ψ x) (∃ x, φ x)) in S3.
   }
   exact S4.
 Qed.
@@ -1696,7 +1696,7 @@ Proof.
       (φ x -[ x ]> (ψ x ∨ χ x))) as Fact3_45.
     MP Fact3_45 n10_51l.
     rewrite -> n4_3 in Fact3_45.
-    now rewrite -> (n4_3 (φ x -[ x ]> ¬ χ x ) (φ x -[ x ]> (ψ x ∨ χ x)))
+    now rewrite -> (n4_3 (φ x -[ x ]> ¬ χ x) (φ x -[ x ]> (ψ x ∨ χ x)))
       in Fact3_45.
   }
   assert (S2 : ((φ x -[ x ]> (ψ x ∨ χ x)) 
