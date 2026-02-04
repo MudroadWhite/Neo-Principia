@@ -320,7 +320,7 @@ Proof.
       (¬ (P ∧ Q → ¬ R) ↔ ¬ (P → ¬ (Q ∧ R))) in n4_15a
       by now apply Transp4_11a.
   replace (P ∧ Q → ¬ R) with 
-      (¬ (P ∧ Q ) ∨ ¬ R) in n4_15a
+      (¬ (P ∧ Q) ∨ ¬ R) in n4_15a
       by now rewrite Impl1_01.
   replace (P → ¬ (Q ∧ R)) with 
       (¬ P ∨ ¬ (Q ∧ R)) in n4_15a
@@ -329,7 +329,7 @@ Proof.
       ((P ∧ Q) ∧ R) in n4_15a
       by now rewrite Prod3_01.
   replace (¬ (¬ P ∨ ¬ (Q ∧ R))) with 
-      (P ∧ (Q ∧ R )) in n4_15a
+      (P ∧ (Q ∧ R)) in n4_15a
       by now rewrite Prod3_01.
   exact n4_15a.
 Qed.

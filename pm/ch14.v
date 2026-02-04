@@ -152,14 +152,14 @@ Proof.
   {
     pose proof (n11_55
       (fun c => (Psi x <[- x -]> (x = c)))
-      (fun c b => ( Phi x<[- x -]> (x = b)) ∧ f b c)
+      (fun c b => (Phi x <[- x -]> (x = b)) ∧ f b c)
     ) as n11_55.
     rewrite <- n11_55 in S3.
     (* We can see that there are some (non?)trivial steps that still need to be
     finished... *)
     pose proof (n11_42
-      (fun x y => ( Psi x0<[-x0-]>x0 = x ))
-      (fun x y => ( Phi x0<[-x0-]>x0 = y ) ∧ f y x)
+      (fun x y => (Psi x0 <[- x0 -]> x0 = x ))
+      (fun x y => (Phi x0 <[- x0 -]> x0 = y ) ∧ f y x)
     ) as n11_42. simpl in n11_42.
     (* rewrite -> n11_42 in S3. *)
     pose proof n11_58 as n11_58.
@@ -286,7 +286,7 @@ Proof.
     pose proof (n10_1 (fun x => Phi x ↔ (x = C)) B) as n10_1b.
     Conj n10_1a n10_1b C1.
     pose proof (n3_47
-      (Phi x<[-x-]>x = B) (Phi x<[-x-]>x = C)
+      (Phi x <[- x -]> x = B) (Phi x <[- x -]> x = C)
       (Phi B ↔ (B = B)) (Phi B ↔ (B = C))
     ) as n3_47.
     now MP n3_47 C1.
@@ -572,7 +572,7 @@ Proof.
     rewrite -> A1 in n11_1.
     pose proof (Fact3_45
       (∀ z w x y : Prop, Phi z w ∧ Phi x y → z = x ∧ w = y)
-      ((Phi z w ∧ Phi X Y)-[ z w ]> z = X ∧ w = Y)
+      ((Phi z w ∧ Phi X Y) -[ z w ]> z = X ∧ w = Y)
       (Phi X Y)) as Fact3_45.
     MP Fact3_45 n11_1.
     rewrite -> n4_3 in Fact3_45.
@@ -616,7 +616,7 @@ Proof.
     rewrite -> n11_45 in n11_34.
     now rewrite -> n4_3 in n11_34 at 1.
   }
-  assert (S10 : (∃ x y,  Phi z w<[- z w -]>z = x ∧ w = y )
+  assert (S10 : (∃ x y,  Phi z w <[- z w -]> z = x ∧ w = y )
     ↔ (∃ x y, Phi x y) 
       ∧ ∀ z w u v, Phi z w ∧ Phi u v → z = u ∧ w = v).
   {
@@ -1001,13 +1001,13 @@ Proof.
     assert (C1 : (iota_f s1 Phi (λ x, A = Iota s1 x) 
         ↔ Phi x <[- x -]> x = A)
       ∧ (iota_f s2 Psi (λ x, A = Iota s2 x)
-        ↔ ∃ b, ( Psi x <[- x -]> x = b) ∧ A = Iota s2 b)).
+        ↔ ∃ b, (Psi x <[- x -]> x = b) ∧ A = Iota s2 b)).
     { clear S1. now Conj S2 n14_1 C1. }
     pose proof (n4_38
       (iota_f s1 Phi (fun x => A = (Iota s1 x)))
       (iota_f s2 Psi (λ x : Prop, A = Iota s2 x))
       (Phi x <[- x -]> (x = A))
-      (∃ b, ( Psi x<[-x-]>x = b ) ∧ A = Iota s2 b)) 
+      (∃ b, (Psi x <[- x -]> x = b ) ∧ A = Iota s2 b)) 
       as n4_38.
     now MP n4_38 C1.
   }

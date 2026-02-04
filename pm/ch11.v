@@ -1118,16 +1118,16 @@ Qed.
 Open Scope single_app_impl.
 
 Theorem n11_59 (φ ψ : Prop → Prop) :
-  (φ x -[x]> ψ x) ↔ ((φ x ∧ φ y) -[x y]> (ψ x ∧ ψ y)).
+  (φ x -[ x ]> ψ x) ↔ ((φ x ∧ φ y) -[ x y ]> (ψ x ∧ ψ y)).
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
   set (Y := Individual "y").
   (* ******** *)
-  assert (S1 : (φ x -[x]> ψ x) 
+  assert (S1 : (φ x -[ x ]> ψ x) 
     ↔ (∀ x y, (φ x → ψ x) ∧ (φ y → ψ y))).
   { apply n11_57. }
-  assert (S2 : (φ x -[x]> ψ x) 
+  assert (S2 : (φ x -[ x ]> ψ x) 
     → (∀ x y, (φ x ∧ φ y) → (ψ x ∧ ψ y))).
   {
     pose proof (n3_47 (φ X) (φ Y) (ψ X) (ψ Y)) as n3_47.
@@ -1160,18 +1160,18 @@ Proof.
     now repeat rewrite <- n4_24 in n11_11.
   }
   assert (S5 : (∀ x y, (φ x ∧ φ y) → (ψ x ∧ ψ y)) 
-    → (φ x -[x]> ψ x)).
+    → (φ x -[ x ]> ψ x)).
   {
     pose proof (n10_11 X (fun x =>
-      ((φ x ∧ φ y)-[x y]>ψ x ∧ ψ y)
+      ((φ x ∧ φ y) -[ x y ]> ψ x ∧ ψ y)
       → (φ x → ψ x))) as n10_11.
     MP n10_11 S4.
     pose proof (n10_21 (fun x =>φ x → ψ x)
-      (((φ x ∧ φ y) -[x y]> ψ x ∧ ψ y))) as n10_21.
+      (((φ x ∧ φ y) -[ x y ]> ψ x ∧ ψ y))) as n10_21.
     now rewrite -> n10_21 in n10_11.
   }
-  assert (S6 : (φ x -[x]> ψ x) ↔
-    ((φ x ∧ φ y) -[x y]> (ψ x ∧ ψ y))).
+  assert (S6 : (φ x -[ x ]> ψ x) ↔
+    ((φ x ∧ φ y) -[ x y ]> (ψ x ∧ ψ y))).
   {
     clear S1 S3 S4.
     Conj S2 S5 S6.
@@ -1229,12 +1229,12 @@ Proof.
 Qed.
 
 Theorem n11_61 (φ : Prop → Prop) (ψ : Prop → Prop → Prop) :
-  (∃ y, (φ x -[x]> ψ x y)) → (φ x -[x]> ∃ y, ψ x y).
+  (∃ y, (φ x -[ x ]> ψ x y)) → (φ x -[ x ]> ∃ y, ψ x y).
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : (∃ y, (φ x -[x]> ψ x y)) →
+  assert (S1 : (∃ y, (φ x -[ x ]> ψ x y)) →
     (∀ x, ∃ y, φ x → ψ x y)).
   { apply n11_26. }
   assert (S2 : (∃ y, φ X → ψ X y) → (φ X → ∃ y, ψ X y)).
@@ -1249,19 +1249,19 @@ Proof.
       (fun x => φ x → ∃ y, ψ x y)) as n10_27.
     now MP n10_27 n10_11.
   }
-  assert (S4 : (∃ y, (φ x -[x]> ψ x y)) → (φ x -[x]> ∃ y, ψ x y)).
+  assert (S4 : (∃ y, (φ x -[ x ]> ψ x y)) → (φ x -[ x ]> ∃ y, ψ x y)).
   { clear S2. now Syll S1 S3 S4. }
   exact S4.
 Qed.
 
 Theorem n11_62 (φ : Prop → Prop) (ψ χ : Prop → Prop → Prop) :
-  ((φ x ∧ ψ x y) -[x y]> χ x y) ↔ (φ x -[x]> (ψ x y -[y]> χ x y)).
+  ((φ x ∧ ψ x y) -[ x y ]> χ x y) ↔ (φ x -[ x ]> (ψ x y -[ y ]> χ x y)).
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
   set (Y := Individual "y").
   (* ******** *)
-  assert (S1 : ((φ x ∧ ψ x y) -[x y]> χ x y) 
+  assert (S1 : ((φ x ∧ ψ x y) -[ x y ]> χ x y) 
     ↔ (∀ x y, φ x → (ψ x y → χ x y))).
   {
     pose proof (n4_87 (φ X) (ψ X Y) (χ X Y)) as n4_87.
@@ -1273,7 +1273,7 @@ Proof.
       (fun x y => φ x → ψ x y → χ x y)) as n11_33.
     now MP n11_33 n11_11.
   }
-  assert (S2 : ((φ x ∧ ψ x y) -[x y]> χ x y) 
+  assert (S2 : ((φ x ∧ ψ x y) -[ x y ]> χ x y) 
     ↔ (∀ x, φ x → (∀ y, ψ x y → χ x y))).
   {
     (* This proof is a little different: it only instantiates at the
@@ -1292,7 +1292,7 @@ Proof.
 Qed.
 
 Theorem n11_63 (φ ψ : Prop → Prop → Prop) :
-  (¬ ∃ x y, φ x y) → (φ x y -[x y]> ψ x y).
+  (¬ ∃ x y, φ x y) → (φ x y -[ x y ]> ψ x y).
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
@@ -1312,7 +1312,7 @@ Proof.
       (fun x y => φ x y → ψ x y)) as n11_32.
     now MP n11_32 S1.
   }
-  assert (S3 : (¬ ∃ x y, φ x y) → (φ x y -[x y]> ψ x y)).
+  assert (S3 : (¬ ∃ x y, φ x y) → (φ x y -[ x y ]> ψ x y)).
   { now rewrite <- n11_25 in S2. }
   exact S3.
 Qed.
@@ -1338,8 +1338,8 @@ Qed.
 
 Theorem n11_71 (φ ψ χ θ : Prop → Prop) :
   ((∃ z, φ z) ∧ (∃ w, χ w))
-  → (((φ z -[z]> ψ z) ∧ (χ w -[w]> θ w))
-      ↔ ((φ z ∧ χ w) -[z w]> (ψ z ∧ θ w))).
+  → (((φ z -[ z ]> ψ z) ∧ (χ w -[ w ]> θ w))
+      ↔ ((φ z ∧ χ w) -[ z w ]> (ψ z ∧ θ w))).
 Proof.
   (* TOOLS *)
   set (Z := Individual "z").
@@ -1351,24 +1351,24 @@ Proof.
   { split; apply Comm2_04. }
   (* ******** *)
   assert (S1 : 
-    ((φ z -[z]> ψ z) ∧ (χ w -[w]> θ w))
+    ((φ z -[ z ]> ψ z) ∧ (χ w -[ w ]> θ w))
     → ((φ Z ∧ χ W) → ψ Z ∧ θ W)).
   {
     pose proof (n10_1 (fun z => φ z → ψ z) Z) as n10_1a.
     pose proof (n10_1 (fun w => χ w → θ w) W) as n10_1b.
     assert (C1 :
-      (φ x-[x]>ψ x → (φ Z → ψ Z))
+      (φ x -[ x ]> ψ x → (φ Z → ψ Z))
       ∧
-      (χ x-[x]>θ x → (χ W →θ W))).
+      (χ x -[ x ]> θ x → (χ W →θ W))).
     { now Conj n10_1a n10_1b C1. }
     pose proof (n3_47
-      (φ z-[z]>ψ z) (χ w-[w]>θ w)
+      (φ z -[ z ]> ψ z) (χ w -[ w ]> θ w)
       (φ Z → ψ Z) (χ W → θ W)) as n3_47a.
     MP n3_47a C1.
     pose proof (n3_47 (φ Z) (χ W) (ψ Z) (θ W)) as n3_47b.
     now Syll n3_47a n3_47b S1.
   }
-  assert (S2 : ((φ z -[z]> ψ z) ∧ (χ w -[w]> θ w))
+  assert (S2 : ((φ z -[ z ]> ψ z) ∧ (χ w -[ w ]> θ w))
     → (∀ z w, (φ z ∧ χ w) → ψ z ∧ θ w)).
   {
     (* We directly use `Syll` here for simplicity. Note that
@@ -1379,7 +1379,7 @@ Proof.
     now Syll S1 n11_11 S2.
   }
   assert (S3 : (∀ z w, (φ z ∧ χ w) → ψ z ∧ θ w)
-    → ((φ Z ∧ χ w) -[w]> (ψ Z ∧ θ w))).
+    → ((φ Z ∧ χ w) -[ w ]> (ψ Z ∧ θ w))).
   {
     exact (n10_1 
       (fun z => ∀ w, (φ z ∧ χ w) → ψ z ∧ θ w) Z).
@@ -1400,7 +1400,7 @@ Proof.
   (* This has been an extremely long proof, so I don't mind use more
   simplifications... *)
   assert (S6 : (∃ w, χ w) 
-    → (((φ z ∧ χ w) -[z w]> (ψ z ∧ θ w))
+    → (((φ z ∧ χ w) -[ z w ]> (ψ z ∧ θ w))
       → (φ Z → ψ Z))).
   {
     (* First we use the `Simpl` to delete the backmost part *)
@@ -1436,8 +1436,8 @@ Proof.
     now Syll S5_1 Comm2_04 S6.
   }
   assert (S7 : (∃ w, χ w) 
-    → (((φ z ∧ χ w) -[z w]> (ψ z ∧ θ w))
-      → (φ z -[z]> ψ z))).
+    → (((φ z ∧ χ w) -[ z w ]> (ψ z ∧ θ w))
+      → (φ z -[ z ]> ψ z))).
   {
     pose proof (n10_11 Z (fun z0 =>
       (∃ w, χ w) → (∀ z w, φ z ∧ χ w → ψ z ∧ θ w) 
@@ -1449,8 +1449,8 @@ Proof.
   clear S1 S3 S4 S5 S6.
   (* Similarly?! Wdym by similarly?!! *)
   assert (S8 : (∃ z, φ z) 
-    → (((φ z ∧ χ w) -[z w]> (ψ z ∧ θ w))
-      → (χ w -[w]> θ w))).
+    → (((φ z ∧ χ w) -[ z w ]> (ψ z ∧ θ w))
+      → (χ w -[ w ]> θ w))).
   {
     clear S7.
     assert (S5_2 : (∀ z w, (φ z ∧ χ w) → ψ z ∧ θ w)
@@ -1507,9 +1507,9 @@ Proof.
   }
   assert (S9 : ((∃ z, φ z) ∧ (∃ w, χ w))
     →  
-      ((φ z ∧ χ w) -[z w]> (ψ z ∧ θ w))
+      ((φ z ∧ χ w) -[ z w ]> (ψ z ∧ θ w))
       →
-      ((φ z -[z]> ψ z) ∧ (χ w -[w]> θ w))).
+      ((φ z -[ z ]> ψ z) ∧ (χ w -[ w ]> θ w))).
   {
     (* n3_47 ignored. Here we try to save the routine... *)
     intro Hp.
@@ -1530,8 +1530,8 @@ Proof.
     now MP Comp3_43 C1.
   }
   assert (S10 : ((∃ z, φ z) ∧ (∃ w, χ w))
-    → (((φ z -[z]> ψ z) ∧ (χ w -[w]> θ w))
-      ↔ ((φ z ∧ χ w) -[z w]> (ψ z ∧ θ w)))).
+    → (((φ z -[ z ]> ψ z) ∧ (χ w -[ w ]> θ w))
+      ↔ ((φ z ∧ χ w) -[ z w ]> (ψ z ∧ θ w)))).
   {
     clear S7 S8.
     (* Similarly, we save the rountine *)

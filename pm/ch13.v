@@ -444,10 +444,10 @@ Proof.
   assert (S2 : ψ B → (∃ c, ((x = B) <[- x -]> (x = c)) ∧ ψ c)).
   {
     pose proof (n10_24 (fun c =>
-      ( x = B<[-x-]>x = c ) ∧ ψ c) B) as n10_24.
+      (x = B <[- x -]> x = c ) ∧ ψ c) B) as n10_24.
     now Syll S1 n10_24 S2.
   }
-  assert (S3 : ((x = B <[-x-]> x = C) ∧ (ψ C)) 
+  assert (S3 : ((x = B <[- x -]> x = C) ∧ (ψ C)) 
     → (((B = B) ↔ (B = C)) ∧ ψ C)).
   {
     pose proof (n10_1 (fun x => (x = B) ↔ (x = C)) B) as n10_1.
@@ -455,7 +455,7 @@ Proof.
       (ψ C)) as Fact3_45.
     now MP Fact3_45 n10_1.
   }
-  assert (S4 : ((x = B <[-x-]> x = C) ∧ (ψ C)) 
+  assert (S4 : ((x = B <[- x -]> x = C) ∧ (ψ C)) 
     → ((B = C) ∧ (ψ C))).
   {
     pose proof (n5_501 (B = B) (B = C)) as n5_501.
@@ -463,7 +463,7 @@ Proof.
     MP n5_501 n13_15.
     now rewrite <- n5_501 in S3.
   }
-  assert (S5 : ((x = B <[-x-]> x = C) ∧ (ψ C)) → ψ B).
+  assert (S5 : ((x = B <[- x -]> x = C) ∧ (ψ C)) → ψ B).
   {
     pose proof (n13_13 C B ψ) as n13_13.
     pose proof (n13_16 B C) as n13_16.
@@ -471,7 +471,7 @@ Proof.
     rewrite -> n4_3 in n13_13.
     now Syll S4 n13_13 S5.
   }
-  assert (S6 : (∃ c, ((x = B <[-x-]> x = c) ∧ ψ c)) → ψ B).
+  assert (S6 : (∃ c, ((x = B <[- x -]> x = c) ∧ ψ c)) → ψ B).
   {
     pose proof (n10_11 C (fun c =>
       (∀ x, x = B ↔ x = c) ∧ ψ c → ψ B)) 
