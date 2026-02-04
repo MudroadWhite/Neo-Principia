@@ -337,7 +337,6 @@ Proof.
   assert (S1 : (∃ x, ∀ y, φ x y) → (∃ x, φ x Y)).
   {
     pose proof (n10_1 (fun y => φ X y) Y) as n10_1.
-    simpl in n10_1.
     pose proof (n10_11 X (fun x => (∀ y, φ x y) → φ x Y))
       as n10_11.
     MP n10_11 n10_1.
@@ -469,7 +468,7 @@ Theorem n11_33 (φ ψ : Prop → Prop → Prop) :
 Proof.
   set (X := Individual "x").
   pose proof (n10_271 (fun y => φ X y) (fun y => ψ X y)) 
-    as n10_271a. simpl in n10_271a.
+    as n10_271a.
   pose proof (n10_271 (fun x => ∀ y, φ x y)
     (fun x => ∀ y, ψ x y)) as n10_271b.
   pose proof (n10_11 X (fun x =>
@@ -488,10 +487,10 @@ Theorem n11_34 (φ ψ : Prop → Prop → Prop) :
 Proof.
   set (X := Individual "x").
   pose proof (n10_28 (fun y => φ X y) (fun y => ψ X y)) 
-    as n10_28a. simpl in n10_28a.
+    as n10_28a.
   pose proof (n10_11 X (fun x => 
     ((∀ y, φ x y → ψ x y)
-    → (∃ y, φ x y) → ∃ y, ψ x y))) as n10_11. simpl in n10_11.
+    → (∃ y, φ x y) → ∃ y, ψ x y))) as n10_11.
   MP n10_11 n10_28a.
   pose proof (n10_27 (fun x => (∀ y, φ x y → ψ x y))
     (fun x => (∃ y, φ x y) → ∃ y, ψ x y)) as n10_27.
@@ -638,7 +637,6 @@ Proof.
   MP n11_32a n11_11.
   pose proof (n11_32 (fun x y => φ x y ∧ χ x y) 
     (fun x y => ψ x y ∧ θ x y)) as n11_32b.
-    simpl in n11_32b.
   Syll n11_32a n11_32b S1.
   now rewrite <- n11_31 in S1.
 Qed.
@@ -765,7 +763,7 @@ Theorem n11_421 (φ ψ : Prop → Prop → Prop) :
   → (∀ x y, φ x y ∨ ψ x y).
 Proof.
   pose proof (n11_42 (fun x y => ¬ φ x y) 
-    (fun x y => ¬ ψ x y)) as n11_42. simpl in n11_42.
+    (fun x y => ¬ ψ x y)) as n11_42.
   pose proof (Transp2_16 (∃ x y, ¬ φ x y ∧ ¬ ψ x y)
     ((∃ x y, ¬ φ x y) ∧ ∃ x y, ¬ ψ x y)) 
     as Transp2_16.
@@ -796,7 +794,6 @@ Theorem n11_44 (P : Prop) (φ : Prop → Prop → Prop) :
 Proof.
   set (X := Individual "x").
   pose proof (n10_2 (fun y => φ X y) P) as n10_2a.
-  simpl in n10_2a.
   pose proof (n10_11 X (fun x => (∀ y, P ∨ φ x y) 
     ↔ P ∨ ∀ y, φ x y)) as n10_11.
   MP n10_11 n10_2a.
@@ -841,7 +838,6 @@ Theorem n11_47 (P : Prop) (φ : Prop → Prop → Prop) :
 Proof.
   set (X := Individual "x").
   pose proof (n10_33 (fun y => φ X y) P) as n10_33a. 
-  simpl in n10_33a.
   pose proof (n10_11 X (fun x =>
     (∀ y, φ x y ∧ P) ↔ (∀ y, φ x y) ∧ P)) as n10_11.
   MP n10_11 n10_33a.
@@ -909,7 +905,6 @@ Proof.
   assert (S1 : (∃ x, ∀ y, φ x y) ↔ (¬ ∀ x, ¬ ∀ y, φ x y)).
   {
     pose proof (n10_252 (fun x => ∀ y, φ x y)) as n10_252.
-    simpl in n10_252.
     rewrite -> Transp4_11 in n10_252.
     now rewrite <- n4_13 in n10_252.
   }
@@ -955,7 +950,6 @@ Proof.
     MP n11_11 S2.
     pose proof (n11_33 (fun x y => ¬ (φ x y ∧ ψ x y))
       (fun x y => φ x y → ¬ ψ x y)) as n11_33.
-      simpl in n11_33.
     now MP n11_33 n11_11.
   }
   assert (S3 : (∃ x y, φ x y ∧ ψ x y) ↔
@@ -1146,7 +1140,6 @@ Proof.
   {
     pose proof (n11_1 X X (fun x y => 
       (φ x ∧ φ y) → (ψ x ∧ ψ y))) as n11_11.
-    simpl in n11_11.
     now repeat rewrite <- n4_24 in n11_11.
   }
   assert (S5 : (∀ x y, (φ x ∧ φ y) → (ψ x ∧ ψ y)) 

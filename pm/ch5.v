@@ -364,8 +364,7 @@ Proof.
   pose proof (Simp3_26 (((P ↔ Q) ↔ P ∧ Q ∨ ¬ P ∧ ¬ Q)
     → (¬ (P ↔ Q) ↔ ¬ (P ∧ Q ∨ ¬ P ∧ ¬ Q))) 
     ((¬ (P ↔ Q) ↔ ¬ (P ∧ Q ∨ ¬ P ∧ ¬ Q))
-    → ((P ↔ Q) ↔ P ∧ Q ∨ ¬ P ∧ ¬ Q))
-  ) as Simp3_26a.
+    → ((P ↔ Q) ↔ P ∧ Q ∨ ¬ P ∧ ¬ Q))) as Simp3_26a.
   MP Simp3_26a Transp4_11a.
   MP Simp3_26a n5_23a.
   pose proof (n5_22 P Q) as n5_22a.
@@ -807,10 +806,10 @@ Proof.
   pose proof (n4_87 P (¬ Q) R) as n4_87.
   (* For simplicity... we will just destruct the branch that we want
   to apply in the following proof. Originally this involves `Simp` *)
-  destruct n4_87 as [n4_87a n4_87r]. clear n4_87r.
+  destruct n4_87 as [n4_87a _].
   assert (S1 : (P ∧ ¬ Q → R) → (P → Q ∨ R)).
   {
-    destruct n4_87a as [n4_87al n4_87ar]. clear n4_87ar.
+    destruct n4_87a as [n4_87al _].
     pose proof (n4_64 Q R) as n4_64.
     pose proof (n4_85 (¬ Q → R) (Q ∨ R) P) as n4_85.
     MP n4_85 n4_64.
@@ -818,7 +817,7 @@ Proof.
   }
   assert (S2 : (P → Q ∨ R) → (P ∧ ¬ Q → R)).
   {
-    destruct n4_87a as [n4_87al n4_87ar]. clear n4_87al.
+    destruct n4_87a as [_ n4_87ar].
     pose proof (n4_64 Q R) as n4_64.
     pose proof (n4_85 (¬ Q → R) (Q ∨ R) P) as n4_85.
     MP n4_85 n4_64.
@@ -1035,10 +1034,9 @@ Proof.
   assert (S2 : (Q → ¬ R) → ~(Q ∧ R)).
   {
     pose proof (n4_62 Q R) as n4_62.
-    destruct n4_62 as [n4_62l n4_62r].
+    destruct n4_62 as [n4_62l _].
     pose proof (n4_51 Q R) as n4_51.
-    destruct n4_51 as [n4_51l n4_51r].
-    clear n4_62r n4_51l.
+    destruct n4_51 as [_ n4_51r].
     Syll n4_62l n4_51r S2.
     exact S2.
   }
