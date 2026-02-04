@@ -152,15 +152,13 @@ Proof.
   {
     pose proof (n11_55
       (fun c => (Psi x <[- x -]> (x = c)))
-      (fun c b => (Phi x <[- x -]> (x = b)) ∧ f b c)
-    ) as n11_55.
+      (fun c b => (Phi x <[- x -]> (x = b)) ∧ f b c)) as n11_55.
     rewrite <- n11_55 in S3.
     (* We can see that there are some (non?)trivial steps that still need to be
     finished... *)
     pose proof (n11_42
       (fun x y => (Psi x0 <[- x0 -]> x0 = x))
-      (fun x y => (Phi x0 <[- x0 -]> x0 = y) ∧ f y x)
-    ) as n11_42. simpl in n11_42.
+      (fun x y => (Phi x0 <[- x0 -]> x0 = y) ∧ f y x)) as n11_42. simpl in n11_42.
     (* rewrite -> n11_42 in S3. *)
     pose proof n11_58 as n11_58.
     admit.
@@ -263,8 +261,7 @@ Proof.
     → ((Phi x ∧ Phi y) -[ x y ]> (x = y))).
   {
     pose proof (n10_11 B (fun b =>
-      Phi x <[- x -]> x = b  →  (Phi x ∧ Phi y) -[ x y ]> (x = y)
-      )) as n10_11.
+      Phi x <[- x -]> x = b  →  (Phi x ∧ Phi y) -[ x y ]> (x = y))) as n10_11.
     MP n10_11 S3.
     now rewrite -> n10_23 in n10_11.
   }
@@ -287,8 +284,7 @@ Proof.
     Conj n10_1a n10_1b C1.
     pose proof (n3_47
       (Phi x <[- x -]> x = B) (Phi x <[- x -]> x = C)
-      (Phi B ↔ (B = B)) (Phi B ↔ (B = C))
-    ) as n3_47.
+      (Phi B ↔ (B = B)) (Phi B ↔ (B = C))) as n3_47.
     now MP n3_47 C1.
   }
   assert (S2 : ((Phi x <[- x -]> x = B) ∧ (Phi x <[- x -]> x = C))
@@ -554,8 +550,7 @@ Proof.
     rewrite <- n11_3 in n11_11a.
     pose proof (n11_11 Z W (fun z w =>
     (∃ x y, Phi z w <[- z w -]> ((z = x) ∧ (w = y)))
-      → (∀ u v, ((Phi z w) ∧ (Phi u v)) → ((z = u) ∧ (w = v)))
-      )) as n11_11b.
+      → (∀ u v, ((Phi z w) ∧ (Phi u v)) → ((z = u) ∧ (w = v))))) as n11_11b.
     MP n11_11b n11_11a.
     now rewrite <- n11_3 in n11_11b.
   }

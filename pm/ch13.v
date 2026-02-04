@@ -226,8 +226,7 @@ Proof.
   pose proof (Id2_08 X) as Id2_08.
   pose proof (n10_11_pred
     (fun x => x)
-    (fun P => P X → P X)
-  ) as n10_11.
+    (fun P => P X → P X)) as n10_11.
   MP n10_11 Id2_08.
   pose proof (n13_1 X X) as n13_1.
   now rewrite <- n13_1 in n10_11.
@@ -312,8 +311,7 @@ Proof.
   pose proof (Exp3_3 (X = Y) (Z = X) (Z = Y)) as Exp3_3b.
   MP Exp3_3b n13_172.
   pose proof (Comp3_43
-    (X = Y) (Z = X → Z = Y) (Z = Y → Z = X)
-  ) as Comp3_43.
+    (X = Y) (Z = X → Z = Y) (Z = Y → Z = X)) as Comp3_43.
   assert (C1 : (X = Y → Z = X → Z = Y) ∧ (X = Y → Z = Y → Z = X)).
   {
     clear n13_17 n13_172 n13_16a n13_16b n13_16c.
