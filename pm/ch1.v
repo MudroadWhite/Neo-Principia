@@ -2,7 +2,7 @@ Require Import PM.pm.lib.
 
 (* We first give the axioms of Principia in *1. *)
 
-Theorem Impl1_01 (P Q : Prop) : (P → Q) = (¬P ∨ Q). 
+Theorem Impl1_01 (P Q : Prop) : (P → Q) = (¬ P ∨ Q). 
 Proof.
   apply propositional_extensionality.
   split; [ apply imply_to_or | apply or_to_imply ].
@@ -54,13 +54,13 @@ Qed.
 Proof. intros P Q R.
   specialize or_assoc with P Q R.
   intros or_assoc1.
-  replace (P∨Q∨R) with ((P∨Q)∨R).
+  replace (P ∨ Q ∨ R) with ((P ∨ Q) ∨ R).
   specialize or_comm with P Q.
   intros or_comm1.
-  replace (P∨Q) with (Q∨P).
+  replace (P ∨ Q) with (Q ∨ P).
   specialize or_assoc with Q P R.
   intros or_assoc2.
-  replace ((Q∨P)∨R) with (Q∨P∨R).
+  replace ((Q ∨ P) ∨ R) with (Q ∨ P ∨ R).
   apply iff_refl.
   apply propositional_extensionality.
   apply iff_sym.
@@ -84,8 +84,8 @@ Qed.
 Proof. intros P Q R.
   specialize imply_and_or2 with Q R P.
   intros imply_and_or2a.
-  replace (P∨Q) with (Q∨P).
-  replace (P∨R) with (R∨P).
+  replace (P ∨ Q) with (Q ∨ P).
+  replace (P ∨ R) with (R ∨ P).
   apply imply_and_or2a.
   apply propositional_extensionality.
   apply or_comm.
