@@ -13,7 +13,8 @@ Require Import Logic.FunctionalExtensionality.
 
 (* TODO:
 - design a notation for all the iota functions
-- fix all the `replace`s and `admit`s 
+- remove occurences for `extentionality`
+- fix all the `replace`s
 - fill in missing proofs
 *)
 
@@ -154,18 +155,14 @@ Proof.
     pose proof (n11_55
       (fun c => (ψ x <[- x -]> (x = c)))
       (fun c b => (φ x <[- x -]> (x = b)) ∧ f b c)) as n11_55.
+    setoid_rewrite <- n4_32 in n11_55.
+    setoid_rewrite -> n4_3 in n11_55 at 3.
+    setoid_rewrite -> n4_32 in n11_55.
     rewrite <- n11_55 in S3.
-    (* We can see that there are some (non?)trivial steps that still need to be
-    finished... *)
-    pose proof (n11_42
-      (fun x y => (ψ x0 <[- x0 -]> x0 = x))
-      (fun x y => (φ x0 <[- x0 -]> x0 = y) ∧ f y x)) as n11_42. simpl in n11_42.
-    (* rewrite -> n11_42 in S3. *)
-    pose proof n11_58 as n11_58.
-    admit.
+    now rewrite -> n11_23 in S3.
   }
   exact S4.
-Admitted.
+Qed.
 
 Theorem n14_112 (s1 s2 : string) (φ ψ : Prop → Prop) 
   (f : Prop → Prop → Prop) : 
@@ -199,8 +196,14 @@ Proof.
   { now rewrite -> n14_1 in S2. } 
   assert (S4 : (iota_f2 s1 s2 φ ψ f) ↔ ∃ b c, 
     (φ x <[- x -]> x = b) ∧ (ψ x <[- x -]> x = c) ∧ f b c).
-  { admit. }
-Admitted.
+  { 
+    pose proof (n11_55
+      (fun b => (φ x <[- x -]> x = b))
+      (fun b c => (ψ x <[- x -]> x = c) ∧ f b c)) as n11_55.
+    now rewrite <- n11_55 in S3.
+  }
+  exact S4.
+Qed.
 
 Theorem n14_113 (s1 s2 : string) (φ ψ : Prop → Prop) 
   (f : Prop → Prop → Prop) : 
