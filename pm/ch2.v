@@ -150,8 +150,9 @@ Qed.
 Ltac Syll H1 H2 S :=
   let S := fresh S in lazymatch goal with 
     | [ H1 : ?P → ?Q, H2 : ?Q → ?R |- _ ] =>
-       assert (S : P → R) by (intros p; exact (H2 (H1 p)))
-end.
+       assert (S : P → R) by (intros p; exact (H2 (H1 p)));
+       simpl in S
+  end.
 
 Theorem Transp2_16 (P Q : Prop) :
   (P → Q) → (¬ Q → ¬ P).

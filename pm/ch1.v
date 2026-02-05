@@ -18,7 +18,7 @@ Qed.
 Ltac MP H1 H2 :=
   lazymatch goal with 
     | [ H1 : ?P → ?Q, H2 : ?P |- _ ] => 
-      specialize (H1 H2); simpl in H1
+      pose proof (H1 H2) as H1; simpl in H1
   end.
 
 (* *1.11 ommitted: it is MP for propositions containing variables. *)

@@ -1140,6 +1140,8 @@ Proof.
   {
     pose proof (n11_1 X X (fun x y => 
       (φ x ∧ φ y) → (ψ x ∧ ψ y))) as n11_11.
+    (* This cannot be deleted *)
+    simpl in n11_11.
     now repeat rewrite <- n4_24 in n11_11.
   }
   assert (S5 : (∀ x y, (φ x ∧ φ y) → (ψ x ∧ ψ y)) 
