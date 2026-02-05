@@ -34,16 +34,18 @@ No. Successful `Qed`s are still false positives, due to a lot of delicate detail
 
 [This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) seems to arrive at similar observations. See paper in the repo on its in-depth discussions of PM's functions.
 
-Our current expectation is successfully express everything **before chapter 14** with a shallow embedding. This allows us to retain tolerance to explore the odds, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*.
+We want to use *shallow embedding* to express Principia Mathematica as much as we can. While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*.
+
+See [project goal and milestones](./docs/1_overview.md/#project-goal-and-milestones) for further details.
 
 ## How well have you formalized?
 Which means 2 questions:
 
-- **How much have you formalized?** 179 - 94 = 85 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
+- **How much have you formalized?** 186 - 94 = 92 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
 - **How deep can you formalize?** We won't construct the deep embedding, as explained above. See [audit](./docs/5_audit.md) for secondary limitations.
 
 ## Running the code
-Coq/Rocq version: 8.20.0, installed with the [opam](https://opam.ocaml.org/) environment:
+Coq/Rocq version: >= 8.20.0, installed with the [opam](https://opam.ocaml.org/) environment:
 
 ```bash
 opam update
@@ -56,6 +58,8 @@ make
 ```
 
 The `Makefile` for `make` is supposed to automatically detect all `.v` files under the `pm` folder, generate the `_CoqProject` file and compile the whole folder.
+
+(Minimum requirement for Coq is currently under investigation.)
 
 ### Running the code, line by line
 IDEs for Coq/Rocq varies, but here is my preference:
