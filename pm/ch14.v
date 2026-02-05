@@ -498,26 +498,30 @@ Proof.
     → (((φ Z W) ∧ (φ U V))
       → (Z = X ∧ W = Y ∧ U = X ∧ V = Y))).
   {
+    intro Hp.
     pose proof (n11_1 Z W (fun z w =>
       (φ z w) ↔ ((z = X) ∧ (w = Y)))) as n11_1a.
     pose proof (n11_1 U V (fun z w =>
       (φ z w) ↔ ((z = X) ∧ (w = Y)))) as n11_1b.
-    pose proof (n3_47) as n3_47.
-    (* Involves some very complicated treatments on destructing
-    and recombining the ↔s. We might want to abstract such 
-    procedure into a new theorem *)
-    admit.
+    MP n11_1b Hp.
+    destruct n11_1b as [n11_1bl _].
+    MP n11_1a Hp.
+    destruct n11_1a as [n11_1al _].
+    Conj n11_1al n11_1bl C1.
+    pose proof (n3_47 (φ Z W) (φ U V)
+      (Z = X ∧ W = Y) (U = X ∧ V = Y)) as n3_47.
+    MP n3_47 C1.
+    now rewrite -> n4_32 in n3_47.
   }
   assert (S3 : (φ z w <[- z w -]> ((z = X) ∧ (w = Y)))
     → (((φ Z W) ∧ (φ U V)) → ((Z = U) ∧ (W = V)))).
   {
     (* simplification: tedious reordering... *)
+    intros Hp.
+    pose proof (S2 Hp) as S2.
     assert (S2_1 : (Z = X ∧ W = Y ∧ U = X ∧ V = Y)
       ↔ ((Z = X ∧ U = X) ∧ (W = Y ∧ V = Y))).
-    {
-      (* TODO: we need theorem for commutativity for ∧ *)
-      admit. 
-    }
+    { now rewrite <- n4_32. }
     rewrite -> S2_1 in S2. clear S2_1.
     pose proof (n13_172 X Z U) as n13_172a.
     pose proof (n13_172 Y W V) as n13_172b.
@@ -528,8 +532,6 @@ Proof.
     { clear n3_47; now Conj n13_172a n13_172b C1. }
     MP n3_47 C1.
     (* simplification for syll *)
-    intros Hp.
-    pose proof (S2 Hp) as S2.
     now Syll S2 n3_47 S3.
   }
   assert (S4 : (∃ x y, φ z w <[- z w -]> ((z = x) ∧ (w = y)))
@@ -567,7 +569,12 @@ Proof.
       (∀ z w, φ z w ∧ φ u v → z = u ∧ w = v))) as n11_1.
     assert (A1 : (∀ x y z w : Prop, φ z w ∧ φ x y → z = x ∧ w = y)
       ↔ (∀ z w x y : Prop, φ z w ∧ φ x y → z = x ∧ w = y)).
-    { admit. }
+    {
+      setoid_rewrite -> n11_2 at 2.
+      setoid_rewrite -> n11_2 at 3.
+      setoid_rewrite -> n11_2 at 1.
+      now setoid_rewrite -> n11_2 at 2.
+    }
     rewrite -> A1 in n11_1.
     pose proof (Fact3_45
       (∀ z w x y : Prop, φ z w ∧ φ x y → z = x ∧ w = y)
@@ -582,9 +589,20 @@ Proof.
     → (φ X Y ∧ (φ z w -[ z w ]> ((z = X) ∧ (w = Y))))).
   {
     (* TODO: design the n5_33 on a quantified version to procceed *)
-    pose proof n5_33 as n5_33.
-    (* rewrite <- n5_33 in S6. *)
-    admit.
+    pose proof (n5_33 (φ X Y) (φ Z W) (Z = X ∧ W = Y)) as n5_33.
+    setoid_rewrite -> n4_3 in n5_33 at 5.
+    pose proof (n11_11 Z W (fun z w =>
+      φ X Y ∧ (φ z w → z = X ∧ w = Y) 
+      ↔ φ X Y ∧ (φ z w ∧ φ X Y → z = X ∧ w = Y))) as n11_11.
+    MP n11_11 n5_33.
+    pose proof (n11_33
+      (fun z w => φ X Y ∧ (φ z w → z = X ∧ w = Y))
+      (fun z w => φ X Y ∧ (φ z w ∧ φ X Y → z = X ∧ w = Y))) 
+      as n11_33.
+    MP n11_33 n11_11.
+    rewrite -> n11_47 in n11_33.
+    setoid_rewrite -> n11_47 in n11_33.
+    now rewrite <- n11_33 in S6.
   }
   assert (S8 : ((φ X Y) ∧ (∀ z w u v, 
     ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
@@ -636,7 +654,7 @@ Proof.
     now Equiv S10.
   }
   exact S10.
-Admitted.
+Qed.
 
 Theorem n14_13 (A : Prop) (s : string) (φ : Prop → Prop) : 
   (iota_f s φ (fun x => A = (Iota s x)))
@@ -1389,6 +1407,7 @@ Proof.
   }
   assert (S3 : iota_E φ -> ∃ x, φ x).
   {
+    (* Same issue *)
     pose proof n13_15 as n13_15.
     admit.
   }
