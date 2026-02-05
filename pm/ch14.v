@@ -1225,7 +1225,7 @@ Proof.
   }
   assert (S5 : ∃ χ : Predicate 1, χ x <[- x -]> (x = B)).
   {
-    pose proof (n12_1 (fun x => x = B)) as n12_1.
+    pose proof (n12_1 1 (fun x => x = B)) as n12_1.
     now setoid_rewrite -> n4_21 in n12_1.
   }
   assert (S6 : (∀ ψ : Predicate 1, 
