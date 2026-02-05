@@ -10,12 +10,16 @@ Require Import PM.pm.ch12.
 
 (* 
 TODO: 
-- investigate a convenient `∧` construction
 - replace ~= with the /= unicode symbol
-- fill in missing proofs. I believe that all admitted places are actually provable
+- Investigate *1.7 and see if the rest of the missing proofs can be filled
+- Investigate support for `<[- x -]>`'s conversion to `<-> /\ <->`
 *)
 
-(* Experimental: provide variated theorems to be used in this chapter
+(* This chapter presents a set of theorem for `=`, the propositional identity
+in Principia. It is different from definitional identity, which is undefined. 
+*)
+
+(* Modified theorems to be used in this chapter specifically for predicates
   In the future, we might want to change `Prop → Prop` into `A → Prop`
   for common theorems starting from ch1 *)
 Definition n10_11_pred (Y : Predicate 1) (φ : Predicate 1 → Prop)
@@ -33,6 +37,14 @@ Admitted.
 
 Definition n10_23_pred (φ : Predicate 1 → Prop) (P : Prop) :
   (∀ x : Predicate 1, φ x → P) ↔ ((∃ x : Predicate 1, φ x) → P).
+Admitted.
+
+Definition n10_24_pred (φ : Predicate 1 → Prop) (Y : Predicate 1) :
+  φ Y → ∃ x, φ x.
+Admitted.
+
+Definition n10_27_pred (φ ψ : Predicate 1 → Prop) : 
+  (∀ z, φ z → ψ z) → ((∀ z, φ z) → (∀ z, ψ z)).
 Admitted.
 
 Definition n10_3_pred (φ ψ χ : Predicate 1 → Prop) :
@@ -53,7 +65,7 @@ Definition n13_01 (X Y : Prop) :
 Admitted.
 
 Definition n13_02 (X Y : Prop) :
-  (¬(X = Y)) = ¬(X = Y).
+  (¬ (X = Y)) = ¬ (X = Y).
 Admitted.
 
 Definition n13_03 (X Y Z : Prop) :
@@ -62,49 +74,61 @@ Admitted.
 
 Open Scope single_app_impl.
 
-Theorem n13_1 (X Y : Prop) : 
-  (X = Y) ↔ 
-    (∀ φ : Predicate 1, (φ X) → (φ Y)).
+Theorem n13_1 (X Y : Prop) : (X = Y) 
+  ↔ (∀ φ : Predicate 1, (φ X) → (φ Y)).
 Proof.
   pose proof (n4_2 (X = Y)) as n4_2.
   now rewrite -> n13_01 in n4_2 at 2.
   (* n10_02 ignored: I think this is unrelated *)
 Qed.
 
+(* p.169: strictly speaking, *13.101 should be a primitive proposition.
+In our formalization we do find this theorem hard to formalize from the
+very first step of the proof. Although the proof below seems to be 
+complete, it utilizes our technique to simplify the proof, and wherther
+it can be fully expanded correctly is currently a tiny myth. *)
 Theorem n13_101 (X Y : Prop) (ψ : Prop → Prop) :
   (X = Y) → (ψ X → ψ Y).
 Proof.
   assert (S1 : (∃ φ : Predicate 1, (ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y))).
   {
-    (* TODO: This proposition is provable if we manually introduce a 
-    predicative placeholder to instantiate n12_1 *)
-    pose proof n12_1 as n12_1a.
-    pose proof n12_1 as n12_1b.
-    admit.
+    (* The ambiguity in this very step is we don't have a rule
+    to add `/\` into *12.1 right away *)
+    pose proof (n12_1 1 ψ) as n12_1.
+    (* simplification... is it even possible to remove this? *)
+    destruct n12_1 as [If Hn12_1].
+    (* The following two can be obtained with `n10_1` *)
+    pose proof (Hn12_1 X) as Hn12_1a.
+    pose proof (Hn12_1 Y) as Hn12_1b.
+    Conj Hn12_1a Hn12_1b C1.
+    pose proof (n10_24_pred
+      (fun (f : Predicate 1) => (ψ X ↔ f X) ∧ (ψ Y ↔ f Y))
+      If) as n10_24.
+    now MP n10_24 C1.
   }
   assert (S2 : (X = Y) → ∀ φ : Predicate 1, φ X → φ Y).
-  {
-    apply n13_1.
-  }
+  { apply n13_1. }
   assert (S3 : (X = Y) → (∀ φ : Predicate 1, 
     ((ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y)) → (ψ X → ψ Y))).
   {
-    destruct S1 as [φ HS1].
-    destruct HS1 as [HS1_1 HS1_2].
-    pose proof (n4_84 (ψ X) (φ X) (φ Y)) as n4_84.
-    MP n4_84 HS1_1.
-    pose proof (n4_85 (ψ Y) (φ Y) (ψ X)) as n4_85.
-    MP n4_84 HS1_2.
+    (* simplification... will seriously need some detailed expansions *)
+    intro Hp.
+    intro Iφ.
+    pose proof (S2 Hp) as S2.
+    pose proof (n4_84 (ψ X) (Iφ X) (Iφ Y)) as n4_84.
+    pose proof (n4_85 (ψ Y) (Iφ Y) (ψ X)) as n4_85.
+    intro Hp1.
+    destruct Hp1 as [Hp1l Hp1r].
+    MP n4_84 Hp1l.
+    MP n4_85 Hp1r.
     rewrite -> n4_84 in n4_85.
-    (* TODO: use varied generalizations correctly to finish the proof*)
-    (* setoid_rewrite <- n4_85 in S2. *)
-    admit.
+    destruct n4_85 as [_ n4_85r].
+    pose proof (S2 Iφ) as S2.
+    now MP n4_85r S2.
   }
   assert (S4 : (X = Y) → (∃ φ : Predicate 1, 
     ((ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y))) → (ψ X → ψ Y)).
-  {
-    now rewrite -> n10_23_pred in S3.
-  }
+  { now rewrite -> n10_23_pred in S3. }
   assert (S5 : (X = Y) → (ψ X → ψ Y)).
   {
     intro Hp.
@@ -113,12 +137,12 @@ Proof.
     now MP S4 S1.
   }
   exact S5.
-Admitted.
+Qed.
 
 Open Scope single_app_equiv.
 
 Theorem n13_11 (X Y : Prop) :
-  (X = Y) ↔ 
+  (X = Y) ↔
     (∀ φ : Predicate 1, (φ X) ↔ (φ Y)).
 Proof.
   (* TOOLS *)
@@ -127,19 +151,28 @@ Proof.
   assert (S1 : (∀ φ : Predicate 1, φ X ↔ φ Y)
     → (∀ φ : Predicate 1, φ X → φ Y)).
   {
-    (* TODO: make a matrix and generalize it; eventually 
-      apply n10_22 *)
-    pose proof n10_22_pred as n10_22.
-    admit.
+    pose proof (n10_22_pred
+      (fun (p : Predicate 1) => p X -> p Y)
+      (fun (p : Predicate 1) => p Y -> p X)) as n10_22.
+    destruct n10_22 as [n10_22l _].
+    (* TODO: maybe we will find a way to fix the definition on such 
+      equiv relation *)
+    replace (∀ x : Predicate 1, (x X → x Y) ∧ (x Y → x X))
+      with (∀ x : Predicate 1, x X <-> x Y)
+      in n10_22l by reflexivity.
+    pose proof (Simp3_26 (forall p : Predicate 1, p X -> p Y)
+      (forall p : Predicate 1, p Y -> p X)) as Simp3_26.
+    now Syll n10_22l Simp3_26 S1.
   }
   assert (S2 : (∀ φ : Predicate 1, φ X ↔ φ Y)
     → (X = Y)).
   { now rewrite <- n13_1 in S1. }
   assert (S3 : (X = Y) → (Iφ X → Iφ Y)).
   { apply n13_101. }
-  assert (S4 : (X = Y) → ((¬Iφ X) → (¬Iφ Y))).
+  assert (S4 : (X = Y) → ((¬ Iφ X) → (¬ Iφ Y))).
   {
     (* n1_7 ignored *)
+    (* This step is very suspicious *)
     admit.
   }
   assert (S5 : (X = Y) → (Iφ Y → Iφ X)).
@@ -182,7 +215,7 @@ Admitted.
 Theorem n13_12 (X Y : Prop) (ψ : Prop → Prop) :
   (X = Y) → (ψ X ↔ ψ Y).
 Proof.
-  assert (S1 : (X = Y) → ((ψ X → ψ Y) ∧ ((¬ψ X) → (¬ψ Y)))).
+  assert (S1 : (X = Y) → ((ψ X → ψ Y) ∧ ((¬ ψ X) → (¬ ψ Y)))).
   {
     pose proof n13_101 as n13_101.
     pose proof Comp3_43 as Comp3_43.
@@ -226,8 +259,7 @@ Proof.
   pose proof (Id2_08 X) as Id2_08.
   pose proof (n10_11_pred
     (fun x => x)
-    (fun P => P X → P X)
-  ) as n10_11.
+    (fun P => P X → P X)) as n10_11.
   MP n10_11 Id2_08.
   pose proof (n13_1 X X) as n13_1.
   now rewrite <- n13_1 in n10_11.
@@ -249,9 +281,15 @@ Proof.
     → ((∀ φ : Predicate 1, φ X → φ Y) 
       ∧ (∀ φ : Predicate 1, φ Y → φ Z))).
   {
-    pose proof n13_1 as n13_1.
-    (* We currently didn't allow `∧` yet *)
-    admit.
+    pose proof (n13_1 X Y) as n13_1a.
+    destruct n13_1a as [n13_1al _].
+    pose proof (n13_1 Y Z) as n13_1b.
+    destruct n13_1b as [n13_1bl _].
+    Conj n13_1al n13_1bl C1.
+    pose proof (n3_47 (X = Y) (Y = Z)
+      (forall (p : Predicate 1), p X -> p Y)
+      (forall (p : Predicate 1), p Y -> p Z)) as n3_47.
+    now MP n3_47 C1.
   }
   assert (S2 : ((X = Y) ∧ (Y = Z)) 
     → (∀ φ : Predicate 1, φ X → φ Z)).
@@ -265,7 +303,7 @@ Proof.
   assert (S3 : ((X = Y) ∧ (Y = Z)) → (X = Z)).
   { now rewrite <- n13_01 in S2. }
   exact S3.
-Admitted.
+Qed.
 
 Theorem n13_171 (X Y Z : Prop) :
   ((X = Y) ∧ (X = Z)) → (Y = Z).
@@ -283,7 +321,7 @@ Proof.
 Qed.
 
 Theorem n13_18 (X Y Z : Prop) :
-  ((X = Y) ∧ (¬(X = Z))) → ¬(Y = Z).
+  ((X = Y) ∧ (¬ (X = Z))) → ¬ (Y = Z).
 Proof.
   pose proof (n13_17 X Y Z) as n13_17.
   pose proof (n4_14 (X = Y) (Y = Z) (X = Z)) as n4_14.
@@ -291,7 +329,7 @@ Proof.
 Qed.
 
 Theorem n13_181 (X Y Z : Prop) :
-  ((X = Y) ∧ (¬(Y = Z))) → ¬(X = Z).
+  ((X = Y) ∧ (¬ (Y = Z))) → ¬ (X = Z).
 Proof.
   pose proof (n13_171 X Y Z) as n13_171.
   now rewrite -> n4_14 in n13_171.
@@ -312,8 +350,7 @@ Proof.
   pose proof (Exp3_3 (X = Y) (Z = X) (Z = Y)) as Exp3_3b.
   MP Exp3_3b n13_172.
   pose proof (Comp3_43
-    (X = Y) (Z = X → Z = Y) (Z = Y → Z = X)
-  ) as Comp3_43.
+    (X = Y) (Z = X → Z = Y) (Z = Y → Z = X)) as Comp3_43.
   assert (C1 : (X = Y → Z = X → Z = Y) ∧ (X = Y → Z = Y → Z = X)).
   {
     clear n13_17 n13_172 n13_16a n13_16b n13_16c.
@@ -444,10 +481,10 @@ Proof.
   assert (S2 : ψ B → (∃ c, ((x = B) <[- x -]> (x = c)) ∧ ψ c)).
   {
     pose proof (n10_24 (fun c =>
-      ( x = B<[-x-]>x = c ) ∧ ψ c) B) as n10_24.
+      (x = B <[- x -]> x = c) ∧ ψ c) B) as n10_24.
     now Syll S1 n10_24 S2.
   }
-  assert (S3 : ((x = B <[-x-]> x = C) ∧ (ψ C)) 
+  assert (S3 : ((x = B <[- x -]> x = C) ∧ (ψ C)) 
     → (((B = B) ↔ (B = C)) ∧ ψ C)).
   {
     pose proof (n10_1 (fun x => (x = B) ↔ (x = C)) B) as n10_1.
@@ -455,7 +492,7 @@ Proof.
       (ψ C)) as Fact3_45.
     now MP Fact3_45 n10_1.
   }
-  assert (S4 : ((x = B <[-x-]> x = C) ∧ (ψ C)) 
+  assert (S4 : ((x = B <[- x -]> x = C) ∧ (ψ C)) 
     → ((B = C) ∧ (ψ C))).
   {
     pose proof (n5_501 (B = B) (B = C)) as n5_501.
@@ -463,7 +500,7 @@ Proof.
     MP n5_501 n13_15.
     now rewrite <- n5_501 in S3.
   }
-  assert (S5 : ((x = B <[-x-]> x = C) ∧ (ψ C)) → ψ B).
+  assert (S5 : ((x = B <[- x -]> x = C) ∧ (ψ C)) → ψ B).
   {
     pose proof (n13_13 C B ψ) as n13_13.
     pose proof (n13_16 B C) as n13_16.
@@ -471,7 +508,7 @@ Proof.
     rewrite -> n4_3 in n13_13.
     now Syll S4 n13_13 S5.
   }
-  assert (S6 : (∃ c, ((x = B <[-x-]> x = c) ∧ ψ c)) → ψ B).
+  assert (S6 : (∃ c, ((x = B <[- x -]> x = c) ∧ ψ c)) → ψ B).
   {
     pose proof (n10_11 C (fun c =>
       (∀ x, x = B ↔ x = c) ∧ ψ c → ψ B)) 
@@ -588,7 +625,7 @@ Proof.
 Qed.
 
 Theorem n13_196 (X : Prop) (φ : Prop → Prop) : 
-  (¬φ X) ↔ (φ y -[ y ]> (¬(y = X))).
+  (¬ φ X) ↔ (φ y -[ y ]> (¬ (y = X))).
 Proof.
   pose proof (n13_195 X φ) as n13_195.
   rewrite -> Transp4_11 in n13_195.
@@ -606,7 +643,7 @@ Proof.
     ↔ ((z = X) -[ z ]> ((w = Y) -[ w ]> (φ z w)))).
   { apply n11_62. }
   assert (S2 : (((z = X) ∧ (w = Y)) -[ z w ]> (φ z w))
-    ↔ ((w = Y) -[ w ]> φ X w )).
+    ↔ ((w = Y) -[ w ]> φ X w)).
   { now rewrite -> n13_191 in S1. }
   assert (S3 : (((z = X) ∧ (w = Y)) -[ z w ]> (φ z w)) ↔ (φ X Y)).
   { now rewrite -> n13_191 in S2. }
@@ -628,7 +665,7 @@ Proof.
 Qed.
 
 Theorem n13_3 (A X : Prop) (φ : Prop → Prop) : 
-  (φ A ∨ (¬φ A)) → ((φ X ∨ (¬φ X)) ↔ ((X = A) ∨ (¬(X = A)))).
+  (φ A ∨ (¬ φ A)) → ((φ X ∨ (¬ φ X)) ↔ ((X = A) ∨ (¬ (X = A)))).
 Proof.
   assert (S1 : φ X ∨ ¬ φ X).
   { apply n2_11. }
@@ -637,11 +674,11 @@ Proof.
     pose proof (Simp2_02 (φ A ∨ ¬ φ A) (φ X ∨ ¬ φ X)) as Simp2_02.
     now MP Simp2_02 S1.
   }
-  assert (S3 : X = A ∨ ¬(X = A)).
+  assert (S3 : X = A ∨ ¬ (X = A)).
   { apply n2_11. }
-  assert (S4 : (φ A ∨ ¬ φ A) → (X = A ∨ ¬(X = A))).
+  assert (S4 : (φ A ∨ ¬ φ A) → (X = A ∨ ¬ (X = A))).
   {
-    pose proof (Simp2_02 (φ A ∨ ¬ φ A) (X = A ∨ ¬(X = A))) as Simp2_02.
+    pose proof (Simp2_02 (φ A ∨ ¬ φ A) (X = A ∨ ¬ (X = A))) as Simp2_02.
     now MP Simp2_02 S3.
   }
   assert (S5 : (φ A ∨ ¬ φ A) → ((X = A) → (φ X ∨ ¬ φ X))).
@@ -651,7 +688,7 @@ Proof.
     pose proof (Comm2_04 (X = A) (φ X ∨ ¬ φ X) (φ A ∨ ¬ φ A)) as Comm2_04.
     now MP Comm2_04 n13_101.
   }
-  assert (S6 : ((φ A ∨ ¬ φ A) → (X = A ∨ ¬(X = A)))
+  assert (S6 : ((φ A ∨ ¬ φ A) → (X = A ∨ ¬ (X = A)))
     ∧ ((φ A ∨ ¬ φ A) → ((X = A) → (φ X ∨ ¬ φ X)))).
   {
     (* n10_13 ignored - we directly use `Conj` instead. Is it legal? *)
@@ -660,27 +697,27 @@ Proof.
     now Conj S4 S5 C1.
   }
   assert (S7 : ((φ A ∨ ¬ φ A) → φ X ∨ ¬ φ X)
-    ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ ¬(X = A)))
+    ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ ¬ (X = A)))
     ∧ ((φ A ∨ ¬ φ A) → ((X = A) → (φ X ∨ ¬ φ X)))).
   {
     clear S1 S3 S4 S5.
     now Conj S2 S6 C1.
   }
   assert (S8 : ((φ A ∨ ¬ φ A) → φ X ∨ ¬ φ X)
-    ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ ¬(X = A)))).
+    ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ ¬ (X = A)))).
   {
     rewrite <- n4_32 in S7.
     pose proof (Simp3_26
       (((φ A ∨ ¬ φ A) → φ X ∨ ¬ φ X)
-        ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ ¬(X = A))))
+        ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ ¬ (X = A))))
       (φ A ∨ ¬ φ A → X = A → φ X ∨ ¬ φ X)) as Simp3_26.
     now MP Simp3_26 S7.
   }
-  assert (S9 : (φ A ∨ ¬ φ A) → 
-    ((φ X ∨ ¬ φ X) ↔ (X = A ∨ ¬(X = A)))).
+  assert (S9 : (φ A ∨ ¬ φ A) →
+    ((φ X ∨ ¬ φ X) ↔ (X = A ∨ ¬ (X = A)))).
   {
     pose proof (n5_35 (φ A ∨ ¬ φ A) (φ X ∨ ¬ φ X)
-      (X = A ∨ ¬(X = A))) as n5_35.
+      (X = A ∨ ¬ (X = A))) as n5_35.
     now MP n5_35 S8.
   }
   exact S9.

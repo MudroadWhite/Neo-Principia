@@ -245,14 +245,14 @@ Proof.
     setoid_rewrite <- n9_06a in S4.
     now setoid_rewrite <- Impl1_01a in S4.
   }
-  assert (S6 : ((∃ x, ¬(φ x → ψ x)) ∨ (∀ y, ∃ z, (¬ φ z) ∨ ψ y))).
+  assert (S6 : ((∃ x, ¬ (φ x → ψ x)) ∨ (∀ y, ∃ z, (¬ φ z) ∨ ψ y))).
   {
     setoid_rewrite Impl1_01a in S5.
     setoid_rewrite Impl1_01a in S5 at 3.
     now rewrite <- (n9_08 (fun z1 => (∃ y0, (¬ φ y0) ∨ ψ z1)) 
       (fun x1 => ¬ (φ x1 → ψ x1))) in S5.
   }
-  assert (S7 : (∃ x, ¬(φ x → ψ x)) ∨ ((∃ y, (¬ φ y)) ∨ (∀ z, ψ z))).
+  assert (S7 : (∃ x, ¬ (φ x → ψ x)) ∨ ((∃ y, (¬ φ y)) ∨ (∀ z, ψ z))).
   { rewrite <- n9_08 in S6. exact S6. }
   assert (S8 : (∀ x, φ x → ψ x) → (∀ y, φ y) → ∀ z, ψ z).
   { now repeat rewrite <- n9_01, <- Impl1_01 in S7. }
@@ -746,7 +746,7 @@ Proof.
   assert (S1 : (∀ x, φ x ∨ (Q ∨ R)) → ∀ x, Q ∨ (φ x ∨ R)).
   {
     pose proof (Assoc1_5 (φ X) Q R) as Assoc1_5.
-    pose proof (n9_13 (fun x =>  φ x ∨ Q ∨ R → Q ∨  φ x ∨ R) X) as n9_13.
+    pose proof (n9_13 (fun x => φ x ∨ Q ∨ R → Q ∨ φ x ∨ R) X) as n9_13.
     MP n9_13 Assoc1_5.
     pose proof (n9_21 (fun x => φ x ∨ (Q ∨ R)) (fun x => Q ∨ (φ x ∨ R))) as n9_21.
     now MP n9_21 n9_13.
@@ -768,7 +768,7 @@ Proof.
   assert (S1 : (∃ x, φ x ∨ (Q ∨ R)) → ∃ x, Q ∨ (φ x ∨ R)).
   {
     pose proof (Assoc1_5 (φ X) Q R) as Assoc1_5.
-    pose proof (n9_13 (fun x =>  φ x ∨ Q ∨ R → Q ∨  φ x ∨ R) X) as n9_13.
+    pose proof (n9_13 (fun x => φ x ∨ Q ∨ R → Q ∨ φ x ∨ R) X) as n9_13.
     MP n9_13 Assoc1_5.
     pose proof (n9_22 (fun x => φ x ∨ (Q ∨ R)) (fun x => Q ∨ (φ x ∨ R))) as n9_22.
     now MP n9_22 n9_13.
@@ -792,7 +792,7 @@ Proof.
   assert (S1 : (P → Q) → ((P ∨ φ Y) → (Q ∨ φ Y))).
   { 
     (* The most optimal way here is still using `Syll` on the proposition, 
-    but we show how it can also be done with a `rewrite` on a `↔` relation  *)
+    but we show how it can also be done with a `rewrite` on a ↔` relation  *)
     pose proof (Sum1_6 (φ Y) P Q) as Sum1_6.
     now rewrite -> (n4_31 (φ Y) P), -> (n4_31 (φ Y) Q) in Sum1_6.
   }
@@ -810,7 +810,7 @@ Proof.
   assert (S4 : (P → Q) → (∃ x, ¬ (P ∨ φ x)) ∨ (∀ y, Q ∨ φ y)).
   { 
     setoid_rewrite -> Impl1_01a in S3 at 3.
-    now rewrite <- (n9_08 (fun y => Q ∨ φ y) (fun x => ¬(P ∨ φ x))) in S3.
+    now rewrite <- (n9_08 (fun y => Q ∨ φ y) (fun x => ¬ (P ∨ φ x))) in S3.
   }
   assert (S5 : (P → Q) → (∀ x, (P ∨ φ x)) → (∀ y, Q ∨ φ y)).
   { now rewrite <- n9_01, <- Impl1_01 in S4. }
@@ -883,7 +883,7 @@ Proof.
   assert (S3 : (P → ∀ x, φ x) → P ∨ R → (∀ x, φ x) ∨ R).
   { 
     setoid_rewrite -> Impl1_01a in S2 at 2.
-    rewrite <- (n9_04 φ (¬P)) in S2.
+    rewrite <- (n9_04 φ (¬ P)) in S2.
     setoid_rewrite <- Impl1_01a in S2.
     setoid_rewrite -> Impl1_01a in S2 at 3.
     setoid_rewrite -> n4_31 in S2.
@@ -995,11 +995,11 @@ Proof.
   exact S3.
 Qed.
 
-(* Thm 9.6: `∀ x, φ x`, `¬(∀ x, φ x)`, `∃ x, φ x`, `¬(∃ x, φ x)` are of the same type. From *9.131, (7) and (8) *)
+(* Thm 9.6: `∀ x, φ x`, `¬ (∀ x, φ x)`, `∃ x, φ x`, `¬ (∃ x, φ x)` are of the same type. From *9.131, (7) and (8) *)
 Theorem n9_6 (φ : Prop → Prop) :
-  IsSameType.t (∀ x, φ x) (¬(∀ x, φ x))
-  ∧ IsSameType.t (¬(∀ x, φ x)) (∃ x, φ x)
-  ∧ IsSameType.t (∃ x, φ x) (¬(∃ x, φ x)).
+  IsSameType.t (∀ x, φ x) (¬ (∀ x, φ x))
+  ∧ IsSameType.t (¬ (∀ x, φ x)) (∃ x, φ x)
+  ∧ IsSameType.t (∃ x, φ x) (¬ (∃ x, φ x)).
 Proof.
   repeat split.
   - now apply IsSameType.NProp.
