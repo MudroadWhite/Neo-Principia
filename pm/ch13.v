@@ -10,9 +10,13 @@ Require Import PM.pm.ch12.
 
 (* 
 TODO: 
-- investigate a convenient `∧` construction
 - replace ~= with the /= unicode symbol
-- fill in missing proofs. I believe that all admitted places are actually provable
+- Investigate *1.7 and see if the rest of the missing proofs can be filled
+- Investigate support for `<[- x -]>`'s conversion to `<-> /\ <->`
+*)
+
+(* This chapter presents a set of theorem for `=`, the propositional identity
+in Principia. It is different from definitional identity, which is undefined. 
 *)
 
 (* Modified theorems to be used in this chapter specifically for predicates
@@ -80,7 +84,9 @@ Qed.
 
 (* p.169: strictly speaking, *13.101 should be a primitive proposition.
 In our formalization we do find this theorem hard to formalize from the
-very first step of the proof *)
+very first step of the proof. Although the proof below seems to be 
+complete, it utilizes our technique to simplify the proof, and wherther
+it can be fully expanded correctly is currently a tiny myth. *)
 Theorem n13_101 (X Y : Prop) (ψ : Prop → Prop) :
   (X = Y) → (ψ X → ψ Y).
 Proof.
@@ -145,10 +151,18 @@ Proof.
   assert (S1 : (∀ φ : Predicate 1, φ X ↔ φ Y)
     → (∀ φ : Predicate 1, φ X → φ Y)).
   {
-    (* TODO: make a matrix and generalize it; eventually 
-      apply n10_22 *)
-    pose proof n10_22_pred as n10_22.
-    admit.
+    pose proof (n10_22_pred
+      (fun (p : Predicate 1) => p X -> p Y)
+      (fun (p : Predicate 1) => p Y -> p X)) as n10_22.
+    destruct n10_22 as [n10_22l _].
+    (* TODO: maybe we will find a way to fix the definition on such 
+      equiv relation *)
+    replace (∀ x : Predicate 1, (x X → x Y) ∧ (x Y → x X))
+      with (∀ x : Predicate 1, x X <-> x Y)
+      in n10_22l by reflexivity.
+    pose proof (Simp3_26 (forall p : Predicate 1, p X -> p Y)
+      (forall p : Predicate 1, p Y -> p X)) as Simp3_26.
+    now Syll n10_22l Simp3_26 S1.
   }
   assert (S2 : (∀ φ : Predicate 1, φ X ↔ φ Y)
     → (X = Y)).
@@ -158,6 +172,7 @@ Proof.
   assert (S4 : (X = Y) → ((¬ Iφ X) → (¬ Iφ Y))).
   {
     (* n1_7 ignored *)
+    (* This step is very suspicious *)
     admit.
   }
   assert (S5 : (X = Y) → (Iφ Y → Iφ X)).
@@ -266,9 +281,15 @@ Proof.
     → ((∀ φ : Predicate 1, φ X → φ Y) 
       ∧ (∀ φ : Predicate 1, φ Y → φ Z))).
   {
-    pose proof n13_1 as n13_1.
-    (* We currently didn't allow `∧` yet *)
-    admit.
+    pose proof (n13_1 X Y) as n13_1a.
+    destruct n13_1a as [n13_1al _].
+    pose proof (n13_1 Y Z) as n13_1b.
+    destruct n13_1b as [n13_1bl _].
+    Conj n13_1al n13_1bl C1.
+    pose proof (n3_47 (X = Y) (Y = Z)
+      (forall (p : Predicate 1), p X -> p Y)
+      (forall (p : Predicate 1), p Y -> p Z)) as n3_47.
+    now MP n3_47 C1.
   }
   assert (S2 : ((X = Y) ∧ (Y = Z)) 
     → (∀ φ : Predicate 1, φ X → φ Z)).
@@ -282,7 +303,7 @@ Proof.
   assert (S3 : ((X = Y) ∧ (Y = Z)) → (X = Z)).
   { now rewrite <- n13_01 in S2. }
   exact S3.
-Admitted.
+Qed.
 
 Theorem n13_171 (X Y Z : Prop) :
   ((X = Y) ∧ (X = Z)) → (Y = Z).
