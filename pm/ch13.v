@@ -15,7 +15,7 @@ TODO:
 - fill in missing proofs. I believe that all admitted places are actually provable
 *)
 
-(* Experimental: provide variated theorems to be used in this chapter
+(* Modified theorems to be used in this chapter specifically for predicates
   In the future, we might want to change `Prop → Prop` into `A → Prop`
   for common theorems starting from ch1 *)
 Definition n10_11_pred (Y : Predicate 1) (φ : Predicate 1 → Prop)
@@ -33,6 +33,14 @@ Admitted.
 
 Definition n10_23_pred (φ : Predicate 1 → Prop) (P : Prop) :
   (∀ x : Predicate 1, φ x → P) ↔ ((∃ x : Predicate 1, φ x) → P).
+Admitted.
+
+Definition n10_24_pred (φ : Predicate 1 → Prop) (Y : Predicate 1) :
+  φ Y → ∃ x, φ x.
+Admitted.
+
+Definition n10_27_pred (φ ψ : Predicate 1 → Prop) : 
+  (∀ z, φ z → ψ z) → ((∀ z, φ z) → (∀ z, ψ z)).
 Admitted.
 
 Definition n10_3_pred (φ ψ χ : Predicate 1 → Prop) :
@@ -62,49 +70,59 @@ Admitted.
 
 Open Scope single_app_impl.
 
-Theorem n13_1 (X Y : Prop) : 
-  (X = Y) ↔
-    (∀ φ : Predicate 1, (φ X) → (φ Y)).
+Theorem n13_1 (X Y : Prop) : (X = Y) 
+  ↔ (∀ φ : Predicate 1, (φ X) → (φ Y)).
 Proof.
   pose proof (n4_2 (X = Y)) as n4_2.
   now rewrite -> n13_01 in n4_2 at 2.
   (* n10_02 ignored: I think this is unrelated *)
 Qed.
 
+(* p.169: strictly speaking, *13.101 should be a primitive proposition.
+In our formalization we do find this theorem hard to formalize from the
+very first step of the proof *)
 Theorem n13_101 (X Y : Prop) (ψ : Prop → Prop) :
   (X = Y) → (ψ X → ψ Y).
 Proof.
   assert (S1 : (∃ φ : Predicate 1, (ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y))).
   {
-    (* TODO: This proposition is provable if we manually introduce a 
-    predicative placeholder to instantiate n12_1 *)
-    pose proof n12_1 as n12_1a.
-    pose proof n12_1 as n12_1b.
-    admit.
+    (* The ambiguity in this very step is we don't have a rule
+    to add `/\` into *12.1 right away *)
+    pose proof (n12_1 1 ψ) as n12_1.
+    (* simplification... is it even possible to remove this? *)
+    destruct n12_1 as [If Hn12_1].
+    (* The following two can be obtained with `n10_1` *)
+    pose proof (Hn12_1 X) as Hn12_1a.
+    pose proof (Hn12_1 Y) as Hn12_1b.
+    Conj Hn12_1a Hn12_1b C1.
+    pose proof (n10_24_pred
+      (fun (f : Predicate 1) => (ψ X ↔ f X) ∧ (ψ Y ↔ f Y))
+      If) as n10_24.
+    now MP n10_24 C1.
   }
   assert (S2 : (X = Y) → ∀ φ : Predicate 1, φ X → φ Y).
-  {
-    apply n13_1.
-  }
+  { apply n13_1. }
   assert (S3 : (X = Y) → (∀ φ : Predicate 1, 
     ((ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y)) → (ψ X → ψ Y))).
   {
-    destruct S1 as [φ HS1].
-    destruct HS1 as [HS1_1 HS1_2].
-    pose proof (n4_84 (ψ X) (φ X) (φ Y)) as n4_84.
-    MP n4_84 HS1_1.
-    pose proof (n4_85 (ψ Y) (φ Y) (ψ X)) as n4_85.
-    MP n4_84 HS1_2.
+    (* simplification... will seriously need some detailed expansions *)
+    intro Hp.
+    intro Iφ.
+    pose proof (S2 Hp) as S2.
+    pose proof (n4_84 (ψ X) (Iφ X) (Iφ Y)) as n4_84.
+    pose proof (n4_85 (ψ Y) (Iφ Y) (ψ X)) as n4_85.
+    intro Hp1.
+    destruct Hp1 as [Hp1l Hp1r].
+    MP n4_84 Hp1l.
+    MP n4_85 Hp1r.
     rewrite -> n4_84 in n4_85.
-    (* TODO: use varied generalizations correctly to finish the proof*)
-    (* setoid_rewrite <- n4_85 in S2. *)
-    admit.
+    destruct n4_85 as [_ n4_85r].
+    pose proof (S2 Iφ) as S2.
+    now MP n4_85r S2.
   }
   assert (S4 : (X = Y) → (∃ φ : Predicate 1, 
     ((ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y))) → (ψ X → ψ Y)).
-  {
-    now rewrite -> n10_23_pred in S3.
-  }
+  { now rewrite -> n10_23_pred in S3. }
   assert (S5 : (X = Y) → (ψ X → ψ Y)).
   {
     intro Hp.
@@ -113,7 +131,7 @@ Proof.
     now MP S4 S1.
   }
   exact S5.
-Admitted.
+Qed.
 
 Open Scope single_app_equiv.
 

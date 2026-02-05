@@ -18,10 +18,11 @@ Require Import Logic.FunctionalExtensionality.
 *)
 
 (* 
-The decription, or I would personally call it the iota operator, designs a special kind of 
-parameter for functions. They will be passed into propositional functions normally, but unlike 
-normal parameters that only calculates everything within themselves, they will rewrite on the 
-whole propositional function, and on other terms that are not within them.
+The decription, or I would personally call it the iota operator, is an incomplete symbol(cf. 
+p. 67), and is the first "definition" that will only have meaning "in specific context". It 
+is a special kind of parameter for functions. They will be passed into propositional functions 
+normally, but unlike normal parameters that only calculates everything within themselves, they 
+will rewrite on the whole propositional function, and on other terms that are not within them.
 
 An extra "scope" notation is used for the iota operator, to determine the sub expression that
 should be treated as the proposisional function.
