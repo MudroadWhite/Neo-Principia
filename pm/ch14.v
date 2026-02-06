@@ -588,7 +588,6 @@ Proof.
     ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
     → (φ X Y ∧ (φ z w -[ z w ]> ((z = X) ∧ (w = Y))))).
   {
-    (* TODO: design the n5_33 on a quantified version to procceed *)
     pose proof (n5_33 (φ X Y) (φ Z W) (Z = X ∧ W = Y)) as n5_33.
     setoid_rewrite -> n4_3 in n5_33 at 5.
     pose proof (n11_11 Z W (fun z w =>
@@ -2338,13 +2337,19 @@ Proof.
     ↔ ~ (iota_f s φ χ)) -> iota_E φ).
   {
     (* TODO:
-    - find a correct base
     - expand all iotas
     - merge the iotas into a big one
     *)
-    pose proof n14_1 as n14_1.
-    rewrite -> n14_1
-    pose proof n14_21 as _n14_21.
+    (* rewrite -> n14_1 in S5.
+    rewrite -> n14_1 in S5. *)
+    pose proof (n14_21 s φ (fun x =>
+      (¬ χ (Iota s x)) <-> (¬ χ (Iota s x)))) as n14_21.
+    rewrite -> n14_1 in n14_21. 
+    (* TODO: add something before n14_21 *)
+    (* TODO: ((P /\ Q) <-> (P /\ R)) <-> (P /\ (Q <-> R)) *)
+    (* if things go worse, rocq's tactic will be mandatory to be introduced 
+      into the proof *)
+    pose proof n14_1 as _n14_1.
     admit.
   }
   assert (S7 : iota_E φ ↔ ((iota_f s φ (fun x => ~ χ (Iota s x)))
