@@ -37,7 +37,9 @@ is contained in.
 With this notation, all propositional functions with iota variables have to be written explicitly
 starting with `(fun x => ...)`, in contrast to just building an arbitary proposition with iota 
 variables immediately. The resulted notation is quite different from how it looks like originally, 
-but it can correctly express what should a iota do and limit its scope as in the text.
+but it can correctly express what should a iota do and limit its scope as in the text. I suppose 
+in this way we actually defined a "dual" of an incomplete definition - instead of having an unclear 
+context with clear meaning, here we have a clear context with meaning out of the system.
 
 From n14_17 and onward, we're seeing how iota should cope with the predicative functions. Currently
 we are still letting iotas being "untyped", that is, being constructed based on untyped function. 
