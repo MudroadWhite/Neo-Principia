@@ -617,7 +617,6 @@ Proof.
       (φ z w ∧ φ u v) → ((z = u) ∧ (w = v)))
     → (∃ x y, φ z w <[- z w -]> ((z = x) ∧ (w = y))))).
   {
-    pose proof n11_45 as _n11_45.
     pose proof (n11_11 X Y (fun x y =>
       ((φ x y) ∧ (∀ z w u v, 
         ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
@@ -1143,7 +1142,6 @@ Proof.
     → iota_f s1 φ χ ↔ iota_f s2 ψ χ).
   {
     (* *10.2 ignored -  it doesn't fit in *)
-    pose proof n10_11 as _n10_11.
     pose proof (n10_11 B (fun b =>
       ((∀ x, φ x ↔ x = b) ∧ iota_f s2 ψ (λ y, b = Iota s2 y))
       → (iota_f s1 φ χ ↔ iota_f s2 ψ χ))) as n10_11.
@@ -1595,13 +1593,21 @@ Theorem n14_205 (s : string) (φ ψ : Prop → Prop) : (iota_f s φ ψ)
   ↔ ∃ b, (iota_f s φ (fun x => b = (Iota s x))) ∧ ψ b.
 Proof.
   set (B := Individual "b").
-  pose proof n14_1 as _n14_1.
   pose proof (n14_202 B s φ) as n14_202.
   destruct n14_202 as [_ n14_202r].
   destruct n14_202r as [_ n14_202rr].
-  setoid_rewrite -> n13_16 in n14_202rr at 1.
-  (* TODO: generalize n14_202rr with `exist` and finish the proof *)
-Admitted.
+  pose proof (n4_36 (φ x <[- x -]> B = x) (iota_f s φ (λ x, B = Iota s x))
+    (ψ B)) as n4_36.
+  MP n4_36 n14_202rr.
+  pose proof (n10_11 B (fun b => (φ x <[- x -]> b = x ) ∧ ψ b 
+    ↔ iota_f s φ (λ x, b = Iota s x) ∧ ψ b)) as n10_11.
+  MP n10_11 n4_36.
+  pose proof (n10_281 (fun b => (φ x <[- x -]> b = x ) ∧ ψ b)
+    (fun b => iota_f s φ (λ x, b = Iota s x) ∧ ψ b)) as n10_281.
+  MP n10_281 n10_11.
+  setoid_rewrite -> n13_16 in n10_281 at 1.
+  now rewrite <- (n14_1 s) in n10_281.
+Qed.
 
 Theorem n14_21 (s : string) (φ ψ : Prop → Prop) : (iota_f s φ ψ) → iota_E φ.
 Proof.
@@ -1667,8 +1673,6 @@ Proof.
   assert (S2 : iota_E (fun x => φ x ∧ ψ x) -> iota_f s 
     (fun x => φ x /\ ψ x) φ).
   {
-    pose proof n10_5 as _n10_5.
-    pose proof Simp3_26 as _Simp3_26.
     destruct S1 as [S1_l _].
     (* simplifications *)
     intro Hp.
@@ -1934,7 +1938,6 @@ Proof.
   assert (S1 : (φ X <-> (X = B)) 
     -> ((φ X <-> ψ X) <-> (ψ X <-> (X = B)))).
   { 
-    pose proof n4_86 as _n4_86.
     pose proof (n4_86 (φ X) (X = B) (ψ X)) as n4_86.
      (*simplification  *)
     intro Hp.
@@ -2538,8 +2541,6 @@ Proof.
   assert (S3 : (P ∧ iota_f s φ χ) ↔ iota_f s φ (fun x =>
     P ∧ χ (Iota s x))).
   {
-    pose proof n14_1 as _n14_1.
-    pose proof n4_32 as _n4_32.
     setoid_rewrite -> n4_3 in S2 at 4.
     setoid_rewrite <- n4_32 in S2.
     setoid_rewrite -> n4_3 in S2 at 3.
