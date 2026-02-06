@@ -2338,10 +2338,13 @@ Proof.
     ↔ ~ (iota_f s φ χ)) -> iota_E φ).
   {
     (* TODO:
-    - reorganize two iota_fs into one huge iota_f
-    - apply n14_21
-    should be ok, otherwise this is a nasty typo in original text
+    - find a correct base
+    - expand all iotas
+    - merge the iotas into a big one
     *)
+    pose proof n14_1 as n14_1.
+    rewrite -> n14_1
+    pose proof n14_21 as _n14_21.
     admit.
   }
   assert (S7 : iota_E φ ↔ ((iota_f s φ (fun x => ~ χ (Iota s x)))
