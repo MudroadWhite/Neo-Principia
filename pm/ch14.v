@@ -1463,6 +1463,7 @@ Theorem n14_203 (φ : Prop → Prop) : iota_E φ
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
+  set (X := Individual "x").
   (* ******** *)
   assert (S1 : iota_E φ -> ((∃ x, φ x) 
     /\ (φ x /\ φ y) -[ x y ]> (x = y))).
@@ -1491,10 +1492,20 @@ Proof.
   assert (S3 : (φ B /\ ((φ x /\ φ y) -[ x y ]> (x = y)))
     -> (φ B /\ (φ x -[ x ]> (x = B)))).
   {
-    (* TODO: We can use an extra `X` to instantiate the 
-      ∀ and obtain the result, but for now it is too tedious *)
-    pose proof n5_33 as n5_33.
-    admit.
+    pose proof (n10_1 (fun x => ((φ x /\ φ B) -> (x = B)) ∧ φ B) X) as n10_1.
+    rewrite -> n10_33 in n10_1.
+    rewrite -> n4_3 in n10_1.
+    Syll S2 n10_1 Sy1.
+    setoid_rewrite -> n4_3 in Sy1 at 3.
+    setoid_rewrite -> n4_3 in Sy1 at 4.
+    setoid_rewrite <- n5_33 in Sy1.
+    pose proof (n10_11 X (fun x => φ x → x = B)) as n10_11.
+    pose proof (Fact3_45 (φ X → X = B)
+      (φ x -[ x ]> x = B) (φ B)) as Fact3_45.
+    MP Fact3_45 n10_11.
+    rewrite -> n4_3 in Fact3_45.
+    setoid_rewrite -> n4_3 in Fact3_45 at 2.
+    now Syll Sy1 Fact3_45 S3.
   }
   assert (S4 : (φ B /\ ((φ x /\ φ y) -[ x y ]> (x = y)))
     -> (((x = B) -[ x ]> φ x) /\ (φ x -[ x ]> (x = B)))).
@@ -1509,9 +1520,10 @@ Proof.
     intro Hp.
     pose proof (S4 Hp) as S4.
     rewrite <- n10_22 in S4.
-    (* TODO: instantiate X and then generalize... or find another theorem
-    to use *)
-    admit.
+    pose proof n10_22 as n10_22.
+    replace (∀ x, (x = B → φ x) ∧ (φ x → x = B))
+      with (∀ x, x = B <-> φ x) in S4 by reflexivity.
+    now setoid_rewrite -> n4_3 in S4.
   }
   assert (S6 : (∃ b, φ b /\ ((φ x /\ φ y) -[ x y ]> (x = y)))
     -> (∃ b, φ x <[- x -]> (x = b))).
@@ -1547,7 +1559,7 @@ Proof.
     now Equiv S9.
   }
   exact S9.
-Admitted.
+Qed.
 
 Theorem n14_204 (B : Prop) (s : string) (φ : Prop → Prop) : iota_E φ 
   ↔ ∃ b, (iota_f s φ (fun x => (Iota s x) = b)).
