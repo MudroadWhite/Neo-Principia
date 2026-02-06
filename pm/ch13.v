@@ -683,7 +683,6 @@ Proof.
   }
   assert (S5 : (φ A ∨ ¬ φ A) → ((X = A) → (φ X ∨ ¬ φ X))).
   {
-    pose proof n13_101 as _n13_101.
     pose proof (n13_101 X A (fun x => φ x ∨ ¬ φ x)) as n13_101.
     pose proof (Comm2_04 (X = A) (φ X ∨ ¬ φ X) (φ A ∨ ¬ φ A)) as Comm2_04.
     now MP Comm2_04 n13_101.
