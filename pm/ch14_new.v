@@ -9,6 +9,8 @@ Require Import PM.pm.ch11.
 Require Import PM.pm.ch12.
 Require Import PM.pm.ch13.
 
+Require Import Logic.FunctionalExtensionality.
+
 (* TODO: don't forget to copy comments into here *)
 (* TODO: add scope for notations *)
 
@@ -105,41 +107,38 @@ Proof.
 Qed.
 
 Theorem n14_111 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) :
-  [iota2rev φ, ψ | iotaψ iotaφ => f iotaψ iotaφ]
+  [iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ]
   ↔ (∃ b c, (φ x <[- x -]> (x = b)) ∧ (ψ x <[- x -]> (x = c)) ∧ (f b c)).
 Proof.
-  assert (S1 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaψ iotaφ] 
-    ↔ [iota ψ | iotaψ => [iota φ | iotaφ => f iotaψ iotaφ]]).
+  assert (S1 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ] 
+    ↔ [iota ψ | iotaψ => [iota φ | iotaφ => f iotaφ iotaψ]]).
   {
-    pose proof (n4_2 ([iota2rev φ, ψ | iotaψ iotaφ => f iotaψ iotaφ])) 
+    pose proof (n4_2 ([iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ])) 
       as n4_2.
     rewrite -> n14_04 in n4_2 at 2.
     now rewrite -> n14_03 in n4_2.
   }
-  assert (S2 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaψ iotaφ]
+  assert (S2 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ]
     ↔ [iota ψ | iotaψ => (exists b, (φ x <[- x -]> (x = b)) /\ f b iotaψ)]).
   {
-    (* TODO: try the proof on the new notation... *)
-
     (* Simplification: for functions not being instantiated, we use 
     functional extentionality as a shortcut. *)
-    replace (λ c, iota_f s1 φ (λ b, f b c))
-      with (λ c, (∃ b, (φ x <[- x -]> (x = b)) ∧ f b c))
-      in S1.
+    replace (λ (iotaψ : DescriptionArg ψ), [iota φ | iotaφ => (f iotaφ iotaψ)])
+      with (λ (iotaψ : DescriptionArg ψ), (∃ b, 
+        (φ x <[- x -]> (x = b)) ∧ f b iotaψ)) in S1.
     2: {
-      extensionality c. (* function extentionality *)
+      extensionality iotaψ.
       apply propositional_extensionality.
-      pose proof (n14_1 s1 φ (fun b => f b c)) as n14_1.
-      now symmetry.
+      now rewrite -> n14_1.
     }
     exact S1.
   }
-  assert (S3 : iota_f2_rev s2 s1 ψ φ f ↔
-    (∃ c, (ψ x <[- x -]> (x = c)) 
-    ∧ ∃ b, (φ x <[- x -]> (x = b)) ∧ f b c)).
+  assert (S3 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ]
+    ↔ (∃ c, (ψ x <[- x -]> (x = c)) 
+      ∧ ∃ b, (φ x <[- x -]> (x = b)) ∧ f b c)).
   { now rewrite -> n14_1 in S2. }
-  assert (S4 : iota_f2_rev s2 s1 ψ φ f ↔
-    (∃ b c, (φ x <[- x -]> (x = b)) ∧ (ψ x <[- x -]> (x = c))
+  assert (S4 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ] 
+    ↔ (∃ b c, (φ x <[- x -]> (x = b)) ∧ (ψ x <[- x -]> (x = c))
       ∧ f b c)).
   {
     pose proof (n11_55
