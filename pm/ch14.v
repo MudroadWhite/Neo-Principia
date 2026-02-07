@@ -47,9 +47,6 @@ Whether we can restrict the iotas to typed functions only is a future question.
 The definitions are being put into the `lib.v`. 
 *)
 
-(* TODO: make the definitions into a notation in the future 
-Declare Scope single_description. *)
-
 Definition n10_1_pred (φ : Predicate 1 → Prop) (Y : Predicate 1) : 
   (∀ x, φ x) → φ Y.
 Admitted.
