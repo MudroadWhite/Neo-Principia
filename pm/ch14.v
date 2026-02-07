@@ -13,7 +13,6 @@ Require Import Logic.FunctionalExtensionality.
 
 (* TODO:
 - design a notation for all the iota functions
-- remove occurences for `extentionality`
 - fix all the `replace`s
 - fill in missing proofs
 *)
@@ -130,11 +129,8 @@ Proof.
   {
     replace (λ c, iota_f s1 φ (λ b, f (Iota s1 b) (Iota s2 c)))
       with (λ c, iota_f s1 φ (λ b, f b c)) in S1 by reflexivity.
-    (* TODO: we actually don't need extentionality, and this should be also
-    obtainable just by using theorems in ch13.
-    See: n13_101 *)
-    (* Simplification: currently we use functional extentionality as
-    a shortcut. THIS SHOULD BE ELIMINATED IN THE FUTURE *)
+    (* Simplification: for functions not being instantiated, we use 
+    functional extentionality as a shortcut. *)
     replace (λ c, iota_f s1 φ (λ b, f b c))
       with (λ c, (∃ b, (φ x <[- x -]> (x = b)) ∧ f b c))
       in S1.
@@ -2064,31 +2060,17 @@ Proof.
   assert (S2 : (φ x <[- x -]> ψ x) -> ((φ x <[- x -]> (x = B))
     <-> (ψ x <[- x -]> (x = B)))).
   {
+    (* From this single direction theorem *5.1, I hightly think this step is unprovable *)
+    pose proof n5_1 as _n5_1.
     pose proof (n10_11 X (fun x => (φ x <-> ψ x) -> ((φ x <-> (x = B)) 
       <-> (ψ x <-> (x = B))))) as n10_11.
     MP n10_11 S1.
     pose proof (n10_27 (fun x => φ x ↔ ψ x)
       (fun x => (φ x ↔ x = B) ↔ (ψ x ↔ x = B))) as n10_27.
     MP n10_27 n10_11.
-    (* simplifications *)
     intro Hp.
     MP n10_27 Hp.
-    (* The connection from S1 to n10_414 is quite weak here
-    TODO: (φ x ↔ x = B) <[- x -]> (ψ x ↔ x = B) 
-      -> (φ x <[- x -]> ψ x) /\ ((x = B <[- x -]> x = B))
-    Alternatively... can we derive the result directly from n10_27?
-    *)
     pose proof n10_414 as _n10_414.
-    (* This is such a wild replacement for a theorem to have,
-      with *4.2 involves just like *13.15! I doubt if this is 
-      provable
-    *)
-    pose proof (n10_414 
-      (fun x => φ x)
-      (fun x => x = B)
-      (fun x => ψ x)
-      (fun x => x = B)) as n10_414.
-      simpl in n10_414.
     admit.
   }
   assert (S3 : (φ x <[- x -]> ψ x) 
@@ -2338,19 +2320,8 @@ Proof.
   assert (S6 : ((iota_f s φ (fun x => ~ χ (Iota s x)))
     ↔ ~ (iota_f s φ χ)) -> iota_E φ).
   {
-    (* TODO:
-    - expand all iotas
-    - merge the iotas into a big one
-    *)
-    (* rewrite -> n14_1 in S5.
-    rewrite -> n14_1 in S5. *)
-    pose proof (n14_21 s φ (fun x =>
-      (¬ χ (Iota s x)) <-> (¬ χ (Iota s x)))) as n14_21.
-    rewrite -> n14_1 in n14_21. 
-    (* TODO: add something before n14_21 *)
-    (* TODO: ((P /\ Q) <-> (P /\ R)) <-> (P /\ (Q <-> R)) *)
-    (* if things go worse, rocq's tactic will be mandatory to be introduced 
-      into the proof *)
+    (* NOTE: Doubt this step is provable, because the different meaning in 
+    notation here could make a crucial difference *)
     pose proof n14_1 as _n14_1.
     admit.
   }
