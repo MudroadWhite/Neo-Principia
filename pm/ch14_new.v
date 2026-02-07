@@ -16,20 +16,20 @@ Definition DescriptionArg (φ : Prop -> Prop) : Type := Prop.
 
 Definition Description (φ : Prop -> Prop) (expr : (DescriptionArg φ) -> Prop) : Prop. 
 Admitted.
-Example descriptionarg_example := (fun iotaφ_x : (DescriptionArg (fun x => x)) =>
-  iotaφ_x = iotaφ_x).
+Example descriptionarg_example := (fun iotaφ : (DescriptionArg (fun x => x)) =>
+  iotaφ = iotaφ).
 
 Definition DescriptionExists (φ : Prop -> Prop) : Prop. Admitted.
 Example descriptionexists_example := DescriptionExists (fun x => x).
 
 Example description_example := 
-  Description (fun (iotaφ_x : DescriptionArg (fun x => x)) =>
-    iotaφ_x = iotaφ_x).
+  Description (fun (iotaφ : DescriptionArg (fun x => x)) =>
+    iotaφ = iotaφ).
 
 Notation "[ 'iota' φ | x => B ]" := (Description φ (fun (x : DescriptionArg φ) => B))
   (at level 200, x binder, right associativity).
 (* TODO: format... *)
-Example iota_notation_example := [ iota (fun x => x) | iotaφ_x => iotaφ_x = iotaφ_x ].
+Example iota_notation_example := [ iota (fun x => x) | iotaφ => iotaφ = iotaφ ].
 
 Notation "[ 'iotaE' P ]" := (DescriptionExists (P : Prop -> Prop))
   (at level 100, P constr at level 200, right associativity).
@@ -60,7 +60,7 @@ Notation "[ 'iota2rev' φ , ψ | y x => B ]" :=
 Open Scope single_app_equiv.
 
 Definition n14_01 (φ ψ : Prop → Prop) : 
-  [iota φ | iotaφ_x => ψ iotaφ_x] 
+  [iota φ | iotaφ => ψ iotaφ] 
     = ∃ b, (φ x <[- x -]> (x = b)) ∧ ψ b. 
 Admitted.
 
@@ -73,19 +73,19 @@ comes up with the default interpretations as two `iota` rather than one `iota2`.
 While this doen't affect significantly how the definition organizes, it still affects
 how we should write down a theorem *)
 Definition n14_03 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) :
-  [iota2 φ, ψ | iotaφ_x iotaψ_y => f iotaφ_x iotaψ_y] = 
-    [iota φ | iotaφ_x => [iota ψ | iotaψ_y => f iotaφ_x iotaψ_y]].
+  [iota2 φ, ψ | iotaφ iotaψ => f iotaφ iotaψ] = 
+    [iota φ | iotaφ => [iota ψ | iotaψ => f iotaφ iotaψ]].
 Admitted.
   
 Definition n14_04 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) : 
-  [iota2rev φ, ψ | iotaψ_y iotaφ_x => f iotaψ_y iotaφ_x]
-  = [iota2 ψ, φ | iotaψ_y iotaφ_x => f iotaψ_y iotaφ_x].
+  [iota2rev φ, ψ | iotaψ iotaφ => f iotaψ iotaφ]
+  = [iota2 ψ, φ | iotaψ iotaφ => f iotaψ iotaφ].
 Admitted.
 
-Theorem n14_1 (φ ψ : Prop → Prop) : [iota φ | iotaφ_x => ψ iotaφ_x]
+Theorem n14_1 (φ ψ : Prop → Prop) : [iota φ | iotaφ => ψ iotaφ]
   ↔ ∃ b, (φ x <[- x -]> (x = b)) ∧ ψ b.
 Proof.
-  pose proof (n4_2 ([iota φ | iotaφ_x => ψ iotaφ_x] )) as n4_2.
+  pose proof (n4_2 ([iota φ | iotaφ => ψ iotaφ] )) as n4_2.
   now rewrite -> n14_01 in n4_2 at 2.
 Qed.
 
@@ -93,7 +93,7 @@ Qed.
   representation omitted. With our definition, we might just make 
   another definition copying `iota_f` to indicate it is getting 
   scope notation in the text... *)
-Theorem n14_101 (φ ψ : Prop → Prop) : [iota φ | iotaφ_x => ψ iotaφ_x] 
+Theorem n14_101 (φ ψ : Prop → Prop) : [iota φ | iotaφ => ψ iotaφ] 
   ↔ ∃ b, (φ x <[- x -]> (x = b)) ∧ ψ b.
 Proof. exact (n14_1 φ ψ). Qed.
 
@@ -105,23 +105,22 @@ Proof.
 Qed.
 
 Theorem n14_111 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) :
-  [iota2rev φ, ψ | iotaψ_y iotaφ_x => f iotaψ_y iotaφ_x]
+  [iota2rev φ, ψ | iotaψ iotaφ => f iotaψ iotaφ]
   ↔ (∃ b c, (φ x <[- x -]> (x = b)) ∧ (ψ x <[- x -]> (x = c)) ∧ (f b c)).
 Proof.
-  assert (S1 : [iota2rev φ, ψ | iotaψ_y iotaφ_x => f iotaψ_y iotaφ_x] 
-    ↔ [iota ψ | iotaψ_y => [iota φ | iotaφ_x => f iotaψ_y iotaφ_x]]).
+  assert (S1 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaψ iotaφ] 
+    ↔ [iota ψ | iotaψ => [iota φ | iotaφ => f iotaψ iotaφ]]).
   {
-    pose proof (n4_2 ([iota2rev φ, ψ | iotaψ_y iotaφ_x => f iotaψ_y iotaφ_x])) 
+    pose proof (n4_2 ([iota2rev φ, ψ | iotaψ iotaφ => f iotaψ iotaφ])) 
       as n4_2.
     rewrite -> n14_04 in n4_2 at 2.
     now rewrite -> n14_03 in n4_2.
   }
-  assert (S2 : iota_f2_rev s2 s1 ψ φ f ↔
-    (iota_f s2 ψ (fun c =>
-      ∃ b, (φ x <[- x -]> (x = b)) ∧ f b c))).
+  assert (S2 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaψ iotaφ]
+    ↔ [iota ψ | iotaψ => (exists b, (φ x <[- x -]> (x = b)) /\ f b iotaψ)]).
   {
-    replace (λ c, iota_f s1 φ (λ b, f (Iota s1 b) (Iota s2 c)))
-      with (λ c, iota_f s1 φ (λ b, f b c)) in S1 by reflexivity.
+    (* TODO: try the proof on the new notation... *)
+
     (* Simplification: for functions not being instantiated, we use 
     functional extentionality as a shortcut. *)
     replace (λ c, iota_f s1 φ (λ b, f b c))
