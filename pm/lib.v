@@ -39,6 +39,10 @@ Example var_0 := Individual "x".
 
 Should we treat `!` as something being denotational just like the dot notations in Principia?
 *)
+
+(* **************** *)
+(* Chapter 13 *)
+(* **************** *)
 (* Unsatisfying: what we want to express is that Phi takes argument with the same type of `X` *)
 (* Here, n is supposed to be the order of the predicate *)
 (* Unset Automatic Proposition Inductives. *)
@@ -64,9 +68,11 @@ Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
 End Predicate2. *)
 (* TODO: maybe we should synthesize these 2 types into one inductive type with the name of "constituent" *)
 
+(* **************** *)
+(* Chapter 14 *)
+(* **************** *)
 (* Notation support for chapter 14, descriptions *)
 Definition Iota (s : string) (x : Prop) : Prop := x.
-
 Example iota_function (i1 i2 : Prop) : Prop → Prop :=
   fun x =>
     (Iota "Phi" i1) = (Iota "Psi" i2).
@@ -88,7 +94,6 @@ Definition iota_f
   While the definition doesn't express anything, this function is allowed to use 
   `Iota s1` in its body *)
   (Psi : Prop → Prop) : Prop. Admitted.
-
 Example scoped_iota_expression (Phi : Prop → Prop) :=
   iota_f "Phi" Phi 
     (* A function will be written like this... *)
@@ -115,6 +120,80 @@ Definition iota_f2 (s1 s2 : string) (Phi Psi : Prop → Prop)
 *)
 Definition iota_f2_rev (s1 s2 : string) (Phi Psi : Prop → Prop)
   (f : Prop → Prop → Prop) : Prop. Admitted.
+
+
+Declare Scope debug_iota_description.
+Declare Scope iota_description.
+
+Definition DescriptionArg (φ : Prop -> Prop) : Type := Prop.
+Example descriptionarg_example := (fun iotaφ : (DescriptionArg (fun x => x)) =>
+  iotaφ = iotaφ).
+
+Definition Description (φ : Prop -> Prop) (expr : (DescriptionArg φ) -> Prop) : Prop. 
+Admitted.
+Example description_example := 
+  Description (fun (iotaφ : DescriptionArg (fun x => x)) =>
+    iotaφ = iotaφ).
+
+Definition DescriptionExists (φ : Prop -> Prop) : Prop. Admitted.
+Example descriptionexists_example := DescriptionExists (fun x => x).
+
+Definition Description2 (φ ψ : Prop -> Prop) 
+  (expr : (DescriptionArg φ) -> (DescriptionArg ψ) -> Prop): Prop. 
+Admitted.
+Example description2_example (φ ψ : Prop -> Prop) :=
+  Description2 φ ψ (fun x y => x = y).
+
+Definition Description2_rev (φ ψ : Prop -> Prop) 
+  (expr : (DescriptionArg ψ) -> (DescriptionArg φ) -> Prop): Prop. 
+Admitted.
+
+Open Scope debug_iota_description.
+
+Notation "[ 'iota' φ | x => B ]" := (Description φ (fun (x : DescriptionArg φ) => B))
+  (at level 200, x binder, right associativity) : debug_iota_description.
+(* TODO: format... *)
+Example debug_iota_notation_example := [ iota (fun x => x) | iotaφ => iotaφ = iotaφ ].
+
+Notation "[ 'iotaE' P ]" := (DescriptionExists (P : Prop -> Prop))
+  (at level 100, P constr at level 200, right associativity) : debug_iota_description.
+Example debug_iota_exists_example := [ iotaE (fun x => x) ].
+
+Notation "[ 'iota2' φ , ψ | x y => B ]" := 
+  (Description2 φ ψ (fun (x : DescriptionArg φ) (y : DescriptionArg ψ) => B))
+  (at level 200, x binder, y binder, right associativity) : debug_iota_description.
+Example debug_iota2_example := 
+  [ iota2 (fun x => x) , (fun x => x) | x y => (x = y) ].
+
+Notation "[ 'iota2rev' φ , ψ | y x => B ]" := 
+  (Description2 φ ψ (fun (y : DescriptionArg ψ) (x : DescriptionArg φ) => B))
+  (at level 200, x binder, y binder, right associativity) : debug_iota_description.
+
+Close Scope debug_iota_description.
+
+Open Scope iota_description.
+
+Notation "[ 'ι' φ | x => B ]" := (Description φ (fun (x : DescriptionArg φ) => B))
+  (at level 200, x binder, right associativity) : iota_description.
+(* TODO: format... *)
+Example iota_notation_example := [ι (fun x => x) | ιφ => ιφ = ιφ].
+
+Notation "[ 'ιE' P ]" := (DescriptionExists (P : Prop -> Prop))
+  (at level 100, P constr at level 200, right associativity) : iota_description.
+Example iota_exists_example := [ ιE (fun x => x) ].
+
+Notation "[ 'ι2' φ , ψ | x y => B ]" := 
+  (Description2 φ ψ (fun (x : DescriptionArg φ) (y : DescriptionArg ψ) => B))
+  (at level 200, x binder, y binder, right associativity) : iota_description.
+Example iota2_example := 
+  [ ι2 (fun x => x) , (fun x => x) | x y => (x = y) ].
+
+Notation "[ 'ι2rev' φ , ψ | y x => B ]" := 
+  (Description2 φ ψ (fun (y : DescriptionArg ψ) (x : DescriptionArg φ) => B))
+  (at level 200, x binder, y binder, right associativity) : iota_description.
+
+Close Scope iota_description.
+
 
 (* ******** *)
 (* AGGREGATED TODOS *)
