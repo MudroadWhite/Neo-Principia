@@ -8,6 +8,7 @@ Require Import PM.pm.ch9.
 
 (* TODO: 
 - slightly rewrite the introduction below
+- fix format for notations
 *)
 
 (* TODO: TYPE RESTRICTIONS
