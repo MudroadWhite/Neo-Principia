@@ -21,8 +21,11 @@ Open Scope single_app_equiv.
 
 (* Notation support for argument class *)
 Definition ArgClass 
-  (x : Prop) 
-  (Phi : Prop -> Prop) := Phi x.
+  (Phi : Prop -> Prop) := Phi.
+
+(* Notation support to give type to class parameter, and reuse Coq's notation 
+  easier - see `forall` `exists` etc. below *)
+Definition Class : Type := Prop.
 
 Definition app_arg_class 
   (n : nat) 
@@ -32,7 +35,7 @@ Definition app_arg_class
   (f : Predicate n -> Prop) 
   : Prop. Admitted.
 
-Definition Cls (a : Prop) : Prop. Admitted.
+Definition Cls (alpha : Prop) : Prop. Admitted.
 
 Definition in_pred (n : nat) (X : Prop) (Phi : Predicate n) : Prop. Admitted.
 
@@ -57,6 +60,6 @@ we can see explicitly that for all definitions in Principia it is allowed
 to add more "uses" to the expressioins whenever we want 
 *)
 Definition n20_03 (alpha : Prop) (Z : Prop) :
-  (Cls alpha) = ArgClass alpha (fun alpha =>
-    exists Phi : Predicate 1, alpha = ArgClass Z Phi).
+  (Cls alpha) = ArgClass (fun alpha =>
+    exists Phi : Predicate 1, alpha = ArgClass Phi).
 Admitted.

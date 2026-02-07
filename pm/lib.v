@@ -71,9 +71,6 @@ Example iota_function (i1 i2 : Prop) : Prop → Prop :=
   fun x =>
     (Iota "Phi" i1) = (Iota "Psi" i2).
 
-(* TODO: maybe we can recollect all the functions for iota into an 
-  inductive type *)
-
 (* `_f` suffix means it's for typical (untyped) functions. Here we only define
   the signature to avoid repetitive definitions, and the actual definition starts 
   after *14.01. *)
