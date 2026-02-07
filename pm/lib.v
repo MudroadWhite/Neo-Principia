@@ -192,8 +192,15 @@ Notation "[ 'ι2rev' φ , ψ | y x => B ]" :=
   (Description2 φ ψ (fun (y : DescriptionArg ψ) (x : DescriptionArg φ) => B))
   (at level 200, x binder, y binder, right associativity) : iota_description.
 
+Definition iota2_arg_comm (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) : 
+  [ι2 φ, ψ | iotaφ iotaψ => f iotaφ iotaψ]
+  ↔ [ι2 φ, ψ | iotaψ iotaφ => f iotaφ iotaψ].
+Admitted.
+
 Close Scope iota_description.
 
+(* For this new notation, we have to design some special axioms to make 
+  it work... *)
 
 (* ******** *)
 (* AGGREGATED TODOS *)
