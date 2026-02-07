@@ -13,7 +13,6 @@ Require Import Logic.FunctionalExtensionality.
 
 (* TODO:
 - design a notation for all the iota functions
-- remove occurences for `extentionality`
 - fix all the `replace`s
 - fill in missing proofs
 *)
@@ -37,7 +36,9 @@ is contained in.
 With this notation, all propositional functions with iota variables have to be written explicitly
 starting with `(fun x => ...)`, in contrast to just building an arbitary proposition with iota 
 variables immediately. The resulted notation is quite different from how it looks like originally, 
-but it can correctly express what should a iota do and limit its scope as in the text.
+but it can correctly express what should a iota do and limit its scope as in the text. I suppose 
+in this way we actually defined a "dual" of an incomplete definition - instead of having an unclear 
+context with clear meaning, here we have a clear context with meaning out of the system.
 
 From n14_17 and onward, we're seeing how iota should cope with the predicative functions. Currently
 we are still letting iotas being "untyped", that is, being constructed based on untyped function. 
@@ -128,11 +129,8 @@ Proof.
   {
     replace (λ c, iota_f s1 φ (λ b, f (Iota s1 b) (Iota s2 c)))
       with (λ c, iota_f s1 φ (λ b, f b c)) in S1 by reflexivity.
-    (* TODO: we actually don't need extentionality, and this should be also
-    obtainable just by using theorems in ch13.
-    See: n13_101 *)
-    (* Simplification: currently we use functional extentionality as
-    a shortcut. THIS SHOULD BE ELIMINATED IN THE FUTURE *)
+    (* Simplification: for functions not being instantiated, we use 
+    functional extentionality as a shortcut. *)
     replace (λ c, iota_f s1 φ (λ b, f b c))
       with (λ c, (∃ b, (φ x <[- x -]> (x = b)) ∧ f b c))
       in S1.
@@ -498,26 +496,30 @@ Proof.
     → (((φ Z W) ∧ (φ U V))
       → (Z = X ∧ W = Y ∧ U = X ∧ V = Y))).
   {
+    intro Hp.
     pose proof (n11_1 Z W (fun z w =>
       (φ z w) ↔ ((z = X) ∧ (w = Y)))) as n11_1a.
     pose proof (n11_1 U V (fun z w =>
       (φ z w) ↔ ((z = X) ∧ (w = Y)))) as n11_1b.
-    pose proof (n3_47) as n3_47.
-    (* Involves some very complicated treatments on destructing
-    and recombining the ↔s. We might want to abstract such 
-    procedure into a new theorem *)
-    admit.
+    MP n11_1b Hp.
+    destruct n11_1b as [n11_1bl _].
+    MP n11_1a Hp.
+    destruct n11_1a as [n11_1al _].
+    Conj n11_1al n11_1bl C1.
+    pose proof (n3_47 (φ Z W) (φ U V)
+      (Z = X ∧ W = Y) (U = X ∧ V = Y)) as n3_47.
+    MP n3_47 C1.
+    now rewrite -> n4_32 in n3_47.
   }
   assert (S3 : (φ z w <[- z w -]> ((z = X) ∧ (w = Y)))
     → (((φ Z W) ∧ (φ U V)) → ((Z = U) ∧ (W = V)))).
   {
     (* simplification: tedious reordering... *)
+    intros Hp.
+    pose proof (S2 Hp) as S2.
     assert (S2_1 : (Z = X ∧ W = Y ∧ U = X ∧ V = Y)
       ↔ ((Z = X ∧ U = X) ∧ (W = Y ∧ V = Y))).
-    {
-      (* TODO: we need theorem for commutativity for ∧ *)
-      admit. 
-    }
+    { now rewrite <- n4_32. }
     rewrite -> S2_1 in S2. clear S2_1.
     pose proof (n13_172 X Z U) as n13_172a.
     pose proof (n13_172 Y W V) as n13_172b.
@@ -528,8 +530,6 @@ Proof.
     { clear n3_47; now Conj n13_172a n13_172b C1. }
     MP n3_47 C1.
     (* simplification for syll *)
-    intros Hp.
-    pose proof (S2 Hp) as S2.
     now Syll S2 n3_47 S3.
   }
   assert (S4 : (∃ x y, φ z w <[- z w -]> ((z = x) ∧ (w = y)))
@@ -567,7 +567,12 @@ Proof.
       (∀ z w, φ z w ∧ φ u v → z = u ∧ w = v))) as n11_1.
     assert (A1 : (∀ x y z w : Prop, φ z w ∧ φ x y → z = x ∧ w = y)
       ↔ (∀ z w x y : Prop, φ z w ∧ φ x y → z = x ∧ w = y)).
-    { admit. }
+    {
+      setoid_rewrite -> n11_2 at 2.
+      setoid_rewrite -> n11_2 at 3.
+      setoid_rewrite -> n11_2 at 1.
+      now setoid_rewrite -> n11_2 at 2.
+    }
     rewrite -> A1 in n11_1.
     pose proof (Fact3_45
       (∀ z w x y : Prop, φ z w ∧ φ x y → z = x ∧ w = y)
@@ -581,10 +586,20 @@ Proof.
     ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
     → (φ X Y ∧ (φ z w -[ z w ]> ((z = X) ∧ (w = Y))))).
   {
-    (* TODO: design the n5_33 on a quantified version to procceed *)
-    pose proof n5_33 as n5_33.
-    (* rewrite <- n5_33 in S6. *)
-    admit.
+    pose proof (n5_33 (φ X Y) (φ Z W) (Z = X ∧ W = Y)) as n5_33.
+    setoid_rewrite -> n4_3 in n5_33 at 5.
+    pose proof (n11_11 Z W (fun z w =>
+      φ X Y ∧ (φ z w → z = X ∧ w = Y) 
+      ↔ φ X Y ∧ (φ z w ∧ φ X Y → z = X ∧ w = Y))) as n11_11.
+    MP n11_11 n5_33.
+    pose proof (n11_33
+      (fun z w => φ X Y ∧ (φ z w → z = X ∧ w = Y))
+      (fun z w => φ X Y ∧ (φ z w ∧ φ X Y → z = X ∧ w = Y))) 
+      as n11_33.
+    MP n11_33 n11_11.
+    rewrite -> n11_47 in n11_33.
+    setoid_rewrite -> n11_47 in n11_33.
+    now rewrite <- n11_33 in S6.
   }
   assert (S8 : ((φ X Y) ∧ (∀ z w u v, 
     ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
@@ -599,7 +614,6 @@ Proof.
       (φ z w ∧ φ u v) → ((z = u) ∧ (w = v)))
     → (∃ x y, φ z w <[- z w -]> ((z = x) ∧ (w = y))))).
   {
-    pose proof n11_45 as _n11_45.
     pose proof (n11_11 X Y (fun x y =>
       ((φ x y) ∧ (∀ z w u v, 
         ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
@@ -636,7 +650,7 @@ Proof.
     now Equiv S10.
   }
   exact S10.
-Admitted.
+Qed.
 
 Theorem n14_13 (A : Prop) (s : string) (φ : Prop → Prop) : 
   (iota_f s φ (fun x => A = (Iota s x)))
@@ -1125,7 +1139,6 @@ Proof.
     → iota_f s1 φ χ ↔ iota_f s2 ψ χ).
   {
     (* *10.2 ignored -  it doesn't fit in *)
-    pose proof n10_11 as _n10_11.
     pose proof (n10_11 B (fun b =>
       ((∀ x, φ x ↔ x = b) ∧ iota_f s2 ψ (λ y, b = Iota s2 y))
       → (iota_f s1 φ χ ↔ iota_f s2 ψ χ))) as n10_11.
@@ -1389,6 +1402,7 @@ Proof.
   }
   assert (S3 : iota_E φ -> ∃ x, φ x).
   {
+    (* Same issue *)
     pose proof n13_15 as n13_15.
     admit.
   }
@@ -1444,6 +1458,7 @@ Theorem n14_203 (φ : Prop → Prop) : iota_E φ
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
+  set (X := Individual "x").
   (* ******** *)
   assert (S1 : iota_E φ -> ((∃ x, φ x) 
     /\ (φ x /\ φ y) -[ x y ]> (x = y))).
@@ -1472,10 +1487,20 @@ Proof.
   assert (S3 : (φ B /\ ((φ x /\ φ y) -[ x y ]> (x = y)))
     -> (φ B /\ (φ x -[ x ]> (x = B)))).
   {
-    (* TODO: We can use an extra `X` to instantiate the 
-      ∀ and obtain the result, but for now it is too tedious *)
-    pose proof n5_33 as n5_33.
-    admit.
+    pose proof (n10_1 (fun x => ((φ x /\ φ B) -> (x = B)) ∧ φ B) X) as n10_1.
+    rewrite -> n10_33 in n10_1.
+    rewrite -> n4_3 in n10_1.
+    Syll S2 n10_1 Sy1.
+    setoid_rewrite -> n4_3 in Sy1 at 3.
+    setoid_rewrite -> n4_3 in Sy1 at 4.
+    setoid_rewrite <- n5_33 in Sy1.
+    pose proof (n10_11 X (fun x => φ x → x = B)) as n10_11.
+    pose proof (Fact3_45 (φ X → X = B)
+      (φ x -[ x ]> x = B) (φ B)) as Fact3_45.
+    MP Fact3_45 n10_11.
+    rewrite -> n4_3 in Fact3_45.
+    setoid_rewrite -> n4_3 in Fact3_45 at 2.
+    now Syll Sy1 Fact3_45 S3.
   }
   assert (S4 : (φ B /\ ((φ x /\ φ y) -[ x y ]> (x = y)))
     -> (((x = B) -[ x ]> φ x) /\ (φ x -[ x ]> (x = B)))).
@@ -1490,9 +1515,10 @@ Proof.
     intro Hp.
     pose proof (S4 Hp) as S4.
     rewrite <- n10_22 in S4.
-    (* TODO: instantiate X and then generalize... or find another theorem
-    to use *)
-    admit.
+    pose proof n10_22 as n10_22.
+    replace (∀ x, (x = B → φ x) ∧ (φ x → x = B))
+      with (∀ x, x = B <-> φ x) in S4 by reflexivity.
+    now setoid_rewrite -> n4_3 in S4.
   }
   assert (S6 : (∃ b, φ b /\ ((φ x /\ φ y) -[ x y ]> (x = y)))
     -> (∃ b, φ x <[- x -]> (x = b))).
@@ -1528,7 +1554,7 @@ Proof.
     now Equiv S9.
   }
   exact S9.
-Admitted.
+Qed.
 
 Theorem n14_204 (B : Prop) (s : string) (φ : Prop → Prop) : iota_E φ 
   ↔ ∃ b, (iota_f s φ (fun x => (Iota s x) = b)).
@@ -1564,13 +1590,21 @@ Theorem n14_205 (s : string) (φ ψ : Prop → Prop) : (iota_f s φ ψ)
   ↔ ∃ b, (iota_f s φ (fun x => b = (Iota s x))) ∧ ψ b.
 Proof.
   set (B := Individual "b").
-  pose proof n14_1 as _n14_1.
   pose proof (n14_202 B s φ) as n14_202.
   destruct n14_202 as [_ n14_202r].
   destruct n14_202r as [_ n14_202rr].
-  setoid_rewrite -> n13_16 in n14_202rr at 1.
-  (* TODO: generalize n14_202rr with `exist` and finish the proof *)
-Admitted.
+  pose proof (n4_36 (φ x <[- x -]> B = x) (iota_f s φ (λ x, B = Iota s x))
+    (ψ B)) as n4_36.
+  MP n4_36 n14_202rr.
+  pose proof (n10_11 B (fun b => (φ x <[- x -]> b = x ) ∧ ψ b 
+    ↔ iota_f s φ (λ x, b = Iota s x) ∧ ψ b)) as n10_11.
+  MP n10_11 n4_36.
+  pose proof (n10_281 (fun b => (φ x <[- x -]> b = x ) ∧ ψ b)
+    (fun b => iota_f s φ (λ x, b = Iota s x) ∧ ψ b)) as n10_281.
+  MP n10_281 n10_11.
+  setoid_rewrite -> n13_16 in n10_281 at 1.
+  now rewrite <- (n14_1 s) in n10_281.
+Qed.
 
 Theorem n14_21 (s : string) (φ ψ : Prop → Prop) : (iota_f s φ ψ) → iota_E φ.
 Proof.
@@ -1636,8 +1670,6 @@ Proof.
   assert (S2 : iota_E (fun x => φ x ∧ ψ x) -> iota_f s 
     (fun x => φ x /\ ψ x) φ).
   {
-    pose proof n10_5 as _n10_5.
-    pose proof Simp3_26 as _Simp3_26.
     destruct S1 as [S1_l _].
     (* simplifications *)
     intro Hp.
@@ -1903,7 +1935,6 @@ Proof.
   assert (S1 : (φ X <-> (X = B)) 
     -> ((φ X <-> ψ X) <-> (ψ X <-> (X = B)))).
   { 
-    pose proof n4_86 as _n4_86.
     pose proof (n4_86 (φ X) (X = B) (ψ X)) as n4_86.
      (*simplification  *)
     intro Hp.
@@ -2029,31 +2060,17 @@ Proof.
   assert (S2 : (φ x <[- x -]> ψ x) -> ((φ x <[- x -]> (x = B))
     <-> (ψ x <[- x -]> (x = B)))).
   {
+    (* From this single direction theorem *5.1, I hightly think this step is unprovable *)
+    pose proof n5_1 as _n5_1.
     pose proof (n10_11 X (fun x => (φ x <-> ψ x) -> ((φ x <-> (x = B)) 
       <-> (ψ x <-> (x = B))))) as n10_11.
     MP n10_11 S1.
     pose proof (n10_27 (fun x => φ x ↔ ψ x)
       (fun x => (φ x ↔ x = B) ↔ (ψ x ↔ x = B))) as n10_27.
     MP n10_27 n10_11.
-    (* simplifications *)
     intro Hp.
     MP n10_27 Hp.
-    (* The connection from S1 to n10_414 is quite weak here
-    TODO: (φ x ↔ x = B) <[- x -]> (ψ x ↔ x = B) 
-      -> (φ x <[- x -]> ψ x) /\ ((x = B <[- x -]> x = B))
-    Alternatively... can we derive the result directly from n10_27?
-    *)
     pose proof n10_414 as _n10_414.
-    (* This is such a wild replacement for a theorem to have,
-      with *4.2 involves just like *13.15! I doubt if this is 
-      provable
-    *)
-    pose proof (n10_414 
-      (fun x => φ x)
-      (fun x => x = B)
-      (fun x => ψ x)
-      (fun x => x = B)) as n10_414.
-      simpl in n10_414.
     admit.
   }
   assert (S3 : (φ x <[- x -]> ψ x) 
@@ -2303,11 +2320,9 @@ Proof.
   assert (S6 : ((iota_f s φ (fun x => ~ χ (Iota s x)))
     ↔ ~ (iota_f s φ χ)) -> iota_E φ).
   {
-    (* TODO:
-    - reorganize two iota_fs into one huge iota_f
-    - apply n14_21
-    should be ok, otherwise this is a nasty typo in original text
-    *)
+    (* NOTE: Doubt this step is provable, because the different meaning in 
+    notation here could make a crucial difference *)
+    pose proof n14_1 as _n14_1.
     admit.
   }
   assert (S7 : iota_E φ ↔ ((iota_f s φ (fun x => ~ χ (Iota s x)))
@@ -2507,8 +2522,6 @@ Proof.
   assert (S3 : (P ∧ iota_f s φ χ) ↔ iota_f s φ (fun x =>
     P ∧ χ (Iota s x))).
   {
-    pose proof n14_1 as _n14_1.
-    pose proof n4_32 as _n4_32.
     setoid_rewrite -> n4_3 in S2 at 4.
     setoid_rewrite <- n4_32 in S2.
     setoid_rewrite -> n4_3 in S2 at 3.

@@ -1261,9 +1261,6 @@ Theorem n4_87 (P Q R : Prop) :
   ∧
   ((Q → (P → R)) ↔ ((Q ∧ P) → R)).
 Proof.
-  pose proof Exp3_3 as _Exp3_3.
-  pose proof Imp3_31 as _Imp3_31.
-  pose proof Comm2_04 as _Comm2_04.
   assert (S1 : ((P ∧ Q) → R) ↔ (P → (Q → R))).
   {
     pose proof (Exp3_3 P Q R) as Exp3_3.
