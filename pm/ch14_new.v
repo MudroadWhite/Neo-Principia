@@ -105,16 +105,16 @@ Proof.
 Qed.
 
 Theorem n14_111 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) :
-  (iota_f2_rev ψ φ f) ↔ (∃ b c, 
-    (φ x <[- x -]> (x = b)) ∧ (ψ x <[- x -]> (x = c)) ∧ (f b c)).
+  [iota2rev φ, ψ | iotaψ_y iotaφ_x => f iotaψ_y iotaφ_x]
+  ↔ (∃ b c, (φ x <[- x -]> (x = b)) ∧ (ψ x <[- x -]> (x = c)) ∧ (f b c)).
 Proof.
-  assert (S1 : iota_f2_rev s2 s1 ψ φ f ↔
-    iota_f s2 ψ (fun c => iota_f s1 φ 
-      (fun b => f (Iota s1 b) (Iota s2 c)))).
+  assert (S1 : [iota2rev φ, ψ | iotaψ_y iotaφ_x => f iotaψ_y iotaφ_x] 
+    ↔ [iota ψ | iotaψ_y => [iota φ | iotaφ_x => f iotaψ_y iotaφ_x]]).
   {
-    pose proof (n4_2 (iota_f2_rev s2 s1 ψ φ f)) as n4_2.
+    pose proof (n4_2 ([iota2rev φ, ψ | iotaψ_y iotaφ_x => f iotaψ_y iotaφ_x])) 
+      as n4_2.
     rewrite -> n14_04 in n4_2 at 2.
-    now rewrite -> (n14_03 s2 s1) in n4_2.
+    now rewrite -> n14_03 in n4_2.
   }
   assert (S2 : iota_f2_rev s2 s1 ψ φ f ↔
     (iota_f s2 ψ (fun c =>
