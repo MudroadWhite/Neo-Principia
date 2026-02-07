@@ -24,6 +24,8 @@ Principia performs everything **one step at a time**. This automatically means f
 
 During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
 
+TODO: check ch1, 1.7....
+
 ----------------
 
 UNFINISHED PIECES BELOW
