@@ -20,27 +20,36 @@ incomplete definition. We should also change the style into that... *)
 (* TODO: define a scope for all this *)
 
 (* Class determined by *function* Phi...is this definition correct? *)
+(* Should we change to a sigT in the future? *)
 Definition Class (Phi : Prop -> Prop) : Type := Prop -> Prop.
+Example class_example := Class (fun x => x = x).
 
 Definition mk_class (Phi : Prop -> Prop) : Class Phi. Admitted.
+Example mk_class_example : class_example := mk_class (fun x => x = x).
 
-(* TODO: design the parameter type for `f` ecarefully *)
-Definition app_class (Phi : Prop -> Prop) (f : (Prop -> Prop) -> Prop)
+(* 
+Note that we are utilizing the fact that `f` can be both a function
+taking a normal function as param, and a function dedicated to take
+a class as a parameter. This is also how it works for descriptions
+*)
+Definition app_class (Phi : Prop -> Prop) (f : (Class Phi) -> Prop)
   (cls : Class Phi) : Prop. 
 Admitted.
+Example app_class_example := app_class (fun x => x = x)
+  (fun p => p = p) mk_class_example.
 
+(* We might just leave the Psi be Psi...in the future *)
 Notation "[ ^ z => B ]" := (mk_class (fun z => B))
   (at level 130, z binder, right associativity).
 
 (* TODO: refer to iota and see if we can make the f more flexible
- f is supposed to be able to use only the class name *)
+ f is supposed to be able to use only the class name
+ This seems to also be what should be expected for descriptions in
+ its most complete sense *)
 Notation "[ ^ z => B1 @ z_clsname => Bf ]" := 
   ( let Psi := (fun z => B1) in
     (app_class Psi ((fun z z2 => B1 z) Psi) (mk_class Psi)) )
   (at level 110, z1 binder, z2 binder right associativity).
-
-Example test_example := [ ^z => z = z].
-Print test_example.
 
 Open Scope single_app_equiv.
 
