@@ -32,8 +32,8 @@ Admitted.
 Notation "[ ^ z => B ]" := (mk_class (fun z => B))
   (at level 130, z binder, right associativity).
 
-(* TODO: refer to iota and see if we can make the f more flexible *)
-(* TODO: f is supposed to be able to use both the class name and the z? *)
+(* TODO: refer to iota and see if we can make the f more flexible
+ f is supposed to be able to use only the class name *)
 Notation "[ ^ z => B1 @ z_clsname => Bf ]" := 
   ( let Psi := (fun z => B1) in
     (app_class Psi ((fun z z2 => B1 z) Psi) (mk_class Psi)) )
