@@ -743,7 +743,7 @@ Proof.
     rewrite <- n14_111 in S2.
     rewrite -> n14_04 in S2.
     setoid_rewrite -> n14_113 in S2 at 2.
-    now setoid_rewrite -> ι2_arg_comm in S2 at 2.
+    now setoid_rewrite -> iota2_arg_comm in S2 at 2.
   }
   exact S3.
 Qed.
@@ -1598,11 +1598,8 @@ Proof.
       (fun b => ((φ x ∧ ψ x) <[- x -]> x = b) ∧ φ b)
       (fun b => ψ b)) as n10_5a.
     MP n10_5a S1_l.
-    (* Note that we have to use mere `x` manually here instead
-    of `Iota s x` to perform rewrite for n14_01 *)
     pose proof (Simp3_26
       (∃ x, ((φ x0 ∧ ψ x0) <[- x0 -]> x0 = x) ∧ φ x)
-        (* ∧ φ (Iota s x)) *)
       (∃ x, ψ x)) as Simp3_26.
     MP Simp3_26 n10_5a.
     now rewrite <- (n14_01 (fun x => φ x ∧ ψ x) φ) in Simp3_26.
@@ -2122,9 +2119,7 @@ Proof.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     rewrite -> n10_35 in n10_11.
-    rewrite <- n14_11 in n10_11.
-    now replace (λ x, f (χ x)) with (λ x, f (χ (Iota s x)))
-      in n10_11 by reflexivity.
+    now rewrite <- n14_11 in n10_11.
   }
   exact S5.
 Qed.
