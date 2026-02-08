@@ -53,86 +53,86 @@ Definition n10_21_pred (φ : Predicate 1 → Prop) (P : Prop) :
   (∀ x : Predicate 1, P → φ x) ↔ (P → (∀ x : Predicate 1, φ x)).
 Admitted.
 
-Open Scope debug_iota_description.
+Open Scope iota_description.
 Open Scope single_app_equiv.
 
 Definition n14_01 (φ ψ : Prop → Prop) : 
-  [iota φ | iotaφ => ψ iotaφ] 
+  [ι φ | ιφ => ψ ιφ] 
     = ∃ b, (φ x <[- x -]> (x = b)) ∧ ψ b. 
 Admitted.
 
 Definition n14_02 (φ : Prop → Prop) :
-  [iotaE φ] = ∃ b, (φ x <[- x -]> (x = b)). 
+  [ιE φ] = ∃ b, (φ x <[- x -]> (x = b)). 
 Admitted.
 
-(* Although `iota2` has been defined, expressions that involves 2 functions often
-comes up with the default interpretations as two `iota` rather than one `iota2`.
+(* Although `ι2` has been defined, expressions that involves 2 functions often
+comes up with the default interpretations as two `ι` rather than one `ι2`.
 While this doen't affect significantly how the definition organizes, it still affects
 how we should write down a theorem *)
 Definition n14_03 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) :
-  [iota2 φ, ψ | iotaφ iotaψ => f iotaφ iotaψ] = 
-    [iota φ | iotaφ => [iota ψ | iotaψ => f iotaφ iotaψ]].
+  [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ] = 
+    [ι φ | ιφ => [ι ψ | ιψ => f ιφ ιψ]].
 Admitted.
   
 Definition n14_04 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) : 
-  [iota2rev φ, ψ | iotaψ iotaφ => f iotaψ iotaφ]
-  = [iota2 ψ, φ | iotaψ iotaφ => f iotaψ iotaφ].
+  [ι2rev φ, ψ | ιψ ιφ => f ιψ ιφ]
+  = [ι2 ψ, φ | ιψ ιφ => f ιψ ιφ].
 Admitted.
 
-Theorem n14_1 (φ ψ : Prop → Prop) : [iota φ | iotaφ => ψ iotaφ]
+Theorem n14_1 (φ ψ : Prop → Prop) : [ι φ | ιφ => ψ ιφ]
   ↔ ∃ b, (φ x <[- x -]> (x = b)) ∧ ψ b.
 Proof.
-  pose proof (n4_2 ([iota φ | iotaφ => ψ iotaφ] )) as n4_2.
+  pose proof (n4_2 ([ι φ | ιφ => ψ ιφ] )) as n4_2.
   now rewrite -> n14_01 in n4_2 at 2.
 Qed.
 
 (* The equivalent with n14_1, with scope notation in its original 
   representation omitted. With our definition, we might just make 
-  another definition copying `iota` to indicate it is getting 
+  another definition copying `ι` to indicate it is getting 
   scope notation in the text... *)
-Theorem n14_101 (φ ψ : Prop → Prop) : [iota φ | iotaφ => ψ iotaφ] 
+Theorem n14_101 (φ ψ : Prop → Prop) : [ι φ | ιφ => ψ ιφ] 
   ↔ ∃ b, (φ x <[- x -]> (x = b)) ∧ ψ b.
 Proof. exact (n14_1 φ ψ). Qed.
 
-Theorem n14_11  (φ : Prop → Prop) : [iotaE φ]
+Theorem n14_11  (φ : Prop → Prop) : [ιE φ]
   ↔ (∃ b, φ x <[- x -]> (x = b)).
 Proof.
-  pose proof (n4_2 ([iotaE φ])) as n4_2.
+  pose proof (n4_2 ([ιE φ])) as n4_2.
   now rewrite -> n14_02 in n4_2 at 2.
 Qed.
 
 Theorem n14_111 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) :
-  [iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ]
+  [ι2rev φ, ψ | ιψ ιφ => f ιφ ιψ]
   ↔ (∃ b c, (φ x <[- x -]> (x = b)) ∧ (ψ x <[- x -]> (x = c)) ∧ (f b c)).
 Proof.
-  assert (S1 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ] 
-    ↔ [iota ψ | iotaψ => [iota φ | iotaφ => f iotaφ iotaψ]]).
+  assert (S1 : [ι2rev φ, ψ | ιψ ιφ => f ιφ ιψ] 
+    ↔ [ι ψ | ιψ => [ι φ | ιφ => f ιφ ιψ]]).
   {
-    pose proof (n4_2 ([iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ])) 
+    pose proof (n4_2 ([ι2rev φ, ψ | ιψ ιφ => f ιφ ιψ])) 
       as n4_2.
     rewrite -> n14_04 in n4_2 at 2.
     now rewrite -> n14_03 in n4_2.
   }
-  assert (S2 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ]
-    ↔ [iota ψ | iotaψ => (exists b, (φ x <[- x -]> (x = b)) /\ f b iotaψ)]).
+  assert (S2 : [ι2rev φ, ψ | ιψ ιφ => f ιφ ιψ]
+    ↔ [ι ψ | ιψ => (exists b, (φ x <[- x -]> (x = b)) /\ f b ιψ)]).
   {
     (* Simplification: for functions not being instantiated, we use 
     functional extentionality as a shortcut. *)
-    replace (λ (iotaψ : DescriptionArg ψ), [iota φ | iotaφ => (f iotaφ iotaψ)])
-      with (λ (iotaψ : DescriptionArg ψ), (∃ b, 
-        (φ x <[- x -]> (x = b)) ∧ f b iotaψ)) in S1.
+    replace (λ (ιψ : DescriptionArg ψ), [ι φ | ιφ => (f ιφ ιψ)])
+      with (λ (ιψ : DescriptionArg ψ), (∃ b, 
+        (φ x <[- x -]> (x = b)) ∧ f b ιψ)) in S1.
     2: {
-      extensionality iotaψ.
+      extensionality ιψ.
       apply propositional_extensionality.
       now rewrite -> n14_1.
     }
     exact S1.
   }
-  assert (S3 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ]
+  assert (S3 : [ι2rev φ, ψ | ιψ ιφ => f ιφ ιψ]
     ↔ (∃ c, (ψ x <[- x -]> (x = c)) 
       ∧ ∃ b, (φ x <[- x -]> (x = b)) ∧ f b c)).
   { now rewrite -> n14_1 in S2. }
-  assert (S4 : [iota2rev φ, ψ | iotaψ iotaφ => f iotaφ iotaψ] 
+  assert (S4 : [ι2rev φ, ψ | ιψ ιφ => f ιφ ιψ] 
     ↔ (∃ b c, (φ x <[- x -]> (x = b)) ∧ (ψ x <[- x -]> (x = c))
       ∧ f b c)).
   {
@@ -149,31 +149,31 @@ Proof.
 Qed.
 
 Theorem n14_112 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) : 
-  [iota2 φ, ψ | iotaφ iotaψ => f iotaφ iotaψ] ↔ ∃ b c, 
+  [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ] ↔ ∃ b c, 
     (φ x <[- x -]> x = b) ∧ (ψ x <[- x -]> x = c) ∧ f b c.
 Proof.
-  assert (S1 : [iota2 φ, ψ | iotaφ iotaψ => f iotaφ iotaψ] 
-    ↔ [iota φ | iotaφ => [iota ψ | iotaψ => f iotaφ iotaψ]]).
+  assert (S1 : [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ] 
+    ↔ [ι φ | ιφ => [ι ψ | ιψ => f ιφ ιψ]]).
   {
-    pose proof (n4_2 ([iota2 φ, ψ | iotaφ iotaψ => f iotaφ iotaψ])) as n4_2.
+    pose proof (n4_2 ([ι2 φ, ψ | ιφ ιψ => f ιφ ιψ])) as n4_2.
     now rewrite -> n14_03 in n4_2 at 2.
   }
-  assert (S2 : [iota2 φ, ψ | iotaφ iotaψ => f iotaφ iotaψ] 
-    ↔ [iota φ | iotaφ => ∃ c, (ψ x <[- x -]> (x = c)) ∧ f iotaφ c]).
+  assert (S2 : [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ] 
+    ↔ [ι φ | ιφ => ∃ c, (ψ x <[- x -]> (x = c)) ∧ f ιφ c]).
   {
-    assert (S1_1 : (λ (iotaφ : DescriptionArg φ), [iota ψ | iotaψ => f iotaφ iotaψ])
-      = (λ (iotaφ : DescriptionArg φ), ∃ c, (ψ x <[- x -]> (x = c)) ∧ f iotaφ c)).
+    assert (S1_1 : (λ (ιφ : DescriptionArg φ), [ι ψ | ιψ => f ιφ ιψ])
+      = (λ (ιφ : DescriptionArg φ), ∃ c, (ψ x <[- x -]> (x = c)) ∧ f ιφ c)).
     {
-      extensionality iotaφ.
+      extensionality ιφ.
       apply propositional_extensionality.
       now apply n14_1.
     }
     now rewrite -> S1_1 in S1.
   }
-  assert (S3 : [iota2 φ, ψ | iotaφ iotaψ => f iotaφ iotaψ] 
+  assert (S3 : [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ] 
     ↔ ∃ b, (φ x <[- x -]> x = b) ∧ (∃ c, (ψ x <[- x -]> x = c) ∧ f b c)).
   { now rewrite -> n14_1 in S2. } 
-  assert (S4 : [iota2 φ, ψ | iotaφ iotaψ => f iotaφ iotaψ] 
+  assert (S4 : [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ] 
     ↔ ∃ b c, (φ x <[- x -]> x = b) ∧ (ψ x <[- x -]> x = c) ∧ f b c).
   { 
     pose proof (n11_55
@@ -185,8 +185,8 @@ Proof.
 Qed.
 
 Theorem n14_113 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) : 
-  [iota2 ψ, φ | iotaψ iotaφ => f iotaφ iotaψ] 
-  ↔ [iota2 φ, ψ | iotaφ iotaψ => f iotaφ iotaψ].
+  [ι2 ψ, φ | ιψ ιφ => f ιφ ιψ] 
+  ↔ [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ].
 Proof.
   pose proof (n14_111 φ ψ f) as n14_111.
   rewrite <- n14_112 in n14_111.
@@ -197,13 +197,13 @@ Open Scope double_app_equiv.
 Open Scope double_app_impl.
 
 Theorem n14_12 (φ : Prop → Prop) : 
-  [iotaE φ] → ((φ x ∧ φ y) -[ x y ]> (x = y)).
+  [ιE φ] → ((φ x ∧ φ y) -[ x y ]> (x = y)).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : [iotaE φ] → ∃ b, φ x <[- x -]> x = b).
+  assert (S1 : [ιE φ] → ∃ b, φ x <[- x -]> x = b).
   {
     pose proof (n14_11 φ) as n14_11.
     (* simplification: we use `Simp` if necessary *)
@@ -248,7 +248,7 @@ Proof.
     MP n10_11 S3.
     now rewrite -> n10_23 in n10_11.
   }
-  assert (S5 : [iotaE φ] → ((φ x ∧ φ y) -[ x y ]> (x = y))).
+  assert (S5 : [ιE φ] → ((φ x ∧ φ y) -[ x y ]> (x = y))).
   { now Syll S1 S4 S5. }
   exact S5.
 Qed.
@@ -634,12 +634,12 @@ Proof.
 Qed.
 
 Theorem n14_13 (A : Prop) (φ : Prop → Prop) : 
-  [iota φ | iotaφ => A = iotaφ] ↔ [iota φ | iotaφ => iotaφ = A].
+  [ι φ | ιφ => A = ιφ] ↔ [ι φ | ιφ => ιφ = A].
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
-  assert (S1 : [iota φ | iotaφ => A = iotaφ]
+  assert (S1 : [ι φ | ιφ => A = ιφ]
     ↔ (∃ b, (φ x <[- x -]> (x = b)) ∧ A = b)).
   { apply n14_1. }
   assert (S2 : ((φ x <[- x -]> (x = B)) ∧ (A = B))
@@ -664,29 +664,29 @@ Proof.
     now MP n10_281 n10_11.
   }
   assert (S4 : (∃ b, (φ x <[- x -]> x = b) ∧ (A = b))
-    ↔ [iota φ | iotaφ => iotaφ = A]).
+    ↔ [ι φ | ιφ => ιφ = A]).
   { now rewrite <- (n14_1 φ (fun b => b = A)) in S3. }
-  assert (S5 : [iota φ | iotaφ => A = iotaφ] 
-    ↔ [iota φ | iotaφ => iotaφ = A]).
+  assert (S5 : [ι φ | ιφ => A = ιφ] 
+    ↔ [ι φ | ιφ => ιφ = A]).
   { now rewrite -> S4 in S1. }
   exact S5.
 Qed.
 
-(* There are 2 ways to intrepret the iotas in this proposition. Original text
+(* There are 2 ways to intrepret the ιs in this proposition. Original text
 has also given both ways to interpre them correspondingly. It seems that
 we will take the one-at-a-time as the usual way *)
 Theorem n14_131 (φ ψ : Prop → Prop) : 
-  [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
-  ↔ [iota ψ | iotaψ => [iota φ | iotaφ => iotaψ = iotaφ]].
+  [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
+  ↔ [ι ψ | ιψ => [ι φ | ιφ => ιψ = ιφ]].
 Proof.
-  assert (S1 : [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
-    ↔ (∃ b, (φ x <[- x -]> (x = b)) ∧ [iota ψ | iotaψ => b = iotaψ])).
+  assert (S1 : [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
+    ↔ (∃ b, (φ x <[- x -]> (x = b)) ∧ [ι ψ | ιψ => b = ιψ])).
   { apply n14_1. }
-  assert (S2 : [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
+  assert (S2 : [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
     ↔ (∃ b, (φ x <[- x -]> (x = b)) 
       ∧ (∃ c, (ψ x <[- x -]> (x = c)) ∧ (b = c)))).
   { now setoid_rewrite -> n14_1 in S1 at 3. }
-  assert (S3 : [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
+  assert (S3 : [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
     ↔ (∃ c, (ψ x <[- x -]> (x = c))
       ∧ (∃ b, (φ x <[- x -]> (x = b)) ∧ (b = c)))).
   {
@@ -696,34 +696,34 @@ Proof.
     setoid_rewrite <- n4_3 in S2 at 3.
     now setoid_rewrite <- n4_3 in S2 at 2.
   }
-  assert (S4 : [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
+  assert (S4 : [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
     ↔ (∃ c, (ψ x <[- x -]> (x = c)) 
-      ∧ [iota φ | iotaφ => iotaφ = c])).
+      ∧ [ι φ | ιφ => ιφ = c])).
   { now setoid_rewrite <- n14_1 in S3 at 2. }
-  assert (S5 : [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
+  assert (S5 : [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
     ↔ (∃ c, (ψ x <[- x -]> (x = c)) 
-      ∧ [iota φ | iotaφ => c = iotaφ ])).
+      ∧ [ι φ | ιφ => c = ιφ ])).
   { now setoid_rewrite <- n14_13 in S4. }
-  assert (S6 : [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
-    ↔ [iota ψ | iotaψ => [iota φ | iotaφ => iotaψ = iotaφ]]).
+  assert (S6 : [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
+    ↔ [ι ψ | ιψ => [ι φ | ιφ => ιψ = ιφ]]).
   { now rewrite <- n14_1 in S5. }
   exact S6.
 Qed.
 
 Theorem n14_131_alt (φ ψ : Prop → Prop) : 
-  [iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]
+  [ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
   ↔
-  [iota2 ψ, φ | iotaψ iotaφ => iotaψ = iotaφ].
+  [ι2 ψ, φ | ιψ ιφ => ιψ = ιφ].
 Proof.
-  assert (S1 : [iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]
+  assert (S1 : [ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
     ↔ ∃ b c, (φ x <[- x -]> (x = b)) 
       ∧ (ψ x <[- x -]> (x = c)) ∧ (b = c)).
   {
-    (* We use the definition of iota2 instead, for the obvious reason.
+    (* We use the definition of ι2 instead, for the obvious reason.
      *14.111 ignored *)
     apply n14_112.
   }
-  assert (S2 : [iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]
+  assert (S2 : [ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
     ↔ ∃ b c, (ψ x <[- x -]> (x = c)) 
       ∧ (φ x <[- x -]> (x = b)) ∧ (c = b)).
   {
@@ -733,8 +733,8 @@ Proof.
     setoid_rewrite -> n4_32 in S1.
     now setoid_rewrite -> n4_3 in S1 at 4.
   }
-  assert (S3 : [iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]
-    ↔ [iota2 ψ, φ | iotaψ iotaφ => iotaψ = iotaφ]).
+  assert (S3 : [ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
+    ↔ [ι2 ψ, φ | ιψ ιφ => ιψ = ιφ]).
   {
     rewrite -> n11_23 in S2.
     (* pose proof n14_111 as n14_111. *)
@@ -743,65 +743,65 @@ Proof.
     rewrite <- n14_111 in S2.
     rewrite -> n14_04 in S2.
     setoid_rewrite -> n14_113 in S2 at 2.
-    now setoid_rewrite -> iota2_arg_comm in S2 at 2.
+    now setoid_rewrite -> ι2_arg_comm in S2 at 2.
   }
   exact S3.
 Qed.
 
 Theorem n14_14 (A B : Prop) (φ : Prop → Prop) :
-  ((A = B) ∧ [iota φ | iotaφ => B = iotaφ])
-  → [iota φ | iotaφ => A = iotaφ].
+  ((A = B) ∧ [ι φ | ιφ => B = ιφ])
+  → [ι φ | ιφ => A = ιφ].
 Proof.
   rewrite -> n4_3.
   rewrite -> n13_16.
   pose proof n13_13.
   exact (n13_13 B A (fun a => 
-    [iota φ | iotaφ => a = iotaφ])).
+    [ι φ | ιφ => a = ιφ])).
 Qed.
 
 Theorem n14_142 (A : Prop) (φ ψ : Prop → Prop) :
-  [iota φ | iotaφ => A = iotaφ]
-    ∧ [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
-  → [iota ψ | iotaψ => A = iotaψ].  
+  [ι φ | ιφ => A = ιφ]
+    ∧ [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
+  → [ι ψ | ιψ => A = ιψ].  
 Proof.
-  assert (S1 : ([iota φ | iotaφ => A = iotaφ]
-      ∧ [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]])
+  assert (S1 : ([ι φ | ιφ => A = ιφ]
+      ∧ [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]])
     → ((∃ b, (φ x <[- x -]> (x = b)) ∧ (A = b)) 
       ∧ (∃ c, (φ x <[- x -]> (x = c)) 
-        ∧ [iota ψ | iotaψ => c = iotaψ]))).
+        ∧ [ι ψ | ιψ => c = ιψ]))).
   {
     pose proof (n14_1 φ (fun b => A = b)) as n14_1a.
     destruct n14_1a as [n14_1al _].
     pose proof (n14_1 φ (fun c =>
-      [iota ψ | iotaψ => c = iotaψ])) as n14_1b.
+      [ι ψ | ιψ => c = ιψ])) as n14_1b.
     destruct n14_1b as [n14_1bl _].
     Conj n14_1al n14_1bl C1.
     pose proof (n3_47
-      ([iota φ | iotaφ => A = iotaφ])
-      ([iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]])
+      ([ι φ | ιφ => A = ιφ])
+      ([ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]])
       (∃ b, (φ x <[- x -]> x = b) ∧ A = b)
-      (∃ b, (φ x <[- x -]> x = b) ∧ [iota ψ | iotaψ => b = iotaψ])) 
+      (∃ b, (φ x <[- x -]> x = b) ∧ [ι ψ | ιψ => b = ιψ])) 
       as n3_47.
     now MP n3_47 C1.
   }
-  assert (S2 : ([iota φ | iotaφ => A = iotaφ]
-    ∧ [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]])
+  assert (S2 : ([ι φ | ιφ => A = ιφ]
+    ∧ [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]])
   → ((φ x <[- x -]> (x = A)) 
-    ∧ (∃ c, (φ x <[- x -]> (x = c)) ∧ [iota ψ | iotaψ => c = iotaψ]))).
+    ∧ (∃ c, (φ x <[- x -]> (x = c)) ∧ [ι ψ | ιψ => c = ιψ]))).
   {
     setoid_rewrite -> n4_3 in S1 at 3.
     setoid_rewrite -> n13_16 in S1 at 3.
     now rewrite -> n13_195 in S1.
   }
-  assert (S3 : ([iota φ | iotaφ => A = iotaφ]
-      ∧ [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]])
+  assert (S3 : ([ι φ | ιφ => A = ιφ]
+      ∧ [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]])
     → ∃ c, (φ x <[- x -]> (x = A)) ∧ (φ x <[- x -]> (x = c)) 
-      ∧ [iota ψ | iotaψ => c = iotaψ]).
+      ∧ [ι ψ | ιψ => c = ιψ]).
   { now rewrite <- n10_35 in S2. }
-  assert (S4 : ([iota φ | iotaφ => A = iotaφ]
-      ∧ [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]])
+  assert (S4 : ([ι φ | ιφ => A = ιφ]
+      ∧ [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]])
     → ∃ c, (φ x <[- x -]> (x = A)) ∧ (A = c)
-        ∧ [iota ψ | iotaψ => c = iotaψ]).
+        ∧ [ι ψ | ιψ => c = ιψ]).
   {
     intros Hp.
     pose proof (S3 Hp) as S3.
@@ -809,9 +809,9 @@ Proof.
     pose proof n14_121 as n14_121.
     admit.
   }
-  assert (S5 : [iota φ | iotaφ => A = iotaφ]
-    ∧ [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
-      → [iota ψ | iotaψ => A = iotaψ]).
+  assert (S5 : [ι φ | ιφ => A = ιφ]
+    ∧ [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
+      → [ι ψ | ιψ => A = ιψ]).
   {
     (* I think it could be that *14.121 should be used in last step
     but in that case the *3.27 here will not be used. Aka S4 has been
@@ -825,16 +825,16 @@ Proof.
 Admitted.
 
 Theorem n14_144 (φ ψ χ : Prop → Prop) : 
-  [iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]
-    ∧ [iota2 ψ, χ | iotaψ iotaχ => iotaψ = iotaχ]
-  → [iota2 φ, χ | iotaφ iotaχ => iotaφ = iotaχ].
+  [ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
+    ∧ [ι2 ψ, χ | ιψ ιχ => ιψ = ιχ]
+  → [ι2 φ, χ | ιφ ιχ => ιφ = ιχ].
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
   set (Y := Individual "y").
   (* ******** *)
-  assert (S1 : ([iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]
-      ∧ [iota2 ψ, χ | iotaψ iotaχ => iotaψ = iotaχ])
+  assert (S1 : ([ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
+      ∧ [ι2 ψ, χ | ιψ ιχ => ιψ = ιχ])
     → ((∃ a b, (φ x <[- x -]> (x = a)) 
           ∧ (ψ x <[- x -]> (x = b)) ∧ (a = b)))
         ∧ (∃ c d, (ψ x <[- x -]> (x = c)) 
@@ -844,24 +844,24 @@ Proof.
     destruct n14_112a as [n14_112al _].
     pose proof (n14_112 ψ χ (fun x y => x = y)) as n14_112b.
     destruct n14_112b as [n14_112bl _].
-    assert (C1 : ([iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]
+    assert (C1 : ([ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
         → ∃ b c, (φ x <[- x -]> x = b) 
           ∧ (ψ x <[- x -]> x = c) ∧ b = c)
-      ∧ ([iota2 ψ, χ | iotaψ iotaχ => iotaψ = iotaχ]
+      ∧ ([ι2 ψ, χ | ιψ ιχ => ιψ = ιχ]
       → ∃ b c, (ψ x <[- x -]> x = b)
           ∧ (χ x <[- x -]> x = c) ∧ b = c)).
     { now Conj n14_113al n14_113bl C1. }
     pose proof (n3_47
-      ([iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ])
-      ([iota2 ψ, χ | iotaψ iotaχ => iotaψ = iotaχ])
+      ([ι2 φ, ψ | ιφ ιψ => ιφ = ιψ])
+      ([ι2 ψ, χ | ιψ ιχ => ιψ = ιχ])
       (∃ b c, (φ x <[- x -]> x = b) 
         ∧ (ψ x <[- x -]> x = c) ∧ b = c)
       (∃ b c, (ψ x <[- x -]> x = b)
         ∧ (χ x <[- x -]> x = c) ∧ b = c)) as n3_47.
     now MP n3_47 C1.
   }
-  assert (S2 : ([iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]
-      ∧ [iota2 ψ, χ | iotaψ iotaχ => iotaψ = iotaχ])
+  assert (S2 : ([ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
+      ∧ [ι2 ψ, χ | ιψ ιχ => ιψ = ιχ])
     → ((∃ a, (φ x <[- x -]> (x = a)) ∧ (ψ x <[- x -]> (x = a)))
       ∧ (∃ c, (ψ x <[- x -]> (x = c)) ∧ (χ x <[- x -]> (x = c))))).
   {
@@ -884,8 +884,8 @@ Proof.
     clear Hp.
     now Conj S1l S1r C1.
   }
-  assert (S3 : ([iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]
-      ∧ [iota2 ψ, χ | iotaψ iotaχ => iotaψ = iotaχ])
+  assert (S3 : ([ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
+      ∧ [ι2 ψ, χ | ιψ ιχ => ιψ = ιχ])
     → ∃ a c, (φ x <[- x -]> (x = a))
       ∧ (ψ x <[- x -]> (x = a)) ∧ (ψ x <[- x -]> (x = c))
       ∧ (χ x <[- x -]> (x = c))).
@@ -893,8 +893,8 @@ Proof.
     rewrite <- n11_54 in S2.
     now setoid_rewrite -> n4_32 in S2.
   }
-  assert (S4 : ([iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]
-      ∧ [iota2 ψ, χ | iotaψ iotaχ => iotaψ = iotaχ])
+  assert (S4 : ([ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
+      ∧ [ι2 ψ, χ | ιψ ιχ => ιψ = ιχ])
     → ∃ a c, (φ x <[- x -]> (x = a)) ∧ (χ x <[- x -]> (x = c))
       ∧ (a = c)).
   {
@@ -938,49 +938,49 @@ Proof.
     setoid_rewrite -> n4_3 in n11_34.
     now setoid_rewrite -> n4_32 in n11_34.
   }
-  assert (S5 : ([iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]
-      ∧ [iota2 ψ, χ | iotaψ iotaχ => iotaψ = iotaχ])
-    → [iota2 φ, χ | iotaφ iotaχ => iotaφ = iotaχ]).
+  assert (S5 : ([ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
+      ∧ [ι2 ψ, χ | ιψ ιχ => ιψ = ιχ])
+    → [ι2 φ, χ | ιφ ιχ => ιφ = ιχ]).
   { now rewrite <- n14_112 in S4. }
   exact S5.
 Qed.
 
 Theorem n14_145 (A : Prop) (φ ψ : Prop → Prop) : 
-  ([iota φ | iotaφ => A = iotaφ] ∧ [iota ψ | iotaψ => A = iotaψ])
-  → [iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ].
+  ([ι φ | ιφ => A = ιφ] ∧ [ι ψ | ιψ => A = ιψ])
+  → [ι2 φ, ψ | ιφ ιψ => ιφ = ιψ].
 Proof.
-  assert (S1 : [iota φ | iotaφ => A = iotaφ]
+  assert (S1 : [ι φ | ιφ => A = ιφ]
     ↔ ∃ b, (φ x <[- x -]> (x = b)) ∧ (A = b)).
   { apply n14_1. }
-  assert (S2 : [iota φ | iotaφ => A = iotaφ]    
+  assert (S2 : [ι φ | ιφ => A = ιφ]    
     ↔ (φ x <[- x -]> (x = A))).
   {
     setoid_rewrite -> n4_3 in S1 at 2.
     setoid_rewrite -> n13_16 in S1 at 2.
     now rewrite -> n13_195 in S1.
   }
-  assert (S3 : ([iota φ | iotaφ => A = iotaφ] 
-      ∧ [iota ψ | iotaψ => A = iotaψ])
+  assert (S3 : ([ι φ | ιφ => A = ιφ] 
+      ∧ [ι ψ | ιψ => A = ιψ])
     ↔ ((φ x <[- x -]> (x = A)) ∧ (∃ b,
       (ψ x <[- x -]> (x = b)) ∧ (A = b)))).
   {
     pose proof (n14_1 ψ (fun x => A = x)) as n14_1.
-    assert (C1 : ([iota φ | iotaφ => A = iotaφ] ↔ φ x <[- x -]> x = A)
-      ∧ ([iota ψ | iotaψ => A = iotaψ] ↔ ∃ b, (ψ x <[- x -]> x = b) ∧ A = b)).
+    assert (C1 : ([ι φ | ιφ => A = ιφ] ↔ φ x <[- x -]> x = A)
+      ∧ ([ι ψ | ιψ => A = ιψ] ↔ ∃ b, (ψ x <[- x -]> x = b) ∧ A = b)).
     { clear S1. now Conj S2 n14_1 C1. }
     pose proof (n4_38
-      ([iota φ | iotaφ => A = iotaφ])
-      ([iota ψ | iotaψ => A = iotaψ])
+      ([ι φ | ιφ => A = ιφ])
+      ([ι ψ | ιψ => A = ιψ])
       (φ x <[- x -]> (x = A))
       (∃ b, (ψ x <[- x -]> x = b) ∧ A = b)) as n4_38.
     now MP n4_38 C1.
   }
-  assert (S4 : ([iota φ | iotaφ => A = iotaφ] ∧ [iota ψ | iotaψ => A = iotaψ])
+  assert (S4 : ([ι φ | ιφ => A = ιφ] ∧ [ι ψ | ιψ => A = ιψ])
     ↔ (∃ b, (φ x <[- x -]> (x = A))
       ∧ (ψ x <[- x -]> (x = b)) ∧ (A = b))).
   { now rewrite <- n10_35 in S3. }
-  assert (S5 : ([iota φ | iotaφ => A = iotaφ] ∧ [iota ψ | iotaψ => A = iotaψ])
-    → [iota2 φ, ψ | iotaφ iotaψ => iotaφ = iotaψ]).
+  assert (S5 : ([ι φ | ιφ => A = ιφ] ∧ [ι ψ | ιψ => A = ιψ])
+    → [ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]).
   {
     destruct S4 as [S4 _].
     pose proof (n10_24 (fun a => ∃ b, (φ x <[- x -]> x = a) 
@@ -992,20 +992,20 @@ Proof.
 Qed.
 
 Theorem n14_15 (B : Prop) (φ ψ : Prop → Prop) : 
-  [iota φ | iotaφ => iotaφ = B]
-  → ([iota φ | iotaφ => ψ iotaφ] ↔ ψ B).
+  [ι φ | ιφ => ιφ = B]
+  → ([ι φ | ιφ => ψ ιφ] ↔ ψ B).
 Proof.
-  assert (S1 : [iota φ | iotaφ => iotaφ = B]
+  assert (S1 : [ι φ | ιφ => ιφ = B]
     → (∃ c, (φ x <[- x -]> (x = c)) ∧ (c = B))).
   { apply n14_1. }
-  assert (S2 : [iota φ | iotaφ => iotaφ = B]
+  assert (S2 : [ι φ | ιφ => ιφ = B]
     → (φ x <[- x -]> (x = B))).
   {
     setoid_rewrite -> n4_3 in S1.
     now rewrite -> n13_195 in S1.
   }
-  assert (S3 : [iota φ | iotaφ => iotaφ = B]
-    → ([iota φ | iotaφ => ψ iotaφ]
+  assert (S3 : [ι φ | ιφ => ιφ = B]
+    → ([ι φ | ιφ => ψ ιφ]
       ↔ ∃ c, ((x = B) <[- x -]> (x = c)) ∧ ψ c)).
   {
     (* Simplification: for this step to be performed, S2 has become the 
@@ -1016,8 +1016,8 @@ Proof.
     pose proof (n14_1 φ ψ) as n14_1.
     now setoid_rewrite -> S2 in n14_1.
   }
-  assert (S4 : [iota φ | iotaφ => iotaφ = B]
-    → ([iota φ | iotaφ => ψ iotaφ] ↔ ψ B)).
+  assert (S4 : [ι φ | ιφ => ιφ = B]
+    → ([ι φ | ιφ => ψ ιφ] ↔ ψ B)).
   { 
     pose proof n13_192 as n13_192.
     now rewrite -> n13_192 in S3. 
@@ -1027,22 +1027,22 @@ Qed.
 
 (* Predicative Variant *)
 Definition n14_15_pred (B : Prop) (φ : Prop → Prop) (ψ : Predicate 1) : 
-  [iota φ | iotaφ => iotaφ = B]
-  → ([iota φ | iotaφ => ψ iotaφ] ↔ ψ B).
+  [ι φ | ιφ => ιφ = B]
+  → ([ι φ | ιφ => ψ ιφ] ↔ ψ B).
 Admitted.
 
 Theorem n14_16 (φ ψ χ : Prop → Prop) :
-  [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
-  → ([iota φ | iotaφ => χ iotaφ] ↔ [iota ψ | iotaψ => χ iotaψ]).
+  [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
+  → ([ι φ | ιφ => χ ιφ] ↔ [ι ψ | ιψ => χ ιψ]).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
-  assert (S1 : [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
-    → ∃ b, (φ x <[- x -]> (x = b)) ∧ [iota ψ | iotaψ => b = iotaψ]).
+  assert (S1 : [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
+    → ∃ b, (φ x <[- x -]> (x = b)) ∧ [ι ψ | ιψ => b = ιψ]).
   { apply n14_1. }
   assert (S2 : (φ x <[- x -]> (x = B)) 
-    → ([iota φ | iotaφ => χ iotaφ] ↔ (∃ c, 
+    → ([ι φ | ιφ => χ ιφ] ↔ (∃ c, 
       ((x = B) <[- x -]> (x = c)) ∧ χ c))).
   {
     (* simplification as the same as previous one
@@ -1052,40 +1052,40 @@ Proof.
     now setoid_rewrite -> Hp in n14_1.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) →
-    ([iota φ | iotaφ => χ iotaφ] ↔ χ B)).
+    ([ι φ | ιφ => χ ιφ] ↔ χ B)).
   { now rewrite -> n13_192 in S2. }
-  assert (S4 : [iota ψ | iotaψ => B = iotaψ]
-    → (χ B ↔ [iota ψ | iotaψ => χ iotaψ])).
+  assert (S4 : [ι ψ | ιψ => B = ιψ]
+    → (χ B ↔ [ι ψ | ιψ => χ ιψ])).
   {
     pose proof (n14_15 B ψ χ) as n14_15.
     rewrite <- n14_13 in n14_15.
     now rewrite <- n4_21 in n14_15.
   }
-  assert (S5 : ((φ x <[- x -]> (x = B)) ∧ [iota ψ | iotaψ => B = iotaψ])
-    → ([iota φ | iotaφ => χ iotaφ] ↔ [iota ψ | iotaψ => χ iotaψ])).
+  assert (S5 : ((φ x <[- x -]> (x = B)) ∧ [ι ψ | ιψ => B = ιψ])
+    → ([ι φ | ιφ => χ ιφ] ↔ [ι ψ | ιψ => χ ιψ])).
   {
     assert (C1 : ((∀ x : Prop, φ x ↔ x = B) 
-        → [iota φ | iotaφ => χ iotaφ] ↔ χ B)
-      ∧ ([iota ψ | iotaψ => B = iotaψ]
-        → χ B ↔ [iota ψ | iotaψ => χ iotaψ])).
+        → [ι φ | ιφ => χ ιφ] ↔ χ B)
+      ∧ ([ι ψ | ιψ => B = ιψ]
+        → χ B ↔ [ι ψ | ιψ => χ ιψ])).
     { clear S1 S2. now Conj S3 S4 C1. }
     pose proof (n3_47
       (φ x <[- x -]> x = B)
-      ([iota ψ | iotaψ => B = iotaψ])
-      ([iota φ | iotaφ => χ iotaφ] ↔ χ B)
-      (χ B ↔ [iota ψ | iotaψ => χ iotaψ])) as n3_47.
+      ([ι ψ | ιψ => B = ιψ])
+      ([ι φ | ιφ => χ ιφ] ↔ χ B)
+      (χ B ↔ [ι ψ | ιψ => χ ιψ])) as n3_47.
     MP n3_47 C1.
-    pose proof (n4_22 ([iota φ | iotaφ => χ iotaφ]) (χ B)
-      ([iota ψ | iotaψ => χ iotaψ])) as n4_22.
+    pose proof (n4_22 ([ι φ | ιφ => χ ιφ]) (χ B)
+      ([ι ψ | ιψ => χ ιψ])) as n4_22.
     now Syll n3_47 n4_22 S5.
   }
-  assert (S6 : [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]
-    → ([iota φ | iotaφ => χ iotaφ] ↔ [iota ψ | iotaψ => χ iotaψ])).
+  assert (S6 : [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
+    → ([ι φ | ιφ => χ ιφ] ↔ [ι ψ | ιψ => χ ιψ])).
   {
     (* *10.2 ignored -  it doesn't fit in *)
     pose proof (n10_11 B (fun b =>
-      ((∀ x, φ x ↔ x = b) ∧ [iota ψ | iotaψ => b = iotaψ])
-      → ([iota φ | iotaφ => χ iotaφ] ↔ [iota ψ | iotaψ => χ iotaψ]))) 
+      ((∀ x, φ x ↔ x = b) ∧ [ι ψ | ιψ => b = ιψ])
+      → ([ι φ | ιφ => χ ιφ] ↔ [ι ψ | ιψ => χ ιψ]))) 
       as n10_11.
     MP n10_11 S5.
     rewrite -> n10_23 in n10_11.
@@ -1095,21 +1095,21 @@ Proof.
 Qed.
 
 Theorem n14_17 (B : Prop) (φ : Prop → Prop) : 
-  [iota φ | iotaφ => iotaφ = B]
-  ↔ (∀ ψ : Predicate 1, [iota φ | iotaφ => ψ iotaφ] ↔ ψ B).
+  [ι φ | ιφ => ιφ = B]
+  ↔ (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B).
 Proof.
   (* TOOLS *)
   set (Iχ := Intro_pred "χ" 1).
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : [iota φ | iotaφ => iotaφ = B]
-    → ∀ ψ : Predicate 1, [iota φ | iotaφ => ψ iotaφ ] ↔ ψ B).
+  assert (S1 : [ι φ | ιφ => ιφ = B]
+    → ∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ ] ↔ ψ B).
   {
     (* *10.11 ignored *)
     pose proof (n14_15_pred B φ) as n14_15.
     now rewrite -> n10_21_pred in n14_15.
   }
-  (* The following step is a beautiful demonstration on how our iota works
+  (* The following step is a beautiful demonstration on how our ι works
     with predicates. During formalization, we find out that there are even
     shorter ways to finish the proof, *but* that is due to our lack in setting
     up correct abstraction. We prefer the most conservative way to procceed
@@ -1117,25 +1117,25 @@ Proof.
     parameters into functions/predicates so that the types should still be
     correct *)
   assert (S2 : ((Iχ x <[- x -]> (x = B)) 
-      ∧ (∀ ψ : Predicate 1, [iota φ | iotaφ => ψ iotaφ] ↔ ψ B))
-    → ([iota φ | iotaφ => iotaφ = B]) ↔ (B = B)).
+      ∧ (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B))
+    → ([ι φ | ιφ => ιφ = B]) ↔ (B = B)).
   {
     (* left part of the ∧ *)
     pose proof (n10_1 (fun x => Iχ x ↔ (x = B)) B) as n10_1a.
     (* right part of the ∧ *)
     pose proof (n10_1_pred (fun x : Predicate 1 => 
-      [iota φ | iotaφ => x iotaφ] ↔ x B) Iχ) as n10_1b.
+      [ι φ | ιφ => x ιφ] ↔ x B) Iχ) as n10_1b.
     assert (C1 : ((∀ x, Iχ x ↔ x = B) → Iχ B ↔ B = B)
-      ∧ ((∀ x : Predicate 1, [iota φ | iotaφ => x iotaφ] ↔ x B)
-        → [iota φ | iotaφ => Iχ iotaφ] ↔ Iχ B)).
+      ∧ ((∀ x : Predicate 1, [ι φ | ιφ => x ιφ] ↔ x B)
+        → [ι φ | ιφ => Iχ ιφ] ↔ Iχ B)).
     { now Conj n10_1a n10_1b C1. }
     pose proof (n3_47
       (∀ x, Iχ x ↔ x = B)
-      (∀ x : Predicate 1, [iota φ | iotaφ => x iotaφ] ↔ x B)
+      (∀ x : Predicate 1, [ι φ | ιφ => x ιφ] ↔ x B)
       (Iχ B ↔ B = B)
-      ([iota φ | iotaφ => Iχ iotaφ] ↔ Iχ B)) as n3_47.
+      ([ι φ | ιφ => Iχ ιφ] ↔ Iχ B)) as n3_47.
     MP n3_47 C1.
-    pose proof (n4_22 ([iota φ | iotaφ => Iχ iotaφ]) (Iχ B)
+    pose proof (n4_22 ([ι φ | ιφ => Iχ ιφ]) (Iχ B)
       (B = B)) as n4_22.
     clear n10_1a n10_1b C1.
     rewrite -> n4_3 in n4_22.
@@ -1145,19 +1145,19 @@ Proof.
     whose body is currently an "admitted" definition to further substitute into
     a concrete definition, by applying n10_1 and n10_11 variants *)
     pose proof (n10_11_pred Iχ (fun p => 
-      [iota φ | iotaφ => p iotaφ] ↔ B = B)) as n10_11a.
+      [ι φ | ιφ => p ιφ] ↔ B = B)) as n10_11a.
     clear n3_47 n4_22.
     Syll Sy1 n10_11a Sy2.
     pose proof (n10_1_pred
-      (fun p => [iota φ | iotaφ => p iotaφ] ↔ B = B)
+      (fun p => [ι φ | ιφ => p ιφ] ↔ B = B)
       (fun x => x = B)) as n10_1c.
     clear Sy1 n10_11a.
     now Syll Sy2 n10_1c S2.
   }
   assert (S3 : ((Iχ x <[- x -]> (x = B)) 
-      ∧ (∀ ψ : Predicate 1, [iota φ | iotaφ => ψ iotaφ]
+      ∧ (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ]
         ↔ ψ B))
-    → [iota φ | iotaφ => iotaφ = B]).
+    → [ι φ | ιφ => ιφ = B]).
   {
     (* Similar as previous one, this application on n13_15 is somthing 
     out of the context. We should add a special rule for n13_15 in the 
@@ -1166,16 +1166,16 @@ Proof.
     admit.
   }
   assert (S4 : (∃ χ : Predicate 1, (χ x <[- x -]> (x = B)))
-    → ((∀ ψ : Predicate 1, [iota φ | iotaφ => ψ iotaφ] ↔ ψ B)
-      → [iota φ | iotaφ => iotaφ = B])).
+    → ((∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
+      → [ι φ | ιφ => ιφ = B])).
   {
     pose proof (Exp3_3 (Iχ x <[- x -]> x = B)
-      (∀ ψ : Predicate 1, [iota φ | iotaφ => ψ iotaφ] ↔ ψ B)
-      ([iota φ | iotaφ => iotaφ = B])) as Exp3_3.
+      (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
+      ([ι φ | ιφ => ιφ = B])) as Exp3_3.
     MP Exp3_3 S3.
     pose proof (n10_11_pred Iχ (fun p => (p x <[- x -]> x = B)
-      → (∀ ψ : Predicate 1, [iota φ | iotaφ => ψ iotaφ] ↔ ψ B)
-      → [iota φ | iotaφ => iotaφ = B])) as n10_11.
+      → (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
+      → [ι φ | ιφ => ιφ = B])) as n10_11.
     MP n10_11 Exp3_3.
     now rewrite -> n10_23_pred in n10_11.
   }
@@ -1185,16 +1185,16 @@ Proof.
     now setoid_rewrite -> n4_21 in n12_1.
   }
   assert (S6 : (∀ ψ : Predicate 1, 
-      [iota φ | iotaφ => ψ iotaφ] ↔ ψ B) 
-    → [iota φ | iotaφ => iotaφ = B]).
+      [ι φ | ιφ => ψ ιφ] ↔ ψ B) 
+    → [ι φ | ιφ => ιφ = B]).
   { now MP S4 S5. }
-  assert (S7 : [iota φ | iotaφ => iotaφ = B]
-    ↔ (∀ ψ : Predicate 1, [iota φ | iotaφ => ψ iotaφ] ↔ ψ B)).
+  assert (S7 : [ι φ | ιφ => ιφ = B]
+    ↔ (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)).
   {
-    assert (C1 : ([iota φ | iotaφ => iotaφ = B]
-        → ∀ ψ : Predicate 1, [iota φ | iotaφ => ψ iotaφ]↔ ψ B)
-      ∧ ((∀ ψ : Predicate 1, [iota φ | iotaφ => ψ iotaφ] ↔ ψ B)
-        → [iota φ | iotaφ => iotaφ = B])).
+    assert (C1 : ([ι φ | ιφ => ιφ = B]
+        → ∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ]↔ ψ B)
+      ∧ ((∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
+        → [ι φ | ιφ => ιφ = B])).
     { clear S2 S3 S4 S5. now Conj S1 S6 C1. }
     now Equiv C1.
   }
@@ -1202,31 +1202,31 @@ Proof.
 Admitted.
 
 Theorem n14_171 (B : Prop) (φ : Prop → Prop) : 
-  [iota φ | iotaφ => iotaφ = B]
-  ↔ (∀ ψ : Predicate 1, ψ B → [iota φ | iotaφ => ψ iotaφ]).
+  [ι φ | ιφ => ιφ = B]
+  ↔ (∀ ψ : Predicate 1, ψ B → [ι φ | ιφ => ψ ιφ]).
 Proof.
-  assert (S1 : [iota φ | iotaφ => iotaφ = B]
-    → (∀ ψ : Predicate 1, ψ B → [iota φ | iotaφ => ψ iotaφ])).
+  assert (S1 : [ι φ | ιφ => ιφ = B]
+    → (∀ ψ : Predicate 1, ψ B → [ι φ | ιφ => ψ ιφ])).
   { apply n14_17. }
-  assert (S2 : (∀ ψ : Predicate 1, ψ B → [iota φ | iotaφ => ψ iotaφ])
-    → ((B = B) → [iota φ | iotaφ => iotaφ = B])).
+  assert (S2 : (∀ ψ : Predicate 1, ψ B → [ι φ | ιφ => ψ ιφ])
+    → ((B = B) → [ι φ | ιφ => ιφ = B])).
   {
     (* *12.1 ignored - I don't know if we need this or how is
     it being used actually. This might be something important *)
     pose proof (n10_1_pred
-      (fun p => p B → [iota φ | iotaφ => p iotaφ]) 
+      (fun p => p B → [ι φ | ιφ => p ιφ]) 
       (fun x => x = B)) as n10_1.
     exact n10_1.
   }
-  assert (S3 : (∀ ψ : Predicate 1, ψ B → [iota φ | iotaφ => ψ iotaφ])
-    → [iota φ | iotaφ => iotaφ = B]).
+  assert (S3 : (∀ ψ : Predicate 1, ψ B → [ι φ | ιφ => ψ ιφ])
+    → [ι φ | ιφ => ιφ = B]).
   {
     (* as always... *)
     pose proof n13_15 as n13_15.
     admit.
   }
-  assert (S4 : [iota φ | iotaφ => iotaφ = B]
-    ↔ (∀ ψ : Predicate 1, ψ B → [iota φ | iotaφ => ψ iotaφ])).
+  assert (S4 : [ι φ | ιφ => ιφ = B]
+    ↔ (∀ ψ : Predicate 1, ψ B → [ι φ | ιφ => ψ ιφ])).
   {
     clear S2.
     Conj S1 S3 C1.
@@ -1236,7 +1236,7 @@ Proof.
 Admitted.
 
 Theorem n14_18 (φ ψ : Prop → Prop) :
-  [iotaE φ] → ((∀ x, ψ x) → [iota φ | iotaφ => ψ iotaφ]).
+  [ιE φ] → ((∀ x, ψ x) → [ι φ | ιφ => ψ ιφ]).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
@@ -1271,33 +1271,33 @@ Proof.
     rewrite -> n10_35 in S3.
     now rewrite -> n4_3 in S3 at 1.
   }
-  assert (S5 : ([iotaE φ] ∧ ∀ x, ψ x) → [iota φ | iotaφ => ψ iotaφ]).
+  assert (S5 : ([ιE φ] ∧ ∀ x, ψ x) → [ι φ | ιφ => ψ ιφ]).
   { now rewrite <- n14_1, <- n14_11 in S4. }
-  assert (S6 : [iotaE φ] → ((∀ x, ψ x) → [iota φ | iotaφ => ψ iotaφ])).
+  assert (S6 : [ιE φ] → ((∀ x, ψ x) → [ι φ | ιφ => ψ ιφ])).
   {
-    pose proof (Exp3_3 ([iotaE φ]) (∀ x, ψ x)
-      ([iota φ | iotaφ => ψ iotaφ])) as Exp3_3.
+    pose proof (Exp3_3 ([ιE φ]) (∀ x, ψ x)
+      ([ι φ | ιφ => ψ ιφ])) as Exp3_3.
     now MP Exp3_3 S5.
   }
   exact S6.
 Qed.
 
 Theorem n14_2 (A : Prop)  : 
-  [iota (fun x => x = A) | iota1 => iota1 = A].
+  [ι (fun x => x = A) | ι1 => ι1 = A].
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : [iota (fun x => x = A) | iota1 => iota1 = A]
+  assert (S1 : [ι (fun x => x = A) | ι1 => ι1 = A]
     ↔ (∃ b, ((x = A) <[- x -]> (x = b)) /\ (b = A))).
   { apply n14_101. }
-  assert (S2 : [iota (fun x => x = A) | iota1 => iota1 = A]
+  assert (S2 : [ι (fun x => x = A) | ι1 => ι1 = A]
     ↔ ((x = A) <[- x -]> (x = A))).
   {
     setoid_rewrite -> n4_3 in S1 at 2.
     now rewrite -> (n13_195 A) in S1.
   }
-  assert (S3 : [iota (fun x => x = A) | iota1 => iota1 = A]).
+  assert (S3 : [ι (fun x => x = A) | ι1 => ι1 = A]).
   {
     (* I think Id2_08 is unclear to use, so we use another way
     to do this instead... *)
@@ -1309,15 +1309,15 @@ Proof.
   exact S3.
 Qed.
 
-Theorem n14_201 (φ : Prop → Prop) : [iotaE φ] → ∃ x, φ x. 
+Theorem n14_201 (φ : Prop → Prop) : [ιE φ] → ∃ x, φ x. 
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
   set (B := Individual "b").
   (* ******** *)
-  assert (S1 : [iotaE φ] -> ∃ b, (φ x <[- x -]> (x = b))).
+  assert (S1 : [ιE φ] -> ∃ b, (φ x <[- x -]> (x = b))).
   { apply n14_11. }
-  assert (S2 : [iotaE φ] -> ∃ b, (φ b ↔ (b = b))).
+  assert (S2 : [ιE φ] -> ∃ b, (φ b ↔ (b = b))).
   {
     intro Hp.
     pose proof (S1 Hp) as S1.
@@ -1332,7 +1332,7 @@ Proof.
     MP n10_28 n10_11.
     now MP n10_28 S1.
   }
-  assert (S3 : [iotaE φ] -> ∃ x, φ x).
+  assert (S3 : [ιE φ] -> ∃ x, φ x).
   {
     (* Same issue *)
     pose proof n13_15 as n13_15.
@@ -1342,30 +1342,30 @@ Proof.
 Admitted.
 
 Theorem n14_202 (B : Prop) (φ : Prop → Prop) : 
-  ((φ x <[- x -]> x = B) ↔ ([iota φ | iotaφ => iotaφ = B]))
-  ∧ ([iota φ | iotaφ => iotaφ = B] ↔ (φ x <[- x -]> B = x))
-  ∧ ((φ x <[- x -]> B = x) ↔ [iota φ | iotaφ => B = iotaφ]).
+  ((φ x <[- x -]> x = B) ↔ ([ι φ | ιφ => ιφ = B]))
+  ∧ ([ι φ | ιφ => ιφ = B] ↔ (φ x <[- x -]> B = x))
+  ∧ ((φ x <[- x -]> B = x) ↔ [ι φ | ιφ => B = ιφ]).
 Proof.
-  assert (S1 : [iota φ | iotaφ => iotaφ = B]
+  assert (S1 : [ι φ | ιφ => ιφ = B]
     ↔ (∃ c, (φ x <[- x -]> (x = c)) /\ (c = B))).
   { apply n14_1. }
-  assert (S2 : [iota φ | iotaφ => iotaφ = B]
+  assert (S2 : [ι φ | ιφ => ιφ = B]
     ↔ (φ x <[- x -]> (x = B))).
   {
     setoid_rewrite -> n4_3 in S1 at 2.
     now rewrite -> n13_195 in S1.
   }
-  assert (S3 : ((φ x <[- x -]> x = B) ↔ ([iota φ | iotaφ => iotaφ = B]))
-    ∧ ([iota φ | iotaφ => iotaφ = B] ↔ (φ x <[- x -]> B = x))
-    ∧ ((φ x <[- x -]> B = x) ↔ [iota φ | iotaφ => B = iotaφ])).
+  assert (S3 : ((φ x <[- x -]> x = B) ↔ ([ι φ | ιφ => ιφ = B]))
+    ∧ ([ι φ | ιφ => ιφ = B] ↔ (φ x <[- x -]> B = x))
+    ∧ ((φ x <[- x -]> B = x) ↔ [ι φ | ιφ => B = ιφ])).
   {
-    assert (S3_1 : ((φ x <[- x -]> x = B) ↔ [iota φ | iotaφ => iotaφ = B])).
+    assert (S3_1 : ((φ x <[- x -]> x = B) ↔ [ι φ | ιφ => ιφ = B])).
     { now rewrite -> n4_21 in S2. }
-    assert (S3_2 : ([iota φ | iotaφ => iotaφ = B] ↔ (φ x <[- x -]> B = x))).
+    assert (S3_2 : ([ι φ | ιφ => ιφ = B] ↔ (φ x <[- x -]> B = x))).
     { now setoid_rewrite -> n13_16 in S2 at 2. }
-    assert (S3_3 : ((φ x <[- x -]> B = x) ↔ [iota φ | iotaφ => B = iotaφ])).
+    assert (S3_3 : ((φ x <[- x -]> B = x) ↔ [ι φ | ιφ => B = ιφ])).
     {
-      assert (S3_3 : [iota φ | iotaφ => B = iotaφ]
+      assert (S3_3 : [ι φ | ιφ => B = ιφ]
         ↔ (∃ c, (φ x <[- x -]> (x = c)) /\ (B = c))).
       { apply n14_1. }
       setoid_rewrite -> n4_3 in S3_3 at 2.
@@ -1374,8 +1374,8 @@ Proof.
       rewrite -> n4_21 in S3_3.
       now setoid_rewrite -> n13_16 in S3_3 at 1.
     }
-    assert (C1 : ([iota φ | iotaφ => iotaφ = B] ↔ φ x <[- x -]> B = x)
-      /\ (φ x <[- x -]> B = x ↔ [iota φ | iotaφ => B = iotaφ])).
+    assert (C1 : ([ι φ | ιφ => ιφ = B] ↔ φ x <[- x -]> B = x)
+      /\ (φ x <[- x -]> B = x ↔ [ι φ | ιφ => B = ιφ])).
     { clear S3_1. now Conj S3_2 S3_3 C1. }
     clear S2 S3_2 S3_3.
     now Conj S3_1 C1 S3.
@@ -1383,14 +1383,14 @@ Proof.
   exact S3.
 Qed.
 
-Theorem n14_203 (φ : Prop → Prop) : [iotaE φ]
+Theorem n14_203 (φ : Prop → Prop) : [ιE φ]
   ↔ ((∃ x, φ x) ∧ ((φ x ∧ φ y)) -[ x y ]> (x = y)).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : [iotaE φ] -> ((∃ x, φ x) 
+  assert (S1 : [ιE φ] -> ((∃ x, φ x) 
     /\ (φ x /\ φ y) -[ x y ]> (x = y))).
   {
     pose proof (n14_201 φ) as n14_201.
@@ -1472,9 +1472,9 @@ Proof.
     now setoid_rewrite -> n4_3 in S6 at 1.
   }
   assert (S8 : (∃ b, φ b) /\ ((φ x /\ φ y) -[ x y ]> (x = y))
-    -> [iotaE φ]).
+    -> [ιE φ]).
   { now rewrite <- n14_11 in S7. }
-  assert (S9 : [iotaE φ]
+  assert (S9 : [ιE φ]
     ↔ ((∃ x, φ x) ∧ ((φ x ∧ φ y)) -[ x y ]> (x = y))).
   {
     clear S2 S3 S4 S5 S6 S7.
@@ -1484,61 +1484,61 @@ Proof.
   exact S9.
 Qed.
 
-Theorem n14_204 (B : Prop) (φ : Prop → Prop) : [iotaE φ]
-  ↔ ∃ b, [iota φ | iotaφ => iotaφ = b].
+Theorem n14_204 (B : Prop) (φ : Prop → Prop) : [ιE φ]
+  ↔ ∃ b, [ι φ | ιφ => ιφ = b].
 Proof.
   (* TOOLS *)
   (* ******** *)
   (* Notice that the following proposition involves 2 quantifiers already, 
     so it might have a higher type..? *)
   assert (S1 : ∀ b, (φ x <[- x -]> (x = b))
-    ↔ [iota φ | iotaφ => iotaφ = b]).
+    ↔ [ι φ | ιφ => ιφ = b]).
   {
     pose proof (n14_202 B φ) as n14_202.
     (* simplifictaions *)
     destruct n14_202 as [n14_202l _].
     pose proof (n10_11 B (fun b => (φ x <[- x -]> x = b) ↔
-      [iota φ | iotaφ => iotaφ = b])) as n10_11.
+      [ι φ | ιφ => ιφ = b])) as n10_11.
     now MP n10_11 n14_202l.
   }
   assert (S2 : (∃ b, (φ x <[- x -]> (x = b)))
-    ↔ (∃ b, [iota φ | iotaφ => iotaφ = b])).
+    ↔ (∃ b, [ι φ | ιφ => ιφ = b])).
   {
     pose proof (n10_281 (fun b => φ x <[- x -]> x = b)
-      (fun b => [iota φ | iotaφ => iotaφ = b])) as n10_281.
+      (fun b => [ι φ | ιφ => ιφ = b])) as n10_281.
     now MP n10_281 S1.
   }
-  assert (S3 : [iotaE φ] ↔ ∃ b, [iota φ | iotaφ => iotaφ = b]).
+  assert (S3 : [ιE φ] ↔ ∃ b, [ι φ | ιφ => ιφ = b]).
   { now rewrite <- n14_11 in S2. }
   exact S3.
 Qed.
 
-Theorem n14_205 (φ ψ : Prop → Prop) : [iota φ | iotaφ => ψ iotaφ]
-  ↔ ∃ b, [iota φ | iotaφ => b = iotaφ] ∧ ψ b.
+Theorem n14_205 (φ ψ : Prop → Prop) : [ι φ | ιφ => ψ ιφ]
+  ↔ ∃ b, [ι φ | ιφ => b = ιφ] ∧ ψ b.
 Proof.
   set (B := Individual "b").
   pose proof (n14_202 B φ) as n14_202.
   destruct n14_202 as [_ n14_202r].
   destruct n14_202r as [_ n14_202rr].
   pose proof (n4_36 (φ x <[- x -]> B = x) 
-    ([iota φ | iotaφ => B = iotaφ]) (ψ B)) as n4_36.
+    ([ι φ | ιφ => B = ιφ]) (ψ B)) as n4_36.
   MP n4_36 n14_202rr.
   pose proof (n10_11 B (fun b => (φ x <[- x -]> b = x ) ∧ ψ b 
-    ↔ [iota φ | iotaφ => b = iotaφ] ∧ ψ b)) as n10_11.
+    ↔ [ι φ | ιφ => b = ιφ] ∧ ψ b)) as n10_11.
   MP n10_11 n4_36.
   pose proof (n10_281 (fun b => (φ x <[- x -]> b = x ) ∧ ψ b)
-    (fun b => [iota φ | iotaφ => b = iotaφ] ∧ ψ b)) as n10_281.
+    (fun b => [ι φ | ιφ => b = ιφ] ∧ ψ b)) as n10_281.
   MP n10_281 n10_11.
   setoid_rewrite -> n13_16 in n10_281 at 1.
   now rewrite <- n14_1 in n10_281.
 Qed.
 
-Theorem n14_21 (φ ψ : Prop → Prop) : [iota φ | iotaφ => ψ iotaφ] → [iotaE φ].
+Theorem n14_21 (φ ψ : Prop → Prop) : [ι φ | ιφ => ψ ιφ] → [ιE φ].
 Proof.
-  assert (S1 : [iota φ | iotaφ => ψ iotaφ] -> ∃ b, 
+  assert (S1 : [ι φ | ιφ => ψ ιφ] -> ∃ b, 
     (φ x <[- x -]> (x = b)) /\ ψ b).
   { apply n14_1. }
-  assert (S2 : [iota φ | iotaφ => ψ iotaφ] -> ∃ b, 
+  assert (S2 : [ι φ | ιφ => ψ ιφ] -> ∃ b, 
     (φ x <[- x -]> (x = b))).
   {
     (* simplifications *)
@@ -1549,12 +1549,12 @@ Proof.
     MP n10_5 S1.
     now destruct n10_5.
   }
-  assert (S3 : [iota φ | iotaφ => ψ iotaφ]-> [iotaE φ]).
+  assert (S3 : [ι φ | ιφ => ψ ιφ]-> [ιE φ]).
   { now rewrite <- n14_11 in S2. }
   exact S3.
 Qed.
 
-Theorem n14_22 (φ : Prop → Prop) : [iotaE φ] ↔ [iota φ | iotaφ => φ iotaφ].
+Theorem n14_22 (φ : Prop → Prop) : [ιE φ] ↔ [ι φ | ιφ => φ ιφ].
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
@@ -1574,19 +1574,19 @@ Proof.
       (fun b => (φ x <[- x -]> x = b) ∧ φ b)) as n10_281.
     now MP n10_281 n10_11.
   }
-  assert (S4 : [iotaE φ] ↔ [iota φ | iotaφ => φ iotaφ]).
+  assert (S4 : [ιE φ] ↔ [ι φ | ιφ => φ ιφ]).
   { now rewrite <- n14_11, <- n14_101 in S3. }
   exact S4.
 Qed.
 
-Theorem n14_23 (φ ψ : Prop → Prop) : [iotaE (fun x => φ x ∧ ψ x)]
-  ↔ [iota (fun x => φ x ∧ ψ x) | iota1 => φ iota1].
+Theorem n14_23 (φ ψ : Prop → Prop) : [ιE (fun x => φ x ∧ ψ x)]
+  ↔ [ι (fun x => φ x ∧ ψ x) | ι1 => φ ι1].
 Proof.
-  assert (S1 : [iotaE (fun x => φ x ∧ ψ x)]
-    <-> [iota (fun x => φ x /\ ψ x) | iota1 => φ iota1 /\ ψ iota1]).
+  assert (S1 : [ιE (fun x => φ x ∧ ψ x)]
+    <-> [ι (fun x => φ x /\ ψ x) | ι1 => φ ι1 /\ ψ ι1]).
   { apply n14_22. }
-  assert (S2 : [iotaE (fun x => φ x ∧ ψ x)] -> 
-    [iota (fun x => φ x ∧ ψ x) | iota1 => φ iota1]).
+  assert (S2 : [ιE (fun x => φ x ∧ ψ x)] -> 
+    [ι (fun x => φ x ∧ ψ x) | ι1 => φ ι1]).
   {
     destruct S1 as [S1_l _].
     (* simplifications *)
@@ -1607,11 +1607,11 @@ Proof.
     MP Simp3_26 n10_5a.
     now rewrite <- (n14_01 (fun x => φ x ∧ ψ x) φ) in Simp3_26.
   }
-  assert (S3 : [iota (fun x => φ x ∧ ψ x) | iota1 => φ iota1]
-    -> [iotaE (fun x => φ x /\ ψ x)]).
+  assert (S3 : [ι (fun x => φ x ∧ ψ x) | ι1 => φ ι1]
+    -> [ιE (fun x => φ x /\ ψ x)]).
   { apply n14_21. }
-  assert (S4 : [iotaE (fun x => φ x ∧ ψ x)]
-    ↔ [iota (fun x => φ x ∧ ψ x) | iota1 => φ iota1]).
+  assert (S4 : [ιE (fun x => φ x ∧ ψ x)]
+    ↔ [ι (fun x => φ x ∧ ψ x) | ι1 => φ ι1]).
   {
     clear S1. 
     now Syll S2 S3 S4.
@@ -1619,28 +1619,28 @@ Proof.
   exact S4.
 Qed.
 
-Theorem n14_24 (φ : Prop → Prop) : [iotaE φ]
-  ↔ [iota φ | iotaφ => φ y <[- y -]> y = iotaφ].
+Theorem n14_24 (φ : Prop → Prop) : [ιE φ]
+  ↔ [ι φ | ιφ => φ y <[- y -]> y = ιφ].
 Proof.
-  assert (S1 : [iota φ | iotaφ => φ y <[- y -]> y = iotaφ]
+  assert (S1 : [ι φ | ιφ => φ y <[- y -]> y = ιφ]
     <-> ∃ b, (φ y <[- y -]> (y = b)) /\ (φ y <[- y -]> (y = b))).
   { apply n14_1. }
-  assert (S2 : [iota φ | iotaφ => φ y <[- y -]> y = iotaφ]
+  assert (S2 : [ι φ | ιφ => φ y <[- y -]> y = ιφ]
     <-> ∃ b, (φ y <[- y -]> (y = b))).
   {
     (* n10_281 ignored *)
     now setoid_rewrite <- n4_24 in S1.
   }
-  assert (S3 : [iota φ | iotaφ => φ y <[- y -]> y = iotaφ]
-    <-> [iotaE φ]).
+  assert (S3 : [ι φ | ιφ => φ y <[- y -]> y = ιφ]
+    <-> [ιE φ]).
   { now rewrite <- n14_11 in S2. }
-  assert (S4 : [iotaE φ] ↔ [iota φ | iotaφ => φ y <[- y -]> y = iotaφ]).
+  assert (S4 : [ιE φ] ↔ [ι φ | ιφ => φ y <[- y -]> y = ιφ]).
   { now rewrite -> n4_21 in S3. }
   exact S4.
 Qed.
 
-Theorem n14_241 (φ : Prop → Prop) : [iotaE φ]
-  → (φ y <[- y -]> [iota φ | iotaφ => y = iotaφ]).
+Theorem n14_241 (φ : Prop → Prop) : [ιE φ]
+  → (φ y <[- y -]> [ι φ | ιφ => y = ιφ]).
 Proof.
   (* TOOLS *)
   set (X := Individual "x").
@@ -1649,7 +1649,7 @@ Proof.
     (Equiv4_01 P0 Q0))
   as Equiv4_01a.
   (* ******** *)
-  assert (S1 : [iotaE φ] -> ((φ Y /\ φ X) -> (Y = X))).
+  assert (S1 : [ιE φ] -> ((φ Y /\ φ X) -> (Y = X))).
   {
     pose proof (n14_203 φ) as n14_203.
     destruct n14_203 as [n14_203l _].
@@ -1668,14 +1668,14 @@ Proof.
     MP n10_1b n10_1a.
     now rewrite -> n13_16, -> n4_3 in n10_1b.
   }
-  assert (S2 : [iotaE φ] -> (φ Y -> (φ X -> (Y = X)))).
+  assert (S2 : [ιE φ] -> (φ Y -> (φ X -> (Y = X)))).
   {
     intro Hp.
     pose proof (S1 Hp) as S1.
     pose proof (Exp3_3 (φ Y) (φ X) (Y = X)) as Exp3_3.
     now MP Exp3_3 S1.
   }
-  assert (S3 : [iotaE φ] -> (φ Y -> (φ x -[ x ]> (Y = x)))).
+  assert (S3 : [ιE φ] -> (φ Y -> (φ x -[ x ]> (Y = x)))).
   {
     intro Hp.
     pose proof (S2 Hp) as S2.
@@ -1684,15 +1684,15 @@ Proof.
     MP n10_11 S2.
     now rewrite -> n10_21 in n10_11.
   }
-  assert (S4 : [iotaE φ] -> (φ Y <-> φ Y /\ (φ x -[ x ]> (Y = x)))).
+  assert (S4 : [ιE φ] -> (φ Y <-> φ Y /\ (φ x -[ x ]> (Y = x)))).
   { now setoid_rewrite -> n4_71 in S3 at 2. }
-  assert (S5 : [iotaE φ] -> (φ Y <-> ((Y = x) -[ x ]> φ x) 
+  assert (S5 : [ιE φ] -> (φ Y <-> ((Y = x) -[ x ]> φ x) 
     /\ (φ x -[ x ]> (Y = x)))).
   {
     rewrite <- (n13_191 Y) in S4 at 2.
     now setoid_rewrite -> n13_16 in S4 at 1.
   }
-  assert (S6 : [iotaE φ] -> (φ Y <-> (φ x <[- x -]> (Y = x)))).
+  assert (S6 : [ιE φ] -> (φ Y <-> (φ x <[- x -]> (Y = x)))).
   {
     intro Hp.
     pose proof (S5 Hp) as S5.
@@ -1700,19 +1700,19 @@ Proof.
     setoid_rewrite <- Equiv4_01a in S5.
     now setoid_rewrite -> n4_21 in S5 at 2.
   }
-  assert (S7 : [iotaE φ] -> (φ Y <-> 
-    [iota φ | iotaφ => Y = iotaφ])).
+  assert (S7 : [ιE φ] -> (φ Y <-> 
+    [ι φ | ιφ => Y = ιφ])).
   {
     pose proof (n14_202 Y φ) as n14_202.
     destruct n14_202 as [_ n14_202r].
     destruct n14_202r as [_ n14_202rr].
     now rewrite -> n14_202rr in S6.
   }
-  assert (S8 : [iotaE φ] → (φ y <[- y -]> [iota φ | iotaφ => y = iotaφ])).
+  assert (S8 : [ιE φ] → (φ y <[- y -]> [ι φ | ιφ => y = ιφ])).
   {
     intro Hp.
     pose proof (S7 Hp) as S7.
-    pose proof (n10_11 Y (fun y => φ y ↔ [iota φ | iotaφ => y = iotaφ])) as n10_11.
+    pose proof (n10_11 Y (fun y => φ y ↔ [ι φ | ιφ => y = ιφ])) as n10_11.
     clear S1 S2 S3 S4 S5 S6.
     now MP n10_11 S7.
   }
@@ -1720,7 +1720,7 @@ Proof.
 Qed.
 
 Theorem n14_242 (B : Prop) (φ ψ : Prop → Prop) : (φ x <[- x -]> x = B)
-  → (ψ B ↔ [iota φ | iotaφ => ψ iotaφ]).
+  → (ψ B ↔ [ι φ | ιφ => ψ ιφ]).
 Proof.
   pose proof (n14_202 B φ) as n14_202.
   destruct n14_202 as [n14_202l _].
@@ -1730,8 +1730,8 @@ Proof.
   now rewrite -> n4_21 in S1.
 Qed.
 
-Theorem n14_25 (φ ψ : Prop → Prop) : [iotaE φ ]
-  → ((φ x -[ x ]> ψ x) ↔ [iota φ | iotaφ => ψ iotaφ]).
+Theorem n14_25 (φ ψ : Prop → Prop) : [ιE φ ]
+  → ((φ x -[ x ]> ψ x) ↔ [ι φ | ιφ => ψ ιφ]).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
@@ -1756,7 +1756,7 @@ Proof.
     <-> ψ B)).
   { now rewrite -> n13_191 in S1. }
   assert (S3 : (φ x <[- x -]> (x = B)) -> ((φ x -[ x ]> ψ x)
-    <-> [iota φ | iotaφ => ψ iotaφ])).
+    <-> [ι φ | ιφ => ψ ιφ])).
   {
     (* simplifications *)
     intro Hp.
@@ -1766,27 +1766,27 @@ Proof.
     now rewrite -> n14_242 in S2.
   }
   assert (S4 : (∃ b, φ x <[- x -]> (x = b)) 
-    -> ((φ x -[ x ]> ψ x) <-> [iota φ | iotaφ => ψ iotaφ])).
+    -> ((φ x -[ x ]> ψ x) <-> [ι φ | ιφ => ψ ιφ])).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b)) 
-      -> ((φ x -[ x ]> ψ x) <-> [iota φ | iotaφ => ψ iotaφ]))) as n10_11.
+      -> ((φ x -[ x ]> ψ x) <-> [ι φ | ιφ => ψ ιφ]))) as n10_11.
     MP n10_11 S3.
     now rewrite -> n10_23 in n10_11.
   }
-  assert (S5 : [iotaE φ] → ((φ x -[ x ]> ψ x) 
-    ↔ [iota φ | iotaφ => ψ iotaφ])).
+  assert (S5 : [ιE φ] → ((φ x -[ x ]> ψ x) 
+    ↔ [ι φ | ιφ => ψ ιφ])).
   { now rewrite <- n14_11 in S4. }
   exact S5.
 Qed.
 
-Theorem n14_26 (φ ψ : Prop → Prop) : [iotaE φ]
-  → ((∃ x, φ x ∧ ψ x) ↔ [iota φ | iotaφ => ψ iotaφ])
-    ∧ ([iota φ | iotaφ => ψ iotaφ] ↔ (φ x -[ x ]> ψ x)).
+Theorem n14_26 (φ ψ : Prop → Prop) : [ιE φ]
+  → ((∃ x, φ x ∧ ψ x) ↔ [ι φ | ιφ => ψ ιφ])
+    ∧ ([ι φ | ιφ => ψ ιφ] ↔ (φ x -[ x ]> ψ x)).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
-  assert (S1 : [iotaE φ] -> ∃ b, φ x <[- x -]> (x = b)).
+  assert (S1 : [ιE φ] -> ∃ b, φ x <[- x -]> (x = b)).
   { apply n14_11. }
   assert (S2 : (φ x <[- x -]> (x = B))
     -> ((φ x /\ ψ x) <[- x -]> ((x = B) /\ ψ x))).
@@ -1802,7 +1802,7 @@ Proof.
     -> ((∃ x, φ x /\ ψ x) <-> ψ B)).
   { now rewrite -> n13_195 in S3. }
   assert (S5 : (φ x <[- x -]> (x = B))
-    -> ((∃ x, φ x /\ ψ x) <-> [iota φ | iotaφ => ψ iotaφ])).
+    -> ((∃ x, φ x /\ ψ x) <-> [ι φ | ιφ => ψ ιφ])).
   { 
     (* simplifications *)
     intro Hp.
@@ -1812,17 +1812,17 @@ Proof.
     now rewrite -> n14_242 in S4.
   }
   assert (S6 : (∃ b, φ x <[- x -]> (x = b))
-    -> ((∃ x, φ x /\ ψ x) <-> [iota φ | iotaφ => ψ iotaφ])).
+    -> ((∃ x, φ x /\ ψ x) <-> [ι φ | ιφ => ψ ιφ])).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
-      -> ((∃ x, φ x /\ ψ x) <-> [iota φ | iotaφ => ψ iotaφ]))) 
+      -> ((∃ x, φ x /\ ψ x) <-> [ι φ | ιφ => ψ ιφ]))) 
       as n10_11.
     MP n10_11 S5.
     now rewrite -> n10_23 in n10_11.
   }
-  assert (S7 : [iotaE φ]
-    → ((∃ x, φ x ∧ ψ x) ↔ [iota φ | iotaφ => ψ iotaφ])
-      ∧ ([iota φ | iotaφ => ψ iotaφ] ↔ (φ x -[ x ]> ψ x))).
+  assert (S7 : [ιE φ]
+    → ((∃ x, φ x ∧ ψ x) ↔ [ι φ | ιφ => ψ ιφ])
+      ∧ ([ι φ | ιφ => ψ ιφ] ↔ (φ x -[ x ]> ψ x))).
   {
     (* simplifications *)
     intro Hp.
@@ -1837,9 +1837,9 @@ Proof.
   exact S7.
 Qed.
 
-Theorem n14_27 (φ ψ : Prop → Prop) : [iotaE φ]
+Theorem n14_27 (φ ψ : Prop → Prop) : [ιE φ]
   → ((φ x <[- x -]> ψ x) ↔ 
-    [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]]).
+    [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
@@ -1873,7 +1873,7 @@ Proof.
     now Syll S2 n10_271 S3.
   }
   assert (S4 : (φ x <[- x -]> (x = B))
-    -> ((φ x <[- x -]> ψ x) <-> [iota ψ | iotaψ => B = iotaψ])).
+    -> ((φ x <[- x -]> ψ x) <-> [ι ψ | ιψ => B = ιψ])).
   {
     pose proof (n14_202 B ψ) as n14_202.
     destruct n14_202 as [_ n14_202r].
@@ -1882,23 +1882,23 @@ Proof.
     now rewrite -> n14_202rr in S3.
   }
   assert (S5 : (φ x <[- x -]> (x = B))
-    -> ((φ x <[- x -]> ψ x) <-> [iota φ | iotaφ => 
-      [iota ψ | iotaψ => iotaφ = iotaψ]])).
+    -> ((φ x <[- x -]> ψ x) <-> [ι φ | ιφ => 
+      [ι ψ | ιψ => ιφ = ιψ]])).
   {
     (* simplifications *)
     intro Hp.
     pose proof (S4 Hp) as S4.
     pose proof (n14_242 B φ (fun x => 
-      [iota ψ | iotaψ => x = iotaψ])) as n14_242.
+      [ι ψ | ιψ => x = ιψ])) as n14_242.
     MP n14_242 Hp.
     now rewrite -> n14_242 in S4.
   }
-  assert (S6 : [iotaE φ] → ((φ x <[- x -]> ψ x) 
-    ↔ [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]])).
+  assert (S6 : [ιE φ] → ((φ x <[- x -]> ψ x) 
+    ↔ [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]])).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
       -> ((φ x <[- x -]> ψ x) 
-        <-> [iota φ | iotaφ => [iota ψ | iotaψ => iotaφ = iotaψ]])))
+        <-> [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]])))
       as n10_11.
     MP n10_11 S5.
     rewrite -> n10_23 in n10_11.
@@ -1910,7 +1910,7 @@ Proof.
 Qed.
 
 Theorem n14_271 (φ ψ : Prop → Prop) : (φ x <[- x -]> ψ x)
-  → ([iotaE φ] ↔ [iotaE ψ]).
+  → ([ιE φ] ↔ [ιE ψ]).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
@@ -1954,13 +1954,13 @@ Proof.
       (fun b => ψ x <[- x -]> (x = b))) as n10_281.
     now Syll n10_281 S4 S5.
   }
-  assert (S6 : (φ x <[- x -]> ψ x) → ([iotaE φ] ↔ [iotaE ψ])).
+  assert (S6 : (φ x <[- x -]> ψ x) → ([ιE φ] ↔ [ιE ψ])).
   { now repeat rewrite <- n14_02 in S5. }
   exact S6.
 Qed.
 
 Theorem n14_272 (φ ψ χ : Prop → Prop) : (φ x <[- x -]> ψ x)
-  → [iota φ | iotaφ => χ iotaφ ] <-> [iota ψ | iotaψ => χ iotaψ].
+  → [ι φ | ιφ => χ ιφ ] <-> [ι ψ | ιψ => χ ιψ].
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
@@ -2021,21 +2021,21 @@ Proof.
     now Syll S4 n10_281 S5.
   }
   assert (S6 : (φ x <[- x -]> ψ x)
-    → [iota φ | iotaφ => χ iotaφ] <-> [iota ψ | iotaψ => χ iotaψ]).
+    → [ι φ | ιφ => χ ιφ] <-> [ι ψ | ιψ => χ ιψ]).
   { now rewrite <- (n14_101 φ), <- (n14_101 ψ) in S5. }
   exact S6.
 Admitted.
 
 (* As the substitution on `B` in the proof substitutes on both side
-of the `=`, our treatment on iota here varies again: we should write
+of the `=`, our treatment on ι here varies again: we should write
 
-`[iota φ | iotaφ1 => iota φ | iotaφ2 => iotaφ1 = iotaφ2]`
+`[ι φ | ιφ1 => ι φ | ιφ2 => ιφ1 = ιφ2]`
 
 if it has been a fixed interpretation. However if we are following the 
 proof, now we will see what is going on...
  *)
-Theorem n14_28 (φ : Prop → Prop) : [iotaE φ]
-  ↔ [iota φ | iotaφ => iotaφ = iotaφ].
+Theorem n14_28 (φ : Prop → Prop) : [ιE φ]
+  ↔ [ι φ | ιφ => ιφ = ιφ].
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
@@ -2058,29 +2058,29 @@ Proof.
       (fun b => (φ x <[- x -]> (x = b)) /\ (b = b))) as n10_281.
     now MP n10_281 n10_11.
   }
-  assert (S3 : [iotaE φ] ↔ [iota φ | iotaφ => iotaφ = iotaφ]).
+  assert (S3 : [ιE φ] ↔ [ι φ | ιφ => ιφ = ιφ]).
   { now rewrite <- n14_11, <- n14_1 in S2. }
   exact S3.
 Qed.
 
 (* What a terrible looking theorem to prove *)
 Theorem n14_3 (s : string) (φ χ f : Prop → Prop) : 
-  (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ [iotaE φ])
-  → (f ([iota φ | iotaφ => χ iotaφ]) 
-    ↔ [iota φ | iotaφ => (f (χ iotaφ))]).
+  (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ [ιE φ])
+  → (f ([ι φ | ιφ => χ ιφ]) 
+    ↔ [ι φ | ιφ => (f (χ ιφ))]).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => χ iotaφ] <-> χ B)).
+    -> ([ι φ | ιφ => χ ιφ] <-> χ B)).
   { 
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S2 : (((p <-> q) -[ p q ]> (f p <-> f q))
       /\ (φ x <[- x -]> (x = B)))
-    -> f ([iota φ | iotaφ => χ iotaφ]) <-> f (χ B)).
+    -> f ([ι φ | ιφ => χ ιφ]) <-> f (χ B)).
   {
     (* This is a very special one: it doesn't cite any theorems at all
     and I think this specific step might be ill-formed *)
@@ -2090,19 +2090,19 @@ Proof.
     intro Hp.
     destruct Hp as [Hp1 Hp2].
     MP S1 Hp2.
-    pose proof (Hp1 ([iota φ | iotaφ => χ iotaφ]) (χ B)) as Hp1.
+    pose proof (Hp1 ([ι φ | ιφ => χ ιφ]) (χ B)) as Hp1.
     now MP Hp1 S1.
   }
   assert (S3 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => (f (χ iotaφ))] <-> f (χ B))).
+    -> ([ι φ | ιφ => (f (χ ιφ))] <-> f (χ B))).
   {
     pose proof (n14_242 B φ (fun x => f (χ x))) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S4 : (((p <-> q) -[ p q ]> (f p <-> f q))
       /\ (φ x <[- x -]> (x = B)))
-    -> (f ([iota φ | iotaφ => χ iotaφ]) <-> 
-      [iota φ | iotaφ => (f (χ iotaφ))])).
+    -> (f ([ι φ | ιφ => χ ιφ]) <-> 
+      [ι φ | ιφ => (f (χ ιφ))])).
   {
     (* simplification *)
     intro Hp.
@@ -2111,14 +2111,14 @@ Proof.
     MP S3 Hp2.
     now rewrite <- S3 in S2.
   }
-  assert (S5 : (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ [iotaE φ])
-    → (f ([iota φ | iotaφ => χ iotaφ]) <-> 
-      [iota φ | iotaφ => (f (χ iotaφ))])).
+  assert (S5 : (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ [ιE φ])
+    → (f ([ι φ | ιφ => χ ιφ]) <-> 
+      [ι φ | ιφ => (f (χ ιφ))])).
   {
     pose proof (n10_11 B (fun b =>
       ((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ (∀ x, φ x ↔ x = b)
-      → (f ([iota φ | iotaφ => χ iotaφ]) 
-        <-> [iota φ | iotaφ => (f (χ iotaφ))]))) as n10_11.
+      → (f ([ι φ | ιφ => χ ιφ]) 
+        <-> [ι φ | ιφ => (f (χ ιφ))]))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     rewrite -> n10_35 in n10_11.
@@ -2130,36 +2130,36 @@ Proof.
 Qed.
 
 (* NOTE: original text mentioned here something about the axiom of reducibility *)
-Theorem n14_31 (P : Prop) (φ χ : Prop → Prop) : [iotaE φ]
-  → ([iota φ | iotaφ => P ∨ χ iotaφ]
-    ↔ P ∨ [iota φ | iotaφ => χ iotaφ]).
+Theorem n14_31 (P : Prop) (φ χ : Prop → Prop) : [ιE φ]
+  → ([ι φ | ιφ => P ∨ χ ιφ]
+    ↔ P ∨ [ι φ | ιφ => χ ιφ]).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => P ∨ χ iotaφ] <-> (P \/ χ B))).
+    -> ([ι φ | ιφ => P ∨ χ ιφ] <-> (P \/ χ B))).
   {
     pose proof (n14_242 B φ (fun x => P \/ χ x)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
-  assert (S2 : (φ x <[- x -]> (x = B)) -> ([iota φ | iotaφ => χ iotaφ]
+  assert (S2 : (φ x <[- x -]> (x = B)) -> ([ι φ | ιφ => χ ιφ]
     <-> χ B)).
   {
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> ((P \/ [iota φ | iotaφ => χ iotaφ]) <-> (P \/ χ B))).
+    -> ((P \/ [ι φ | ιφ => χ ιφ]) <-> (P \/ χ B))).
   {
-    pose proof (n4_37 ([iota φ | iotaφ => χ iotaφ]) (χ B) P) as n4_37.
+    pose proof (n4_37 ([ι φ | ιφ => χ ιφ]) (χ B) P) as n4_37.
     Syll S2 n4_37 S3.
     setoid_rewrite -> n4_31 in S3 at 1.
     now setoid_rewrite -> n4_31 in S3 at 2.
   }
   assert (S4 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => P ∨ χ iotaφ]
-      <-> (P \/ [iota φ | iotaφ => χ iotaφ]))).
+    -> ([ι φ | ιφ => P ∨ χ ιφ]
+      <-> (P \/ [ι φ | ιφ => χ ιφ]))).
   {
     (* simplification *)
     clear S2.
@@ -2168,12 +2168,12 @@ Proof.
     pose proof (S3 Hp) as S3.
     now rewrite <- S3 in S1.
   }
-  assert (S5 : [iotaE φ] → ([iota φ | iotaφ => P ∨ χ iotaφ]
-    ↔ P ∨ [iota φ | iotaφ => χ iotaφ])).
+  assert (S5 : [ιE φ] → ([ι φ | ιφ => P ∨ χ ιφ]
+    ↔ P ∨ [ι φ | ιφ => χ ιφ])).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
-      -> ([iota φ | iotaφ => P ∨ χ iotaφ]
-        <-> (P \/ [iota φ | iotaφ => χ iotaφ])))) as n10_11.
+      -> ([ι φ | ιφ => P ∨ χ ιφ]
+        <-> (P \/ [ι φ | ιφ => χ ιφ])))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
@@ -2181,30 +2181,30 @@ Proof.
   exact S5.
 Qed.
 
-Theorem n14_32 (φ χ : Prop → Prop) : [iotaE φ]
-  ↔ ([iota φ | iotaφ => ~ χ iotaφ] ↔ ~ [iota φ | iotaφ => χ iotaφ]).
+Theorem n14_32 (φ χ : Prop → Prop) : [ιE φ]
+  ↔ ([ι φ | ιφ => ~ χ ιφ] ↔ ~ [ι φ | ιφ => χ ιφ]).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => ~ χ iotaφ] <-> ~ χ B)).
+    -> ([ι φ | ιφ => ~ χ ιφ] <-> ~ χ B)).
   {
     pose proof (n14_242 B φ (fun x => ~ χ x)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S2 : (φ x <[- x -]> (x = B)) 
-    -> ([iota φ | iotaφ => χ iotaφ] <-> χ B)).
+    -> ([ι φ | ιφ => χ ιφ] <-> χ B)).
   {
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> ((~ [iota φ | iotaφ => χ iotaφ]) <-> ~ χ B)).
+    -> ((~ [ι φ | ιφ => χ ιφ]) <-> ~ χ B)).
   { now rewrite -> Transp4_11 in S2. }
   assert (S4 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => ~ χ iotaφ] 
-      <-> ~ [iota φ | iotaφ => χ iotaφ])).
+    -> ([ι φ | ιφ => ~ χ ιφ] 
+      <-> ~ [ι φ | ιφ => χ ιφ])).
   {
     (* simplification *)
     clear S2.
@@ -2213,26 +2213,26 @@ Proof.
     pose proof (S3 Hp) as S3.
     now rewrite <- S3 in S1.
   }
-  assert (S5 : [iotaE φ] -> (([iota φ | iotaφ => ~ χ iotaφ])
-    ↔ ~ [iota φ | iotaφ => χ iotaφ])).
+  assert (S5 : [ιE φ] -> (([ι φ | ιφ => ~ χ ιφ])
+    ↔ ~ [ι φ | ιφ => χ ιφ])).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
-      -> ([iota φ | iotaφ => ~ χ iotaφ] 
-        <-> ~ [iota φ | iotaφ => χ iotaφ]))) as n10_11.
+      -> ([ι φ | ιφ => ~ χ ιφ] 
+        <-> ~ [ι φ | ιφ => χ ιφ]))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
   }
-  assert (S6 : (([iota φ | iotaφ => ~ χ iotaφ])
-    ↔ ~ [iota φ | iotaφ => χ iotaφ]) -> [iotaE φ]).
+  assert (S6 : (([ι φ | ιφ => ~ χ ιφ])
+    ↔ ~ [ι φ | ιφ => χ ιφ]) -> [ιE φ]).
   {
     (* NOTE: Doubt this step is provable, because the different meaning in 
     notation here could make a crucial difference *)
     pose proof n14_1 as _n14_1.
     admit.
   }
-  assert (S7 : [iotaE φ] ↔ (([iota φ | iotaφ => ~ χ iotaφ])
-    ↔ ~ [iota φ | iotaφ => χ iotaφ])).
+  assert (S7 : [ιE φ] ↔ (([ι φ | ιφ => ~ χ ιφ])
+    ↔ ~ [ι φ | ιφ => χ ιφ])).
   {
     clear S1 S2 S3 S4.
     Conj S5 S6 S7.
@@ -2243,38 +2243,38 @@ Admitted.
 
 (* In original text, we can see straightforward that the citations are not
 completely in the same order *)
-Theorem n14_33 (P : Prop) (φ χ : Prop → Prop) : [iotaE φ]
-  → ([iota φ | iotaφ => P → χ iotaφ]
-    ↔ (P → [iota φ | iotaφ => χ iotaφ])).
+Theorem n14_33 (P : Prop) (φ χ : Prop → Prop) : [ιE φ]
+  → ([ι φ | ιφ => P → χ ιφ]
+    ↔ (P → [ι φ | ιφ => χ ιφ])).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => P → χ iotaφ] <-> (P -> χ B))).
+    -> ([ι φ | ιφ => P → χ ιφ] <-> (P -> χ B))).
   {
     pose proof (n14_242 B φ (fun x => P -> χ x)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
-  assert (S2 : (φ x <[- x -]> (x = B)) -> ([iota φ | iotaφ => χ iotaφ] 
+  assert (S2 : (φ x <[- x -]> (x = B)) -> ([ι φ | ιφ => χ ιφ] 
     <-> χ B)).
   {
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> ((P -> [iota φ | iotaφ => χ iotaφ]) <-> (P -> χ B))).
+    -> ((P -> [ι φ | ιφ => χ ιφ]) <-> (P -> χ B))).
   { 
     (* simplification *)
     intro Hp.
     pose proof (S2 Hp) as S2.
-    pose proof (n4_85 ([iota φ | iotaφ => χ iotaφ]) (χ B) P) as n4_85.
+    pose proof (n4_85 ([ι φ | ιφ => χ ιφ]) (χ B) P) as n4_85.
     clear S1.
     now MP n4_85 S2.
   }
   assert (S4 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => P → χ iotaφ] 
-      <-> (P -> [iota φ | iotaφ => χ iotaφ]))).
+    -> ([ι φ | ιφ => P → χ ιφ] 
+      <-> (P -> [ι φ | ιφ => χ ιφ]))).
   {
     (* simplification *)
     clear S2.
@@ -2283,12 +2283,12 @@ Proof.
     pose proof (S3 Hp) as S3.
     now rewrite <- S3 in S1.
   }
-  assert (S5 : [iotaE φ] -> (([iota φ | iotaφ => P → χ iotaφ])
-    ↔ (P -> [iota φ | iotaφ => χ iotaφ]))).
+  assert (S5 : [ιE φ] -> (([ι φ | ιφ => P → χ ιφ])
+    ↔ (P -> [ι φ | ιφ => χ ιφ]))).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
-      -> ([iota φ | iotaφ => P → χ iotaφ] 
-        <-> (P -> [iota φ | iotaφ => χ iotaφ])))) as n10_11.
+      -> ([ι φ | ιφ => P → χ ιφ] 
+        <-> (P -> [ι φ | ιφ => χ ιφ])))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
@@ -2296,38 +2296,38 @@ Proof.
   exact S5.
 Qed.
 
-Theorem n14_331 (P : Prop) (φ χ : Prop → Prop) : [iotaE φ]
-  → (([iota φ | iotaφ => χ iotaφ] → P) 
-    ↔ [iota φ | iotaφ => χ iotaφ → P]).
+Theorem n14_331 (P : Prop) (φ χ : Prop → Prop) : [ιE φ]
+  → (([ι φ | ιφ => χ ιφ] → P) 
+    ↔ [ι φ | ιφ => χ ιφ → P]).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => χ iotaφ → P] <-> (χ B -> P))).
+    -> ([ι φ | ιφ => χ ιφ → P] <-> (χ B -> P))).
   {
     pose proof (n14_242 B φ (fun x => χ x -> P)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
-  assert (S2 : (φ x <[- x -]> (x = B)) -> ([iota φ | iotaφ => χ iotaφ] 
+  assert (S2 : (φ x <[- x -]> (x = B)) -> ([ι φ | ιφ => χ ιφ] 
     <-> χ B)).
   {
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> (([iota φ | iotaφ => χ iotaφ] -> P) <-> (χ B -> P))).
+    -> (([ι φ | ιφ => χ ιφ] -> P) <-> (χ B -> P))).
   { 
     (* simplification *)
     intro Hp.
     pose proof (S2 Hp) as S2.
-    pose proof (n4_84 ([iota φ | iotaφ => χ iotaφ]) (χ B) P) as n4_85.
+    pose proof (n4_84 ([ι φ | ιφ => χ ιφ]) (χ B) P) as n4_85.
     clear S1.
     now MP n4_85 S2.
   }
   assert (S4 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => χ iotaφ → P]
-      <-> ([iota φ | iotaφ => χ iotaφ] -> P))).
+    -> ([ι φ | ιφ => χ ιφ → P]
+      <-> ([ι φ | ιφ => χ ιφ] -> P))).
   {
     (* simplification *)
     clear S2.
@@ -2336,57 +2336,57 @@ Proof.
     pose proof (S3 Hp) as S3.
     now rewrite <- S3 in S1.
   }
-  assert (S5 : [iotaE φ] -> (([iota φ | iotaφ => χ iotaφ → P])
-    ↔ ([iota φ | iotaφ => χ iotaφ] -> P))).
+  assert (S5 : [ιE φ] -> (([ι φ | ιφ => χ ιφ → P])
+    ↔ ([ι φ | ιφ => χ ιφ] -> P))).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
-      -> ([iota φ | iotaφ => χ iotaφ → P] 
-        <-> ([iota φ | iotaφ => χ iotaφ] -> P)))) as n10_11.
+      -> ([ι φ | ιφ => χ ιφ → P] 
+        <-> ([ι φ | ιφ => χ ιφ] -> P)))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
   }
   (* What a lovely reversion, it has been so unorganized *)
-  assert (S6 : [iotaE φ] → (([iota φ | iotaφ => χ iotaφ] → P) 
-    ↔ [iota φ | iotaφ => χ iotaφ → P])).
+  assert (S6 : [ιE φ] → (([ι φ | ιφ => χ ιφ] → P) 
+    ↔ [ι φ | ιφ => χ ιφ → P])).
   { now rewrite -> n4_21 in S5. }
   exact S6.
 Qed.
 
-Theorem n14_332 (P : Prop) (φ χ : Prop → Prop) : [iotaE φ]
-  → ([iota φ | iotaφ => P ↔ χ iotaφ]
-    ↔ (P ↔ [iota φ | iotaφ => χ iotaφ])).
+Theorem n14_332 (P : Prop) (φ χ : Prop → Prop) : [ιE φ]
+  → ([ι φ | ιφ => P ↔ χ ιφ]
+    ↔ (P ↔ [ι φ | ιφ => χ ιφ])).
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => P ↔ χ iotaφ] <-> (P <-> χ B))).
+    -> ([ι φ | ιφ => P ↔ χ ιφ] <-> (P <-> χ B))).
   {
     pose proof (n14_242 B φ (fun x => P <-> χ x)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
-  assert (S2 : (φ x <[- x -]> (x = B)) -> ([iota φ | iotaφ => χ iotaφ] 
+  assert (S2 : (φ x <[- x -]> (x = B)) -> ([ι φ | ιφ => χ ιφ] 
     <-> χ B)).
   {
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> ((P <-> [iota φ | iotaφ => χ iotaφ]) <-> (P <-> χ B))).
+    -> ((P <-> [ι φ | ιφ => χ ιφ]) <-> (P <-> χ B))).
   { 
     (* simplification *)
     intro Hp.
     pose proof (S2 Hp) as S2.
-    pose proof (n4_86 ([iota φ | iotaφ => χ iotaφ]) (χ B) P) as n4_86.
+    pose proof (n4_86 ([ι φ | ιφ => χ ιφ]) (χ B) P) as n4_86.
     clear S1.
     setoid_rewrite -> n4_21 in n4_86 at 3.
     setoid_rewrite -> n4_21 in n4_86 at 4.
     now MP n4_86 S2.
   }
   assert (S4 : (φ x <[- x -]> (x = B))
-    -> ([iota φ | iotaφ => P ↔ χ iotaφ] 
-      <-> (P <-> [iota φ | iotaφ => χ iotaφ]))).
+    -> ([ι φ | ιφ => P ↔ χ ιφ] 
+      <-> (P <-> [ι φ | ιφ => χ ιφ]))).
   {
     (* simplification *)
     clear S2.
@@ -2395,12 +2395,12 @@ Proof.
     pose proof (S3 Hp) as S3.
     now rewrite <- S3 in S1.
   }
-  assert (S5 : [iotaE φ] -> (([iota φ | iotaφ => P ↔ χ iotaφ])
-    ↔ (P <-> [iota φ | iotaφ => χ iotaφ]))).
+  assert (S5 : [ιE φ] -> (([ι φ | ιφ => P ↔ χ ιφ])
+    ↔ (P <-> [ι φ | ιφ => χ ιφ]))).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
-      -> ([iota φ | iotaφ => P ↔ χ iotaφ] 
-        <-> (P <-> [iota φ | iotaφ => χ iotaφ])))) as n10_11.
+      -> ([ι φ | ιφ => P ↔ χ ιφ] 
+        <-> (P <-> [ι φ | ιφ => χ ιφ])))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
@@ -2409,23 +2409,23 @@ Proof.
 Qed.
 
 Theorem n14_34 (P : Prop) (φ χ : Prop → Prop) : 
-  (P ∧ [iota φ | iotaφ => χ iotaφ]) 
-    ↔ [iota φ | iotaφ => P ∧ χ iotaφ].
+  (P ∧ [ι φ | ιφ => χ ιφ]) 
+    ↔ [ι φ | ιφ => P ∧ χ ιφ].
 Proof.
-  assert (S1 : (P ∧ [iota φ | iotaφ => χ iotaφ]) <-> (P /\ (∃ b, 
+  assert (S1 : (P ∧ [ι φ | ιφ => χ ιφ]) <-> (P /\ (∃ b, 
     (φ x <[- x -]> (x = b)) /\ χ b))).
   { 
     pose proof (n14_1 φ χ) as n14_1.
-    pose proof (n4_36 ([iota φ | iotaφ => χ iotaφ]) (∃ b, (φ x <[- x -]> x = b) ∧ χ b)
+    pose proof (n4_36 ([ι φ | ιφ => χ ιφ]) (∃ b, (φ x <[- x -]> x = b) ∧ χ b)
       P) as n4_36.
     MP n4_36 n14_1.
     rewrite -> n4_3 in n4_36.
     now setoid_rewrite -> n4_3 in n4_36 at 3.
   }
-  assert (S2 : (P ∧ [iota φ | iotaφ => χ iotaφ]) <-> (∃ b, 
+  assert (S2 : (P ∧ [ι φ | ιφ => χ ιφ]) <-> (∃ b, 
     P /\ ((φ x <[- x -]> (x = b)) /\ χ b))).
   { now rewrite <- n10_35 in S1. }
-  assert (S3 : (P ∧ [iota φ | iotaφ => χ iotaφ]) ↔ [iota φ | iotaφ => P ∧ χ iotaφ]).
+  assert (S3 : (P ∧ [ι φ | ιφ => χ ιφ]) ↔ [ι φ | ιφ => P ∧ χ ιφ]).
   {
     setoid_rewrite -> n4_3 in S2 at 4.
     setoid_rewrite <- n4_32 in S2.
@@ -2439,4 +2439,4 @@ Close Scope single_app_equiv.
 Close Scope single_app_impl.
 Close Scope double_app_equiv.
 Close Scope double_app_impl.
-Close Scope debug_iota_description.
+Close Scope iota_description.

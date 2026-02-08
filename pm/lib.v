@@ -71,57 +71,6 @@ End Predicate2. *)
 (* **************** *)
 (* Chapter 14 *)
 (* **************** *)
-(* Notation support for chapter 14, descriptions *)
-Definition Iota (s : string) (x : Prop) : Prop := x.
-Example iota_function (i1 i2 : Prop) : Prop → Prop :=
-  fun x =>
-    (Iota "Phi" i1) = (Iota "Psi" i2).
-
-(* TODO: maybe we can recollect all the functions for iota into an 
-  inductive type *)
-
-(* `_f` suffix means it's for typical (untyped) functions. Here we only define
-  the signature to avoid repetitive definitions, and the actual definition starts 
-  after *14.01. *)
-Definition iota_f 
-  (* s is just a string for identification *)
-  (s : string)
-  (Phi : Prop → Prop) 
-  (* This function below is supposed to be a function of the iota term. Since the 
-  variable is provided within the proposition, we only type it just as a normal 
-  function. Unavailability of the existential `b` var from an external view is the 
-  major reason why this notation is hard to define.
-  While the definition doesn't express anything, this function is allowed to use 
-  `Iota s1` in its body *)
-  (Psi : Prop → Prop) : Prop. Admitted.
-Example scoped_iota_expression (Phi : Prop → Prop) :=
-  iota_f "Phi" Phi 
-    (* A function will be written like this... *)
-    (fun b => (Iota "Phi" b) = (Iota "Phi" b)).
-
-(* iota's predicate, "Exists" which states that a description exist. My understanding
-is that `E` in `E!` is the capital letter of `Exists` and `!` indicates that it is a 
-predicate. 
-
-TODO: give this iota_E the correct `Predicate` type
-*)
-Definition iota_E (Phi : Prop → Prop) : Prop. Admitted.
-
-(* cf. p174, example after *14.03. Interpretation for a function containing 
-  multiple descriptions *)
-Definition iota_f2 (s1 s2 : string) (Phi Psi : Prop → Prop)
-  (f : Prop → Prop → Prop) : Prop. Admitted.
-
-(* cf. p174, explanation after *14.04. The iota variant where inner function has 
-  larger scope than outer function. This variant will be proven later unecessary. 
-
-  The original definition depends on `iota_f2`. The function `iota_f` here, 
-  provided with parameters, gets a similar role to the idea of scope
-*)
-Definition iota_f2_rev (s1 s2 : string) (Phi Psi : Prop → Prop)
-  (f : Prop → Prop → Prop) : Prop. Admitted.
-
-
 Declare Scope debug_iota_description.
 Declare Scope iota_description.
 
@@ -129,21 +78,37 @@ Definition DescriptionArg (φ : Prop -> Prop) : Type := Prop.
 Example descriptionarg_example := (fun iotaφ : (DescriptionArg (fun x => x)) =>
   iotaφ = iotaφ).
 
+(* Here we only define the signature to avoid repetitive definitions, and the actual 
+  definition starts after *14.01. *)
 Definition Description (φ : Prop -> Prop) (expr : (DescriptionArg φ) -> Prop) : Prop. 
 Admitted.
 Example description_example := 
   Description (fun (iotaφ : DescriptionArg (fun x => x)) =>
     iotaφ = iotaφ).
 
+(* iota's predicate, "Exists" which states that a description exist. My understanding
+is that `E` in `E!` is the capital letter of `Exists` and `!` indicates that it is a 
+predicate. 
+
+TODO: give this iota_E the correct `Predicate` type
+*)
 Definition DescriptionExists (φ : Prop -> Prop) : Prop. Admitted.
 Example descriptionexists_example := DescriptionExists (fun x => x).
 
+(* cf. p174, example after *14.03. Interpretation for a function containing 
+  multiple descriptions *)
 Definition Description2 (φ ψ : Prop -> Prop) 
   (expr : (DescriptionArg φ) -> (DescriptionArg ψ) -> Prop): Prop. 
 Admitted.
 Example description2_example (φ ψ : Prop -> Prop) :=
   Description2 φ ψ (fun x y => x = y).
 
+(* cf. p174, explanation after *14.04. The iota variant where inner function has 
+  larger scope than outer function. This variant will be proven later unecessary. 
+
+  The original definition depends on `iota_f2`. The function `iota_f` here, 
+  provided with parameters, gets a similar role to the idea of scope
+*)
 Definition Description2_rev (φ ψ : Prop -> Prop) 
   (expr : (DescriptionArg ψ) -> (DescriptionArg φ) -> Prop): Prop. 
 Admitted.
