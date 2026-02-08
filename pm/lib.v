@@ -16,7 +16,7 @@ Export String.
 
 (* cf.p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
-Theorem eq_to_equiv : forall (P Q : Prop),
+Theorem eq_to_equiv : ∀ (P Q : Prop),
   (P = Q) → (P ↔ Q).
 Proof.
   intros P Q H.
@@ -39,6 +39,10 @@ Example var_0 := Individual "x".
 
 Should we treat `!` as something being denotational just like the dot notations in Principia?
 *)
+
+(* **************** *)
+(* Chapter 13 *)
+(* **************** *)
 (* Unsatisfying: what we want to express is that Phi takes argument with the same type of `X` *)
 (* Here, n is supposed to be the order of the predicate *)
 (* Unset Automatic Proposition Inductives. *)
@@ -64,32 +68,23 @@ Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
 End Predicate2. *)
 (* TODO: maybe we should synthesize these 2 types into one inductive type with the name of "constituent" *)
 
-(* Notation support for chapter 14, descriptions *)
-Definition Iota (s : string) (x : Prop) : Prop := x.
+(* **************** *)
+(* Chapter 14 *)
+(* **************** *)
+Declare Scope debug_iota_description.
+Declare Scope iota_description.
 
-Example iota_function (i1 i2 : Prop) : Prop → Prop :=
-  fun x =>
-    (Iota "Phi" i1) = (Iota "Psi" i2).
+Definition DescriptionArg (φ : Prop -> Prop) : Type := Prop.
+Example descriptionarg_example := (fun iotaφ : (DescriptionArg (fun x => x)) =>
+  iotaφ = iotaφ).
 
-(* `_f` suffix means it's for typical (untyped) functions. Here we only define
-  the signature to avoid repetitive definitions, and the actual definition starts 
-  after *14.01. *)
-Definition iota_f 
-  (* s is just a string for identification *)
-  (s : string)
-  (Phi : Prop → Prop) 
-  (* This function below is supposed to be a function of the iota term. Since the 
-  variable is provided within the proposition, we only type it just as a normal 
-  function. Unavailability of the existential `b` var from an external view is the 
-  major reason why this notation is hard to define.
-  While the definition doesn't express anything, this function is allowed to use 
-  `Iota s1` in its body *)
-  (Psi : Prop → Prop) : Prop. Admitted.
-
-Example scoped_iota_expression (Phi : Prop → Prop) :=
-  iota_f "Phi" Phi 
-    (* A function will be written like this... *)
-    (fun b => (Iota "Phi" b) = (Iota "Phi" b)).
+(* Here we only define the signature to avoid repetitive definitions, and the actual 
+  definition starts after *14.01. *)
+Definition Description (φ : Prop -> Prop) (expr : (DescriptionArg φ) -> Prop) : Prop. 
+Admitted.
+Example description_example := 
+  Description (fun (iotaφ : DescriptionArg (fun x => x)) =>
+    iotaφ = iotaφ).
 
 (* iota's predicate, "Exists" which states that a description exist. My understanding
 is that `E` in `E!` is the capital letter of `Exists` and `!` indicates that it is a 
@@ -97,12 +92,16 @@ predicate.
 
 TODO: give this iota_E the correct `Predicate` type
 *)
-Definition iota_E (Phi : Prop → Prop) : Prop. Admitted.
+Definition DescriptionExists (φ : Prop -> Prop) : Prop. Admitted.
+Example descriptionexists_example := DescriptionExists (fun x => x).
 
 (* cf. p174, example after *14.03. Interpretation for a function containing 
   multiple descriptions *)
-Definition iota_f2 (s1 s2 : string) (Phi Psi : Prop → Prop)
-  (f : Prop → Prop → Prop) : Prop. Admitted.
+Definition Description2 (φ ψ : Prop -> Prop) 
+  (expr : (DescriptionArg φ) -> (DescriptionArg ψ) -> Prop): Prop. 
+Admitted.
+Example description2_example (φ ψ : Prop -> Prop) :=
+  Description2 φ ψ (fun x y => x = y).
 
 (* cf. p174, explanation after *14.04. The iota variant where inner function has 
   larger scope than outer function. This variant will be proven later unecessary. 
@@ -110,8 +109,62 @@ Definition iota_f2 (s1 s2 : string) (Phi Psi : Prop → Prop)
   The original definition depends on `iota_f2`. The function `iota_f` here, 
   provided with parameters, gets a similar role to the idea of scope
 *)
-Definition iota_f2_rev (s1 s2 : string) (Phi Psi : Prop → Prop)
-  (f : Prop → Prop → Prop) : Prop. Admitted.
+Definition Description2_rev (φ ψ : Prop -> Prop) 
+  (expr : (DescriptionArg ψ) -> (DescriptionArg φ) -> Prop): Prop. 
+Admitted.
+
+Open Scope debug_iota_description.
+
+Notation "[ 'iota' φ | x => B ]" := (Description φ (fun (x : DescriptionArg φ) => B))
+  (at level 200, x binder, right associativity) : debug_iota_description.
+(* TODO: format... *)
+Example debug_iota_notation_example := [ iota (fun x => x) | iotaφ => iotaφ = iotaφ ].
+
+Notation "[ 'iotaE' P ]" := (DescriptionExists (P : Prop -> Prop))
+  (at level 100, P constr at level 200, right associativity) : debug_iota_description.
+Example debug_iota_exists_example := [ iotaE (fun x => x) ].
+
+Notation "[ 'iota2' φ , ψ | x y => B ]" := 
+  (Description2 φ ψ (fun (x : DescriptionArg φ) (y : DescriptionArg ψ) => B))
+  (at level 200, x binder, y binder, right associativity) : debug_iota_description.
+Example debug_iota2_example := 
+  [ iota2 (fun x => x) , (fun x => x) | x y => (x = y) ].
+
+Notation "[ 'iota2rev' φ , ψ | y x => B ]" := 
+  (Description2 φ ψ (fun (y : DescriptionArg ψ) (x : DescriptionArg φ) => B))
+  (at level 200, x binder, y binder, right associativity) : debug_iota_description.
+
+Close Scope debug_iota_description.
+
+Open Scope iota_description.
+
+Notation "[ 'ι' φ | x => B ]" := (Description φ (fun (x : DescriptionArg φ) => B))
+  (at level 200, x binder, right associativity) : iota_description.
+(* TODO: format... *)
+Example iota_notation_example := [ι (fun x => x) | ιφ => ιφ = ιφ].
+
+Notation "[ 'ιE' P ]" := (DescriptionExists (P : Prop -> Prop))
+  (at level 100, P constr at level 200, right associativity) : iota_description.
+Example iota_exists_example := [ ιE (fun x => x) ].
+
+Notation "[ 'ι2' φ , ψ | x y => B ]" := 
+  (Description2 φ ψ (fun (x : DescriptionArg φ) (y : DescriptionArg ψ) => B))
+  (at level 200, x binder, y binder, right associativity) : iota_description.
+Example iota2_example := 
+  [ ι2 (fun x => x) , (fun x => x) | x y => (x = y) ].
+
+Notation "[ 'ι2rev' φ , ψ | y x => B ]" := 
+  (Description2 φ ψ (fun (y : DescriptionArg ψ) (x : DescriptionArg φ) => B))
+  (at level 200, x binder, y binder, right associativity) : iota_description.
+
+Definition iota2_arg_comm (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) : 
+  [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ] ↔ [ι2 φ, ψ | ιψ ιφ => f ιφ ιψ].
+Admitted.
+
+Close Scope iota_description.
+
+(* For this new notation, we have to design some special axioms to make 
+  it work... *)
 
 (* ******** *)
 (* AGGREGATED TODOS *)
@@ -140,7 +193,7 @@ https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-a
 ~p.17:
 - descriptive funstion: a special kind of propositional function, including examples like `x is blue`
 - `~` is not a primitive idea. It is supposed to have a different definition on different types of proposition. 
-For example, we might define `~` a typeclass, and `forall` propositions has an instance of implementation for 
+For example, we might define `~` a typeclass, and `∀` propositions has an instance of implementation for 
 this operator
 
 ~p.18:
@@ -148,8 +201,8 @@ apparent variable "appears to be" the only variables, while "real variables" inc
 
 ~p.20: 
 - (Ax, Px → Q x) → (Ax, Px) → (Ax, Qx) requires that P Q takes arguments "of the same type". → p.49
-- formal implication: the `→` wrapped up in `forall`s. It bypassed the problem that `P → Q = ~P ∨ Q`, and restrict that we have to 
-know `forall x, P x → Q x` and `P X` to get `Q X`.
+- formal implication: the `→` wrapped up in `∀`s. It bypassed the problem that `P → Q = ~P ∨ Q`, and restrict that we have to 
+know `∀ x, P x → Q x` and `P X` to get `Q X`.
 
 ~p.22:
 (TODO)`=` is not defined until chapter 13, and this is being explained in chapter 2/chapter II.
@@ -160,8 +213,8 @@ know `forall x, P x → Q x` and `P X` to get `Q X`.
 - P with "all possible values" are called `significant`. Significant = "well typed"
 
 ~p.47, beginning of chapter II:
-- `forall x, Phi x` is considered as a function with `Phi` as one argument
-- for `forall`, `Phi` can be a parameter but an individual `X` cannot be a parameter
+- `∀ x, Phi x` is considered as a function with `Phi` as one argument
+- for `∀`, `Phi` can be a parameter but an individual `X` cannot be a parameter
 - it is necesssary to make a distinction between passing in a `X` and passing in a `Phi`
 
 ~p.49:
@@ -204,7 +257,7 @@ negation on "all" propositions attributing to Russell's paradox
 
 ~p.128:
 - Goal of ch9: focus on definition of `~` and `∨` defined in *1 - *5 limited to eprops. Extend their definitions to 1st orde props
-- The support of `forall` and `exists` seems to be only for demonstration purpose - if we take them as primitive ideas, we can 
+- The support of `∀` and `∃` seems to be only for demonstration purpose - if we take them as primitive ideas, we can 
   conclude "upgraded" versions of propositions "just as in" ch1-5.
 - the important parts seems to be *1.2 - *1.6; A new way is used for analogue of 1.7 - 1.72
 - Real variables doesn't have types(??), and can be instantiated with any proposition of any orders???
@@ -215,10 +268,10 @@ negation on "all" propositions attributing to Russell's paradox
   - order of a proposition depends on its parameter's types
 
 ~p.138:
-- Ch9 enables us to take `forall` propositions as parameters
+- Ch9 enables us to take `∀` propositions as parameters
 - therefore we can have a better goal(?)
 - Goal of ch10: focus on deducing 1-var functions from 
-- "for example", `exists` is no longer a primitive idea which is different from ch9  
+- "for example", `∃` is no longer a primitive idea which is different from ch9  
 - several ch9 theorems are only taken because of their ability to reason for quantified propositions
 
 ~p.162:

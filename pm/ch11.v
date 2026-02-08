@@ -10,6 +10,7 @@ Require Import PM.pm.ch10.
 (* TODO: 
 - Investigate the `alt`s in ch10 and see if there are more details
 - Identify parameter types in ch9 & 10
+- design the correct notation for multiple vars
 - Correctly control the notation scopes in ch11 and ch10
 *)
 

@@ -3,7 +3,7 @@ Require Import PM.pm.ch1.
 Require Import PM.pm.ch2.
 Require Import PM.pm.ch3.
 
-Theorem Equiv4_01 : forall P Q : Prop, 
+Theorem Equiv4_01 : ∀ P Q : Prop, 
   (P ↔ Q) = ((P → Q) ∧ (Q → P)).
 Proof. intros. reflexivity. Qed.
 

@@ -12,7 +12,7 @@ Require Import PM.pm.ch12.
 TODO: 
 - replace ~= with the /= unicode symbol
 - Investigate *1.7 and see if the rest of the missing proofs can be filled
-- Investigate support for `<[- x -]>`'s conversion to `<-> /\ <->`
+- Investigate support for `<[- x -]>`'s conversion to `↔ ∧ ↔`
 *)
 
 (* This chapter presents a set of theorem for `=`, the propositional identity
@@ -93,7 +93,7 @@ Proof.
   assert (S1 : (∃ φ : Predicate 1, (ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y))).
   {
     (* The ambiguity in this very step is we don't have a rule
-    to add `/\` into *12.1 right away *)
+    to add `∧` into *12.1 right away *)
     pose proof (n12_1 1 ψ) as n12_1.
     (* simplification... is it even possible to remove this? *)
     destruct n12_1 as [If Hn12_1].
@@ -158,10 +158,10 @@ Proof.
     (* TODO: maybe we will find a way to fix the definition on such 
       equiv relation *)
     replace (∀ x : Predicate 1, (x X → x Y) ∧ (x Y → x X))
-      with (∀ x : Predicate 1, x X <-> x Y)
+      with (∀ x : Predicate 1, x X ↔ x Y)
       in n10_22l by reflexivity.
-    pose proof (Simp3_26 (forall p : Predicate 1, p X -> p Y)
-      (forall p : Predicate 1, p Y -> p X)) as Simp3_26.
+    pose proof (Simp3_26 (∀ p : Predicate 1, p X -> p Y)
+      (∀ p : Predicate 1, p Y -> p X)) as Simp3_26.
     now Syll n10_22l Simp3_26 S1.
   }
   assert (S2 : (∀ φ : Predicate 1, φ X ↔ φ Y)
@@ -287,8 +287,8 @@ Proof.
     destruct n13_1b as [n13_1bl _].
     Conj n13_1al n13_1bl C1.
     pose proof (n3_47 (X = Y) (Y = Z)
-      (forall (p : Predicate 1), p X -> p Y)
-      (forall (p : Predicate 1), p Y -> p Z)) as n3_47.
+      (∀ (p : Predicate 1), p X -> p Y)
+      (∀ (p : Predicate 1), p Y -> p Z)) as n3_47.
     now MP n3_47 C1.
   }
   assert (S2 : ((X = Y) ∧ (Y = Z)) 
