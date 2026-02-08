@@ -13,15 +13,15 @@ Require Import PM.pm.ch9.
 
 (* TODO: TYPE RESTRICTIONS
 Type of theorems allowed: first order propositions(?)
-Type of parameters allowed: (each forall is quantified over at most one variable?)
+Type of parameters allowed: (each ∀ is quantified over at most one variable?)
 *)
 
 (* 
 TODO: rewrite introduction for this chapter
-- Ch9 enables us to take `forall` propositions as parameters, therefore we can have a better goal(?)
+- Ch9 enables us to take `∀` propositions as parameters, therefore we can have a better goal(?)
 - Goal of ch10: focus on deducing 1-var functions from ch1-5
 - several ch9 primitive propositions are only used (for conveniency?)
-- `exists` is no longer a primitive idea
+- `∃` is no longer a primitive idea
 
 Notes on this chapter:
 - Chapter 10, 11 and so on's theorems doesn't focus on their coverage of FOL. Rather, I think they 
@@ -1586,7 +1586,7 @@ Proof.
   (* TOOLS *)
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
     as Impl1_01a.
-  assert (Assoc1_5Eq : forall P Q R, P ∨ Q ∨ R ↔ Q ∨ P ∨ R).
+  assert (Assoc1_5Eq : ∀ P Q R, P ∨ Q ∨ R ↔ Q ∨ P ∨ R).
   { split; apply Assoc1_5. }
   (* ******** *)
   assert (S1 : (φ y -[ y ]> (P ∨ ψ y)) 

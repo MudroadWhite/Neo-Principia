@@ -114,7 +114,7 @@ Proof.
     now rewrite -> n14_03 in n4_2.
   }
   assert (S2 : [ι2rev φ, ψ | ιψ ιφ => f ιφ ιψ]
-    ↔ [ι ψ | ιψ => (exists b, (φ x <[- x -]> (x = b)) /\ f b ιψ)]).
+    ↔ [ι ψ | ιψ => (∃ b, (φ x <[- x -]> (x = b)) ∧ f b ιψ)]).
   {
     (* Simplification: for functions not being instantiated, we use 
     functional extentionality as a shortcut. *)
@@ -1289,7 +1289,7 @@ Proof.
   set (X := Individual "x").
   (* ******** *)
   assert (S1 : [ι (fun x => x = A) | ι1 => ι1 = A]
-    ↔ (∃ b, ((x = A) <[- x -]> (x = b)) /\ (b = A))).
+    ↔ (∃ b, ((x = A) <[- x -]> (x = b)) ∧ (b = A))).
   { apply n14_101. }
   assert (S2 : [ι (fun x => x = A) | ι1 => ι1 = A]
     ↔ ((x = A) <[- x -]> (x = A))).
@@ -1347,7 +1347,7 @@ Theorem n14_202 (B : Prop) (φ : Prop → Prop) :
   ∧ ((φ x <[- x -]> B = x) ↔ [ι φ | ιφ => B = ιφ]).
 Proof.
   assert (S1 : [ι φ | ιφ => ιφ = B]
-    ↔ (∃ c, (φ x <[- x -]> (x = c)) /\ (c = B))).
+    ↔ (∃ c, (φ x <[- x -]> (x = c)) ∧ (c = B))).
   { apply n14_1. }
   assert (S2 : [ι φ | ιφ => ιφ = B]
     ↔ (φ x <[- x -]> (x = B))).
@@ -1366,7 +1366,7 @@ Proof.
     assert (S3_3 : ((φ x <[- x -]> B = x) ↔ [ι φ | ιφ => B = ιφ])).
     {
       assert (S3_3 : [ι φ | ιφ => B = ιφ]
-        ↔ (∃ c, (φ x <[- x -]> (x = c)) /\ (B = c))).
+        ↔ (∃ c, (φ x <[- x -]> (x = c)) ∧ (B = c))).
       { apply n14_1. }
       setoid_rewrite -> n4_3 in S3_3 at 2.
       setoid_rewrite -> n13_16 in S3_3 at 2.
@@ -1375,7 +1375,7 @@ Proof.
       now setoid_rewrite -> n13_16 in S3_3 at 1.
     }
     assert (C1 : ([ι φ | ιφ => ιφ = B] ↔ φ x <[- x -]> B = x)
-      /\ (φ x <[- x -]> B = x ↔ [ι φ | ιφ => B = ιφ])).
+      ∧ (φ x <[- x -]> B = x ↔ [ι φ | ιφ => B = ιφ])).
     { clear S3_1. now Conj S3_2 S3_3 C1. }
     clear S2 S3_2 S3_3.
     now Conj S3_1 C1 S3.
@@ -1391,15 +1391,15 @@ Proof.
   set (X := Individual "x").
   (* ******** *)
   assert (S1 : [ιE φ] -> ((∃ x, φ x) 
-    /\ (φ x /\ φ y) -[ x y ]> (x = y))).
+    ∧ (φ x ∧ φ y) -[ x y ]> (x = y))).
   {
     pose proof (n14_201 φ) as n14_201.
     pose proof (n14_12 φ) as n14_12.
     Conj n14_201 n14_12 C1.
     now rewrite -> n4_76 in C1.
   }
-  assert (S2 : (φ B /\ ((φ x /\ φ y) -[ x y ]> (x = y)))
-    -> (φ B /\ ((φ x /\ φ B) -[ x ]> (x = B)))).
+  assert (S2 : (φ B ∧ ((φ x ∧ φ y) -[ x y ]> (x = y)))
+    -> (φ B ∧ ((φ x ∧ φ B) -[ x ]> (x = B)))).
   {
     pose proof (n10_1 (fun y => 
       (φ x ∧ φ y) -[ x ]> x = y) B) as n10_1.
@@ -1414,10 +1414,10 @@ Proof.
     setoid_rewrite -> n4_3 in Fact3_45 at 2.
     now setoid_rewrite -> n4_3 in Fact3_45 at 3.
   }
-  assert (S3 : (φ B /\ ((φ x /\ φ y) -[ x y ]> (x = y)))
-    -> (φ B /\ (φ x -[ x ]> (x = B)))).
+  assert (S3 : (φ B ∧ ((φ x ∧ φ y) -[ x y ]> (x = y)))
+    -> (φ B ∧ (φ x -[ x ]> (x = B)))).
   {
-    pose proof (n10_1 (fun x => ((φ x /\ φ B) -> (x = B)) ∧ φ B) X) as n10_1.
+    pose proof (n10_1 (fun x => ((φ x ∧ φ B) -> (x = B)) ∧ φ B) X) as n10_1.
     rewrite -> n10_33 in n10_1.
     rewrite -> n4_3 in n10_1.
     Syll S2 n10_1 Sy1.
@@ -1432,13 +1432,13 @@ Proof.
     setoid_rewrite -> n4_3 in Fact3_45 at 2.
     now Syll Sy1 Fact3_45 S3.
   }
-  assert (S4 : (φ B /\ ((φ x /\ φ y) -[ x y ]> (x = y)))
-    -> (((x = B) -[ x ]> φ x) /\ (φ x -[ x ]> (x = B)))).
+  assert (S4 : (φ B ∧ ((φ x ∧ φ y) -[ x y ]> (x = y)))
+    -> (((x = B) -[ x ]> φ x) ∧ (φ x -[ x ]> (x = B)))).
   {
     pose proof (n13_191 B φ) as n13_191.
     now rewrite <- n13_191 in S3 at 2.
   }
-  assert (S5 : (φ B /\ ((φ x /\ φ y) -[ x y ]> (x = y)))
+  assert (S5 : (φ B ∧ ((φ x ∧ φ y) -[ x y ]> (x = y)))
     -> (φ x <[- x -]> (x = B))).
   {
     (* Simplifications... *)
@@ -1450,7 +1450,7 @@ Proof.
       with (∀ x, x = B ↔ φ x) in S4 by reflexivity.
     now setoid_rewrite -> n4_3 in S4.
   }
-  assert (S6 : (∃ b, φ b /\ ((φ x /\ φ y) -[ x y ]> (x = y)))
+  assert (S6 : (∃ b, φ b ∧ ((φ x ∧ φ y) -[ x y ]> (x = y)))
     -> (∃ b, φ x <[- x -]> (x = b))).
   {
     (* *10.1 ignored - I think its the wrong one *)
@@ -1464,14 +1464,14 @@ Proof.
       (fun b => (φ x <[- x -]> x = b))) as n10_28.
     now MP n10_28 n10_11.
   }
-  assert (S7 : (∃ b, φ b) /\ ((φ x /\ φ y) -[ x y ]> (x = y))
+  assert (S7 : (∃ b, φ b) ∧ ((φ x ∧ φ y) -[ x y ]> (x = y))
     -> (∃ b, φ x <[- x -]> (x = b))).
   {
     setoid_rewrite -> n4_3 in S6 at 1.
     rewrite -> n10_35 in S6.
     now setoid_rewrite -> n4_3 in S6 at 1.
   }
-  assert (S8 : (∃ b, φ b) /\ ((φ x /\ φ y) -[ x y ]> (x = y))
+  assert (S8 : (∃ b, φ b) ∧ ((φ x ∧ φ y) -[ x y ]> (x = y))
     -> [ιE φ]).
   { now rewrite <- n14_11 in S7. }
   assert (S9 : [ιE φ]
@@ -1536,7 +1536,7 @@ Qed.
 Theorem n14_21 (φ ψ : Prop → Prop) : [ι φ | ιφ => ψ ιφ] → [ιE φ].
 Proof.
   assert (S1 : [ι φ | ιφ => ψ ιφ] -> ∃ b, 
-    (φ x <[- x -]> (x = b)) /\ ψ b).
+    (φ x <[- x -]> (x = b)) ∧ ψ b).
   { apply n14_1. }
   assert (S2 : [ι φ | ιφ => ψ ιφ] -> ∃ b, 
     (φ x <[- x -]> (x = b))).
@@ -1562,10 +1562,10 @@ Proof.
   assert (S1 : (φ x <[- x -]> (x = B)) -> φ B).
   { apply n14_122. }
   assert (S2 : (φ x <[- x -]> (x = B)) 
-    ↔ ((φ x <[- x -]> (x = B)) /\ φ B)).
+    ↔ ((φ x <[- x -]> (x = B)) ∧ φ B)).
   { now rewrite -> n4_71 in S1. }
   assert (S3 : (∃ b, (φ x <[- x -]> (x = b))) 
-    ↔ (∃ b, (φ x <[- x -]> (x = b)) /\ φ b)).
+    ↔ (∃ b, (φ x <[- x -]> (x = b)) ∧ φ b)).
   { 
     pose proof (n10_11 B (fun b => φ x <[- x -]> x = b
       ↔ (φ x <[- x -]> x = b) ∧ φ b)) as n10_11.
@@ -1583,7 +1583,7 @@ Theorem n14_23 (φ ψ : Prop → Prop) : [ιE (fun x => φ x ∧ ψ x)]
   ↔ [ι (fun x => φ x ∧ ψ x) | ι1 => φ ι1].
 Proof.
   assert (S1 : [ιE (fun x => φ x ∧ ψ x)]
-    <-> [ι (fun x => φ x /\ ψ x) | ι1 => φ ι1 /\ ψ ι1]).
+    ↔ [ι (fun x => φ x ∧ ψ x) | ι1 => φ ι1 ∧ ψ ι1]).
   { apply n14_22. }
   assert (S2 : [ιE (fun x => φ x ∧ ψ x)] -> 
     [ι (fun x => φ x ∧ ψ x) | ι1 => φ ι1]).
@@ -1605,7 +1605,7 @@ Proof.
     now rewrite <- (n14_01 (fun x => φ x ∧ ψ x) φ) in Simp3_26.
   }
   assert (S3 : [ι (fun x => φ x ∧ ψ x) | ι1 => φ ι1]
-    -> [ιE (fun x => φ x /\ ψ x)]).
+    -> [ιE (fun x => φ x ∧ ψ x)]).
   { apply n14_21. }
   assert (S4 : [ιE (fun x => φ x ∧ ψ x)]
     ↔ [ι (fun x => φ x ∧ ψ x) | ι1 => φ ι1]).
@@ -1620,16 +1620,16 @@ Theorem n14_24 (φ : Prop → Prop) : [ιE φ]
   ↔ [ι φ | ιφ => φ y <[- y -]> y = ιφ].
 Proof.
   assert (S1 : [ι φ | ιφ => φ y <[- y -]> y = ιφ]
-    <-> ∃ b, (φ y <[- y -]> (y = b)) /\ (φ y <[- y -]> (y = b))).
+    ↔ ∃ b, (φ y <[- y -]> (y = b)) ∧ (φ y <[- y -]> (y = b))).
   { apply n14_1. }
   assert (S2 : [ι φ | ιφ => φ y <[- y -]> y = ιφ]
-    <-> ∃ b, (φ y <[- y -]> (y = b))).
+    ↔ ∃ b, (φ y <[- y -]> (y = b))).
   {
     (* n10_281 ignored *)
     now setoid_rewrite <- n4_24 in S1.
   }
   assert (S3 : [ι φ | ιφ => φ y <[- y -]> y = ιφ]
-    <-> [ιE φ]).
+    ↔ [ιE φ]).
   { now rewrite <- n14_11 in S2. }
   assert (S4 : [ιE φ] ↔ [ι φ | ιφ => φ y <[- y -]> y = ιφ]).
   { now rewrite -> n4_21 in S3. }
@@ -1646,7 +1646,7 @@ Proof.
     (Equiv4_01 P0 Q0))
   as Equiv4_01a.
   (* ******** *)
-  assert (S1 : [ιE φ] -> ((φ Y /\ φ X) -> (Y = X))).
+  assert (S1 : [ιE φ] -> ((φ Y ∧ φ X) -> (Y = X))).
   {
     pose proof (n14_203 φ) as n14_203.
     destruct n14_203 as [n14_203l _].
@@ -1681,15 +1681,15 @@ Proof.
     MP n10_11 S2.
     now rewrite -> n10_21 in n10_11.
   }
-  assert (S4 : [ιE φ] -> (φ Y <-> φ Y /\ (φ x -[ x ]> (Y = x)))).
+  assert (S4 : [ιE φ] -> (φ Y ↔ φ Y ∧ (φ x -[ x ]> (Y = x)))).
   { now setoid_rewrite -> n4_71 in S3 at 2. }
-  assert (S5 : [ιE φ] -> (φ Y <-> ((Y = x) -[ x ]> φ x) 
-    /\ (φ x -[ x ]> (Y = x)))).
+  assert (S5 : [ιE φ] -> (φ Y ↔ ((Y = x) -[ x ]> φ x) 
+    ∧ (φ x -[ x ]> (Y = x)))).
   {
     rewrite <- (n13_191 Y) in S4 at 2.
     now setoid_rewrite -> n13_16 in S4 at 1.
   }
-  assert (S6 : [ιE φ] -> (φ Y <-> (φ x <[- x -]> (Y = x)))).
+  assert (S6 : [ιE φ] -> (φ Y ↔ (φ x <[- x -]> (Y = x)))).
   {
     intro Hp.
     pose proof (S5 Hp) as S5.
@@ -1697,7 +1697,7 @@ Proof.
     setoid_rewrite <- Equiv4_01a in S5.
     now setoid_rewrite -> n4_21 in S5 at 2.
   }
-  assert (S7 : [ιE φ] -> (φ Y <-> 
+  assert (S7 : [ιE φ] -> (φ Y ↔ 
     [ι φ | ιφ => Y = ιφ])).
   {
     pose proof (n14_202 Y φ) as n14_202.
@@ -1735,11 +1735,11 @@ Proof.
   set (X := Individual "x").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B)) -> ((φ x -[ x ]> ψ x)
-    <-> ((x = B) -[ x ]> ψ x))).
+    ↔ ((x = B) -[ x ]> ψ x))).
   {
     pose proof (n4_84 (φ X) (X = B) (ψ X)) as n4_84.
     pose proof (n10_11 X (fun x =>
-      (φ x ↔ x = B) -> ((φ x → ψ x) <-> (x = B → ψ x))))
+      (φ x ↔ x = B) -> ((φ x → ψ x) ↔ (x = B → ψ x))))
       as n10_11.
     MP n10_11 n4_84.
     pose proof (n10_27 (fun x => φ x ↔ x = B)
@@ -1750,10 +1750,10 @@ Proof.
     now Syll n10_27 n10_271 S1.
   }
   assert (S2 : (φ x <[- x -]> (x = B)) -> ((φ x -[ x ]> ψ x)
-    <-> ψ B)).
+    ↔ ψ B)).
   { now rewrite -> n13_191 in S1. }
   assert (S3 : (φ x <[- x -]> (x = B)) -> ((φ x -[ x ]> ψ x)
-    <-> [ι φ | ιφ => ψ ιφ])).
+    ↔ [ι φ | ιφ => ψ ιφ])).
   {
     (* simplifications *)
     intro Hp.
@@ -1763,10 +1763,10 @@ Proof.
     now rewrite -> n14_242 in S2.
   }
   assert (S4 : (∃ b, φ x <[- x -]> (x = b)) 
-    -> ((φ x -[ x ]> ψ x) <-> [ι φ | ιφ => ψ ιφ])).
+    -> ((φ x -[ x ]> ψ x) ↔ [ι φ | ιφ => ψ ιφ])).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b)) 
-      -> ((φ x -[ x ]> ψ x) <-> [ι φ | ιφ => ψ ιφ]))) as n10_11.
+      -> ((φ x -[ x ]> ψ x) ↔ [ι φ | ιφ => ψ ιφ]))) as n10_11.
     MP n10_11 S3.
     now rewrite -> n10_23 in n10_11.
   }
@@ -1786,20 +1786,20 @@ Proof.
   assert (S1 : [ιE φ] -> ∃ b, φ x <[- x -]> (x = b)).
   { apply n14_11. }
   assert (S2 : (φ x <[- x -]> (x = B))
-    -> ((φ x /\ ψ x) <[- x -]> ((x = B) /\ ψ x))).
+    -> ((φ x ∧ ψ x) <[- x -]> ((x = B) ∧ ψ x))).
   { apply n10_311. }
   assert (S3 : (φ x <[- x -]> (x = B))
-    -> ((∃ x, φ x /\ ψ x) <-> (∃ x, (x = B) /\ ψ x))).
+    -> ((∃ x, φ x ∧ ψ x) ↔ (∃ x, (x = B) ∧ ψ x))).
   {
-    pose proof (n10_281 (fun x => φ x /\ ψ x)
-      (fun x => (x = B) /\ ψ x)) as n10_281.
+    pose proof (n10_281 (fun x => φ x ∧ ψ x)
+      (fun x => (x = B) ∧ ψ x)) as n10_281.
     now Syll S2 n10_281 S3.
   }
   assert (S4 : (φ x <[- x -]> (x = B))
-    -> ((∃ x, φ x /\ ψ x) <-> ψ B)).
+    -> ((∃ x, φ x ∧ ψ x) ↔ ψ B)).
   { now rewrite -> n13_195 in S3. }
   assert (S5 : (φ x <[- x -]> (x = B))
-    -> ((∃ x, φ x /\ ψ x) <-> [ι φ | ιφ => ψ ιφ])).
+    -> ((∃ x, φ x ∧ ψ x) ↔ [ι φ | ιφ => ψ ιφ])).
   { 
     (* simplifications *)
     intro Hp.
@@ -1809,10 +1809,10 @@ Proof.
     now rewrite -> n14_242 in S4.
   }
   assert (S6 : (∃ b, φ x <[- x -]> (x = b))
-    -> ((∃ x, φ x /\ ψ x) <-> [ι φ | ιφ => ψ ιφ])).
+    -> ((∃ x, φ x ∧ ψ x) ↔ [ι φ | ιφ => ψ ιφ])).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
-      -> ((∃ x, φ x /\ ψ x) <-> [ι φ | ιφ => ψ ιφ]))) 
+      -> ((∃ x, φ x ∧ ψ x) ↔ [ι φ | ιφ => ψ ιφ]))) 
       as n10_11.
     MP n10_11 S5.
     now rewrite -> n10_23 in n10_11.
@@ -1842,8 +1842,8 @@ Proof.
   set (B := Individual "b").
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : (φ X <-> (X = B)) 
-    -> ((φ X <-> ψ X) <-> (ψ X <-> (X = B)))).
+  assert (S1 : (φ X ↔ (X = B)) 
+    -> ((φ X ↔ ψ X) ↔ (ψ X ↔ (X = B)))).
   { 
     pose proof (n4_86 (φ X) (X = B) (ψ X)) as n4_86.
      (*simplification  *)
@@ -1852,25 +1852,25 @@ Proof.
     now setoid_rewrite -> n4_21 in n4_86 at 3.
   }
   assert (S2 : (φ x <[- x -]> (x = B)) 
-    -> (∀ x, (φ x <-> ψ x) <-> (ψ x <-> (x = B)))).
+    -> (∀ x, (φ x ↔ ψ x) ↔ (ψ x ↔ (x = B)))).
   {
     pose proof (n10_11 X (fun x =>
-      (φ x <-> (x = B)) -> ((φ x <-> ψ x) 
-        <-> (ψ x <-> (x = B))))) as n10_11.
+      (φ x ↔ (x = B)) -> ((φ x ↔ ψ x) 
+        ↔ (ψ x ↔ (x = B))))) as n10_11.
     MP n10_11 S1.
-    pose proof (n10_27 (fun x => φ x <-> (x = B))
-      (fun x => (φ x <-> ψ x) <-> (ψ x <-> (x = B)))) as n10_27.
+    pose proof (n10_27 (fun x => φ x ↔ (x = B))
+      (fun x => (φ x ↔ ψ x) ↔ (ψ x ↔ (x = B)))) as n10_27.
     now MP n10_27 n10_11.
   }
   assert (S3 : (φ x <[- x -]> (x = B))
-    -> ((φ x <[- x -]> ψ x) <-> (ψ x <[- x -]> (x = B)))).
+    -> ((φ x <[- x -]> ψ x) ↔ (ψ x <[- x -]> (x = B)))).
   {
-    pose proof (n10_271 (fun x => φ x <-> ψ x)
-      (fun x => ψ x <-> (x = B))) as n10_271.
+    pose proof (n10_271 (fun x => φ x ↔ ψ x)
+      (fun x => ψ x ↔ (x = B))) as n10_271.
     now Syll S2 n10_271 S3.
   }
   assert (S4 : (φ x <[- x -]> (x = B))
-    -> ((φ x <[- x -]> ψ x) <-> [ι ψ | ιψ => B = ιψ])).
+    -> ((φ x <[- x -]> ψ x) ↔ [ι ψ | ιψ => B = ιψ])).
   {
     pose proof (n14_202 B ψ) as n14_202.
     destruct n14_202 as [_ n14_202r].
@@ -1879,7 +1879,7 @@ Proof.
     now rewrite -> n14_202rr in S3.
   }
   assert (S5 : (φ x <[- x -]> (x = B))
-    -> ((φ x <[- x -]> ψ x) <-> [ι φ | ιφ => 
+    -> ((φ x <[- x -]> ψ x) ↔ [ι φ | ιφ => 
       [ι ψ | ιψ => ιφ = ιψ]])).
   {
     (* simplifications *)
@@ -1895,7 +1895,7 @@ Proof.
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
       -> ((φ x <[- x -]> ψ x) 
-        <-> [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]])))
+        ↔ [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]])))
       as n10_11.
     MP n10_11 S5.
     rewrite -> n10_23 in n10_11.
@@ -1913,31 +1913,31 @@ Proof.
   set (B := Individual "b").
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : (φ X <-> ψ X) -> ((φ X <-> (X = B)) 
-    <-> (ψ X <-> (X = B)))).
+  assert (S1 : (φ X ↔ ψ X) -> ((φ X ↔ (X = B)) 
+    ↔ (ψ X ↔ (X = B)))).
   { apply n4_86. }
-  assert (S2 : (φ x <[- x -]> ψ x) -> (∀ x, (φ x <-> (x = B)) 
-    <-> (ψ x <-> (x = B)))).
+  assert (S2 : (φ x <[- x -]> ψ x) -> (∀ x, (φ x ↔ (x = B)) 
+    ↔ (ψ x ↔ (x = B)))).
   {
-    pose proof (n10_11 X (fun x => ((φ x <-> ψ x) -> (φ x <-> (x = B)) 
-      <-> (ψ x <-> (x = B))))) as n10_11.
+    pose proof (n10_11 X (fun x => ((φ x ↔ ψ x) -> (φ x ↔ (x = B)) 
+      ↔ (ψ x ↔ (x = B))))) as n10_11.
     MP n10_11 S1.
-    pose proof (n10_27 (fun x => φ x <-> ψ x)
-      (fun x => (φ x <-> (x = B)) <-> (ψ x <-> (x = B)))) as n10_27.
+    pose proof (n10_27 (fun x => φ x ↔ ψ x)
+      (fun x => (φ x ↔ (x = B)) ↔ (ψ x ↔ (x = B)))) as n10_27.
     now MP n10_27 n10_11.
   }
-  assert (S3 : (φ x <[- x -]> ψ x) -> ((∀ x, φ x <-> (x = B)) 
-    <-> (∀ x, ψ x <-> (x = B)))).
+  assert (S3 : (φ x <[- x -]> ψ x) -> ((∀ x, φ x ↔ (x = B)) 
+    ↔ (∀ x, ψ x ↔ (x = B)))).
   {
     intro Hp.
     pose proof (S2 Hp) as S2.
-    pose proof (n10_271 (fun x => φ x <-> (x = B))
-      (fun x => ψ x <-> (x = B))) as n10_271.
+    pose proof (n10_271 (fun x => φ x ↔ (x = B))
+      (fun x => ψ x ↔ (x = B))) as n10_271.
     clear S1.
     now MP n10_271 S2.
   }
-  assert (S4 : (φ x <[- x -]> ψ x) -> ∀ b, (∀ x, φ x <-> (x = b)) 
-    <-> (∀ x, ψ x <-> (x = b))).
+  assert (S4 : (φ x <[- x -]> ψ x) -> ∀ b, (∀ x, φ x ↔ (x = b)) 
+    ↔ (∀ x, ψ x ↔ (x = b))).
   {
     pose proof (n10_11 B (fun b => φ x <[- x -]> ψ x 
       -> (φ x <[- x -]> x = b ↔ ψ x <[- x -]> x = b))) as n10_11.
@@ -1945,7 +1945,7 @@ Proof.
     now rewrite -> n10_21 in n10_11.
   }
   assert (S5 : (φ x <[- x -]> ψ x) -> ((∃ b, φ x <[- x -]> (x = b))
-    <-> (∃ b, ψ x <[- x -]> (x = b)))).
+    ↔ (∃ b, ψ x <[- x -]> (x = b)))).
   {
     pose proof (n10_281 (fun b => φ x <[- x -]> (x = b))
       (fun b => ψ x <[- x -]> (x = b))) as n10_281.
@@ -1957,21 +1957,21 @@ Proof.
 Qed.
 
 Theorem n14_272 (φ ψ χ : Prop → Prop) : (φ x <[- x -]> ψ x)
-  → [ι φ | ιφ => χ ιφ ] <-> [ι ψ | ιψ => χ ιψ].
+  → [ι φ | ιφ => χ ιφ ] ↔ [ι ψ | ιψ => χ ιψ].
 Proof.
   (* TOOLS *)
   set (B := Individual "b").
   set (X := Individual "x").
   (* ******** *)
-  assert (S1 : (φ X <-> ψ X) -> ((φ X <-> (X = B)) <-> (ψ X <-> (X = B)))).
+  assert (S1 : (φ X ↔ ψ X) -> ((φ X ↔ (X = B)) ↔ (ψ X ↔ (X = B)))).
   { apply n4_86. }
   assert (S2 : (φ x <[- x -]> ψ x) -> ((φ x <[- x -]> (x = B))
-    <-> (ψ x <[- x -]> (x = B)))).
+    ↔ (ψ x <[- x -]> (x = B)))).
   {
     (* From this single direction theorem *5.1, I hightly think this step is unprovable *)
     pose proof n5_1 as _n5_1.
-    pose proof (n10_11 X (fun x => (φ x <-> ψ x) -> ((φ x <-> (x = B)) 
-      <-> (ψ x <-> (x = B))))) as n10_11.
+    pose proof (n10_11 X (fun x => (φ x ↔ ψ x) -> ((φ x ↔ (x = B)) 
+      ↔ (ψ x ↔ (x = B))))) as n10_11.
     MP n10_11 S1.
     pose proof (n10_27 (fun x => φ x ↔ ψ x)
       (fun x => (φ x ↔ x = B) ↔ (ψ x ↔ x = B))) as n10_27.
@@ -1982,8 +1982,8 @@ Proof.
     admit.
   }
   assert (S3 : (φ x <[- x -]> ψ x) 
-    -> (((φ x <[- x -]> (x = B)) /\ χ B) 
-      <-> ((ψ x <[- x -]> (x = B)) /\ χ B))).
+    -> (((φ x <[- x -]> (x = B)) ∧ χ B) 
+      ↔ ((ψ x <[- x -]> (x = B)) ∧ χ B))).
   {
     intro Hp.
     pose proof (S2 Hp) as S2.
@@ -2000,25 +2000,25 @@ Proof.
     now Equiv S3.
   }
   assert (S4 : (φ x <[- x -]> ψ x) 
-    -> (∀ b, ((φ x <[- x -]> (x = b)) /\ χ b) 
-      <-> ((ψ x <[- x -]> (x = b)) /\ χ b))).
+    -> (∀ b, ((φ x <[- x -]> (x = b)) ∧ χ b) 
+      ↔ ((ψ x <[- x -]> (x = b)) ∧ χ b))).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> ψ x) 
-      -> (((φ x <[- x -]> (x = b)) /\ χ b) 
-        <-> ((ψ x <[- x -]> (x = b)) /\ χ b)))) as n10_11.
+      -> (((φ x <[- x -]> (x = b)) ∧ χ b) 
+        ↔ ((ψ x <[- x -]> (x = b)) ∧ χ b)))) as n10_11.
     MP n10_11 S3.
     now rewrite -> n10_21 in n10_11.
   }
   assert (S5 : (φ x <[- x -]> ψ x)
-    -> ((∃ b, (φ x <[- x -]> (x = b)) /\ χ b) 
-      <-> (∃ b, (ψ x <[- x -]> (x = b)) /\ χ b))).
+    -> ((∃ b, (φ x <[- x -]> (x = b)) ∧ χ b) 
+      ↔ (∃ b, (ψ x <[- x -]> (x = b)) ∧ χ b))).
   {
     pose proof (n10_281 (fun b => (φ x <[- x -]> x = b) ∧ χ b)
       (fun b => (ψ x <[- x -]> x = b) ∧ χ b)) as n10_281.
     now Syll S4 n10_281 S5.
   }
   assert (S6 : (φ x <[- x -]> ψ x)
-    → [ι φ | ιφ => χ ιφ] <-> [ι ψ | ιψ => χ ιψ]).
+    → [ι φ | ιφ => χ ιφ] ↔ [ι ψ | ιψ => χ ιψ]).
   { now rewrite <- (n14_101 φ), <- (n14_101 ψ) in S5. }
   exact S6.
 Admitted.
@@ -2037,22 +2037,22 @@ Proof.
   (* TOOLS *)
   set (B := Individual "b").
   (* ******** *)
-  assert (S1 : (φ x <[- x -]> (x = B)) <-> ((φ x <[- x -]> (x = B))
-    /\ (B = B))).
+  assert (S1 : (φ x <[- x -]> (x = B)) ↔ ((φ x <[- x -]> (x = B))
+    ∧ (B = B))).
   {
     (* Here it comes again: the n13_15... being used correctly though *)
     pose proof (n13_15 B) as n13_15.
     pose proof (n4_73 (φ x <[- x -]> (x = B)) (B = B)) as n4_73.
     now MP n4_73 n13_15.
   }
-  assert (S2 : (∃ b, φ x <[- x -]> (x = b)) <-> (∃ b, 
-    (φ x <[- x -]> (x = b)) /\ (b = b))).
+  assert (S2 : (∃ b, φ x <[- x -]> (x = b)) ↔ (∃ b, 
+    (φ x <[- x -]> (x = b)) ∧ (b = b))).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b)) 
-      <-> ((φ x <[- x -]> (x = b)) /\ (b = b)))) as n10_11.
+      ↔ ((φ x <[- x -]> (x = b)) ∧ (b = b)))) as n10_11.
     MP n10_11 S1.
     pose proof (n10_281 (fun b => φ x <[- x -]> (x = b))
-      (fun b => (φ x <[- x -]> (x = b)) /\ (b = b))) as n10_281.
+      (fun b => (φ x <[- x -]> (x = b)) ∧ (b = b))) as n10_281.
     now MP n10_281 n10_11.
   }
   assert (S3 : [ιE φ] ↔ [ι φ | ιφ => ιφ = ιφ]).
@@ -2070,14 +2070,14 @@ Proof.
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([ι φ | ιφ => χ ιφ] <-> χ B)).
+    -> ([ι φ | ιφ => χ ιφ] ↔ χ B)).
   { 
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
-  assert (S2 : (((p <-> q) -[ p q ]> (f p <-> f q))
-      /\ (φ x <[- x -]> (x = B)))
-    -> f ([ι φ | ιφ => χ ιφ]) <-> f (χ B)).
+  assert (S2 : (((p ↔ q) -[ p q ]> (f p ↔ f q))
+      ∧ (φ x <[- x -]> (x = B)))
+    -> f ([ι φ | ιφ => χ ιφ]) ↔ f (χ B)).
   {
     (* This is a very special one: it doesn't cite any theorems at all
     and I think this specific step might be ill-formed *)
@@ -2091,14 +2091,14 @@ Proof.
     now MP Hp1 S1.
   }
   assert (S3 : (φ x <[- x -]> (x = B))
-    -> ([ι φ | ιφ => (f (χ ιφ))] <-> f (χ B))).
+    -> ([ι φ | ιφ => (f (χ ιφ))] ↔ f (χ B))).
   {
     pose proof (n14_242 B φ (fun x => f (χ x))) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
-  assert (S4 : (((p <-> q) -[ p q ]> (f p <-> f q))
-      /\ (φ x <[- x -]> (x = B)))
-    -> (f ([ι φ | ιφ => χ ιφ]) <-> 
+  assert (S4 : (((p ↔ q) -[ p q ]> (f p ↔ f q))
+      ∧ (φ x <[- x -]> (x = B)))
+    -> (f ([ι φ | ιφ => χ ιφ]) ↔ 
       [ι φ | ιφ => (f (χ ιφ))])).
   {
     (* simplification *)
@@ -2109,13 +2109,13 @@ Proof.
     now rewrite <- S3 in S2.
   }
   assert (S5 : (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ [ιE φ])
-    → (f ([ι φ | ιφ => χ ιφ]) <-> 
+    → (f ([ι φ | ιφ => χ ιφ]) ↔ 
       [ι φ | ιφ => (f (χ ιφ))])).
   {
     pose proof (n10_11 B (fun b =>
       ((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ (∀ x, φ x ↔ x = b)
       → (f ([ι φ | ιφ => χ ιφ]) 
-        <-> [ι φ | ιφ => (f (χ ιφ))]))) as n10_11.
+        ↔ [ι φ | ιφ => (f (χ ιφ))]))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     rewrite -> n10_35 in n10_11.
@@ -2133,19 +2133,19 @@ Proof.
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([ι φ | ιφ => P ∨ χ ιφ] <-> (P \/ χ B))).
+    -> ([ι φ | ιφ => P ∨ χ ιφ] ↔ (P ∨ χ B))).
   {
-    pose proof (n14_242 B φ (fun x => P \/ χ x)) as n14_242.
+    pose proof (n14_242 B φ (fun x => P ∨ χ x)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S2 : (φ x <[- x -]> (x = B)) -> ([ι φ | ιφ => χ ιφ]
-    <-> χ B)).
+    ↔ χ B)).
   {
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> ((P \/ [ι φ | ιφ => χ ιφ]) <-> (P \/ χ B))).
+    -> ((P ∨ [ι φ | ιφ => χ ιφ]) ↔ (P ∨ χ B))).
   {
     pose proof (n4_37 ([ι φ | ιφ => χ ιφ]) (χ B) P) as n4_37.
     Syll S2 n4_37 S3.
@@ -2154,7 +2154,7 @@ Proof.
   }
   assert (S4 : (φ x <[- x -]> (x = B))
     -> ([ι φ | ιφ => P ∨ χ ιφ]
-      <-> (P \/ [ι φ | ιφ => χ ιφ]))).
+      ↔ (P ∨ [ι φ | ιφ => χ ιφ]))).
   {
     (* simplification *)
     clear S2.
@@ -2168,7 +2168,7 @@ Proof.
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
       -> ([ι φ | ιφ => P ∨ χ ιφ]
-        <-> (P \/ [ι φ | ιφ => χ ιφ])))) as n10_11.
+        ↔ (P ∨ [ι φ | ιφ => χ ιφ])))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
@@ -2183,23 +2183,23 @@ Proof.
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([ι φ | ιφ => ~ χ ιφ] <-> ~ χ B)).
+    -> ([ι φ | ιφ => ~ χ ιφ] ↔ ~ χ B)).
   {
     pose proof (n14_242 B φ (fun x => ~ χ x)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S2 : (φ x <[- x -]> (x = B)) 
-    -> ([ι φ | ιφ => χ ιφ] <-> χ B)).
+    -> ([ι φ | ιφ => χ ιφ] ↔ χ B)).
   {
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> ((~ [ι φ | ιφ => χ ιφ]) <-> ~ χ B)).
+    -> ((~ [ι φ | ιφ => χ ιφ]) ↔ ~ χ B)).
   { now rewrite -> Transp4_11 in S2. }
   assert (S4 : (φ x <[- x -]> (x = B))
     -> ([ι φ | ιφ => ~ χ ιφ] 
-      <-> ~ [ι φ | ιφ => χ ιφ])).
+      ↔ ~ [ι φ | ιφ => χ ιφ])).
   {
     (* simplification *)
     clear S2.
@@ -2213,7 +2213,7 @@ Proof.
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
       -> ([ι φ | ιφ => ~ χ ιφ] 
-        <-> ~ [ι φ | ιφ => χ ιφ]))) as n10_11.
+        ↔ ~ [ι φ | ιφ => χ ιφ]))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
@@ -2246,19 +2246,19 @@ Proof.
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([ι φ | ιφ => P → χ ιφ] <-> (P -> χ B))).
+    -> ([ι φ | ιφ => P → χ ιφ] ↔ (P -> χ B))).
   {
     pose proof (n14_242 B φ (fun x => P -> χ x)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S2 : (φ x <[- x -]> (x = B)) -> ([ι φ | ιφ => χ ιφ] 
-    <-> χ B)).
+    ↔ χ B)).
   {
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> ((P -> [ι φ | ιφ => χ ιφ]) <-> (P -> χ B))).
+    -> ((P -> [ι φ | ιφ => χ ιφ]) ↔ (P -> χ B))).
   { 
     (* simplification *)
     intro Hp.
@@ -2269,7 +2269,7 @@ Proof.
   }
   assert (S4 : (φ x <[- x -]> (x = B))
     -> ([ι φ | ιφ => P → χ ιφ] 
-      <-> (P -> [ι φ | ιφ => χ ιφ]))).
+      ↔ (P -> [ι φ | ιφ => χ ιφ]))).
   {
     (* simplification *)
     clear S2.
@@ -2283,7 +2283,7 @@ Proof.
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
       -> ([ι φ | ιφ => P → χ ιφ] 
-        <-> (P -> [ι φ | ιφ => χ ιφ])))) as n10_11.
+        ↔ (P -> [ι φ | ιφ => χ ιφ])))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
@@ -2299,19 +2299,19 @@ Proof.
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([ι φ | ιφ => χ ιφ → P] <-> (χ B -> P))).
+    -> ([ι φ | ιφ => χ ιφ → P] ↔ (χ B -> P))).
   {
     pose proof (n14_242 B φ (fun x => χ x -> P)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S2 : (φ x <[- x -]> (x = B)) -> ([ι φ | ιφ => χ ιφ] 
-    <-> χ B)).
+    ↔ χ B)).
   {
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> (([ι φ | ιφ => χ ιφ] -> P) <-> (χ B -> P))).
+    -> (([ι φ | ιφ => χ ιφ] -> P) ↔ (χ B -> P))).
   { 
     (* simplification *)
     intro Hp.
@@ -2322,7 +2322,7 @@ Proof.
   }
   assert (S4 : (φ x <[- x -]> (x = B))
     -> ([ι φ | ιφ => χ ιφ → P]
-      <-> ([ι φ | ιφ => χ ιφ] -> P))).
+      ↔ ([ι φ | ιφ => χ ιφ] -> P))).
   {
     (* simplification *)
     clear S2.
@@ -2336,7 +2336,7 @@ Proof.
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
       -> ([ι φ | ιφ => χ ιφ → P] 
-        <-> ([ι φ | ιφ => χ ιφ] -> P)))) as n10_11.
+        ↔ ([ι φ | ιφ => χ ιφ] -> P)))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
@@ -2356,19 +2356,19 @@ Proof.
   set (B := Individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([ι φ | ιφ => P ↔ χ ιφ] <-> (P <-> χ B))).
+    -> ([ι φ | ιφ => P ↔ χ ιφ] ↔ (P ↔ χ B))).
   {
-    pose proof (n14_242 B φ (fun x => P <-> χ x)) as n14_242.
+    pose proof (n14_242 B φ (fun x => P ↔ χ x)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S2 : (φ x <[- x -]> (x = B)) -> ([ι φ | ιφ => χ ιφ] 
-    <-> χ B)).
+    ↔ χ B)).
   {
     pose proof (n14_242 B φ χ) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> ((P <-> [ι φ | ιφ => χ ιφ]) <-> (P <-> χ B))).
+    -> ((P ↔ [ι φ | ιφ => χ ιφ]) ↔ (P ↔ χ B))).
   { 
     (* simplification *)
     intro Hp.
@@ -2381,7 +2381,7 @@ Proof.
   }
   assert (S4 : (φ x <[- x -]> (x = B))
     -> ([ι φ | ιφ => P ↔ χ ιφ] 
-      <-> (P <-> [ι φ | ιφ => χ ιφ]))).
+      ↔ (P ↔ [ι φ | ιφ => χ ιφ]))).
   {
     (* simplification *)
     clear S2.
@@ -2391,11 +2391,11 @@ Proof.
     now rewrite <- S3 in S1.
   }
   assert (S5 : [ιE φ] -> (([ι φ | ιφ => P ↔ χ ιφ])
-    ↔ (P <-> [ι φ | ιφ => χ ιφ]))).
+    ↔ (P ↔ [ι φ | ιφ => χ ιφ]))).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
       -> ([ι φ | ιφ => P ↔ χ ιφ] 
-        <-> (P <-> [ι φ | ιφ => χ ιφ])))) as n10_11.
+        ↔ (P ↔ [ι φ | ιφ => χ ιφ])))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
@@ -2407,8 +2407,8 @@ Theorem n14_34 (P : Prop) (φ χ : Prop → Prop) :
   (P ∧ [ι φ | ιφ => χ ιφ]) 
     ↔ [ι φ | ιφ => P ∧ χ ιφ].
 Proof.
-  assert (S1 : (P ∧ [ι φ | ιφ => χ ιφ]) <-> (P /\ (∃ b, 
-    (φ x <[- x -]> (x = b)) /\ χ b))).
+  assert (S1 : (P ∧ [ι φ | ιφ => χ ιφ]) ↔ (P ∧ (∃ b, 
+    (φ x <[- x -]> (x = b)) ∧ χ b))).
   { 
     pose proof (n14_1 φ χ) as n14_1.
     pose proof (n4_36 ([ι φ | ιφ => χ ιφ]) (∃ b, (φ x <[- x -]> x = b) ∧ χ b)
@@ -2417,8 +2417,8 @@ Proof.
     rewrite -> n4_3 in n4_36.
     now setoid_rewrite -> n4_3 in n4_36 at 3.
   }
-  assert (S2 : (P ∧ [ι φ | ιφ => χ ιφ]) <-> (∃ b, 
-    P /\ ((φ x <[- x -]> (x = b)) /\ χ b))).
+  assert (S2 : (P ∧ [ι φ | ιφ => χ ιφ]) ↔ (∃ b, 
+    P ∧ ((φ x <[- x -]> (x = b)) ∧ χ b))).
   { now rewrite <- n10_35 in S1. }
   assert (S3 : (P ∧ [ι φ | ιφ => χ ιφ]) ↔ [ι φ | ιφ => P ∧ χ ιφ]).
   {

@@ -15,7 +15,7 @@ Type of parameters allowed: from elementary propositions to first order proposit
 (* 
 Chapter 9 only demonstrates the quantified version of proofs in chapter 1 - 5. By 
 "demonstration" we can notice a few facts:
-- `exists` in this chapter is a primitive idea(that is, being assumed), not a constructed 
+- `∃` in this chapter is a primitive idea(that is, being assumed), not a constructed 
   concept
 - most theorems in this chapter is completely unused in other chapters.
 
@@ -33,7 +33,7 @@ Before explaining the 2nd goal, we recall how propositions in Principia are cons
 - If we try to specify on one individual contained in a proposition as a variable, we 
   get a function. In principia, function is obtained by using the `^` operator on a 
   mere  proposition. That being said, functions are dependent on `¬` and `∨`
-- `forall` and `exists` propositions are dependent on, and directly generalized from 
+- `∀` and `∃` propositions are dependent on, and directly generalized from 
   functions. This is the only way to obtain them in Principia. 
 - To avoid Russell's paradox, these functions are not allowed to take these functions 
   themselves as parameters.

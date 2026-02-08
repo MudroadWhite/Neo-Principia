@@ -16,7 +16,7 @@ Export String.
 
 (* cf.p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
-Theorem eq_to_equiv : forall (P Q : Prop),
+Theorem eq_to_equiv : ∀ (P Q : Prop),
   (P = Q) → (P ↔ Q).
 Proof.
   intros P Q H.
@@ -193,7 +193,7 @@ https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-a
 ~p.17:
 - descriptive funstion: a special kind of propositional function, including examples like `x is blue`
 - `~` is not a primitive idea. It is supposed to have a different definition on different types of proposition. 
-For example, we might define `~` a typeclass, and `forall` propositions has an instance of implementation for 
+For example, we might define `~` a typeclass, and `∀` propositions has an instance of implementation for 
 this operator
 
 ~p.18:
@@ -201,8 +201,8 @@ apparent variable "appears to be" the only variables, while "real variables" inc
 
 ~p.20: 
 - (Ax, Px → Q x) → (Ax, Px) → (Ax, Qx) requires that P Q takes arguments "of the same type". → p.49
-- formal implication: the `→` wrapped up in `forall`s. It bypassed the problem that `P → Q = ~P ∨ Q`, and restrict that we have to 
-know `forall x, P x → Q x` and `P X` to get `Q X`.
+- formal implication: the `→` wrapped up in `∀`s. It bypassed the problem that `P → Q = ~P ∨ Q`, and restrict that we have to 
+know `∀ x, P x → Q x` and `P X` to get `Q X`.
 
 ~p.22:
 (TODO)`=` is not defined until chapter 13, and this is being explained in chapter 2/chapter II.
@@ -213,8 +213,8 @@ know `forall x, P x → Q x` and `P X` to get `Q X`.
 - P with "all possible values" are called `significant`. Significant = "well typed"
 
 ~p.47, beginning of chapter II:
-- `forall x, Phi x` is considered as a function with `Phi` as one argument
-- for `forall`, `Phi` can be a parameter but an individual `X` cannot be a parameter
+- `∀ x, Phi x` is considered as a function with `Phi` as one argument
+- for `∀`, `Phi` can be a parameter but an individual `X` cannot be a parameter
 - it is necesssary to make a distinction between passing in a `X` and passing in a `Phi`
 
 ~p.49:
@@ -257,7 +257,7 @@ negation on "all" propositions attributing to Russell's paradox
 
 ~p.128:
 - Goal of ch9: focus on definition of `~` and `∨` defined in *1 - *5 limited to eprops. Extend their definitions to 1st orde props
-- The support of `forall` and `exists` seems to be only for demonstration purpose - if we take them as primitive ideas, we can 
+- The support of `∀` and `∃` seems to be only for demonstration purpose - if we take them as primitive ideas, we can 
   conclude "upgraded" versions of propositions "just as in" ch1-5.
 - the important parts seems to be *1.2 - *1.6; A new way is used for analogue of 1.7 - 1.72
 - Real variables doesn't have types(??), and can be instantiated with any proposition of any orders???
@@ -268,10 +268,10 @@ negation on "all" propositions attributing to Russell's paradox
   - order of a proposition depends on its parameter's types
 
 ~p.138:
-- Ch9 enables us to take `forall` propositions as parameters
+- Ch9 enables us to take `∀` propositions as parameters
 - therefore we can have a better goal(?)
 - Goal of ch10: focus on deducing 1-var functions from 
-- "for example", `exists` is no longer a primitive idea which is different from ch9  
+- "for example", `∃` is no longer a primitive idea which is different from ch9  
 - several ch9 theorems are only taken because of their ability to reason for quantified propositions
 
 ~p.162:

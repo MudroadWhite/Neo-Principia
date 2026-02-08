@@ -7,18 +7,18 @@ Open Scope double_app_equiv.
 
 (* 
 Starting from chapter 12, every variables being quantified at the rhs has to be
-either an "Individual" or a "Predicate". For example, "forall P, P ∧ Q" might 
-never appear, and instead, it will be either "forall Individual P, P ∧ Q" or 
-"forall Predicate Phi, Phi (Individual P)" where Phi P = P ∧ Q
+either an "Individual" or a "Predicate". For example, "∀ P, P ∧ Q" might 
+never appear, and instead, it will be either "∀ Individual P, P ∧ Q" or 
+"∀ Predicate Phi, Phi (Individual P)" where Phi P = P ∧ Q
 
 Ideally speaking, AoR is the only way to convert "function"s in a theorem to 
-"predicate"s. But the representation here has been very annoying. The `forall`
+"predicate"s. But the representation here has been very annoying. The `∀`
 here has been working differently to `Phi x` and `f x`: `x` is a parameter for
 `Phi` but it is fixed for `f`, and `f` is actually the "parameter".
 *)
 
 Definition n12_1 (n : nat) (φ : Prop → Prop) : 
-  exists f : (Predicate n), (φ x) <[- x -]> ((fun (F : Predicate n) =>
+  ∃ f : (Predicate n), (φ x) <[- x -]> ((fun (F : Predicate n) =>
     F x) f).
 Admitted.
 
@@ -32,7 +32,7 @@ Module Experimental.
   generating the predicative versions of the theorems.
   This implementation, however, suffers another drawback: it is not the same 
   literal representation as in original text. For example it doesn't have the 
-  `forall` as in original text, but the `forall` in Principia, as we can see, 
+  `∀` as in original text, but the `∀` in Principia, as we can see, 
   works differently on functions and predicates.
   Currently I believe that AoR in this chapter is more likely a rule to write and understand
   the older theorems in another way (see `_pred`-suffixed theorems in later chapter)
@@ -42,14 +42,14 @@ Module Experimental.
 
   Definition e12_1 (n : nat) (s : string) (Phi : Prop → Prop) (X : Prop) :
     let f := Intro_pred s n in
-    (Phi = f) /\ (Phi X <-> (fix_param n X) f).
+    (Phi = f) ∧ (Phi X ↔ (fix_param n X) f).
   Admitted.
 End Experimental.
 
 (* To be uncommented *)
 (* Definition n12_11 (f Phi : Prop → Prop → Prop) :
-  exists fPsi : Prop → Prop → Prop,
-    exists f : Predicate2.t 1, (Phi x y) <[- x y -]> (f.(Predicate2.fix_func 1) x y fPsi).
+  ∃ fPsi : Prop → Prop → Prop,
+    ∃ f : Predicate2.t 1, (Phi x y) <[- x y -]> (f.(Predicate2.fix_func 1) x y fPsi).
 Admitted. *)
 
 Close Scope single_app_equiv.
