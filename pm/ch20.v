@@ -19,16 +19,36 @@ incomplete definition. We should also change the style into that... *)
 
 (* TODO: define a scope for all this *)
 
-(* Class determined by *function* Phi   *)
-Definition Class (n : nat) (Phi : Prop -> Prop) : Type := Predicate n.
+(* Class determined by *function* Phi...is this definition correct? *)
+Definition Class (Phi : Prop -> Prop) : Type := Prop -> Prop.
 
-Definition app_class (n : nat) (Phi : Prop -> Prop)
-  (f : Predicate n -> Prop) : Prop. 
+Definition mk_class (Phi : Prop -> Prop) : Class Phi. Admitted.
+
+(* TODO: design the parameter type for `f` ecarefully *)
+Definition app_class (Phi : Prop -> Prop) (f : (Prop -> Prop) -> Prop)
+  (cls : Class Phi) : Prop. 
 Admitted.
 
-Notation "[ z ^ Phi % n => f ]" := 
-  (app_class n Phi (fun (z : Class n Phi) => f))
-  (at level 200, z binder, right associativity).
+Notation "[ ^ z => B ]" := (mk_class (fun z => B))
+  (at level 130, z binder, right associativity).
+
+(* TODO: refer to iota and see if we can make the f more flexible *)
+(* TODO: f is supposed to be able to use both the class name and the z? *)
+Notation "[ ^ z => B1 @ z_clsname => Bf ]" := 
+  ( let Psi := (fun z => B1) in
+    (app_class Psi ((fun z z2 => B1 z) Psi) (mk_class Psi)) )
+  (at level 110, z1 binder, z2 binder right associativity).
+
+Example test_example := [ ^z => z = z].
+Print test_example.
+
+Open Scope single_app_equiv.
+
+Definition n20_01 (n : nat) (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
+  ([ f |^ z => Psi z])
+  = 
+  (exists Phi : Predicate 1, (Phi x <[- x -]> Psi x)
+    /\ f Phi).
 
 Definition in_class (X : Prop) (n : nat) (Phi : Prop -> Prop) : Prop.
 Admitted.
@@ -36,8 +56,6 @@ Admitted.
 Notation "[ x 'in_class' Phi % n ]" := 
     (in_class x n Phi)
     (at level 200, right associativity).
-
-
 
 (* TODO: rewrite below... *)
 
@@ -55,9 +73,7 @@ ArgClass DEFINE ABOVE *)
 
 Definition forall_class : Prop. Admitted.
 
-Definition n20_01 (n : nat) (Psi : Prop -> Prop) (f : Predicate n -> Prop) :=
-  app_arg_class n Psi f = (exists Phi : Predicate 1, (Phi x <[- x -]> Psi x)
-    /\ f Phi).
+
 
 Definition n20_02 (n : nat) (X : Prop) (Phi : Predicate n) :=
   in_pred n X Phi = Phi X.
