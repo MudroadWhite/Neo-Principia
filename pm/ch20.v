@@ -17,23 +17,35 @@ just in case, there is still a very easy interpretation for this... *)
 (* Somewhere in Principia says arg class might be something just like iota, an 
 incomplete definition. We should also change the style into that... *)
 
+(* TODO: define a scope for all this *)
+
+(* Class determined by predicate Phi   *)
+Definition Class (n : nat) (Phi : Prop -> Prop) : Type := Predicate n.
+
+Definition app_class (n : nat) (Phi : Prop -> Prop)
+  (f : Predicate n -> Prop) : Prop. 
+Admitted.
+
+Notation "[ z ^ Phi % n => f ]" := 
+  (app_class n Phi (fun (z : Class n Phi) => f))
+  (at level 200, z binder, right associativity).
+
+Definition in_class (X : Prop) (n : nat) (Phi : Prop -> Prop) : Prop.
+Admitted.
+
+Notation "[ x 'in_class' Phi % n ]" := 
+    (in_class x n Phi)
+    (at level 200, right associativity).
+
+
+
+(* TODO: rewrite below... *)
+
 Open Scope single_app_equiv.
+(* TODO: format... *)
+Example debug_iota_notation_example := [ iota (fun x => x) | iotaφ => iotaφ = iotaφ ].
 
-(* Notation support for argument class *)
-Definition ArgClass 
-  (Phi : Prop -> Prop) := Phi.
 
-(* Notation support to give type to class parameter, and reuse Coq's notation 
-  easier - see `forall` `exists` etc. below *)
-Definition Class : Type := Prop.
-
-Definition app_arg_class 
-  (n : nat) 
-  (Phi : Prop -> Prop) 
-  (* We will expect that the body of `f` is also allowed to have expression
-    with `ArgClass` *)
-  (f : Predicate n -> Prop) 
-  : Prop. Admitted.
 
 Definition Cls (alpha : Prop) : Prop. Admitted.
 
