@@ -42,22 +42,36 @@ Example app_class_example := app_class (fun x => x = x)
 Notation "[ ^ z => B ]" := (mk_class (fun z => B))
   (at level 130, z binder, right associativity).
 
+(* TODO: integrate the two notations so that they are composed together? *)
 (* TODO: refer to iota and see if we can make the f more flexible
  f is supposed to be able to use only the class name
  This seems to also be what should be expected for descriptions in
  its most complete sense *)
-Notation "[ ^ z => B1 @ z_clsname => Bf ]" := 
-  ( let Psi := (fun z => B1) in
-    (app_class Psi ((fun z z2 => B1 z) Psi) (mk_class Psi)) )
-  (at level 110, z1 binder, z2 binder right associativity).
+
+ (* TODO: let (_class: Class Psi) := class in
+  ...... *)
+Notation "[ ^ z => B1 @ classname => Bf ]" := 
+  (let Psi := (fun z => B1) in
+    (app_class Psi (fun (classname : Class Psi) => Bf) (mk_class Psi)))
+  (at level 150, z binder, classname binder, right associativity).
 
 Open Scope single_app_equiv.
 
-Definition n20_01 (n : nat) (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
-  ([ f |^ z => Psi z])
-  = 
-  (exists Phi : Predicate 1, (Phi x <[- x -]> Psi x)
-    /\ f Phi).
+(* `f` in this definition has been very ambiguous and very annoying. It's
+  been used in 3 ways:
+  - accepts a parameter of a class
+  - accepts a normal function
+  - within the `exists` subexp, accepts a predicate 
+  Such ambiguity seems to be deliberately designed even in the Principia
+  itself, and the untyped part of the rewriting system seems to serve as
+  a way to escape all the restrictions and define what is the "least 
+  acceptable type"
+  Or, it is just a nature manifested from our formalization, and we will
+  need to design a "type transformer" for this...
+*)
+Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
+  ([^ z => Psi z @ zPsi => f zPsi])
+  = (exists Phi : Predicate 1, (Phi x <[- x -]> Psi x) /\ f Phi).
 
 Definition in_class (X : Prop) (n : nat) (Phi : Prop -> Prop) : Prop.
 Admitted.
