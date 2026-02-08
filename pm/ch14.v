@@ -1457,7 +1457,6 @@ Proof.
     pose proof (n10_11 B (fun b => φ b ∧
         ((φ x ∧ φ y) -[ x y ]> x = y)
       → (φ x <[- x -]> x = b))) as n10_11.
-    (* simpl in n10_1. *)
     MP n10_11 S5.
     pose proof (n10_28
       (fun b => φ b ∧ ((φ x ∧ φ y) -[ x y ]> x = y))
