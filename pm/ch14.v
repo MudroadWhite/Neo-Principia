@@ -31,7 +31,6 @@ As we can see, the description has been modeled by `DescriptionArg`, and with a 
 a binder of the `DescriptionArg` type, our notation has been written down just as in the original 
 text.
 
-TODO: check if all the following paragraph still apply:
 From n14_17 and onward, we're seeing how iota should cope with the predicative functions. Currently
 we are still letting iotas being "untyped", that is, being constructed based on untyped function. 
 Whether we can restrict the iotas to typed functions only is a future question.
@@ -2060,7 +2059,7 @@ Proof.
 Qed.
 
 (* What a terrible looking theorem to prove *)
-Theorem n14_3 (s : string) (φ χ f : Prop → Prop) : 
+Theorem n14_3 (φ χ f : Prop → Prop) : 
   (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ [ιE φ])
   → (f ([ι φ | ιφ => χ ιφ]) 
     ↔ [ι φ | ιφ => (f (χ ιφ))]).

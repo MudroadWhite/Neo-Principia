@@ -19,7 +19,7 @@ incomplete definition. We should also change the style into that... *)
 
 (* TODO: define a scope for all this *)
 
-(* Class determined by predicate Phi   *)
+(* Class determined by *function* Phi   *)
 Definition Class (n : nat) (Phi : Prop -> Prop) : Type := Predicate n.
 
 Definition app_class (n : nat) (Phi : Prop -> Prop)
@@ -41,7 +41,6 @@ Notation "[ x 'in_class' Phi % n ]" :=
 
 (* TODO: rewrite below... *)
 
-Open Scope single_app_equiv.
 (* TODO: format... *)
 Example debug_iota_notation_example := [ iota (fun x => x) | iotaφ => iotaφ = iotaφ ].
 
