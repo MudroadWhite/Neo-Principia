@@ -158,8 +158,7 @@ Notation "[ 'ι2rev' φ , ψ | y x => B ]" :=
   (at level 200, x binder, y binder, right associativity) : iota_description.
 
 Definition iota2_arg_comm (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) : 
-  [ι2 φ, ψ | iotaφ iotaψ => f iotaφ iotaψ]
-  ↔ [ι2 φ, ψ | iotaψ iotaφ => f iotaφ iotaψ].
+  [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ] ↔ [ι2 φ, ψ | ιψ ιφ => f ιφ ιψ].
 Admitted.
 
 Close Scope iota_description.
