@@ -10,12 +10,19 @@ Require Import PM.pm.ch12.
 Require Import PM.pm.ch13.
 Require Import PM.pm.ch14.
 
-(* The ^x in the very beginning of this chapter is intended to label "the class of 
-arguments" for a function Phi. We are making this opaque to see where it goes, but
-just in case, there is still a very easy interpretation for this... *)
-
-(* Somewhere in Principia says arg class might be something just like iota, an 
-incomplete definition. We should also change the style into that... *)
+(* 
+The class in this chapter has been discussed like pretty bad. It is not being stated
+clearly like a structure, and instead, how is it defined is written *in the middle 
+of the text*, and is defined with a `^x` that looks so similar to the "function 
+abstraction" being used in chapter 9.
+Another seemingly ambiguity is what do we mean by `Phi ! x`. In chapter 12-14, `Phi ! x`
+is restricting `Phi` to be a predicate, that is, a "typed" function. The `Phi ! x` 
+in this chapter, albeit its same appearance, only means "we want to talk about the 
+function, not its parameters", in order words, can be untyped.
+**Due to such ambiguity in the `!`, whether functions should be defined as predicates,
+appeared through all the notation definitions, is highly volatile and is encouraged 
+to be examined and corrected.**
+*)
 
 (* TODO: define a scope for all this *)
 
@@ -23,7 +30,8 @@ Module Experimental.
   (* ATTEMPT 1 *)
   (* TODO: design a dependent type version of Class to contain the information *)
 
-  (* ATTEMPT 2 *)
+  (* ATTEMPT 2 - we only demonstrate the idea because it's not very different
+    from using inductive types on this purpose *)
   Module ClassRecord.
     Record t := {
       (* The actual function in the class *)
@@ -50,7 +58,7 @@ Module Experimental.
     : Prop.
   Admitted.
 
-  Notation "[ ^ind cls @ classname => Bf ]" := 
+  Notation "[ '^ind' cls @ classname => Bf ]" := 
     (let '(mk_classind Phi) := cls in
       (app_class_ind Phi (fun (classname : Prop -> Prop) => Bf)))
     (at level 150, classname binder, right associativity).
@@ -66,6 +74,11 @@ Example class_example := Class (fun x => x = x).
 Definition mk_class (Phi : Prop -> Prop) : Class Phi. Admitted.
 Example mk_class_example : class_example := mk_class (fun x => x = x).
 
+(* We might just leave the Psi be Psi...in the future *)
+Notation "[ ^ z => B ]" := (mk_class (fun z => B))
+  (at level 130, z binder, right associativity).
+Print mk_class_example.
+
 (* 
 Note that we are utilizing the fact that `f` can be both a function
 taking a normal function as param, and a function dedicated to take
@@ -77,56 +90,69 @@ Admitted.
 Example app_class_example := app_class (fun x => x = x)
   (fun p => p = p) mk_class_example.
 
-(* We might just leave the Psi be Psi...in the future *)
-Notation "[ ^ z => B ]" := (mk_class (fun z => B))
-  (at level 130, z binder, right associativity).
-
-(* TODO: integrate the two notations so that they are composed together? *)
-(* TODO: refer to iota and see if we can make the f more flexible
- f is supposed to be able to use only the class name
- This seems to also be what should be expected for descriptions in
- its most complete sense *)
-
- (* TODO: let (_class: Class Psi) := class in
-  ...... *)
+(* This kind of representation suffers a lack of compositional property,
+with the inductive type demonstrated above as a counter example. By which
+I mean, we cannot reuse the definition for just a class, but we have to 
+redefine how a class is being applied on something else separately, and
+I think this is what exactly the book is telling us *)
 Notation "[ ^ z => B1 @ classname => Bf ]" := 
   (let Psi := (fun z => B1) in
     (app_class Psi (fun (classname : Class Psi) => Bf) (mk_class Psi)))
-  (at level 150, z binder, classname binder, right associativity).
+  (at level 130, z binder, classname binder, right associativity).
 
 Open Scope single_app_equiv.
 
-(* `f` in this definition has been very ambiguous and very annoying. It's
-  been used in 3 ways:
-  - accepts a parameter of a class
-  - accepts a normal function
-  - within the `exists` subexp, accepts a predicate 
+(* So far, `f` as a random function to be applied a class parameter, has 
+  been allowed for 3 parameter "types"(not Principia type):
+  - a type of a Class parameter
+  - a type of a normal function
+  - maybe a type of a predicate, appeared in the `exists` subexp
   Such ambiguity seems to be deliberately designed even in the Principia
   itself, and the untyped part of the rewriting system seems to serve as
   a way to escape all the restrictions and define what is the "least 
   acceptable type"
   Or, it is just a nature manifested from our formalization, and we will
   need to design a "type transformer" for this...
+  I'm pretty sure Axiom of Reducibility given such practical usage should
+  be really and actually a problem of PLT
 *)
 Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
   ([^ z => Psi z @ zPsi => f zPsi])
   = (exists Phi : Predicate 1, (Phi x <[- x -]> Psi x) /\ f Phi).
 
-Definition in_class (X : Prop) (n : nat) (Phi : Prop -> Prop) : Prop.
+(* We can gradually see that by following Principia's way to define the 
+things, despite the annoying writing style, `in` is really the first 
+operator for classes. As further examples, `=` is allowed on classes,
+while `/\` seems not to be(?) *)
+Definition in_class (X : Prop) (Phi : Prop -> Prop) : Prop.
 Admitted.
 
-Notation "[ x 'in_class' Phi % n ]" := 
-    (in_class x n Phi)
-    (at level 200, right associativity).
+Notation "[ x '<in_class>' Phi ]" := (in_class x Phi)
+  (at level 200, x name, right associativity).
 
-(* TODO: rewrite below... *)
+Notation "[ x '<in_class>' ^ classname => B ]" := (in_class x (fun classname => B))
+  (at level 200, x name, classname binder, right associativity).
 
-(* TODO: format... *)
-Example debug_iota_notation_example := [ iota (fun x => x) | iotaφ => iotaφ = iotaφ ].
+Example in_class_example (x : Prop) := [x <in_class> (fun x => x = x)].
+Example in_class_expanded_example (x : Prop) := [x <in_class> ^ c => c = c].
 
+(* We don't know if Phi should be a predicate or a function *)
+Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
+  [X <in_class> Phi] = Phi X.
 
+(* TODO: is this the correct type for alpha? Or should it be some `Class Phi`? *)
+Definition Cls : Prop -> Prop. Admitted.
 
-Definition Cls (alpha : Prop) : Prop. Admitted.
+Definition n20_03 (Phi : Prop -> Prop) :=
+  Cls = ([ ^ alpha => (exists (Phi : Prop -> Prop), 
+    [ ^ z => Phi z @ zPhiz => alpha = zPhiz ]
+  
+  (* alpha = ([ ^ z => Phi z ] *)
+    
+    ) ]).
+  
+  (* (exists Phi : Prop -> Prop, 
+    alpha = [ ^ z => Phi z ]) ]. *)
 
 Definition in_pred (n : nat) (X : Prop) (Phi : Predicate n) : Prop. Admitted.
 
@@ -137,8 +163,7 @@ Definition forall_class : Prop. Admitted.
 
 
 
-Definition n20_02 (n : nat) (X : Prop) (Phi : Predicate n) :=
-  in_pred n X Phi = Phi X.
+
   (* TODO: is this correct?? *)
 
 (* cf. p.188: The definition of `Cls` is also a "partial definition" and
