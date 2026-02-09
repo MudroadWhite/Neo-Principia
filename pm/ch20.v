@@ -88,6 +88,10 @@ Example mk_class_example2 := [ ^ (z : Prop -> Prop) => z = z].
 Note that we are utilizing the fact that `f` can be both a function
 taking a normal function as param, and a function dedicated to take
 a class as a parameter. This is also how it works for descriptions
+
+It seems that whatever the predicate is, its eventual type should be `Prop`
+rather than anything like `Prop -> Prop`... maybe there will be a better clue
+in the future how to design this type
 *)
 (* WARNING: VOLATILE DEFINITION *)
 Definition app_class (Phi : Prop -> Prop) (f : (Class Phi) -> Prop) : Prop. 
