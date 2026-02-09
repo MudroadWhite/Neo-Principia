@@ -68,27 +68,32 @@ End Experimental.
 (* Class determined by *function* Phi...is this definition correct? 
 Although it is being defined 
 *)
+(* WARNING: THIS TYPE IS VOLATILE AND SHOULD BE REDEFINED *)
 Definition Class (Phi : Prop -> Prop) : Type := Prop -> Prop.
 Example class_example := Class (fun x => x = x).
 
-Definition mk_class (Phi : Prop -> Prop) : Class Phi. Admitted.
-Example mk_class_example : class_example := mk_class (fun x => x = x).
+(* NOTE: mk_class should have the same type as app_class???? *)
+Definition mk_class {A : Type} (Phi : A -> Prop) : Prop. Admitted.
+Example mk_class_example := mk_class (fun (x : Prop) => x = x).
 
 (* We might just leave the Psi be Psi...in the future *)
+(* Notation "[ ^ z => B ]" := (fun z => B) *)
 Notation "[ ^ z => B ]" := (mk_class (fun z => B))
   (at level 130, z binder, right associativity).
-Print mk_class_example.
+(* Print mk_class_example. *)
+Example mk_class_example1 := [ ^ (z : Prop) => z = z].
+Example mk_class_example2 := [ ^ (z : Prop -> Prop) => z = z].
 
 (* 
 Note that we are utilizing the fact that `f` can be both a function
 taking a normal function as param, and a function dedicated to take
 a class as a parameter. This is also how it works for descriptions
 *)
-Definition app_class (Phi : Prop -> Prop) (f : (Class Phi) -> Prop)
-  (cls : Class Phi) : Prop. 
+(* WARNING: VOLATILE DEFINITION *)
+Definition app_class (Phi : Prop -> Prop) (f : (Class Phi) -> Prop) : Prop. 
 Admitted.
 Example app_class_example := app_class (fun x => x = x)
-  (fun p => p = p) mk_class_example.
+  (fun p => p = p).
 
 (* This kind of representation suffers a lack of compositional property,
 with the inductive type demonstrated above as a counter example. By which
@@ -97,7 +102,7 @@ redefine how a class is being applied on something else separately, and
 I think this is what exactly the book is telling us *)
 Notation "[ ^ z => B1 @ classname => Bf ]" := 
   (let Psi := (fun z => B1) in
-    (app_class Psi (fun (classname : Class Psi) => Bf) (mk_class Psi)))
+    (app_class Psi (fun (classname : Class Psi) => Bf)))
   (at level 130, z binder, classname binder, right associativity).
 
 Open Scope single_app_equiv.
@@ -141,20 +146,12 @@ Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
   [X <in_class> Phi] = Phi X.
 
 (* TODO: is this the correct type for alpha? Or should it be some `Class Phi`? *)
-Definition Cls : Prop -> Prop. Admitted.
+Definition Cls : Prop. Admitted.
 
+(* TODO: FIND A BETTER WAY TO DEFINE THIS *)
 Definition n20_03 (Phi : Prop -> Prop) :=
-  Cls = ([ ^ alpha => (exists (Phi : Prop -> Prop), 
-    [ ^ z => Phi z @ zPhiz => alpha = zPhiz ]
-  
-  (* alpha = ([ ^ z => Phi z ] *)
-    
-    ) ]).
-  
-  (* (exists Phi : Prop -> Prop, 
-    alpha = [ ^ z => Phi z ]) ]. *)
-
-Definition in_pred (n : nat) (X : Prop) (Phi : Predicate n) : Prop. Admitted.
+  Cls = ([ ^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
+    [ ^ z => Phi z @ zPhiz => alpha = zPhiz ])]).
 
 (* NOTE FOR MYSELF: alpha IS A SYMBOL THAT IS SUPPOSED TO BE EXACTLY THE
 ArgClass DEFINE ABOVE *)
