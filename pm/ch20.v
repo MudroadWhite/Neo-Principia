@@ -11,17 +11,24 @@ Require Import PM.pm.ch13.
 Require Import PM.pm.ch14.
 
 (* 
-The class in this chapter has been discussed like pretty bad. It is not being stated
-clearly like a structure, and instead, how is it defined is written *in the middle 
-of the text*, and is defined with a `^x` that looks so similar to the "function 
-abstraction" being used in chapter 9.
+The class in this chapter has been discussed like pretty obscure. It is not being stated
+clearly like a structure, and instead, how is it defined is written *in the middle of 
+the text*, and is defined with a `^x` that looks so similar to the "function abstraction" 
+being used in chapter 9.
+
 Another seemingly ambiguity is what do we mean by `Phi ! x`. In chapter 12-14, `Phi ! x`
 is restricting `Phi` to be a predicate, that is, a "typed" function. The `Phi ! x` 
 in this chapter, albeit its same appearance, only means "we want to talk about the 
 function, not its parameters", in order words, can be untyped.
+
 **Due to such ambiguity in the `!`, whether functions should be defined as predicates,
 appeared through all the notation definitions, is highly volatile and is encouraged 
 to be examined and corrected.**
+
+Even worse, the notation for class has becoming more sensitive to types. Which means,
+what should be the type for an argument? What should be the type for a predicate(designed
+by us to contain the necessary information for a symbol)? What will happen if a class
+uses another class?
 *)
 
 (* TODO: define a scope for all this *)
