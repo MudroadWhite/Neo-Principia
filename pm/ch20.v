@@ -19,8 +19,47 @@ incomplete definition. We should also change the style into that... *)
 
 (* TODO: define a scope for all this *)
 
-(* Class determined by *function* Phi...is this definition correct? *)
-(* Should we change to a sigT in the future? *)
+Module Experimental.
+  (* ATTEMPT 1 *)
+  (* TODO: design a dependent type version of Class to contain the information *)
+
+  (* ATTEMPT 2 *)
+  Module ClassRecord.
+    Record t := {
+      (* The actual function in the class *)
+      get_class : Prop -> Prop;
+    }.
+  End ClassRecord.
+
+  (* ATTEMPT 3 *)
+  Inductive ClassInductive :=
+    | mk_classind (Phi : Prop -> Prop) 
+  .
+  Example classinductive_example := mk_classind (fun x => x = x).
+
+  Notation "[ '^ind' z => B ]" := (mk_classind (fun z => B))
+    (at level 130, z binder, right associativity).
+
+  Example test_destruct_ind := 
+    let '(mk_classind p) := classinductive_example in p.
+
+  (* We can see here `f` is just a normal function taking `Prop -> Prop` 
+  as its argument, but such way of our formalization on class will fail
+  to utilize the ambiguity of types for f *)
+  Definition app_class_ind (f : (Prop -> Prop) -> Prop) (cls : ClassInductive) 
+    : Prop.
+  Admitted.
+
+  Notation "[ ^ind cls @ classname => Bf ]" := 
+    (let '(mk_classind Phi) := cls in
+      (app_class_ind Phi (fun (classname : Prop -> Prop) => Bf)))
+    (at level 150, classname binder, right associativity).
+
+End Experimental.
+
+(* Class determined by *function* Phi...is this definition correct? 
+Although it is being defined 
+*)
 Definition Class (Phi : Prop -> Prop) : Type := Prop -> Prop.
 Example class_example := Class (fun x => x = x).
 

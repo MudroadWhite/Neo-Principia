@@ -125,8 +125,7 @@ Notation "[ 'ι2rev' φ , ψ | y x => B ]" :=
   (description2 φ ψ (fun (y : DescriptionArg ψ) (x : DescriptionArg φ) => B))
   (at level 200, x binder, y binder, right associativity) : iota_description.
 
-(* For this new notation, we have to design some special axioms to make 
-  it work... *)
+(* For our notation, a special axiom is needed to make it work... *)
 Definition iota2_arg_comm (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) : 
   [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ] ↔ [ι2 φ, ψ | ιψ ιφ => f ιφ ιψ].
 Admitted.
@@ -832,9 +831,7 @@ Proof.
     ↔ [ι2 ψ, φ | ιψ ιφ => ιψ = ιφ]).
   {
     rewrite -> n11_23 in S2.
-    (* pose proof n14_111 as n14_111. *)
     setoid_rewrite -> n13_16 in S2 at 4.
-    (* rewrite <- n14_112 in S2. *)
     rewrite <- n14_111 in S2.
     rewrite -> n14_04 in S2.
     setoid_rewrite -> n14_113 in S2 at 2.
