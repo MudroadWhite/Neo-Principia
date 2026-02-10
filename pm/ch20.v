@@ -31,7 +31,7 @@ by us to contain the necessary information for a symbol)? What will happen if a 
 uses another class?
 *)
 
-(* TODO: define a scope for all this *)
+Declare Scope class_notation.
 
 Module Experimental.
   (* ATTEMPT 1 *)
@@ -83,13 +83,19 @@ Example class_example := Class (fun x => x = x).
 Definition mk_class {A : Type} (Phi : A -> Prop) : Prop. Admitted.
 Example mk_class_example := mk_class (fun (x : Prop) => x = x).
 
+Open Scope class_notation.
+
 (* We might just leave the Psi be Psi...in the future *)
 (* Notation "[ ^ z => B ]" := (fun z => B) *)
 Notation "[ ^ z => B ]" := (mk_class (fun z => B))
-  (at level 130, z binder, right associativity).
+  (at level 130, z binder, right associativity): class_notation.
 (* Print mk_class_example. *)
-Example mk_class_example1 := [ ^ (z : Prop) => z = z].
-Example mk_class_example2 := [ ^ (z : Prop -> Prop) => z = z].
+Example mk_class_example1 := [^ (z : Prop) => z = z].
+Example mk_class_example2 := [^ (z : Prop -> Prop) => z = z].
+Example mk_class_example3 := [^ (z : (Prop -> Prop) -> (Prop -> Prop)) 
+  => z = z].
+Example mk_class_example4 := [^ (z : Prop -> Prop) => 
+  [^ (x : ((Prop -> Prop) -> (Prop -> Prop))) => x z = x z]].
 
 (* 
 Note that we are utilizing the fact that `f` can be both a function
@@ -116,7 +122,18 @@ Notation "[ ^ z => B1 @ classname => Bf ]" :=
     (app_class Psi (fun (classname : Class Psi) => Bf)))
   (at level 130, z binder, classname binder, right associativity).
 
+(* TODO: design cases for recursive construction *)
+(* 
+Definition n20_03 (Phi : Prop -> Prop) :=
+  Cls = ([^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
+    [^ z => Phi z @ zPhiz => alpha = zPhiz ])]).
+
+*)
+
 Open Scope single_app_equiv.
+
+(* NOTE: return type of `app_class` should be not just a Prop, as it allows
+malign usage on other theorems. What should be the return type of `app_class`? *)
 
 (* So far, `f` as a random function to be applied a class parameter, has 
   been allowed for 3 parameter "types"(not Principia type):
@@ -159,29 +176,17 @@ Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
 (* TODO: is this the correct type for alpha? Or should it be some `Class Phi`? *)
 Definition Cls : Prop. Admitted.
 
-(* TODO: FIND A BETTER WAY TO DEFINE THIS *)
-Definition n20_03 (Phi : Prop -> Prop) :=
-  Cls = ([ ^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
-    [ ^ z => Phi z @ zPhiz => alpha = zPhiz ])]).
-
-(* NOTE FOR MYSELF: alpha IS A SYMBOL THAT IS SUPPOSED TO BE EXACTLY THE
-ArgClass DEFINE ABOVE *)
-
-Definition forall_class : Prop. Admitted.
-
-
-
-
-  (* TODO: is this correct?? *)
-
 (* cf. p.188: The definition of `Cls` is also a "partial definition" and
-should be considered in specific context. Therefore we want to also apply
-our "dual definition" method to fix everything it "failed" to concern 
+should be considered in specific context. 
 Also in *20_03: "we have merely defined certain *uses* of such expressions..."
 we can see explicitly that for all definitions in Principia it is allowed
 to add more "uses" to the expressioins whenever we want 
 *)
-Definition n20_03 (alpha : Prop) (Z : Prop) :
-  (Cls alpha) = ArgClass (fun alpha =>
-    exists Phi : Predicate 1, alpha = ArgClass Phi).
-Admitted.
+(* TODO: FIND A BETTER WAY TO DEFINE THIS *)
+Definition n20_03 (Phi : Prop -> Prop) :=
+  Cls = ([^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
+    [^ z => Phi z @ zPhiz => alpha = zPhiz ])]).
+
+
+Definition forall_class : Prop. Admitted.
+
