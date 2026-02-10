@@ -9,6 +9,8 @@ Require Import PM.pm.ch9.
 (* TODO: 
 - slightly rewrite the introduction below
 - fix format for notations
+- Prove a special theorem: `(exists x, P x /\ Q x) -> (exists x, P x) /\ (exists x, Q x)`.
+  This will be used in later chapters...
 *)
 
 (* TODO: TYPE RESTRICTIONS

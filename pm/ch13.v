@@ -17,6 +17,10 @@ TODO:
 
 (* This chapter presents a set of theorem for `=`, the propositional identity
 in Principia. It is different from definitional identity, which is undefined. 
+
+Starting from this chapter, we will not require that every theorem is provided 
+with explicit parameters, due to the increasing complexity only to be multiplied 
+in lateer chapters.
 *)
 
 (* Modified theorems to be used in this chapter specifically for predicates
