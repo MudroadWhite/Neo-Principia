@@ -31,6 +31,10 @@ by us to contain the necessary information for a symbol)? What will happen if a 
 uses another class?
 *)
 
+
+(* TODO:
+- rename every predicate related to class so that they are `class`-prefixed *)
+
 Declare Scope class_notation.
 
 Module Experimental.
@@ -122,7 +126,7 @@ Notation "[ ^ z => B1 @ classname => Bf ]" :=
     (app_class Psi (fun (classname : Class Psi) => Bf)))
   (at level 130, z binder, classname binder, right associativity).
 
-(* TODO: design cases for recursive construction *)
+(* TODO: design cases for recursive construction, ref to n20_081 *)
 (* 
 Definition n20_03 (Phi : Prop -> Prop) :=
   Cls = ([^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
@@ -160,6 +164,8 @@ while `/\` seems not to be(?) *)
 Definition in_class (X : Prop) (Phi : Prop -> Prop) : Prop.
 Admitted.
 
+(* Note: this is just the special notation said to be used for *20.02 
+  solely *)
 Notation "[ x '<in_class>' Phi ]" := (in_class x Phi)
   (at level 200, x name, right associativity).
 
