@@ -20,32 +20,44 @@ Type of parameters allowed:
 *)
 
 (* TODO: change the name of these scopes *)
-Declare Scope double_app_impl.
-Declare Scope double_app_equiv.
+Declare Scope formal_impl.
+Declare Scope formal_equiv.
 
-Open Scope double_app_impl.
-Open Scope double_app_equiv.
+Open Scope formal_impl.
+Open Scope formal_equiv.
 
 (* TODO: extend these notations to arbitrary amount of parameters *)
-Notation " A -[ x y : P ]> B " := (∀ (x y : P), A → B)
-  (at level 85, x name, y name, right associativity,
-  format " '[' A '/' '[ ' -[ x y '/' : P ]> ']' '/' B ']' ")
-  : double_app_impl.
+(* Locate "∀".
+
+Notation "[ A 'existss' x .. y , p ]" :=
+  (ex (fun x => .. (ex (fun y => A -> p)) ..))
+  (at level 200, x binder, y binder, right associativity).
+
+Example test := [True existss (x : Prop) (y : Prop), True]. *)
+
+(* Notation "A '-[' x .. y ']>' B" := (forall x, .. (forall y, A -> B) .. )
+  (at level 100, x binder, y binder, right associativity) : formal_impl. *)
+(* Notation "A -[ x .. y ]> B" := (∀ x, .. (∀ y, A → B) ..)
+  (at level 100, x binder, y binder, right associativity,
+    format " '[' A '/' '[ ' -[ x .. y ]> ']' '/' B ']' ")
+    . *)
+  (* : formal_impl. *)
+(* Example test0 (Phi : Prop -> Prop):= ((Phi x) -[ x y ]> (Phi y)). *)
 
 Notation " A -[ x y ]> B " := (∀ (x y : Prop), A → B)
   (at level 80, x name, y name, right associativity,
   format " A '/' '[ ' -[ x y ]> ']' '/' B ")
-  : double_app_impl.
+  : formal_impl.
 
 Notation " A <[- x y : P -]> B " := (∀ (x y : P), A ↔ B)
   (at level 85, x name, right associativity,
   format " '[' A '/' '[ ' <[- '[ ' x y ']' : P -]> ']' '/' B ']' ")
-  : double_app_equiv.
+  : formal_equiv.
 
 Notation " A <[- x y -]> B " := (∀ (x y : Prop), A ↔ B)
   (at level 80, x name, right associativity,
   format " '[' A '/' '[ ' <[- '[ ' x y ']' -]> ']' '/' B ']' ")
-  : double_app_equiv.
+  : formal_equiv.
 
 Definition n11_01 (φ : Prop → Prop → Prop) : 
   (∀ x y, (φ x y)) = (∀ x, ∀ y, φ x y).
@@ -1100,7 +1112,7 @@ Proof.
 Qed.
 
 (* TODO: merge this notation into arbitrary parameter version *)
-Open Scope single_app_impl.
+Open Scope single_formal_impl.
 
 Theorem n11_59 (φ ψ : Prop → Prop) :
   (φ x -[ x ]> ψ x) ↔ ((φ x ∧ φ y) -[ x y ]> (ψ x ∧ ψ y)).
@@ -1530,6 +1542,6 @@ Proof.
   long *)
 Qed.
 
-Close Scope single_app_impl.
-Close Scope double_app_impl.
-Close Scope double_app_equiv.
+Close Scope single_formal_impl.
+Close Scope formal_impl.
+Close Scope formal_equiv.

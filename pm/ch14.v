@@ -54,7 +54,7 @@ Definition n10_21_pred (φ : Predicate 1 → Prop) (P : Prop) :
 Admitted.
 
 Open Scope iota_description.
-Open Scope single_app_equiv.
+Open Scope single_formal_equiv.
 
 Definition n14_01 (φ ψ : Prop → Prop) : 
   [ι φ | ιφ => ψ ιφ] 
@@ -193,8 +193,8 @@ Proof.
   now rewrite -> n14_04 in n14_111.
 Qed.
 
-Open Scope double_app_equiv.
-Open Scope double_app_impl.
+Open Scope formal_equiv.
+Open Scope formal_impl.
 
 Theorem n14_12 (φ : Prop → Prop) : 
   [ιE φ] → ((φ x ∧ φ y) -[ x y ]> (x = y)).
@@ -253,7 +253,7 @@ Proof.
   exact S5.
 Qed.
 
-Close Scope double_app_equiv.
+Close Scope formal_equiv.
 
 Theorem n14_121 (B C : Prop) (φ : Prop → Prop) : 
   ((φ x <[- x -]> x = B) ∧ (φ x <[- x -]> x = C))
@@ -297,7 +297,7 @@ Proof.
   exact S3.
 Admitted.
 
-Open Scope single_app_impl.
+Open Scope single_formal_impl.
 
 Theorem n14_122 (B : Prop) (φ : Prop → Prop) :
   ((φ x <[- x -]> (x = B)) ↔ ((φ x -[ x ]> (x = B)) ∧ φ B))
@@ -360,8 +360,8 @@ Proof.
   exact S8.
 Qed.
 
-Open Scope double_app_equiv.
-Open Scope double_app_impl.
+Open Scope formal_equiv.
+Open Scope formal_impl.
 
 Theorem n14_123 (X Y : Prop) (φ : Prop → Prop → Prop) : 
   ((φ z w <[- z w -]> (z = X ∧ w = Y)) 
@@ -2429,8 +2429,8 @@ Proof.
   exact S3.
 Qed.
 
-Close Scope single_app_equiv.
-Close Scope single_app_impl.
-Close Scope double_app_equiv.
-Close Scope double_app_impl.
+Close Scope single_formal_equiv.
+Close Scope single_formal_impl.
+Close Scope formal_equiv.
+Close Scope formal_impl.
 Close Scope iota_description.

@@ -33,32 +33,32 @@ exist but don't.
 error that I cannot prove.
 *)
 
-Declare Scope single_app_impl.
-Declare Scope single_app_equiv.
+Declare Scope single_formal_impl.
+Declare Scope single_formal_equiv.
 
 (* This notations is due to Peano. cf. p.12 *)
 Notation " A -[ x : P ]> B " := (∀ (x : P), A → B)
   (at level 85, x name, right associativity,
   format " '[' A '/' '[ ' -[ x : P ]> ']' '/' B ']' ")
-  : single_app_impl.
+  : single_formal_impl.
 
-Open Scope single_app_impl.
-Open Scope single_app_equiv.
+Open Scope single_formal_impl.
+Open Scope single_formal_equiv.
 
 Notation " A -[ x ]> B " := ((A -[ x : Prop ]> B))
   (at level 80, x name, right associativity,
   format " A '/' '[ ' -[ x ]> ']' '/' B ")
-  : single_app_impl.
+  : single_formal_impl.
 
 Notation " A <[- x : P -]> B " := (∀ (x : P), A ↔ B)
   (at level 85, x name, right associativity,
   format " '[' A '/' '[ ' <[- x : P -]> ']' '/' B ']' ")
-  : single_app_equiv.
+  : single_formal_equiv.
 
 Notation " A <[- x -]> B " := (A <[- x : Prop -]> B)
   (at level 80, x name, right associativity,
   format " A '/' '[ ' <[- x -]> ']' '/' B ")
-  : single_app_equiv.
+  : single_formal_equiv.
 
 Definition n10_01 (φ : Prop → Prop) : 
   (∃ x, φ x) = ¬ (∀ x, ¬ φ x). Admitted.
@@ -1724,5 +1724,5 @@ Proof.
   exact S4.
 Admitted.
 
-Close Scope single_app_impl.
-Close Scope single_app_equiv.
+Close Scope single_formal_impl.
+Close Scope single_formal_equiv.
