@@ -14,6 +14,8 @@ Require Import PM.pm.ch10.
 - Correctly control the notation scopes in ch11 and ch10
 *)
 
+(* TODO: Add a special rule: (exists x, Px /\ Q x) -> (exists x, P x) /\ (exists x, Q x) *)
+
 (* TODO: 
 Type of theorems allowed: 
 Type of parameters allowed: 
