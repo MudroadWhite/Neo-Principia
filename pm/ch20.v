@@ -46,32 +46,32 @@ Module Experimental.
   Module ClassRecord.
     Record t := {
       (* The actual function in the class *)
-      get_class : Prop -> Prop;
+      class_get : Prop -> Prop;
     }.
   End ClassRecord.
 
   (* ATTEMPT 3 *)
   Inductive ClassInductive :=
-    | mk_classind (Phi : Prop -> Prop) 
+    | classind_mk (Phi : Prop -> Prop) 
   .
-  Example classinductive_example := mk_classind (fun x => x = x).
+  Example classinductive_example := classind_mk (fun x => x = x).
 
-  Notation "[ '^ind' z => B ]" := (mk_classind (fun z => B))
+  Notation "[ '^ind' z => B ]" := (classind_mk (fun z => B))
     (at level 130, z binder, right associativity).
 
   Example test_destruct_ind := 
-    let '(mk_classind p) := classinductive_example in p.
+    let '(classind_mk p) := classinductive_example in p.
 
   (* We can see here `f` is just a normal function taking `Prop -> Prop` 
   as its argument, but such way of our formalization on class will fail
   to utilize the ambiguity of types for f *)
-  Definition app_class_ind (f : (Prop -> Prop) -> Prop) (cls : ClassInductive) 
+  Definition classind_app (f : (Prop -> Prop) -> Prop) (cls : ClassInductive) 
     : Prop.
   Admitted.
 
   Notation "[ '^ind' cls @ classname => Bf ]" := 
-    (let '(mk_classind Phi) := cls in
-      (app_class_ind Phi (fun (classname : Prop -> Prop) => Bf)))
+    (let '(classind_mk Phi) := cls in
+      (classind_app Phi (fun (classname : Prop -> Prop) => Bf)))
     (at level 150, classname binder, right associativity).
 
 End Experimental.
@@ -80,25 +80,25 @@ End Experimental.
 Although it is being defined 
 *)
 (* WARNING: THIS TYPE IS VOLATILE AND SHOULD BE REDEFINED *)
-Definition Class (Phi : Prop -> Prop) : Type := Prop -> Prop.
-Example class_example := Class (fun x => x = x).
+Definition Class {A : Type} (Phi : A -> Prop) : Type := Prop -> Prop.
+Example class_example := Class (fun (x : Prop) => x = x).
 
-(* NOTE: mk_class should have the same type as app_class???? *)
-Definition mk_class {A : Type} (Phi : A -> Prop) : Prop. Admitted.
-Example mk_class_example := mk_class (fun (x : Prop) => x = x).
+(* NOTE: class_mk should have the same type as class_app???? *)
+Definition class_mk {A : Type} (Phi : A -> Prop) : Prop. Admitted.
+Example class_mk_example := class_mk (fun (x : Prop) => x = x).
 
 Open Scope class_notation.
 
 (* We might just leave the Psi be Psi...in the future *)
 (* Notation "[ ^ z => B ]" := (fun z => B) *)
-Notation "[ ^ z => B ]" := (mk_class (fun z => B))
+Notation "[ ^ z => B ]" := (class_mk (fun z => B))
   (at level 130, z binder, right associativity): class_notation.
-(* Print mk_class_example. *)
-Example mk_class_example1 := [^ (z : Prop) => z = z].
-Example mk_class_example2 := [^ (z : Prop -> Prop) => z = z].
-Example mk_class_example3 := [^ (z : (Prop -> Prop) -> (Prop -> Prop)) 
+(* Print class_mk_example. *)
+Example class_mk_example1 := [^ (z : Prop) => z = z].
+Example class_mk_example2 := [^ (z : Prop -> Prop) => z = z].
+Example class_mk_example3 := [^ (z : (Prop -> Prop) -> (Prop -> Prop)) 
   => z = z].
-Example mk_class_example4 := [^ (z : Prop -> Prop) => 
+Example class_mk_example4 := [^ (z : Prop -> Prop) => 
   [^ (x : ((Prop -> Prop) -> (Prop -> Prop))) => x z = x z]].
 
 (* 
@@ -111,9 +111,9 @@ rather than anything like `Prop -> Prop`... maybe there will be a better clue
 in the future how to design this type
 *)
 (* WARNING: VOLATILE DEFINITION *)
-Definition app_class (Phi : Prop -> Prop) (f : (Class Phi) -> Prop) : Prop. 
+Definition class_app {A : Type} (Phi : A -> Prop) (f : (Class Phi) -> Prop) : Prop. 
 Admitted.
-Example app_class_example := app_class (fun x => x = x)
+Example class_app_example := class_app (fun (x : Prop) => x = x)
   (fun p => p = p).
 
 (* This kind of representation suffers a lack of compositional property,
@@ -122,22 +122,22 @@ I mean, we cannot reuse the definition for just a class, but we have to
 redefine how a class is being applied on something else separately, and
 I think this is what exactly the book is telling us *)
 Notation "[ ^ z => B1 @ classname => Bf ]" := 
-  (let Psi := (fun z => B1) in
-    (app_class Psi (fun (classname : Class Psi) => Bf)))
+  (let class_func := (fun z => B1) in
+    (class_app class_func (fun (classname : Class class_func) => Bf)))
   (at level 130, z binder, classname binder, right associativity).
-
-(* TODO: design cases for recursive construction, ref to n20_081 *)
-(* 
-Definition n20_03 (Phi : Prop -> Prop) :=
-  Cls = ([^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
-    [^ z => Phi z @ zPhiz => alpha = zPhiz ])]).
-
-*)
+Example class_app_example1 : Prop := [^ (z : Prop) => z = z @ cz => cz = cz].
+Example class_app_example2 : Prop := [^ (z : Prop -> Prop) => z = z @ cz => cz = cz].
+Example class_app_example3 : Prop := [^ (z : (Prop -> Prop) -> Prop) => 
+  z = z @ cz => cz = cz].
+Example class_app_example4 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
+[^ (z2 : Prop) => z2 = z2 @ cz2 => cz1 = cz1 ]].
+Example class_app_example5 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
+  [^ (z2 : Prop) => z2 = z2 @ cz2 => cz1 = cz2 ]].
 
 Open Scope single_app_equiv.
 
-(* NOTE: return type of `app_class` should be not just a Prop, as it allows
-malign usage on other theorems. What should be the return type of `app_class`? *)
+(* NOTE: return type of `class_app` should be not just a Prop, as it allows
+malign usage on other theorems. What should be the return type of `class_app`? *)
 
 (* So far, `f` as a random function to be applied a class parameter, has 
   been allowed for 3 parameter "types"(not Principia type):
@@ -161,23 +161,23 @@ Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
 things, despite the annoying writing style, `in` is really the first 
 operator for classes. As further examples, `=` is allowed on classes,
 while `/\` seems not to be(?) *)
-Definition in_class (X : Prop) (Phi : Prop -> Prop) : Prop.
+Definition class_in (X : Prop) (Phi : Prop -> Prop) : Prop.
 Admitted.
 
 (* Note: this is just the special notation said to be used for *20.02 
   solely *)
-Notation "[ x '<in_class>' Phi ]" := (in_class x Phi)
+Notation "[ x '<class_in>' Phi ]" := (class_in x Phi)
   (at level 200, x name, right associativity).
 
-Notation "[ x '<in_class>' ^ classname => B ]" := (in_class x (fun classname => B))
+Notation "[ x '<class_in>' ^ classname => B ]" := (class_in x (fun classname => B))
   (at level 200, x name, classname binder, right associativity).
 
-Example in_class_example (x : Prop) := [x <in_class> (fun x => x = x)].
-Example in_class_expanded_example (x : Prop) := [x <in_class> ^ c => c = c].
+Example class_in_example (x : Prop) := [x <class_in> (fun x => x = x)].
+Example class_in_expanded_example (x : Prop) := [x <class_in> ^ c => c = c].
 
 (* We don't know if Phi should be a predicate or a function *)
 Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
-  [X <in_class> Phi] = Phi X.
+  [X <class_in> Phi] = Phi X.
 
 (* TODO: is this the correct type for alpha? Or should it be some `Class Phi`? *)
 Definition Cls : Prop. Admitted.
