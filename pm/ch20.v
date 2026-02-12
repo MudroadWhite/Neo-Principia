@@ -77,6 +77,10 @@ End Experimental.
 (* Class determined by *function* Phi...is this definition correct? *)
 Definition Class {A : Type} (Phi : A -> Prop) : Type := Prop -> Prop.
 Example class_example := Class (fun (x : Prop) => x = x).
+(* An example to show that this definition doesn't strictly distinguish
+between different functions *)
+Example class_eq (Phi Psi : Prop -> Prop) : Class Phi = Class Psi.
+Proof. reflexivity. Qed.
 
 Definition class_mk {A : Type} (Phi : A -> Prop) : Prop. Admitted.
 Example class_mk_example := class_mk (fun (x : Prop) => x = x).
@@ -200,8 +204,27 @@ Definition n20_06 {A : Type} {Phi : A -> Prop} (X : Prop) (alpha : Class Phi) :
   (~ [X <class_in> alpha]) = (~ [X <class_in> alpha]).
 Admitted.
 
+(* Fortunately, we don't have to define extra definitions separately for existing
+symbols applying on classes. Turns out that our notation essentially expressed such 
+things... *)
+Definition n20_07 {A : Type} {Psi : A -> Prop} (X : Prop) (f : (Prop -> Prop) -> Prop) :
+  forall (alpha : Class Psi), [^ z => alpha z @ calpha => f calpha]
+  = forall Phi : Predicate 1, [^ z => Phi z @ cPhi => f Phi].
+Admitted.
+
+Definition n20_071 {A : Type} {Psi : A -> Prop} (X : Prop) (f : (Prop -> Prop) -> Prop) :
+  exists (alpha : Class Psi), [^ z => alpha z @ calpha => f calpha]
+  = exists Phi : Predicate 1, [^ z => Phi z @ cPhi => f Phi].
+Admitted.
+
+(* TODO: define polymorphic version of iota *)
+Open Scope debug_iota_description.
+(* Definition n20_072 {A : Type} {Psi : A -> Prop} (X : Prop) 
+  (Phi : ())
+(f : (Prop -> Prop) -> Prop) : *)
 
 
+Close Scope debug_iota_description.
 
 Definition forall_class : Prop. Admitted.
 
