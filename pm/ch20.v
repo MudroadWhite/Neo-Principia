@@ -31,7 +31,10 @@ by us to contain the necessary information for a symbol)? What will happen if a 
 uses another class?
 *)
 
-(* TODO: check every notations are under the scope and organize the notations *)
+(* TODO: 
+- check every notations are under the scope and organize the notations 
+- For implicit `Phi`s, rename them with `IPhi` and same for any other occurences
+*)
 
 Declare Scope class_notation.
 
@@ -263,11 +266,12 @@ Example debug_iota2_example :=
   (at level 200, x binder, y binder, right associativity) : debug_iota_description. *)
 
 Close Scope debug_iota_description_poly.
-
+  
 Open Scope debug_iota_description_poly.
-(* Definition n20_072 {A : Type} {Psi : A -> Prop} (X : Prop) 
-  (Phi : ())
-(f : (Prop -> Prop) -> Prop) : *)
+Definition n20_072 {A : Type} {Chi : A -> Prop} (X : Prop) (Phi : (Class Chi) -> Prop) 
+  (f : (Prop -> Prop) -> Prop) :
+  [ iotapoly Phi | iotaPhi => f iotaPhi ]
+  = exists Gamma, forall alpha : Class Psi, Phi 
 
 
 Close Scope debug_iota_description_poly.
