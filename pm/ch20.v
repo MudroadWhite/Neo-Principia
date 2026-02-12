@@ -31,9 +31,7 @@ by us to contain the necessary information for a symbol)? What will happen if a 
 uses another class?
 *)
 
-
-(* TODO:
-- rename every predicate related to class so that they are `class`-prefixed *)
+(* TODO: check every notations are under the scope and organize the notations *)
 
 Declare Scope class_notation.
 
@@ -76,24 +74,18 @@ Module Experimental.
 
 End Experimental.
 
-(* Class determined by *function* Phi...is this definition correct? 
-Although it is being defined 
-*)
-(* WARNING: THIS TYPE IS VOLATILE AND SHOULD BE REDEFINED *)
+(* Class determined by *function* Phi...is this definition correct? *)
 Definition Class {A : Type} (Phi : A -> Prop) : Type := Prop -> Prop.
 Example class_example := Class (fun (x : Prop) => x = x).
 
-(* NOTE: class_mk should have the same type as class_app???? *)
 Definition class_mk {A : Type} (Phi : A -> Prop) : Prop. Admitted.
 Example class_mk_example := class_mk (fun (x : Prop) => x = x).
 
 Open Scope class_notation.
 
-(* We might just leave the Psi be Psi...in the future *)
 (* Notation "[ ^ z => B ]" := (fun z => B) *)
 Notation "[ ^ z => B ]" := (class_mk (fun z => B))
   (at level 130, z binder, right associativity): class_notation.
-(* Print class_mk_example. *)
 Example class_mk_example1 := [^ (z : Prop) => z = z].
 Example class_mk_example2 := [^ (z : Prop -> Prop) => z = z].
 Example class_mk_example3 := [^ (z : (Prop -> Prop) -> (Prop -> Prop)) 
@@ -110,7 +102,6 @@ It seems that whatever the predicate is, its eventual type should be `Prop`
 rather than anything like `Prop -> Prop`... maybe there will be a better clue
 in the future how to design this type
 *)
-(* WARNING: VOLATILE DEFINITION *)
 Definition class_app {A : Type} (Phi : A -> Prop) (f : (Class Phi) -> Prop) : Prop. 
 Admitted.
 Example class_app_example := class_app (fun (x : Prop) => x = x)
@@ -161,6 +152,7 @@ Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
 things, despite the annoying writing style, `in` is really the first 
 operator for classes. As further examples, `=` is allowed on classes,
 while `/\` seems not to be(?) *)
+(* NOTE: only use `A` if necessary *)
 Definition class_in (X : Prop) (Phi : Prop -> Prop) : Prop.
 Admitted.
 
@@ -179,19 +171,36 @@ Example class_in_expanded_example (x : Prop) := [x <class_in> ^ c => c = c].
 Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
   [X <class_in> Phi] = Phi X.
 
-(* TODO: is this the correct type for alpha? Or should it be some `Class Phi`? *)
 Definition Cls : Prop. Admitted.
 
 (* cf. p.188: The definition of `Cls` is also a "partial definition" and
-should be considered in specific context. 
-Also in *20_03: "we have merely defined certain *uses* of such expressions..."
+should be considered in specific context. It turns out that partial 
+definitions can be brilliantly modeled with the notation system in Rocq
+Also: "we have merely defined certain *uses* of such expressions..."
 we can see explicitly that for all definitions in Principia it is allowed
 to add more "uses" to the expressioins whenever we want 
 *)
-(* TODO: FIND A BETTER WAY TO DEFINE THIS *)
+(* NOTE: we restrict the `Phi` to `Prop -> Prop` at the moment. `A` polymorphism
+should be used with care in the future... *)
 Definition n20_03 (Phi : Prop -> Prop) :=
   Cls = ([^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
     [^ z => Phi z @ zPhiz => alpha = zPhiz ])]).
+
+(* We won't define notation for *20.04 because I think it is unnecessary. *)
+Definition n20_04 {A : Type} {Phi : A -> Prop} (X Y : Prop) (alpha : Class Phi) :
+  [X <class_in> alpha] /\ [Y <class_in> alpha] = [X <class_in> alpha] /\ [Y <class_in> alpha].
+Admitted.
+
+Definition n20_05 {A : Type} {Phi : A -> Prop} (X Y Z : Prop) (alpha : Class Phi) :
+  ([X <class_in> alpha] /\ [Y <class_in> alpha]) /\ [Z <class_in> alpha] 
+  = ([X <class_in> alpha] /\ [Y <class_in> alpha]) /\ [Z <class_in> alpha].
+Admitted.
+
+Definition n20_06 {A : Type} {Phi : A -> Prop} (X : Prop) (alpha : Class Phi) :
+  (~ [X <class_in> alpha]) = (~ [X <class_in> alpha]).
+Admitted.
+
+
 
 
 Definition forall_class : Prop. Admitted.
