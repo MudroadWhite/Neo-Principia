@@ -5,7 +5,7 @@ We are building:
 - [x] Chapter 11 - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
 - [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
 - [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
-- [ ] \[WIP\]Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* statement. Theorems on them.
+- [x] Chapter 14 - Notation of the `iota` operator for descriptions, a predicate `iota_E` for its *existence* statement. Theorems on them.
 
 We now proceed to explain how everything is built up, bottom-up, in Principia.
 
