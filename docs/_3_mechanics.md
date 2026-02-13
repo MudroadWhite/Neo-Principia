@@ -29,19 +29,9 @@ TODO: check ch1, 1.7....
 
 ----------------
 
-### Chapter 1
+UNFINISHED PIECES for chapter 1 - 5
 
-### Chapter 2
-
-### Chapter 3
-
-### Chapter 4
-
-### Chapter 5
-
-### Chapter 9
-
-UNFINISHED PIECES BELOW
+(Ch1 - 5)
 
 For every theorem, we have two ways to use it. One is we refer to it just like a "function", and another one is prove the theorem by inference.
 
@@ -58,16 +48,43 @@ how PM is different from modern type theories:
 
 TODO: the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of ¬ and ∨
 
-## The system
-
-TODO: organize the mechanics in a chapter-splitted style
 
 Elementary propositions are simple propositions connected with `¬` and `∨`.
 
 TODO: polish as below
 1. Fundamentally we have a set of individuals like `P`, `Q`, `R`. They are not propositions, and they cannot be further splited.
 2. Elementary propositions are simple propositions connected with `¬` and `∨`. (Put it in another way, these `¬` and `∨`s are defined on elementary propositions)
-3. `x^`, a function, is defined on an *already defined proposition* by abstracting all occurrences of `x` in the proposition. (Principia seems to be hasn't considered about the bound variables and free variables?) For example. if we have `x ∧ y`, then `(x ∧ y)x^` is a function that should be written now as `fun x => x ∧ y`.
-4. `Phi x` means the result of the application, of a function `Phi x^` onto a parameter `x`. Our function contains only 1 variable and ranges over elementary propositions.
-5. `∀` and `∃` are defined by directly and only quantifying over a function.
-6. descriptions...
+
+----------------
+
+### Chapter 1
+
+### Chapter 2
+
+### Chapter 3
+
+### Chapter 4
+
+### Chapter 5
+
+### Chapter 9
+TODO: (state with bullet points as general rules) functions are built with `^`; formal props are built on functions; without functions, there will be no formal props 
+
+TODO: built for demonstration
+
+### Chapter 10
+TODO: actual alternative;
+
+### Chapter 11
+TODO: generalize formal props
+
+### Chapter 12
+TODO: discuss the volatility for formalization; discuss how a function can be interpreted with different meanings
+
+### Chapter 13
+
+### Chapter 14
+TODO: this is the last chapter where actual mechanics matters: the first chapter where we introduce *contextual definitions*, modeled with *notations* in Rocq. all future concept might be built either on normal or on contextual definitions, and they should be never interfere with the fundamentals for the rewriting system; but maybe in the future we might regard all the definitions as a whole and make a clearer distinction between the rewriting system, maybe until the presence of natural numbers
+
+### Chapter 20
+TODO: ambiguity on the interpretation for `Phi ! x` where we don't know if `!` stands for predicate or just the function as the focus
