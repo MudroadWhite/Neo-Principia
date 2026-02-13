@@ -57,3 +57,8 @@ TODO: setoid_rewrite is being introduced exactly because of the difficulty on wr
 **Coverage: x** to be calculated; n13_15; ADDITIONAL THEOREMS MISSED AND NEEDED;
 
 **General.** TODO: higher requirements for notations; discuss how Dfs in Principia might share the same nature as Rocq notations; how n12_01 applies is mentioned in the text but unclear in the code; exmaple showing that function doesn't necessarily quantify over all individuals of a same kind at once
+
+### Chapter 20
+**Coverage: WORKING IN PROGRESS**
+
+**General.** TODO: types has become complicated... refer to Randall's work, discuss how should we consider the types
