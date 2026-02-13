@@ -1,3 +1,7 @@
+TODO: 
+- rewrite this chapter by organizing as chapters in Principia
+- organize the `TOOLS` being used and maybe rethink of its boundaries and usages
+
 # Tactics
 This chapter discusses the tactics we generally use for every proofs in deeper details.
 
