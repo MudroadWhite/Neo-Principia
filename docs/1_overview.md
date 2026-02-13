@@ -24,8 +24,8 @@ I started this project by
 
 **Ongoing: Plan on finishing Class-related chapters, starting from chapter 20.** From the introduction in Principia, which is before chapter 1, implementing classes and relations will ensure the necessity to express everything in Principia. We also might want to write some documents for the previous chapters in some time...
 
-**2026.02** Chapter 14, the first chapter with a *incomplete/context based* definition(the description), has been finished. Finishing this chapter also let me decide that we shouldn't move to deep embedding due to the complexity, and instead push for more chapters.
+**2026.02:** Chapter 14, the first chapter with a *incomplete/context based* definition(the description), has been finished. Finishing this chapter also let me decide that we shouldn't move to deep embedding due to the complexity, and instead push for more chapters.
 
-**2025.10:** Chapter 9, the first chapter after chapter 5, has been finished. Chapter 9 has a *lot* of things to add over chapter 5, so the completion of this chapter involves a lot of mind works and deprecated experiments.
+**2025.10:** Chapter 9, the first chapter after chapter 5, has been finished. Chapter 9 has a *lot* of things to add over chapter 5, so the completion of this chapter involves a lot of mind works and deprecated experiments. Also, "New Principia" has been renamed into "Neo Principia".
 
-**2025.9:** Neo Principia, this project, has been started and established. We have set up a workable environment for Landon's project and successfully compiled the full content of chapter 1 - 5.
+**2025.9:** New Principia, this project, has been started and established. We have set up a workable environment for Landon's project and successfully compiled everything in chapter 1 - 5.
