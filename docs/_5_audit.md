@@ -24,22 +24,27 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start stra
 
 **Citations.** Citations in general only cover the most important theorems and ignore the rest chores. Their orders to apply might differ from the possible ways perform the deduction. Constructing the proofs based only on the citations cannot be automated.
 
-TODO - all this below should be filled after ch14 is formalized:
+**Types.** We won't check the types within the proofs, because we didn't find a way to correctly restrict the types for the terms. Currently I'm thinking of using functions as tags to label the type level of a parameter/term, as `Definition Predicate_1 (X : Prop) := Prop`, but beyond that I don't have a better clue. Proofs of chapters in this project **will not have their type checked**.
 
 ### Chapter 9
-**General.** 
-- Completeness: nice
-- formal parts: formalized all the theorems but they are useless
-- Informal parts: can be formalized but cannot be used
+**Coverage: 100%**, without informal parts
 
-**Tech detail: functions.** The introduction of function in this chapter allows construction for `forall` and `exists`. We discover that
-TODO: 
-- types for lhs parameters: haven't examined seriously
-- functions can be abstracted in more than one way(ch14), therefore abstraction cannot be automated 
-- which further rejects Rocq to automatically instantiate theorems
+**General.** There are two sets of theorems in this chapter: the formal and the informal one. We can completely express the formal parts in Rocq. We have tried to demonstrate how the informal parts should be expressed in Rocq, but currently these code won't be used anywhere in the rest of the project.
+
+**Functions.** The new feature being introduced into this chapter is *functions*, and quantified/formal propositions(`forall`, `exists`) that are built upon them. Rather than following how Principia builds the function, we just use the normal lambda abstraction in Rocq. Although lambda works nicely in this chapter, later chapters expose higher expectations on functions: should they come with a type of `Prop -> Prop`, or should it be something else? Can we have an automatic way to convert one kind of functions into another kind(ch12)? The list of questions extends as we will proceed and have higher requirements.
 
 ### Chapter 10
+**Coverage: 100%**
+
+**General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `forall` and `exists`. We don't find any difficulty in formalizing this chapter.
+
+### Chapter 11
+**Coverage: 100%**
+
+**General.** TODO: write something
+
 TODO:
-- chapter 9, ... chapter 11: nice
-- chapter 13 14: can be verified with larger tweaks; notation is annoying
+- chapter 9, ... chapter 11: all proofs are nice
+- chapter 13 14: higher requirements for notations; discuss how Dfs in Principia might share the same nature as Rocq notations; ADDITIONAL THEOREMS MISSED AND NEEDED;
 - chapter 13: technically doesn't have support for quantifiers, but is required in later chapters
+- chapter 14: how n12_01 applies is mentioned in the text but unclear in the code; exmaple showing that function doesn't necessarily quantify over all individuals of a same kind at once
