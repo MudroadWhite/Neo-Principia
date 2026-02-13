@@ -232,7 +232,7 @@ Example descriptionarg_example := (fun iotaφ : (DescriptionArg (fun x => x)) =>
   iotaφ = iotaφ).
 
 Definition description_poly {A : Type} (φ : A -> Prop) (expr : (DescriptionArgPoly φ) -> Prop) 
-  : A. 
+  : Prop. 
 Admitted.
 
 (* Definition description_exists_poly {A : Type} (φ : A -> Prop) : Prop. Admitted. *)
@@ -268,22 +268,21 @@ Example debug_iota2_example :=
 Close Scope debug_iota_description_poly.
   
 Open Scope debug_iota_description_poly.
-(* Is Psi the same as Chi?... *)
-Definition n20_072 {A : Type} {Psi Chi : A -> Prop} (X : Prop) 
-  (Phi : (Class Chi) -> Prop)
-  (f : Prop -> Prop) :
-  (* [ iotapoly Phi | iotaPhi => f iotaPhi ]. *)
-  (* =  *)
-  (* (exists gamma : Class Psi, (forall alpha : Class Psi, Phi alpha <-> (alpha = gamma))
-  ). *)
-    (* /\  *)
-    exists gamma : Class Psi,
-  [^ z => gamma z @ cgamma => f cgamma].
-  (* ). *)
 
-
+(* The Phi here might need further investigation in the future *)
+Definition n20_072 {A : Type} {Psi : A -> Prop} (X : Prop) 
+  (Phi : (Prop -> Prop) -> Prop) (f : (Prop -> Prop) -> Prop) :
+  [ iotapoly Phi | iotaPhi => f iotaPhi ]
+    = (exists gamma : Class Psi, (forall alpha : Class Psi, 
+      Phi alpha <-> (alpha = gamma)) /\ ([^ z => gamma z @ cgamma => f cgamma])).
+Admitted.
 
 Close Scope debug_iota_description_poly.
+
+Definition n20_08 : Prop. Admitted.
+  (* [^ alpha => Psi alpha @ calpha => f calpha] *)
+
+
 
 Close Scope single_app_equiv.
 Close Scope single_app_impl.
