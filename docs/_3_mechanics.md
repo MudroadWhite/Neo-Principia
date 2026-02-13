@@ -29,6 +29,18 @@ TODO: check ch1, 1.7....
 
 ----------------
 
+### Chapter 1
+
+### Chapter 2
+
+### Chapter 3
+
+### Chapter 4
+
+### Chapter 5
+
+### Chapter 9
+
 UNFINISHED PIECES BELOW
 
 For every theorem, we have two ways to use it. One is we refer to it just like a "function", and another one is prove the theorem by inference.
