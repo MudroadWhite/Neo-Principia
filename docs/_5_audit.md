@@ -1,12 +1,9 @@
 # Audit Report
 We're aware that: 
-- Distinguishing between `∀ x y, P x y` and `∀ x, ∀ y, P x y` is currently **on plan**.
-- Limiting parameter's "type"(orders)s for a function is currently **partially supported**, by only writing them as a header in each of the chapters.
-- Checking their types is currently **unavailable**.
-- Designing functions that accepts arbitrary length is currently **unavailable**.
-- Constructing "types" for every propositions in Principia is **on plan**.
+- Checking types in Principia is **unavailable**.
 - Expressing "types(orders) for a function's parameters" is **on plan**.
-- Completely translate primitive propositions written in natural language, into formalized Rocq proof, is **on plan**.
+- Distinguishing between `∀ x y, P x y` and `∀ x, ∀ y, P x y` is currently **on plan**.
+- Completely translate primitive propositions written in natural language, into Rocq proof as a demonstration, is **on plan**.
 - More to come...
 
 Every formal verification project comes with an audit report, and our analogue starts from below.
@@ -31,7 +28,8 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start stra
 
 **General.** There are two sets of theorems in this chapter: the formal and the informal one. We can completely express the formal parts in Rocq. We demonstrated how the informal parts should be expressed in Rocq, but they won't be used anywhere in the rest of the project.
 
-**Functions.** The new feature being introduced into this chapter is *functions*, and quantified/formal propositions(`forall`, `exists`) that are built upon them. For our soft embedding, we use a different approach to construct the function, which is just the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will expose higher expectations on them: should they come with a type of `Prop -> Prop`, or should it be something else? Can we have an automatic way to convert one kind of functions into another kind(ch12)? The list of questions extends as we will proceed and have higher requirements.
+**Functions.** The new feature being introduced into this chapter is *functions*, and quantified/formal propositions(`forall`, `exists`) that are built upon them. (TODO: MOVE THIS SENTENCE INTO MECHANICS, LEAVING ONLY CRITICS)For our soft embedding, we use a different approach to construct the function, which is just the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will expose higher expectations on them: should they come with a type of `Prop -> Prop`, or should it be something else? Can we have an automatic way to convert one kind of functions into another kind(ch12)? The list of questions extends as we will proceed and have higher requirements.
+TODO: setoid_rewrite is being introduced exactly because of the difficulty on writing on forall/exists and functions
 
 ### Chapter 10
 **Coverage: 100%**
@@ -42,6 +40,8 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start stra
 **Coverage: 100%**
 
 **General.** Chapter 11 is doing essentially the same as chapter 10, except expanding `forall` and `exists` from one variable to multiple vars. We didn't find any difficulties formalizing this chapter.
+
+**Quantified propositions.**TODO: forall takes 1 params at a time... for multiple variables, a rigorous distinction between Ax Ay and Axy has been ignored, assuming they wouldnt affect the proof very much
 
 ### Chapter 12
 **Coverage: 100%**
@@ -56,4 +56,4 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start stra
 ### Chapter 14
 **Coverage: x** to be calculated; n13_15; ADDITIONAL THEOREMS MISSED AND NEEDED;
 
-**General.** TODO: higher requirements for notations; discuss how Dfs in Principia might share the same nature as Rocq notations;  how n12_01 applies is mentioned in the text but unclear in the code; exmaple showing that function doesn't necessarily quantify over all individuals of a same kind at once
+**General.** TODO: higher requirements for notations; discuss how Dfs in Principia might share the same nature as Rocq notations; how n12_01 applies is mentioned in the text but unclear in the code; exmaple showing that function doesn't necessarily quantify over all individuals of a same kind at once
