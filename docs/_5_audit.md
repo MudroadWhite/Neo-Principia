@@ -29,22 +29,31 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start stra
 ### Chapter 9
 **Coverage: 100%**, without informal parts
 
-**General.** There are two sets of theorems in this chapter: the formal and the informal one. We can completely express the formal parts in Rocq. We have tried to demonstrate how the informal parts should be expressed in Rocq, but currently these code won't be used anywhere in the rest of the project.
+**General.** There are two sets of theorems in this chapter: the formal and the informal one. We can completely express the formal parts in Rocq. We demonstrated how the informal parts should be expressed in Rocq, but they won't be used anywhere in the rest of the project.
 
-**Functions.** The new feature being introduced into this chapter is *functions*, and quantified/formal propositions(`forall`, `exists`) that are built upon them. Rather than following how Principia builds the function, we just use the normal lambda abstraction in Rocq. Although lambda works nicely in this chapter, later chapters expose higher expectations on functions: should they come with a type of `Prop -> Prop`, or should it be something else? Can we have an automatic way to convert one kind of functions into another kind(ch12)? The list of questions extends as we will proceed and have higher requirements.
+**Functions.** The new feature being introduced into this chapter is *functions*, and quantified/formal propositions(`forall`, `exists`) that are built upon them. For our soft embedding, we use a different approach to construct the function, which is just the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will expose higher expectations on them: should they come with a type of `Prop -> Prop`, or should it be something else? Can we have an automatic way to convert one kind of functions into another kind(ch12)? The list of questions extends as we will proceed and have higher requirements.
 
 ### Chapter 10
 **Coverage: 100%**
 
-**General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `forall` and `exists`. We don't find any difficulty in formalizing this chapter.
+**General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `forall` and `exists`. We didn't find any difficulties formalizing this chapter.
 
 ### Chapter 11
 **Coverage: 100%**
 
-**General.** TODO: write something
+**General.** Chapter 11 is doing essentially the same as chapter 10, except expanding `forall` and `exists` from one variable to multiple vars. We didn't find any difficulties formalizing this chapter.
 
-TODO:
-- chapter 9, ... chapter 11: all proofs are nice
-- chapter 13 14: higher requirements for notations; discuss how Dfs in Principia might share the same nature as Rocq notations; ADDITIONAL THEOREMS MISSED AND NEEDED;
-- chapter 13: technically doesn't have support for quantifiers, but is required in later chapters
-- chapter 14: how n12_01 applies is mentioned in the text but unclear in the code; exmaple showing that function doesn't necessarily quantify over all individuals of a same kind at once
+### Chapter 12
+**Coverage: 100%**
+
+**General.** TODO: only a few theorems; but they might subject to changes bc we don't know how exactly they works
+
+### Chapter 13
+**Coverage: x** to be calculated; state failed proofs
+
+**General.** TODO: use theorem variants, might have something to be done with ch12; Are the `!` functions untyped, or they come strictly with a `Predicate` type??
+
+### Chapter 14
+**Coverage: x** to be calculated; n13_15; ADDITIONAL THEOREMS MISSED AND NEEDED;
+
+**General.** TODO: higher requirements for notations; discuss how Dfs in Principia might share the same nature as Rocq notations;  how n12_01 applies is mentioned in the text but unclear in the code; exmaple showing that function doesn't necessarily quantify over all individuals of a same kind at once
