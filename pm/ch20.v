@@ -279,7 +279,12 @@ Admitted.
 
 Close Scope debug_iota_description_poly.
 
-Definition n20_08 : Prop. Admitted.
+(* Should we define notations for f applying on class? *)
+Definition n20_08 {A : Type} (Phi : A -> Prop) (alpha : Class Phi) (f : (Prop -> Prop) -> Prop)
+  : 
+  (* [^ alpha => Psi alpha @ calpha => f calpha] *)
+  Prop. Admitted.
+  (* [^ alpha => Psi alpha] *)
   (* [^ alpha => Psi alpha @ calpha => f calpha] *)
 
 
