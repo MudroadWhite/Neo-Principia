@@ -297,6 +297,78 @@ Admitted.
 
 (* **************** *)
 
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_1 : Prop.
+Proof.
+Admitted.
+
 
 Close Scope single_app_equiv.
 Close Scope single_app_impl.
