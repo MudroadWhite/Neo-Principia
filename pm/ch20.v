@@ -32,7 +32,6 @@ uses another class?
 *)
 
 (* TODO: 
-- check every notations are under the scope and organize the notations 
 - For implicit `Phi`s, rename them with `IPhi` and same for any other occurences
 *)
 
@@ -40,7 +39,7 @@ Declare Scope class_notation.
 
 Module Experimental.
   (* ATTEMPT 1 *)
-  (* TODO: design a dependent type version of Class to contain the information *)
+  (* Idea: design a dependent type version of Class to contain the information *)
 
   (* ATTEMPT 2 - we only demonstrate the idea because it's not very different
     from using inductive types on this purpose *)
@@ -51,7 +50,9 @@ Module Experimental.
     }.
   End ClassRecord.
 
-  (* ATTEMPT 3 *)
+  (* ATTEMPT 3: Inductive type def. The advantage of this definition is that 
+  it provides better composision, but defs in Principia are exactly defined
+  in such an uncomposinional way *)
   Inductive ClassInductive :=
     | classind_mk (Phi : Prop -> Prop) 
   .
@@ -70,35 +71,24 @@ Module Experimental.
     : Prop.
   Admitted.
 
+  (* Notice hoe we can reuse the definition of `classind_ mk` *)
   Notation "[ '^ind' cls @ classname => Bf ]" := 
     (let '(classind_mk Phi) := cls in
       (classind_app Phi (fun (classname : Prop -> Prop) => Bf)))
     (at level 150, classname binder, right associativity).
-
 End Experimental.
 
-(* Class determined by *function* Phi...is this definition correct? *)
+(* Class determined by *function* Phi...is this definition correct? I am so confused
+  about when should we use `function`s or `predicate`s *)
 Definition Class {A : Type} (Phi : A -> Prop) : Type := Prop -> Prop.
 Example class_example := Class (fun (x : Prop) => x = x).
 (* An example to show that this definition doesn't strictly distinguish
 between different functions *)
-Example class_eq (Phi Psi : Prop -> Prop) : Class Phi = Class Psi.
+Example class_eq_example (Phi Psi : Prop -> Prop) : Class Phi = Class Psi.
 Proof. reflexivity. Qed.
 
 Definition class_mk {A : Type} (Phi : A -> Prop) : Prop. Admitted.
 Example class_mk_example := class_mk (fun (x : Prop) => x = x).
-
-Open Scope class_notation.
-
-(* Notation "[ ^ z => B ]" := (fun z => B) *)
-Notation "[ ^ z => B ]" := (class_mk (fun z => B))
-  (at level 130, z binder, right associativity): class_notation.
-Example class_mk_example1 := [^ (z : Prop) => z = z].
-Example class_mk_example2 := [^ (z : Prop -> Prop) => z = z].
-Example class_mk_example3 := [^ (z : (Prop -> Prop) -> (Prop -> Prop)) 
-  => z = z].
-Example class_mk_example4 := [^ (z : Prop -> Prop) => 
-  [^ (x : ((Prop -> Prop) -> (Prop -> Prop))) => x z = x z]].
 
 (* 
 Note that we are utilizing the fact that `f` can be both a function
@@ -114,6 +104,27 @@ Admitted.
 Example class_app_example := class_app (fun (x : Prop) => x = x)
   (fun p => p = p).
 
+(* We can gradually see that by following Principia's way to define the 
+things, despite the annoying writing style, `in` is really the first 
+operator for classes. As further examples, `=` is allowed on classes,
+while `/\` seems not to be(?) *)
+Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop.
+Admitted.
+
+Definition Cls : Prop. Admitted.
+
+Open Scope class_notation.
+
+(* Notation "[ ^ z => B ]" := (fun z => B) *)
+Notation "[ ^ z => B ]" := (class_mk (fun z => B))
+  (at level 130, z binder, right associativity): class_notation.
+Example class_mk_example1 := [^ (z : Prop) => z = z].
+Example class_mk_example2 := [^ (z : Prop -> Prop) => z = z].
+Example class_mk_example3 := [^ (z : (Prop -> Prop) -> (Prop -> Prop)) 
+  => z = z].
+Example class_mk_example4 := [^ (z : Prop -> Prop) => 
+  [^ (x : ((Prop -> Prop) -> (Prop -> Prop))) => x z = x z]].
+
 (* This kind of representation suffers a lack of compositional property,
 with the inductive type demonstrated above as a counter example. By which
 I mean, we cannot reuse the definition for just a class, but we have to 
@@ -122,7 +133,7 @@ I think this is what exactly the book is telling us *)
 Notation "[ ^ z => B1 @ classname => Bf ]" := 
   (let class_func := (fun z => B1) in
     (class_app class_func (fun (classname : Class class_func) => Bf)))
-  (at level 130, z binder, classname binder, right associativity).
+  (at level 130, z binder, classname binder, right associativity) : class_notation.
 Example class_app_example1 : Prop := [^ (z : Prop) => z = z @ cz => cz = cz].
 Example class_app_example2 : Prop := [^ (z : Prop -> Prop) => z = z @ cz => cz = cz].
 Example class_app_example3 : Prop := [^ (z : (Prop -> Prop) -> Prop) => 
@@ -132,93 +143,15 @@ Example class_app_example4 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
 Example class_app_example5 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
   [^ (z2 : Prop) => z2 = z2 @ cz2 => cz1 = cz2 ]].
 
-Open Scope single_app_equiv.
-
-(* NOTE: return type of `class_app` should be not just a Prop, as it allows
-malign usage on other theorems. What should be the return type of `class_app`? *)
-
-(* So far, `f` as a random function to be applied a class parameter, has 
-  been allowed for 3 parameter "types"(not Principia type):
-  - a type of a Class parameter
-  - a type of a normal function
-  - maybe a type of a predicate, appeared in the `exists` subexp
-  Such ambiguity seems to be deliberately designed even in the Principia
-  itself, and the untyped part of the rewriting system seems to serve as
-  a way to escape all the restrictions and define what is the "least 
-  acceptable type"
-  Or, it is just a nature manifested from our formalization, and we will
-  need to design a "type transformer" for this...
-  I'm pretty sure Axiom of Reducibility given such practical usage should
-  be really and actually a problem of PLT
-*)
-Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
-  ([^ z => Psi z @ zPsi => f zPsi])
-  = (exists Phi : Predicate 1, (Phi x <[- x -]> Psi x) /\ f Phi).
-
-(* We can gradually see that by following Principia's way to define the 
-things, despite the annoying writing style, `in` is really the first 
-operator for classes. As further examples, `=` is allowed on classes,
-while `/\` seems not to be(?) *)
-(* NOTE: only use `A` if necessary *)
-Definition class_in (X : Prop) (Phi : Prop -> Prop) : Prop.
-Admitted.
-
 (* Note: this is just the special notation said to be used for *20.02 
   solely *)
 Notation "[ x '<class_in>' Phi ]" := (class_in x Phi)
-  (at level 200, x name, right associativity).
+  (at level 200, x name, right associativity) : class_notation.
+Example class_in_example (x : Prop) := [x <class_in> (fun x => x = x)].
 
 Notation "[ x '<class_in>' ^ classname => B ]" := (class_in x (fun classname => B))
-  (at level 200, x name, classname binder, right associativity).
-
-Example class_in_example (x : Prop) := [x <class_in> (fun x => x = x)].
+  (at level 200, x name, classname binder, right associativity) : class_notation.
 Example class_in_expanded_example (x : Prop) := [x <class_in> ^ c => c = c].
-
-(* We don't know if Phi should be a predicate or a function *)
-Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
-  [X <class_in> Phi] = Phi X.
-
-Definition Cls : Prop. Admitted.
-
-(* cf. p.188: The definition of `Cls` is also a "partial definition" and
-should be considered in specific context. It turns out that partial 
-definitions can be brilliantly modeled with the notation system in Rocq
-Also: "we have merely defined certain *uses* of such expressions..."
-we can see explicitly that for all definitions in Principia it is allowed
-to add more "uses" to the expressioins whenever we want 
-*)
-(* NOTE: we restrict the `Phi` to `Prop -> Prop` at the moment. `A` polymorphism
-should be used with care in the future... *)
-Definition n20_03 (Phi : Prop -> Prop) :=
-  Cls = ([^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
-    [^ z => Phi z @ zPhiz => alpha = zPhiz ])]).
-
-(* We won't define notation for *20.04 because I think it is unnecessary. *)
-Definition n20_04 {A : Type} {Phi : A -> Prop} (X Y : Prop) (alpha : Class Phi) :
-  [X <class_in> alpha] /\ [Y <class_in> alpha] = [X <class_in> alpha] /\ [Y <class_in> alpha].
-Admitted.
-
-Definition n20_05 {A : Type} {Phi : A -> Prop} (X Y Z : Prop) (alpha : Class Phi) :
-  ([X <class_in> alpha] /\ [Y <class_in> alpha]) /\ [Z <class_in> alpha] 
-  = ([X <class_in> alpha] /\ [Y <class_in> alpha]) /\ [Z <class_in> alpha].
-Admitted.
-
-Definition n20_06 {A : Type} {Phi : A -> Prop} (X : Prop) (alpha : Class Phi) :
-  (~ [X <class_in> alpha]) = (~ [X <class_in> alpha]).
-Admitted.
-
-(* Fortunately, we don't have to define extra definitions separately for existing
-symbols applying on classes. Turns out that our notation essentially expressed such 
-things... *)
-Definition n20_07 {A : Type} {Psi : A -> Prop} (X : Prop) (f : (Prop -> Prop) -> Prop) :
-  forall (alpha : Class Psi), [^ z => alpha z @ calpha => f calpha]
-  = forall Phi : Predicate 1, [^ z => Phi z @ cPhi => f Phi].
-Admitted.
-
-Definition n20_071 {A : Type} {Psi : A -> Prop} (X : Prop) (f : (Prop -> Prop) -> Prop) :
-  exists (alpha : Class Psi), [^ z => alpha z @ calpha => f calpha]
-  = exists Phi : Predicate 1, [^ z => Phi z @ cPhi => f Phi].
-Admitted.
 
 (* EXPERIMENTAL: below is a copy of definitions from ch14 modified so that it supports 
   polymorphic type. It if works in the future, we will have to mitigrate these defs and 
@@ -266,7 +199,72 @@ Example debug_iota2_example :=
   (at level 200, x binder, y binder, right associativity) : debug_iota_description. *)
 
 Close Scope debug_iota_description_poly.
-  
+
+
+Open Scope single_app_equiv.
+
+(* So far, `f` as a random function to be applied a class parameter, has 
+  been allowed for 3 parameter "types"(not Principia type):
+  - a type of a Class parameter
+  - a type of a normal function
+  - maybe a type of a predicate, appeared in the `exists` subexp
+  Such ambiguity seems to be deliberately designed even in the Principia
+  itself, and the untyped part of the rewriting system seems to serve as
+  a way to escape all the restrictions and define what is the "least 
+  acceptable type"
+  Or, it is just a nature manifested from our formalization, and we will
+  need to design a "type transformer" for this...
+  I'm pretty sure Axiom of Reducibility given such practical usage should
+  be really and actually a problem of PLT
+*)
+Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
+  ([^ z => Psi z @ zPsi => f zPsi])
+  = (exists Phi : Predicate 1, (Phi x <[- x -]> Psi x) /\ f Phi).
+
+(* We don't know if Phi should be a predicate or a function *)
+Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
+  [X <class_in> Phi] = Phi X.
+
+(* cf. p.188: The definition of `Cls` is also a "partial definition" and
+should be considered in specific context. It turns out that partial 
+definitions can be brilliantly modeled with the notation system in Rocq
+Also: "we have merely defined certain *uses* of such expressions..."
+we can see explicitly that for all definitions in Principia it is allowed
+to add more "uses" to the expressioins whenever we want 
+*)
+(* NOTE: we restrict the `Phi` to `Prop -> Prop` at the moment. `A` polymorphism
+should be used with care in the future... *)
+Definition n20_03 (Phi : Prop -> Prop) :=
+  Cls = ([^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
+    [^ z => Phi z @ zPhiz => alpha = zPhiz ])]).
+
+(* We won't define notation for *20.04 because I think it is unnecessary. *)
+Definition n20_04 {A : Type} {Phi : A -> Prop} (X Y : Prop) (alpha : Class Phi) :
+  [X <class_in> alpha] /\ [Y <class_in> alpha] = [X <class_in> alpha] /\ [Y <class_in> alpha].
+Admitted.
+
+Definition n20_05 {A : Type} {Phi : A -> Prop} (X Y Z : Prop) (alpha : Class Phi) :
+  ([X <class_in> alpha] /\ [Y <class_in> alpha]) /\ [Z <class_in> alpha] 
+  = ([X <class_in> alpha] /\ [Y <class_in> alpha]) /\ [Z <class_in> alpha].
+Admitted.
+
+Definition n20_06 {A : Type} {Phi : A -> Prop} (X : Prop) (alpha : Class Phi) :
+  (~ [X <class_in> alpha]) = (~ [X <class_in> alpha]).
+Admitted.
+
+(* Fortunately, we don't have to define extra definitions separately for existing
+symbols applying on classes. Turns out that our notation essentially expressed such 
+things... *)
+Definition n20_07 {A : Type} {Psi : A -> Prop} (X : Prop) (f : (Prop -> Prop) -> Prop) :
+  forall (alpha : Class Psi), [^ z => alpha z @ calpha => f calpha]
+  = forall Phi : Predicate 1, [^ z => Phi z @ cPhi => f Phi].
+Admitted.
+
+Definition n20_071 {A : Type} {Psi : A -> Prop} (X : Prop) (f : (Prop -> Prop) -> Prop) :
+  exists (alpha : Class Psi), [^ z => alpha z @ calpha => f calpha]
+  = exists Phi : Predicate 1, [^ z => Phi z @ cPhi => f Phi].
+Admitted.
+
 Open Scope debug_iota_description_poly.
 
 (* The Phi here might need further investigation in the future *)
@@ -280,13 +278,24 @@ Admitted.
 Close Scope debug_iota_description_poly.
 
 (* Should we define notations for f applying on class? *)
-Definition n20_08 {A : Type} (Phi : A -> Prop) (alpha : Class Phi) (f : (Prop -> Prop) -> Prop)
-  : 
-  (* [^ alpha => Psi alpha @ calpha => f calpha] *)
-  Prop. Admitted.
-  (* [^ alpha => Psi alpha] *)
-  (* [^ alpha => Psi alpha @ calpha => f calpha] *)
+(* If we use the inductive type defs, here will be even better to express *)
+Definition n20_08 {A : Type} (Chi : A -> Prop) (alpha : Class Chi) (f : (Prop -> Prop) -> Prop)
+  (Psi : Class Chi -> Prop) : 
+  [^ (alpha : Class Chi) => Psi alpha @ calpha => f calpha]
+  (* It will be harder to see the nature of Phi being a predicate in this definition,
+  as the type of class and predicate interferes with each other, and we are not sure
+  if class can be considered as a predicate *)
+  = (exists (Phi : Class Chi -> Prop), (forall alpha : Class Chi,Psi alpha <-> Phi alpha) 
+  (* I guess the alpha here is also different from the alpha in `forall` *)
+    /\ ([^ (alpha : Class Chi) => Phi alpha @ calpha => f calpha])).
+Admitted.
 
+Definition n20_081 {A : Type} (Chi : A -> Prop) (alpha : Class Chi) (f : (Prop -> Prop) -> Prop)
+  (Psi : Class Chi -> Prop) :
+  [alpha <class_in> Psi] = Psi alpha.
+Admitted.
+
+(* **************** *)
 
 
 Close Scope single_app_equiv.
@@ -294,3 +303,4 @@ Close Scope single_app_impl.
 Close Scope double_app_equiv.
 Close Scope double_app_impl.
 Close Scope debug_iota_description_poly.
+Close Scope class_notation.
