@@ -40,6 +40,8 @@ NOTE:
   when we really need this we can search all occurences of Predicates to be adapted
 - For chapter 12, we might want to define an extra `Predicate2`. This should be implemented when
   necessary
+TODO: maybe in the future, checkout the definition for matrix and try to see if we can also integrate
+in a definition for matrix
 *)
 Fixpoint Predicate (n : nat) : Type :=
   match n with
