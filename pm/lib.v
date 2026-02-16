@@ -1,4 +1,4 @@
-(* PM.pm.lib - tools, libraries, and others to be used through the project *)
+(* PM.pm.lib - tools, libraries, notations(temporarily?), and others to be used through the project *)
 
 Require Import Unicode.Utf8.
 Require Import ClassicalFacts.
@@ -11,8 +11,6 @@ Export Classical_Prop.
 Export ClassicalFacts.
 Export PropExtensionality.
 Export String.
-
-(* TODO: redesign <[- x -]> in chapter 10, 11 and eliminate the repetitive definitions on them *)
 
 (* cf.p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
