@@ -10,6 +10,14 @@ Require Import PM.pm.ch12.
 Require Import PM.pm.ch13.
 Require Import PM.pm.ch14.
 
+(* TODO:
+- When starting eliminating the TODOs in this chapter, revisit the TODOs in previous chapters
+- When starting eliminating the TODOs, make a clear distinction between untyped functions 
+  represented as `A -> Prop` and Predicative functions
+- For implicit `Phi`s, rename them with `IPhi` and same for any other occurences(??)
+- Unify the convention for namings of class vaiables, by noticing things after `@`s
+*)
+
 (* 
 The class in this chapter has been discussed like pretty obscure. It is not being stated
 clearly like a structure, and instead, how is it defined is written *in the middle of 
@@ -31,11 +39,7 @@ by us to contain the necessary information for a symbol)? What will happen if a 
 uses another class?
 *)
 
-(* TODO: 
-- For implicit `Phi`s, rename them with `IPhi` and same for any other occurences
-*)
-
-Declare Scope class_notation.
+Declare Scope debug_class_notation.
 
 Module Experimental.
   (* ATTEMPT 1 *)
@@ -87,6 +91,8 @@ between different functions *)
 Example class_eq_example (Phi Psi : Prop -> Prop) : Class Phi = Class Psi.
 Proof. reflexivity. Qed.
 
+(* TODO: the return type of `class_mk` can be either `Prop` or `Class Phi`. It is 
+pretty unsure which should be the correct one *)
 Definition class_mk {A : Type} (Phi : A -> Prop) : Prop. Admitted.
 Example class_mk_example := class_mk (fun (x : Prop) => x = x).
 
@@ -113,17 +119,18 @@ Admitted.
 
 Definition Cls : Prop. Admitted.
 
-Open Scope class_notation.
+Open Scope debug_class_notation.
 
 (* Notation "[ ^ z => B ]" := (fun z => B) *)
 Notation "[ ^ z => B ]" := (class_mk (fun z => B))
-  (at level 130, z binder, right associativity): class_notation.
+  (at level 130, z binder, right associativity): debug_class_notation.
 Example class_mk_example1 := [^ (z : Prop) => z = z].
 Example class_mk_example2 := [^ (z : Prop -> Prop) => z = z].
 Example class_mk_example3 := [^ (z : (Prop -> Prop) -> (Prop -> Prop)) 
   => z = z].
 Example class_mk_example4 := [^ (z : Prop -> Prop) => 
   [^ (x : ((Prop -> Prop) -> (Prop -> Prop))) => x z = x z]].
+(* TODO: add an example for equality between 3 different classes  *)
 
 (* This kind of representation suffers a lack of compositional property,
 with the inductive type demonstrated above as a counter example. By which
@@ -133,7 +140,7 @@ I think this is what exactly the book is telling us *)
 Notation "[ ^ z => B1 @ classname => Bf ]" := 
   (let class_func := (fun z => B1) in
     (class_app class_func (fun (classname : Class class_func) => Bf)))
-  (at level 130, z binder, classname binder, right associativity) : class_notation.
+  (at level 130, z binder, classname binder, right associativity) : debug_class_notation.
 Example class_app_example1 : Prop := [^ (z : Prop) => z = z @ cz => cz = cz].
 Example class_app_example2 : Prop := [^ (z : Prop -> Prop) => z = z @ cz => cz = cz].
 Example class_app_example3 : Prop := [^ (z : (Prop -> Prop) -> Prop) => 
@@ -146,11 +153,11 @@ Example class_app_example5 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
 (* Note: this is just the special notation said to be used for *20.02 
   solely *)
 Notation "[ x '<class_in>' Phi ]" := (class_in x Phi)
-  (at level 200, x name, right associativity) : class_notation.
+  (at level 200, x name, right associativity) : debug_class_notation.
 Example class_in_example (x : Prop) := [x <class_in> (fun x => x = x)].
 
 Notation "[ x '<class_in>' ^ classname => B ]" := (class_in x (fun classname => B))
-  (at level 200, x name, classname binder, right associativity) : class_notation.
+  (at level 200, x name, classname binder, right associativity) : debug_class_notation.
 Example class_in_expanded_example (x : Prop) := [x <class_in> ^ c => c = c].
 
 (* EXPERIMENTAL: below is a copy of definitions from ch14 modified so that it supports 
@@ -304,24 +311,43 @@ Theorem n20_1 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
 Proof.
 Admitted.
 
-Theorem n20_11 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
-  
+Theorem n20_11 (Psi Chi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
+  (Psi x <[- x -]> Chi x) -> (([^z => Psi z @ cz => f cz]) 
+    <-> ([^z => Chi z @ cz => f cz])).
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_111 (f g : (Prop -> Prop) -> Prop) : 
+  (forall Phi : Predicate 1, f Phi <-> g Phi)
+  -> (forall Phi : Predicate 1, 
+    (([^z => Phi z @ cz => f cz]) <-> ([^z => Phi z @ cz => g cz]))).
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+(* TODO: `g` here cannot be `Predicate 1` and have to be `(Prop -> Prop) -> Prop`.
+  Investigate this in the future and design a better `Predicate` type. The original 
+  text is also indicate this clearly *)
+Theorem n20_112 (f : (Prop -> Prop) -> Prop) : exists g : (Prop -> Prop) -> Prop, 
+  forall Phi : Predicate 1, ([^z => Phi z @ cz => f cz]) <-> ([^z => Phi z @ cz => g cz]).
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+(* TODO: CHECK CH12 AXIOM OF REDUCIBILITY TO ENSURE THE CORRECT FORMALIZATION FOR THIS
+  THEOREM *)
+Theorem n20_12 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop): 
+  exists Phi : Predicate 1, (Phi x <[- x -]> Psi x) /\
+    (([^z => Psi z @ cz => f cz]) <-> ([^z => Phi z @ cz => f cz])).
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+(* TODO: investigate how this should be formalized and cf. definition of Cls *)
+Theorem n20_13 (Psi Chi : Prop -> Prop) : (Psi x <[- x -]> Chi x)
+  -> ([^z1 => Psi z1 @ cz1 => cz1 = ([^z2 => Chi z2 @ cz2 => cz2])]).
+
+(* 
+([^ z1 => (exists (Phi : Prop -> Prop), 
+    [^ z2 => Phi z2 @ zPhiz => z1 = zPhiz ])]).
+*)
 Proof.
 Admitted.
 
@@ -379,4 +405,4 @@ Close Scope single_app_impl.
 Close Scope double_app_equiv.
 Close Scope double_app_impl.
 Close Scope debug_iota_description_poly.
-Close Scope class_notation.
+Close Scope debug_class_notation.
