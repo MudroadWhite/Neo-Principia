@@ -60,7 +60,7 @@ merge with the definition of `Predicate`
 Definition Intro_individual (s : string) : Predicate 0. Admitted.
 
 (* EXPERIMENTAL: the predicate below serves merely just for "how an untyped function of PM should be
-defined in Rocq. Currently it is never used anywhere and only demonstrates an experimental idea *)
+defined in Rocq". Currently it is never used anywhere and only demonstrates an experimental idea *)
 Definition Intro_untyped {A : Type} (s : string) : A -> Prop. Admitted.
 
 (* **************** *)
