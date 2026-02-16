@@ -207,7 +207,7 @@ Example debug_iota2_example :=
 
 Close Scope debug_iota_description_poly.
 
-Open Scope single_app_equiv.
+Open Scope single_formal_equiv.
 
 (* So far, `f` as a random function to be applied a class parameter, has 
   been allowed for 3 parameter "types"(not Principia type):
@@ -400,9 +400,9 @@ Proof.
 Admitted.
 
 
-Close Scope single_app_equiv.
-Close Scope single_app_impl.
-Close Scope double_app_equiv.
-Close Scope double_app_impl.
+Close Scope single_formal_equiv.
+Close Scope single_formal_impl.
+Close Scope double_formal_equiv.
+Close Scope double_formal_impl.
 Close Scope debug_iota_description_poly.
 Close Scope debug_class_notation.
