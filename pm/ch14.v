@@ -14,7 +14,8 @@ Require Import Logic.FunctionalExtensionality.
 (* TODO:
 - fix all the `replace`s
 - fill in missing proofs
-- fix the notation conflict that Rocq arises, and refer to ch10&11 for a solution
+- fix the notation conflict that Rocq arises, and refer to ch10&11 for a solution. Focus on 
+  priority levels of the terms
 *)
 
 (* 
