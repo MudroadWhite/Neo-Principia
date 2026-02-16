@@ -2,6 +2,7 @@
 
 TODO: write a section about self-defined Rocq predicates and also address the naming convention
 TODO: variable naming conventions in self-defined notations should be put into `mechanics`
+TODO: Currently, self-defined notations should be written in each of the chapter, rather than aggregate them into `lib`, to prevent excessive warnings. After we have correctly defined the `formal_impl` and `formal_equiv` notations, we shall see if we can switch back to defining them all in the `lib` again
 
 ## 1. What's under this project?
 - `./docs/` provides all necessary documentation for the proofs.
