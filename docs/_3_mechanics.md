@@ -82,6 +82,7 @@ TODO: generalize formal props
 TODO: discuss the volatility for formalization; discuss how a function can be interpreted with different meanings
 
 ### Chapter 13
+TODO: just an identity; discuss how it might use definition in ch12; state the utilization of `pred` variants
 
 ### Chapter 14
 TODO: this is the last chapter where actual mechanics matters: the first chapter where we introduce *contextual definitions*, modeled with *notations* in Rocq. all future concept might be built either on normal or on contextual definitions, and they should be never interfere with the fundamentals for the rewriting system; but maybe in the future we might regard all the definitions as a whole and make a clearer distinction between the rewriting system, maybe until the presence of natural numbers
