@@ -23,12 +23,6 @@ Proof.
   split; try rewrite -> H; trivial.
 Qed.
 
-(* cf.p.51: To instantiate variables appeared in a propositional function, we use 
-the concept of "individual", designed as as wrapper just to tag an real variable. 
-This allows easy identification on them and they are free to be created everywhere *)
-Definition Individual (s : string) : Prop. Admitted.
-Example var_0 := Individual "x".
-
 (* cf.p.51: `!` notation *)
 (* 
 - `!` notation mostly declares the order of a matrix
@@ -43,22 +37,30 @@ Should we treat `!` as something being denotational just like the dot notations 
 (* **************** *)
 (* Chapter 13 *)
 (* **************** *)
-(* Unsatisfying: what we want to express is that Phi takes argument with the same type of `X` *)
-(* Here, n is supposed to be the order of the predicate *)
-(* Unset Automatic Proposition Inductives. *)
-(* Module Predicate.
-  Record t {n : nat} : Type := {
-    (* This `fix_param` seems to be mostly unused, and might be deleted in the future *)
-    fix_param (X : Prop) := fun (f' : Prop → Prop) => f' X;
-    fix_func (f : Prop → Prop) := fun (X' : Prop) => f X';
-  }.
-End Predicate. *)
-(* Just declares a function is a predicate of order n *)
-Definition Predicate (n : nat) : Type := (Prop → Prop).
-(* Experimental: Similar to `Individual`s, sometimes we need to introduce a predicate(?). Is it unnecessary? 
-NOTE: unless necessary, we should never use ANYTHING beyond `Predicate 1`. It is for convenience when we really
-need this we can search all occurences of Predicates to be adapted *)
+(* NOTE: NEW NOTATION THAT UNIFORMS PREDICATE AND INDIVIDUALS. IF IT WORKS, REORGANIZE ALL ABOVE
+IN THE FUTURE *)
+
+(* Chapter 13: a function, typed, of order `n`.
+NOTE: unless necessary, we should never use ANYTHING beyond `Predicate 1`. It is for convenience 
+when we really need this we can search all occurences of Predicates to be adapted
+*)
+Fixpoint Predicate (n : nat) : Type :=
+  match n with
+  | 0 => Prop
+  | (S m) => let A := Predicate m in (A -> Prop)
+  end.
+
+(* `Intro` Rocq predicates are used for introducing a term in the middle of the proof, which 
+is something specific for PM's proofs *)
 Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
+
+(* cf.p.51: To instantiate variables appeared in a propositional function, we use the concept 
+of "individual", designed as as wrapper just to tag an real variable. This allows easy identification 
+on them and they are free to be created everywhere.
+From chapter 13 it turns out that an individual is just a Predicate of type 0. So we just adopt and 
+merge with the definition of `Predicate`
+*)
+Definition Intro_individual (s : string) : Predicate 0. Admitted.
 
 (* An alternative version to support functions of 2 arguments
   To be uncommented when the notation is fixed *)
