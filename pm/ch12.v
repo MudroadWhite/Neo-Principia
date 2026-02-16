@@ -2,7 +2,6 @@ Require Import PM.pm.lib.
 Require Import PM.pm.ch10.
 Require Import PM.pm.ch11.
 
-Open Scope single_formal_equiv.
 Open Scope formal_equiv.
 
 (* 
@@ -54,5 +53,4 @@ End Experimental.
     ∃ f : Predicate2.t 1, (Phi x y) <[- x y -]> (f.(Predicate2.fix_func 1) x y fPsi).
 Admitted. *)
 
-Close Scope single_formal_equiv.
 Close Scope formal_equiv.

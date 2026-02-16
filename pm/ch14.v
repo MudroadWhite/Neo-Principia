@@ -39,6 +39,8 @@ Whether we can restrict the iotas to typed functions only is a future question.
 The definitions are being put into the `lib.v`. 
 *)
 
+Open Scope formal_equiv.
+
 Definition n10_1_pred (φ : Predicate 1 → Prop) (Y : Predicate 1) : 
   (∀ x, φ x) → φ Y.
 Admitted.
@@ -54,7 +56,6 @@ Definition n10_21_pred (φ : Predicate 1 → Prop) (P : Prop) :
 Admitted.
 
 Open Scope iota_description.
-Open Scope single_formal_equiv.
 
 Definition n14_01 (φ ψ : Prop → Prop) : 
   [ι φ | ιφ => ψ ιφ] 
@@ -193,7 +194,6 @@ Proof.
   now rewrite -> n14_04 in n14_111.
 Qed.
 
-Open Scope formal_equiv.
 Open Scope formal_impl.
 
 Theorem n14_12 (φ : Prop → Prop) : 
@@ -244,7 +244,7 @@ Proof.
     → ((φ x ∧ φ y) -[ x y ]> (x = y))).
   {
     pose proof (n10_11 B (fun b =>
-      φ x <[- x -]> x = b → (φ x ∧ φ y) -[ x y ]> (x = y))) as n10_11.
+      (φ x <[- x -]> (x = b)) → ((φ x ∧ φ y) -[ x y ]> (x = y)))) as n10_11.
     MP n10_11 S3.
     now rewrite -> n10_23 in n10_11.
   }
@@ -252,8 +252,6 @@ Proof.
   { now Syll S1 S4 S5. }
   exact S5.
 Qed.
-
-Close Scope formal_equiv.
 
 Theorem n14_121 (B C : Prop) (φ : Prop → Prop) : 
   ((φ x <[- x -]> x = B) ∧ (φ x <[- x -]> x = C))
@@ -296,8 +294,6 @@ Proof.
   }
   exact S3.
 Admitted.
-
-Open Scope single_formal_impl.
 
 Theorem n14_122 (B : Prop) (φ : Prop → Prop) :
   ((φ x <[- x -]> (x = B)) ↔ ((φ x -[ x ]> (x = B)) ∧ φ B))
@@ -359,9 +355,6 @@ Proof.
   }
   exact S8.
 Qed.
-
-Open Scope formal_equiv.
-Open Scope formal_impl.
 
 Theorem n14_123 (X Y : Prop) (φ : Prop → Prop → Prop) : 
   ((φ z w <[- z w -]> (z = X ∧ w = Y)) 
@@ -467,7 +460,7 @@ Proof.
       (φ X Y)) as Simp3_27.
     Syll n14_123l Simp3_27 Sy1.
     pose proof (n11_11 X Y (fun x y =>
-      φ z w <[- z w -]> z = x ∧ w = y → φ x y)) as n11_11.
+      (φ z w <[- z w -]> z = x ∧ w = y) → φ x y)) as n11_11.
     MP n11_11 Sy1.
     pose proof (n11_34 (fun x y => φ z w <[- z w -]> z = x ∧ w = y)
       φ) as n11_34.
@@ -920,9 +913,9 @@ Proof.
       ((φ x <[- x -]> x = X) ∧ χ x <[- x -]> x = Y)) as Fact3_45.
     MP Fact3_45 n14_121.
     pose proof (n11_11 X Y (fun a c =>
-        ((ψ x <[- x -]> x = a) ∧ ψ x <[- x -]> x = c)
-        ∧ (φ x <[- x -]> x = a) ∧ χ x <[- x -]> x = c
-      → a = c ∧ (φ x <[- x -]> x = a) ∧ χ x <[- x -]> x = c)) 
+        ((ψ x <[- x -]> x = a) ∧ (ψ x <[- x -]> x = c))
+        ∧ (φ x <[- x -]> x = a) ∧ (χ x <[- x -]> x = c)
+      → a = c ∧ (φ x <[- x -]> x = a) ∧ (χ x <[- x -]> x = c))) 
       as n11_11.
     MP n11_11 Fact3_45.
     pose proof (n11_34
@@ -1374,8 +1367,8 @@ Proof.
       rewrite -> n4_21 in S3_3.
       now setoid_rewrite -> n13_16 in S3_3 at 1.
     }
-    assert (C1 : ([ι φ | ιφ => ιφ = B] ↔ φ x <[- x -]> B = x)
-      ∧ (φ x <[- x -]> B = x ↔ [ι φ | ιφ => B = ιφ])).
+    assert (C1 : ([ι φ | ιφ => ιφ = B] ↔ (φ x <[- x -]> B = x))
+      ∧ ((φ x <[- x -]> B = x) ↔ [ι φ | ιφ => B = ιφ])).
     { clear S3_1. now Conj S3_2 S3_3 C1. }
     clear S2 S3_2 S3_3.
     now Conj S3_1 C1 S3.
@@ -1566,7 +1559,7 @@ Proof.
   assert (S3 : (∃ b, (φ x <[- x -]> (x = b))) 
     ↔ (∃ b, (φ x <[- x -]> (x = b)) ∧ φ b)).
   { 
-    pose proof (n10_11 B (fun b => φ x <[- x -]> x = b
+    pose proof (n10_11 B (fun b => (φ x <[- x -]> x = b)
       ↔ (φ x <[- x -]> x = b) ∧ φ b)) as n10_11.
     MP n10_11 S2.
     pose proof (n10_281 (fun b => φ x <[- x -]> x = b)
@@ -1938,8 +1931,8 @@ Proof.
   assert (S4 : (φ x <[- x -]> ψ x) -> ∀ b, (∀ x, φ x ↔ (x = b)) 
     ↔ (∀ x, ψ x ↔ (x = b))).
   {
-    pose proof (n10_11 B (fun b => φ x <[- x -]> ψ x 
-      -> (φ x <[- x -]> x = b ↔ ψ x <[- x -]> x = b))) as n10_11.
+    pose proof (n10_11 B (fun b => (φ x <[- x -]> ψ x) 
+      -> ((φ x <[- x -]> x = b) ↔ (ψ x <[- x -]> x = b)))) as n10_11.
     MP n10_11 S3.
     now rewrite -> n10_21 in n10_11.
   }
@@ -2429,8 +2422,6 @@ Proof.
   exact S3.
 Qed.
 
-Close Scope single_formal_equiv.
-Close Scope single_formal_impl.
 Close Scope formal_equiv.
 Close Scope formal_impl.
 Close Scope iota_description.
