@@ -9,6 +9,8 @@ Require Import PM.pm.ch9.
 (* TODO: 
 - slightly rewrite the introduction below
 - fix format for notations
+- Prove a special theorem: `(exists x, P x /\ Q x) -> (exists x, P x) /\ (exists x, Q x)`.
+  This will be used in later chapters...
 *)
 
 (* TODO: TYPE RESTRICTIONS
@@ -31,32 +33,32 @@ exist but don't.
 error that I cannot prove.
 *)
 
-Declare Scope single_app_impl.
-Declare Scope single_app_equiv.
+Declare Scope single_formal_impl.
+Declare Scope single_formal_equiv.
 
 (* This notations is due to Peano. cf. p.12 *)
 Notation " A -[ x : P ]> B " := (∀ (x : P), A → B)
   (at level 85, x name, right associativity,
   format " '[' A '/' '[ ' -[ x : P ]> ']' '/' B ']' ")
-  : single_app_impl.
+  : single_formal_impl.
 
-Open Scope single_app_impl.
-Open Scope single_app_equiv.
+Open Scope single_formal_impl.
+Open Scope single_formal_equiv.
 
 Notation " A -[ x ]> B " := ((A -[ x : Prop ]> B))
   (at level 80, x name, right associativity,
   format " A '/' '[ ' -[ x ]> ']' '/' B ")
-  : single_app_impl.
+  : single_formal_impl.
 
 Notation " A <[- x : P -]> B " := (∀ (x : P), A ↔ B)
   (at level 85, x name, right associativity,
   format " '[' A '/' '[ ' <[- x : P -]> ']' '/' B ']' ")
-  : single_app_equiv.
+  : single_formal_equiv.
 
 Notation " A <[- x -]> B " := (A <[- x : Prop -]> B)
   (at level 80, x name, right associativity,
   format " A '/' '[ ' <[- x -]> ']' '/' B ")
-  : single_app_equiv.
+  : single_formal_equiv.
 
 Definition n10_01 (φ : Prop → Prop) : 
   (∃ x, φ x) = ¬ (∀ x, ¬ φ x). Admitted.
@@ -120,7 +122,7 @@ Proof.
   (* TOOLS *)
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
     as Impl1_01a.
-  set (Y := Individual "y").
+  set (Y := Intro_individual "y").
   (* ******** *)
   assert (S1 : (P ∨ ∀ x, φ x) → P ∨ φ Y).
   {
@@ -165,7 +167,7 @@ Theorem n10_22 (φ ψ : Prop → Prop) :
   (∀ x, φ x ∧ ψ x) ↔ (∀ x, φ x) ∧ (∀ x, ψ x).
 Proof. 
   (* TOOLS *)
-  set (Y := Individual "y").
+  set (Y := Intro_individual "y").
   (* ******** *)
   assert (S1 : (∀ x, φ x ∧ ψ x) → φ Y ∧ ψ Y).
   { exact (n10_1 (fun x => φ x ∧ ψ x) Y). }
@@ -255,7 +257,7 @@ Theorem n10_23_alt (φ : Prop → Prop) (P : Prop) :
   (∀ x, φ x → P) ↔ ((∃ x, φ x) → P).
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : ((∃ x, φ x) → P) ↔ ((¬ P) → (∀ x, ¬ φ x))).
   {
@@ -361,7 +363,7 @@ Qed.
 
 Theorem n10_25 (φ : Prop → Prop) : (∀ x, φ x) → (∃ x, φ x).
 Proof.
-  set (Y := Individual "y").
+  set (Y := Intro_individual "y").
   pose proof (n10_1 φ Y) as n10_1.
   pose proof (n10_24 φ Y) as n10_24.
   now Syll n10_1 n10_24 S1.
@@ -401,8 +403,8 @@ Qed.
 Theorem n10_253_alt (φ : Prop → Prop) : (¬ (∀ x, φ x)) ↔ (∃ x, ¬ φ x).
 Proof.
   (* TOOLS *)
-  set (Y := Individual "y").
-  set (X := Individual "x").
+  set (Y := Intro_individual "y").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : (∀ x, φ x) → φ Y).
   { exact (n10_1 φ Y). }
@@ -473,7 +475,7 @@ Theorem n10_27 (φ ψ : Prop → Prop) :
   (∀ z, φ z → ψ z) → ((∀ z, φ z) → (∀ z, ψ z)).
 Proof.
   (* TOOLS *)
-  set (Y := Individual "y").
+  set (Y := Intro_individual "y").
   (* ******** *)
   assert (S1 : ((∀ z, φ z → ψ z) ∧ (∀ z, φ z)) → ((φ Y → ψ Y) ∧ φ Y)).
   { exact (n10_14 (fun z => φ z → ψ z) φ Y). }
@@ -571,7 +573,7 @@ Theorem n10_28 (φ ψ : Prop → Prop) :
   (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
 Proof.
   (* TOOLS *)
-  set (Y := Individual "y").
+  set (Y := Intro_individual "y").
   (* ******** *)
   assert (S1 : (∀ x, φ x → ψ x) → (φ Y → ψ Y)).
   { exact (n10_1 (fun x => φ x → ψ x) Y). }
@@ -658,7 +660,7 @@ Theorem n10_29 (φ ψ χ : Prop → Prop) :
   ((∀ x, φ x → ψ x) ∧ (∀ x, φ x → χ x)) ↔ (∀ x, φ x → (ψ x ∧ χ x)).
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : ((∀ x, φ x → ψ x) ∧ (∀ x, φ x → χ x)) 
     ↔ (∀ x, (φ x → ψ x) ∧ (φ x → χ x))).
@@ -710,7 +712,7 @@ Theorem n10_3 (φ ψ χ : Prop → Prop) :
   ((∀ x, φ x → ψ x) ∧ (∀ x, ψ x → χ x)) → ∀ x, φ x → χ x.
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   pose proof (n10_22 (fun x => φ x → ψ x) (fun x => ψ x → χ x)) 
     as n10_22a.
@@ -757,7 +759,7 @@ Theorem n10_301 (φ ψ χ : Prop → Prop) :
   (∀ x, φ x ↔ ψ x) ∧ (∀ x, ψ x ↔ χ x) → ∀ x, φ x ↔ χ x.
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : (∀ x, (φ x ↔ ψ x) ∧ (ψ x ↔ χ x))
     ↔ (∀ x, φ x ↔ ψ x) ∧ ∀ x, ψ x ↔ χ x).
@@ -784,7 +786,7 @@ Theorem n10_31 (φ ψ χ : Prop → Prop) :
   (∀ x, φ x → ψ x) → (∀ x, (φ x ∧ χ x) → (ψ x ∧ χ x)).
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : ∀ x, (φ x → ψ x) 
     → (φ x ∧ χ x) → (ψ x ∧ χ x)).
@@ -807,7 +809,7 @@ Theorem n10_311 (φ ψ χ : Prop → Prop) :
   (∀ x, φ x ↔ ψ x) → (∀ x, (φ x ∧ χ x) ↔ (ψ x ∧ χ x)).
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : ∀ x, (φ x ↔ ψ x) → ((φ x ∧ χ x) ↔ (ψ x ∧ χ x))).
   {
@@ -831,7 +833,7 @@ Proof.
   (* TOOLS *)
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)))
     as Equiv4_01a.
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : ((φ x) <[- x -]> (ψ x)) ↔
     ((φ x -[ x ]> ψ x) ∧ (ψ x -[ x ]> φ x))).
@@ -943,8 +945,8 @@ Theorem n10_33 (φ : Prop → Prop) (P : Prop) :
   (∀ x, φ x ∧ P) ↔ ((∀ x, φ x) ∧ P).
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
-  set (Y := Individual "y").
+  set (X := Intro_individual "x").
+  set (Y := Intro_individual "y").
   (* ******** *)
   assert (S1 : (∀ x, φ x ∧ P) → (φ Y ∧ P)).
   { exact (n10_1 (fun x => φ x ∧ P) Y). }
@@ -1033,7 +1035,7 @@ Theorem n10_35 (φ : Prop → Prop) (P : Prop) :
   (∃ x, P ∧ φ x) ↔ P ∧ (∃ x, φ x).
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : (P ∧ φ X) → P).
   { exact (Simp3_26 P (φ X)). }
@@ -1098,7 +1100,7 @@ Theorem n10_36 (φ : Prop → Prop) (P : Prop) :
   (∃ x, φ x ∨ P) ↔ (∃ x, φ x) ∨ P.
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : (φ X ∨ P) ↔ ((¬ φ X) → P)).
   {
@@ -1150,7 +1152,7 @@ Theorem n10_39 (φ ψ χ θ : Prop → Prop) :
   → (φ x ∧ ψ x) -[ x ]> (χ x ∧ θ x).
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : ((φ x -[ x ]> χ x) ∧ (ψ x -[ x ]> θ x))
     → (∀ x, (φ x → χ x) ∧ (ψ x → θ x))).
@@ -1274,7 +1276,7 @@ Theorem n10_41 (φ ψ : Prop → Prop) :
   (∀ x, φ x) ∨ (∀ x, ψ x) → (∀ x, φ x ∨ ψ x).
 Proof.
   (* TOOLS *)
-  set (Y := Individual "y").
+  set (Y := Intro_individual "y").
   (* ******** *)
   assert (S1 : (∀ x, φ x) → φ Y).
   { now apply n10_1. }
@@ -1325,7 +1327,7 @@ Theorem n10_411 (φ ψ χ θ : Prop → Prop) :
   → (φ x ∨ ψ x) <[- x -]> (χ x ∨ θ x).
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : ((φ x <[- x -]> χ x) ∧ ((ψ x <[- x -]> θ x)))
     → ((φ X ↔ χ X) ∧ (ψ X ↔ θ X))).
@@ -1360,7 +1362,7 @@ Qed.
 Theorem n10_412 (φ ψ : Prop → Prop) :
   (φ x <[- x -]> ψ x) ↔ (¬ φ x <[- x -]> ¬ ψ x).
 Proof.
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   pose proof (Transp4_11 (φ X) (ψ X)) as Transp4_11.
   pose proof (n10_11 X (fun x =>
     (φ x ↔ ψ x) ↔ (¬ φ x ↔ ¬ ψ x))) as n10_11.
@@ -1489,7 +1491,7 @@ Theorem n10_5 (φ ψ : Prop → Prop) :
   (∃ x, φ x ∧ ψ x) → ((∃ x, φ x) ∧ (∃ x, ψ x)).
 Proof. 
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : ∀ x, (φ x ∧ ψ x) → φ x).
   {
@@ -1560,7 +1562,7 @@ Theorem n10_53 (φ ψ : Prop → Prop) :
   ¬ (∃ x, φ x) → (φ x -[ x ]> ψ x).
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : ∀ x, (¬ φ x) → (φ x → ψ x)).
   {
@@ -1623,7 +1625,7 @@ Theorem n10_55 (φ ψ : Prop → Prop) :
   ↔ ((∃ x, φ x) ∧ (φ x -[ x ]> ψ x)).
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : (φ X → ψ X) → ((φ X ∧ ψ X) ↔ φ X)).
   {
@@ -1722,5 +1724,5 @@ Proof.
   exact S4.
 Admitted.
 
-Close Scope single_app_impl.
-Close Scope single_app_equiv.
+Close Scope single_formal_impl.
+Close Scope single_formal_equiv.
