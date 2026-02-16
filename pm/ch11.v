@@ -43,6 +43,7 @@ Notation "A '<[-' x .. y '-]>' B" := (forall x, .. (forall y, A <-> B) ..)
   format "'[ ' A '/' '[ ' <[- x .. y -]> ']' '/' B ']'") : formal_equiv.
 Example example_formal_equiv0 := (x = y) <[- (x y : Prop) -]> (y = x).
 
+(* ******** *)
 Definition n11_01 (φ : Prop → Prop → Prop) : 
   (∀ x y, (φ x y)) = (∀ x, ∀ y, φ x y).
 Admitted.
