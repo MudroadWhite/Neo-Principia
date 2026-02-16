@@ -10,7 +10,6 @@ Require Import PM.pm.ch12.
 
 (* 
 TODO: 
-- replace ~= with the /= unicode symbol
 - Investigate *1.7 and see if the rest of the missing proofs can be filled
 - Investigate support for `<[- x -]>`'s conversion to `↔ ∧ ↔`
 *)
