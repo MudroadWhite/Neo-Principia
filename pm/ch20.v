@@ -200,7 +200,6 @@ Example debug_iota2_example :=
 
 Close Scope debug_iota_description_poly.
 
-
 Open Scope single_app_equiv.
 
 (* So far, `f` as a random function to be applied a class parameter, has 
@@ -297,11 +296,16 @@ Admitted.
 
 (* **************** *)
 
-Theorem n20_1 : Prop.
+(* As always, whether we should use `Predicate 1` or `Predicate n` here is still pretty much 
+  unspecified *)
+Theorem n20_1 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
+  ([^ (z : Prop) => Psi z @ zPsi => f zPsi]) = exists Phi : Predicate 1, 
+    (Phi x <[- x -]> Psi x) /\ f Phi.
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_11 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
+  
 Proof.
 Admitted.
 
