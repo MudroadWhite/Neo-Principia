@@ -5,7 +5,8 @@ We are building:
 - [x] Chapter 11 - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
 - [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
 - [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
-- [ ] \[WIP\]Chapter 14 - The `iota` operator for descriptions, a predicate `iota_E` for its *existence* statement. Theorems on them.
+- [x] Chapter 14 - Notation `ι` of the descriptions. Theorems on them.
+- [ ] \[WIP\]Chapter 20 - Notation on class, and theorems of classes.
 
 We now proceed to explain how everything is built up, bottom-up, in Principia.
 
@@ -23,6 +24,8 @@ Principia designs its theorems in a **"practical way"**. Theorems in chapter 10 
 Principia performs everything **one step at a time**. This automatically means functions in Principia are always "small-step". We don't need to concern things like free vs bounded variables to eliminate the ambiguity, because deduction takes one step at a time, and only when a guaranteed/hand-crafted candidate exist. Functions don't come with a scope, and an ad-hoc "scope" is defined for auxiliary purpose orthogonal to functions. See chapter 14 below.
 
 During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
+
+TODO: check ch1, 1.7....
 
 ----------------
 

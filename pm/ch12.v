@@ -2,8 +2,8 @@ Require Import PM.pm.lib.
 Require Import PM.pm.ch10.
 Require Import PM.pm.ch11.
 
-Open Scope single_app_equiv.
-Open Scope double_app_equiv.
+Open Scope single_formal_equiv.
+Open Scope formal_equiv.
 
 (* 
 Starting from chapter 12, every variables being quantified at the rhs has to be
@@ -17,8 +17,10 @@ here has been working differently to `Phi x` and `f x`: `x` is a parameter for
 `Phi` but it is fixed for `f`, and `f` is actually the "parameter".
 *)
 
-Definition n12_1 (n : nat) (φ : Prop → Prop) : 
-  ∃ f : (Predicate n), (φ x) <[- x -]> ((fun (F : Predicate n) =>
+(* We're currently limiting `Predicate n` to `Predicate 1` only. Extending this to
+n is a future question that involves design the type of `X` correctly *)
+Definition n12_1 (φ : Prop → Prop) : 
+  ∃ f : (Predicate 1), (φ x) <[- x -]> ((fun (F : Predicate 1) =>
     F x) f).
 Admitted.
 
@@ -38,12 +40,12 @@ Module Experimental.
   the older theorems in another way (see `_pred`-suffixed theorems in later chapter)
   and it shouldn't be written in formula
   *)
-  Definition fix_param (n : nat) (X : Prop) := fun (F : Predicate n) => F X.
+  (* Definition fix_param (n : nat) (X : Prop) := fun (F : Predicate n) => F X. *)
 
-  Definition e12_1 (n : nat) (s : string) (Phi : Prop → Prop) (X : Prop) :
+  (* Definition e12_1 (n : nat) (s : string) (Phi : Prop → Prop) (X : Prop) :
     let f := Intro_pred s n in
     (Phi = f) ∧ (Phi X ↔ (fix_param n X) f).
-  Admitted.
+  Admitted. *)
 End Experimental.
 
 (* To be uncommented *)
@@ -52,5 +54,5 @@ End Experimental.
     ∃ f : Predicate2.t 1, (Phi x y) <[- x y -]> (f.(Predicate2.fix_func 1) x y fPsi).
 Admitted. *)
 
-Close Scope single_app_equiv.
-Close Scope double_app_equiv.
+Close Scope single_formal_equiv.
+Close Scope formal_equiv.

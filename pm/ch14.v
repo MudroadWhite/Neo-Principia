@@ -148,7 +148,7 @@ Definition n10_21_pred (φ : Predicate 1 → Prop) (P : Prop) :
 Admitted.
 
 Open Scope iota_description.
-Open Scope single_app_equiv.
+Open Scope single_formal_equiv.
 
 Definition n14_01 (φ ψ : Prop → Prop) : 
   [ι φ | ιφ => ψ ιφ] 
@@ -287,15 +287,15 @@ Proof.
   now rewrite -> n14_04 in n14_111.
 Qed.
 
-Open Scope double_app_equiv.
-Open Scope double_app_impl.
+Open Scope formal_equiv.
+Open Scope formal_impl.
 
 Theorem n14_12 (φ : Prop → Prop) : 
   [ιE φ] → ((φ x ∧ φ y) -[ x y ]> (x = y)).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
-  set (X := Individual "x").
+  set (B := Intro_individual "b").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : [ιE φ] → ∃ b, φ x <[- x -]> x = b).
   {
@@ -347,7 +347,7 @@ Proof.
   exact S5.
 Qed.
 
-Close Scope double_app_equiv.
+Close Scope formal_equiv.
 
 Theorem n14_121 (B C : Prop) (φ : Prop → Prop) : 
   ((φ x <[- x -]> x = B) ∧ (φ x <[- x -]> x = C))
@@ -391,7 +391,7 @@ Proof.
   exact S3.
 Admitted.
 
-Open Scope single_app_impl.
+Open Scope single_formal_impl.
 
 Theorem n14_122 (B : Prop) (φ : Prop → Prop) :
   ((φ x <[- x -]> (x = B)) ↔ ((φ x -[ x ]> (x = B)) ∧ φ B))
@@ -399,7 +399,7 @@ Theorem n14_122 (B : Prop) (φ : Prop → Prop) :
   (((φ x -[ x ]> (x = B)) ∧ φ B) ↔ ((φ x -[ x ]> (x = B)) ∧ ∃ x, φ x)). 
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B)) 
     ↔ ((φ x -[ x ]> (x = B)) ∧ ((x = B) -[ x ]> φ x))).
@@ -454,8 +454,8 @@ Proof.
   exact S8.
 Qed.
 
-Open Scope double_app_equiv.
-Open Scope double_app_impl.
+Open Scope formal_equiv.
+Open Scope formal_impl.
 
 Theorem n14_123 (X Y : Prop) (φ : Prop → Prop → Prop) : 
   ((φ z w <[- z w -]> (z = X ∧ w = Y)) 
@@ -465,8 +465,8 @@ Theorem n14_123 (X Y : Prop) (φ : Prop → Prop → Prop) :
     ↔ ((φ z w -[ z w ]> (z = X ∧ w = Y)) ∧ ∃ z w, φ z w)).
 Proof.
   (* TOOLS *)
-  set (Z := Individual "z").
-  set (W := Individual "w").
+  set (Z := Intro_individual "z").
+  set (W := Intro_individual "w").
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
     (Equiv4_01 P0 Q0)) as Equiv4_01a.
   (* ******** *)
@@ -543,12 +543,12 @@ Theorem n14_124 (φ : Prop → Prop → Prop) :
     ∧ ∀ z w u v, (φ z w ∧ φ u v) → (z = u ∧ w = v)). 
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
-  set (Y := Individual "y").
-  set (Z := Individual "z").
-  set (W := Individual "w").
-  set (U := Individual "u").
-  set (V := Individual "v").
+  set (X := Intro_individual "x").
+  set (Y := Intro_individual "y").
+  set (Z := Intro_individual "z").
+  set (W := Intro_individual "w").
+  set (U := Intro_individual "u").
+  set (V := Intro_individual "v").
   (* ******** *)
   assert (S1 : (∃ x y, (φ z w <[- z w -]> (z = x ∧ w = y)))
     → ∃ x y, φ x y).
@@ -731,7 +731,7 @@ Theorem n14_13 (A : Prop) (φ : Prop → Prop) :
   [ι φ | ιφ => A = ιφ] ↔ [ι φ | ιφ => ιφ = A].
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : [ι φ | ιφ => A = ιφ]
     ↔ (∃ b, (φ x <[- x -]> (x = b)) ∧ A = b)).
@@ -922,8 +922,8 @@ Theorem n14_144 (φ ψ χ : Prop → Prop) :
   → [ι2 φ, χ | ιφ ιχ => ιφ = ιχ].
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
-  set (Y := Individual "y").
+  set (X := Intro_individual "x").
+  set (Y := Intro_individual "y").
   (* ******** *)
   assert (S1 : ([ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
       ∧ [ι2 ψ, χ | ιψ ιχ => ιψ = ιχ])
@@ -1128,7 +1128,7 @@ Theorem n14_16 (φ ψ χ : Prop → Prop) :
   → ([ι φ | ιφ => χ ιφ] ↔ [ι ψ | ιψ => χ ιψ]).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]
     → ∃ b, (φ x <[- x -]> (x = b)) ∧ [ι ψ | ιψ => b = ιψ]).
@@ -1192,7 +1192,7 @@ Theorem n14_17 (B : Prop) (φ : Prop → Prop) :
 Proof.
   (* TOOLS *)
   set (Iχ := Intro_pred "χ" 1).
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : [ι φ | ιφ => ιφ = B]
     → ∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ ] ↔ ψ B).
@@ -1273,7 +1273,7 @@ Proof.
   }
   assert (S5 : ∃ χ : Predicate 1, χ x <[- x -]> (x = B)).
   {
-    pose proof (n12_1 1 (fun x => x = B)) as n12_1.
+    pose proof (n12_1 (fun x => x = B)) as n12_1.
     now setoid_rewrite -> n4_21 in n12_1.
   }
   assert (S6 : (∀ ψ : Predicate 1, 
@@ -1331,7 +1331,7 @@ Theorem n14_18 (φ ψ : Prop → Prop) :
   [ιE φ] → ((∀ x, ψ x) → [ι φ | ιφ => ψ ιφ]).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (∀ x, ψ x) → ψ B).
   { apply n10_1. }
@@ -1378,7 +1378,7 @@ Theorem n14_2 (A : Prop)  :
   [ι (fun x => x = A) | ι1 => ι1 = A].
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : [ι (fun x => x = A) | ι1 => ι1 = A]
     ↔ (∃ b, ((x = A) <[- x -]> (x = b)) ∧ (b = A))).
@@ -1404,8 +1404,8 @@ Qed.
 Theorem n14_201 (φ : Prop → Prop) : [ιE φ] → ∃ x, φ x. 
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
-  set (B := Individual "b").
+  set (X := Intro_individual "x").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : [ιE φ] -> ∃ b, (φ x <[- x -]> (x = b))).
   { apply n14_11. }
@@ -1479,8 +1479,8 @@ Theorem n14_203 (φ : Prop → Prop) : [ιE φ]
   ↔ ((∃ x, φ x) ∧ ((φ x ∧ φ y)) -[ x y ]> (x = y)).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
-  set (X := Individual "x").
+  set (B := Intro_individual "b").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : [ιE φ] -> ((∃ x, φ x) 
     ∧ (φ x ∧ φ y) -[ x y ]> (x = y))).
@@ -1607,7 +1607,7 @@ Qed.
 Theorem n14_205 (φ ψ : Prop → Prop) : [ι φ | ιφ => ψ ιφ]
   ↔ ∃ b, [ι φ | ιφ => b = ιφ] ∧ ψ b.
 Proof.
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   pose proof (n14_202 B φ) as n14_202.
   destruct n14_202 as [_ n14_202r].
   destruct n14_202r as [_ n14_202rr].
@@ -1648,7 +1648,7 @@ Qed.
 Theorem n14_22 (φ : Prop → Prop) : [ιE φ] ↔ [ι φ | ιφ => φ ιφ].
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B)) -> φ B).
   { apply n14_122. }
@@ -1731,8 +1731,8 @@ Theorem n14_241 (φ : Prop → Prop) : [ιE φ]
   → (φ y <[- y -]> [ι φ | ιφ => y = ιφ]).
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
-  set (Y := Individual "y").
+  set (X := Intro_individual "x").
+  set (Y := Intro_individual "y").
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
     (Equiv4_01 P0 Q0))
   as Equiv4_01a.
@@ -1822,8 +1822,8 @@ Theorem n14_25 (φ ψ : Prop → Prop) : [ιE φ ]
   → ((φ x -[ x ]> ψ x) ↔ [ι φ | ιφ => ψ ιφ]).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
-  set (X := Individual "x").
+  set (B := Intro_individual "b").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B)) -> ((φ x -[ x ]> ψ x)
     ↔ ((x = B) -[ x ]> ψ x))).
@@ -1872,7 +1872,7 @@ Theorem n14_26 (φ ψ : Prop → Prop) : [ιE φ]
     ∧ ([ι φ | ιφ => ψ ιφ] ↔ (φ x -[ x ]> ψ x)).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : [ιE φ] -> ∃ b, φ x <[- x -]> (x = b)).
   { apply n14_11. }
@@ -1930,8 +1930,8 @@ Theorem n14_27 (φ ψ : Prop → Prop) : [ιE φ]
     [ι φ | ιφ => [ι ψ | ιψ => ιφ = ιψ]]).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
-  set (X := Individual "x").
+  set (B := Intro_individual "b").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : (φ X ↔ (X = B)) 
     -> ((φ X ↔ ψ X) ↔ (ψ X ↔ (X = B)))).
@@ -2001,8 +2001,8 @@ Theorem n14_271 (φ ψ : Prop → Prop) : (φ x <[- x -]> ψ x)
   → ([ιE φ] ↔ [ιE ψ]).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
-  set (X := Individual "x").
+  set (B := Intro_individual "b").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : (φ X ↔ ψ X) -> ((φ X ↔ (X = B)) 
     ↔ (ψ X ↔ (X = B)))).
@@ -2051,8 +2051,8 @@ Theorem n14_272 (φ ψ χ : Prop → Prop) : (φ x <[- x -]> ψ x)
   → [ι φ | ιφ => χ ιφ ] ↔ [ι ψ | ιψ => χ ιψ].
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
-  set (X := Individual "x").
+  set (B := Intro_individual "b").
+  set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : (φ X ↔ ψ X) -> ((φ X ↔ (X = B)) ↔ (ψ X ↔ (X = B)))).
   { apply n4_86. }
@@ -2126,7 +2126,7 @@ Theorem n14_28 (φ : Prop → Prop) : [ιE φ]
   ↔ [ι φ | ιφ => ιφ = ιφ].
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B)) ↔ ((φ x <[- x -]> (x = B))
     ∧ (B = B))).
@@ -2158,7 +2158,7 @@ Theorem n14_3 (φ χ f : Prop → Prop) :
     ↔ [ι φ | ιφ => (f (χ ιφ))]).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
     -> ([ι φ | ιφ => χ ιφ] ↔ χ B)).
@@ -2221,7 +2221,7 @@ Theorem n14_31 (P : Prop) (φ χ : Prop → Prop) : [ιE φ]
     ↔ P ∨ [ι φ | ιφ => χ ιφ]).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
     -> ([ι φ | ιφ => P ∨ χ ιφ] ↔ (P ∨ χ B))).
@@ -2271,7 +2271,7 @@ Theorem n14_32 (φ χ : Prop → Prop) : [ιE φ]
   ↔ ([ι φ | ιφ => ~ χ ιφ] ↔ ~ [ι φ | ιφ => χ ιφ]).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
     -> ([ι φ | ιφ => ~ χ ιφ] ↔ ~ χ B)).
@@ -2334,7 +2334,7 @@ Theorem n14_33 (P : Prop) (φ χ : Prop → Prop) : [ιE φ]
     ↔ (P → [ι φ | ιφ => χ ιφ])).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
     -> ([ι φ | ιφ => P → χ ιφ] ↔ (P -> χ B))).
@@ -2387,7 +2387,7 @@ Theorem n14_331 (P : Prop) (φ χ : Prop → Prop) : [ιE φ]
     ↔ [ι φ | ιφ => χ ιφ → P]).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
     -> ([ι φ | ιφ => χ ιφ → P] ↔ (χ B -> P))).
@@ -2444,7 +2444,7 @@ Theorem n14_332 (P : Prop) (φ χ : Prop → Prop) : [ιE φ]
     ↔ (P ↔ [ι φ | ιφ => χ ιφ])).
 Proof.
   (* TOOLS *)
-  set (B := Individual "b").
+  set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
     -> ([ι φ | ιφ => P ↔ χ ιφ] ↔ (P ↔ χ B))).
@@ -2521,8 +2521,8 @@ Proof.
   exact S3.
 Qed.
 
-Close Scope single_app_equiv.
-Close Scope single_app_impl.
-Close Scope double_app_equiv.
-Close Scope double_app_impl.
+Close Scope single_formal_equiv.
+Close Scope single_formal_impl.
+Close Scope formal_equiv.
+Close Scope formal_impl.
 Close Scope iota_description.
