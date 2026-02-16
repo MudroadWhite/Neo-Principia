@@ -51,12 +51,12 @@ TODO: setoid_rewrite is being introduced exactly because of the difficulty on wr
 ### Chapter 13
 **Coverage: x** to be calculated; state failed proofs
 
-**General.** TODO: use theorem variants, might have something to be done with ch12; Are the `!` functions untyped, or they come strictly with a `Predicate` type?? `iota` can have different interpretation, and the default notation in PM didn't make a clear distinction. Despite its seemingly negligible nature, some incomplete proof still stuck exactly because of it
+**General.** TODO: use theorem variants, might have something to be done with ch12; Are the `!` functions untyped, or they come strictly with a `Predicate` type??
 
 ### Chapter 14
 **Coverage: x** to be calculated; n13_15; ADDITIONAL THEOREMS MISSED AND NEEDED;
 
-**General.** TODO: higher requirements for notations; discuss how Dfs in Principia might share the same nature as Rocq notations; how n12_01 applies is mentioned in the text but unclear in the code; exmaple showing that function doesn't necessarily quantify over all individuals of a same kind at once
+**General.** TODO: higher requirements for notations; discuss how Dfs in Principia might share the same nature as Rocq notations; how n12_01 applies is mentioned in the text but unclear in the code; exmaple showing that function doesn't necessarily quantify over all individuals of a same kind at once; `iota` can have different interpretation, and the default notation in PM didn't make a clear distinction. Despite its seemingly negligible nature, some incomplete proof still stuck exactly because of it
 
 ### Chapter 20
 **Coverage: WORKING IN PROGRESS**
