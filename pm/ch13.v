@@ -97,7 +97,7 @@ Proof.
   {
     (* The ambiguity in this very step is we don't have a rule
     to add `∧` into *12.1 right away *)
-    pose proof (n12_1 1 ψ) as n12_1.
+    pose proof (n12_1 ψ) as n12_1.
     (* simplification... is it even possible to remove this? *)
     destruct n12_1 as [If Hn12_1].
     (* The following two can be obtained with `n10_1` *)
@@ -369,7 +369,7 @@ Theorem n13_183 (X Y : Prop) :
   (X = Y) ↔ ((X = z) <[- z -]> (z = Y)).
 Proof.
   (* TOOLS *)
-  set (Z := Individual "z").
+  set (Z := Intro_individual "z").
   (* ******** *)
   assert (S1 : (X = Y) → ((X = z) <[- z -]> (z = Y))).
   {
@@ -423,7 +423,7 @@ Theorem n13_191 (X : Prop) (φ : Prop → Prop) :
   ((y = X) -[ y ]> φ y) ↔ φ X.
 Proof.
   (* TOOLS *)
-  set (Y := Individual "y").
+  set (Y := Intro_individual "y").
   (* ******** *)
   assert (S1 : ((y = X) -[ y ]> φ y) → ((X = X) → (φ X))).
   { exact (n10_1 (fun y => y = X → φ y) X). }
@@ -470,8 +470,8 @@ Theorem n13_192 (B : Prop) (ψ : Prop → Prop) :
   (∃ c, ((x = B) <[- x -]> (x = c)) ∧ ψ c) ↔ ψ B.
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
-  set (C := Individual "c").
+  set (X := Intro_individual "x").
+  set (C := Intro_individual "c").
   (* ******** *)
   assert (S1 : ψ B → (((x = B) <[- x -]> (x = B)) ∧ (ψ B))).
   {
