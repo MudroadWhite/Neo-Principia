@@ -55,7 +55,9 @@ Should we treat `!` as something being denotational just like the dot notations 
 End Predicate. *)
 (* Just declares a function is a predicate of order n *)
 Definition Predicate (n : nat) : Type := (Prop → Prop).
-(* Experimental: Similar to `Individual`s, sometimes we need to introduce a predicate(?). Is it unnecessary? *)
+(* Experimental: Similar to `Individual`s, sometimes we need to introduce a predicate(?). Is it unnecessary? 
+NOTE: unless necessary, we should never use ANYTHING beyond `Predicate 1`. It is for convenience when we really
+need this we can search all occurences of Predicates to be adapted *)
 Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
 
 (* An alternative version to support functions of 2 arguments
