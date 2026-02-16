@@ -10,13 +10,16 @@ Require Import PM.pm.ch12.
 
 (* 
 TODO: 
-- replace ~= with the /= unicode symbol
 - Investigate *1.7 and see if the rest of the missing proofs can be filled
 - Investigate support for `<[- x -]>`'s conversion to `↔ ∧ ↔`
 *)
 
 (* This chapter presents a set of theorem for `=`, the propositional identity
 in Principia. It is different from definitional identity, which is undefined. 
+
+Starting from this chapter, we will not require that every theorem is provided 
+with explicit parameters, due to the increasing complexity only to be multiplied 
+in lateer chapters.
 *)
 
 (* Modified theorems to be used in this chapter specifically for predicates
@@ -65,14 +68,14 @@ Definition n13_01 (X Y : Prop) :
 Admitted.
 
 Definition n13_02 (X Y : Prop) :
-  (¬ (X = Y)) = ¬ (X = Y).
+  (X ≠ Y) = ¬ (X = Y).
 Admitted.
 
 Definition n13_03 (X Y Z : Prop) :
   ((X = Y) ∧ (Y = Z)) = ((X = Y) ∧ (Y = Z)).
 Admitted.
 
-Open Scope single_app_impl.
+Open Scope single_formal_impl.
 
 Theorem n13_1 (X Y : Prop) : (X = Y) 
   ↔ (∀ φ : Predicate 1, (φ X) → (φ Y)).
@@ -94,7 +97,7 @@ Proof.
   {
     (* The ambiguity in this very step is we don't have a rule
     to add `∧` into *12.1 right away *)
-    pose proof (n12_1 1 ψ) as n12_1.
+    pose proof (n12_1 ψ) as n12_1.
     (* simplification... is it even possible to remove this? *)
     destruct n12_1 as [If Hn12_1].
     (* The following two can be obtained with `n10_1` *)
@@ -139,7 +142,7 @@ Proof.
   exact S5.
 Qed.
 
-Open Scope single_app_equiv.
+Open Scope single_formal_equiv.
 
 Theorem n13_11 (X Y : Prop) :
   (X = Y) ↔
@@ -247,7 +250,7 @@ Proof.
 Qed.
 
 Theorem n13_14 (X Y : Prop) (ψ : Prop → Prop) :
-  (ψ X) ∧ (¬ ψ Y) → (¬ (X = Y)).
+  (ψ X) ∧ (¬ ψ Y) → (X ≠ Y).
 Proof.
   pose proof (n13_13 X Y ψ) as n13_13.
   pose proof (n4_14 (ψ X) (X = Y) (ψ Y)) as n4_14.
@@ -321,7 +324,7 @@ Proof.
 Qed.
 
 Theorem n13_18 (X Y Z : Prop) :
-  ((X = Y) ∧ (¬ (X = Z))) → ¬ (Y = Z).
+  ((X = Y) ∧ (X ≠ Z)) → (Y ≠ Z).
 Proof.
   pose proof (n13_17 X Y Z) as n13_17.
   pose proof (n4_14 (X = Y) (Y = Z) (X = Z)) as n4_14.
@@ -329,7 +332,7 @@ Proof.
 Qed.
 
 Theorem n13_181 (X Y Z : Prop) :
-  ((X = Y) ∧ (¬ (Y = Z))) → ¬ (X = Z).
+  ((X = Y) ∧ (Y ≠ Z)) → (X ≠ Z).
 Proof.
   pose proof (n13_171 X Y Z) as n13_171.
   now rewrite -> n4_14 in n13_171.
@@ -360,13 +363,13 @@ Proof.
   now rewrite <- Equiv4_01 in Comp3_43.
 Qed.
 
-Open Scope single_app_equiv.
+Open Scope single_formal_equiv.
 
 Theorem n13_183 (X Y : Prop) :
   (X = Y) ↔ ((X = z) <[- z -]> (z = Y)).
 Proof.
   (* TOOLS *)
-  set (Z := Individual "z").
+  set (Z := Intro_individual "z").
   (* ******** *)
   assert (S1 : (X = Y) → ((X = z) <[- z -]> (z = Y))).
   {
@@ -420,7 +423,7 @@ Theorem n13_191 (X : Prop) (φ : Prop → Prop) :
   ((y = X) -[ y ]> φ y) ↔ φ X.
 Proof.
   (* TOOLS *)
-  set (Y := Individual "y").
+  set (Y := Intro_individual "y").
   (* ******** *)
   assert (S1 : ((y = X) -[ y ]> φ y) → ((X = X) → (φ X))).
   { exact (n10_1 (fun y => y = X → φ y) X). }
@@ -467,8 +470,8 @@ Theorem n13_192 (B : Prop) (ψ : Prop → Prop) :
   (∃ c, ((x = B) <[- x -]> (x = c)) ∧ ψ c) ↔ ψ B.
 Proof.
   (* TOOLS *)
-  set (X := Individual "x").
-  set (C := Individual "c").
+  set (X := Intro_individual "x").
+  set (C := Intro_individual "c").
   (* ******** *)
   assert (S1 : ψ B → (((x = B) <[- x -]> (x = B)) ∧ (ψ B))).
   {
@@ -625,7 +628,7 @@ Proof.
 Qed.
 
 Theorem n13_196 (X : Prop) (φ : Prop → Prop) : 
-  (¬ φ X) ↔ (φ y -[ y ]> (¬ (y = X))).
+  (¬ φ X) ↔ (φ y -[ y ]> (y ≠ X)).
 Proof.
   pose proof (n13_195 X φ) as n13_195.
   rewrite -> Transp4_11 in n13_195.
@@ -634,7 +637,7 @@ Proof.
   now symmetry in n13_195.
 Qed.
 
-Open Scope double_app_impl.
+Open Scope formal_impl.
 
 Theorem n13_21 (X Y : Prop) (φ : Prop → Prop → Prop) : 
   ((((z = X) ∧ (w = Y)) -[ z w ]> φ z w) ↔ φ X Y).
@@ -665,7 +668,7 @@ Proof.
 Qed.
 
 Theorem n13_3 (A X : Prop) (φ : Prop → Prop) : 
-  (φ A ∨ (¬ φ A)) → ((φ X ∨ (¬ φ X)) ↔ ((X = A) ∨ (¬ (X = A)))).
+  (φ A ∨ (¬ φ A)) → ((φ X ∨ (¬ φ X)) ↔ ((X = A) ∨ (X ≠ A))).
 Proof.
   assert (S1 : φ X ∨ ¬ φ X).
   { apply n2_11. }
@@ -674,11 +677,11 @@ Proof.
     pose proof (Simp2_02 (φ A ∨ ¬ φ A) (φ X ∨ ¬ φ X)) as Simp2_02.
     now MP Simp2_02 S1.
   }
-  assert (S3 : X = A ∨ ¬ (X = A)).
+  assert (S3 : X = A ∨ (X ≠ A)).
   { apply n2_11. }
-  assert (S4 : (φ A ∨ ¬ φ A) → (X = A ∨ ¬ (X = A))).
+  assert (S4 : (φ A ∨ ¬ φ A) → (X = A ∨ (X ≠ A))).
   {
-    pose proof (Simp2_02 (φ A ∨ ¬ φ A) (X = A ∨ ¬ (X = A))) as Simp2_02.
+    pose proof (Simp2_02 (φ A ∨ ¬ φ A) (X = A ∨ (X ≠ A))) as Simp2_02.
     now MP Simp2_02 S3.
   }
   assert (S5 : (φ A ∨ ¬ φ A) → ((X = A) → (φ X ∨ ¬ φ X))).
@@ -687,7 +690,7 @@ Proof.
     pose proof (Comm2_04 (X = A) (φ X ∨ ¬ φ X) (φ A ∨ ¬ φ A)) as Comm2_04.
     now MP Comm2_04 n13_101.
   }
-  assert (S6 : ((φ A ∨ ¬ φ A) → (X = A ∨ ¬ (X = A)))
+  assert (S6 : ((φ A ∨ ¬ φ A) → (X = A ∨ (X ≠ A)))
     ∧ ((φ A ∨ ¬ φ A) → ((X = A) → (φ X ∨ ¬ φ X)))).
   {
     (* n10_13 ignored - we directly use `Conj` instead. Is it legal? *)
@@ -696,32 +699,32 @@ Proof.
     now Conj S4 S5 C1.
   }
   assert (S7 : ((φ A ∨ ¬ φ A) → φ X ∨ ¬ φ X)
-    ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ ¬ (X = A)))
+    ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ (X ≠ A)))
     ∧ ((φ A ∨ ¬ φ A) → ((X = A) → (φ X ∨ ¬ φ X)))).
   {
     clear S1 S3 S4 S5.
     now Conj S2 S6 C1.
   }
   assert (S8 : ((φ A ∨ ¬ φ A) → φ X ∨ ¬ φ X)
-    ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ ¬ (X = A)))).
+    ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ (X ≠ A)))).
   {
     rewrite <- n4_32 in S7.
     pose proof (Simp3_26
       (((φ A ∨ ¬ φ A) → φ X ∨ ¬ φ X)
-        ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ ¬ (X = A))))
+        ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ (X ≠ A))))
       (φ A ∨ ¬ φ A → X = A → φ X ∨ ¬ φ X)) as Simp3_26.
     now MP Simp3_26 S7.
   }
   assert (S9 : (φ A ∨ ¬ φ A) →
-    ((φ X ∨ ¬ φ X) ↔ (X = A ∨ ¬ (X = A)))).
+    ((φ X ∨ ¬ φ X) ↔ (X = A ∨ (X ≠ A)))).
   {
     pose proof (n5_35 (φ A ∨ ¬ φ A) (φ X ∨ ¬ φ X)
-      (X = A ∨ ¬ (X = A))) as n5_35.
+      (X = A ∨ (X ≠ A))) as n5_35.
     now MP n5_35 S8.
   }
   exact S9.
 Qed.
 
-Close Scope double_app_impl.
-Close Scope single_app_equiv.
-Close Scope single_app_impl.
+Close Scope formal_impl.
+Close Scope single_formal_equiv.
+Close Scope single_formal_impl.
