@@ -34,15 +34,12 @@ Qed.
 Should we treat `!` as something being denotational just like the dot notations in Principia?
 *)
 
-(* **************** *)
-(* Chapter 13 *)
-(* **************** *)
-(* NOTE: NEW NOTATION THAT UNIFORMS PREDICATE AND INDIVIDUALS. IF IT WORKS, REORGANIZE ALL ABOVE
-IN THE FUTURE *)
-
-(* Chapter 13: a function, typed, of order `n`.
-NOTE: unless necessary, we should never use ANYTHING beyond `Predicate 1`. It is for convenience 
-when we really need this we can search all occurences of Predicates to be adapted
+(* Chapter 12 & 13: a function, typed, of order `n`.
+NOTE: 
+- Unless necessary, we should never use ANYTHING beyond `Predicate 1`. It is for convenience 
+  when we really need this we can search all occurences of Predicates to be adapted
+- For chapter 12, we might want to define an extra `Predicate2`. This should be implemented when
+  necessary
 *)
 Fixpoint Predicate (n : nat) : Type :=
   match n with
@@ -62,15 +59,9 @@ merge with the definition of `Predicate`
 *)
 Definition Intro_individual (s : string) : Predicate 0. Admitted.
 
-(* An alternative version to support functions of 2 arguments
-  To be uncommented when the notation is fixed *)
-(* Module Predicate2.
-  Record t (n : nat) := {
-    fix_param (X Y : Prop) := fun (f' : Prop → Prop → Prop) => f' X Y;
-    fix_func (f : Prop → Prop → Prop) := fun (X' Y' : Prop) => f X' Y';
-  }.
-End Predicate2. *)
-(* TODO: maybe we should synthesize these 2 types into one inductive type with the name of "constituent" *)
+(* EXPERIMENTAL: the predicate below serves merely just for "how an untyped function of PM should be
+defined in Rocq. Currently it is never used anywhere and only demonstrates an experimental idea *)
+Definition Intro_untyped {A : Type} (s : string) : A -> Prop. Admitted.
 
 (* **************** *)
 (* Chapter 14 *)
