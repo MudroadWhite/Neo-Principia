@@ -32,9 +32,11 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start stra
 TODO: setoid_rewrite is being introduced exactly because of the difficulty on writing on forall/exists and functions
 
 ### Chapter 10
-**Coverage: 100%**
+**Coverage: 99% = ((x-1)/x)**. 
 
 **General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `forall` and `exists`. We didn't find any difficulties formalizing this chapter.
+
+**\*X(number of the unprovable theorem)** TODO: explain why it is unprovable
 
 ### Chapter 11
 **Coverage: 100%**
