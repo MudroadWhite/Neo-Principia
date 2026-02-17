@@ -24,15 +24,22 @@ and `Phi` is a function taking an individual as argument
 
 `F` for AoR is having a level of exactly 1
 
-cf.p.163: a function is either a matrix itself or a generalization on a matrix. Therefore functions in PM has a 
-very different meaning from what people will acknowledge nowadays, and matrix seems more like the actual `function`
+cf.p.163: a function is either a matrix itself or a generalization on a matrix. Therefore 
+functions in PM has a very different meaning from what people will acknowledge nowadays, 
+and matrix seems more like the actual `function`
 
-cf.p.163&164: `(x).Phi!x` is a function with argument `x`, while `(Phi).Phi!x` is a function with argument `Phi`.
-This makes the ambiguity of `!` very clear: it only states that `Phi` must be a predicative function but doesn't
-ensure that it is taken as a parameter...
+cf.p.163&164: `(x).Phi!x` is a function with argument `x`, while `(Phi).Phi!x` is 
+a function with argument `Phi`. This makes the ambiguity of `!` very clear: it only 
+states that `Phi` must be a predicative function but doesn't ensure that it is taken 
+as a parameter...
 
-More on `!` notation: when it is not being used, `Phi` is pretty much untyped. when it is being used, the type 
-level has to be directly obtained by how many levels of `!`s are being used(TODO: check if that is the exact meaning)
+More on `!` notation: when it is not being used, `Phi` is pretty much untyped. when it 
+is being used, the type level has to be directly obtained by how many levels of `!`s are 
+being used(cf.p.162, definition of a 1st-order predicative)
+
+more..: cf.p.162, bottom part: new def of function arises from both using apparent 
+variables/real variables as variables. matrix contains only variables that needs to be 
+fed in by Rocq; propositions contains only quantified variables that are self sufficient
 *)
 
 (* Is it that we have designed `n12_1` totally wrong..? *)
