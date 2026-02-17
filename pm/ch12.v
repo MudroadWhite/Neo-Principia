@@ -16,8 +16,24 @@ here has been working differently to `Phi x` and `f x`: `x` is a parameter for
 `Phi` but it is fixed for `f`, and `f` is actually the "parameter".
 *)
 
-(* We're currently limiting `Predicate n` to `Predicate 1` only. Extending this to
-n is a future question that involves design the type of `X` correctly *)
+(* 
+NOTE:
+TODO: check what does it mean to be a proposition
+
+cf.p.162: In this chapter, Phi!x^ is given an exact meaning where `x^` is an individual 
+and `Phi` is a function taking an individual as argument
+
+`F` for AoR is having a level of exactly 1
+
+cf.p.163: a function is either a matrix itself or a generalization on a matrix. Therefore functions in PM has a 
+very different meaning from what people will acknowledge nowadays, and matrix seems more like the actual `function`
+
+cf.p.163&164: `(x).Phi!x` is a function with argument `x`, while `(Phi).Phi!x` is a function with argument `Phi`.
+This makes the ambiguity of `!` very clear: it only states that `Phi` must be a predicative function but doesn't
+ensure that it is taken as a parameter...
+*)
+
+(* Is it that we have designed `n12_1` totally wrong..? *)
 Definition n12_1 (φ : Prop → Prop) : 
   ∃ f : (Predicate 1), (φ x) <[- x -]> ((fun (F : Predicate 1) =>
     F x) f).
