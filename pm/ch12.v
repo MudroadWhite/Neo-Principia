@@ -44,6 +44,12 @@ fed in by Rocq; propositions contains only quantified variables that are self su
 cf.p.163: first order propositions: regardless of the count of `forall` and `exists`, highest 
 level of argument is always level 0
 
+cf.p.164, bottom: in previous chapter, propositions can be taken as variables?
+
+cf.p.165: order is different from type?
+
+cf.p.165: individual can be a parameter of higher order function... which we didn't characterize 
+so far
 *)
 
 (* Is it that we have designed `n12_1` totally wrong..? *)
@@ -52,7 +58,9 @@ Definition n12_1 (φ : Prop → Prop) :
     F x) f).
 Admitted.
 
-Definition n12_1_alt {A : Type} (φ : A -> Prop) :
+(* For untyped function, it seems that it has to be something like `A -> B` 
+where `x : A` and the rest are put into `B`*)
+Definition n12_1_alt {A B : Type} (φ : A -> B) :
   ∃ f : (Predicate 1), (φ x) <[- x -]> f x.
 Admitted.
 
