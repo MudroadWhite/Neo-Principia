@@ -97,7 +97,7 @@ Proof. reflexivity. Qed.
 is pretty unsure which should be the correct one
 NOTE: is it really just the `pure` of the class monad???
 *)
-Definition class_mk {A : Type} (Phi : A -> Prop) : Prop. Admitted.
+Definition class_mk {A : Type} (Phi : A -> Prop) : A -> Prop. Admitted.
 Example class_mk_example := class_mk (fun (x : Prop) => x = x).
 
 (* 
@@ -135,7 +135,8 @@ Example class_mk_example1 := [^ (z : Prop) => z = z].
 Example class_mk_example2 := [^ (z : Prop -> Prop) => z = z].
 Example class_mk_example3 := [^ (z : (Prop -> Prop) -> (Prop -> Prop)) 
   => z = z].
-Example class_mk_example4 := [^ (z : Prop -> Prop) => 
+(* This example should indeed never work *)
+Fail Example class_mk_example4 := [^ (z : Prop -> Prop) => 
   [^ (x : ((Prop -> Prop) -> (Prop -> Prop))) => x z = x z]].
 (* TODO: add an example for equality between 3 different classes  *)
 
@@ -157,7 +158,7 @@ Example class_app_example4 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
 Example class_app_example5 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
   [^ (z2 : Prop) => z2 = z2 @ cz2 => cz1 = cz2 ]].
 (* TODO: ALSO CHECK n20_151 *)
-Fail Example class_app_example6 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
+Example class_app_example6 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
   cz1 = ([^ (z2 : Prop) => z2 = z2 @ cz2 => cz2])].
 
 (* Note: this is just the special notation said to be used for *20.02 
