@@ -28,8 +28,8 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start stra
 
 **General.** There are two sets of theorems in this chapter: the formal and the informal one. We can completely express the formal parts in Rocq. We demonstrated how the informal parts should be expressed in Rocq, but they won't be used anywhere in the rest of the project.
 
-**Functions.** The new feature being introduced into this chapter is *functions*, and quantified/formal propositions(`forall`, `exists`) that are built upon them. (TODO: MOVE THIS SENTENCE INTO MECHANICS, LEAVING ONLY CRITICS)For our soft embedding, we use a different approach to construct the function, which is just the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will expose higher expectations on them: should they come with a type of `Prop -> Prop`, or should it be something else? Can we have an automatic way to convert one kind of functions into another kind(ch12)? The list of questions extends as we will proceed and have higher requirements.
-TODO: setoid_rewrite is being introduced exactly because of the difficulty on writing on forall/exists and functions
+**Functions.** For our soft embedding, the matrices are being constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will expose higher expectations on functions and matrices: should they come with a type of `Prop -> Prop`, or should it be something else? Can we have an automatic way to convert one kind of functions into another kind(ch12)? The list of questions extends as we will proceed and have higher requirements.
+
 
 ### Chapter 10
 **Coverage: 99% = ((x-1)/x)**. 

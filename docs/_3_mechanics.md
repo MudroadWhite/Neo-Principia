@@ -68,9 +68,17 @@ TODO: polish as below
 ### Chapter 5
 
 ### Chapter 9
-TODO: (state with bullet points as general rules) functions are built with `^`; formal props are built on functions; without functions, there will be no formal props 
+This chapter starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays. The typical "lambda-calculus-like" functions in PM is called a *matrix*, but we don't even have the `lambda x` part to figure out what are the parameters. (TODO: citation to page in ch12, and find other occurences in intro & chapter 1-5) has demonstrated varied examples on matrices, taking different types of variables as their arguments.
 
-TODO: built for demonstration
+*Functions* on the other hand, are these matrices themselves, *plus* their quantified(`forall`, `exists`) version. In chapter 9, there has been a notation for matrices, but never used anywhere else(TODO: check if this is actually correct): the hat operator `^` denoting exactly turning a proposition into a matrix. 
+
+- **Matrices**(the actual "functions") are built on **propositions of a given type**
+- **Quantified propositions** are built on **matrices**
+- (Propositional)**functions** are built on **matrices and quantified propositions**
+
+Formal propositions are built on matrices, without matrices, there will be no formal props 
+TODO: recheck everywhere of functions and see if they should be actually matrix
+TODO: check when will matrix be turned into a proposition/definition for a proposition
 
 ### Chapter 10
 TODO: actual alternative;

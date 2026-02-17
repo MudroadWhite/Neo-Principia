@@ -2,6 +2,12 @@ TODO:
 - rewrite this chapter by organizing as chapters in Principia
 - organize the `TOOLS` being used and maybe rethink of its boundaries and usages
 
+
+## Chapter 9
+By `architecture/???TODO: hyperlink`, we are starting to deal with propositions that appear as quantified propositions. We find it out that quantified propositions are harder to be rewritten than the elementary propositions, and the Rocq tactic `setoid_rewrite` has been introduced into the rewriting system to simplify the proof.
+
+TODO: move the section below to here
+
 # Tactics
 This chapter discusses the tactics we generally use for every proofs in deeper details.
 
