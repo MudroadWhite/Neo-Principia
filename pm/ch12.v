@@ -31,6 +31,9 @@ very different meaning from what people will acknowledge nowadays, and matrix se
 cf.p.163&164: `(x).Phi!x` is a function with argument `x`, while `(Phi).Phi!x` is a function with argument `Phi`.
 This makes the ambiguity of `!` very clear: it only states that `Phi` must be a predicative function but doesn't
 ensure that it is taken as a parameter...
+
+More on `!` notation: when it is not being used, `Phi` is pretty much untyped. when it is being used, the type 
+level has to be directly obtained by how many levels of `!`s are being used
 *)
 
 (* Is it that we have designed `n12_1` totally wrong..? *)
