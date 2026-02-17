@@ -79,7 +79,8 @@ We can see that *functions* consist of two kinds of propositions(TODO: find a be
 - (Propositional) **functions** are built on **matrices**, with *some* of its variables quantified
 - (Quantified) **propositions** are built on **matrices**, with all possible variables quantified
 
-Formal propositions are built on matrices, without matrices, there will be no formal props 
+TODO: check if propositions are actually functions in that does it need to be generalized of every higher level vars
+TODO: refer to examples in ch12, relate to how we write them in Rocq
 TODO: recheck everywhere of functions and see if they should be actually matrix
 TODO: check when will matrix be turned into a proposition/definition for a proposition
 
