@@ -72,7 +72,10 @@ This chapter starts to bring awareness to *matrices* and *functions*, where both
 
 *Functions* on the other hand, are these matrices themselves, *plus* their quantified(`forall`, `exists`) version. In chapter 9, there has been a notation for matrices, but never used anywhere else(TODO: check if this is actually correct): the hat operator `^` denoting exactly turning a proposition into a matrix. 
 
+Matrix has another synonym: *predicative functions*(cf. p.164). That being said, only the quantified propositions are not predicative functions.
+
 - **Matrices**(the actual "functions") are built on **propositions of a given type**
+- **Matrices** are exactly **predicative functions**
 - **Quantified propositions** are built on **matrices**
 - (Propositional)**functions** are built on **matrices and quantified propositions**
 
