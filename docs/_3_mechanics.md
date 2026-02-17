@@ -77,7 +77,7 @@ We can see that *functions* consist of two kinds of propositions(TODO: find a be
 - **Matrices**(the actual "functions") are exactly **predicative functions**. None of its variables is quantified
 - **Matrices** are built on **propositions** with a 1-level lower type(TODO: can matrices take lower matricies as params?)
 - (Propositional) **functions** are built on **matrices**, with *some* of its variables quantified
-- (Quantified) **propositions** are built on **matrices**, with all possible variables quantified
+- (Quantified) **propositions** are built on **matrices**, with *all* possible variables quantified
 
 TODO: check if propositions are actually functions in that does it need to be generalized of every higher level vars
 TODO: refer to examples in ch12, relate to how we write them in Rocq
