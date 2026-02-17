@@ -59,7 +59,7 @@ Definition n12_1 (φ : Prop → Prop) :
 Admitted.
 
 (* For untyped function, it seems that it has to be something like `A -> B` 
-where `x : A` and the rest are put into `B`*)
+where `x : A` and the rest of the arguments are being put into `B` *)
 Definition n12_1_alt {A B : Type} (φ : A -> B) :
   ∃ f : (Predicate 1), (φ x) <[- x -]> f x.
 Admitted.
