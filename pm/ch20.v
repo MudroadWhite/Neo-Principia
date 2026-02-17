@@ -83,7 +83,9 @@ Module Experimental.
 End Experimental.
 
 (* Class determined by *function* Phi...is this definition correct? I am so confused
-  about when should we use `function`s or `predicate`s *)
+  about when should we use `function`s or `predicate`s. 
+TODO: make sure the correct type is indeed Prop -> Prop, not A -> Prop
+TODO: See if we need to add an extra definition for Args *)
 Definition Class {A : Type} (Phi : A -> Prop) : Type := Prop -> Prop.
 Example class_example := Class (fun (x : Prop) => x = x).
 (* An example to show that this definition doesn't strictly distinguish
@@ -91,8 +93,10 @@ between different functions *)
 Example class_eq_example (Phi Psi : Prop -> Prop) : Class Phi = Class Psi.
 Proof. reflexivity. Qed.
 
-(* TODO: the return type of `class_mk` can be either `Prop` or `Class Phi`. It is 
-pretty unsure which should be the correct one *)
+(* TODO: the return type of `class_mk` can be either `Prop` or `Class Phi` or `A`. It 
+is pretty unsure which should be the correct one
+NOTE: is it really just the `pure` of the class monad???
+*)
 Definition class_mk {A : Type} (Phi : A -> Prop) : Prop. Admitted.
 Example class_mk_example := class_mk (fun (x : Prop) => x = x).
 
@@ -113,7 +117,10 @@ Example class_app_example := class_app (fun (x : Prop) => x = x)
 (* We can gradually see that by following Principia's way to define the 
 things, despite the annoying writing style, `in` is really the first 
 operator for classes. As further examples, `=` is allowed on classes,
-while `/\` seems not to be(?) *)
+while `/\` seems not to be(?) 
+NOTE: The type of this is a `Prop` since it is strictly used as a whole notation
+in the definitions
+*)
 Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop.
 Admitted.
 
@@ -149,6 +156,9 @@ Example class_app_example4 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
 [^ (z2 : Prop) => z2 = z2 @ cz2 => cz1 = cz1 ]].
 Example class_app_example5 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
   [^ (z2 : Prop) => z2 = z2 @ cz2 => cz1 = cz2 ]].
+(* TODO: ALSO CHECK n20_151 *)
+Fail Example class_app_example6 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
+  cz1 = ([^ (z2 : Prop) => z2 = z2 @ cz2 => cz2])].
 
 (* Note: this is just the special notation said to be used for *20.02 
   solely *)
@@ -207,7 +217,7 @@ Example debug_iota2_example :=
 
 Close Scope debug_iota_description_poly.
 
-Open Scope single_formal_equiv.
+Open Scope formal_equiv.
 
 (* So far, `f` as a random function to be applied a class parameter, has 
   been allowed for 3 parameter "types"(not Principia type):
@@ -340,69 +350,218 @@ Theorem n20_12 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop):
 Proof.
 Admitted.
 
-(* TODO: investigate how this should be formalized and cf. definition of Cls *)
-Theorem n20_13 (Psi Chi : Prop -> Prop) : (Psi x <[- x -]> Chi x)
-  -> ([^z1 => Psi z1 @ cz1 => cz1 = ([^z2 => Chi z2 @ cz2 => cz2])]).
-
-(* 
-([^ z1 => (exists (Phi : Prop -> Prop), 
-    [^ z2 => Phi z2 @ zPhiz => z1 = zPhiz ])]).
+(* NOTE: we can see that with our notation all function body has to be put within the 
+innermost `class_app`, leaving nothing at the outmost part... I wonder if it will have some
+troubling thing rise from this 
+TODO: revisit other ways to write this expression and see if we can have a more natural 
+composition
 *)
+Theorem n20_13 (Psi Chi : Prop -> Prop) : (Psi x <[- x -]> Chi x)
+  -> ([^z1 => Psi z1 @ cz1 => ([^z2 => Chi z2 @ cz2 => cz1 = cz2])]).
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_14 (Psi Chi : Prop -> Prop) :
+  ([^z1 => Psi z1 @ cz1 => ([^z2 => Chi z2 @ cz2 => cz1 = cz2])])
+  -> (Psi x <[- x -]> Chi x).
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_15 (Psi Chi : Prop -> Prop) : (Psi x <[- x -]> Chi x)
+  <-> ([^z1 => Psi z1 @ cz1 => ([^z2 => Chi z2 @ cz2 => cz1 = cz2])]).
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+(* This expression still has some ambiguity... *)
+(* [^z => Phi z] = [^z => Phi z] *)
+Theorem n20_151 (Psi : Prop -> Prop) : 
+  exists Phi : Predicate 1, [^z => Psi z @ cz1 => 
+    [^z => Phi z @ cz2 => cz1 = cz2]].
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_16 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
+  exists Phi : Predicate 1, 
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_17 : Prop.
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_18 : Prop.
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_19 : Prop.
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_191 : Prop.
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_2 : Prop.
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_21 : Prop.
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_22 : Prop.
 Proof.
 Admitted.
 
-Theorem n20_1 : Prop.
+Theorem n20_23 : Prop.
 Proof.
 Admitted.
 
+Theorem n20_24 : Prop.
+Proof.
+Admitted.
 
-Close Scope single_formal_equiv.
-Close Scope single_formal_impl.
-Close Scope double_formal_equiv.
-Close Scope double_formal_impl.
+Theorem n20_25 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_3 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_31 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_32 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_33 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_34 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_35 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_4 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_41 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_42 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_43 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_5 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_51 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_52 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_53 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_54 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_55 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_56 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_57 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_58 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_59 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_61 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_62 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_63 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_631 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_632 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_633 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_64 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_7 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_701 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_702 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_703 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_71 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_8 : Prop.
+Proof.
+Admitted.
+
+Theorem n20_81 : Prop.
+Proof.
+Admitted.
+
+Close Scope formal_equiv.
+Close Scope formal_impl.
 Close Scope debug_iota_description_poly.
 Close Scope debug_class_notation.
