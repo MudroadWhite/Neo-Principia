@@ -40,6 +40,10 @@ being used(cf.p.162, definition of a 1st-order predicative)
 more..: cf.p.162, bottom part: new def of function arises from both using apparent 
 variables/real variables as variables. matrix contains only variables that needs to be 
 fed in by Rocq; propositions contains only quantified variables that are self sufficient
+
+cf.p.163: first order propositions: regardless of the count of `forall` and `exists`, highest 
+level of argument is always level 0
+
 *)
 
 (* Is it that we have designed `n12_1` totally wrong..? *)
