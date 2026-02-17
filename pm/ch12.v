@@ -48,8 +48,13 @@ cf.p.164, bottom: in previous chapter, propositions can be taken as variables?
 
 cf.p.165: order is different from type?
 
-cf.p.165: individual can be a parameter of higher order function... which we didn't characterize 
-so far
+cf.p.165, example of 2nd-order function: individual can be a parameter of any level higher order 
+function...which we didn't characterize so far. Can we design a type for that?
+
+it seems that our def of `Predicate` needs a renewal soon, to define `A -> B` correctly
+
+NOTE: for constants we can design a tagto label them just as constants when passing as a parameter
+into rocq
 *)
 
 (* Is it that we have designed `n12_1` totally wrong..? *)
