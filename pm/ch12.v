@@ -18,7 +18,6 @@ here has been working differently to `Phi x` and `f x`: `x` is a parameter for
 
 (* 
 NOTE:
-TODO: check what does it mean to be a proposition
 
 cf.p.162: In this chapter, Phi!x^ is given an exact meaning where `x^` is an individual 
 and `Phi` is a function taking an individual as argument
@@ -40,6 +39,10 @@ level has to be directly obtained by how many levels of `!`s are being used
 Definition n12_1 (φ : Prop → Prop) : 
   ∃ f : (Predicate 1), (φ x) <[- x -]> ((fun (F : Predicate 1) =>
     F x) f).
+Admitted.
+
+Definition n12_1_alt {A : Type} (φ : A -> Prop) :
+  ∃ f : (Predicate 1), (φ x) <[- x -]> f x.
 Admitted.
 
 Module Experimental.
