@@ -32,7 +32,7 @@ This makes the ambiguity of `!` very clear: it only states that `Phi` must be a 
 ensure that it is taken as a parameter...
 
 More on `!` notation: when it is not being used, `Phi` is pretty much untyped. when it is being used, the type 
-level has to be directly obtained by how many levels of `!`s are being used
+level has to be directly obtained by how many levels of `!`s are being used(TODO: check if that is the exact meaning)
 *)
 
 (* Is it that we have designed `n12_1` totally wrong..? *)
