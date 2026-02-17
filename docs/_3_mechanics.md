@@ -74,10 +74,10 @@ This chapter starts to bring awareness to *matrices* and *functions*, where both
 
 We can see that *functions* consist of two kinds of propositions(TODO: find a better name for this). Both of the part have their synonym: matrices can also be called *predicative functions*(cf. p.164), while the quantified propositions are being called the actual *proposition*s.(cf.p.163)
 
-- **Matrices**(the actual "functions") are exactly **predicative functions**
-- **Matrices** are built on **propositions** with a 1-level lower type
+- **Matrices**(the actual "functions") are exactly **predicative functions**. None of its variables is quantified
+- **Matrices** are built on **propositions** with a 1-level lower type(TODO: can matrices take lower matricies as params?)
+- (Propositional) **functions** are built on **matrices**, with *some* of its variables quantified
 - (Quantified) **propositions** are built on **matrices**, with all possible variables quantified
-- (Propositional) **functions** consist of both **matrices** and **propositions**
 
 Formal propositions are built on matrices, without matrices, there will be no formal props 
 TODO: recheck everywhere of functions and see if they should be actually matrix
