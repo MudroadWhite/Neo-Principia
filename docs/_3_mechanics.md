@@ -70,7 +70,7 @@ The typical "lambda-calculus-like" functions in PM is called a *matrix*, but we 
 
 There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables, being explained way more clearer in the original text. *Is it real that the distinction between apparent and real variables are unnecessary*, as Wittgenstein said\[CITATION NEEDED\]? We don't really know, but just see the example at the beginning of this section.
 
-Examples of *matrices* are given in \[CITATION NEEDED: cite page in ch12, and find other occurences in intro & chapter 1-5 \], taking different types of variables as their arguments. 
+Examples of *matrices* are given in \[CITATION NEEDED: cite page in ch12, and find other occurrences in intro & chapter 1-5 \], taking different types of variables as their arguments. 
 
 Theorems from chapter 9 to chapter 11 are proven in a different way against theorems starting from chapter 12 and beyond. For the general case, see [chapter 12](./3_mechanics.md/#chapter-12) below. By proving a theorem, we mean(TDO: refine the statement):
 
