@@ -29,12 +29,13 @@ Due to the inheriting nature of definitions, the way that a theorem is being pro
 
 We now start explaining what new ideas are being introduced into each of the chapters.
 
+## Chapters
 ### Chapter 1
 TODO: 
-- check why the statement is true: individuals are not propositions- 
-- the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of ¬ and ∨
-- TODO: find a place to write in chapter 1: *elementary propositions* are simple propositions connected with `¬` and `∨`; relate elementary propositions to those in chapter 9 - chapter 9 adds *matrices* in addition of e-props for substitutions
-- TODO: check how PM uses different sets of symbols/letters to represent constants, matrices, etc..
+- find a place to write in chapter 1: *elementary propositions* are simple propositions connected with `¬` and `∨`; relate elementary propositions to those in chapter 9 - chapter 9 adds *matrices* in addition of e-props for substitutions
+- check why the statement is true: individuals are not propositions
+- the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of `¬` and `∨`
+- check how PM uses different sets of symbols/letters to represent constants, matrices, etc..
 
 ### Chapter 2
 
