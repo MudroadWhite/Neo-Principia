@@ -26,7 +26,7 @@ Principia performs everything **one step at a time**. This automatically means f
 
 During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
 
-Theorems, like symbol definitions, have its **inheriting** nature. The way for a theorem to be proven and to be used *varies* between chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for how they are used in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for how they are used in chapter 9 - 11, and [chapter 12](./3_mechanics.md/#chapter-12) for how they are used from chapter 12 and beyond.
+Theorems, like symbol definitions, have its **inheriting** nature. The way for a theorem to be proven and to be used *varies* between chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for case in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for case in chapter 9 - 11, and [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 and beyond.
 
 We now start explaining what new ideas are being introduced into each of the chapters.
 
