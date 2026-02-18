@@ -25,39 +25,14 @@ Principia performs everything **one step at a time**. This automatically means f
 
 During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
 
-TODO: check ch1, 1.7....
-
-----------------
-
-UNFINISHED PIECES for chapter 1 - 5
-
-(Ch1 - 5)
-
-For every theorem, we have two ways to use it. One is we refer to it just like a "function", and another one is prove the theorem by inference.
-
-When we *refer* to the theorems, we are allowed to substitute every single literals with some new propositions, just like what you see in theorem provers.
-
-When we want to prove them, we start with a set of individuals like `P`, `Q`, `R`. They are not propositions(as stated in Principia), cannot be further splitted and substituted. **New individuals that are not presented in the theorems though, is allowed to be introduced** - in the middle of proving, we might occur to a new individual like `S`.
-
-(TODO: are individuals able to be changed in any time? )
-(TODO: refer to `architecture` chapter, and maybe update the corresponded part)
-
-how PM is different from modern type theories:
-1. individuals are not propositions(???)
-2. individuals can be substituted with more complex terms by infinite times(?TODO: check if there is some severe bug in formalization)
-
-TODO: the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of ¬ and ∨
-
-
-Elementary propositions are simple propositions connected with `¬` and `∨`.
-
-TODO: polish as below
-1. Fundamentally we have a set of individuals like `P`, `Q`, `R`. They are not propositions, and they cannot be further splited.
-2. Elementary propositions are simple propositions connected with `¬` and `∨`. (Put it in another way, these `¬` and `∨`s are defined on elementary propositions)
-
-----------------
+The way that a theorem is being proven and being used are different between each of the chapters. See \[Chapter 1\](TODO: CORRECT HYPERLINK) for how they are used in chapter 1 - 5, \[Chapter 9\] for how they are used in chapter 9 - 11, and \[Chapter 12\] for how they are used from chapter 12 and beyond.
 
 ### Chapter 1
+TODO: 
+- check why the statement is true: individuals are not propositions- 
+- the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of ¬ and ∨
+- TODO: find a place to write in chapter 1: *elementary propositions* are simple propositions connected with `¬` and `∨`; relate elementary propositions to those in chapter 9 - chapter 9 adds *matrices* in addition of e-props for substitutions
+- TODO: check how PM uses different sets of symbols/letters to represent constants, matrices, etc..
 
 ### Chapter 2
 
@@ -68,21 +43,38 @@ TODO: polish as below
 ### Chapter 5
 
 ### Chapter 9
-This chapter starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays. The typical "lambda-calculus-like" functions in PM is called a *matrix*, but we don't even have the `lambda x` part to figure out what are the parameters. (TODO: citation to page in ch12, and find other occurences in intro & chapter 1-5) has demonstrated varied examples on matrices, taking different types of variables as their arguments.
+```Rocq
+(* This is a matrix with 2 real variables. It is also a function *)
+Definition example_matrix (X Y : Prop) := X /\ Y.
 
-*Functions* on the other hand, are these matrices themselves, *plus* their quantified(`forall`, `exists`) version. In chapter 9, there has been a notation for matrices, but never used anywhere else(TODO: check if this is actually correct): the hat operator `^` denoting exactly turning a proposition into a matrix. 
+(* This is a function with 1 real variable and 1 apparent variable *)
+Definition example_function (X : Prop) := forall (y : Prop), X /\ y.
 
-We can see that *functions* consist of two kinds of propositions(TODO: find a better name for this). Both of the part have their synonym: matrices can also be called *predicative functions*(cf. p.164), while the quantified propositions are being called the actual *proposition*s.(cf.p.163)
+(* This is a proposition with 2 apparent variables. It is *not* a function anymore *)
+Definition example_proposition := forall (x y : Prop), x /\ y.
+```
 
-- **Matrices**(the actual "functions") are exactly **predicative functions**. None of its variables is quantified
-- **Matrices** are built on **propositions** with a 1-level lower type(TODO: can matrices take lower matricies as params?)
+- **Matrices**(the actual "functions") are exactly **predicative functions**.
+- **Matrices** are built on **propositions** with a 1-level lower order(TODO: make a clear distinction between types). See \[chapter 12\] below for a serious consideration on orders
 - (Propositional) **functions** are built on **matrices**, with *some*(but not all) of its variables quantified
 - (Quantified) **propositions** are built on **matrices**, with *all* possible variables quantified
 
-TODO: check if propositions are actually functions in that does it need to be generalized of every higher level vars
-TODO: refer to examples in ch12, relate to how we write them in Rocq
-TODO: recheck everywhere of functions and see if they should be actually matrix
-TODO: check when will matrix be turned into a proposition/definition for a proposition
+This chapter starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays. Although they are coming to consideration, their full definition starts from chapter 12, so our explanation will also cite the text in chapter 12 for reference.
+
+The typical "lambda-calculus-like" functions in PM is called a *matrix*, but we don't even have the `lambda x` part(aka the parameter list) to figure out what are the parameters. For a matrix, all greek/english letters appeared are parameters. There is a synonym for matrix: *predicative functions*(p.164).
+
+*Functions* are matrices themselves, *plus* some(not all) of the variables of a matrix quantified(`forall`, `exists`). In chapter 9, there has been a notation for matrices, but never used anywhere else(TODO: check if this is actually correct and cite the part): the hat operator `^` denoting exactly turning a proposition into a matrix. 
+
+There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables, being explained way more clearer in the original text. *Is it real that the distinction between apparent and real variables are unnecessary*, as Wittgenstein said\[CITATION NEEDED\]? We don't really know, but just see the example at the beginning of this section.
+
+Examples of *matrices* are given in \[CITATION NEEDED: cite ch12, and find other occurences in intro & chapter 1-5 \], taking different types of variables as their arguments. 
+
+Theorems from chapter 9 to chapter 11 are proven in a different way against theorems starting from chapter 12 and beyond. For the general case, see [chapter 12] below. By proving a theorem, we mean(TDO: refine the statement):
+
+- Parameters for a theorem are all the letters appeared in the theorem, similar to how a function is expressed
+- We only prove the case where parameters for theorems are individuals (plus elementary matrices just as the "normal functions" of people's common sense)
+- If such a elementary proposition/first order "proposition"(TODO: check if this is written correctly) can be proven true, we conclude the truth of such a theorem
+- When we want to use a theorem somewhere, we are allowed to replace the individuals or the matrices with arbitrary elementary propositions or elementary matrices
 
 ### Chapter 10
 TODO: actual alternative;
@@ -91,7 +83,13 @@ TODO: actual alternative;
 TODO: generalize formal props
 
 ### Chapter 12
-TODO: discuss the volatility for formalization; discuss how a function can be interpreted with different meanings
+Starting from chapter 12, a rigorous hierarchy of *orders* begins to be taken into consideration, and this is also the first chapter that we're going to think something like "so these theorems have more than one ways to use them"\[CITATION NEEDED\].
+
+TODO:
+- Theorems in chapter 1 - 11 can be reused by replacing individuals into some n-order-matrices and elementary matrices into some n+1-order matrices
+- discuss the volatility for formalization of AoR
+- discuss the `!` operator: it doesn't consider the absolute order level but it fixes the relative level to +1; for convinience should we only start with individuals?
+- a individual can have a 2nd order function - discuss how should we understand a function of +n types to a parameter
 
 ### Chapter 13
 TODO: just an identity; discuss how it might use definition in ch12; state the utilization of `pred` variants
