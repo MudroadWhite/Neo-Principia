@@ -5,5 +5,5 @@ This folder, `./docs/`, is intended to provide necessary documentation for the f
 1. [Overview](./1_overview.md)
 2. [Project architecture](./2_architecture.md)
 3. (unfinished) Mechanics
-3. [Tactics](./4_tactics.md)
+4. (under rework) Tactics
 5. (unfinished) Audit report
