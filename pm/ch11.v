@@ -21,46 +21,29 @@ Type of theorems allowed:
 Type of parameters allowed: 
 *)
 
-(* TODO: change the name of these scopes *)
+(* **************** *)
+(* NOTATION DEFINITIONS *)
+(* **************** *)
+(* Ref: https://rocq-prover.org/doc/v9.0/stdlib/Stdlib.Unicode.Utf8_core.html# *)
 Declare Scope formal_impl.
 Declare Scope formal_equiv.
 
 Open Scope formal_impl.
 Open Scope formal_equiv.
 
-(* TODO: extend these notations to arbitrary amount of parameters *)
-(* Locate "∀".
+Example example_formal_impl_testtest := forall x y z : Prop, (x = y /\ y = z) -> (x = z).
 
-Notation "[ A 'existss' x .. y , p ]" :=
-  (ex (fun x => .. (ex (fun y => A -> p)) ..))
-  (at level 200, x binder, y binder, right associativity).
+Notation "A '-[' x .. y ']>' B" := (forall x, .. (forall y, A -> B) ..)
+  (at level 80, x binder, y binder, B at level 100, right associativity,
+  format "'[ ' A '/' '[ ' -[ x .. y ]> ']' '/' B ']'") : formal_impl.
+Example example_formal_impl0 := (x = y) -[ (x y : Prop) ]> (x = y).
 
-Example test := [True existss (x : Prop) (y : Prop), True]. *)
+Notation "A '<[-' x .. y '-]>' B" := (forall x, .. (forall y, A <-> B) ..)
+  (at level 80, x binder, y binder, B at level 100, right associativity,
+  format "'[ ' A '/' '[ ' <[- x .. y -]> ']' '/' B ']'") : formal_equiv.
+Example example_formal_equiv0 := (x = y) <[- (x y : Prop) -]> (y = x).
 
-(* Notation "A '-[' x .. y ']>' B" := (forall x, .. (forall y, A -> B) .. )
-  (at level 100, x binder, y binder, right associativity) : formal_impl. *)
-(* Notation "A -[ x .. y ]> B" := (∀ x, .. (∀ y, A → B) ..)
-  (at level 100, x binder, y binder, right associativity,
-    format " '[' A '/' '[ ' -[ x .. y ]> ']' '/' B ']' ")
-    . *)
-  (* : formal_impl. *)
-(* Example test0 (Phi : Prop -> Prop):= ((Phi x) -[ x y ]> (Phi y)). *)
-
-Notation " A -[ x y ]> B " := (∀ (x y : Prop), A → B)
-  (at level 80, x name, y name, right associativity,
-  format " A '/' '[ ' -[ x y ]> ']' '/' B ")
-  : formal_impl.
-
-Notation " A <[- x y : P -]> B " := (∀ (x y : P), A ↔ B)
-  (at level 85, x name, right associativity,
-  format " '[' A '/' '[ ' <[- '[ ' x y ']' : P -]> ']' '/' B ']' ")
-  : formal_equiv.
-
-Notation " A <[- x y -]> B " := (∀ (x y : Prop), A ↔ B)
-  (at level 80, x name, right associativity,
-  format " '[' A '/' '[ ' <[- '[ ' x y ']' -]> ']' '/' B ']' ")
-  : formal_equiv.
-
+(* ******** *)
 Definition n11_01 (φ : Prop → Prop → Prop) : 
   (∀ x y, (φ x y)) = (∀ x, ∀ y, φ x y).
 Admitted.
@@ -1113,9 +1096,6 @@ Proof.
   now rewrite <- n4_24 in n11_54.
 Qed.
 
-(* TODO: merge this notation into arbitrary parameter version *)
-Open Scope single_formal_impl.
-
 Theorem n11_59 (φ ψ : Prop → Prop) :
   (φ x -[ x ]> ψ x) ↔ ((φ x ∧ φ y) -[ x y ]> (ψ x ∧ ψ y)).
 Proof.
@@ -1357,9 +1337,9 @@ Proof.
     pose proof (n10_1 (fun z => φ z → ψ z) Z) as n10_1a.
     pose proof (n10_1 (fun w => χ w → θ w) W) as n10_1b.
     assert (C1 :
-      (φ x -[ x ]> ψ x → (φ Z → ψ Z))
+      ((φ x -[ x ]> ψ x) → (φ Z → ψ Z))
       ∧
-      (χ x -[ x ]> θ x → (χ W →θ W))).
+      ((χ x -[ x ]> θ x) → (χ W →θ W))).
     { now Conj n10_1a n10_1b C1. }
     pose proof (n3_47
       (φ z -[ z ]> ψ z) (χ w -[ w ]> θ w)
@@ -1515,8 +1495,8 @@ Proof.
     pose proof (S7 HS7) as S7.
     pose proof (S8 HS8) as S8.
     assert (C1 : 
-      ((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w  → φ z -[ z ]> ψ z)
-      ∧ ((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w → χ w -[ w ]> θ w)).
+      (((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w) → (φ z -[ z ]> ψ z))
+      ∧ (((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w) → (χ w -[ w ]> θ w))).
     {
       clear S2 HS7 HS8.
       now Conj S7 S8 C1.
@@ -1544,6 +1524,5 @@ Proof.
   long *)
 Qed.
 
-Close Scope single_formal_impl.
 Close Scope formal_impl.
 Close Scope formal_equiv.

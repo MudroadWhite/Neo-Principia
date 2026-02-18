@@ -1,4 +1,4 @@
-(* PM.pm.lib - tools, libraries, and others to be used through the project *)
+(* PM.pm.lib - tools, libraries, notations(temporarily?), and others to be used through the project *)
 
 Require Import Unicode.Utf8.
 Require Import ClassicalFacts.
@@ -11,8 +11,6 @@ Export Classical_Prop.
 Export ClassicalFacts.
 Export PropExtensionality.
 Export String.
-
-(* TODO: redesign <[- x -]> in chapter 10, 11 and eliminate the repetitive definitions on them *)
 
 (* cf.p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
@@ -40,6 +38,8 @@ NOTE:
   when we really need this we can search all occurences of Predicates to be adapted
 - For chapter 12, we might want to define an extra `Predicate2`. This should be implemented when
   necessary
+TODO: maybe in the future, checkout the definition for matrix and try to see if we can also integrate
+in a definition for matrix
 *)
 Fixpoint Predicate (n : nat) : Type :=
   match n with
@@ -47,21 +47,23 @@ Fixpoint Predicate (n : nat) : Type :=
   | (S m) => let A := Predicate m in (A -> Prop)
   end.
 
-(* `Intro` Rocq predicates are used for introducing a term in the middle of the proof, which 
-is something specific for PM's proofs *)
-Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
-
 (* cf.p.51: To instantiate variables appeared in a propositional function, we use the concept 
 of "individual", designed as as wrapper just to tag an real variable. This allows easy identification 
 on them and they are free to be created everywhere.
 From chapter 13 it turns out that an individual is just a Predicate of type 0. So we just adopt and 
 merge with the definition of `Predicate`
 *)
-Definition Intro_individual (s : string) : Predicate 0. Admitted.
+Definition Individual := Predicate 0.
 
 (* EXPERIMENTAL: the predicate below serves merely just for "how an untyped function of PM should be
-defined in Rocq. Currently it is never used anywhere and only demonstrates an experimental idea *)
+defined in Rocq". Currently it is never used anywhere and only demonstrates an experimental idea *)
 Definition Intro_untyped {A : Type} (s : string) : A -> Prop. Admitted.
+
+(* `Intro` Rocq predicates are used for introducing a term in the middle of the proof, which 
+is something specific for PM's proofs. Here we provide the version for individuals and predicates *)
+Definition Intro_individual (s : string) : Individual. Admitted.
+
+Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
 
 (* **************** *)
 (* Chapter 14 *)

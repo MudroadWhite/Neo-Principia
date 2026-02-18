@@ -21,7 +21,6 @@ I started this project by
 - [x] Summary on rest of the works can be found at the beginning of [mechanics](./3_mechanics.md).
 
 ## Project goal and milestones
-
 **Ongoing: Plan on finishing Class-related chapters, starting from chapter 20.** From the introduction in Principia, which is before chapter 1, implementing classes and relations will ensure the necessity to express everything in Principia. We also might want to write some documents for the previous chapters in some time...
 
 **2026.02:** Chapter 14, the first chapter with a *incomplete/context based* definition(the description), has been finished. Finishing this chapter also let me decide that we shouldn't move to deep embedding due to the complexity, and instead push for more chapters.

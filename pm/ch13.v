@@ -75,8 +75,6 @@ Definition n13_03 (X Y Z : Prop) :
   ((X = Y) ∧ (Y = Z)) = ((X = Y) ∧ (Y = Z)).
 Admitted.
 
-Open Scope single_formal_impl.
-
 Theorem n13_1 (X Y : Prop) : (X = Y) 
   ↔ (∀ φ : Predicate 1, (φ X) → (φ Y)).
 Proof.
@@ -141,8 +139,6 @@ Proof.
   }
   exact S5.
 Qed.
-
-Open Scope single_formal_equiv.
 
 Theorem n13_11 (X Y : Prop) :
   (X = Y) ↔
@@ -363,7 +359,7 @@ Proof.
   now rewrite <- Equiv4_01 in Comp3_43.
 Qed.
 
-Open Scope single_formal_equiv.
+Open Scope formal_equiv.
 
 Theorem n13_183 (X Y : Prop) :
   (X = Y) ↔ ((X = z) <[- z -]> (z = Y)).
@@ -418,6 +414,8 @@ Proof.
   pose proof (n10_24 (fun y => y = X) X) as n10_24.
   now MP n10_24 n13_15.
 Qed.
+
+Open Scope formal_impl.
 
 Theorem n13_191 (X : Prop) (φ : Prop → Prop) :
   ((y = X) -[ y ]> φ y) ↔ φ X.
@@ -637,8 +635,6 @@ Proof.
   now symmetry in n13_195.
 Qed.
 
-Open Scope formal_impl.
-
 Theorem n13_21 (X Y : Prop) (φ : Prop → Prop → Prop) : 
   ((((z = X) ∧ (w = Y)) -[ z w ]> φ z w) ↔ φ X Y).
 Proof.
@@ -726,5 +722,4 @@ Proof.
 Qed.
 
 Close Scope formal_impl.
-Close Scope single_formal_equiv.
-Close Scope single_formal_impl.
+Close Scope formal_equiv.

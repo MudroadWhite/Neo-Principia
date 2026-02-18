@@ -25,16 +25,17 @@ Principia performs everything **one step at a time**. This automatically means f
 
 During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
 
-Due to the inheriting nature of definitions, the way that a theorem is being proven and being used *varies* between chapters. See \[Chapter 1\](TODO: CORRECT HYPERLINK) for how they are used in chapter 1 - 5, \[Chapter 9\] for how they are used in chapter 9 - 11, and \[Chapter 12\] for how they are used from chapter 12 and beyond.
+Due to the inheriting nature of definitions, the way that a theorem is being proven and being used *varies* between chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for how they are used in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for how they are used in chapter 9 - 11, and [chapter 12](./3_mechanics.md/#chapter-12) for how they are used from chapter 12 and beyond.
 
 We now start explaining what new ideas are being introduced into each of the chapters.
 
+## Chapters
 ### Chapter 1
 TODO: 
-- check why the statement is true: individuals are not propositions- 
-- the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of ¬ and ∨
-- TODO: find a place to write in chapter 1: *elementary propositions* are simple propositions connected with `¬` and `∨`; relate elementary propositions to those in chapter 9 - chapter 9 adds *matrices* in addition of e-props for substitutions
-- TODO: check how PM uses different sets of symbols/letters to represent constants, matrices, etc..
+- find a place to write in chapter 1: *elementary propositions* are simple propositions connected with `¬` and `∨`; relate elementary propositions to those in chapter 9 - chapter 9 adds *matrices* in addition of e-props for substitutions
+- check why the statement is true: individuals are not propositions
+- the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of `¬` and `∨`
+- check how PM uses different sets of symbols/letters to represent constants, matrices, etc..
 
 ### Chapter 2
 
@@ -57,7 +58,7 @@ Definition example_proposition := forall (x y : Prop), x /\ y.
 ```
 
 - **Matrices**(the actual "functions") are exactly **predicative functions**.
-- **Matrices** are built on **propositions** with a 1-level lower order(TODO: make a clear distinction between types). See \[chapter 12\] below for a serious consideration on orders
+- **Matrices** are built on **propositions** with a 1-level lower order(TODO: make a clear distinction between types). See [chapter 12](./3_mechanics.md/#chapter-12) below for a serious consideration on orders
 - (Propositional) **functions** are built on **matrices**, with *some*(but not all) of its variables quantified
 - (Quantified) **propositions** are built on **matrices**, with *all* possible variables quantified
 
@@ -69,9 +70,9 @@ The typical "lambda-calculus-like" functions in PM is called a *matrix*, but we 
 
 There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables, being explained way more clearer in the original text. *Is it real that the distinction between apparent and real variables are unnecessary*, as Wittgenstein said\[CITATION NEEDED\]? We don't really know, but just see the example at the beginning of this section.
 
-Examples of *matrices* are given in \[CITATION NEEDED: cite ch12, and find other occurences in intro & chapter 1-5 \], taking different types of variables as their arguments. 
+Examples of *matrices* are given in \[CITATION NEEDED: cite page in ch12, and find other occurences in intro & chapter 1-5 \], taking different types of variables as their arguments. 
 
-Theorems from chapter 9 to chapter 11 are proven in a different way against theorems starting from chapter 12 and beyond. For the general case, see [chapter 12] below. By proving a theorem, we mean(TDO: refine the statement):
+Theorems from chapter 9 to chapter 11 are proven in a different way against theorems starting from chapter 12 and beyond. For the general case, see [chapter 12](./3_mechanics.md/#chapter-12) below. By proving a theorem, we mean(TDO: refine the statement):
 
 - Parameters for a theorem are all the letters appeared in the theorem, similar to how a function is expressed
 - We only prove the case where parameters for theorems are individuals (plus elementary matrices just as the "normal functions" of people's common sense)
