@@ -72,10 +72,10 @@ There is another way to understand the difference between a matrix and a proposi
 
 Examples of *matrices* are given in \[CITATION NEEDED: cite page in ch12, and find other occurrences in intro & chapter 1-5 \], taking different types of variables as their arguments. 
 
-Theorems from chapter 9 to chapter 11 are proven in a different way against theorems starting from chapter 12 and beyond. For the general case, see [chapter 12](./3_mechanics.md/#chapter-12) below. By proving a theorem, we mean(TDO: refine the statement):
+For theorems in chapter 9 - 11, proving a theorem means:
 
 - Parameters for a theorem are all the letters appeared in the theorem, similar to how a function is expressed
-- We only prove the case where parameters for theorems are individuals (plus elementary matrices just as the "normal functions" of people's common sense)
+- We only consider the case where parameters for theorems are individuals (plus elementary matrices just as the "normal functions" of people's common sense)
 - If such a elementary proposition/first order "proposition"(TODO: check if this is written correctly) can be proven true, we conclude the truth of such a theorem
 - When we want to use a theorem somewhere, we are allowed to replace the individuals or the matrices with arbitrary elementary propositions or elementary matrices
 
