@@ -48,13 +48,13 @@ TODO:
 ### Chapter 9
 ```Rocq
 (* This is a matrix with 2 real variables. It is also a function *)
-Definition example_matrix (X Y : Prop) := X /\ Y.
+Example example_matrix (X Y : Prop) := X /\ Y.
 
 (* This is a function with 1 real variable and 1 apparent variable *)
-Definition example_function (X : Prop) := forall (y : Prop), X /\ y.
+Example example_function (X : Prop) := forall (y : Prop), X /\ y.
 
 (* This is a proposition with 2 apparent variables. It is *not* a function anymore *)
-Definition example_proposition := forall (x y : Prop), x /\ y.
+Example example_proposition := forall (x y : Prop), x /\ y.
 ```
 
 - **Matrices**(the actual "functions") are exactly **predicative functions**.
