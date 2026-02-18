@@ -10,7 +10,8 @@ We are building:
 
 We now proceed to explain how everything is built up, bottom-up, in Principia.
 
-## How does Principia define everything?
+## Basic setups
+### How does Principia define everything?
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`~ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`~` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
 Principia also defines symbols in an **inheriting way**. That means:
@@ -18,14 +19,14 @@ Principia also defines symbols in an **inheriting way**. That means:
 2. Later chapters refine the rough idea and split for different cases. We divide *animal*s into *dog*s and *cat*s.
 3. To prove a theorem in splitted cases, we might directly reuse the old theorems without any modifications. We directly use *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
 
-## How does Principia proof theorems?
-Principia designs its theorems in a **"practical way"**. Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
+### How does Principia proof theorems?
+Principia designs its theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
 
 Principia performs everything **one step at a time**. This automatically means functions in Principia are always "small-step". We don't need to concern things like free vs bounded variables to eliminate the ambiguity, because deduction takes one step at a time, and only when a guaranteed/hand-crafted candidate exist. Functions don't come with a scope, and an ad-hoc "scope" is defined for auxiliary purpose orthogonal to functions. See chapter 14 below.
 
 During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
 
-Due to the inheriting nature of definitions, the way that a theorem is being proven and being used *varies* between chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for how they are used in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for how they are used in chapter 9 - 11, and [chapter 12](./3_mechanics.md/#chapter-12) for how they are used from chapter 12 and beyond.
+Theorems, like symbol definitions, have its **inheriting** nature. The way for a theorem to be proven and to be used *varies* between chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for how they are used in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for how they are used in chapter 9 - 11, and [chapter 12](./3_mechanics.md/#chapter-12) for how they are used from chapter 12 and beyond.
 
 We now start explaining what new ideas are being introduced into each of the chapters.
 
