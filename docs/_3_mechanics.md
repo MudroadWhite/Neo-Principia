@@ -46,6 +46,8 @@ TODO:
 ### Chapter 5
 
 ### Chapter 9
+This chapter starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays. Although they are being considered, their full definitions start from chapter 12, so our explanation will also cite the text in chapter 12 for reference.
+
 ```Rocq
 (* This is a function with 2 real variables. It's also a matrix *)
 Example example_matrix (X Y : Prop) := X /\ Y.
@@ -61,8 +63,6 @@ Example example_proposition := forall (x y : Prop), x /\ y.
 - **Matrices** are built on **propositions** of a 1-level lower order(TODO: make a clear distinction between types). See [chapter 12](./3_mechanics.md/#chapter-12) below for a serious consideration on orders
 - **Functions** are built on **matrices**, with *some*(but not all) of its variables quantified
 - **Propositions** are built on **matrices**, with *all* possible variables quantified
-
-This chapter starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays. Although they are coming to consideration, their full definition starts from chapter 12, so our explanation will also cite the text in chapter 12 for reference.
 
 The typical "lambda-calculus-like" functions in PM is called a *matrix*, but we don't even have the `lambda x` part(aka the parameter list) to figure out what are the parameters. For a matrix, all greek/english letters appeared are parameters. There is a synonym for matrix: *predicative functions*(p.164).
 
