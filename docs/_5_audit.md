@@ -17,9 +17,11 @@ Assessment for each of the chapter is based on the following questions:
 Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
 
 ### Basic setups
-**Definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
+**Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
 
-**Citations.** Citations in general only cover the most important theorems and ignore the rest chores. Their orders to apply might differ from the possible ways perform the deduction. Constructing the proofs based only on the citations cannot be automated.
+On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see chapter 14, 20 and beyond. Currently I believe that the compositional nature and the notational system are things at different level, and we will make a clearer distinction between them in the future.
+
+**Citations.** Citations in general only cover the most important theorems and ignore the rest chores. Their orders to apply might differ from the possible ways perform the deduction\[CITATION NEEDED: EXAMPLE IN CHAPTER 14\]. Constructing the proofs based only on the citations cannot be automated.
 
 **Types.** We won't check the types within the proofs, because we didn't find a way to correctly restrict the types for the terms. Currently I'm thinking of using functions as tags to label the type level of a parameter/term, as `Definition Predicate_1 (X : Prop) := Prop`, but beyond that I don't have a better clue. Proofs of chapters in this project **will not have their type checked**.
 

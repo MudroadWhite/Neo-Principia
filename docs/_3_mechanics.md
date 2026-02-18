@@ -11,9 +11,9 @@ We are building:
 We now proceed to explain how everything is built up, bottom-up, in Principia.
 
 ## How does Principia define everything?
-Different from most of the textbooks, Principia defines its concepts in a **compositional way**. In contrast to *`~ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`~` applied on an `∃` proposition should be defined as something*. It's a common practice to fix an operator and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
+Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`~ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`~` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
-Principia also defines in an **inheriting way**. That means:
+Principia also defines symbols in an **inheriting way**. That means:
 1. Some early chapters define rough ideas and propose their theorems. For example, we define what is an *animal*, and write down theorems about it.
 2. Later chapters refine the rough idea and split for different cases. We divide *animal*s into *dog*s and *cat*s.
 3. To prove a theorem in splitted cases, we might directly reuse the old theorems without any modifications. We directly use *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
@@ -25,7 +25,9 @@ Principia performs everything **one step at a time**. This automatically means f
 
 During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
 
-The way that a theorem is being proven and being used are different between each of the chapters. See \[Chapter 1\](TODO: CORRECT HYPERLINK) for how they are used in chapter 1 - 5, \[Chapter 9\] for how they are used in chapter 9 - 11, and \[Chapter 12\] for how they are used from chapter 12 and beyond.
+Due to the inheriting nature of definitions, the way that a theorem is being proven and being used *varies* between chapters. See \[Chapter 1\](TODO: CORRECT HYPERLINK) for how they are used in chapter 1 - 5, \[Chapter 9\] for how they are used in chapter 9 - 11, and \[Chapter 12\] for how they are used from chapter 12 and beyond.
+
+We now start explaining what new ideas are being introduced into each of the chapters.
 
 ### Chapter 1
 TODO: 
