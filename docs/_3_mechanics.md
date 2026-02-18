@@ -11,7 +11,7 @@ We are building:
 We now proceed to explain how everything is built up, bottom-up, in Principia.
 
 ## Basic setups
-### How does Principia define everything?
+### How does Principia define symbols?
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`~ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`~` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
 Principia also defines symbols in an **inheriting way**. That means:
@@ -37,6 +37,8 @@ TODO:
 - check why the statement is true: individuals are not propositions
 - the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of `¬` and `∨`
 - check how PM uses different sets of symbols/letters to represent constants, matrices, etc..
+- *context: elementary-proposition*
+- (p.94) definitional equality is undefined in PM
 
 ### Chapter 2
 
@@ -60,25 +62,42 @@ Example example_function (X : Prop) := forall (y : Prop), X /\ y.
 Example example_proposition := forall (x y : Prop), x /\ y.
 ```
 
-- **Matrices**(the actual "functions") are exactly **predicative functions**.
+- **Matrices**(the actual "functions") are exactly **predicative functions**(p.164 defined as synonym).
 - **Matrices** are built on **propositions** of a 1-level lower order(TODO: make a clear distinction between types). See [chapter 12](./3_mechanics.md/#chapter-12) below for a serious consideration on orders
-- **Functions** are built on **matrices**, with *some*(but not all) of its variables quantified
+- **Functions** are built on **matrices**, with *not all* of its variables quantified
 - **Propositions** are built on **matrices**, with *all* possible variables quantified
 
-The typical "lambda-calculus-like" functions in PM is called a *matrix*, but we don't even have the `lambda x` part(aka the parameter list) to figure out what are the parameters. For a matrix, all greek/english letters appeared are parameters. There is a synonym for matrix: *predicative functions*(p.164).
+The examples above should have already shown clearly what in PM called a *matrix*(p.50). Appearing in the text though, it is slightly less obvious how they are "functions" of a kind - they don't have the `lambda x` part(aka the parameter list) to explicitly state what are the parameters: the `example_matrix` above will just be written as `x /\ y`. For a matrix, all greek/english letters appeared are parameters.
 
-*Functions* are matrices themselves, *plus* some(not all) of the variables of a matrix quantified(`forall`, `exists`). In chapter 9, there has been a notation for matrices, but never used anywhere else(TODO: check if this is actually correct and cite the part): the hat operator `^` denoting exactly turning a proposition into a matrix. 
+(Propositional) *functions*(p.14) include matrices themselves, *plus* some(not all) of the variables of a matrix quantified(`forall`, `exists`). In chapter 9, there has been a notation for matrices, but never used anywhere else(TODO: check if this is actually correct and cite the part): the hat operator `^` denoting exactly turning a proposition into a matrix. 
 
-There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables, being explained way more clearer in the original text. *Is it real that the distinction between apparent and real variables are unnecessary*, as Wittgenstein said\[CITATION NEEDED\]? We don't really know, but just see the example at the beginning of this section.
+There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). Their difference have been discussed clearer in original text. Is it real that *the distinction between apparent and real variables is unnecessary*, as Wittgenstein have said\[CITATION NEEDED\]? We don't really know, but let's just turn back to the example at the beginning to get the vibe. One crucial difference between real and apparent variables(p.128), though, is that real variables are not given types in PM while apparent variables are given types.
 
 Examples of *matrices* are given in \[CITATION NEEDED: cite page in ch12, and find other occurrences in intro & chapter 1-5 \], taking different types of variables as their arguments. 
 
-For theorems in chapter 9 - 11, proving a theorem means:
+Proving theorems in chapter 9 - 11 is under the following assumptions, which I personally call *order-1 context*:
 
-- Parameters for a theorem are all the letters appeared in the theorem, similar to how a function is expressed
-- We only consider the case where parameters for theorems are individuals (plus elementary matrices just as the "normal functions" of people's common sense)
-- If such a elementary proposition/first order "proposition"(TODO: check if this is written correctly) can be proven true, we conclude the truth of such a theorem
-- When we want to use a theorem somewhere, we are allowed to replace the individuals or the matrices with arbitrary elementary propositions or elementary matrices
+- Parameters for a theorem are all the letters appeared in the theorem, similar to how a function is expressed(TODO: MOVE TO CH1)
+- Only the case where parameters for theorems are individuals (plus elementary matrices just as the common sense "functions") is taken into consideration
+- If such a elementary proposition/first order "proposition"(TODO: check if this is written correctly) can be proven true, we conclude the truth of such a theorem(TODO: maybe check theorems in chapter 1)
+- When we want to use a proven theorem somewhere, we are allowed to replace individuals or matrices with arbitrary elementary propositions or elementary matrices
+
+Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
+- Theorems expressed as formulae have the purpose to *demonstrate* how theorems in chapter 1 - 5 can be extended to cases with quantifiers, *assuming that we can already use those quantifiers*
+- Theorems expressed as natural language define the meta theory to legitimate the actual important properties: what is a type, how to extend a function to quantified propositions, when to derive them, and eventually, why can we extend to quantifiers without breaking the types.
+
+TODO:
+
+~p.49:
+- We can construct a function taking 2 arguments, and return either a function of function or a function of individual. 
+It turns out that the return type is untyped. To enforce the return type with a fixed type, we have to enforce arguments
+of a function taking the same type
+
+~p.52:
+- `!` notation also seems to be used only when the function is being considered as a variable(at rhs)? And for all other cases, they are 
+  supposed to be fixed(at rhs)?
+- `!`'s summary: this is not a notation just for first order functions, but it's more like a notation for function being identified as 
+  a variable at rhs
 
 ### Chapter 10
 TODO: actual alternative;
@@ -90,16 +109,90 @@ TODO: generalize formal props
 Starting from chapter 12, a rigorous hierarchy of *orders* begins to be taken into consideration, and this is also the first chapter that we're going to think something like "so these theorems have more than one ways to use them"\[CITATION NEEDED\].
 
 TODO:
+- *context: order-n*
 - Theorems in chapter 1 - 11 can be reused by replacing individuals into some n-order-matrices and elementary matrices into some n+1-order matrices
 - discuss the volatility for formalization of AoR
-- discuss the `!` operator: it doesn't consider the absolute order level but it fixes the relative level to +1; for convinience should we only start with individuals?
+- discuss the `!` operator: it doesn't consider the absolute order level but it fixes the relative level to +1; for convenience should we only start with individuals?
 - a individual can have a 2nd order function - discuss how should we understand a function of +n types to a parameter
 
 ### Chapter 13
-TODO: just an identity; discuss how it might use definition in ch12; state the utilization of `pred` variants
+TODO: 
+- just an identity 
+- discuss how it might use definition in ch12; state the utilization of `pred` variants
+- (p.57)exaplained a proof of identity `=` informally, only to be complete with the support of axiom of reducibility
+
 
 ### Chapter 14
-TODO: this is the last chapter where actual mechanics matters: the first chapter where we introduce *contextual definitions*, modeled with *notations* in Rocq. all future concept might be built either on normal or on contextual definitions, and they should be never interfere with the fundamentals for the rewriting system; but maybe in the future we might regard all the definitions as a whole and make a clearer distinction between the rewriting system, maybe until the presence of natural numbers
+TODO: this is the last chapter where actual mechanics matters: the first chapter where we introduce *contextual definitions*/"incomplete symbol", modeled with *notations* in Rocq. all future concept might be built either on normal or on "incomplete symbols", and they should be never interfere with the fundamentals for the rewriting system; but maybe in the future we might regard all the definitions as a whole and make a clearer distinction between the rewriting system, maybe until the presence of natural numbers
 
 ### Chapter 20
 TODO: ambiguity on the interpretation for `Phi ! x` where we don't know if `!` stands for predicate or just the function as the focus
+
+DRAFTS
+~p.17:
+- descriptive funstion: a special kind of propositional function, including examples like `x is blue`
+- `~` is not a primitive idea. It is supposed to have a different definition on different types of proposition. 
+For example, we might define `~` a typeclass, and `∀` propositions has an instance of implementation for 
+this operator
+
+~p.20: 
+- (Ax, Px → Q x) → (Ax, Px) → (Ax, Qx) requires that P Q takes arguments "of the same type". TODO: → p.49
+- formal implication: the `→` wrapped up in `∀`s. It bypassed the problem that `P → Q = ~P ∨ Q`, and restrict that we have to 
+know `∀ x, P x → Q x` and `P X` to get `Q X`.
+
+~p.22:
+(TODO)`=` is not defined until chapter 13, and this is being explained in chapter 2/chapter II.
+
+~p.40:
+- a nice counterexample to test a function P is well typed is to see if `P P` can be formed
+- `P P` is also an example that `P` is *impossible* to be a value of `P`
+- P with "all possible values" are called `significant`. Significant = "well typed"
+
+~p.47, beginning of chapter II:
+- `∀ x, Phi x` is considered as a function with `Phi` as one argument
+- for `∀`, `Phi` can be a parameter but an individual `X` cannot be a parameter
+- it is necesssary to make a distinction between passing in a `X` and passing in a `Phi`
+
+~p.51:
+- predicate: first order functions. Only takes individuals as parameters
+- "Individual" is the best thing to instantiate a function's parameters
+- (TODO)They are designed to be not propositions. Why?
+- (TODO)Why we have to design the hierarchy for "functions" and "propositions " separately?
+
+~p.127:
+- Chapter II has explained that ~ and ∨ should have different meaning on different propositions. Guess: we cannot define a
+negation on "all" propositions attributing to Russell's paradox
+
+~p.128:
+- Goal of ch9: focus on definition of `~` and `∨` defined in *1 - *5 limited to eprops. Extend their definitions to 1st orde props
+- The support of `∀` and `∃` seems to be only for demonstration purpose - if we take them as primitive ideas, we can 
+  conclude "upgraded" versions of propositions "just as in" ch1-5.
+- the important parts seems to be *1.2 - *1.6; A new way is used for analogue of 1.7 - 1.72
+- Real variables doesn't have types(??), and can be instantiated with any proposition of any orders???
+- Summary:
+  - elementary propositions are initially admitted, along with their types
+  - definition of `~` and `∨` depends on proposition types
+  - definition of function depends on type of `~` and `∨`
+  - order of a proposition depends on its parameter's types
+
+~p.138:
+- Ch9 enables us to take `∀` propositions as parameters
+- therefore we can have a better goal(?)
+- Goal of ch10: focus on deducing 1-var functions from 
+- "for example", `∃` is no longer a primitive idea which is different from ch9  
+- several ch9 theorems are only taken because of their ability to reason for quantified propositions
+
+~p.162:
+- (TODO) propositions is defined in p.43. They are supposed to be incomplete symbols, but individuals are complete 
+  so they are not propositions
+- starting from chapter 12, all variables are either matrixes or individuals
+
+
+## See Also
+- https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html
+- https://plato.stanford.edu/entries/pm-notation/
+- https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
+- https://randall-holmes.github.io/Drafts/notesonpm.pdf
+- https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/
+- https://nap.nationalacademies.org/read/10866/chapter/66
+- https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
