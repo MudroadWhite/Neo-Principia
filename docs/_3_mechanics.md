@@ -47,10 +47,10 @@ TODO:
 
 ### Chapter 9
 ```Rocq
-(* This is a matrix with 2 real variables. It is also a function *)
+(* This is a function with 2 real variables. It's also a matrix *)
 Example example_matrix (X Y : Prop) := X /\ Y.
 
-(* This is a function with 1 real variable and 1 apparent variable *)
+(* This is a function with 1 real variable and 1 apparent variable. It's not a matrix *)
 Example example_function (X : Prop) := forall (y : Prop), X /\ y.
 
 (* This is a proposition with 2 apparent variables. It is *not* a function anymore *)
@@ -58,9 +58,9 @@ Example example_proposition := forall (x y : Prop), x /\ y.
 ```
 
 - **Matrices**(the actual "functions") are exactly **predicative functions**.
-- **Matrices** are built on **propositions** with a 1-level lower order(TODO: make a clear distinction between types). See [chapter 12](./3_mechanics.md/#chapter-12) below for a serious consideration on orders
-- (Propositional) **functions** are built on **matrices**, with *some*(but not all) of its variables quantified
-- (Quantified) **propositions** are built on **matrices**, with *all* possible variables quantified
+- **Matrices** are built on **propositions** of a 1-level lower order(TODO: make a clear distinction between types). See [chapter 12](./3_mechanics.md/#chapter-12) below for a serious consideration on orders
+- **Functions** are built on **matrices**, with *some*(but not all) of its variables quantified
+- **Propositions** are built on **matrices**, with *all* possible variables quantified
 
 This chapter starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays. Although they are coming to consideration, their full definition starts from chapter 12, so our explanation will also cite the text in chapter 12 for reference.
 
