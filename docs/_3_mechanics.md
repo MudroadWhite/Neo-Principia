@@ -40,33 +40,24 @@ The way *we prove theorems* in this chapter is basically just what `Pp`s says:
 - Asserting `H2 : P -> Q` means asserting `P` can successfully imply `Q`
 - (\*1.1)If `H1` and `H2` are asserted true, we are allowed to assert `H3 : Q`
 
-In chapter 1 we also have a very rough idea on how to denote a (elementary) *propositional function*. Such kind of simple denotation will secretly be changed into something else in later chapters. *Propositional function*s are not *proposition*s, and they don't come with explicit parameter list - see [chapter 9](./3_mechanics.md/#chapter-9).
+In chapter 1 we also have a rough idea on how to denote a (elementary) *propositional function*. Such kind of simple denotation will be changed into something else in later chapters. In chapter 1-5, most propositional functions don't come barely themselves - their values for variables are somehow "fixed" already during all the inference, where `Phi X` and `Phi Y` does not mean the same thing(p.19).
 
 ```Rocq
-(* All of the examples below only demonstrate the ideas and have delicate inconsistency with the actual implementation *)
 (* This is an elementary proposition *)
 Example example_ch1_proposition (X : Prop) := X.
 
-(* This is an elementary function *)
+(* This is an asserted elementary function value *)
 Example example_ch1_prop_function_1 (Phi : Prop) (X : Prop) := Phi X.
 
-(* We can have another way to write the function, which is more accurate *)
-Example example_ch1_prop_function_2 (Phi : Prop) := fun (x : Prop) => Phi X.
+(* This is the actual way to write the function, but we won't use it *)
+Example example_ch1_prop_function_2 (Phi : Prop) := fun (X : Prop) => Phi X.
 ```
+- Asserting an (elementary) **propositional function** means asserting `H1 : Phi X`.
+- (\*1.2)If `H2 : Phi X -> Psi X` can be implied, then we are allowed to imply `H3 : Psi X`.
 
-- If a parameter of a Rocq `Theorem` can appear as `X : Prop` in proof window, then this `X` is a **real variable** implied true
-- Asserting an (elementary) **propositional function** means asserting `H1 : Phi X` in the proof window, where `X` is an asserted real variable
-- (\*1.2)If `H2 : Phi X -> Psi X` can be implied, then we are allowed to imply `H3 : Psi X`
+To be exact, `H1 : Phi X` above should refer to something like `H1: (fun x => x /\ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `Phi` solely(p.92) and we're still asserting a proposition. In practice, we have designed a unified `MP` to perform both kind of the *modus ponens*.
 
-TODO: MOVE THIS TO 4.TACTICS
-As a concrete example, `*1.01 : P -> Q = ~ P \/ Q`, as appeared in the text, should be translated to `n1_01 := (fun P Q => P -> Q) = (fun P Q) => ~ P \/ Q` at its maximum accuracy. Our current implementation doesn't follow such implementation, but one can see how much the idea has been preserved in our current implementation
-
-PM designs carefully just to ensure that the propositional functions in deduction is taking the same parameter `X`(p.95). In practice, we have designed a unified `MP` to perform both kind of the *modus ponens*.
-
-TODO: MOVE MP RELATED NOTES TO 4.TACTICS
-- We have designed a **MP** tactic being used on both of above cases
 - (p.94)Definitional equality is undefined in PM
-- All **individual**s are **elementary propositions**
 - **elementary propositions** are closed under `¬` and `∨`
 - **elementary functions** are closed under `¬` and `∨`
 
