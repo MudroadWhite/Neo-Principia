@@ -32,7 +32,6 @@ On the other hand, Rocq's *notation system* has been very useful for expressing 
 
 **Functions.** For our soft embedding, the matrices are being constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will expose higher expectations on functions and matrices: should they come with a type of `Prop -> Prop`, or should it be something else? Can we have an automatic way to convert one kind of functions into another kind(ch12)? The list of questions extends as we will proceed and have higher requirements.
 
-
 ### Chapter 10
 **Coverage: 99% = ((x-1)/x)**. 
 

@@ -86,6 +86,8 @@ TODO: MP has been assumed to be work for 1-order props(p.128); more in `n9_2`
 
 TODO: types is a slightly generalized notion than *order*: types basically identifies efunc, matrices and props, and should be able to be expressed in Rocq. Rocq type should be served as the notion for *order*, not the notion for types
 
+TODO: `is_same_type` preserves order of expressions (manual checked)
+
 TODO: will ch12 beyond and classes have consideration on such types?
 
 
