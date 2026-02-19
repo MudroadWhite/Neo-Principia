@@ -53,9 +53,14 @@ Example example_ch1_prop_function_1 (Phi : Prop) (X : Prop) := Phi X.
 Example example_ch1_prop_function_2 (Phi : Prop) := fun (X : Prop) => Phi X.
 ```
 - Asserting an (elementary) **propositional function** means asserting `H1 : Phi X`.
-- (\*1.2)If `H2 : Phi X -> Psi X` can be implied, then we are allowed to imply `H3 : Psi X`.
+- (\*1.11)If `H2 : Phi X -> Psi X` can be implied, then we are allowed to imply `H3 : Psi X`.
 
-To be exact, `H1 : Phi X` above should refer to something like `H1: (fun x => x /\ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `Phi` solely(p.92) and we're still asserting a proposition. In practice, we have designed a unified `MP` to perform both kind of the *modus ponens*.
+To be exact, `H1 : Phi X` above should refer to something like `H1: (fun x => x /\ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `Phi` solely(p.92) and we're still asserting a proposition. 
+
+The role of \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
+
+TODO: Move to `4.tactics`
+In practice, we have designed a unified `MP` to perform both kind of the *modus ponens*.
 
 - (p.94)Definitional equality is undefined in PM
 - **elementary propositions** are closed under `¬` and `∨`
@@ -72,7 +77,22 @@ To be exact, `H1 : Phi X` above should refer to something like `H1: (fun x => x 
 ### Chapter 5
 
 ### Chapter 9
+
+TODO: n-order function means once instantiated become a n-order proposition
+
+TODO: p.51, p.132: individual is not a proposition nor a function
+
+TODO: MP has been assumed to be work for 1-order props(p.128); more in `n9_2`
+
+TODO: types is a slightly generalized notion than *order*: types basically identifies efunc, matrices and props, and should be able to be expressed in Rocq. Rocq type should be served as the notion for *order*, not the notion for types
+
+TODO: will ch12 beyond and classes have consideration on such types?
+
+
+
 This chapter starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays. Although they are being considered, their full definitions start from chapter 12, so our explanation will also cite the text in chapter 12 for reference.
+
+
 
 ```Rocq
 (* This is a function with 2 real variables. It's also a matrix *)
