@@ -23,7 +23,7 @@ Qed.
 
 (* cf.p.51: `!` notation *)
 (* EXPERIMENTAL/DRAFT: 
-`!` notation mostly declares the order of a matrix
+`!` notation mostly declares the order of a matrix, and the function is strictly a matrix(p.166)
 Should we treat `!` as something being denotational just like the dot notations in Principia?
 *)
 
@@ -35,6 +35,8 @@ NOTE:
   necessary
 TODO: maybe in the future, checkout the definition for matrix and try to see if we can also integrate
 in a definition for matrix
+
+TODO: add an extra implicit argument {shift : nat} where shift = 0 by default
 *)
 Fixpoint Predicate (n : nat) : Type :=
   match n with

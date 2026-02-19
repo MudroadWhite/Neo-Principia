@@ -32,13 +32,45 @@ We now start explaining what new ideas are being introduced into each of the cha
 
 ## Chapters
 ### Chapter 1
-TODO: 
-- find a place to write in chapter 1: *elementary propositions* are simple propositions connected with `¬` and `∨`; relate elementary propositions to those in chapter 9 - chapter 9 adds *matrices* in addition of e-props for substitutions
-- check why the statement is true: individuals are not propositions
-- the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of `¬` and `∨`
-- check how PM uses different sets of symbols/letters to represent constants, matrices, etc..
-- *context: elementary-proposition*
-- (p.94) definitional equality is undefined in PM
+Principia has 3 types of theorems: `Pp`(primitive proposition), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq - currently with their parameter types unchecked because we didn't implement it yet.
+
+The way *we prove theorems* in this chapter is basically just what `Pp`s says:
+- Having something in our proof window means it has been asserted/implied true
+- Asserting `H1 : P` means asserting `P` as an **elementary proposition**
+- Asserting `H2 : P -> Q` means asserting `P` can successfully imply `Q`
+- (\*1.1)If `H1` and `H2` are asserted true, we are allowed to assert `H3 : Q`
+
+In chapter 1 we also have a very rough idea on how to denote a (elementary) *propositional function*. Such kind of simple denotation will secretly be changed into something else in later chapters. *Propositional function*s are not *proposition*s, and they don't come with explicit parameter list - see [chapter 9](./3_mechanics.md/#chapter-9).
+
+```Rocq
+(* All of the examples below only demonstrate the ideas and have delicate inconsistency with the actual implementation *)
+(* This is an elementary proposition *)
+Example example_ch1_proposition (X : Prop) := X.
+
+(* This is an elementary function *)
+Example example_ch1_prop_function_1 (Phi : Prop) (X : Prop) := Phi X.
+
+(* We can have another way to write the function, which is more accurate *)
+Example example_ch1_prop_function_2 (Phi : Prop) := fun (x : Prop) => Phi X.
+```
+
+- If a parameter of a Rocq `Theorem` can appear as `X : Prop` in proof window, then this `X` is a **real variable** implied true
+- Asserting an (elementary) **propositional function** means asserting `H1 : Phi X` in the proof window, where `X` is an asserted real variable
+- (\*1.2)If `H2 : Phi X -> Psi X` can be implied, then we are allowed to imply `H3 : Psi X`
+
+TODO: MOVE THIS TO 4.TACTICS
+As a concrete example, `*1.01 : P -> Q = ~ P \/ Q`, as appeared in the text, should be translated to `n1_01 := (fun P Q => P -> Q) = (fun P Q) => ~ P \/ Q` at its maximum accuracy. Our current implementation doesn't follow such implementation, but one can see how much the idea has been preserved in our current implementation
+
+PM designs carefully just to ensure that the propositional functions in deduction is taking the same parameter `X`(p.95). In practice, we have designed a unified `MP` to perform both kind of the *modus ponens*.
+
+TODO: MOVE MP RELATED NOTES TO 4.TACTICS
+- We have designed a **MP** tactic being used on both of above cases
+- (p.94)Definitional equality is undefined in PM
+- All **individual**s are **elementary propositions**
+- **elementary propositions** are closed under `¬` and `∨`
+- **elementary functions** are closed under `¬` and `∨`
+
+(p.92)Note: not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
 
 ### Chapter 2
 
@@ -71,7 +103,7 @@ The examples above should have already shown clearly what in PM called a *matrix
 
 (Propositional) *functions*(p.14) include matrices themselves, *plus* some(not all) of the variables of a matrix quantified(`forall`, `exists`). In chapter 9, there has been a notation for matrices, but never used anywhere else(TODO: check if this is actually correct and cite the part): the hat operator `^` denoting exactly turning a proposition into a matrix. 
 
-There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). Their difference have been discussed clearer in original text. Is it real that *the distinction between apparent and real variables is unnecessary*, as Wittgenstein have said\[CITATION NEEDED\]? We don't really know, but let's just turn back to the example at the beginning to get the vibe. One crucial difference between real and apparent variables(p.128), though, is that real variables are not given types in PM while apparent variables are given types.
+There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). Their difference have been discussed clearer in original text. Is it real that *there are no propositions containing real variables*, as [Wittgenstein](https://wittgensteinproject.org/w/index.php/Notes_on_Logic) have said? We don't really know, but let's just turn back to the our examples to vibe it off. One crucial difference between real and apparent variables(p.128), though, is that real variables are not given types in PM while apparent variables are given types.
 
 Examples of *matrices* are given in \[CITATION NEEDED: cite page in ch12, and find other occurrences in intro & chapter 1-5 \], taking different types of variables as their arguments. 
 
@@ -86,7 +118,15 @@ Chapter 9's theorems are furthermore splitted into 2 parts for different purpose
 - Theorems expressed as formulae have the purpose to *demonstrate* how theorems in chapter 1 - 5 can be extended to cases with quantifiers, *assuming that we can already use those quantifiers*
 - Theorems expressed as natural language define the meta theory to legitimate the actual important properties: what is a type, how to extend a function to quantified propositions, when to derive them, and eventually, why can we extend to quantifiers without breaking the types.
 
+TODO: 
+- Check chapter II's discussion on "different meaning for ~ applying on forall and exists"
+- the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of `¬` and `∨`
+- check how PM uses different sets of symbols/letters to represent constants, matrices, etc..
+
+
 TODO:
+
+- Can propositions be taken as parameters, since (p.163) matrixes only take individuals/matrices as params?
 
 ~p.49:
 - We can construct a function taking 2 arguments, and return either a function of function or a function of individual. 
@@ -114,6 +154,7 @@ TODO:
 - discuss the volatility for formalization of AoR
 - discuss the `!` operator: it doesn't consider the absolute order level but it fixes the relative level to +1; for convenience should we only start with individuals?
 - a individual can have a 2nd order function - discuss how should we understand a function of +n types to a parameter
+- [Hilbert](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf)(p.33) thinks the `exists` for AoR is a useless shit, and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function.
 
 ### Chapter 13
 TODO: 
