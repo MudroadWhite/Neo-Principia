@@ -90,63 +90,72 @@ Propositions in this chapter starts to make a distinction between *elementary pr
 - Generalization: the main technique to turn a *elementary proposition* into an *elementary function*
 - *Individual*s: the placeholder for a proposition to be generalized into a function, or to assert a function during the proof
 
-And the only way for 1st order propositions to be constructed is from *elementary functions*. Combining with [chapter 1](./_3_mechanics.md/#chapter-1) we are getting the following rules:
+This chapter presents the only way for 1st order propositions to be constructed: generalizing from *elementary functions*. Combining with [chapter 1](./_3_mechanics.md/#chapter-1) we are getting the following rules:
 
 - **elementary propositions** are dependent on `¬` and `∨` (we cannot have `¬`s taking higher order propositions to break the type)
 - **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them)
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
-In chapter 12, we will extend everything more delicately into ideas involving *matrices*, *function*s and *proposition*s.
+There's a lot of things happening in the beginning of chapter 9:
+- First of all \*1.1 and \*1.11 has assumed their version for **1st order propositions**(p.128)(TODO: check `n9_2`)
+- Then first few `Pp`s in chapter 9 are supposed to restricted to e-prop `¬` and `∨`(discussed in Chapter II, they are not 1-order `¬` and `∨`). We define special `forall` and `exists` that is still a *eprop*(taking a eprop function?TODO: check ch9 and ch10), and state how should it be computed with e-prop `¬` and `∨`
+- After we have demonstrated that they work just fine on `exists` as well, we can lift e-prop `¬` and `∨` to 1-order ones
 
-\*1.1 and \*1.11 has assumed their version for **1st order propositions**(p.128)(TODO: check `n9_2`). In particular, the first few `Pp`s in chapter 9 defines how `¬` and `∨` behaves between e-prop and 1-prop(Chapter II in Introduction has discussed why it is necessary). As a consequence \*1.1 and \*1.11 are extended to be allowed to deduce between propositions and functions of different orders.
-
-We have an extra limitation: the first few `Pp`s, `¬` and `∨` are limited to **elementary propositions**. The goal is to demonstrate that we can obtain the their 1st order version just from their elementary version.
-
-A typing algorithm is given in this chapter, completely generating the hierarchy of proposition types for any order. In particular it gives special rules for individuals, as they are not propositions nor functions(p.51, p.132). Despite the explanation, why individual is not proposition is still unclear. My guess is that they are supposed to be only appeared as parameters, and cannot be asserted as a full proposition.
+Later, a typing algorithm is given in this chapter, completely generating the hierarchy of proposition types for any order. In particular it gives special rules for individuals, as they are not propositions nor functions(p.51, p.132). Despite the explanation, why individual is not proposition is still unclear. My guess is that they are supposed to be only appeared as parameters, and cannot be asserted as a full proposition.
 
 The typing algorithm is described both in name and in the style of "of the same type"(\*9.131). Basically the type information entails the order and the kind(is it a function or a proposition?) of the expression.
-1. **Individual.** All individuals have a `Individual` type
+1. **Individual.** All individuals have a `Individual` type. (p.162)Individuals are supposed to be some *specific fixed value*s
 2. **EProp.** All elementary propositions have a `EProp` type
-3. **EFunc(EProp -> EProp).** Elementary functions have same (`EFunc`) type if 
+3. **EFunc(EProp -> EProp).** PM doesn't actually have the idea of `->` types, but it's quite obvious `->` types are the best abstraction. Elementary functions should have same type if 
   1. e-func A is obtained through `¬` on e-func B
   2. e-func A is obtained through `∨` on e-func B and C 
   3. They take same number of arguments, and each of argument is same in type
 4. **Prop n.** A higher order proposition type is obtained from a 1-order lower function. Two `Prop n` should have same type if
-  1. Proposition A is obtained through `¬` on proposition B
+  1. Proposition A is obtained through `¬` on proposition B. `∨` can have different types for its arguments, so it doesn't preserve types
   2. Both proposition A and B are obtained by quantifying two propositional functions of the same 1-order lower type. Both of the functions either 
     1. Have exactly 1 parameter
     2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
 
+And even later, we have \*9.12 being the actual *modus ponens* that synthesizes both \*1.1 and \*1.11.
+
 By proving a theorem in chapter 9 - 11, we have the following assumption:
-- Proposition types are capped at first order propositions
+- Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
+- All real variables in the theorems can be given arbitrary orders after chapter 11(p.128, discussion on typing `¬` and `∨`)
 - TODO: restriction on individual as parameters?
 
 Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
 - Theorems written as formulae have the purpose to *demonstrate* how theorems in chapter 1 - 5 can be extended to cases with quantifiers, *assuming that we can already use those quantifiers*
 - Theorems written in natural language define theorems related to the typing algorithm: what is a type, what function parameters are allowed with regard to the type, and eventually, why can we extend to quantifiers without breaking the types.
 
-TODO: 
-~p.49:
-- We can construct a function taking 2 arguments, and return either a function of function or a function of individual. 
-It turns out that the return type is untyped. To enforce the return type with a fixed type, we have to enforce arguments
-of a function taking the same type
+### Chapter 10
+TODO:
+We have asserted the existence of 1-order proposition type, which means we are proving everything under the type of 1-order, not e-prop
+- (p.138) `¬`, `∨` and generally, any parameters are allowed to take 1-order propositions
+- (p.138) in ch9, `exists` is undefined beneath and cannot be expanded(primitive idea), manipulated thru `\/` and `~`; in ch10, `exists` is a notation that can be expanded
 
+### Chapter 11
+Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables.
+
+### Chapter 12
+Chapter 12 starts to bring awareness to *matrices* for generating *functions*, where the *function*'s definition here is redefined as what is generated by a matrix. The expansion starts from giving a new meaning to `forall`(p.162)(TODO: understand what is a matrix, referring to related todos)
+
+TODO:
+~p.49:
+- We can construct a function taking 2 arguments, and return either a function of function or a function of individual. Matrix is generally the "total function" to generate functions as "partial function". Matrix doesn't need to take all parameters of the same type(?) By feeding in different parameters,  matrices generate functions of different type
+- Also to enforce the return type with a fixed type, we have to enforce possible arguments of a function by restricting them taking the same type(?)
+
+
+TODO: 
 ~p.52:
-- `!` notation also seems to be used only when the function is being considered as a variable(at rhs)? And for all other cases, they are supposed to be fixed(at rhs)?
+- `!` notation also seems to be used only when the function is being considered as a variable(at rhs)? And for all other cases, they are supposed to be fixed(at rhs)? Does it have different meanings for matrices and functions?
 - `!`'s summary: this is not a notation just for first order functions, but it's more like a notation for function being identified as 
   a variable at rhs
 
-### Chapter 10
-TODO: actual alternative;
+- In [chapter 12], we will extend everything more delicately into ideas involving *matrices*, *function*s and *proposition*s.
 
-### Chapter 11
-Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitary variables.
-
-### Chapter 12
-Chapter 12 starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays.
 
 ```Rocq
-(* This is a function with 2 real variables. It's also a matrix *)
+(* This is a matrix with 2 real variables. It's also already a function *)
 Example example_matrix (X Y : Prop) := X /\ Y.
 
 (* This is a function with 1 real variable and 1 apparent variable. It's not a matrix *)
@@ -154,6 +163,8 @@ Example example_function (X : Prop) := forall (y : Prop), X /\ y.
 
 (* This is a proposition with 2 apparent variables. It is *not* a function anymore *)
 Example example_proposition := forall (x y : Prop), x /\ y.
+
+(* TODO: add example: taking Phi as parameters, and say it is now also a parameter *)
 ```
 
 - **Matrices**(the actual "functions") are exactly **predicative functions**(p.164 defined as synonym).
@@ -213,7 +224,6 @@ know `∀ x, P x → Q x` and `P X` to get `Q X`.
 ~p.40:
 - a nice counterexample to test a function P is well typed is to see if `P P` can be formed
 - `P P` is also an example that `P` is *impossible* to be a value of `P`
-- P with "all possible values" are called `significant`. Significant = "well typed"
 
 ~p.47, beginning of chapter II:
 - `∀ x, Phi x` is considered as a function with `Phi` as one argument
@@ -222,8 +232,6 @@ know `∀ x, P x → Q x` and `P X` to get `Q X`.
 
 ~p.51:
 - predicate: first order functions. Only takes individuals as parameters
-- "Individual" is the best thing to instantiate a function's parameters
-- (TODO)They are designed to be not propositions. Why?
 - (TODO)Why we have to design the hierarchy for "functions" and "propositions " separately?
 
 ~p.127:
@@ -231,29 +239,10 @@ know `∀ x, P x → Q x` and `P X` to get `Q X`.
 negation on "all" propositions attributing to Russell's paradox
 
 ~p.128:
-- Goal of ch9: focus on definition of `~` and `∨` defined in *1 - *5 limited to eprops. Extend their definitions to 1st orde props
-- The support of `∀` and `∃` seems to be only for demonstration purpose - if we take them as primitive ideas, we can 
-  conclude "upgraded" versions of propositions "just as in" ch1-5.
-- the important parts seems to be *1.2 - *1.6; A new way is used for analogue of 1.7 - 1.72
 - Real variables doesn't have types(??), and can be instantiated with any proposition of any orders???
-- Summary:
-  - elementary propositions are initially admitted, along with their types
-  - definition of `~` and `∨` depends on proposition types
-  - definition of function depends on type of `~` and `∨`
-  - order of a proposition depends on its parameter's types
-
-~p.138:
-- Ch9 enables us to take `∀` propositions as parameters
-- therefore we can have a better goal(?)
-- Goal of ch10: focus on deducing 1-var functions from 
-- "for example", `∃` is no longer a primitive idea which is different from ch9  
-- several ch9 theorems are only taken because of their ability to reason for quantified propositions
 
 ~p.162:
-- (TODO) propositions is defined in p.43. They are supposed to be incomplete symbols, but individuals are complete 
-  so they are not propositions
 - starting from chapter 12, all variables are either matrixes or individuals
-
 
 ## See Also
 - https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html
