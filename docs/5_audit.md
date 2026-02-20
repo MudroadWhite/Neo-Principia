@@ -45,9 +45,9 @@ The typing algorithm is being demonstrated, but is wrongly interpreted and will 
 ### Chapter 10
 **Coverage: 99% = ((x-1)/x)**. 
 
-**General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `forall` and `exists`. We didn't find any difficulties formalizing this chapter.
-
 **\*X(number of the unprovable theorem)** TODO: explain why it is unprovable
+
+**General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `forall` and `exists`. We didn't find any difficulties formalizing this chapter.
 
 ### Chapter 11
 **Coverage: 100%**
@@ -71,7 +71,11 @@ The *of the same type* proposition in chapter 11 is unexamined. It will gain awa
 ### Chapter 14
 **Coverage: x** to be calculated; n13_15; ADDITIONAL THEOREMS MISSED AND NEEDED;
 
-**General.** TODO: higher requirements for notations; discuss how Dfs in Principia might share the same nature as Rocq notations; how n12_01 applies is mentioned in the text but unclear in the code; exmaple showing that function doesn't necessarily quantify over all individuals of a same kind at once; `iota` can have different interpretation, and the default notation in PM didn't make a clear distinction. Despite its seemingly negligible nature, some incomplete proof still stuck exactly because of it
+how n12_01 applies is mentioned in the text but unclear in the code;
+
+**General.** As the definition of chapter 14 more complicated than any definitions in previous chapters, we are realizing that symbol definitions through `Df` should be best implemented with the notation system in Rocq. TODO: example showing that function doesn't necessarily quantify over all individuals of a same kind at once; 
+
+**Interpretation of iota.** TODO: `iota` can have different interpretation, and the default notation in PM didn't make a clear distinction. Despite its seemingly negligible nature, some incomplete proof still stuck exactly because of it
 
 ### Chapter 20
 **Coverage: WORKING IN PROGRESS**
