@@ -122,10 +122,6 @@ The typing algorithm is described both in name and in the style of "of the same 
     1. Have exactly 1 parameter
     2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
 
-Personal critics on this typing algorithm:
-- (p.162) Same order propositions generalized from different types of arguments will not have the same type, while I think all same-order propositions should have the same type. It has been yet again "practically ignored"(p.162)
-- Individuals, potentially being instantiated as propositions different order, all share the same type. It sounds like a function taking individual as value is having ambiguous type, because you don't know the order of the individual - it can be a place holder for either a elementary prop or a elementary function.
-
 By proving a theorem in chapter 9 - 11, we mean:
 - Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
 - All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
@@ -183,7 +179,7 @@ Axiom of Reducibility is introduced in this chapter for 2 reasons:
 1. (p.49)When we define `x = y` as `forall Phi, Phi x -> Phi y`, assuming it is untyped, we might still have `Phi := fun x => (forall Phi, Phi x -> Phi y)` or `Phi := fun y => forall Phi, Phi x -> Phi y`. In order words for `fun x => Phi x`, `fun x => (forall Phi, Phi x -> Phi a)` has been a value that needs to be avoided. 
 2. On the other hand, sometimes we want to speak of as "many" functions as we can. It turns out that, while we cannot precisely say all functions of a parameter `a`, but we can say all `n`-order functions of a parameter `a` and set `n` to infinity.
 
-For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => Phi a` with `Phi` of order `n`, we can simulate with a predicate function `fun a => Psi a`. The predicativity of `Psi` here means it is just 1-order higher than `a`, and we are assuming *this `Psi` exists*. [Hilbert(p.33)](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) thinks the `exists` for AoR is useless, and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function. AoR has received many other critics, and practically speaking we find it hard to use either.
+For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => Phi a` with `Phi` of order `n`, we can simulate with a predicate function `fun a => Psi a`. The predicativity of `Psi` here means it is just 1-order higher than `a`, and we are assuming *this `Psi` exists*. 
 
 By proving a theorem,
 - Theorems in all previous chapters are free to be **lift**ed to their higher order equivalents, which is independent of *Axiom of Reducibility*
