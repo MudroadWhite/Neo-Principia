@@ -21,28 +21,36 @@ Compatability.
 No. Successful `Qed`s are still false positives, due to a lot of delicate details. For example: 
 
 - `Ltac` isn't well designed
-- Some propositions are written as comments that require a deeper interpretation
+- We simplified some different use cases
+- Some PM ideas are written as natural language
 - I didn't deeply examine the code in chapter 1 - 5
-- Lots of places still rely on manual checks. In particular, PM doesn't have its own type notation, so we cannot ensure our proof preserves the type.
+- Our current implementation doesn't enforce the correct types on PM terms.
 
 ## Can Principia Mathematica can be completely formalized?
-**Yes**: With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system with which all advanced mathematical ideas are built on, formalizing PM is already theoretically accessible.
+Yes.
 
-**No**: Although math ideas in PM are supposed to be fixed and limited, how PM organizes these ideas - maybe the "meta" question of the whole book - is another story. Functions, types and other concepts have their icebergs under the tips. They question the dependency relationships between themselves and the rewriting system, which should be even different from what people will acknowledge in modern type systems. 
+With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Our project already covers the foundation of the rewriting system with which all advanced mathematical ideas are built on.
+
+Beneath the code and down to the core, the difficulty in formalization is how PM organizes its ideas. This means:
+- PM gets a mountain of notations and symbols
+- PM doesn't explicitly type the propositions
+- Some PM rules are written in natural language
+- Theorems in different chapters are interpreted under different hierarchies, while they are supposed to be shared among all chapters
+- Terminologies also have different meanings in different chapters, and the range of the distinction is also a manual work. For example, "functions" and "matrices"
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far: PM's notorious notation system, highly "trivial"(chores-like) theorems, and its historical background to guarantee a missing revisit.
 
 [This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) seems to arrive at similar observations. See paper in the repo on its in-depth discussions of PM's functions.
 
-We want to use *shallow embedding* to express Principia Mathematica as much as we can. While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*.
+Currently, we are using *shallow embedding* to express Principia Mathematica as much as we can. While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*. See [project goal and milestones](./docs/1_overview.md/#project-goal-and-milestones) for further details.
 
-See [project goal and milestones](./docs/1_overview.md/#project-goal-and-milestones) for further details.
+As the most central idea, can we type every proposition in Principia? Within our reach, a plan to write the typing program in Rocq has undergoing at slow speed, and *deep embedding for Principia Mathematica is feasible*.
 
 ## How well have you formalized?
 Which means 2 questions:
 
 - **How much have you formalized?** 186 - 94 = 92 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
-- **How deep can you formalize?** We won't construct the deep embedding, as explained above. See [audit](./docs/5_audit.md) for secondary limitations.
+- **How deep can you formalize?** We won't construct the deep embedding for now, as explained above. See [audit](./docs/5_audit.md) for secondary limitations.
 
 ## Running the code
 Coq/Rocq version: >= 8.20.0, installed with the [opam](https://opam.ocaml.org/) environment:
@@ -59,7 +67,7 @@ make
 
 The `Makefile` for `make` is supposed to automatically detect all `.v` files under the `pm` folder, generate the `_CoqProject` file and compile the whole folder.
 
-(Minimum requirement for Coq is currently under investigation.)
+(Minimum requirement for Coq is currently under investigation)
 
 ### Running the code, line by line
 IDEs for Coq/Rocq varies, but here is my preference:
