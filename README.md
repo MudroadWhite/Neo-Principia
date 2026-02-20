@@ -34,9 +34,9 @@ With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/pr
 The difficulty of formalizing PM is in how PM organizes these ideas - maybe the "meta" question of the whole book. This means:
 - PM gets a mountain of notations and symbols
 - PM doesn't explicitly type the propositions
+- Some PM's meta rules are written in natural language
 - Theorems in different chapters are used in different context
-- Some PM's ideas are written in natural language
-- Terminologies also have different meanings in different chapters, not to say the range of their different meanings have to also be figured out manually. For example, "functions" and "matrices"
+- Terminologies also have different meanings in different chapters. The range of the distinction is also a manual work. For example, "functions" and "matrices"
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far: PM's notorious notation system, highly "trivial"(chores-like) theorems, and its historical background to guarantee a missing revisit.
 
