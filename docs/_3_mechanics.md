@@ -70,12 +70,20 @@ In practice, we have designed a unified `MP` to perform both kind of the *modus 
 (p.92)Note: not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
 
 ### Chapter 2
+While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
+
+- `[x, y z]` is called a **citation** for every step of assertion in a proof.
+  - In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
+- Citations for modus ponens and syllogism will generally be omitted.
 
 ### Chapter 3
+Chapter 3 focuses on theorems about `/\`, which is constructed on `¬` and `∨`. In particular, \*3.03 allows us to immediately get `H3 : A /\ B` if we have `H1 : A` and `H2 : B` in the proof window.
 
 ### Chapter 4
+Chapter 4 focuses on theorems about `<->`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics](./4_tactics.md).
 
 ### Chapter 5
+This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly proven because they are useful.
 
 ### Chapter 9
 Propositions in this chapter starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
@@ -132,10 +140,10 @@ of a function taking the same type
 TODO: actual alternative;
 
 ### Chapter 11
-TODO: generalize formal props
+Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitary variables.
 
 ### Chapter 12
-This chapter starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays.
+Chapter 12 starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays.
 
 ```Rocq
 (* This is a function with 2 real variables. It's also a matrix *)
