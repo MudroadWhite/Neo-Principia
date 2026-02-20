@@ -10,8 +10,8 @@ Every formal verification project comes with an audit report, and our analogue s
 
 ## The evaluation
 Assessment for each of the chapter is based on the following questions:
-1. Anatomy: What are the new ideas being brought up?
-2. Feasibility: Are they easy to be expressed in Rocq?
+1. Anatomy: What are the new symbols/ideas being brought up?
+2. Feasibility: Are they easy to be implemented in Rocq?
 3. Coverage: How much % of propositions can we formalize, and what is missing?
 
 Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
