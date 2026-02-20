@@ -11,13 +11,6 @@ Require Import PM.pm.ch5.
 - design `MP` specifically for ch9 from *1.11(?)
  *)
 
-(* TODO: Find a way to correctly express "argument in P is of the same type of argument in Q" *)
-
-(* TYPE RESTRICTIONS
-Type of theorems allowed: first order propositions
-Type of parameters allowed: from elementary propositions to first order propositions
-*)
-
 (* 
 Chapter 9 only demonstrates the quantified version of proofs in chapter 1 - 5. By 
 "demonstration" we can notice a few facts:
