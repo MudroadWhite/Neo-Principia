@@ -55,12 +55,13 @@ Example example_ch1_prop_function_2 (Phi : Prop) := fun (X : Prop) => Phi X.
 - Asserting an (elementary) **propositional function** means asserting `H1 : Phi X`.
 - (\*1.11)If `H2 : Phi X -> Psi X` can be implied, then we are allowed to imply `H3 : Psi X`.
 
-To be exact, `H1 : Phi X` above should refer to something like `H1: (fun x => x /\ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `Phi` solely(p.92) and we're still asserting a proposition. 
-
 The role of \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
 
-TODO: Move to `4.tactics`
-In practice, we have designed a unified `MP` to perform both kind of the *modus ponens*.
+`H1 : Phi X` above should refer to something like `H1: (fun x => x /\ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `Phi` solely(p.92) and we're still asserting a proposition. 
+
+Functions in the text doesn't have explicit parameter list: *they look just like propositions*. Parameter list for them will be occasionally stated in the text when necessary, but usually the actual parameters are every letters appeared in the function. The same applies to most theorems in PM.
+
+In practice, we have designed a unified `MP` to perform both kind of the *modus ponens*.(TODO: Move to `4.tactics`)
 
 - (p.94)Definitional equality is undefined in PM
 - **elementary propositions** are closed under `¬` and `∨`
@@ -77,24 +78,64 @@ In practice, we have designed a unified `MP` to perform both kind of the *modus 
 ### Chapter 5
 
 ### Chapter 9
+Propositions in this chapter starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
+- Generalization: the main technique to turn a *elementary proposition* into an *elementary function*
+- *Individual*s: the placeholder for a proposition to be generalized into a function, or to assert a function during the proof
 
-TODO: n-order function means once instantiated become a n-order proposition
+And the only way for 1st order propositions to be constructed is from *elementary functions*. Combining with [chapter 1](./_3_mechanics.md/#chapter-1) we are getting the following rules:
 
-TODO: p.51, p.132: individual is not a proposition nor a function
+- **elementary propositions** are dependent on `¬` and `∨` (we cannot have `¬`s taking higher order propositions to break the type)
+- **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them)
+- **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
-TODO: MP has been assumed to be work for 1-order props(p.128); more in `n9_2`
+In chapter 12, we will extend everything more delicately into ideas involving *matrices*, *function*s and *proposition*s.
 
-TODO: types is a slightly generalized notion than *order*: types basically identifies efunc, matrices and props, and should be able to be expressed in Rocq. Rocq type should be served as the notion for *order*, not the notion for types
+\*1.1 and \*1.11 has assumed their version for **1st order propositions**(p.128)(TODO: check `n9_2`). In particular, the first few `Pp`s in chapter 9 defines how `¬` and `∨` behaves between e-prop and 1-prop(Chapter II in Introduction has discussed why it is necessary). As a consequence \*1.1 and \*1.11 are extended to be allowed to deduce between propositions and functions of different orders.
 
-TODO: `is_same_type` preserves order of expressions (manual checked)
+We have an extra limitation: the first few `Pp`s, `¬` and `∨` are limited to **elementary propositions**. The goal is to demonstrate that we can obtain the their 1st order version just from their elementary version.
 
-TODO: will ch12 beyond and classes have consideration on such types?
+A typing algorithm is given in this chapter, completely generating the hierarchy of proposition types for any order. In particular it gives special rules for individuals, as they are not propositions nor functions(p.51, p.132). Despite the explanation, why individual is not proposition is still unclear. My guess is that they are supposed to be only appeared as parameters, and cannot be asserted as a full proposition.
 
+The typing algorithm is described both in name and in the style of "of the same type"(\*9.131). Basically the type information entails the order and the kind(is it a function or a proposition?) of the expression.
+1. **Individual.** All individuals have a `Individual` type
+2. **EProp.** All elementary propositions have a `EProp` type
+3. **EFunc(EProp -> EProp).** Elementary functions have same (`EFunc`) type if 
+  1. e-func A is obtained through `¬` on e-func B
+  2. e-func A is obtained through `∨` on e-func B and C 
+  3. They take same number of arguments, and each of argument is same in type
+4. **Prop n.** A higher order proposition type is obtained from a 1-order lower function. Two `Prop n` should have same type if
+  1. Proposition A is obtained through `¬` on proposition B
+  2. Both proposition A and B are obtained by quantifying two propositional functions of the same 1-order lower type. Both of the functions either 
+    1. Have exactly 1 parameter
+    2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
 
+By proving a theorem in chapter 9 - 11, we have the following assumption:
+- Proposition types are capped at first order propositions
+- TODO: restriction on individual as parameters?
 
-This chapter starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays. Although they are being considered, their full definitions start from chapter 12, so our explanation will also cite the text in chapter 12 for reference.
+Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
+- Theorems written as formulae have the purpose to *demonstrate* how theorems in chapter 1 - 5 can be extended to cases with quantifiers, *assuming that we can already use those quantifiers*
+- Theorems written in natural language define theorems related to the typing algorithm: what is a type, what function parameters are allowed with regard to the type, and eventually, why can we extend to quantifiers without breaking the types.
 
+TODO: 
+~p.49:
+- We can construct a function taking 2 arguments, and return either a function of function or a function of individual. 
+It turns out that the return type is untyped. To enforce the return type with a fixed type, we have to enforce arguments
+of a function taking the same type
 
+~p.52:
+- `!` notation also seems to be used only when the function is being considered as a variable(at rhs)? And for all other cases, they are supposed to be fixed(at rhs)?
+- `!`'s summary: this is not a notation just for first order functions, but it's more like a notation for function being identified as 
+  a variable at rhs
+
+### Chapter 10
+TODO: actual alternative;
+
+### Chapter 11
+TODO: generalize formal props
+
+### Chapter 12
+This chapter starts to bring awareness to *matrices* and *functions*, where both of them are quite not the same to what people will acknowledge nowadays.
 
 ```Rocq
 (* This is a function with 2 real variables. It's also a matrix *)
@@ -120,48 +161,12 @@ There is another way to understand the difference between a matrix and a proposi
 
 Examples of *matrices* are given in \[CITATION NEEDED: cite page in ch12, and find other occurrences in intro & chapter 1-5 \], taking different types of variables as their arguments. 
 
-Proving theorems in chapter 9 - 11 is under the following assumptions, which I personally call *order-1 context*:
-
-- Parameters for a theorem are all the letters appeared in the theorem, similar to how a function is expressed(TODO: MOVE TO CH1)
-- Only the case where parameters for theorems are individuals (plus elementary matrices just as the common sense "functions") is taken into consideration
-- If such a elementary proposition/first order "proposition"(TODO: check if this is written correctly) can be proven true, we conclude the truth of such a theorem(TODO: maybe check theorems in chapter 1)
-- When we want to use a proven theorem somewhere, we are allowed to replace individuals or matrices with arbitrary elementary propositions or elementary matrices
-
-Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
-- Theorems expressed as formulae have the purpose to *demonstrate* how theorems in chapter 1 - 5 can be extended to cases with quantifiers, *assuming that we can already use those quantifiers*
-- Theorems expressed as natural language define the meta theory to legitimate the actual important properties: what is a type, how to extend a function to quantified propositions, when to derive them, and eventually, why can we extend to quantifiers without breaking the types.
-
-TODO: 
-- Check chapter II's discussion on "different meaning for ~ applying on forall and exists"
-- the mechanics of registration: if we have proven something is safe to use, we're supposed to extend the original symbols to new field, e.g. definition of `¬` and `∨`
-- check how PM uses different sets of symbols/letters to represent constants, matrices, etc..
 
 
-TODO:
-
-- Can propositions be taken as parameters, since (p.163) matrixes only take individuals/matrices as params?
-
-~p.49:
-- We can construct a function taking 2 arguments, and return either a function of function or a function of individual. 
-It turns out that the return type is untyped. To enforce the return type with a fixed type, we have to enforce arguments
-of a function taking the same type
-
-~p.52:
-- `!` notation also seems to be used only when the function is being considered as a variable(at rhs)? And for all other cases, they are 
-  supposed to be fixed(at rhs)?
-- `!`'s summary: this is not a notation just for first order functions, but it's more like a notation for function being identified as 
-  a variable at rhs
-
-### Chapter 10
-TODO: actual alternative;
-
-### Chapter 11
-TODO: generalize formal props
-
-### Chapter 12
 Starting from chapter 12, a rigorous hierarchy of *orders* begins to be taken into consideration, and this is also the first chapter that we're going to think something like "so these theorems have more than one ways to use them"\[CITATION NEEDED\].
 
 TODO:
+- Can propositions be taken as parameters, since (p.163) matrixes only take individuals/matrices as params?
 - *context: order-n*
 - Theorems in chapter 1 - 11 can be reused by replacing individuals into some n-order-matrices and elementary matrices into some n+1-order matrices
 - discuss the volatility for formalization of AoR
