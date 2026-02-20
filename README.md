@@ -29,14 +29,14 @@ No. Successful `Qed`s are still false positives, due to a lot of delicate detail
 ## Can Principia Mathematica can be completely formalized?
 Yes.
 
-With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Since our project covers the foundation of the rewriting system with which all advanced mathematical ideas are built on, formalizing PM is already theoretically accessible.
+With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Our project already covers the foundation of the rewriting system with which all advanced mathematical ideas are built on.
 
 The difficulty of formalizing PM is in how PM organizes these ideas - maybe the "meta" question of the whole book. This means:
 - PM gets a mountain of notations and symbols
-- PM doesn't explicitly label its types
+- PM doesn't explicitly type the propositions
 - Theorems in different chapters are used in different context
 - Some PM's ideas are written in natural language
-- Terminologies in PM might be slightly different from what ppl will acknowledge in common sense, for example, "functions" and "matrices"
+- Terminologies also have different meanings in different chapters, not to say the range of their different meanings have to also be figured out manually. For example, "functions" and "matrices"
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far: PM's notorious notation system, highly "trivial"(chores-like) theorems, and its historical background to guarantee a missing revisit.
 
@@ -44,7 +44,7 @@ The difficulty of formalizing PM is in how PM organizes these ideas - maybe the 
 
 Currently, we are using *shallow embedding* to express Principia Mathematica as much as we can. While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*. See [project goal and milestones](./docs/1_overview.md/#project-goal-and-milestones) for further details.
 
-Beneath the code and down to its core, Principia crucial concept is being expressed in natural language, and beyond the inference system. A simple set of PM typing rules is on plan - in order words, *we have found the way to give every Principia proposition a type*. As far as I see, *deep embedding for Principia Mathematica is accessible*.
+Beneath the code and down to its core is a problem: can we type every proposition in Principia? As the most central idea, things about typing are usually written in natural language in PM. Within our reach, there is a way and a plan to write the typing program in Rocq, and *deep embedding for Principia Mathematica is accessible*.
 
 ## How well have you formalized?
 Which means 2 questions:
@@ -67,7 +67,7 @@ make
 
 The `Makefile` for `make` is supposed to automatically detect all `.v` files under the `pm` folder, generate the `_CoqProject` file and compile the whole folder.
 
-(Minimum requirement for Coq is currently under investigation.)
+(Minimum requirement for Coq is currently under investigation)
 
 ### Running the code, line by line
 IDEs for Coq/Rocq varies, but here is my preference:
