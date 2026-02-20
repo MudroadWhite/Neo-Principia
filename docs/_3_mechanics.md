@@ -99,10 +99,13 @@ This chapter presents the only way for 1st order propositions to be constructed:
 - **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them)
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
-There's a lot of things happening in the beginning of chapter 9:
+There's a lot of things happening in the beginning of chapter 9.
 - First of all \*1.1 and \*1.11 has assumed their version for **1st order propositions**(p.128)(TODO: check `n9_2`)
 - Then first few `Pp`s in chapter 9 are supposed to restricted to e-prop `¬` and `∨`(discussed in Chapter II, they are not 1-order `¬` and `∨`). We define special `forall` and `exists` that is still a *eprop*(taking a eprop function?TODO: check ch9 and ch10), and state how should it be computed with e-prop `¬` and `∨`
 - After we have demonstrated that they work just fine on `exists` as well, we can lift e-prop `¬` and `∨` to 1-order ones
+- Then we have \*9.12 being the actual *modus ponens* synthesizing both \*1.1 and \*1.11.
+
+Every `forall x` is naturally taking just a `x`, not something like `forall (x /\ x)`. In this sense we are saying that `forall`, `exists` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.162), which is a useful and natural feature that is still considered in later chapters.
 
 Later, a typing algorithm is given in this chapter, completely generating the hierarchy of proposition types for any order. In particular it gives special rules for individuals, as they are not propositions nor functions(p.51, p.132). Despite the explanation, why individual is not proposition is still unclear. My guess is that they are supposed to be only appeared as parameters, and cannot be asserted as a full proposition.
 
@@ -119,16 +122,16 @@ The typing algorithm is described both in name and in the style of "of the same 
     1. Have exactly 1 parameter
     2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
 
-TODO: Drawback: same order props generalized from different types of arguments will not have the same type
-
-And even later, we have \*9.12 being the actual *modus ponens* that synthesizes both \*1.1 and \*1.11.
+Personal critics on this typing algorithm:
+- (p.162) Same order propositions generalized from different types of arguments will not have the same type, while I think all same-order propositions should have the same type. It has been yet again "practically ignored"(p.162)
+- Individuals, potentially being instantiated as propositions different order, all share the same type. It sounds like a function taking individual as value is having ambiguous type, because you don't know the order of the individual - it can be a place holder for either a elementary prop or a elementary function.
 
 By proving a theorem in chapter 9 - 11, we have the following assumption:
 - Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
 - All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
 - *Modus ponens* is already at its maximum strength
-- Individuals can be introduced in the middle of the proofs
-- TODO: restriction on individual as parameters?
+- *Generalization* can only be performed on *individual*s, being already atomic in the current expression
+- Fresh *individual*s can be introduced in the middle of the proof on need
 
 Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
 - Theorems written in natural language define the typing algorithm: what is a type, what new functions with parameters are allowed constructed by the regulation of types. Eventually we prove that we can construct all possible functions for 1-higher order.
@@ -142,17 +145,16 @@ TODO:
 ### Chapter 11
 Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables.
 
+TODO: extra typing rules
+
 ### Chapter 12
-Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to think something like "so these theorems have more than one ways to use them". By proving a theorem,
+Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to think something like "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). 
 
-- Theorems in all previous chapters are free to be **lift**ed to their higher order equivalents, which is independent of *Axiom of Reducibility*
-- (p.162)TODO: starting from chapter 12, all variables are either matrixes or individuals
-
-The consideration for the hierarchy starts with *matrices* for generating *functions*, where the *function*'s definition has been changed - they are what expressions generated by a matrix. Examples of *matrices* are given in (p.162), taking different types of variables as their arguments. 
+The consideration for the hierarchy starts with *matrices* for generating *functions*, where the *function*'s definition has been changed(and both the old and new meaning of "function" is used in the text!) - they are what expressions generated by a matrix. 
 
 ```Rocq
-(* This is a matrix with 2 real variables. It's also already a function *)
-Example example_matrix (X : Prop) (Phi : Prop -> Prop) := Phi X.
+(* (p.163)This is a matrix with 2 real variables. It's also a function, and it's even predicative. *lhs* parameter of this definition is now in serious consideration *)
+Example example_matrix_1 (X : Prop) (Phi : Prop -> Prop) := Phi X.
 
 (* This is a function with 1 real variable and 1 apparent variable. It's not a matrix *)
 Example example_function_1 (Phi : Prop -> Prop) := forall (x : Prop), Phi x.
@@ -164,13 +166,25 @@ Example example_function_2 (X : Prop) := forall (Phi : Prop -> Prop), Phi X.
 Example example_proposition := forall (x : Prop) (Phi : Prop -> Prop), Phi x.
 ```
 
-- **Matrices**(the actual "functions") are exactly **predicative functions**(p.164 defined as synonym).
-- **Matrices** are built on **propositions** of a 1-level lower order(TODO: make a clear distinction between types).
-- **Functions** are built on **matrices**, with *not all* of its variables quantified(p.14)
-- **Propositions** are built on **matrices**, with *all* possible variables quantified
+- **Predicative function** is synonym as **matrices**(p.164).
+- **Matrices** are built on **matrices** of a 1-level lower order.
+- **Functions** are built on **matrices**, with *not all* of its variables generalized(p.14)
+- **Propositions** are built on **matrices**, with *all* possible variables generalized
 
 The reason to introduce matrix is because
-- Each of the functions can have different type(?) [CITATION NEEDED]
+- Order of functions are not dependent on order of arguments(p.164)
+- Each of the functions can have different type(?) [CITATION NEEDED, in introduction]
+
+(p.127, 128, 164)matrices seems to remain as e-prop even by taking matrices as arguments?
+
+By proving a theorem,
+- Theorems in all previous chapters are free to be **lift**ed to their higher order equivalents, which is independent of *Axiom of Reducibility*
+- Not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164)
+- (p.162, 163, 164)Only individuals and matrices are allowed as parameters for matrices. (n-order) functions and propositions are not allowed as parameters.
+- (p.165)Only predicative functions are allowed to be generalized
+- `!` is a notation to emphasize(p.163, the second "It will be seen that...") that we want to consider both the function and its parameter as variables for an expression. The purpose is to make functions as variables easier for people to recognize.
+
+(TODO: move to `4.tactics`: In practice we usually ignore such treatment and allow propositions as a simplification, since it can be constructed easily. TODO: give example on taking matrix as parameter vs taking proposition as parameter)
 
 TODO: ~p.47, beginning of chapter II:
 - `∀ x, Phi x` is considered as a function with `Phi` as one argument
@@ -213,12 +227,13 @@ TODO:
 - (p.22)`=` is not defined until chapter 13, and this is being explained in chapter 2/chapter II.
 - (p.57)explained a proof of identity `=` informally, only to be complete with the support of axiom of reducibility
 
-
 ### Chapter 14
 TODO: this is the last chapter where actual mechanics matters: the first chapter where we introduce *contextual definitions*/"incomplete symbol", modeled with *notations* in Rocq. all future concept might be built either on normal or on "incomplete symbols", and they should be never interfere with the fundamentals for the rewriting system; but maybe in the future we might regard all the definitions as a whole and make a clearer distinction between the rewriting system, maybe until the presence of natural numbers
 
 ### Chapter 20
-TODO: ambiguity on the interpretation for `Phi ! x` where we don't know if `!` stands for predicate or just the function as the focus
+TODO: 
+- A newer hierarchy to be "practical" to use
+- ambiguity on the interpretation for `Phi ! x` where we don't know if `!` stands for predicate or just the function as the focus
 
 ## See Also
 - https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html
