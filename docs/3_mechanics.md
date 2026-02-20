@@ -93,7 +93,7 @@ Propositions in this chapter starts to make a distinction between *elementary pr
 - Generalization: the main technique to turn a *elementary proposition* into an *elementary function*
 - *Individual*s: the placeholder for a proposition to be generalized into a function, or to assert a function during the proof
 
-This chapter presents the only way for 1st order propositions to be constructed: generalizing from *elementary functions*. Combining with [chapter 1](./_3_mechanics.md/#chapter-1) we are getting the following rules:
+This chapter presents the only way for 1st order propositions to be constructed: generalizing from *elementary functions*. Combining with [chapter 1](./3_mechanics.md/#chapter-1) we are getting the following rules:
 
 - **elementary propositions** are dependent on `¬` and `∨` (we cannot have `¬`s taking higher order propositions to break the type)
 - **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them)
