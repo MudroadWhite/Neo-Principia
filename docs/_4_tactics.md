@@ -1,16 +1,7 @@
-TODO: 
-- rewrite this chapter by organizing as chapters in Principia
-- organize the `TOOLS` being used and maybe rethink of its boundaries and usages
-
-
-## Chapter 9
-By `architecture/???TODO: hyperlink`, we are starting to deal with propositions that appear as quantified propositions. We find it out that quantified propositions are harder to be rewritten than the elementary propositions, and the Rocq tactic `setoid_rewrite` has been introduced into the rewriting system to simplify the proof.
-
-TODO: move the section below to here
-
 # Tactics
 This chapter discusses the tactics we generally use for every proofs in deeper details.
 
+## Basic setup
 Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from Modus Ponens and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.
 
 As a consequence, We don't need fancy tactics to formalize the theorems. We want the tactics to 1. follow the proof; 2. simplify common and tedious routines without breaking the proof down. 
@@ -24,6 +15,18 @@ We can use a new tactic to simplify a tedious part of proof, if
 - We clearly identified the types of parameters, for theorems in original routine. Parameters' types matter
 - Optionally, the tactic doesn't need to use theorems or parameters in Principia - it just gets the work done
 - And exceptionally, if the proofs are ridiculously long and nothing new is within that proof comparing to the privious ones (for example the last theorem in ch.11), we might cannot resist the urge to simplify whatever we want.
+
+## Chapter 1 - 5
+TODO: 
+- rewrite this chapter by organizing as chapters in Principia
+- organize the `TOOLS` being used and maybe rethink of its boundaries and usages
+
+
+## Chapter 9
+By `architecture/???TODO: hyperlink`, we are starting to deal with propositions that appear as quantified propositions. We find it out that quantified propositions are harder to be rewritten than the elementary propositions, and the Rocq tactic `setoid_rewrite` has been introduced into the rewriting system to simplify the proof.
+
+TODO: move the section below to here
+
 
 ## 1. How to use(deduce on) an existing theorem
 `pose proof (thm x y z) as thm` should be almost the only way to *introduce* a theorem into the hypotheses, stating the existence of an already proven result. Also, starting from chapter 9, propositions are further come with a special kind of "type", basically the order of the proposition, and at base case we're only allowed to use elementary propositions as parameters, for elementary functions. That being said,
