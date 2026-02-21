@@ -17,10 +17,13 @@ We can use a new tactic to simplify a tedious part of proof, if
 - And exceptionally, if the proofs are ridiculously long and nothing new is within that proof comparing to the privious ones (for example the last theorem in ch.11), we might cannot resist the urge to simplify whatever we want.
 
 ## Chapter 1 - 5
-TODO: 
-- rewrite this chapter by organizing as chapters in Principia
-- organize the `TOOLS` being used and maybe rethink of its boundaries and usages
+Proofs of these chapters are inherited from [Landon's work](https://github.com/LogicalAtomist/principia), simplified down so that they are mostly using just the necessary tactics. 
 
+In practice, we have designed a unified `MP` to perform both kind of the *modus ponens*. (TODO: continue...)
+
+TODO: 
+- list tactics used in ch1 - 5: introduce the basic `MP`, `Syll`, ...`rewrite`
+- organize the `TOOLS` being used and maybe rethink of its boundaries and usages
 
 ## Chapter 9
 By `architecture/???TODO: hyperlink`, we are starting to deal with propositions that appear as quantified propositions. We find it out that quantified propositions are harder to be rewritten than the elementary propositions, and the Rocq tactic `setoid_rewrite` has been introduced into the rewriting system to simplify the proof.

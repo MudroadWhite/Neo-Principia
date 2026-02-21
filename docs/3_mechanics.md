@@ -60,8 +60,6 @@ The role of \*1.11 will come to more significance after [chapter 9](./3_mechanic
 
 Functions in the text doesn't have explicit parameter list: *they look just like propositions*. Parameter list for them will be occasionally stated in the text when necessary, but usually the actual parameters are every letters appeared in the function. The same applies to most theorems in PM.
 
-In practice, we have designed a unified `MP` to perform both kind of the *modus ponens*.(TODO: Move to `4.tactics`)
-
 - (p.94)Definitional equality is undefined in PM
 - **elementary propositions** are closed under `¬` and `∨`
 - **elementary functions** are closed under `¬` and `∨`

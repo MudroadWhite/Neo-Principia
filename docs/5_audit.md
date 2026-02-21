@@ -31,7 +31,7 @@ I believe that both the compositional nature and the notational system are usefu
 ### Chapter 1 - 5
 **Coverage: 100%**
 
-**General.** The informal propositions through chapter 1 - 5 are only the `Pp`s in chapter 1 and a special inference rule in chapter 3. For the implementation we're currently merge everything into a universal `MP` tactic.
+**General.** The informal propositions through chapter 1 - 5 are only the `Pp`s in chapter 1 and a special inference rule in chapter 3. As explained in [tactics](4_tactics.md), we have made several simplification on the primitive propositions.
 
 ### Chapter 9
 **Coverage: 100%**
