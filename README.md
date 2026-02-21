@@ -17,16 +17,15 @@ Compatability.
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. One theorem a line.
 - "Just as it is": Principia flavor in maximum strength: Principia-style deduction; Principia-style symbols defined with `Notation`s. Clear proof structure, clean, maybe beautiful proof window. 
 
-## Can you make sure that the code/proof is 100% correct?
+## Are you sure the code/proof is 100% correct?
 No. Successful `Qed`s are still false positives, due to a lot of delicate details. For example: 
-
 - `Ltac` isn't well designed
 - We simplified some primitive propositions and merged them as a whole
 - Some propositions are written in natural language
 - I didn't deeply examine the code in chapter 1 - 5
 - Our current implementation doesn't enforce the correct types on PM terms.
 
-## Can Principia Mathematica can be completely formalized?
+## Can Principia Mathematica be completely formalized?
 Yes.
 
 With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Our project already covers the foundation of the rewriting system with which all advanced mathematical ideas are built on.
