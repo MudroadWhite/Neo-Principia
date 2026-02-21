@@ -17,9 +17,9 @@ All conventions introduced below applies after chapter 9.
 ## 3. What's under a single `.v` file?
 1. `Require Import` that cites other chapters and `lib.v`, so that you can use theorems and tools from these imported files.
 2. Occasional comments to explain what has been done here and there
-3. `Notations` defined corresponded to the notations appeared in Principia. Each `Notation` comes with a `Scope`. To define a notation in a scope, we have to `Declare Scope`. To use the notation, we have to `Open Scope`. If we don't want the notation appear within proof, we command to `Close Scope`.
 4. Self-defined Rocq predicates, being necessary in later chapters. They should be put in the beginning of each chapters rather than being aggregated in `lib` to prevent large loading overhead and unnecessary warnings during compilation.
-5. And eventually, everything left are the actual proofs, coming with `Definition`s and `Theorem`s.
+5. `Notations` defined corresponded to the symbols in Principia, and modeled with self-defined Rocq predicates. Each `Notation` comes with a `Scope`. To define a notation in a scope, we have to `Declare Scope`. To use the notation, we have to `Open Scope`. If we don't want the notation appear within proof, we command to `Close Scope`.
+6. And eventually, everything left are the actual proofs, coming with `Definition`s and `Theorem`s.
 
 - Every `Scope`s opened within a single file is **required** to be closed at the end of the file.
 
