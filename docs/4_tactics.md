@@ -6,18 +6,16 @@ Technically speaking, Principia's rewrite system is very simple, maybe much more
 
 As a consequence, We don't need fancy tactics to formalize the theorems. We want the tactics to 1. follow the proof; 2. simplify common and tedious routines without breaking the proof down. 
 
-Since the following sections are roughly organized by "constructors" for each kind of propositions, within which we further add extra ways to simplify the proofs, it seems to be necessary to state beforehead, when do we simplify a proof.
-
 ## Rules to simplify routines
 We can use a new tactic to simplify a tedious part of proof, if
 - The tactic is general enough(why not) to apply the simplification
 - We clearly identified the theorem used in original routine
 - We clearly identified the types of parameters, for theorems in original routine. Parameters' types matter
 - Optionally, the tactic doesn't need to use theorems or parameters in Principia - it just gets the work done
-- And exceptionally, if the proofs are ridiculously long and nothing new is within that proof comparing to the privious ones (for example the last theorem in ch.11), we might cannot resist the urge to simplify whatever we want.
+- And exceptionally, if the proofs are ridiculously long and nothing new is within that proof comparing to the previous ones (for example the last theorem in ch.11), we might cannot resist the urge to simplify whatever we want.
 
 ## Chapter 1 - 5
-Proofs of these chapters are inherited from [Landon's work](https://github.com/LogicalAtomist/principia), simplified down so that they are mostly using just the necessary tactics. 
+Proofs of these chapters are inherited from [Landon's work](https://github.com/LogicalAtomist/principia), simplified down so that they are using just the necessary tactics. 
 
 ### Using an asserted proposition
 `pose proof (thm x y z) as thm` should be almost the only way to *introduce* a theorem into the hypotheses, stating the existence of an already proven result. Also, starting from chapter 9, propositions are further come with a special kind of "type", basically the order of the proposition, and at base case we're only allowed to use elementary propositions as parameters, for elementary functions. That being said,
