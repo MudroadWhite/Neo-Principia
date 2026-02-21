@@ -1,4 +1,4 @@
-Require Import PM.pm.lib.
+(* Require Import PM.pm.lib.
 Require Import PM.pm.ch1.
 Require Import PM.pm.ch2.
 Require Import PM.pm.ch3.
@@ -1048,4 +1048,4 @@ Theorem n9_63 (φ ψ : Prop → Prop → Prop) (X0 Y0 : Prop) :
   IsSameType.t (φ X0 Y0) (ψ X0 Y0)
   → ((∀ y, φ X0 y) ∨ (∀ z, ψ X0 z)).
 Proof.
-Admitted.
+Admitted. *)
