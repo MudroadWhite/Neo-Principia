@@ -76,7 +76,7 @@ Qed.
 - A `TOOLS` header is **required** to be place at the beginning of a long proof, if any tool is being used.
 - Other tools not being placed in the `TOOLS` section is **required** to be stated with an explicit comment.
 
-Technical features, that can be be found under `lib.v`, usually require a warmup before being available, for example, introducing an extra real variable with the proof(with `set (X := Real "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
+Technical features, that can be be found under `lib.v`, usually require a warmup before being available, for example, introducing an extra individual with the proof(with `set (X := Individual "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
 
 ### 5.2. `assert` blocks
 - All long proofs are **required** to adapt to the proof architecture picted above.
