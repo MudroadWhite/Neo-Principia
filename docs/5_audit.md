@@ -19,10 +19,11 @@ I believe that both the compositional nature and the notational system are usefu
 **Citations.** Citations in general only cover the most important theorems and ignore the rest chores. Their orders to apply might differ from the possible ways perform the deduction[CITATION: ch14.v]. Constructing the proofs based only on the citations cannot be automated.
 
 **Types.** Although we won't implement the typing algorithm immediately, there are still worthy comments to be made. We are aware that
-
 1. PM doesn't have `->` type, and the typing algorithm seems to have struggled to type the functions.
 2. PM also struggles at defining proposition's type: while same order propositions generalized from different types of arguments will not have the same type(p.162), it is supposed to be "practically ignored"(p.162).
 3. On the very other hand, individuals, potentially being instantiated as propositions different order, all share the same type. The type for these individuals is good enough, with the consideration that individuals are, actually, the *lowest order entity for an expression*, but it is not clearly stated in the text whether individuals can have different orders in the same proposition.
+
+Critics above suggest there might be freedom for us to design a different type system that is closer to Rocq type system.
 
 **Informal propositions.** For informal propositions through the chapters, we are generally assuming that they are not implemented, as the implementation of most of them rely on a complete typing algorithm for PM.
 

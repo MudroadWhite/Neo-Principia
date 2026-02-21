@@ -161,7 +161,7 @@ Example example_function_2 (X : Prop) := forall (Phi : Prop -> Prop), Phi X.
 Example example_proposition := forall (x : Prop) (Phi : Prop -> Prop), Phi x.
 ```
 
-- **Predicative function** is synonym as **matrices**(p.164).
+- **Predicative function** is synonym as **matrices**(p.164). Predicative function of `a` where `a`'s order is n, though, refers to a matrix of order n+1.
 - **Matrices** are built on **matrices** of a 1-level lower order.
 - **Functions** are built on **matrices**, with *not all* of its variables generalized(p.14)
 - **Propositions** are built on **matrices**, with *all* possible variables generalized
@@ -169,7 +169,7 @@ Example example_proposition := forall (x : Prop) (Phi : Prop -> Prop), Phi x.
 Several comments on matrices and functions:
 1. (p.52)Matrix only takes matrices or individuals as variables. By "taking something as variable", we mean what symbols can be appeared in the `A` of the `forall A` part, *before any instantiations*. Variables of the form `forall (exists a, Phi a), (exists a, Phi a) x` seems to be out of consideration, which is some n-order function or proposition; also see (p.53). Note that we won't have this issue in previous chapters prior to the definition of matrix, and functions can take (elementary)propositions as parameters. Conversely, elementary propositions in this hierarchy is called elementary matrices. 
 2. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => Phi x` and `fun x => forall Phi, Phi x`)
-3. It appears that any `forall`s and any `exists`, under this hierarchy, cannot be manifested through instantiating some functions; they have to be proceeded from a completely constructed matrix, and obtained through generalizing individuals/other matrices with a controlled scope.
+3. It appears that any `forall`s and any `exists`, under this hierarchy, cannot be manifested through instantiating some functions; they have to be produced from a completely constructed matrix, obtained through generalizing individuals/other matrices with a controlled scope.
 
 There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). Is it really that *there are no propositions containing real variables*, as [Wittgenstein](https://wittgensteinproject.org/w/index.php/Notes_on_Logic) have said? We don't really know, but let's just turn back to the our examples to vibe it off. One crucial difference between real and apparent variables, though, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
 
