@@ -21,8 +21,8 @@ Compatability.
 No. Successful `Qed`s are still false positives, due to a lot of delicate details. For example: 
 
 - `Ltac` isn't well designed
-- We simplified some different use cases
-- Some PM ideas are written as natural language
+- We simplified some primitive propositions and merged them as a whole
+- Some propositions are written in natural language
 - I didn't deeply examine the code in chapter 1 - 5
 - Our current implementation doesn't enforce the correct types on PM terms.
 
