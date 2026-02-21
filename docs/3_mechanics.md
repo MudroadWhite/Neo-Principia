@@ -195,7 +195,7 @@ TODO:
 - (p.57)explained a proof of identity `=` informally, only to be complete with the support of axiom of reducibility
 
 ### Chapter 14
-TODO(MOVE TO `4.tactics`): this is the last chapter where symbol definition matters: the first chapter where we introduce *contextual definitions*/"incomplete symbol", modeled with *notations* in Rocq. all future concept might be built either on normal or on "incomplete symbols", and they should be never interfere with the fundamentals for the rewriting system; but maybe in the future we might regard all the definitions as a whole and make a clearer distinction between the rewriting system, maybe until the presence of natural numbers
+TODO: explain why iota is that complicated in depth; this is the last chapter where symbol definition matters: the first chapter where we introduce *contextual definitions*/"incomplete symbol", modeled with *notations* in Rocq. all future concept might be built either on normal or on "incomplete symbols", and they should be never interfere with the fundamentals for the rewriting system; but maybe in the future we might regard all the definitions as a whole and make a clearer distinction between the rewriting system, maybe until the presence of natural numbers
 
 ### Chapter 20
 TODO: 
