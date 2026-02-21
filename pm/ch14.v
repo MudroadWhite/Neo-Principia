@@ -69,9 +69,8 @@ Definition n14_02 (φ : Prop → Prop) :
 Admitted.
 
 (* Although `ι2` has been defined, expressions that involves 2 functions often
-comes up with the default interpretations as two `ι` rather than one `ι2`.
-While this doen't affect significantly how the definition organizes, it still affects
-how we should write down a theorem *)
+comes up with the default interpretations as two `ι` rather than one `ι2`. It turns 
+out that this actually affects the interpretation for a theorem *)
 Definition n14_03 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) :
   [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ] = 
     [ι φ | ιφ => [ι ψ | ιψ => f ιφ ιψ]].
