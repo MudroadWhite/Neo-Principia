@@ -39,7 +39,7 @@ Critics above suggest there might be freedom for us to design a different type s
 
 **General.** Currently we're using the default `forall`, `\/`, `~` in Rocq to model everything, making the primitive propositions not a necessity while pertaining the availability for `setoid_rewrite`.
 
-The typing algorithm is being demonstrated, but is wrongly interpreted and will not be used anywhere.
+We have implemented the typing algorithm, but it is wrongly interpreted and will not be used anywhere.
 
 \*9.13, the generalization assumption, according to the text, is to be performed without `MP`. Our current design is modeling this assumption by a `->`, leading to unnecessary `MP`s on `n9_13`.
 
@@ -49,12 +49,12 @@ The typing algorithm is being demonstrated, but is wrongly interpreted and will 
 **Coverage: 98.2% = 55/56.**
 - **\*10.57.** 3rd step of the proof is unprovable.
 
-**General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `forall` and `exists`. We didn't find any difficulties formalizing this chapter.
+**General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `forall` and `exists`. We didn't find any difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
 
 ### Chapter 11
 **Coverage: 100%**
 
-**General.** Chapter 11 is doing essentially the same as chapter 10, except expanding `forall` and `exists` from one variable to multiple vars. There isn't a lot of difficulties formalizing this chapter.
+**General.** Chapter 11 is doing essentially the same as chapter 10, except expanding `forall` and `exists` from one variable to multiple vars. There isn't a lot of difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
 
 The *of the same type* proposition in chapter 11 is unexamined. It will gain awareness when we're considering the typing algorithm.
 
