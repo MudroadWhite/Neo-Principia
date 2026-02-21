@@ -63,13 +63,15 @@ Definition n12_1 (φ : Prop → Prop) :
     F x) f).
 Admitted.
 
-(* For untyped function, it seems that it has to be something like `A -> B` 
-where `x : A` and the rest of the arguments are being put into `B` *)
-Definition n12_1_alt {A B : Type} (φ : A -> B) :
-  ∃ f : (Predicate 1), (φ x) <[- x -]> f x.
-Admitted.
-
 Module Experimental.
+  (*
+  (* For untyped function, it seems that it has to be something like `A -> B` 
+  where `x : A` and the rest of the arguments are being put into `B` *)
+  Definition n12_1_alt {A B : Type} (φ : A -> B) :
+    ∃ f : (Predicate 1), (φ x) <[- x -]> f x.
+  Admitted.
+  *)
+
   (* 
   To actually use it, I think there should be some other better way to express
   especially for our current formalization. This might be able to be done exactly 
