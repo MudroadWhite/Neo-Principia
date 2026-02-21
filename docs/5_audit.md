@@ -26,6 +26,8 @@ I believe that both the compositional nature and the notational system are usefu
 
 **Informal propositions.** For informal propositions through the chapters, we are generally assuming that they are not implemented, as the implementation of most of them rely on a complete typing algorithm for PM.
 
+**Sheffer strokes and other updates for 2nd edition.** We are aware that 2nd edition is a ["patched" version](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) of Principia and Russell has tried to simplify the primitive ideas further down, with one of which being the Sheffer stroke `|` to further denote `~` and `\/`, in a hidden chapter 8. We are aware that Russell eventually realized that the distinction between real and apparent variable might not be necessary. We still prefer to ignore most of the *Introduction* chapter and proceed with what has written in the most of the chapters, as this is the easiest way to maintain most of the flavor in the proofs.
+
 ### Chapter 1 - 5
 **Coverage: 100%**
 
@@ -43,9 +45,8 @@ The typing algorithm is being demonstrated, but is wrongly interpreted and will 
 **Functions.** For our soft embedding, the matrices are being constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will expose higher expectations on functions and matrices: should they typed in Rocq with `Prop -> Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we will proceed and have higher requirements.
 
 ### Chapter 10
-**Coverage: 99% = ((x-1)/x)**. 
-
-**\*X(number of the unprovable theorem)** TODO: explain why it is unprovable
+**Coverage: 98.2% = 55/56.**
+- **\*10.57.** 3rd step of the proof is unprovable.
 
 **General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `forall` and `exists`. We didn't find any difficulties formalizing this chapter.
 
@@ -59,23 +60,28 @@ The *of the same type* proposition in chapter 11 is unexamined. It will gain awa
 **Quantified propositions.** As we're using the default `forall` in Rocq, it doesn't make a clear distinction between `forall x, forall y` and `forall x y`. We will leave it in the future, assuming such distinction is generally negligible.
 
 ### Chapter 12
-**Coverage: 100%**
+**Coverage: 100%(?)**
 
 **General.** Axiom of Reducibility has been subjected to tons of criticisms. [Hilbert(p.33)](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) thinks the `exists` for AoR is useless, and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function. In our practice we find it hard to use either, and there is a plan to develop other forms of AoR to make a nicer conversion.
 
 ### Chapter 13
-**Coverage: x** to be calculated; state failed proofs
+**Coverage: 92.9% = 26/28.**
+- **\*13.11, \*13.12.** Both of the theorems have used \*1.7 during the proof, which seems to be confusing. We think \*1.7 shouldn't be used explicitly and there should be some workaround for these proofs.
 
-**General.** This is the first chapter where we have to design `_pred` variants for previous theorems. We find lifting theorems to higher orders tedious and has to be performed manually. 
+**General.** This is the first chapter where we have to design `_pred` variants for previous theorems. We find lifting theorems to higher orders tedious and has to be performed manually. In the future we plan to automate such lifting.
 
 ### Chapter 14
-**Coverage: x** to be calculated; n13_15; ADDITIONAL THEOREMS MISSED AND NEEDED;
-
-how n12_01 applies is mentioned in the text but unclear in the code;
+**Coverage: 84.61% = 44/52.**
+- **\*14.12.** From the 2nd step of `n14_12` we discovered a step where for a individual `X`, the utilization of `n11_11` has demonstrated a generalization procedure for multiple variables neglected the assumption that generalization abstracts away all occurrences for an individual once at a time, which seems to be against what [Randall Holme's type system model](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) is suggesting.
+- **\*14.121, \*14.17, \*14.171, \*14.201.** Multiple theorems steps involving \*13.15 has been revealed beyond the power of the deduction. \*13.15 is defined `|- X = X`, and these theorems tries to use \*13.15 to imply that they can immediately obtain things like `A /\ (X = X)` to `A`, i.e. `X = X` is supposed to mean "true". We think there should be some extra theorems for \*13.15 to be patched up and make it actually useable.
+- **\*14.142.** The last 2 steps of this theorem are both unprovable, and we suspect there is a typo happening in these two steps.
+- **\*14.272, \*14.32.** The failing steps in the proof is revealing a crucial difference on the iota notation. In Principia, it is suggested that for an expression of the form of `ι x <-> ι y`, we can interpret using either `ι2` or single `ι`. It turns out that `ι2`  generates different expression from applying single `ι` twice, but PM has been mutually using them during developing the proof, and their equality has been explicitly suggested in the text.
 
 **General.** As the definition of chapter 14 more complicated than any definitions in previous chapters, we are realizing that symbol definitions through `Df` should be best implemented with the notation system in Rocq. TODO: example showing that function doesn't necessarily quantify over all individuals of a same kind at once; 
 
-**Interpretation of iota.** TODO: `iota` can have different interpretation, and the default notation in PM didn't make a clear distinction. Despite its seemingly negligible nature, some incomplete proof still stuck exactly because of it
+TODO: 
+- recheck n14_272
+- recheck iota interpretation
 
 ### Chapter 20
 **Coverage: WORKING IN PROGRESS**
