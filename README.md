@@ -15,7 +15,7 @@ Compatability.
 
 - [Documented](./docs/README.md) and with [slides](./slides/).
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. One theorem a line.
-- "Just as it is": The original flavor of Principia in all aspects: forward style reasoning as Principia's direction; `Notation`-defined symbols looking almost exactly the same. Clear proof structure, clean, maybe beautiful proof window. 
+- "Just as it is": Principia flavor in maximum strength: forward style reasoning as Principia's direction; `Notation`-defined symbols for well-founded reproduction. Clear proof structure, clean, maybe beautiful proof window. 
 
 ## Can you make sure that the code/proof is 100% correct?
 No. Successful `Qed`s are still false positives, due to a lot of delicate details. For example: 
