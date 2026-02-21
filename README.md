@@ -21,8 +21,8 @@ Compatability.
 No. Successful `Qed`s are still false positives, due to a lot of delicate details. For example: 
 
 - `Ltac` isn't well designed
-- We simplified some different use cases
-- Some PM ideas are written as natural language
+- We simplified some primitive propositions and merged them as a whole
+- Some propositions are written in natural language
 - I didn't deeply examine the code in chapter 1 - 5
 - Our current implementation doesn't enforce the correct types on PM terms.
 
@@ -44,7 +44,7 @@ Beneath the code and down to the core, the difficulty in formalization is how PM
 
 Currently, we are using *shallow embedding* to express Principia Mathematica as much as we can. While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*. See [project goal and milestones](./docs/1_overview.md/#project-goal-and-milestones) for further details.
 
-As the most central idea, can we type every proposition in Principia? Within our reach, a plan to write the typing program in Rocq has undergoing at slow speed, and *deep embedding for Principia Mathematica is feasible*.
+As the most central idea, can we type every proposition in Principia? Within our reach, a plan to write the typing program in Rocq has started at slow speed, and *deep embedding for Principia Mathematica seems to be feasible*.
 
 ## How well have you formalized?
 Which means 2 questions:

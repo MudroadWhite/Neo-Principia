@@ -60,8 +60,6 @@ The role of \*1.11 will come to more significance after [chapter 9](./3_mechanic
 
 Functions in the text doesn't have explicit parameter list: *they look just like propositions*. Parameter list for them will be occasionally stated in the text when necessary, but usually the actual parameters are every letters appeared in the function. The same applies to most theorems in PM.
 
-In practice, we have designed a unified `MP` to perform both kind of the *modus ponens*.(TODO: Move to `4.tactics`)
-
 - (p.94)Definitional equality is undefined in PM
 - **elementary propositions** are closed under `¬` and `∨`
 - **elementary functions** are closed under `¬` and `∨`
@@ -122,10 +120,6 @@ The typing algorithm is described both in name and in the style of "of the same 
     1. Have exactly 1 parameter
     2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
 
-Personal critics on this typing algorithm:
-- (p.162) Same order propositions generalized from different types of arguments will not have the same type, while I think all same-order propositions should have the same type. It has been yet again "practically ignored"(p.162)
-- Individuals, potentially being instantiated as propositions different order, all share the same type. It sounds like a function taking individual as value is having ambiguous type, because you don't know the order of the individual - it can be a place holder for either a elementary prop or a elementary function.
-
 By proving a theorem in chapter 9 - 11, we mean:
 - Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
 - All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
@@ -167,7 +161,7 @@ Example example_function_2 (X : Prop) := forall (Phi : Prop -> Prop), Phi X.
 Example example_proposition := forall (x : Prop) (Phi : Prop -> Prop), Phi x.
 ```
 
-- **Predicative function** is synonym as **matrices**(p.164).
+- **Predicative function** is synonym as **matrices**(p.164). Predicative function of `a` where `a`'s order is n, though, refers to a matrix of order n+1.
 - **Matrices** are built on **matrices** of a 1-level lower order.
 - **Functions** are built on **matrices**, with *not all* of its variables generalized(p.14)
 - **Propositions** are built on **matrices**, with *all* possible variables generalized
@@ -175,7 +169,7 @@ Example example_proposition := forall (x : Prop) (Phi : Prop -> Prop), Phi x.
 Several comments on matrices and functions:
 1. (p.52)Matrix only takes matrices or individuals as variables. By "taking something as variable", we mean what symbols can be appeared in the `A` of the `forall A` part, *before any instantiations*. Variables of the form `forall (exists a, Phi a), (exists a, Phi a) x` seems to be out of consideration, which is some n-order function or proposition; also see (p.53). Note that we won't have this issue in previous chapters prior to the definition of matrix, and functions can take (elementary)propositions as parameters. Conversely, elementary propositions in this hierarchy is called elementary matrices. 
 2. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => Phi x` and `fun x => forall Phi, Phi x`)
-3. It appears that any `forall`s and any `exists`, under this hierarchy, cannot be manifested through instantiating some functions; they have to be proceeded from a completely constructed matrix, and obtained through generalizing individuals/other matrices with a controlled scope.
+3. It appears that any `forall`s and any `exists`, under this hierarchy, cannot be manifested through instantiating some functions; they have to be produced from a completely constructed matrix, obtained through generalizing individuals/other matrices with a controlled scope.
 
 There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). Is it really that *there are no propositions containing real variables*, as [Wittgenstein](https://wittgensteinproject.org/w/index.php/Notes_on_Logic) have said? We don't really know, but let's just turn back to the our examples to vibe it off. One crucial difference between real and apparent variables, though, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
 
@@ -183,7 +177,7 @@ Axiom of Reducibility is introduced in this chapter for 2 reasons:
 1. (p.49)When we define `x = y` as `forall Phi, Phi x -> Phi y`, assuming it is untyped, we might still have `Phi := fun x => (forall Phi, Phi x -> Phi y)` or `Phi := fun y => forall Phi, Phi x -> Phi y`. In order words for `fun x => Phi x`, `fun x => (forall Phi, Phi x -> Phi a)` has been a value that needs to be avoided. 
 2. On the other hand, sometimes we want to speak of as "many" functions as we can. It turns out that, while we cannot precisely say all functions of a parameter `a`, but we can say all `n`-order functions of a parameter `a` and set `n` to infinity.
 
-For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => Phi a` with `Phi` of order `n`, we can simulate with a predicate function `fun a => Psi a`. The predicativity of `Psi` here means it is just 1-order higher than `a`, and we are assuming *this `Psi` exists*. [Hilbert(p.33)](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) thinks the `exists` for AoR is useless, and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function. AoR has received many other critics, and practically speaking we find it hard to use either.
+For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => Phi a` with `Phi` of order `n`, we can simulate with a predicate function `fun a => Psi a`. The predicativity of `Psi` here means it is just 1-order higher than `a`, and we are assuming *this `Psi` exists*. 
 
 By proving a theorem,
 - Theorems in all previous chapters are free to be **lift**ed to their higher order equivalents, which is independent of *Axiom of Reducibility*
@@ -201,7 +195,7 @@ TODO:
 - (p.57)explained a proof of identity `=` informally, only to be complete with the support of axiom of reducibility
 
 ### Chapter 14
-TODO(MOVE TO `4.tactics`): this is the last chapter where symbol definition matters: the first chapter where we introduce *contextual definitions*/"incomplete symbol", modeled with *notations* in Rocq. all future concept might be built either on normal or on "incomplete symbols", and they should be never interfere with the fundamentals for the rewriting system; but maybe in the future we might regard all the definitions as a whole and make a clearer distinction between the rewriting system, maybe until the presence of natural numbers
+TODO: explain why iota is that complicated in depth; this is the last chapter where symbol definition matters: the first chapter where we introduce *contextual definitions*/"incomplete symbol", modeled with *notations* in Rocq. all future concept might be built either on normal or on "incomplete symbols", and they should be never interfere with the fundamentals for the rewriting system; but maybe in the future we might regard all the definitions as a whole and make a clearer distinction between the rewriting system, maybe until the presence of natural numbers
 
 ### Chapter 20
 TODO: 
