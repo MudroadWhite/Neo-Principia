@@ -21,9 +21,9 @@ I started this project by
 - [x] Summary on rest of the works can be found at the beginning of [mechanics](./3_mechanics.md).
 
 ## Project goal and milestones
-**Ongoing: Plan on finishing Class-related chapters, starting from chapter 20.** From the introduction in Principia, which is before chapter 1, implementing classes and relations will ensure the necessity to express everything in Principia.
+**Ongoing: Plan on finishing Class-related chapters, starting from chapter 20.** Implementing classes and relations should ensure the availability to express everything in Principia.
 
-**2026.02:** Chapter 14, the first chapter with an *incomplete/context based* symbol(the description), has been finished. Finishing these chapters involves both new context for theorems to be assumed, and more complicated symbols to be defined. Documentation from chapter 1 to 14 is also now generally finished, making the whole project pretty mature.
+**2026.02:** Chapter 14, the first chapter with an *incomplete/context based* symbol(the description), has been finished. Finishing these chapters involves both new context for theorems to be assumed, and more complicated symbols to be defined. Documentation from chapter 1 to 14 is also now generally finished, making the whole project pretty mature. Viewers should find it relevantly easy to know what has been formalized and what has not been.
 
 **2025.10:** Chapter 9, the first chapter after chapter 5, has been finished. Chapter 9's theorems has a whole new context to be interpreted, so designing a new way to prove the theorems, in contrast to chapter 1 - 5, is required. Completion of this chapter involves a lot of mind works and deprecated experiments. Also, "New Principia" has been renamed into "Neo Principia".
 
