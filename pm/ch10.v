@@ -6,12 +6,6 @@ Require Import PM.pm.ch4.
 Require Import PM.pm.ch5.
 Require Import PM.pm.ch9.
 
-(* TODO: 
-- slightly rewrite the introduction below
-- Prove a special theorem: `(exists x, P x /\ Q x) -> (exists x, P x) /\ (exists x, Q x)`.
-  This will be used in later chapters...
-*)
-
 (* **************** *)
 (* NOTATION DEFINITIONS *)
 (* **************** *)
@@ -25,7 +19,7 @@ Declare Scope single_formal_equiv.
 Open Scope single_formal_impl.
 Open Scope single_formal_equiv.
 
-(* cf. p.12: This notations is due to Peano. *)
+(* p.12: This notations is due to Peano. *)
 Notation " A '-[1' x ]> B " := (∀ x, A → B)
   (at level 80, x binder, B at level 100, right associativity,
   format "'[ ' A '/' '[ ' -[1 x ]> ']' '/' B ']'")

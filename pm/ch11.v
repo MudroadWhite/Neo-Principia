@@ -8,17 +8,8 @@ Require Import PM.pm.ch9.
 Require Import PM.pm.ch10.
 
 (* TODO: 
-- Investigate the `alt`s in ch10 and see if there are more details
-- Identify parameter types in ch9 & 10
-- design the correct notation for multiple vars
-- Correctly control the notation scopes in ch11 and ch10
-*)
-
-(* TODO: Add a special rule: (exists x, Px /\ Q x) -> (exists x, P x) /\ (exists x, Q x) *)
-
-(* TODO: 
-Type of theorems allowed: 
-Type of parameters allowed: 
+- Design the correct notation for multiple vars
+- Add a special rule: (exists x, Px /\ Q x) -> (exists x, P x) /\ (exists x, Q x) 
 *)
 
 (* **************** *)

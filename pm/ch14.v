@@ -14,12 +14,11 @@ Require Import Logic.FunctionalExtensionality.
 (* TODO:
 - fix all the `replace`s
 - fill in missing proofs
-- fix the notation conflict that Rocq arises, and refer to ch10&11 for a solution. Focus on 
-  priority levels of the terms
+- Better notation priority level wrt ch9 - 11
 *)
 
 (* 
-The decription, or I would personally call it the iota operator, is an incomplete symbol(cf. 
+The decription, or I would personally call it the iota operator, is an incomplete symbol(
 p. 67), and is the first "definition" that will only have meaning "in specific context". It 
 is a special kind of parameter for functions. They will be passed into propositional functions 
 normally, but unlike normal parameters that only calculates everything within themselves, they 

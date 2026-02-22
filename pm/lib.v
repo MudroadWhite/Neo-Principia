@@ -12,7 +12,7 @@ Export ClassicalFacts.
 Export PropExtensionality.
 Export String.
 
-(* cf.p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
+(* p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
 Theorem eq_to_equiv : ∀ (P Q : Prop),
   (P = Q) → (P ↔ Q).
@@ -21,22 +21,16 @@ Proof.
   split; try rewrite -> H; trivial.
 Qed.
 
-(* cf.p.51: `!` notation *)
-(* EXPERIMENTAL/DRAFT: 
-`!` notation mostly declares the order of a matrix, and the function is strictly a matrix(p.166)
-Should we treat `!` as something being denotational just like the dot notations in Principia?
-*)
-
-(* Chapter 12 & 13: a function, typed, of order `n`.
+(* Chapter 12 & 13: a proposition, typed, of order `n`.
 NOTE: 
 - Unless necessary, we should never use ANYTHING beyond `Order 1`. It is for convenience 
   when we really need this we can search all occurences of Orders to be adapted
 - For chapter 12, we might want to define an extra `Order2`. This should be implemented when
   necessary
-TODO: maybe in the future, checkout the definition for matrix and try to see if we can also integrate
+TODO: 
+- maybe in the future, checkout the definition for matrix and try to see if we can also integrate
 in a definition for matrix
-
-TODO: add an extra implicit argument {shift : nat} where shift = 0 by default
+- add an extra implicit argument {shift : nat} where shift = 0 by default
 *)
 Fixpoint Order (n : nat) : Type :=
   match n with
@@ -96,7 +90,7 @@ TODO: give this iota_E the correct `Order` type
 Definition DescriptionExists (φ : Prop -> Prop) : Prop. Admitted.
 Example descriptionexists_example := DescriptionExists (fun x => x).
 
-(* cf. p174, example after *14.03. Interpretation for a function containing 
+(* p174, example after *14.03. Interpretation for a function containing 
   multiple descriptions *)
 Definition Description2 (φ ψ : Prop -> Prop) 
   (expr : (DescriptionArg φ) -> (DescriptionArg ψ) -> Prop): Prop. 
@@ -104,7 +98,7 @@ Admitted.
 Example description2_example (φ ψ : Prop -> Prop) :=
   Description2 φ ψ (fun x y => x = y).
 
-(* cf. p174, explanation after *14.04. The iota variant where inner function has 
+(* p174, explanation after *14.04. The iota variant where inner function has 
   larger scope than outer function. This variant will be proven later unecessary. 
 
   The original definition depends on `iota_f2`. The function `iota_f` here, 

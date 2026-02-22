@@ -5,55 +5,10 @@ Require Import PM.pm.ch11.
 Open Scope formal_equiv.
 
 (* 
-Starting from chapter 12, every variables being quantified at the rhs has to be
-either an "Individual" or a "Order". For example, "∀ P, P ∧ Q" might 
-never appear, and instead, it will be either "∀ Individual P, P ∧ Q" or 
-"∀ Order Phi, Phi (Individual P)" where Phi P = P ∧ Q
-
-Ideally speaking, AoR is the only way to convert "function"s in a theorem to 
-"predicate"s. But the representation here has been very annoying. The `∀`
-here has been working differently to `Phi x` and `f x`: `x` is a parameter for
-`Phi` but it is fixed for `f`, and `f` is actually the "parameter".
-*)
-
-(* 
 NOTE:
 
-cf.p.162: In this chapter, Phi!x^ is given an exact meaning where `x^` is an individual 
-and `Phi` is a function taking an individual as argument
-
-`F` for AoR is having a level of exactly 1
-
-cf.p.163: a function is either a matrix itself or a generalization on a matrix. Therefore 
-functions in PM has a very different meaning from what people will acknowledge nowadays, 
-and matrix seems more like the actual `function`
-
-cf.p.163&164: `(x).Phi!x` is a function with argument `x`, while `(Phi).Phi!x` is 
-a function with argument `Phi`. This makes the ambiguity of `!` very clear: it only 
-states that `Phi` must be a predicative function but doesn't ensure that it is taken 
-as a parameter...
-
-More on `!` notation: when it is not being used, `Phi` is pretty much untyped. when it 
-is being used, the type level has to be directly obtained by how many levels of `!`s are 
-being used(cf.p.162, definition of a 1st-order predicative)
-
-more..: cf.p.162, bottom part: new def of function arises from both using apparent 
-variables/real variables as variables. matrix contains only variables that needs to be 
-fed in by Rocq; propositions contains only quantified variables that are self sufficient
-
-cf.p.163: first order propositions: regardless of the count of `forall` and `exists`, highest 
-level of argument is always level 0
-
-cf.p.164, bottom: in previous chapter, propositions can be taken as variables?
-
-cf.p.165: order is different from type?
-
-cf.p.165, example of 2nd-order function: individual can be a parameter of any level higher order 
-function...which we didn't characterize so far. Can we design a type for that?
-
-it seems that our def of `Order` needs a renewal soon, to define `A -> B` correctly
-
-NOTE: for constants we can design a tagto label them just as constants when passing as a parameter
+- `F` for AoR is having a level of exactly 1
+- constants in PM can be designed as a tagged label them just as constants when passing as a parameter
 into rocq
 *)
 
