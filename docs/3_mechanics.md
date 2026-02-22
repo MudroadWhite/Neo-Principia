@@ -3,7 +3,7 @@ We are building:
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic demonstration for a predicate called "IsSameType". Support for instantiating individuals.
 - [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable.
 - [x] Chapter 11 - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
-- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
+- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Order` predicate.
 - [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
 - [x] Chapter 14 - Notation `ι` of the descriptions. Theorems on them.
 - [ ] \[WIP\]Chapter 20 - Notation on class, and theorems of classes.
@@ -89,7 +89,7 @@ This chapter collects miscellaneous theorems of operators appeared in previous c
 ### Chapter 9
 Propositions in this chapter starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
 - Generalization: the main technique to turn a *elementary proposition* into an *elementary function*
-- *Individual*s: the placeholder for a proposition to be generalized into a function, or to assert a function during the proof
+- *Individual*s: a placeholder, a very specific value, an unnamed constant, for a proposition to be generalized into a function or to assert a function during the proof. Sometimes individual seems to just mean something that we cannot further destructed in current denotation, whether it is a proposition, function or matrix. *These meanings are used mutually throughout the text.*
 
 This chapter presents the only way for 1st order propositions to be constructed: generalizing from *elementary functions*. Combining with [chapter 1](./3_mechanics.md/#chapter-1) we are getting the following rules:
 
