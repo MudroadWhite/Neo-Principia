@@ -1,12 +1,19 @@
-(* Require Import PM.pm.lib.
+Require Import PM.pm.lib.
 Require Import PM.pm.ch1.
 Require Import PM.pm.ch2.
 Require Import PM.pm.ch3.
 Require Import PM.pm.ch4.
 Require Import PM.pm.ch5.
 
-(* ******** *)
 
+Definition EDisjunct : Type := Order 0 -> Order 0.
+Definition ENeg : Type := Order 0 -> Order 0.
+
+(* TODO: takes in an efunc and return a prop of order 1 *)
+Definition EForall : Type := Prop -> Order 1. Admitted.
+Definition EEXists : Type := Prop -> Order 1. Admitted.
+
+(* 
 Definition n9_01 (φ : Prop → Prop) :
   (¬ ∀ x, φ x) = ∃ x, ¬ φ x. Admitted.
 
