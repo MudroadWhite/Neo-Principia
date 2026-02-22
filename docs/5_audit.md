@@ -65,7 +65,7 @@ The *of the same type* proposition in chapter 11 is unexamined. It will gain awa
 ### Chapter 12
 **Coverage: 100%(?)**
 
-**General.** Axiom of Reducibility has been subjected to tons of criticisms. [Hilbert(p.33)](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) thinks the `exists` for AoR is useless, and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function. In our practice we find it hard to use either, and there is a plan to develop other forms of AoR to make a nicer conversion.
+**General.** Axiom of Reducibility has been subjected to tons of criticisms. Hilbert thinks the `exists` for AoR is [useless(p.33)](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf), and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function. In our implementation we find it indeed hard to use, and there is a plan to develop other forms of AoR to make a nicer conversion.
 
 ### Chapter 13
 **Coverage: 92.9% = 26/28.**
