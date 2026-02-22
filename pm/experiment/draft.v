@@ -12,5 +12,5 @@ We want a type system with
 
 (* 
 Draft: better `exists`, `forall` design
-
+- define a "EForall" and wrap up with a notation in chapter 9
 *)
