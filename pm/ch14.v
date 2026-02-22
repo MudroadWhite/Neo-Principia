@@ -32,12 +32,9 @@ As we can see, the description has been modeled by `DescriptionArg`, and with a 
 a binder of the `DescriptionArg` type, our notation has been written down just as in the original 
 text.
 
-TODO: check if all the following paragraph still apply:
 From n14_17 and onward, we're seeing how iota should cope with the predicative functions. Currently
 we are still letting iotas being "untyped", that is, being constructed based on untyped function. 
 Whether we can restrict the iotas to typed functions only is a future question.
-
-The definitions are being put into the `lib.v`. 
 *)
 
 Open Scope formal_equiv.
