@@ -7,6 +7,7 @@ We want a type system with
 - Individual's type which we don't even know if it is needed
 - **Untyped** functions(not matrices anymore?) as a *type* - taking in argument of order n,
    return an arbitarily large proposition of order greater than n
+- Constant's type? or is it unnecessary?
 - If things goes better, we should be able to prove equivalance to "of the same type" primitive proposition
 *)
 
