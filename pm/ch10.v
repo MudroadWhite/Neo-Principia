@@ -12,40 +12,20 @@ Require Import PM.pm.ch9.
   This will be used in later chapters...
 *)
 
-(* TODO: TYPE RESTRICTIONS
-Type of theorems allowed: first order propositions(?)
-Type of parameters allowed: (each ∀ is quantified over at most one variable?)
-*)
-
-(* 
-TODO: rewrite introduction for this chapter
-- Ch9 enables us to take `∀` propositions as parameters, therefore we can have a better goal(?)
-- Goal of ch10: focus on deducing 1-var functions from ch1-5
-- several ch9 primitive propositions are only used (for conveniency?)
-- `∃` is no longer a primitive idea
-
-Notes on this chapter:
-- Chapter 10, 11 and so on's theorems doesn't focus on their coverage of FOL. Rather, I think they 
-are the theorems commonly used in later chapters. There could exist some theorems that should be 
-exist but don't.
-- At the very end of this chapter, n10_57 seems to contain one 
-error that I cannot prove.
-*)
-
-Declare Scope single_formal_impl.
-Declare Scope single_formal_equiv.
-
 (* **************** *)
 (* NOTATION DEFINITIONS *)
 (* **************** *)
 (* Ref: https://rocq-prover.org/doc/v9.0/stdlib/Stdlib.Unicode.Utf8_core.html# *)
-(* cf. p.12: This notations is due to Peano. *)
 (* In chapter 11, we will define the full formal impls and equivs that supports arbitrary
 length of parameters. To distinguish with its notation, we add an extra `1` within this notation *)
+
+Declare Scope single_formal_impl.
+Declare Scope single_formal_equiv.
 
 Open Scope single_formal_impl.
 Open Scope single_formal_equiv.
 
+(* cf. p.12: This notations is due to Peano. *)
 Notation " A '-[1' x ]> B " := (∀ x, A → B)
   (at level 80, x binder, B at level 100, right associativity,
   format "'[ ' A '/' '[ ' -[1 x ]> ']' '/' B ']'")
