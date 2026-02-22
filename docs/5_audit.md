@@ -10,17 +10,15 @@ Assessment for each of the chapter is based on the following questions:
 Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
 
 ### Basic setups
-**Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads.
+**Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
 
-On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. 
+The core of symbol definition, *definitional equality*, is undefined, as discussed in [mechanics](./3_mechanics.md) and [tactics](./4_tactics.md). 
 
-I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
-
-**Citations.** Aka. references as called in PM. Citations in general only cover the most important theorems and ignore the rest chores. There are several reasons why automatically using citations to prove theorems earns an fruitless expectation:
+**Citations.** Aka. references as PM call it. Citations in general only cover the most important theorems and ignore the rest chores. There are several reasons why automatically using citations to prove theorems seems to be a fruitless expectation:
 - The orders to apply citations might differ from the right way to deduce(see `n14_33` and beyond)
 - Our implementation have to ignore unnecessary citations and utilize unmentioned trivial citations
-- Cited propositions are designed with `Ltac`
-- Cited theorems might have different context to interpret
+- Cited propositions might be a mixture of both expressions and `Ltac`
+- And more generally, cited theorems might have different context to interpret
 
 **Types.** Although we won't implement the typing algorithm immediately, there are still worthy comments to be made. We are aware that
 1. PM doesn't have `->` type, and the typing algorithm seems to have struggled to type the functions.
