@@ -3,7 +3,7 @@ We are building:
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic demonstration for a predicate called "IsSameType". Support for instantiating individuals.
 - [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable.
 - [x] Chapter 11 - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
-- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
+- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Order` predicate.
 - [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
 - [x] Chapter 14 - Notation `ι` of the descriptions. Theorems on them.
 - [ ] \[WIP\]Chapter 20 - Notation on class, and theorems of classes.

@@ -29,19 +29,19 @@ Should we treat `!` as something being denotational just like the dot notations 
 
 (* Chapter 12 & 13: a function, typed, of order `n`.
 NOTE: 
-- Unless necessary, we should never use ANYTHING beyond `Predicate 1`. It is for convenience 
-  when we really need this we can search all occurences of Predicates to be adapted
-- For chapter 12, we might want to define an extra `Predicate2`. This should be implemented when
+- Unless necessary, we should never use ANYTHING beyond `Order 1`. It is for convenience 
+  when we really need this we can search all occurences of Orders to be adapted
+- For chapter 12, we might want to define an extra `Order2`. This should be implemented when
   necessary
 TODO: maybe in the future, checkout the definition for matrix and try to see if we can also integrate
 in a definition for matrix
 
 TODO: add an extra implicit argument {shift : nat} where shift = 0 by default
 *)
-Fixpoint Predicate (n : nat) : Type :=
+Fixpoint Order (n : nat) : Type :=
   match n with
   | 0 => Prop
-  | (S m) => let A := Predicate m in (A -> Prop)
+  | (S m) => let A := Order m in (A -> Prop)
   end.
 
 (* p.51: To instantiate variables appeared in a propositional function, we use the concept 
@@ -54,7 +54,7 @@ As parameters, however, rules in (p.133) is flawed: if I have one individual for
 another for 1-order parameter, altogether for a 2-order function, will they still have the same type?
 Currently we only set Individual to order 0, but it is supposed to be of any order 
 *)
-Definition Individual := Predicate 0.
+Definition Individual := Order 0.
 
 (* EXPERIMENTAL: the predicate below serves merely just for "how an untyped function of PM should be
 defined in Rocq". Currently it is never used anywhere and only demonstrates an experimental idea *)
@@ -67,7 +67,7 @@ Definition Intro_individual (s : string) : Individual. Admitted.
 
 (* For the same reason above, I believe that predicative functions coming fresh(after chapter 13) should 
 also be considered as individuals. TODO: This should be merged with `Intro_individual` *)
-Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
+Definition Intro_pred (s : string) (n : nat) : Order n. Admitted.
 
 (* **************** *)
 (* Chapter 14 *)
@@ -91,7 +91,7 @@ Example description_example :=
 is that `E` in `E!` is the capital letter of `Exists` and `!` indicates that it is a 
 predicate. 
 
-TODO: give this iota_E the correct `Predicate` type
+TODO: give this iota_E the correct `Order` type
 *)
 Definition DescriptionExists (φ : Prop -> Prop) : Prop. Admitted.
 Example descriptionexists_example := DescriptionExists (fun x => x).
