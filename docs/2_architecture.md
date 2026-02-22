@@ -43,11 +43,12 @@ Now we come to naming conventions for (lhs) parameters.
 - Apparent variables are quantified variables in `∀`, `∃` and so on. As parameters, they're usually lower case literals like `x`.
 - Real variables are variables that can directly instantiated. They're usually upper case literals like `X`.
 
-In later chapters, we might have special variables manifested from custom notations we have defined. Below is the naming conventions for those special variables:
+## 5. What is `Notation`?
+As chapters push on, PM will have higher requirements on symbol definitions to model the math ideas. It turns out that `Notation`s in Rocq is the perfect tool for implementing them. For these notations, we might also have naming conventions on them. Below is the naming conventions for those special variables:
 - Individuals: Sometimes, functions might be introduced on purpose as individuals of higher order. These individuals are prefixed with `I` as in `Iφ`.
 - More to be added...
 
-## 5. What's under a single proof?
+## 6. What's under a single proof?
 For a theorem, if it has been splitted into several steps to prove in the text, rather than just citing related theorems for hints, we call this theorem comes with a "long proof". Otherwise it has a short proof.
 
 - Our structure is **not required** to be enforced on short proofs.
@@ -72,13 +73,13 @@ Qed.
 
 ```
 
-### 5.1. `TOOLS` section
+### 6.1. `TOOLS` section
 - A `TOOLS` header is **required** to be place at the beginning of a long proof, if any tool is being used.
 - Other tools not being placed in the `TOOLS` section is **required** to be stated with an explicit comment.
 
 Technical features, that can be be found under `lib.v`, usually require a warmup before being available, for example, introducing an extra individual with the proof(with `set (X := Individual "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
 
-### 5.2. `assert` blocks
+### 6.2. `assert` blocks
 - All long proofs are **required** to adapt to the proof architecture picted above.
 
 For long proofs, the first tactic we use always starts with an `assert`, for specifying intermediate steps corresponded to ones in the original text. 
@@ -87,7 +88,7 @@ There are several reasons for organizing proofs with `assert`. The most signific
 
 `assert`ed intermediate steps are introduced into the hypotheses.
 
-## 6. What are the tactics we use for a single proof?
+## 7. What are the tactics we use for a single proof?
 
 As introduced above, `assert` and `set`, sets up the general architecture to write the proof.
 
