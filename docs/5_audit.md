@@ -14,9 +14,13 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start stra
 
 On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. 
 
-I believe that both the compositional nature and the notational system are useful ideas, but they are scattered around, not being utilized to their maximum strength in our project. We will make a clearer distinction between them in the future.
+I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
 
-**Citations.** Citations in general only cover the most important theorems and ignore the rest chores. Their orders to apply might differ from the possible ways perform the deduction[CITATION: ch14.v]. Constructing the proofs based only on the citations cannot be automated.
+**Citations.** Aka. references as called in PM. Citations in general only cover the most important theorems and ignore the rest chores. There are several reasons why automatically using citations to prove theorems earns an fruitless expectation:
+- The orders to apply citations might differ from the right way to deduce(see `n14_33` and beyond)
+- Our implementation have to ignore unnecessary citations and utilize unmentioned trivial citations
+- Cited propositions are designed with `Ltac`
+- Cited theorems might have different context to interpret
 
 **Types.** Although we won't implement the typing algorithm immediately, there are still worthy comments to be made. We are aware that
 1. PM doesn't have `->` type, and the typing algorithm seems to have struggled to type the functions.
@@ -32,7 +36,7 @@ Critics above suggest there might be freedom for us to design a different type s
 ### Chapter 1 - 5
 **Coverage: 100%**
 
-**General.** The informal propositions through chapter 1 - 5 are only the `Pp`s in chapter 1 and a special inference rule in chapter 3. As explained in [tactics](4_tactics.md), we have made several simplification on the primitive propositions.
+**General.** The informal propositions through chapter 1 - 5 are only the `Pp`s in chapter 1 and a special inference rule in chapter 3. As explained in [tactics](4_tactics.md), we have made several simplifications over primitive propositions.
 
 ### Chapter 9
 **Coverage: 100%**
@@ -41,9 +45,9 @@ Critics above suggest there might be freedom for us to design a different type s
 
 We have implemented the typing algorithm, but it is wrongly interpreted and will not be used anywhere.
 
-\*9.13, the generalization assumption, according to the text, is to be performed without `MP`. Our current design is modeling this assumption by a `->`, leading to unnecessary `MP`s on `n9_13`.
+\*9.13, the generalization assumption, according to the text, is to be performed without `MP`. Our current design is modeling this assumption with a `->`, leading to unnecessary `MP`s on `n9_13`. Note that `if...then` written in natural language in PM is not something the same as `->`, in that `->` is defined through `\/` and `~`.
 
-**Functions.** For our soft embedding, the matrices are being constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will expose higher expectations on functions and matrices: should they typed in Rocq with `Prop -> Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we will proceed and have higher requirements.
+**Functions.** For our soft embedding, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will reveal higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop -> Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we move on.
 
 ### Chapter 10
 **Coverage: 98.2% = 55/56.**
