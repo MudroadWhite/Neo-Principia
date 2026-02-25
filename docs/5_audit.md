@@ -47,9 +47,11 @@ We have implemented the typing algorithm, but it is wrongly interpreted and will
 
 **Functions.** For our soft embedding, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will reveal higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop -> Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we move on.
 
+**The role of `\/` and `~`.** In chapter 9, `~` and `\/` are clearly stated to be the elementary proposition version, so that "we can obtain first order propositions just from e-prop operators". Then, they are allowed to take one 1-order proposition in one of its positions for operands. In chapter 10, `~` and `\/` can take any 1-order propositions in their operands, because they are already the first-order version. There seems to be a confusion on the elementary proposition version to "not to break the type": we are assuming enough to see them as their 1-order version, so what is the difference between directly defining how they can be defined by directly using 1-order operators? The assumptions on these e-prop operators already break the type of them severely.
+
 ### Chapter 10
 **Coverage: 98.2% = 55/56.**
-- **\*10.57.** 3rd step of the proof is unprovable.
+- **\*10.57.** 3rd step of the proof is unprovable, simply because the theorem it uses cannot be instantiated with correct parameters.
 
 **General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `forall` and `exists`. We didn't find any difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
 
