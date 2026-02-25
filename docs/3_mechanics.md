@@ -3,7 +3,7 @@ We are building:
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic demonstration for a predicate called "IsSameType". Support for instantiating individuals.
 - [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable.
 - [x] Chapter 11 - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
-- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Predicate` predicate.
+- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Order` predicate.
 - [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
 - [x] Chapter 14 - Notation `ι` of the descriptions. Theorems on them.
 - [ ] \[WIP\]Chapter 20 - Notation on class, and theorems of classes.
@@ -89,7 +89,7 @@ This chapter collects miscellaneous theorems of operators appeared in previous c
 ### Chapter 9
 Propositions in this chapter starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
 - Generalization: the main technique to turn a *elementary proposition* into an *elementary function*
-- *Individual*s: the placeholder for a proposition to be generalized into a function, or to assert a function during the proof
+- *Individual*s: a placeholder, a very specific value, an unnamed constant, for a proposition to be generalized into a function or to assert a function during the proof. Sometimes individual seems to just mean something that we cannot further destructed in current denotation, whether it is a proposition, function or matrix. *These meanings are used mutually throughout the text.*
 
 This chapter presents the only way for 1st order propositions to be constructed: generalizing from *elementary functions*. Combining with [chapter 1](./3_mechanics.md/#chapter-1) we are getting the following rules:
 
@@ -98,8 +98,8 @@ This chapter presents the only way for 1st order propositions to be constructed:
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
 There's a lot of things happening in the beginning of chapter 9.
-- First of all \*1.1 and \*1.11 has assumed their version for **1st order propositions**(p.128)(TODO: check `n9_2`)
-- Then first few `Pp`s in chapter 9 are supposed to restricted to e-prop `¬` and `∨`(discussed in Chapter II, they are not 1-order `¬` and `∨`). We define special `forall` and `exists` that is still a *eprop*(taking a eprop function?TODO: check ch9 and ch10), and state how should it be computed with e-prop `¬` and `∨`
+- First of all \*1.1 and \*1.11 has assumed their version for **1st order propositions**(p.128)
+- Then first few `Pp`s in chapter 9 are supposed to restricted to e-prop `¬` and `∨`(discussed in Chapter II, they are not 1-order `¬` and `∨`). 
 - After we have demonstrated that they work just fine on `exists` as well, we can lift e-prop `¬` and `∨` to 1-order ones
 - Then we have \*9.12 being the actual *modus ponens* synthesizing both \*1.1 and \*1.11.
 
@@ -132,9 +132,7 @@ Chapter 9's theorems are furthermore splitted into 2 parts for different purpose
 - Theorems written as formulae *demonstrate*s how theorems in chapter 1 - 5 can be extended to 1-higher order version, *assuming that we can already use those quantifiers*. It could be done with mathematical induction, but we were out of the assumption for induction to work so we brute force everything.
 
 ### Chapter 10
-TODO:
-- assumption: (p.138) `¬`, `∨` and generally, any parameters are allowed to take 1-order propositions
-- (p.138) in ch9, `exists` is undefined beneath and cannot be expanded(primitive idea), manipulated thru `\/` and `~`; in ch10, `exists` is a notation that can be expanded. TODO: better distinguish between forall/exists in ch9 and ch10
+In contrast to "what will be when `\/` is applied to different propositions", `forall` and `exists` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `forall` and `exists` is therefore only one primitive proposition, stating how `exists` is defined(p.138), and the `\/` and `~` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
 
 ### Chapter 11
 Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables.
@@ -191,7 +189,7 @@ By proving a theorem,
 TODO: 
 - just an identity 
 - discuss how it might use definition in ch12; state the utilization of `pred` variants
-- (p.22)`=` is not defined until chapter 13, and this is being explained in chapter 2/chapter II.
+- (p.22)`=` is not defined until chapter 13, and this is being explained in chapter II.
 - (p.57)explained a proof of identity `=` informally, only to be complete with the support of axiom of reducibility
 
 ### Chapter 14

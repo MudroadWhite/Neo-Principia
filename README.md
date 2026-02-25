@@ -34,8 +34,8 @@ Beneath the code and down to the core, the difficulty in formalization is how PM
 - PM gets a mountain of notations and symbols
 - PM doesn't explicitly type the propositions
 - Some PM rules are written in natural language
-- Theorems in different chapters are interpreted under different hierarchies, while they are supposed to be shared among all chapters
-- Terminologies also have different meanings in different chapters, and the range of the distinction is also a manual work. For example, "functions" and "matrices"
+- Theorems in different chapters are interpreted under different hierarchies, while the core idea for theorems are supposed to be shared among all chapters
+- Terminologies also have different meanings in different chapters, and the range of the distinction is a manual work. For example, "functions" and "matrices"
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far: PM's notorious notation system, highly "trivial"(chores-like) theorems, and its historical background to guarantee a missing revisit.
 
