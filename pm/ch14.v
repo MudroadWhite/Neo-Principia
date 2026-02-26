@@ -538,21 +538,34 @@ Proof.
     pose proof (n11_1 X Y (fun u v =>
       (∀ z w, φ z w ∧ φ u v → z = u ∧ w = v))) as n11_1.
     assert (A1 : ((φ z w ∧ φ x y) -[ (z w x y : Prop) ]> (z = x ∧ w = y))
-      ↔ ((φ z w ∧ φ x y) -[ (z w x y : Prop) ]> (z = x ∧ w = y))).
+      ↔ ((φ z w ∧ φ x y) -[ (x y z w : Prop) ]> (z = x ∧ w = y))).
     {
       setoid_rewrite -> n11_2 at 2.
       setoid_rewrite -> n11_2 at 3.
       setoid_rewrite -> n11_2 at 1.
       now setoid_rewrite -> n11_2 at 2.
     }
-    rewrite -> A1 in n11_1.
+    rewrite <- A1 in n11_1.
+    simpl in n11_1.
     pose proof (Fact3_45
-      (φ z w ∧ φ x y -[ (z w x y : Prop) ]> z = x ∧ w = y)
+      ((φ z w ∧ φ x y) -[ (z w x y : Prop) ]> (z = x ∧ w = y))
       ((φ z w ∧ φ X Y) -[ z w ]> z = X ∧ w = Y)
       (φ X Y)) as Fact3_45.
     MP Fact3_45 n11_1.
     rewrite -> n4_3 in Fact3_45.
-    now setoid_rewrite -> n4_3 in Fact3_45 at 4.
+    setoid_rewrite -> n4_3 in Fact3_45 at 4.
+    (* 
+    The term "Fact3_45" has type
+     "φ X Y 
+      ∧ ((φ z w ∧ φ x y)-[z w x y : Prop]>z = x ∧ w = y)
+      → φ X Y ∧ (φ z w ∧ φ X Y)-[z w : Prop]>z = X ∧ w = Y"
+    while it is expected to have type
+     "φ X Y
+      ∧ (φ z w ∧ φ u v → z = u ∧ w = v)-[z w u v : Prop]>
+         φ X Y ∧ (φ z0 w0 ∧ φ X Y)-[z0 w0 : Prop]>z0 = X ∧ w0 = Y".
+    
+    *)
+    exact Fact3_45.
   }
   assert (S7 : ((φ X Y) ∧ (((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
     -[ z w u v ]> (φ X Y ∧ (φ z w -[ z w ]> ((z = X) ∧ (w = Y))))).
