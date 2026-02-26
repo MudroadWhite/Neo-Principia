@@ -11,6 +11,11 @@ We are building:
 We now proceed to explain how everything is built up in Principia.
 
 ## Basic setups
+### How to read the propositions in Principia?
+Principia Mathematica uses *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and they surprisingly never go wrong. One can even understand the priority at ease with the indentations, without much on dot notations.
+
+Another symbol comes later is the `!` notation, hidden in the text without a formal definition. It usually indicates the emphasization on functions, to think that "functions can also be a parameter".
+
 ### How does Principia define symbols?
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`~ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`~` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 

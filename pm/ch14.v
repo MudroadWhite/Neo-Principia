@@ -15,6 +15,7 @@ Require Import Logic.FunctionalExtensionality.
 - fix all the `replace`s
 - fill in missing proofs
 - Better notation priority level wrt ch9 - 11
+- Fix notation conflict for iotaE
 *)
 
 (* 
@@ -1126,7 +1127,7 @@ Proof.
     rewrite -> n4_3 in n4_22.
     Syll n3_47 n4_22 Sy1.
     (* We can see that in the original text, `Iχ` has been substituted into
-    a concrete function. Our analogue here is generalizing over this "Order"
+    a concrete function. Our analogue here is generalizing over this "Individual"
     whose body is currently an "admitted" definition to further substitute into
     a concrete definition, by applying n10_1 and n10_11 variants *)
     pose proof (n10_11_pred Iχ (fun p => 
