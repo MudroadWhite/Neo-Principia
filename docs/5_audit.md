@@ -80,12 +80,13 @@ The *of the same type* proposition in chapter 11 is unexamined. It will gain awa
 - **\*14.12.** From the 2nd step of `n14_12` we discovered a step where for a individual `X`, the utilization of `n11_11` has demonstrated a generalization procedure for multiple variables neglected the assumption that generalization abstracts away all occurrences for an individual once at a time, which seems to be against what [Randall Holme's type system model](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) is suggesting.
 - **\*14.121, \*14.17, \*14.171, \*14.201.** Multiple theorems steps involving \*13.15 has been revealed beyond the power of the deduction. \*13.15 is defined `|- X = X`, and these theorems tries to use \*13.15 to imply that they can immediately obtain things like `A /\ (X = X)` to `A`, i.e. `X = X` is supposed to mean "true". We think there should be some extra theorems for \*13.15 to be patched up and make it actually useable.
 - **\*14.142.** The last 2 steps of this theorem are both unprovable, and we suspect there is a typo happening in these two steps.
-- **\*14.272, \*14.32.** The failing steps in the proof is revealing a crucial difference on the iota notation. In Principia, it is suggested that for an expression of the form of `ι x <-> ι y`, we can interpret using either `ι2` or single `ι`. It turns out that `ι2`  generates different expression from applying single `ι` twice, but PM has been mutually using them during developing the proof, and their equality has been explicitly suggested in the text.
+- **\*14.272.** The citation of \*10.414 seems to be invalid, because it is deducing in the other direction. We think this theorem is unprovable.
+- **\*14.32.** It has been assumed that, \*14.32 is undergoing proof with same style as \*14.31.
+- The failing steps in the proof is revealing a crucial difference on the iota notation. In Principia, it is suggested that for an expression of the form of `ι x <-> ι y`, we can interpret using either `ι2` or single `ι`. It turns out that `ι2`  generates different expression from applying single `ι` twice, but PM has been mutually using them during developing the proof, and their equality has been explicitly suggested in the text.
 
 **General.** As the definition of chapter 14 more complicated than any definitions in previous chapters, we are realizing that symbol definitions through `Df` should be best implemented with the notation system in Rocq.
 
 TODO: 
-- recheck n14_272
 - recheck iota interpretation
 
 ### Chapter 20
