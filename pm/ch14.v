@@ -16,6 +16,7 @@ Require Import Logic.FunctionalExtensionality.
 - fill in missing proofs
 - Better notation priority level wrt ch9 - 11
 - Fix notation conflict for iotaE
+- Fix new proof after new notation
 *)
 
 (* 
@@ -536,8 +537,8 @@ Proof.
     (* The ordering here is annoying... *)
     pose proof (n11_1 X Y (fun u v =>
       (∀ z w, φ z w ∧ φ u v → z = u ∧ w = v))) as n11_1.
-    assert (A1 : (∀ x y z w : Prop, φ z w ∧ φ x y → z = x ∧ w = y)
-      ↔ (∀ z w x y : Prop, φ z w ∧ φ x y → z = x ∧ w = y)).
+    assert (A1 : ((φ z w ∧ φ x y) -[ (z w x y : Prop) ]> (z = x ∧ w = y))
+      ↔ ((φ z w ∧ φ x y) -[ (z w x y : Prop) ]> (z = x ∧ w = y))).
     {
       setoid_rewrite -> n11_2 at 2.
       setoid_rewrite -> n11_2 at 3.
@@ -546,7 +547,7 @@ Proof.
     }
     rewrite -> A1 in n11_1.
     pose proof (Fact3_45
-      (∀ z w x y : Prop, φ z w ∧ φ x y → z = x ∧ w = y)
+      (φ z w ∧ φ x y -[ (z w x y : Prop) ]> z = x ∧ w = y)
       ((φ z w ∧ φ X Y) -[ z w ]> z = X ∧ w = Y)
       (φ X Y)) as Fact3_45.
     MP Fact3_45 n11_1.
