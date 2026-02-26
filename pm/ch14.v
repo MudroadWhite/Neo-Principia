@@ -61,7 +61,7 @@ Example description_example :=
 is that `E` in `E!` is the capital letter of `Exists` and `!` indicates that it is a 
 predicate. 
 
-TODO: give this iota_E the correct `Predicate` type
+TODO: give this iota_E the correct `Order` type
 *)
 Definition description_exists (φ : Prop -> Prop) : Prop. Admitted.
 Example descriptionexists_example := description_exists (fun x => x).
