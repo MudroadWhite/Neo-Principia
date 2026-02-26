@@ -2162,15 +2162,15 @@ Proof.
 Qed.
 
 Theorem n14_32 (φ χ : Prop → Prop) : [ιE φ]
-  ↔ ([ι φ | ιφ => ~ χ ιφ] ↔ ~ [ι φ | ιφ => χ ιφ]).
+  ↔ ([ι φ | ιφ => ¬ χ ιφ] ↔ ¬ [ι φ | ιφ => χ ιφ]).
 Proof.
   (* TOOLS *)
   set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([ι φ | ιφ => ~ χ ιφ] ↔ ~ χ B)).
+    -> ([ι φ | ιφ => ¬ χ ιφ] ↔ ¬ χ B)).
   {
-    pose proof (n14_242 B φ (fun x => ~ χ x)) as n14_242.
+    pose proof (n14_242 B φ (fun x => ¬ χ x)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S2 : (φ x <[- x -]> (x = B)) 
@@ -2180,11 +2180,11 @@ Proof.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> ((~ [ι φ | ιφ => χ ιφ]) ↔ ~ χ B)).
+    -> ((¬ [ι φ | ιφ => χ ιφ]) ↔ ¬ χ B)).
   { now rewrite -> Transp4_11 in S2. }
   assert (S4 : (φ x <[- x -]> (x = B))
-    -> ([ι φ | ιφ => ~ χ ιφ] 
-      ↔ ~ [ι φ | ιφ => χ ιφ])).
+    -> ([ι φ | ιφ => ¬ χ ιφ] 
+      ↔ ¬ [ι φ | ιφ => χ ιφ])).
   {
     (* simplification *)
     clear S2.
@@ -2193,26 +2193,27 @@ Proof.
     pose proof (S3 Hp) as S3.
     now rewrite <- S3 in S1.
   }
-  assert (S5 : [ιE φ] -> (([ι φ | ιφ => ~ χ ιφ])
-    ↔ ~ [ι φ | ιφ => χ ιφ])).
+  assert (S5 : [ιE φ] -> (([ι φ | ιφ => ¬ χ ιφ])
+    ↔ ¬ [ι φ | ιφ => χ ιφ])).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
-      -> ([ι φ | ιφ => ~ χ ιφ] 
-        ↔ ~ [ι φ | ιφ => χ ιφ]))) as n10_11.
+      -> ([ι φ | ιφ => ¬ χ ιφ] 
+        ↔ ¬ [ι φ | ιφ => χ ιφ]))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
   }
-  assert (S6 : (([ι φ | ιφ => ~ χ ιφ])
-    ↔ ~ [ι φ | ιφ => χ ιφ]) -> [ιE φ]).
+  assert (S6 : (([ι φ | ιφ => ¬ χ ιφ])
+    ↔ ¬ [ι φ | ιφ => χ ιφ]) -> [ιE φ]).
   {
     (* NOTE: Doubt this step is provable, because the different meaning in 
     notation here could make a crucial difference *)
+    pose proof n14_21 as _n14_21.
     pose proof n14_1 as _n14_1.
     admit.
   }
-  assert (S7 : [ιE φ] ↔ (([ι φ | ιφ => ~ χ ιφ])
-    ↔ ~ [ι φ | ιφ => χ ιφ])).
+  assert (S7 : [ιE φ] ↔ (([ι φ | ιφ => ¬ χ ιφ])
+    ↔ ¬ [ι φ | ιφ => χ ιφ])).
   {
     clear S1 S2 S3 S4.
     Conj S5 S6 S7.

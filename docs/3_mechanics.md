@@ -17,7 +17,7 @@ Principia Mathematica uses *dot notation* just to eliminate the brackets. There 
 Another symbol comes later is the `!` notation, hidden in the text without a formal definition. It usually indicates the emphasization on functions, to think that "functions can also be a parameter".
 
 ### How does Principia define symbols?
-Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`~ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`~` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
+Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
 Principia also defines symbols in an **inheriting way**. That means:
 1. Some early chapters define rough ideas and propose their theorems. For example, we define what is an *animal*, and write down theorems about it.
@@ -86,7 +86,7 @@ While everything in chapter 1 are primitive propositions, chapter 2 starts to us
 Chapter 3 focuses on theorems about `/\`, which is constructed on `¬` and `∨`. In particular, \*3.03 allows us to immediately get `H3 : A /\ B` if we have `H1 : A` and `H2 : B` in the proof window.
 
 ### Chapter 4
-Chapter 4 focuses on theorems about `<->`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics](./4_tactics.md).
+Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics](./4_tactics.md).
 
 ### Chapter 5
 This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly proven because they are useful.
@@ -137,7 +137,7 @@ Chapter 9's theorems are furthermore splitted into 2 parts for different purpose
 - Theorems written as formulae *demonstrate*s how theorems in chapter 1 - 5 can be extended to 1-higher order version, *assuming that we can already use those quantifiers*. It could be done with mathematical induction, but we were out of the assumption for induction to work so we brute force everything.
 
 ### Chapter 10
-In contrast to "what will be when `\/` is applied to different propositions", `forall` and `exists` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `forall` and `exists` is therefore only one primitive proposition, stating how `exists` is defined(p.138), and the `\/` and `~` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
+In contrast to "what will be when `\/` is applied to different propositions", `forall` and `exists` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `forall` and `exists` is therefore only one primitive proposition, stating how `exists` is defined(p.138), and the `\/` and `¬` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
 
 ### Chapter 11
 Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables.

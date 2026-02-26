@@ -1031,7 +1031,7 @@ Proof.
       by (apply propositional_extensionality; split; apply n3_22).
     exact n4_4.
   }
-  assert (S2 : (Q → ¬ R) → ~(Q ∧ R)).
+  assert (S2 : (Q → ¬ R) → ¬(Q ∧ R)).
   {
     pose proof (n4_62 Q R) as n4_62.
     destruct n4_62 as [n4_62l _].

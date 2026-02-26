@@ -29,7 +29,7 @@ Notation "A '-[' x .. y ']>' B" := (forall x, .. (forall y, A -> B) ..)
   format "'[ ' A '/' '[ ' -[ x .. y ]> ']' '/' B ']'") : formal_impl.
 Example example_formal_impl0 := (x = y) -[ (x y : Prop) ]> (x = y).
 
-Notation "A '<[-' x .. y '-]>' B" := (forall x, .. (forall y, A <-> B) ..)
+Notation "A '<[-' x .. y '-]>' B" := (forall x, .. (forall y, A ↔ B) ..)
   (at level 80, x binder, y binder, B at level 100, right associativity,
   format "'[ ' A '/' '[ ' <[- x .. y -]> ']' '/' B ']'") : formal_equiv.
 Example example_formal_equiv0 := (x = y) <[- (x y : Prop) -]> (y = x).
