@@ -6,12 +6,12 @@ Require Import PM.pm.ch4.
 Require Import PM.pm.ch5.
 
 
-Definition EDisjunct : Type := Order 0 -> Order 0. Admitted.
-Definition ENeg : Type := Order 0 -> Order 0. Admitted.
+Definition EDisjunct : Type := Order 0 -> Order 0.
+Definition ENeg : Type := Order 0 -> Order 0.
 
 (* TODO: takes in an efunc and return a prop of order 1 *)
-Definition EForall : Type := Prop -> Order 1. Admitted.
-Definition EEXists : Type := Prop -> Order 1. Admitted.
+Definition EForall : Type := Prop -> Order 1.
+Definition EEXists : Type := Prop -> Order 1.
 
 (* 
 Definition n9_01 (φ : Prop → Prop) :
