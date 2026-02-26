@@ -436,7 +436,7 @@ Qed.
 Theorem n14_124 (φ : Prop → Prop → Prop) : 
   (∃ x y, (φ z w <[- z w -]> (z = x ∧ w = y)))
   ↔ ((∃ x y, φ x y) 
-    ∧ ∀ z w u v, (φ z w ∧ φ u v) → (z = u ∧ w = v)). 
+    ∧ (φ z w ∧ φ u v) -[ z w u v ]> (z = u ∧ w = v)). 
 Proof.
   (* TOOLS *)
   set (X := Intro_individual "x").
@@ -514,7 +514,7 @@ Proof.
     now rewrite -> n11_35 in n11_11.
   }
   assert (S5 : (∃ x y, φ z w <[- z w -]> ((z = x) ∧ (w = y)))
-    → (∀ z w u v, (φ z w ∧ φ u v) → ((z = u) ∧ (w = v)))).
+    → ((φ z w ∧ φ u v) -[ z w u v ]> ((z = u) ∧ (w = v)))).
   {
     (* For 4 variables, the generalization has applied twice! *)
     pose proof (n11_11 U V (fun u v =>
@@ -529,9 +529,8 @@ Proof.
     MP n11_11b n11_11a.
     now rewrite <- n11_3 in n11_11b.
   }
-  assert (S6 : ((φ X Y) ∧ (∀ z w u v, 
-    ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v)))
-      → (φ X Y ∧ ((φ z w ∧ φ X Y) -[ z w ]> ((z = X) ∧ (w = Y)))))).
+  assert (S6 : ((φ X Y) ∧ (((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v)))
+      -[ z w u v ]> (φ X Y ∧ ((φ z w ∧ φ X Y) -[ z w ]> ((z = X) ∧ (w = Y)))))).
   {
     (* The ordering here is annoying... *)
     pose proof (n11_1 X Y (fun u v =>
@@ -553,9 +552,8 @@ Proof.
     rewrite -> n4_3 in Fact3_45.
     now setoid_rewrite -> n4_3 in Fact3_45 at 4.
   }
-  assert (S7 : ((φ X Y) ∧ (∀ z w u v, 
-    ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
-    → (φ X Y ∧ (φ z w -[ z w ]> ((z = X) ∧ (w = Y))))).
+  assert (S7 : ((φ X Y) ∧ (((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
+    -[ z w u v ]> (φ X Y ∧ (φ z w -[ z w ]> ((z = X) ∧ (w = Y))))).
   {
     pose proof (n5_33 (φ X Y) (φ Z W) (Z = X ∧ W = Y)) as n5_33.
     setoid_rewrite -> n4_3 in n5_33 at 5.
@@ -572,27 +570,24 @@ Proof.
     setoid_rewrite -> n11_47 in n11_33.
     now rewrite <- n11_33 in S6.
   }
-  assert (S8 : ((φ X Y) ∧ (∀ z w u v, 
-    ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
-    → (φ z w <[- z w -]> ((z = X) ∧ (w = Y)))).
+  assert (S8 : ((φ X Y) ∧ (((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
+    -[ z w u v ]> (φ z w <[- z w -]> ((z = X) ∧ (w = Y)))).
   {
     pose proof (n14_123 X Y φ) as n14_123.
     destruct n14_123 as [n14_123l _].
     setoid_rewrite -> n4_3 in S7 at 4.
     now rewrite <- n14_123l in S7.
   }
-  assert (S9 : ((∃ x y, φ x y) ∧ (∀ z w u v,
-      (φ z w ∧ φ u v) → ((z = u) ∧ (w = v)))
-    → (∃ x y, φ z w <[- z w -]> ((z = x) ∧ (w = y))))).
+  assert (S9 : ((∃ x y, φ x y) ∧ ((φ z w ∧ φ u v) → ((z = u) ∧ (w = v)))
+    -[ z w u v ]> (∃ x y, φ z w <[- z w -]> ((z = x) ∧ (w = y))))).
   {
     pose proof (n11_11 X Y (fun x y =>
-      ((φ x y) ∧ (∀ z w u v, 
-        ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
-        → (φ z w <[- z w -]> ((z = x) ∧ (w = y))))) as n11_11.
+      ((φ x y) ∧ (((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
+        -[ z w u v ]> (φ z w <[- z w -]> ((z = x) ∧ (w = y))))) as n11_11.
     MP n11_11 S8.
     pose proof (n11_34
-      (fun x y => φ x y ∧ (∀ z w u v,
-        (φ z w ∧ φ u v) → ((z = u) ∧ (w = v))))
+      (fun x y => φ x y ∧ ((φ z w ∧ φ u v) 
+        -[ z w u v ]> ((z = u) ∧ (w = v))))
       (fun x y => (φ z w <[- z w -]> ((z = x) ∧ (w = y))))) 
       as n11_34.
     MP n11_34 n11_11.
@@ -602,17 +597,17 @@ Proof.
   }
   assert (S10 : (∃ x y,  φ z w <[- z w -]> z = x ∧ w = y)
     ↔ (∃ x y, φ x y) 
-      ∧ ∀ z w u v, φ z w ∧ φ u v → z = u ∧ w = v).
+      ∧ φ z w ∧ φ u v -[ z w u v ]> z = u ∧ w = v).
   {
     clear S2 S3 S4 S6 S7 S8.
     assert (C1 : ((∃ x y,  φ z w <[- z w -]> z = x ∧ w = y) → ∃ x y : Prop, φ x y)
       ∧ ((∃ x y,  φ z w <[- z w -]> z = x ∧ w = y)
-        → ∀ z w u v, φ z w ∧ φ u v → z = u ∧ w = v)).
+        → φ z w ∧ φ u v -[ z w u v ]> z = u ∧ w = v)).
     { clear S9. now Conj S1 S5 C1. }
     pose proof (Comp3_43
       (∃ x y, φ z w <[- z w -]> z = x ∧ w = y)
       (∃ x y, φ x y)
-      (∀ z w u v, φ z w ∧ φ u v → z = u ∧ w = v)) 
+      (φ z w ∧ φ u v -[ z w u v ]> z = u ∧ w = v)) 
       as Comp3_43.
     MP Comp3_43 C1.
     clear S1 S5 C1.
