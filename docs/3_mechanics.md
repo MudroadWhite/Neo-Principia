@@ -78,7 +78,7 @@ By proving a theorem, we mean:
 ### Chapter 2
 While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
 
-- `[x, y z]` is called a **citation** for every step of assertion in a proof.
+- `[x, y, z]` is called a **citation** for every step of assertion in a proof.
   - In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
 - Citations for modus ponens and syllogism will generally be omitted.
 
@@ -115,15 +115,16 @@ Later, a typing algorithm is given in this chapter, completely generating the hi
 The typing algorithm is described both in name and in the style of "of the same type"(\*9.131). Basically the type information entails the order and the kind("is it a function or a proposition?") of the expression. This typing algorithm will prevent constructions such as `P P`(p.40).
 1. **Individual.** All individuals have a `Individual` type. (p.162)Individuals are supposed to be some *specific fixed value*s
 2. **EProp.** All elementary propositions have a `EProp` type
-3. **EFunc(EProp -> EProp).** PM doesn't actually have the idea of `->` types, but it's quite obvious `->` types are the best abstraction. Elementary functions should have same type if 
-  1. e-func A is obtained through `¬` on e-func B
-  2. e-func A is obtained through `∨` on e-func B and C 
-  3. They take same number of arguments, and each of argument is same in type
-4. **Prop n.** A higher order proposition type is obtained from a 1-order lower function. Two `Prop n` should have same type if
-  1. Proposition A is obtained through `¬` on proposition B. `∨` can have different types for its arguments, so it doesn't preserve types
-  2. Both proposition A and B are obtained by quantifying two propositional functions of the same 1-order lower type. Both of the functions either 
-    1. Have exactly 1 parameter
-    2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
+3. **EFunc.** Arguments: types of parameters. PM doesn't actually have the idea of `->` types, but it's quite obvious `->` types are the best abstraction. Elementary functions should have same type if 
+    1. e-func A is obtained through `¬` on e-func B
+    2. e-func A is obtained through `∨` on e-func B and C 
+    3. They take same number of arguments, and each of argument is same in type
+4. **Prop.** Argument: type of a single function. A higher order proposition type is obtained from a 1-order lower function. Two `Prop n` should have same type if
+    1. Proposition A is obtained through `¬` on proposition B. `∨` can have different types for its arguments, so it doesn't preserve types
+    2. Both proposition A and B are obtained by quantifying two propositional functions of the same 1-order lower type. Both of the functions either 
+        1. Have exactly 1 parameter
+        2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
+   Note that not all proposition of same order proposition have the same type, because of the types of functions.
 
 By proving a theorem in chapter 9 - 11, we mean:
 - Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
@@ -133,8 +134,8 @@ By proving a theorem in chapter 9 - 11, we mean:
 - Fresh *individual*s can be introduced in the middle of the proof on need
 
 Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
-- Theorems written in natural language define the typing algorithm: what is a type, what new functions with parameters are allowed constructed by the regulation of types. Eventually we prove that we can construct all possible functions for 1-higher order.
-- Theorems written as formulae *demonstrate*s how theorems in chapter 1 - 5 can be extended to 1-higher order version, *assuming that we can already use those quantifiers*. It could be done with mathematical induction, but we were out of the assumption for induction to work so we brute force everything.
+- Theorems written in natural language define the typing algorithm: what is a type, what parameters are functions allowed to take by the regulation of types. Eventually we prove that we can construct all possible functions for 1-higher order.
+- Theorems written as formulae makes a *demonstration*: if our elementary propositional `¬` and `∨` is "enhanced" so that it can take one 1-order proposition as its operand, deduced theorems can extend all theorems in chapter 1 - 5 to their 1-higher order version. It could be done with mathematical induction, but we were out of the assumption for induction to work so we brute force everything.
 
 ### Chapter 10
 In contrast to "what will be when `∨` is applied to different propositions", `∀` and `∃` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `∀` and `∃` is therefore only one primitive proposition, stating how `∃` is defined(p.138), and the `∨` and `¬` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
@@ -198,12 +199,17 @@ TODO:
 - (p.57)explained a proof of identity `=` informally, only to be complete with the support of axiom of reducibility
 
 ### Chapter 14
-TODO: explain why iota is that complicated in depth; this is the last chapter where symbol definition matters: the first chapter where we introduce *contextual definitions*/"incomplete symbol", modeled with *notations* in Rocq. all future concept might be built either on normal or on "incomplete symbols", and they should be never interfere with the fundamentals for the rewriting system; but maybe in the future we might regard all the definitions as a whole and make a clearer distinction between the rewriting system, maybe until the presence of natural numbers
+This chapter begins with a significantly complicated symbol `(ιx)(φx)` to denote a *description*. Here are the reasons why this symbol is such complicated:
+- `(ιx)` means the descriptions should be treated as the same type of a `x`. In chapter 20, `x` will be lifted to some random `α` denoting classes
+- `(φx)` means the description should describe a thing just like `φx`
+
+Initially it caused some confusion for us to implement such symbol in our implementation, but eventually we find out the `Notation` system in Rocq works just fine, and it turns out that all future symbols seems to not going anywhere more complicated. 
 
 ### Chapter 20
 TODO: 
 - A newer hierarchy to be "practical" to use
 - ambiguity on the interpretation for `Phi ! x` where we don't know if `!` stands for predicate or just the function as the focus
+- Mixed symbol definitions making it hard to distinguish
 
 ## See Also
 - https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html
