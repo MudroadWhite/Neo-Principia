@@ -145,6 +145,9 @@ with the inductive type demonstrated above as a counter example. By which
 I mean, we cannot reuse the definition for just a class, but we have to 
 redefine how a class is being applied on something else separately, and
 I think this is what exactly the book is telling us *)
+
+(* TODO: we should be able to redefine with `class_mk` *)
+
 Notation "[ ^ z => B1 @ classname => Bf ]" := 
   (let class_func := (fun z => B1) in
     (class_app class_func (fun (classname : Class class_func) => Bf)))
