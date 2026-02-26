@@ -9,7 +9,7 @@ Require Import PM.pm.ch10.
 
 (* TODO: 
 - Design the correct notation for multiple vars
-- Add a special rule: (∃ x, Px /\ Q x) -> (∃ x, P x) /\ (∃ x, Q x) 
+- Add a special rule: (∃ x, Px ∧ Q x) -> (∃ x, P x) ∧ (∃ x, Q x) 
 *)
 
 (* **************** *)
@@ -22,7 +22,7 @@ Declare Scope formal_equiv.
 Open Scope formal_impl.
 Open Scope formal_equiv.
 
-Example example_formal_impl_testtest := ∀ x y z : Prop, (x = y /\ y = z) -> (x = z).
+Example example_formal_impl_testtest := ∀ x y z : Prop, (x = y ∧ y = z) -> (x = z).
 
 Notation "A '-[' x .. y ']>' B" := (∀ x, .. (∀ y, A -> B) ..)
   (at level 80, x binder, y binder, B at level 100, right associativity,

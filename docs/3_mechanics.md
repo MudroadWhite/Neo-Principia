@@ -61,7 +61,7 @@ Example example_ch1_prop_function_2 (Phi : Prop) := fun (X : Prop) => Phi X.
 
 The role of \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
 
-`H1 : Phi X` above should refer to something like `H1: (fun x => x /\ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `Phi` solely(p.92) and we're still asserting a proposition. 
+`H1 : Phi X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `Phi` solely(p.92) and we're still asserting a proposition. 
 
 Functions in the text doesn't have explicit parameter list: *they look just like propositions*. Parameter list for them will be occasionally stated in the text when necessary, but usually the actual parameters are every letters appeared in the function. The same applies to most theorems in PM.
 
@@ -83,7 +83,7 @@ While everything in chapter 1 are primitive propositions, chapter 2 starts to us
 - Citations for modus ponens and syllogism will generally be omitted.
 
 ### Chapter 3
-Chapter 3 focuses on theorems about `/\`, which is constructed on `¬` and `∨`. In particular, \*3.03 allows us to immediately get `H3 : A /\ B` if we have `H1 : A` and `H2 : B` in the proof window.
+Chapter 3 focuses on theorems about `∧`, which is constructed on `¬` and `∨`. In particular, \*3.03 allows us to immediately get `H3 : A ∧ B` if we have `H1 : A` and `H2 : B` in the proof window.
 
 ### Chapter 4
 Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics](./4_tactics.md).
@@ -108,7 +108,7 @@ There's a lot of things happening in the beginning of chapter 9.
 - After we have demonstrated that they work just fine on `∃` as well, we can lift e-prop `¬` and `∨` to 1-order ones
 - Then we have \*9.12 being the actual *modus ponens* synthesizing both \*1.1 and \*1.11.
 
-Every `∀ x` is naturally taking just a `x`, not something like `∀ (x /\ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.162), which is a useful and natural feature that is still considered in later chapters.
+Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.162), which is a useful and natural feature that is still considered in later chapters.
 
 Later, a typing algorithm is given in this chapter, completely generating the hierarchy of proposition types for any order. In particular it gives special rules for individuals, as they are not propositions nor functions(p.51, p.132). Despite the explanation, why individual is not proposition is still unclear. My guess is that they are supposed to be only appeared as parameters, and cannot be asserted as a full proposition.
 
@@ -140,7 +140,7 @@ Chapter 9's theorems are furthermore splitted into 2 parts for different purpose
 In contrast to "what will be when `∨` is applied to different propositions", `∀` and `∃` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `∀` and `∃` is therefore only one primitive proposition, stating how `∃` is defined(p.138), and the `∨` and `¬` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
 
 ### Chapter 11
-Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables.
+Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables. 
 
 TODO: 
 - extra typing rules
