@@ -44,24 +44,24 @@ Principia has 3 types of theorems: `Pp`(primitive proposition), `Df`(definitions
 - Asserting `H2 : P -> Q` means asserting `P` can successfully imply `Q`
 - (\*1.1)If `H1` and `H2` are asserted true, we are allowed to assert `H3 : Q`
 
-In chapter 1 we also have a rough idea on how to denote a (elementary) *propositional function*. Such kind of simple denotation will be changed into something else in later chapters. In chapter 1-5, most propositional functions don't come barely themselves - their values for variables are somehow "fixed" already during all the inference, where `Phi X` and `Phi Y` does not mean the same thing(p.19).
+In chapter 1 we also have a rough idea on how to denote a (elementary) *propositional function*. Such kind of simple denotation will be changed into something else in later chapters. In chapter 1-5, most propositional functions don't come barely themselves - their values for variables are somehow "fixed" already during all the inference, where `φ X` and `φ Y` does not mean the same thing(p.19).
 
 ```Rocq
 (* This is an elementary proposition *)
 Example example_ch1_proposition (X : Prop) := X.
 
 (* This is an asserted elementary function value *)
-Example example_ch1_prop_function_1 (Phi : Prop) (X : Prop) := Phi X.
+Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
 
 (* This is the actual way to write the function, but we won't use it *)
-Example example_ch1_prop_function_2 (Phi : Prop) := fun (X : Prop) => Phi X.
+Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
-- Asserting an (elementary) **propositional function** means asserting `H1 : Phi X`.
-- (\*1.11)If `H2 : Phi X -> Psi X` can be implied, then we are allowed to imply `H3 : Psi X`.
+- Asserting an (elementary) **propositional function** means asserting `H1 : φ X`.
+- (\*1.11)If `H2 : φ X -> ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
 The role of \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
 
-`H1 : Phi X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `Phi` solely(p.92) and we're still asserting a proposition. 
+`H1 : φ X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `φ` solely(p.92) and we're still asserting a proposition. 
 
 Functions in the text doesn't have explicit parameter list: *they look just like propositions*. Parameter list for them will be occasionally stated in the text when necessary, but usually the actual parameters are every letters appeared in the function. The same applies to most theorems in PM.
 
@@ -153,16 +153,16 @@ The consideration for the hierarchy starts with *matrices* for generating *funct
 
 ```Rocq
 (* (p.163)This is a matrix with 2 real variables. It's also a function, and it's even predicative. *lhs* parameter of this definition is now in serious consideration *)
-Example example_matrix_1 (X : Prop) (Phi : Prop -> Prop) := Phi X.
+Example example_matrix_1 (X : Prop) (φ : Prop -> Prop) := φ X.
 
 (* This is a function with 1 real variable and 1 apparent variable. It's not a matrix *)
-Example example_function_1 (Phi : Prop -> Prop) := ∀ (x : Prop), Phi x.
+Example example_function_1 (φ : Prop -> Prop) := ∀ (x : Prop), φ x.
 
 (* This is another function with 1 real variable and 1 apparent variable. It has a different type from the previous function *)
-Example example_function_2 (X : Prop) := ∀ (Phi : Prop -> Prop), Phi X.
+Example example_function_2 (X : Prop) := ∀ (φ : Prop -> Prop), φ X.
 
 (* This is a proposition with 2 apparent variables. It is *not* a function anymore *)
-Example example_proposition := ∀ (x : Prop) (Phi : Prop -> Prop), Phi x.
+Example example_proposition := ∀ (x : Prop) (φ : Prop -> Prop), φ x.
 ```
 
 - **Predicative function** is synonym as **matrices**(p.164). Predicative function of `a` where `a`'s order is n, though, refers to a matrix of order n+1.
@@ -171,17 +171,17 @@ Example example_proposition := ∀ (x : Prop) (Phi : Prop -> Prop), Phi x.
 - **Propositions** are built on **matrices**, with *all* possible variables generalized
 
 Several comments on matrices and functions:
-1. (p.52)Matrix only takes matrices or individuals as variables. By "taking something as variable", we mean what symbols can be appeared in the `A` of the `∀ A` part, *before any instantiations*. Variables of the form `∀ (∃ a, Phi a), (∃ a, Phi a) x` seems to be out of consideration, which is some n-order function or proposition; also see (p.53). Note that we won't have this issue in previous chapters prior to the definition of matrix, and functions can take (elementary)propositions as parameters. Conversely, elementary propositions in this hierarchy is called elementary matrices. 
-2. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => Phi x` and `fun x => ∀ Phi, Phi x`)
+1. (p.52)Matrix only takes matrices or individuals as variables. By "taking something as variable", we mean what symbols can be appeared in the `A` of the `∀ A` part, *before any instantiations*. Variables of the form `∀ (∃ a, φ a), (∃ a, φ a) x` seems to be out of consideration, which is some n-order function or proposition; also see (p.53). Note that we won't have this issue in previous chapters prior to the definition of matrix, and functions can take (elementary)propositions as parameters. Conversely, elementary propositions in this hierarchy is called elementary matrices. 
+2. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => φ x` and `fun x => ∀ φ, φ x`)
 3. It appears that any `∀`s and any `∃`, under this hierarchy, cannot be produced by directly instantiating some functions; we have to start from completely constructing a matrix, then obtain all the quantifiers through generalizing individuals/other matrices with a controlled scope. The procedure here is clearly unnatural.
 
-There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). Is it really that *there are no propositions containing real variables*, as [Wittgenstein](https://wittgensteinproject.org/w/index.php/Notes_on_Logic) have said? We don't really know, but let's just turn back to the our examples to vibe it off. One crucial difference between real and apparent variables, though, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
+There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). Is it really that *there are no propositions containing real variables*, as [Wittgenstein](https://wittgensteinproject.org/w/index.php/Notes_on_Logic) have said? We don't really know, but let's just vibe with the [examples](./3_mechanics.md/#chapter-12). One crucial difference between real and apparent variables, though, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
 
 Axiom of Reducibility is introduced in this chapter for 2 reasons:
-1. (p.49)When we define `x = y` as `∀ Phi, Phi x -> Phi y`, assuming it is untyped, we might still have `Phi := fun x => (∀ Phi, Phi x -> Phi y)` or `Phi := fun y => ∀ Phi, Phi x -> Phi y`. In order words for `fun x => Phi x`, `fun x => (∀ Phi, Phi x -> Phi a)` has been a value that needs to be avoided. 
+1. (p.49)When we define `x = y` as `∀ φ, φ x -> φ y`, assuming it is untyped, we might still have `φ := fun x => (∀ φ, φ x -> φ y)` or `φ := fun y => ∀ φ, φ x -> φ y`. In order words for `fun x => φ x`, `fun x => (∀ φ, φ x -> φ a)` has been a value that needs to be avoided. 
 2. On the other hand, sometimes we want to speak of as "many" functions as we can. It turns out that, while we cannot precisely say all functions of a parameter `a`, but we can say all `n`-order functions of a parameter `a` and set `n` to infinity.
 
-For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => Phi a` with `Phi` of order `n`, we can simulate with a predicate function `fun a => Psi a`. The predicativity of `Psi` here means it is just 1-order higher than `a`, and we are assuming *this `Psi` exists*. 
+For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => φ a` with `φ` of order `n`, we can simulate with a predicate function `fun a => ψ a`. The predicativity of `ψ` here means it is just 1-order higher than `a`, and we are assuming *this `ψ` exists*. 
 
 By proving a theorem,
 - Theorems in all previous chapters are free to be **lift**ed to their higher order equivalents, which is independent of *Axiom of Reducibility*
@@ -208,7 +208,7 @@ Initially it caused some confusion for us to implement such symbol in our implem
 ### Chapter 20
 TODO: 
 - A newer hierarchy to be "practical" to use
-- ambiguity on the interpretation for `Phi ! x` where we don't know if `!` stands for predicate or just the function as the focus
+- ambiguity on the interpretation for `φ ! x` where we don't know if `!` stands for predicate or just the function as the focus
 - Mixed symbol definitions making it hard to distinguish
 
 ## See Also

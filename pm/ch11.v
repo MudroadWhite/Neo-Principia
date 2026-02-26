@@ -9,7 +9,7 @@ Require Import PM.pm.ch10.
 
 (* TODO: 
 - Design the correct notation for multiple vars
-- Add a special rule: (∃ x, Px ∧ Q x) -> (∃ x, P x) ∧ (∃ x, Q x) 
+- Add a special rule: (∃ x, P x ∧ Q x) -> (∃ x, P x) ∧ (∃ x, Q x) 
 *)
 
 (* **************** *)
