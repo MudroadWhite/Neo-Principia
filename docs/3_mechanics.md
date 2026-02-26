@@ -105,10 +105,10 @@ This chapter presents the only way for 1st order propositions to be constructed:
 There's a lot of things happening in the beginning of chapter 9.
 - First of all \*1.1 and \*1.11 has assumed their version for **1st order propositions**(p.128)
 - Then first few `Pp`s in chapter 9 are supposed to restricted to e-prop `¬` and `∨`(discussed in Chapter II, they are not 1-order `¬` and `∨`). 
-- After we have demonstrated that they work just fine on `exists` as well, we can lift e-prop `¬` and `∨` to 1-order ones
+- After we have demonstrated that they work just fine on `∃` as well, we can lift e-prop `¬` and `∨` to 1-order ones
 - Then we have \*9.12 being the actual *modus ponens* synthesizing both \*1.1 and \*1.11.
 
-Every `forall x` is naturally taking just a `x`, not something like `forall (x /\ x)`. In this sense we are saying that `forall`, `exists` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.162), which is a useful and natural feature that is still considered in later chapters.
+Every `∀ x` is naturally taking just a `x`, not something like `∀ (x /\ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.162), which is a useful and natural feature that is still considered in later chapters.
 
 Later, a typing algorithm is given in this chapter, completely generating the hierarchy of proposition types for any order. In particular it gives special rules for individuals, as they are not propositions nor functions(p.51, p.132). Despite the explanation, why individual is not proposition is still unclear. My guess is that they are supposed to be only appeared as parameters, and cannot be asserted as a full proposition.
 
@@ -137,7 +137,7 @@ Chapter 9's theorems are furthermore splitted into 2 parts for different purpose
 - Theorems written as formulae *demonstrate*s how theorems in chapter 1 - 5 can be extended to 1-higher order version, *assuming that we can already use those quantifiers*. It could be done with mathematical induction, but we were out of the assumption for induction to work so we brute force everything.
 
 ### Chapter 10
-In contrast to "what will be when `\/` is applied to different propositions", `forall` and `exists` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `forall` and `exists` is therefore only one primitive proposition, stating how `exists` is defined(p.138), and the `\/` and `¬` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
+In contrast to "what will be when `∨` is applied to different propositions", `∀` and `∃` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `∀` and `∃` is therefore only one primitive proposition, stating how `∃` is defined(p.138), and the `∨` and `¬` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
 
 ### Chapter 11
 Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables.
@@ -155,13 +155,13 @@ The consideration for the hierarchy starts with *matrices* for generating *funct
 Example example_matrix_1 (X : Prop) (Phi : Prop -> Prop) := Phi X.
 
 (* This is a function with 1 real variable and 1 apparent variable. It's not a matrix *)
-Example example_function_1 (Phi : Prop -> Prop) := forall (x : Prop), Phi x.
+Example example_function_1 (Phi : Prop -> Prop) := ∀ (x : Prop), Phi x.
 
 (* This is another function with 1 real variable and 1 apparent variable. It has a different type from the previous function *)
-Example example_function_2 (X : Prop) := forall (Phi : Prop -> Prop), Phi X.
+Example example_function_2 (X : Prop) := ∀ (Phi : Prop -> Prop), Phi X.
 
 (* This is a proposition with 2 apparent variables. It is *not* a function anymore *)
-Example example_proposition := forall (x : Prop) (Phi : Prop -> Prop), Phi x.
+Example example_proposition := ∀ (x : Prop) (Phi : Prop -> Prop), Phi x.
 ```
 
 - **Predicative function** is synonym as **matrices**(p.164). Predicative function of `a` where `a`'s order is n, though, refers to a matrix of order n+1.
@@ -170,14 +170,14 @@ Example example_proposition := forall (x : Prop) (Phi : Prop -> Prop), Phi x.
 - **Propositions** are built on **matrices**, with *all* possible variables generalized
 
 Several comments on matrices and functions:
-1. (p.52)Matrix only takes matrices or individuals as variables. By "taking something as variable", we mean what symbols can be appeared in the `A` of the `forall A` part, *before any instantiations*. Variables of the form `forall (exists a, Phi a), (exists a, Phi a) x` seems to be out of consideration, which is some n-order function or proposition; also see (p.53). Note that we won't have this issue in previous chapters prior to the definition of matrix, and functions can take (elementary)propositions as parameters. Conversely, elementary propositions in this hierarchy is called elementary matrices. 
-2. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => Phi x` and `fun x => forall Phi, Phi x`)
-3. It appears that any `forall`s and any `exists`, under this hierarchy, cannot be manifested through instantiating some functions; they have to be produced from a completely constructed matrix, obtained through generalizing individuals/other matrices with a controlled scope.
+1. (p.52)Matrix only takes matrices or individuals as variables. By "taking something as variable", we mean what symbols can be appeared in the `A` of the `∀ A` part, *before any instantiations*. Variables of the form `∀ (∃ a, Phi a), (∃ a, Phi a) x` seems to be out of consideration, which is some n-order function or proposition; also see (p.53). Note that we won't have this issue in previous chapters prior to the definition of matrix, and functions can take (elementary)propositions as parameters. Conversely, elementary propositions in this hierarchy is called elementary matrices. 
+2. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => Phi x` and `fun x => ∀ Phi, Phi x`)
+3. It appears that any `∀`s and any `∃`, under this hierarchy, cannot be manifested through instantiating some functions; they have to be produced from a completely constructed matrix, obtained through generalizing individuals/other matrices with a controlled scope.
 
 There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). Is it really that *there are no propositions containing real variables*, as [Wittgenstein](https://wittgensteinproject.org/w/index.php/Notes_on_Logic) have said? We don't really know, but let's just turn back to the our examples to vibe it off. One crucial difference between real and apparent variables, though, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
 
 Axiom of Reducibility is introduced in this chapter for 2 reasons:
-1. (p.49)When we define `x = y` as `forall Phi, Phi x -> Phi y`, assuming it is untyped, we might still have `Phi := fun x => (forall Phi, Phi x -> Phi y)` or `Phi := fun y => forall Phi, Phi x -> Phi y`. In order words for `fun x => Phi x`, `fun x => (forall Phi, Phi x -> Phi a)` has been a value that needs to be avoided. 
+1. (p.49)When we define `x = y` as `∀ Phi, Phi x -> Phi y`, assuming it is untyped, we might still have `Phi := fun x => (∀ Phi, Phi x -> Phi y)` or `Phi := fun y => ∀ Phi, Phi x -> Phi y`. In order words for `fun x => Phi x`, `fun x => (∀ Phi, Phi x -> Phi a)` has been a value that needs to be avoided. 
 2. On the other hand, sometimes we want to speak of as "many" functions as we can. It turns out that, while we cannot precisely say all functions of a parameter `a`, but we can say all `n`-order functions of a parameter `a` and set `n` to infinity.
 
 For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => Phi a` with `Phi` of order `n`, we can simulate with a predicate function `fun a => Psi a`. The predicativity of `Psi` here means it is just 1-order higher than `a`, and we are assuming *this `Psi` exists*. 

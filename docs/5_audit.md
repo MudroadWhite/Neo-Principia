@@ -29,7 +29,7 @@ Critics above suggest there might be freedom for us to design a different type s
 
 **Informal propositions.** For informal propositions through the chapters, we are generally assuming that they are not implemented, as the implementation of most of them rely on a complete typing algorithm for PM.
 
-**Sheffer strokes and other updates for 2nd edition.** We are aware that 2nd edition is a ["patched" version](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) of Principia and Russell has tried to simplify the primitive ideas further down, with one of which being the Sheffer stroke `|` to further denote `¬` and `\/`, in a hidden chapter 8. We are aware that Russell eventually realized that the distinction between real and apparent variable might not be necessary. We still prefer to ignore most of the *Introduction* chapter and proceed with what has written in the most of the chapters, as this is the easiest way to maintain most of the flavor in the proofs.
+**Sheffer strokes and other updates for 2nd edition.** We are aware that 2nd edition is a ["patched" version](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) of Principia and Russell has tried to simplify the primitive ideas further down, with one of which being the Sheffer stroke `|` to further denote `¬` and `∨`, in a hidden chapter 8. We are aware that Russell eventually realized that the distinction between real and apparent variable might not be necessary. We still prefer to ignore most of the *Introduction* chapter and proceed with what has written in the most of the chapters, as this is the easiest way to maintain most of the flavor in the proofs.
 
 ### Chapter 1 - 5
 **Coverage: 100%**
@@ -39,35 +39,35 @@ Critics above suggest there might be freedom for us to design a different type s
 ### Chapter 9
 **Coverage: 100%**
 
-**General.** Currently we're using the default `forall`, `\/`, `¬` in Rocq to model everything, making the primitive propositions not a necessity while pertaining the availability for `setoid_rewrite`.
+**General.** Currently we're using the default `∀`, `∨`, `¬` in Rocq to model everything, making the primitive propositions not a necessity while pertaining the availability for `setoid_rewrite`.
 
 We have implemented the typing algorithm, but it is wrongly interpreted and will not be used anywhere.
 
-\*9.13, the generalization assumption, according to the text, is to be performed without `MP`. Our current design is modeling this assumption with a `->`, leading to unnecessary `MP`s on `n9_13`. Note that `if...then` written in natural language in PM is not something the same as `->`, in that `->` is defined through `\/` and `¬`.
+\*9.13, the generalization assumption, according to the text, is to be performed without `MP`. Our current design is modeling this assumption with a `->`, leading to unnecessary `MP`s on `n9_13`. Note that `if...then` written in natural language in PM is not something the same as `->`, in that `->` is defined through `∨` and `¬`.
 
 **Functions.** For our soft embedding, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will reveal higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop -> Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we move on.
 
-**The role of `\/` and `¬`.** In chapter 9, `¬` and `\/` are clearly stated to be the elementary proposition version, so that "we can obtain first order propositions just from e-prop operators". Then, they are allowed to take one 1-order proposition in one of its positions for operands. In chapter 10, `¬` and `\/` can take any 1-order propositions in their operands, because they are already the first-order version. There seems to be a confusion on the elementary proposition version to "not to break the type": we are assuming enough to see them as their 1-order version, so what is the difference between directly defining how they can be defined by directly using 1-order operators? The assumptions on these e-prop operators already break the type of them severely.
+**The role of `∨` and `¬`.** In chapter 9, `¬` and `∨` are clearly stated to be the elementary proposition version, so that "we can obtain first order propositions just from e-prop operators". Then, they are allowed to take one 1-order proposition in one of its positions for operands. In chapter 10, `¬` and `∨` can take any 1-order propositions in their operands, because they are already the first-order version. There seems to be a confusion on the elementary proposition version to "not to break the type": we are assuming enough to see them as their 1-order version, so what is the difference between directly defining how they can be defined by directly using 1-order operators? The assumptions on these e-prop operators already break the type of them severely.
 
 ### Chapter 10
 **Coverage: 98.2% = 55/56.**
 - **\*10.57.** 3rd step of the proof is unprovable, simply because the theorem it uses cannot be instantiated with correct parameters.
 
-**General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `forall` and `exists`. We didn't find any difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
+**General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `∀` and `∃`. We didn't find any difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
 
 ### Chapter 11
 **Coverage: 100%**
 
-**General.** Chapter 11 is doing essentially the same as chapter 10, except expanding `forall` and `exists` from one variable to multiple vars. There isn't a lot of difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
+**General.** Chapter 11 is doing essentially the same as chapter 10, except expanding `∀` and `∃` from one variable to multiple vars. There isn't a lot of difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
 
 The *of the same type* proposition in chapter 11 is unexamined. It will gain awareness when we're considering the typing algorithm.
 
-**Quantified propositions.** As we're using the default `forall` in Rocq, it doesn't make a clear distinction between `forall x, forall y` and `forall x y`. We will leave it in the future, assuming such distinction is generally negligible.
+**Quantified propositions.** As we're using the default `∀` in Rocq, it doesn't make a clear distinction between `∀ x, ∀ y` and `∀ x y`. We will leave it in the future, assuming such distinction is generally negligible.
 
 ### Chapter 12
 **Coverage: 100%(?)**
 
-**General.** Axiom of Reducibility has been subjected to tons of criticisms. Hilbert thinks the `exists` for AoR is [useless(p.33)](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf), and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function. In our implementation we find it indeed hard to use, and there is a plan to develop other forms of AoR to make a nicer conversion.
+**General.** Axiom of Reducibility has been subjected to tons of criticisms. Hilbert thinks the `∃` for AoR is [useless(p.33)](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf), and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function. In our implementation we find it indeed hard to use, and there is a plan to develop other forms of AoR to make a nicer conversion.
 
 ### Chapter 13
 **Coverage: 92.9% = 26/28.**
@@ -81,7 +81,7 @@ The *of the same type* proposition in chapter 11 is unexamined. It will gain awa
 - **\*14.121, \*14.17, \*14.171, \*14.201.** Multiple theorems steps involving \*13.15 has been revealed beyond the power of the deduction. \*13.15 is defined `|- X = X`, and these theorems tries to use \*13.15 to imply that they can immediately obtain things like `A /\ (X = X)` to `A`, i.e. `X = X` is supposed to mean "true". We think there should be some extra theorems for \*13.15 to be patched up and make it actually useable.
 - **\*14.142.** The last 2 steps of this theorem are both unprovable, and we suspect there is a typo happening in these two steps.
 - **\*14.272.** The citation of \*10.414 seems to be invalid, because it is deducing in the other direction. We think this theorem is unprovable.
-- **\*14.32.** It has been assumed that \*14.32 is undergoing proof with same style as \*14.31, besides the fact that \*14.32 is bidirectional(using `↔`). The reverse direction involves using \*14.21(as the only way provided) and \*14.1. \*14.21 is taking a whole single `ιφ` as its premise; the hypothesis of our goal however, in our representation, is `([ ι φ | ιφ => ¬ χ ιφ]) ↔ ¬ ([ ι φ | ιφ => χ ιφ])` which involves two `ι`. Therefore we need to have a way to transform the two `ι`s into a sigle `ι`. What will be required beneath the re-scoping is a theorem of `(exists x, P x) /\ (exists x, Q x) -> (exists x, Px /\ Q x)`, which is even intuitively not always true. We conclude the reversed direction of this theorem unprovable.
+- **\*14.32.** It has been assumed that \*14.32 is undergoing proof with same style as \*14.31, besides the fact that \*14.32 is bidirectional(using `↔`). The reverse direction involves using \*14.21(as the only way provided) and \*14.1. \*14.21 is taking a whole single `ιφ` as its premise; the hypothesis of our goal however, in our representation, is `([ ι φ | ιφ => ¬ χ ιφ]) ↔ ¬ ([ ι φ | ιφ => χ ιφ])` which involves two `ι`. Therefore we need to have a way to transform the two `ι`s into a sigle `ι`. What will be required beneath the re-scoping is a theorem of `(∃ x, P x) /\ (∃ x, Q x) -> (∃ x, Px /\ Q x)`, which is even intuitively not always true. We conclude the reversed direction of this theorem unprovable.
 **General.** As the definition of chapter 14 more complicated than any definitions in previous chapters, we are realizing that symbol definitions through `Df` should be best implemented with the notation system in Rocq.
 
 ### Chapter 20

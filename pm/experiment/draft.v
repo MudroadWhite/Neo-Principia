@@ -2,7 +2,7 @@
 Draft: formal type system 
 We want a type system with
 - Propositions' type of order n (TODO: if they are still not the same type, is that necessary? if we are talking about 
-"forall propositions of a type", will identifying props in different range matters?)
+"∀ propositions of a type", will identifying props in different range matters?)
 - Functions'/matrices' type with order n, (?) maybe distinguish between different arguments
 - Individual's type which we don't even know if it is needed
 - **Untyped** functions(not matrices anymore?) as a *type* - taking in argument of order n,
@@ -12,6 +12,6 @@ We want a type system with
 *)
 
 (* 
-Draft: better `exists`, `forall` design
+Draft: better `∃`, `∀` design
 - define a "EForall" and wrap up with a notation in chapter 9
 *)
