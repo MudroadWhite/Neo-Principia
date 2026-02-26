@@ -1,4 +1,4 @@
-(* PM.pm.lib - tools, libraries, and others to be used through the project *)
+(* PM.pm.lib - tools, libraries, notations(temporarily?), and others to be used through the project *)
 
 Require Import Unicode.Utf8.
 Require Import ClassicalFacts.
@@ -12,9 +12,7 @@ Export ClassicalFacts.
 Export PropExtensionality.
 Export String.
 
-(* TODO: redesign <[- x -]> in chapter 10, 11 and eliminate the repetitive definitions on them *)
-
-(* cf.p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
+(* p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
 Theorem eq_to_equiv : ∀ (P Q : Prop),
   (P = Q) → (P ↔ Q).
@@ -23,158 +21,43 @@ Proof.
   split; try rewrite -> H; trivial.
 Qed.
 
-(* cf.p.51: `!` notation *)
-(* 
-- `!` notation mostly declares the order of a matrix
-- matrix is a propositional function totally unquantified
-- 1-st order matrix only takes in individuals as its arguments
-- 2-st order matrix can take 1-order matrix as its arguments
-- any nth-order propositions are supposed to be obtained by generalizing a n-th order matrix
-
-Should we treat `!` as something being denotational just like the dot notations in Principia?
-*)
-
-(* Chapter 12 & 13: a function, typed, of order `n`.
+(* Chapter 12 & 13: a proposition, typed, of order `n`.
 NOTE: 
-- Unless necessary, we should never use ANYTHING beyond `Predicate 1`. It is for convenience 
-  when we really need this we can search all occurences of Predicates to be adapted
-- For chapter 12, we might want to define an extra `Predicate2`. This should be implemented when
+- Unless necessary, we should never use ANYTHING beyond `Order 1`. It is for convenience 
+  when we really need this we can search all occurences of Orders to be adapted
+- For chapter 12, we might want to define an extra `Order2`. This should be implemented when
   necessary
+TODO: 
+- maybe in the future, checkout the definition for matrix and try to see if we can also integrate
+in a definition for matrix
+- add an extra implicit argument {shift : nat} where shift = 0 by default
 *)
-Fixpoint Predicate (n : nat) : Type :=
+Fixpoint Order (n : nat) : Type :=
   match n with
   | 0 => Prop
-  | (S m) => let A := Predicate m in (A -> Prop)
+  | (S m) => let A := Order m in (A -> Prop)
   end.
 
-(* `Intro` Rocq predicates are used for introducing a term in the middle of the proof, which 
-is something specific for PM's proofs *)
-Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
-
-(* cf.p.51: To instantiate variables appeared in a propositional function, we use the concept 
+(* p.51: To instantiate variables appeared in a propositional function, we use the concept 
 of "individual", designed as as wrapper just to tag an real variable. This allows easy identification 
 on them and they are free to be created everywhere.
-From chapter 13 it turns out that an individual is just a Predicate of type 0. So we just adopt and 
-merge with the definition of `Predicate`
+Individual cannot appear solely so they are neither propositions nor functions. But they can be passed 
+into functions at will as parameters. Therefore, (p.133) there is a special rule to identify that they 
+always have the same type
+As parameters, however, rules in (p.133) is flawed: if I have one individual for 0-order parameters and
+another for 1-order parameter, altogether for a 2-order function, will they still have the same type?
+Currently we only set Individual to order 0, but it is supposed to be of any order 
 *)
-Definition Intro_individual (s : string) : Predicate 0. Admitted.
 
 (* EXPERIMENTAL: the predicate below serves merely just for "how an untyped function of PM should be
 defined in Rocq". Currently it is never used anywhere and only demonstrates an experimental idea *)
+defined in Rocq". Currently it is never used anywhere and only demonstrates an experimental idea *)
 Definition Intro_untyped {A : Type} (s : string) : A -> Prop. Admitted.
 
-(* ******** *)
-(* AGGREGATED TODOS *)
-(* ******** *)
-(* TODO:
-Add scope for each of the chapter, on definitions of `~` and `∨`, since they are supposed to be only work on "one type of propositions"
-Should we also add scope for `MP` and `Syll`?
-Design a `comma` predicate  which works like a `id` `to enforce "lazy evaluation" on quantifiers 
-*)
+(* `Intro` Rocq predicates are used for introducing a term in the middle of the proof, which 
+is something specific for PM's proofs. Here we provide the version for individuals and predicates *)
+Definition Intro_individual (s : string) : Order 0. Admitted.
 
-(* ******** *)
-(* NOTES *)
-(* ******** *)
-(* 
-https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html
-https://plato.stanford.edu/entries/pm-notation/
-https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
-https://randall-holmes.github.io/Drafts/notesonpm.pdf
-https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/
-https://nap.nationalacademies.org/read/10866/chapter/66
-https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
-
-~p.14:
-- propositional function: the functions that we usually concern, like `Phi` `Psi` etc..
-
-~p.17:
-- descriptive funstion: a special kind of propositional function, including examples like `x is blue`
-- `~` is not a primitive idea. It is supposed to have a different definition on different types of proposition. 
-For example, we might define `~` a typeclass, and `∀` propositions has an instance of implementation for 
-this operator
-
-~p.18:
-apparent variable "appears to be" the only variables, while "real variables" include the actual variants to be concluded
-
-~p.20: 
-- (Ax, Px → Q x) → (Ax, Px) → (Ax, Qx) requires that P Q takes arguments "of the same type". → p.49
-- formal implication: the `→` wrapped up in `∀`s. It bypassed the problem that `P → Q = ~P ∨ Q`, and restrict that we have to 
-know `∀ x, P x → Q x` and `P X` to get `Q X`.
-
-~p.22:
-(TODO)`=` is not defined until chapter 13, and this is being explained in chapter 2/chapter II.
-
-~p.40:
-- a nice counterexample to test a function P is well typed is to see if `P P` can be formed
-- `P P` is also an example that `P` is *impossible* to be a value of `P`
-- P with "all possible values" are called `significant`. Significant = "well typed"
-
-~p.47, beginning of chapter II:
-- `∀ x, Phi x` is considered as a function with `Phi` as one argument
-- for `∀`, `Phi` can be a parameter but an individual `X` cannot be a parameter
-- it is necesssary to make a distinction between passing in a `X` and passing in a `Phi`
-
-~p.49:
-- We can construct a function taking 2 arguments, and return either a function of function or a function of individual. 
-It turns out that the return type is untyped. To enforce the return type with a fixed type, we have to enforce arguments
-of a function taking the same type
-
-~p.50:
-- A propositional function could possibly contain apparent variables. We can eliminate apparent variables 
-  and source them back to real variables
-- matrix: A function made up of no apparent variable, to generate a "matrix" of elementary propositions
-
-~p.51:
-- predicate: first order functions. Only takes individuals as parameters
-- Phi ! x^: any Phi that is a first order function/predicate and takes an variable of `x`'s type
-- Phi ! x: `Phi ! x^` instantiated by `x`
-- `Phi ! x^` could be the type of a real variable which is not an individual
-- "Individual" is the best thing to instantiate a function's parameters
-- (TODO)They are designed to be not propositions. Why?
-- (TODO)Why we have to design the hierarchy for "functions" and "propositions " separately?
-
-~p.52:
-- `!` notation also seems to be used only when the function is being considered as a variable(at rhs)? And for all other cases, they are 
-  supposed to be fixed(at rhs)?
-- `!`'s summary: this is not a notation just for first order functions, but it's more like a notation for function being identified as 
-  a variable at rhs
-
-~p.56:
-- the axiom of reducibility: "any" properties should have a equivalent of itself in a collection of properties
-
-~p.57:
-- exaplained a proof of identity `=` informally, only to be complete with the support of axiom of reducibility
-
-~p.94:
-- (notes on *1.01)the rules for definitional equality is out of the theory
-
-~p.127:
-- Chapter II has explained that ~ and ∨ should have different meaning on different propositions. Guess: we cannot define a
-negation on "all" propositions attributing to Russell's paradox
-
-~p.128:
-- Goal of ch9: focus on definition of `~` and `∨` defined in *1 - *5 limited to eprops. Extend their definitions to 1st orde props
-- The support of `∀` and `∃` seems to be only for demonstration purpose - if we take them as primitive ideas, we can 
-  conclude "upgraded" versions of propositions "just as in" ch1-5.
-- the important parts seems to be *1.2 - *1.6; A new way is used for analogue of 1.7 - 1.72
-- Real variables doesn't have types(??), and can be instantiated with any proposition of any orders???
-- Summary:
-  - elementary propositions are initially admitted, along with their types
-  - definition of `~` and `∨` depends on proposition types
-  - definition of function depends on type of `~` and `∨`
-  - order of a proposition depends on its parameter's types
-
-~p.138:
-- Ch9 enables us to take `∀` propositions as parameters
-- therefore we can have a better goal(?)
-- Goal of ch10: focus on deducing 1-var functions from 
-- "for example", `∃` is no longer a primitive idea which is different from ch9 
-- several ch9 theorems are only taken because of their ability to reason for quantified propositions
-
-~p.162:
-- (TODO) propositions is defined in p.43. They are supposed to be incomplete symbols, but individuals are complete 
-  so they are not propositions
-- matrix is predicative function as a definition
-- starting from chapter 12, all variables are either matrixes or individuals
-- propositions being used as variables(??) will no longer be used
-*)
+(* For the same reason above, I believe that predicative functions coming fresh(after chapter 13) should 
+also be considered as individuals. TODO: This should be merged with `Intro_individual` *)
+Definition Intro_pred (s : string) (n : nat) : Order n. Admitted.

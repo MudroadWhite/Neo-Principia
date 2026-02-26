@@ -14,10 +14,13 @@ Require Import Logic.FunctionalExtensionality.
 (* TODO:
 - fix all the `replace`s
 - fill in missing proofs
+- Better notation priority level wrt ch9 - 11
+- Fix notation conflict for iotaE
+- Fix new proof after new notation
 *)
 
 (* 
-The decription, or I would personally call it the iota operator, is an incomplete symbol(cf. 
+The decription, or I would personally call it the iota operator, is an incomplete symbol(
 p. 67), and is the first "definition" that will only have meaning "in specific context". It 
 is a special kind of parameter for functions. They will be passed into propositional functions 
 normally, but unlike normal parameters that only calculates everything within themselves, they 
@@ -133,22 +136,23 @@ Admitted.
 Close Scope iota_description.
 (* **************** *)
 
-Definition n10_1_pred (φ : Predicate 1 → Prop) (Y : Predicate 1) : 
+Open Scope formal_equiv.
+
+Definition n10_1_pred (φ : Order 1 → Prop) (Y : Order 1) : 
   (∀ x, φ x) → φ Y.
 Admitted.
 
-Definition n10_11_pred (Y : Predicate 1) (φ : Predicate 1 → Prop) : 
+Definition n10_11_pred (Y : Order 1) (φ : Order 1 → Prop) : 
   φ Y → ∀ x, φ x.
 Admitted.
 
 (* NOTE: note that how the `P` here has to be Prop while the `Y` in n10_1
-variant is set to `Predicate 1` *)
-Definition n10_21_pred (φ : Predicate 1 → Prop) (P : Prop) :
-  (∀ x : Predicate 1, P → φ x) ↔ (P → (∀ x : Predicate 1, φ x)).
+variant is set to `Order 1` *)
+Definition n10_21_pred (φ : Order 1 → Prop) (P : Prop) :
+  (∀ x : Order 1, P → φ x) ↔ (P → (∀ x : Order 1, φ x)).
 Admitted.
 
 Open Scope iota_description.
-Open Scope single_formal_equiv.
 
 Definition n14_01 (φ ψ : Prop → Prop) : 
   [ι φ | ιφ => ψ ιφ] 
@@ -160,9 +164,8 @@ Definition n14_02 (φ : Prop → Prop) :
 Admitted.
 
 (* Although `ι2` has been defined, expressions that involves 2 functions often
-comes up with the default interpretations as two `ι` rather than one `ι2`.
-While this doen't affect significantly how the definition organizes, it still affects
-how we should write down a theorem *)
+comes up with the default interpretations as two `ι` rather than one `ι2`. It turns 
+out that this actually affects the interpretation for a theorem *)
 Definition n14_03 (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) :
   [ι2 φ, ψ | ιφ ιψ => f ιφ ιψ] = 
     [ι φ | ιφ => [ι ψ | ιψ => f ιφ ιψ]].
@@ -287,7 +290,6 @@ Proof.
   now rewrite -> n14_04 in n14_111.
 Qed.
 
-Open Scope formal_equiv.
 Open Scope formal_impl.
 
 Theorem n14_12 (φ : Prop → Prop) : 
@@ -338,7 +340,7 @@ Proof.
     → ((φ x ∧ φ y) -[ x y ]> (x = y))).
   {
     pose proof (n10_11 B (fun b =>
-      φ x <[- x -]> x = b → (φ x ∧ φ y) -[ x y ]> (x = y))) as n10_11.
+      (φ x <[- x -]> (x = b)) → ((φ x ∧ φ y) -[ x y ]> (x = y)))) as n10_11.
     MP n10_11 S3.
     now rewrite -> n10_23 in n10_11.
   }
@@ -346,8 +348,6 @@ Proof.
   { now Syll S1 S4 S5. }
   exact S5.
 Qed.
-
-Close Scope formal_equiv.
 
 Theorem n14_121 (B C : Prop) (φ : Prop → Prop) : 
   ((φ x <[- x -]> x = B) ∧ (φ x <[- x -]> x = C))
@@ -390,8 +390,6 @@ Proof.
   }
   exact S3.
 Admitted.
-
-Open Scope single_formal_impl.
 
 Theorem n14_122 (B : Prop) (φ : Prop → Prop) :
   ((φ x <[- x -]> (x = B)) ↔ ((φ x -[ x ]> (x = B)) ∧ φ B))
@@ -453,9 +451,6 @@ Proof.
   }
   exact S8.
 Qed.
-
-Open Scope formal_equiv.
-Open Scope formal_impl.
 
 Theorem n14_123 (X Y : Prop) (φ : Prop → Prop → Prop) : 
   ((φ z w <[- z w -]> (z = X ∧ w = Y)) 
@@ -536,11 +531,10 @@ Proof.
   exact S8.
 Qed.
 
-(* TODO: 4-var impl notation will be supported in the future *)
 Theorem n14_124 (φ : Prop → Prop → Prop) : 
   (∃ x y, (φ z w <[- z w -]> (z = x ∧ w = y)))
   ↔ ((∃ x y, φ x y) 
-    ∧ ∀ z w u v, (φ z w ∧ φ u v) → (z = u ∧ w = v)). 
+    ∧ (φ z w ∧ φ u v) -[ z w u v ]> (z = u ∧ w = v)). 
 Proof.
   (* TOOLS *)
   set (X := Intro_individual "x").
@@ -561,7 +555,7 @@ Proof.
       (φ X Y)) as Simp3_27.
     Syll n14_123l Simp3_27 Sy1.
     pose proof (n11_11 X Y (fun x y =>
-      φ z w <[- z w -]> z = x ∧ w = y → φ x y)) as n11_11.
+      (φ z w <[- z w -]> z = x ∧ w = y) → φ x y)) as n11_11.
     MP n11_11 Sy1.
     pose proof (n11_34 (fun x y => φ z w <[- z w -]> z = x ∧ w = y)
       φ) as n11_34.
@@ -618,7 +612,7 @@ Proof.
     now rewrite -> n11_35 in n11_11.
   }
   assert (S5 : (∃ x y, φ z w <[- z w -]> ((z = x) ∧ (w = y)))
-    → (∀ z w u v, (φ z w ∧ φ u v) → ((z = u) ∧ (w = v)))).
+    → ((φ z w ∧ φ u v) -[ z w u v ]> ((z = u) ∧ (w = v)))).
   {
     (* For 4 variables, the generalization has applied twice! *)
     pose proof (n11_11 U V (fun u v =>
@@ -633,32 +627,31 @@ Proof.
     MP n11_11b n11_11a.
     now rewrite <- n11_3 in n11_11b.
   }
-  assert (S6 : ((φ X Y) ∧ (∀ z w u v, 
-    ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v)))
-      → (φ X Y ∧ ((φ z w ∧ φ X Y) -[ z w ]> ((z = X) ∧ (w = Y)))))).
+  assert (S6 : ((φ X Y) ∧ (((φ z w) ∧ (φ u v)) -[ z w u v ]> ((z = u) ∧ (w = v)))
+    → (φ X Y ∧ ((φ z w ∧ φ X Y) -[ z w ]> ((z = X) ∧ (w = Y)))))).
   {
     (* The ordering here is annoying... *)
     pose proof (n11_1 X Y (fun u v =>
       (∀ z w, φ z w ∧ φ u v → z = u ∧ w = v))) as n11_1.
-    assert (A1 : (∀ x y z w : Prop, φ z w ∧ φ x y → z = x ∧ w = y)
-      ↔ (∀ z w x y : Prop, φ z w ∧ φ x y → z = x ∧ w = y)).
+    assert (A1 : ((φ z w ∧ φ x y) -[ (z w x y : Prop) ]> (z = x ∧ w = y))
+      ↔ ((φ z w ∧ φ x y) -[ (x y z w : Prop) ]> (z = x ∧ w = y))).
     {
       setoid_rewrite -> n11_2 at 2.
       setoid_rewrite -> n11_2 at 3.
       setoid_rewrite -> n11_2 at 1.
       now setoid_rewrite -> n11_2 at 2.
     }
-    rewrite -> A1 in n11_1.
+    rewrite <- A1 in n11_1.
+    simpl in n11_1.
     pose proof (Fact3_45
-      (∀ z w x y : Prop, φ z w ∧ φ x y → z = x ∧ w = y)
+      ((φ z w ∧ φ x y) -[ (z w x y : Prop) ]> (z = x ∧ w = y))
       ((φ z w ∧ φ X Y) -[ z w ]> z = X ∧ w = Y)
       (φ X Y)) as Fact3_45.
     MP Fact3_45 n11_1.
     rewrite -> n4_3 in Fact3_45.
     now setoid_rewrite -> n4_3 in Fact3_45 at 4.
   }
-  assert (S7 : ((φ X Y) ∧ (∀ z w u v, 
-    ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
+  assert (S7 : ((φ X Y) ∧ (((φ z w) ∧ (φ u v)) -[ z w u v ]> ((z = u) ∧ (w = v))))
     → (φ X Y ∧ (φ z w -[ z w ]> ((z = X) ∧ (w = Y))))).
   {
     pose proof (n5_33 (φ X Y) (φ Z W) (Z = X ∧ W = Y)) as n5_33.
@@ -676,8 +669,7 @@ Proof.
     setoid_rewrite -> n11_47 in n11_33.
     now rewrite <- n11_33 in S6.
   }
-  assert (S8 : ((φ X Y) ∧ (∀ z w u v, 
-    ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
+  assert (S8 : ((φ X Y) ∧ (((φ z w) ∧ (φ u v)) -[ z w u v ]> ((z = u) ∧ (w = v))))
     → (φ z w <[- z w -]> ((z = X) ∧ (w = Y)))).
   {
     pose proof (n14_123 X Y φ) as n14_123.
@@ -685,18 +677,16 @@ Proof.
     setoid_rewrite -> n4_3 in S7 at 4.
     now rewrite <- n14_123l in S7.
   }
-  assert (S9 : ((∃ x y, φ x y) ∧ (∀ z w u v,
-      (φ z w ∧ φ u v) → ((z = u) ∧ (w = v)))
+  assert (S9 : ((∃ x y, φ x y) ∧ ((φ z w ∧ φ u v) -[ z w u v ]> ((z = u) ∧ (w = v)))
     → (∃ x y, φ z w <[- z w -]> ((z = x) ∧ (w = y))))).
   {
     pose proof (n11_11 X Y (fun x y =>
-      ((φ x y) ∧ (∀ z w u v, 
-        ((φ z w) ∧ (φ u v)) → ((z = u) ∧ (w = v))))
+      ((φ x y) ∧ (((φ z w) ∧ (φ u v)) -[ z w u v ]> ((z = u) ∧ (w = v))))
         → (φ z w <[- z w -]> ((z = x) ∧ (w = y))))) as n11_11.
     MP n11_11 S8.
     pose proof (n11_34
-      (fun x y => φ x y ∧ (∀ z w u v,
-        (φ z w ∧ φ u v) → ((z = u) ∧ (w = v))))
+      (fun x y => φ x y ∧ ((φ z w ∧ φ u v) 
+        -[ z w u v ]> ((z = u) ∧ (w = v))))
       (fun x y => (φ z w <[- z w -]> ((z = x) ∧ (w = y))))) 
       as n11_34.
     MP n11_34 n11_11.
@@ -706,17 +696,17 @@ Proof.
   }
   assert (S10 : (∃ x y,  φ z w <[- z w -]> z = x ∧ w = y)
     ↔ (∃ x y, φ x y) 
-      ∧ ∀ z w u v, φ z w ∧ φ u v → z = u ∧ w = v).
+      ∧ (φ z w ∧ φ u v) -[ z w u v ]> (z = u ∧ w = v)).
   {
     clear S2 S3 S4 S6 S7 S8.
     assert (C1 : ((∃ x y,  φ z w <[- z w -]> z = x ∧ w = y) → ∃ x y : Prop, φ x y)
       ∧ ((∃ x y,  φ z w <[- z w -]> z = x ∧ w = y)
-        → ∀ z w u v, φ z w ∧ φ u v → z = u ∧ w = v)).
+        → (φ z w ∧ φ u v) -[ z w u v ]> (z = u ∧ w = v))).
     { clear S9. now Conj S1 S5 C1. }
     pose proof (Comp3_43
       (∃ x y, φ z w <[- z w -]> z = x ∧ w = y)
       (∃ x y, φ x y)
-      (∀ z w u v, φ z w ∧ φ u v → z = u ∧ w = v)) 
+      ((φ z w ∧ φ u v) -[ z w u v ]> (z = u ∧ w = v)))
       as Comp3_43.
     MP Comp3_43 C1.
     clear S1 S5 C1.
@@ -1012,9 +1002,9 @@ Proof.
       ((φ x <[- x -]> x = X) ∧ χ x <[- x -]> x = Y)) as Fact3_45.
     MP Fact3_45 n14_121.
     pose proof (n11_11 X Y (fun a c =>
-        ((ψ x <[- x -]> x = a) ∧ ψ x <[- x -]> x = c)
-        ∧ (φ x <[- x -]> x = a) ∧ χ x <[- x -]> x = c
-      → a = c ∧ (φ x <[- x -]> x = a) ∧ χ x <[- x -]> x = c)) 
+        ((ψ x <[- x -]> x = a) ∧ (ψ x <[- x -]> x = c))
+        ∧ (φ x <[- x -]> x = a) ∧ (χ x <[- x -]> x = c)
+      → a = c ∧ (φ x <[- x -]> x = a) ∧ (χ x <[- x -]> x = c))) 
       as n11_11.
     MP n11_11 Fact3_45.
     pose proof (n11_34
@@ -1118,7 +1108,7 @@ Proof.
 Qed.
 
 (* Predicative Variant *)
-Definition n14_15_pred (B : Prop) (φ : Prop → Prop) (ψ : Predicate 1) : 
+Definition n14_15_pred (B : Prop) (φ : Prop → Prop) (ψ : Order 1) : 
   [ι φ | ιφ => ιφ = B]
   → ([ι φ | ιφ => ψ ιφ] ↔ ψ B).
 Admitted.
@@ -1188,14 +1178,14 @@ Qed.
 
 Theorem n14_17 (B : Prop) (φ : Prop → Prop) : 
   [ι φ | ιφ => ιφ = B]
-  ↔ (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B).
+  ↔ (∀ ψ : Order 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B).
 Proof.
   (* TOOLS *)
   set (Iχ := Intro_pred "χ" 1).
   set (X := Intro_individual "x").
   (* ******** *)
   assert (S1 : [ι φ | ιφ => ιφ = B]
-    → ∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ ] ↔ ψ B).
+    → ∀ ψ : Order 1, [ι φ | ιφ => ψ ιφ ] ↔ ψ B).
   {
     (* *10.11 ignored *)
     pose proof (n14_15_pred B φ) as n14_15.
@@ -1209,21 +1199,21 @@ Proof.
     parameters into functions/predicates so that the types should still be
     correct *)
   assert (S2 : ((Iχ x <[- x -]> (x = B)) 
-      ∧ (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B))
+      ∧ (∀ ψ : Order 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B))
     → ([ι φ | ιφ => ιφ = B]) ↔ (B = B)).
   {
     (* left part of the ∧ *)
     pose proof (n10_1 (fun x => Iχ x ↔ (x = B)) B) as n10_1a.
     (* right part of the ∧ *)
-    pose proof (n10_1_pred (fun x : Predicate 1 => 
+    pose proof (n10_1_pred (fun x : Order 1 => 
       [ι φ | ιφ => x ιφ] ↔ x B) Iχ) as n10_1b.
     assert (C1 : ((∀ x, Iχ x ↔ x = B) → Iχ B ↔ B = B)
-      ∧ ((∀ x : Predicate 1, [ι φ | ιφ => x ιφ] ↔ x B)
+      ∧ ((∀ x : Order 1, [ι φ | ιφ => x ιφ] ↔ x B)
         → [ι φ | ιφ => Iχ ιφ] ↔ Iχ B)).
     { now Conj n10_1a n10_1b C1. }
     pose proof (n3_47
       (∀ x, Iχ x ↔ x = B)
-      (∀ x : Predicate 1, [ι φ | ιφ => x ιφ] ↔ x B)
+      (∀ x : Order 1, [ι φ | ιφ => x ιφ] ↔ x B)
       (Iχ B ↔ B = B)
       ([ι φ | ιφ => Iχ ιφ] ↔ Iχ B)) as n3_47.
     MP n3_47 C1.
@@ -1233,7 +1223,7 @@ Proof.
     rewrite -> n4_3 in n4_22.
     Syll n3_47 n4_22 Sy1.
     (* We can see that in the original text, `Iχ` has been substituted into
-    a concrete function. Our analogue here is generalizing over this "Predicate"
+    a concrete function. Our analogue here is generalizing over this "Individual"
     whose body is currently an "admitted" definition to further substitute into
     a concrete definition, by applying n10_1 and n10_11 variants *)
     pose proof (n10_11_pred Iχ (fun p => 
@@ -1247,7 +1237,7 @@ Proof.
     now Syll Sy2 n10_1c S2.
   }
   assert (S3 : ((Iχ x <[- x -]> (x = B)) 
-      ∧ (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ]
+      ∧ (∀ ψ : Order 1, [ι φ | ιφ => ψ ιφ]
         ↔ ψ B))
     → [ι φ | ιφ => ιφ = B]).
   {
@@ -1257,35 +1247,35 @@ Proof.
     pose proof n13_15 as n13_15.
     admit.
   }
-  assert (S4 : (∃ χ : Predicate 1, (χ x <[- x -]> (x = B)))
-    → ((∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
+  assert (S4 : (∃ χ : Order 1, (χ x <[- x -]> (x = B)))
+    → ((∀ ψ : Order 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
       → [ι φ | ιφ => ιφ = B])).
   {
     pose proof (Exp3_3 (Iχ x <[- x -]> x = B)
-      (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
+      (∀ ψ : Order 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
       ([ι φ | ιφ => ιφ = B])) as Exp3_3.
     MP Exp3_3 S3.
     pose proof (n10_11_pred Iχ (fun p => (p x <[- x -]> x = B)
-      → (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
+      → (∀ ψ : Order 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
       → [ι φ | ιφ => ιφ = B])) as n10_11.
     MP n10_11 Exp3_3.
     now rewrite -> n10_23_pred in n10_11.
   }
-  assert (S5 : ∃ χ : Predicate 1, χ x <[- x -]> (x = B)).
+  assert (S5 : ∃ χ : Order 1, χ x <[- x -]> (x = B)).
   {
     pose proof (n12_1 (fun x => x = B)) as n12_1.
     now setoid_rewrite -> n4_21 in n12_1.
   }
-  assert (S6 : (∀ ψ : Predicate 1, 
+  assert (S6 : (∀ ψ : Order 1, 
       [ι φ | ιφ => ψ ιφ] ↔ ψ B) 
     → [ι φ | ιφ => ιφ = B]).
   { now MP S4 S5. }
   assert (S7 : [ι φ | ιφ => ιφ = B]
-    ↔ (∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)).
+    ↔ (∀ ψ : Order 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)).
   {
     assert (C1 : ([ι φ | ιφ => ιφ = B]
-        → ∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ]↔ ψ B)
-      ∧ ((∀ ψ : Predicate 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
+        → ∀ ψ : Order 1, [ι φ | ιφ => ψ ιφ]↔ ψ B)
+      ∧ ((∀ ψ : Order 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B)
         → [ι φ | ιφ => ιφ = B])).
     { clear S2 S3 S4 S5. now Conj S1 S6 C1. }
     now Equiv C1.
@@ -1295,12 +1285,12 @@ Admitted.
 
 Theorem n14_171 (B : Prop) (φ : Prop → Prop) : 
   [ι φ | ιφ => ιφ = B]
-  ↔ (∀ ψ : Predicate 1, ψ B → [ι φ | ιφ => ψ ιφ]).
+  ↔ (∀ ψ : Order 1, ψ B → [ι φ | ιφ => ψ ιφ]).
 Proof.
   assert (S1 : [ι φ | ιφ => ιφ = B]
-    → (∀ ψ : Predicate 1, ψ B → [ι φ | ιφ => ψ ιφ])).
+    → (∀ ψ : Order 1, ψ B → [ι φ | ιφ => ψ ιφ])).
   { apply n14_17. }
-  assert (S2 : (∀ ψ : Predicate 1, ψ B → [ι φ | ιφ => ψ ιφ])
+  assert (S2 : (∀ ψ : Order 1, ψ B → [ι φ | ιφ => ψ ιφ])
     → ((B = B) → [ι φ | ιφ => ιφ = B])).
   {
     (* *12.1 ignored - I don't know if we need this or how is
@@ -1310,7 +1300,7 @@ Proof.
       (fun x => x = B)) as n10_1.
     exact n10_1.
   }
-  assert (S3 : (∀ ψ : Predicate 1, ψ B → [ι φ | ιφ => ψ ιφ])
+  assert (S3 : (∀ ψ : Order 1, ψ B → [ι φ | ιφ => ψ ιφ])
     → [ι φ | ιφ => ιφ = B]).
   {
     (* as always... *)
@@ -1318,7 +1308,7 @@ Proof.
     admit.
   }
   assert (S4 : [ι φ | ιφ => ιφ = B]
-    ↔ (∀ ψ : Predicate 1, ψ B → [ι φ | ιφ => ψ ιφ])).
+    ↔ (∀ ψ : Order 1, ψ B → [ι φ | ιφ => ψ ιφ])).
   {
     clear S2.
     Conj S1 S3 C1.
@@ -1466,8 +1456,8 @@ Proof.
       rewrite -> n4_21 in S3_3.
       now setoid_rewrite -> n13_16 in S3_3 at 1.
     }
-    assert (C1 : ([ι φ | ιφ => ιφ = B] ↔ φ x <[- x -]> B = x)
-      ∧ (φ x <[- x -]> B = x ↔ [ι φ | ιφ => B = ιφ])).
+    assert (C1 : ([ι φ | ιφ => ιφ = B] ↔ (φ x <[- x -]> B = x))
+      ∧ ((φ x <[- x -]> B = x) ↔ [ι φ | ιφ => B = ιφ])).
     { clear S3_1. now Conj S3_2 S3_3 C1. }
     clear S2 S3_2 S3_3.
     now Conj S3_1 C1 S3.
@@ -1658,7 +1648,7 @@ Proof.
   assert (S3 : (∃ b, (φ x <[- x -]> (x = b))) 
     ↔ (∃ b, (φ x <[- x -]> (x = b)) ∧ φ b)).
   { 
-    pose proof (n10_11 B (fun b => φ x <[- x -]> x = b
+    pose proof (n10_11 B (fun b => (φ x <[- x -]> x = b)
       ↔ (φ x <[- x -]> x = b) ∧ φ b)) as n10_11.
     MP n10_11 S2.
     pose proof (n10_281 (fun b => φ x <[- x -]> x = b)
@@ -2030,8 +2020,8 @@ Proof.
   assert (S4 : (φ x <[- x -]> ψ x) -> ∀ b, (∀ x, φ x ↔ (x = b)) 
     ↔ (∀ x, ψ x ↔ (x = b))).
   {
-    pose proof (n10_11 B (fun b => φ x <[- x -]> ψ x 
-      -> (φ x <[- x -]> x = b ↔ ψ x <[- x -]> x = b))) as n10_11.
+    pose proof (n10_11 B (fun b => (φ x <[- x -]> ψ x) 
+      -> ((φ x <[- x -]> x = b) ↔ (ψ x <[- x -]> x = b)))) as n10_11.
     MP n10_11 S3.
     now rewrite -> n10_21 in n10_11.
   }
@@ -2059,8 +2049,6 @@ Proof.
   assert (S2 : (φ x <[- x -]> ψ x) -> ((φ x <[- x -]> (x = B))
     ↔ (ψ x <[- x -]> (x = B)))).
   {
-    (* From this single direction theorem *5.1, I hightly think this step is unprovable *)
-    pose proof n5_1 as _n5_1.
     pose proof (n10_11 X (fun x => (φ x ↔ ψ x) -> ((φ x ↔ (x = B)) 
       ↔ (ψ x ↔ (x = B))))) as n10_11.
     MP n10_11 S1.
@@ -2069,6 +2057,7 @@ Proof.
     MP n10_27 n10_11.
     intro Hp.
     MP n10_27 Hp.
+    (* I hightly think this step is unprovable *)
     pose proof n10_414 as _n10_414.
     admit.
   }
@@ -2268,15 +2257,15 @@ Proof.
 Qed.
 
 Theorem n14_32 (φ χ : Prop → Prop) : [ιE φ]
-  ↔ ([ι φ | ιφ => ~ χ ιφ] ↔ ~ [ι φ | ιφ => χ ιφ]).
+  ↔ ([ι φ | ιφ => ¬ χ ιφ] ↔ ¬ [ι φ | ιφ => χ ιφ]).
 Proof.
   (* TOOLS *)
   set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (φ x <[- x -]> (x = B))
-    -> ([ι φ | ιφ => ~ χ ιφ] ↔ ~ χ B)).
+    -> ([ι φ | ιφ => ¬ χ ιφ] ↔ ¬ χ B)).
   {
-    pose proof (n14_242 B φ (fun x => ~ χ x)) as n14_242.
+    pose proof (n14_242 B φ (fun x => ¬ χ x)) as n14_242.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S2 : (φ x <[- x -]> (x = B)) 
@@ -2286,11 +2275,11 @@ Proof.
     now rewrite -> n4_21 in n14_242.
   }
   assert (S3 : (φ x <[- x -]> (x = B)) 
-    -> ((~ [ι φ | ιφ => χ ιφ]) ↔ ~ χ B)).
+    -> ((¬ [ι φ | ιφ => χ ιφ]) ↔ ¬ χ B)).
   { now rewrite -> Transp4_11 in S2. }
   assert (S4 : (φ x <[- x -]> (x = B))
-    -> ([ι φ | ιφ => ~ χ ιφ] 
-      ↔ ~ [ι φ | ιφ => χ ιφ])).
+    -> ([ι φ | ιφ => ¬ χ ιφ] 
+      ↔ ¬ [ι φ | ιφ => χ ιφ])).
   {
     (* simplification *)
     clear S2.
@@ -2299,26 +2288,27 @@ Proof.
     pose proof (S3 Hp) as S3.
     now rewrite <- S3 in S1.
   }
-  assert (S5 : [ιE φ] -> (([ι φ | ιφ => ~ χ ιφ])
-    ↔ ~ [ι φ | ιφ => χ ιφ])).
+  assert (S5 : [ιE φ] -> (([ι φ | ιφ => ¬ χ ιφ])
+    ↔ ¬ [ι φ | ιφ => χ ιφ])).
   {
     pose proof (n10_11 B (fun b => (φ x <[- x -]> (x = b))
-      -> ([ι φ | ιφ => ~ χ ιφ] 
-        ↔ ~ [ι φ | ιφ => χ ιφ]))) as n10_11.
+      -> ([ι φ | ιφ => ¬ χ ιφ] 
+        ↔ ¬ [ι φ | ιφ => χ ιφ]))) as n10_11.
     MP n10_11 S4.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
   }
-  assert (S6 : (([ι φ | ιφ => ~ χ ιφ])
-    ↔ ~ [ι φ | ιφ => χ ιφ]) -> [ιE φ]).
+  assert (S6 : (([ι φ | ιφ => ¬ χ ιφ])
+    ↔ ¬ [ι φ | ιφ => χ ιφ]) -> [ιE φ]).
   {
     (* NOTE: Doubt this step is provable, because the different meaning in 
     notation here could make a crucial difference *)
+    pose proof n14_21 as _n14_21.
     pose proof n14_1 as _n14_1.
     admit.
   }
-  assert (S7 : [ιE φ] ↔ (([ι φ | ιφ => ~ χ ιφ])
-    ↔ ~ [ι φ | ιφ => χ ιφ])).
+  assert (S7 : [ιE φ] ↔ (([ι φ | ιφ => ¬ χ ιφ])
+    ↔ ¬ [ι φ | ιφ => χ ιφ])).
   {
     clear S1 S2 S3 S4.
     Conj S5 S6 S7.
@@ -2521,8 +2511,6 @@ Proof.
   exact S3.
 Qed.
 
-Close Scope single_formal_equiv.
-Close Scope single_formal_impl.
 Close Scope formal_equiv.
 Close Scope formal_impl.
 Close Scope iota_description.

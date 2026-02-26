@@ -16,15 +16,15 @@ All conventions introduced below applies after chapter 9.
 
 ## 3. What's under a single `.v` file?
 1. `Require Import` that cites other chapters and `lib.v`, so that you can use theorems and tools from these imported files.
-2. Experimental feature (`(* TYPE ANNOTATIONS *)`) for manually check the allowed types of parameters in that chapter. Unfortunately, this does require manual checks and is not automated by the current (logic) model.
-3. Occasional comments to explain what has been done here and there
-4. `Notations` defined corresponded to the notations appeared in Principia. Each `Notation` comes with a `Scope`. To define a notation in a scope, we have to `Declare Scope`. To use the notation, we have to `Open Scope`. If we don't want the notation appear within proof, we command to `Close Scope`.
+2. Occasional comments to explain what has been done here and there
+3. Self-defined Rocq predicates, being necessary in later chapters. They should be put in the beginning of each chapters rather than being aggregated in `lib` to prevent large loading overhead and unnecessary warnings during compilation.
+4. `Notations` defined corresponded to the symbols in Principia, and modeled with self-defined Rocq predicates. Each `Notation` comes with a `Scope`. To define a notation in a scope, we have to `Declare Scope`. To use the notation, we have to `Open Scope`. If we don't want the notation appear within proof, we command to `Close Scope`.
 5. And eventually, everything left are the actual proofs, coming with `Definition`s and `Theorem`s.
 
-- For every `Scope`s opened within a single file, it is **required** to close every scopes at the end of the file.
+- Every `Scope`s opened within a single file is **required** to be closed at the end of the file.
 
 ## 4. What is `Definition` and `Theorem`?
-As *vernacs* in the Rocq proof system, `Definition`s and `Theorem`s are being used, not because of their *literal meaning*, but because of their ability to nicely organize the data, just like a "class" or a "structure" in typical programming languages.
+As *vernacs* in the Rocq proof system, `Definition`s and `Theorem`s are being used, not because of their *literal meaning*, but because of their ability to nicely organize the data, just like a *class* or a *structure* in typical programming languages.
 
 Rocq's `Definition`s are used to define *primitive propositions* and *definitions* in Principia. As the mechanic of `Definition` is interfering with the foundation of Principia, Principia's `Definition`s are immediately `Admitted` without providing any further proofs. Whether we should provide with proofs is a future question.
 
@@ -33,23 +33,7 @@ Similarly, `Theorem`s are used to define *theorems* in Principia, and are intend
 Every `Definition` or `Theorem` represents a proposition in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, which will be mostly discussed in the [tactics](./4_tactics.md) chapter; and *lhs* parameters are the real ones to *set a proposition up*.
 
 ### 4.1. How does Principia instantiate a proposition?
-
-TODO: recheck this part in the future and rewrite it based on understandings of functions(?)
-
-Principia's methodology to instantiate a proposition has a slight difference to modern type theory treatment. My understanding is,
-1. Every proven/defined proposition is immediately available. If there is a variable `P` in the proposition, it doesn't need any extra modifications and no action is performed
-2. If we want to derive something from this primitive proposition, we further change the `P` into something else.
-3. Same treatment applies to every proven theories.
-
-As the routine being clear, I think it's safe to adapt to our alternative:
-1. Every proposition is **required** to be instantiated before coming into the context.
-2. Even if we don't need any "explicit" instantiations, we still consider it as an action of instantiating `P` with `P`.
-
-The procedure of instantiation, leads to the parameters in the left hand side of a `Definition` or a `Theorem`.
-
-For a lhs parameter `P : Prop` of a theorem, the next question is what are allowed to instantiate P. Principia's propositions come along with *types*, which is sadly much more refined than the `Prop` in `P : Prop`, and this is why these propositions' types require manual checking. We might only allow `P` to be instantiated by an elementary proposition; a first-order proposition, 2nd-order prop, etc.. If this project has become more mature, we might change `P : Prop` into something like `P : Elementary_Proposition` for a clearer distinction.
-
-[mechanics](./3_mechanics.md) goes into the detail of how Principia works.
+[mechanics](./3_mechanics.md/#how-does-principia-proof-theorems) has explained different situations for Principia to prove or apply a proposition. Regardless of the context, we are generally utilizing the Rocq's default.
 
 ### 4.2. Naming conventions
 We have naming conventions for propositions. A proposition usually is named with `nxx_yyy`, with `xx_yyy` the number appeared in Principia for that proposition. A few of them are additionally come with their names in the text, and in that case we will adapt the `n` prefix to the name. For example, `Id2_08`. 
@@ -59,7 +43,12 @@ Now we come to naming conventions for (lhs) parameters.
 - Apparent variables are quantified variables in `∀`, `∃` and so on. As parameters, they're usually lower case literals like `x`.
 - Real variables are variables that can directly instantiated. They're usually upper case literals like `X`.
 
-## 5. What's under a single proof?
+## 5. What is `Notation`?
+As chapters push on, PM will have higher requirements on symbol definitions to model the math ideas. It turns out that `Notation`s in Rocq is the perfect tool for implementing them. For these notations, we might also have naming conventions on them. Below is the naming conventions for those special variables:
+- Individuals: Sometimes, functions might be introduced on purpose as individuals of higher order. These individuals are prefixed with `I` as in `Iφ`.
+- More to be added...
+
+## 6. What's under a single proof?
 For a theorem, if it has been splitted into several steps to prove in the text, rather than just citing related theorems for hints, we call this theorem comes with a "long proof". Otherwise it has a short proof.
 
 - Our structure is **not required** to be enforced on short proofs.
@@ -84,13 +73,13 @@ Qed.
 
 ```
 
-### 5.1. `TOOLS` section
+### 6.1. `TOOLS` section
 - A `TOOLS` header is **required** to be place at the beginning of a long proof, if any tool is being used.
 - Other tools not being placed in the `TOOLS` section is **required** to be stated with an explicit comment.
 
-Technical features, that can be be found under `lib.v`, usually require a warmup before being available, for example, introducing an extra real variable with the proof(with `set (X := Real "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
+Technical features, that can be be found under `lib.v`, usually require a warmup before being available, for example, introducing an extra individual with the proof(with `set (X := Individual "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
 
-### 5.2. `assert` blocks
+### 6.2. `assert` blocks
 - All long proofs are **required** to adapt to the proof architecture picted above.
 
 For long proofs, the first tactic we use always starts with an `assert`, for specifying intermediate steps corresponded to ones in the original text. 
@@ -99,7 +88,7 @@ There are several reasons for organizing proofs with `assert`. The most signific
 
 `assert`ed intermediate steps are introduced into the hypotheses.
 
-## 6. What are the tactics we use for a single proof?
+## 7. What are the tactics we use for a single proof?
 
 As introduced above, `assert` and `set`, sets up the general architecture to write the proof.
 

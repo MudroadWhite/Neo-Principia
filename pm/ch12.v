@@ -2,29 +2,31 @@ Require Import PM.pm.lib.
 Require Import PM.pm.ch10.
 Require Import PM.pm.ch11.
 
-Open Scope single_formal_equiv.
 Open Scope formal_equiv.
 
 (* 
-Starting from chapter 12, every variables being quantified at the rhs has to be
-either an "Individual" or a "Predicate". For example, "∀ P, P ∧ Q" might 
-never appear, and instead, it will be either "∀ Individual P, P ∧ Q" or 
-"∀ Predicate Phi, Phi (Individual P)" where Phi P = P ∧ Q
+NOTE:
 
-Ideally speaking, AoR is the only way to convert "function"s in a theorem to 
-"predicate"s. But the representation here has been very annoying. The `∀`
-here has been working differently to `Phi x` and `f x`: `x` is a parameter for
-`Phi` but it is fixed for `f`, and `f` is actually the "parameter".
+- `F` for AoR is having a level of exactly 1
+- constants in PM can be designed as a tagged label them just as constants when passing as a parameter
+into rocq
 *)
 
-(* We're currently limiting `Predicate n` to `Predicate 1` only. Extending this to
-n is a future question that involves design the type of `X` correctly *)
+(* Is it that we have designed `n12_1` totally wrong..? *)
 Definition n12_1 (φ : Prop → Prop) : 
-  ∃ f : (Predicate 1), (φ x) <[- x -]> ((fun (F : Predicate 1) =>
+  ∃ f : (Order 1), (φ x) <[- x -]> ((fun (F : Order 1) =>
     F x) f).
 Admitted.
 
 Module Experimental.
+  (*
+  (* For untyped function, it seems that it has to be something like `A -> B` 
+  where `x : A` and the rest of the arguments are being put into `B` *)
+  Definition n12_1_alt {A B : Type} (φ : A -> B) :
+    ∃ f : (Order 1), (φ x) <[- x -]> f x.
+  Admitted.
+  *)
+
   (* 
   To actually use it, I think there should be some other better way to express
   especially for our current formalization. This might be able to be done exactly 
@@ -40,7 +42,7 @@ Module Experimental.
   the older theorems in another way (see `_pred`-suffixed theorems in later chapter)
   and it shouldn't be written in formula
   *)
-  (* Definition fix_param (n : nat) (X : Prop) := fun (F : Predicate n) => F X. *)
+  (* Definition fix_param (n : nat) (X : Prop) := fun (F : Order n) => F X. *)
 
   (* Definition e12_1 (n : nat) (s : string) (Phi : Prop → Prop) (X : Prop) :
     let f := Intro_pred s n in
@@ -51,8 +53,7 @@ End Experimental.
 (* To be uncommented *)
 (* Definition n12_11 (f Phi : Prop → Prop → Prop) :
   ∃ fPsi : Prop → Prop → Prop,
-    ∃ f : Predicate2.t 1, (Phi x y) <[- x y -]> (f.(Predicate2.fix_func 1) x y fPsi).
+    ∃ f : Order2.t 1, (Phi x y) <[- x y -]> (f.(Order2.fix_func 1) x y fPsi).
 Admitted. *)
 
-Close Scope single_formal_equiv.
 Close Scope formal_equiv.

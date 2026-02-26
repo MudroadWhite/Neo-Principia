@@ -5,14 +5,15 @@ Require Import PM.pm.ch3.
 Require Import PM.pm.ch4.
 Require Import PM.pm.ch5.
 
-(* TODO: Find a way to correctly express "argument in P is of the same type of argument in Q" *)
 
-(* ******** *)
+Definition EDisjunct : Type := Order 0 -> Order 0.
+Definition ENeg : Type := Order 0 -> Order 0.
 
-(* Definitions involving `¬` on 1st order props. Our current simulation doesn't emphasize
-  that it's the negation that we're trying to specify(a more obvious example can be how 
-  a typeclasse works on different instances) *)
-(* Pp n9_01 tries to say the situation of `¬` working on a `∀` proposition *)
+(* TODO: takes in an efunc and return a prop of order 1 *)
+Definition EForall : Type := Prop -> Order 1.
+Definition EEXists : Type := Prop -> Order 1.
+
+(* 
 Definition n9_01 (φ : Prop → Prop) :
   (¬ ∀ x, φ x) = ∃ x, ¬ φ x. Admitted.
 
@@ -26,7 +27,6 @@ Definition n9_021 (φ : Prop → Prop) :
   (¬ ∃ x, φ x) = ¬ (∃ x, φ x). Admitted.
 (* ******** *)
 
-(* Definitions for `∨`. n9_03 shows the situation of `∨` working on a `∀` *)
 Definition n9_03 (φ : Prop → Prop) (p : Prop) :
   ((∀ x, φ x) ∨ p) = (∀ x, φ x ∨ p). Admitted.
 
@@ -59,46 +59,48 @@ Definition n9_11 (φ : Prop → Prop) (X Y : Prop) :
 
 (* Primitive propositions for inference, for 1st order propositions. *)
 (* Pp *9_12 : What is implied by a true premise is true. Analogue to *1.1. *)
-(* Currently I decide that we perform `MP` on 1st order props with the native 
-  `MP` tactic without explicitly citing this alternative version. *)
 Definition MP9_12 (P Q : Prop): (P → Q) → P → Q. Admitted.
 
 (* Pp n9_13 : In any assersion containing a real variable, this real variable
 may be turned into an apparent variable of which all possible values are asserted
-to satisfy the function in question. *)
+to satisfy the function in question.
+The delicate difference between our implementation and the text is that the text
+wants us to design this as an `Ltac` and it is not performed through inference,
+which means using MP
+*)
 (* The proposition to instantiate a real variable into a first order proposition. 
-  This is almost the only starting point to get a quantified proposition, and is
-  supposed to be very commonly used.
-  What it really means:
-  - If `¬` and `∨` can be defined, then we can define a function `φ`
-  - If φ (over elementary propositions) can be defined, and φY is always true
-  - then we can construct a 1st order proposition made up from φ *)
-Definition n9_13 (φ : Prop → Prop) (Y : Prop) : 
+This is almost the only starting point to get a quantified proposition, and is very 
+commonly used. While our implementation uses `->`, this is supposed to be performed 
+without using `MP`.
+TODO: rewrite this as an Ltac
+*)
+Definition Gen9_13 (φ : Prop → Prop) (Y : Prop) : 
   φ Y → (∀ x , φ x). Admitted.
 (* ******** *)
 
 (* Primitive propositions for identifying propositions "of the same type" *)
-(* Individual: explained in p.51  *)
+(* Individual: explained in p.51 *)
 Definition is_individual (x : Prop) : Prop. Admitted.
-(* TODO: currently we only assert efuncs that takes 1 argument. How to 
-  express that functions are taking multiple arguments of the same type? *)
-Definition is_efunc (F : Prop → Prop) : Prop. Admitted.
+Definition is_efunc {B : Type} (F : Prop → B) : Prop. Admitted.
 Definition is_eprop (P : Prop) : Prop. Admitted.
+Definition is_func : Prop. Admitted.
+Definition is_prop : Prop. Admitted.
 
 Module IsSameType.
   Inductive t (U V : Prop) : Prop :=
     | Individual : (is_individual U) → (is_individual V) → t U V
+    (* Currently our `EFuncs` is limited to one parameter only and isn't recursive *)
     | EFuncs (φ ψ : Prop → Prop) (X Y : Prop) 
       : (is_efunc φ) → (is_efunc ψ) → t X Y 
         → (U = φ X) → (V = ψ Y)
         → t U V
-    | NEFuncs (φ : Prop → Prop) (X : Prop) : (is_efunc φ) 
+    | NEFuncs (φ : Prop → Prop) (X : Prop) : (is_func φ) 
         → (U = φ X) → (V = ¬ φ X)
         → t U V
-    | OrL (φ ψ : Prop → Prop) (X : Prop) : (is_efunc φ) → (is_efunc ψ)
+    | OrL (φ ψ : Prop → Prop) (X : Prop) : (is_func φ) → (is_func ψ)
         → (U = φ X) → (V = φ X ∨ ψ X)
         → t U V
-    | OrR (φ ψ : Prop → Prop) (X : Prop) : (is_efunc φ) → (is_efunc ψ)
+    | OrR (φ ψ : Prop → Prop) (X : Prop) : (is_func φ) → (is_func ψ)
         → (U = ψ X) → (V = φ X ∨ ψ X)
         → t U V
     | All2 (φ ψ : Prop → Prop → Prop) (X : Prop) (Y0 : Prop) : 
@@ -115,6 +117,17 @@ End IsSameType.
 
 Definition n9_131 := IsSameType.t.
 
+(* 
+TODO:
+in higher orders,
+if we can take `f` as parameter, we can take `¬f` as parameter
+if we can take `¬f` as parameter, we can take `f ∨ g` as parameter
+basically they all belong to a type called `ConnectedByNegOrDisj`
+
+the `of_same_type` idea basically says what are allowed to be substitued from a function
+with a fixed value and be given type(be significant)
+
+ *)
 (* Cf p.120, *10.121 *)
 Definition n9_14 (A : Prop) (φ : Prop → Prop) (X : Prop) :
   φ X → (n9_131 X A ↔ φ A). Admitted.
@@ -122,13 +135,10 @@ Definition n9_14 (A : Prop) (φ : Prop → Prop) (X : Prop) :
 (* Pp n9_15 : If for some `a` there is a proposition `φ a`, then there is a function
   `phi x^` and vice versa. *)
 (* 
-This is the `^` operator. In principia, we don't really have lambda calculus, nor is 
-function is a "first class" concept. We don't have `abs` and `app` rules on functions.
-In this system, functions have to be obtained from an already existed(and well typed) 
-proposition, limited to one parameter, and the parameter is obtained from abstracting 
-away a constant, mostly a individual.
-
-Currently our formalization is very unsatisfying, and actually didn't express the idea.
+This primitive proposition is saying that if we have a proposition in the form of `φ a`
+we can always use the `φ` somewhere else during the proof. The consequence if that if
+there is another propositioon `b`, we can immediately assert `φ b`.
+TODO: we can design an Ltac for this
 *)
 Definition n9_15 (A X : Prop) (φ : Prop → Prop) :
   (φ A) ↔ (X → φ X).
@@ -145,7 +155,16 @@ Proof.
   (* Note that here we're starting to pass in a function as parameter. Whether 
   this is allowed should be reconsidered in the future *)
   pose proof (n9_1 (fun x => ¬ φ x ∨ φ Y) Y) as n9_1.
-  (* MP here is the version *1.11 *)
+  (* NOTE: MP here is the version *1.11, updated for 1-order proposition
+  - (fun x => ¬ Phi x ∨ Phi Y) is an elementary function of `x`
+  - ∃ x, (¬ Phi x ∨ Phi y) is a 1-order function taking e-prop `y` (as it returns a 1-order 
+    proposition). With which, *1.1 cannot do it solely because it always have to return 
+    a eprop from a eprop
+    This seems to also be how we produce higher order propositions... our current implementation 
+    doesn't express such nature
+    p.128: this chapter shows when neg is restricted to eprop we can obtain 1-order prop(TODO: write this more clearer)
+    p.128: *1.1 and *1.11 has been already *updated* for 1st order proposition
+   *)
   MP n9_1 n2_1.
   (** Step 3 **)
   rewrite <- (n9_05 (fun x => ¬ φ x) (φ Y)) in n9_1.
@@ -981,4 +1000,4 @@ Theorem n9_63 (φ ψ : Prop → Prop → Prop) (X0 Y0 : Prop) :
   IsSameType.t (φ X0 Y0) (ψ X0 Y0)
   → ((∀ y, φ X0 y) ∨ (∀ z, ψ X0 z)).
 Proof.
-Admitted.
+Admitted. *)
