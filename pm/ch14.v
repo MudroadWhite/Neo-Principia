@@ -1961,8 +1961,6 @@ Proof.
   assert (S2 : (φ x <[- x -]> ψ x) -> ((φ x <[- x -]> (x = B))
     ↔ (ψ x <[- x -]> (x = B)))).
   {
-    (* From this single direction theorem *5.1, I hightly think this step is unprovable *)
-    pose proof n5_1 as _n5_1.
     pose proof (n10_11 X (fun x => (φ x ↔ ψ x) -> ((φ x ↔ (x = B)) 
       ↔ (ψ x ↔ (x = B))))) as n10_11.
     MP n10_11 S1.
@@ -1971,6 +1969,7 @@ Proof.
     MP n10_27 n10_11.
     intro Hp.
     MP n10_27 Hp.
+    (* I hightly think this step is unprovable *)
     pose proof n10_414 as _n10_414.
     admit.
   }
