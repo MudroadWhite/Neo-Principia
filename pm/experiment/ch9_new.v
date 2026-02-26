@@ -1,12 +1,19 @@
-(* Require Import PM.pm.lib.
+Require Import PM.pm.lib.
 Require Import PM.pm.ch1.
 Require Import PM.pm.ch2.
 Require Import PM.pm.ch3.
 Require Import PM.pm.ch4.
 Require Import PM.pm.ch5.
 
-(* ******** *)
 
+Definition EDisjunct : Type := Order 0 -> Order 0.
+Definition ENeg : Type := Order 0 -> Order 0.
+
+(* TODO: takes in an efunc and return a prop of order 1 *)
+Definition EForall : Type := Prop -> Order 1.
+Definition EEXists : Type := Prop -> Order 1.
+
+(* 
 Definition n9_01 (φ : Prop → Prop) :
   (¬ ∀ x, φ x) = ∃ x, ¬ φ x. Admitted.
 
@@ -113,8 +120,8 @@ Definition n9_131 := IsSameType.t.
 (* 
 TODO:
 in higher orders,
-if we can take `f` as parameter, we can take `~f` as parameter
-if we can take `~f` as parameter, we can take `f \/ g` as parameter
+if we can take `f` as parameter, we can take `¬f` as parameter
+if we can take `¬f` as parameter, we can take `f ∨ g` as parameter
 basically they all belong to a type called `ConnectedByNegOrDisj`
 
 the `of_same_type` idea basically says what are allowed to be substitued from a function
@@ -149,8 +156,8 @@ Proof.
   this is allowed should be reconsidered in the future *)
   pose proof (n9_1 (fun x => ¬ φ x ∨ φ Y) Y) as n9_1.
   (* NOTE: MP here is the version *1.11, updated for 1-order proposition
-  - (fun x => ~ Phi x \/ Phi Y) is an elementary function of `x`
-  - exists x, (~ Phi x \/ Phi y) is a 1-order function taking e-prop `y` (as it returns a 1-order 
+  - (fun x => ¬ Phi x ∨ Phi Y) is an elementary function of `x`
+  - ∃ x, (¬ Phi x ∨ Phi y) is a 1-order function taking e-prop `y` (as it returns a 1-order 
     proposition). With which, *1.1 cannot do it solely because it always have to return 
     a eprop from a eprop
     This seems to also be how we produce higher order propositions... our current implementation 

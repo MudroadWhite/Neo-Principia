@@ -25,38 +25,38 @@ in lateer chapters.
 (* Modified theorems to be used in this chapter specifically for predicates
   In the future, we might want to change `Prop → Prop` into `A → Prop`
   for common theorems starting from ch1 *)
-Definition n10_11_pred (Y : Predicate 1) (φ : Predicate 1 → Prop)
+Definition n10_11_pred (Y : Order 1) (φ : Order 1 → Prop)
   : φ Y → ∀ x, φ x.
 Admitted.
 
-Definition n10_21_pred (φ : Predicate 1 → Prop) (P : Prop) :
-  (∀ x : Predicate 1, P → φ x) ↔ (P → (∀ x : Predicate 1, φ x)).
+Definition n10_21_pred (φ : Order 1 → Prop) (P : Prop) :
+  (∀ x : Order 1, P → φ x) ↔ (P → (∀ x : Order 1, φ x)).
 Admitted.
 
-Definition n10_22_pred (φ ψ : Predicate 1 → Prop) :
-  (∀ x : Predicate 1, φ x ∧ ψ x)
-  ↔ (∀ x : Predicate 1, φ x) ∧ ∀ x : Predicate 1, ψ x.
+Definition n10_22_pred (φ ψ : Order 1 → Prop) :
+  (∀ x : Order 1, φ x ∧ ψ x)
+  ↔ (∀ x : Order 1, φ x) ∧ ∀ x : Order 1, ψ x.
 Admitted.
 
-Definition n10_23_pred (φ : Predicate 1 → Prop) (P : Prop) :
-  (∀ x : Predicate 1, φ x → P) ↔ ((∃ x : Predicate 1, φ x) → P).
+Definition n10_23_pred (φ : Order 1 → Prop) (P : Prop) :
+  (∀ x : Order 1, φ x → P) ↔ ((∃ x : Order 1, φ x) → P).
 Admitted.
 
-Definition n10_24_pred (φ : Predicate 1 → Prop) (Y : Predicate 1) :
+Definition n10_24_pred (φ : Order 1 → Prop) (Y : Order 1) :
   φ Y → ∃ x, φ x.
 Admitted.
 
-Definition n10_27_pred (φ ψ : Predicate 1 → Prop) : 
+Definition n10_27_pred (φ ψ : Order 1 → Prop) : 
   (∀ z, φ z → ψ z) → ((∀ z, φ z) → (∀ z, ψ z)).
 Admitted.
 
-Definition n10_3_pred (φ ψ χ : Predicate 1 → Prop) :
-  (∀ x : Predicate 1, φ x → ψ x) ∧ (∀ x : Predicate 1, ψ x → χ x)
-  → ∀ x : Predicate 1, φ x → χ x.
+Definition n10_3_pred (φ ψ χ : Order 1 → Prop) :
+  (∀ x : Order 1, φ x → ψ x) ∧ (∀ x : Order 1, ψ x → χ x)
+  → ∀ x : Order 1, φ x → χ x.
 Admitted.
 
-Definition n10_32_pred (φ ψ : Predicate 1 → Prop) :
-  (∀ x : Predicate 1, φ x ↔ ψ x) ↔ ∀ x : Predicate 1, ψ x ↔ φ x.
+Definition n10_32_pred (φ ψ : Order 1 → Prop) :
+  (∀ x : Order 1, φ x ↔ ψ x) ↔ ∀ x : Order 1, ψ x ↔ φ x.
 Admitted.
 
 (* 
@@ -64,7 +64,7 @@ p.165: `φ x^` without a `!` will be a function with order unspecified, and this
 forbidden to be a quantified variable
 *)
 Definition n13_01 (X Y : Prop) : 
-  (X = Y) = (∀ φ : Predicate 1, (φ X) → (φ Y)).
+  (X = Y) = (∀ φ : Order 1, (φ X) → (φ Y)).
 Admitted.
 
 Definition n13_02 (X Y : Prop) :
@@ -76,7 +76,7 @@ Definition n13_03 (X Y Z : Prop) :
 Admitted.
 
 Theorem n13_1 (X Y : Prop) : (X = Y) 
-  ↔ (∀ φ : Predicate 1, (φ X) → (φ Y)).
+  ↔ (∀ φ : Order 1, (φ X) → (φ Y)).
 Proof.
   pose proof (n4_2 (X = Y)) as n4_2.
   now rewrite -> n13_01 in n4_2 at 2.
@@ -91,7 +91,7 @@ it can be fully expanded correctly is currently a tiny myth. *)
 Theorem n13_101 (X Y : Prop) (ψ : Prop → Prop) :
   (X = Y) → (ψ X → ψ Y).
 Proof.
-  assert (S1 : (∃ φ : Predicate 1, (ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y))).
+  assert (S1 : (∃ φ : Order 1, (ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y))).
   {
     (* The ambiguity in this very step is we don't have a rule
     to add `∧` into *12.1 right away *)
@@ -103,13 +103,13 @@ Proof.
     pose proof (Hn12_1 Y) as Hn12_1b.
     Conj Hn12_1a Hn12_1b C1.
     pose proof (n10_24_pred
-      (fun (f : Predicate 1) => (ψ X ↔ f X) ∧ (ψ Y ↔ f Y))
+      (fun (f : Order 1) => (ψ X ↔ f X) ∧ (ψ Y ↔ f Y))
       If) as n10_24.
     now MP n10_24 C1.
   }
-  assert (S2 : (X = Y) → ∀ φ : Predicate 1, φ X → φ Y).
+  assert (S2 : (X = Y) → ∀ φ : Order 1, φ X → φ Y).
   { apply n13_1. }
-  assert (S3 : (X = Y) → (∀ φ : Predicate 1, 
+  assert (S3 : (X = Y) → (∀ φ : Order 1, 
     ((ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y)) → (ψ X → ψ Y))).
   {
     (* simplification... will seriously need some detailed expansions *)
@@ -127,7 +127,7 @@ Proof.
     pose proof (S2 Iφ) as S2.
     now MP n4_85r S2.
   }
-  assert (S4 : (X = Y) → (∃ φ : Predicate 1, 
+  assert (S4 : (X = Y) → (∃ φ : Order 1, 
     ((ψ X ↔ φ X) ∧ (ψ Y ↔ φ Y))) → (ψ X → ψ Y)).
   { now rewrite -> n10_23_pred in S3. }
   assert (S5 : (X = Y) → (ψ X → ψ Y)).
@@ -142,28 +142,28 @@ Qed.
 
 Theorem n13_11 (X Y : Prop) :
   (X = Y) ↔
-    (∀ φ : Predicate 1, (φ X) ↔ (φ Y)).
+    (∀ φ : Order 1, (φ X) ↔ (φ Y)).
 Proof.
   (* TOOLS *)
   set (Iφ := Intro_pred "φ" 1).
   (* ******** *)
-  assert (S1 : (∀ φ : Predicate 1, φ X ↔ φ Y)
-    → (∀ φ : Predicate 1, φ X → φ Y)).
+  assert (S1 : (∀ φ : Order 1, φ X ↔ φ Y)
+    → (∀ φ : Order 1, φ X → φ Y)).
   {
     pose proof (n10_22_pred
-      (fun (p : Predicate 1) => p X -> p Y)
-      (fun (p : Predicate 1) => p Y -> p X)) as n10_22.
+      (fun (p : Order 1) => p X -> p Y)
+      (fun (p : Order 1) => p Y -> p X)) as n10_22.
     destruct n10_22 as [n10_22l _].
     (* TODO: maybe we will find a way to fix the definition on such 
       equiv relation *)
-    replace (∀ x : Predicate 1, (x X → x Y) ∧ (x Y → x X))
-      with (∀ x : Predicate 1, x X ↔ x Y)
+    replace (∀ x : Order 1, (x X → x Y) ∧ (x Y → x X))
+      with (∀ x : Order 1, x X ↔ x Y)
       in n10_22l by reflexivity.
-    pose proof (Simp3_26 (∀ p : Predicate 1, p X -> p Y)
-      (∀ p : Predicate 1, p Y -> p X)) as Simp3_26.
+    pose proof (Simp3_26 (∀ p : Order 1, p X -> p Y)
+      (∀ p : Order 1, p Y -> p X)) as Simp3_26.
     now Syll n10_22l Simp3_26 S1.
   }
-  assert (S2 : (∀ φ : Predicate 1, φ X ↔ φ Y)
+  assert (S2 : (∀ φ : Order 1, φ X ↔ φ Y)
     → (X = Y)).
   { now rewrite <- n13_1 in S1. }
   assert (S3 : (X = Y) → (Iφ X → Iφ Y)).
@@ -191,7 +191,7 @@ Proof.
     MP Comp3_43 C1.
     now rewrite <-Equiv4_01 in Comp3_43.
   }
-  assert (S7 : (X = Y) → (∀ φ : Predicate 1, φ X ↔ φ Y)).
+  assert (S7 : (X = Y) → (∀ φ : Order 1, φ X ↔ φ Y)).
   {
     pose proof (n10_11_pred Iφ (fun P =>
       X = Y → P X ↔ P Y)) as n10_11.
@@ -200,11 +200,11 @@ Proof.
       P X ↔ P Y) (X = Y)) as n10_21.
     now rewrite -> n10_21 in n10_11.
   }
-  assert (S8 : (X = Y) ↔ (∀ φ : Predicate 1, (φ X) ↔ (φ Y))).
+  assert (S8 : (X = Y) ↔ (∀ φ : Order 1, (φ X) ↔ (φ Y))).
   {
     clear S1 S3 S4 S5 S6. move S2 after S7.
-    assert (C1 : (X = Y → ∀ φ : Predicate 1, φ X ↔ φ Y)
-      ∧ ((∀ φ : Predicate 1, φ X ↔ φ Y) → X = Y)).
+    assert (C1 : (X = Y → ∀ φ : Order 1, φ X ↔ φ Y)
+      ∧ ((∀ φ : Order 1, φ X ↔ φ Y) → X = Y)).
     { now Conj S7 S2 C1. }
     now Equiv C1.
   }
@@ -277,8 +277,8 @@ Theorem n13_17 (X Y Z : Prop) :
   ((X = Y) ∧ (Y = Z)) → (X = Z).
 Proof.
   assert (S1 : ((X = Y) ∧ (Y = Z)) 
-    → ((∀ φ : Predicate 1, φ X → φ Y) 
-      ∧ (∀ φ : Predicate 1, φ Y → φ Z))).
+    → ((∀ φ : Order 1, φ X → φ Y) 
+      ∧ (∀ φ : Order 1, φ Y → φ Z))).
   {
     pose proof (n13_1 X Y) as n13_1a.
     destruct n13_1a as [n13_1al _].
@@ -286,12 +286,12 @@ Proof.
     destruct n13_1b as [n13_1bl _].
     Conj n13_1al n13_1bl C1.
     pose proof (n3_47 (X = Y) (Y = Z)
-      (∀ (p : Predicate 1), p X -> p Y)
-      (∀ (p : Predicate 1), p Y -> p Z)) as n3_47.
+      (∀ (p : Order 1), p X -> p Y)
+      (∀ (p : Order 1), p Y -> p Z)) as n3_47.
     now MP n3_47 C1.
   }
   assert (S2 : ((X = Y) ∧ (Y = Z)) 
-    → (∀ φ : Predicate 1, φ X → φ Z)).
+    → (∀ φ : Order 1, φ X → φ Z)).
   {
     intros Hp.
     pose proof (S1 Hp) as S1.

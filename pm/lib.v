@@ -12,7 +12,7 @@ Export ClassicalFacts.
 Export PropExtensionality.
 Export String.
 
-(* cf.p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
+(* p.23: `=` propositions are allowed to be turned into `↔` propositions. An 
 alternative tactic to this is `apply propositional_extensionality`. *)
 Theorem eq_to_equiv : ∀ (P Q : Prop),
   (P = Q) → (P ↔ Q).
@@ -21,27 +21,21 @@ Proof.
   split; try rewrite -> H; trivial.
 Qed.
 
-(* cf.p.51: `!` notation *)
-(* EXPERIMENTAL/DRAFT: 
-`!` notation mostly declares the order of a matrix, and the function is strictly a matrix(p.166)
-Should we treat `!` as something being denotational just like the dot notations in Principia?
-*)
-
-(* Chapter 12 & 13: a function, typed, of order `n`.
+(* Chapter 12 & 13: a proposition, typed, of order `n`.
 NOTE: 
-- Unless necessary, we should never use ANYTHING beyond `Predicate 1`. It is for convenience 
-  when we really need this we can search all occurences of Predicates to be adapted
-- For chapter 12, we might want to define an extra `Predicate2`. This should be implemented when
+- Unless necessary, we should never use ANYTHING beyond `Order 1`. It is for convenience 
+  when we really need this we can search all occurences of Orders to be adapted
+- For chapter 12, we might want to define an extra `Order2`. This should be implemented when
   necessary
-TODO: maybe in the future, checkout the definition for matrix and try to see if we can also integrate
+TODO: 
+- maybe in the future, checkout the definition for matrix and try to see if we can also integrate
 in a definition for matrix
-
-TODO: add an extra implicit argument {shift : nat} where shift = 0 by default
+- add an extra implicit argument {shift : nat} where shift = 0 by default
 *)
-Fixpoint Predicate (n : nat) : Type :=
+Fixpoint Order (n : nat) : Type :=
   match n with
   | 0 => Prop
-  | (S m) => let A := Predicate m in (A -> Prop)
+  | (S m) => let A := Order m in (A -> Prop)
   end.
 
 (* p.51: To instantiate variables appeared in a propositional function, we use the concept 
@@ -54,7 +48,6 @@ As parameters, however, rules in (p.133) is flawed: if I have one individual for
 another for 1-order parameter, altogether for a 2-order function, will they still have the same type?
 Currently we only set Individual to order 0, but it is supposed to be of any order 
 *)
-Definition Individual := Predicate 0.
 
 (* EXPERIMENTAL: the predicate below serves merely just for "how an untyped function of PM should be
 defined in Rocq". Currently it is never used anywhere and only demonstrates an experimental idea *)
@@ -62,12 +55,11 @@ Definition Intro_untyped {A : Type} (s : string) : A -> Prop. Admitted.
 
 (* `Intro` Rocq predicates are used for introducing a term in the middle of the proof, which 
 is something specific for PM's proofs. Here we provide the version for individuals and predicates *)
-(* TODO: we can rename the `Intro_individual` back to `Individual` *)
-Definition Intro_individual (s : string) : Individual. Admitted.
+Definition Intro_individual (s : string) : Order 0. Admitted.
 
 (* For the same reason above, I believe that predicative functions coming fresh(after chapter 13) should 
 also be considered as individuals. TODO: This should be merged with `Intro_individual` *)
-Definition Intro_pred (s : string) (n : nat) : Predicate n. Admitted.
+Definition Intro_pred (s : string) (n : nat) : Order n. Admitted.
 
 (* **************** *)
 (* Chapter 14 *)
@@ -91,12 +83,12 @@ Example description_example :=
 is that `E` in `E!` is the capital letter of `Exists` and `!` indicates that it is a 
 predicate. 
 
-TODO: give this iota_E the correct `Predicate` type
+TODO: give this iota_E the correct `Order` type
 *)
 Definition DescriptionExists (φ : Prop -> Prop) : Prop. Admitted.
 Example descriptionexists_example := DescriptionExists (fun x => x).
 
-(* cf. p174, example after *14.03. Interpretation for a function containing 
+(* p174, example after *14.03. Interpretation for a function containing 
   multiple descriptions *)
 Definition Description2 (φ ψ : Prop -> Prop) 
   (expr : (DescriptionArg φ) -> (DescriptionArg ψ) -> Prop): Prop. 
@@ -104,7 +96,7 @@ Admitted.
 Example description2_example (φ ψ : Prop -> Prop) :=
   Description2 φ ψ (fun x y => x = y).
 
-(* cf. p174, explanation after *14.04. The iota variant where inner function has 
+(* p174, explanation after *14.04. The iota variant where inner function has 
   larger scope than outer function. This variant will be proven later unecessary. 
 
   The original definition depends on `iota_f2`. The function `iota_f` here, 

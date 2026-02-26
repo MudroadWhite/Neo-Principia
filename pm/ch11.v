@@ -8,17 +8,8 @@ Require Import PM.pm.ch9.
 Require Import PM.pm.ch10.
 
 (* TODO: 
-- Investigate the `alt`s in ch10 and see if there are more details
-- Identify parameter types in ch9 & 10
-- design the correct notation for multiple vars
-- Correctly control the notation scopes in ch11 and ch10
-*)
-
-(* TODO: Add a special rule: (exists x, Px /\ Q x) -> (exists x, P x) /\ (exists x, Q x) *)
-
-(* TODO: 
-Type of theorems allowed: 
-Type of parameters allowed: 
+- Design the correct notation for multiple vars
+- Add a special rule: (∃ x, P x ∧ Q x) -> (∃ x, P x) ∧ (∃ x, Q x) 
 *)
 
 (* **************** *)
@@ -31,14 +22,14 @@ Declare Scope formal_equiv.
 Open Scope formal_impl.
 Open Scope formal_equiv.
 
-Example example_formal_impl_testtest := forall x y z : Prop, (x = y /\ y = z) -> (x = z).
+Example example_formal_impl_testtest := ∀ x y z : Prop, (x = y ∧ y = z) -> (x = z).
 
-Notation "A '-[' x .. y ']>' B" := (forall x, .. (forall y, A -> B) ..)
+Notation "A '-[' x .. y ']>' B" := (∀ x, .. (∀ y, A -> B) ..)
   (at level 80, x binder, y binder, B at level 100, right associativity,
   format "'[ ' A '/' '[ ' -[ x .. y ]> ']' '/' B ']'") : formal_impl.
 Example example_formal_impl0 := (x = y) -[ (x y : Prop) ]> (x = y).
 
-Notation "A '<[-' x .. y '-]>' B" := (forall x, .. (forall y, A <-> B) ..)
+Notation "A '<[-' x .. y '-]>' B" := (∀ x, .. (∀ y, A ↔ B) ..)
   (at level 80, x binder, y binder, B at level 100, right associativity,
   format "'[ ' A '/' '[ ' <[- x .. y -]> ']' '/' B ']'") : formal_equiv.
 Example example_formal_equiv0 := (x = y) <[- (x y : Prop) -]> (y = x).

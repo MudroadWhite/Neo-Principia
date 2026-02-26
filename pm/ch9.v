@@ -7,55 +7,6 @@ Require Import PM.pm.ch5.
 
 (* TODO: Find a way to correctly express "argument in P is of the same type of argument in Q" *)
 
-(* TYPE RESTRICTIONS
-Type of theorems allowed: first order propositions
-Type of parameters allowed: from elementary propositions to first order propositions
-*)
-
-(* 
-Chapter 9 only demonstrates the quantified version of proofs in chapter 1 - 5. By 
-"demonstration" we can notice a few facts:
-- `∃` in this chapter is a primitive idea(that is, being assumed), not a constructed 
-  concept
-- most theorems in this chapter is completely unused in other chapters.
-
-The real alternative to chapter 9 is chapter 10. 
-
-What does chapter 9 demonstrate for? And why do we need 2 sets of theorems expressing 
-the same idea? Chapter 9 comes with 2 goals: the first one is, undoubtly, demonstrate the
-extended theorems. The 2nd goal is not formal, but provide the actual idea that chapter 
-10 relies on.
-
-Before explaining the 2nd goal, we recall how propositions in Principia are constructed:
-- The starting point for us could be a set of atomic propositions that cannot be further
-  divided, called "individual"s
-- These individuals can be concated with `¬` and `∨`
-- If we try to specify on one individual contained in a proposition as a variable, we 
-  get a function. In principia, function is obtained by using the `^` operator on a 
-  mere  proposition. That being said, functions are dependent on `¬` and `∨`
-- `∀` and `∃` propositions are dependent on, and directly generalized from 
-  functions. This is the only way to obtain them in Principia. 
-- To avoid Russell's paradox, these functions are not allowed to take these functions 
-  themselves as parameters.
-- The solution is specifying types for every propositions.
-
-The goal for the informal part in chapter 9:
-- Since it's not within the inference system, Principia writes the typing part in natural 
-  language
-- To avoid paradox/"Vicious Circle Principle", `¬` and `∨` have to be defined on elementary 
-  propositions and 1st order propositions separately(see example in p.129).
-- Now we prove that we can have `∨`s and `¬`s for every type, so that they can work as 
-  a primitive idea regardless of the type of the proposition. This procedure doesn't 
-  involve mathematical induction.
-- Finally we conclude that for any (elementary)function we can generalize to its quantified
-  version, which is being done at the end of the chapter.
-
-Every propositions, variables in chapter 9 are supposed to be elementary propositions,
-which doesn't contain any quantifiers. That being said, in a rigorous sense, 
-`P := ∀ x, F x` shouldn't be allowed, but `P := X ∨ Y` is allowed. Currently we didn't 
-pose any assertions on parameters being elementary propositions, and the proofscan be 
-high flawed on this restriction.
-*)
 (* ******** *)
 
 (* Definitions involving `¬` on 1st order props. Our current simulation doesn't emphasize
