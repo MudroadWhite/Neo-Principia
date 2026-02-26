@@ -48,7 +48,6 @@ As parameters, however, rules in (p.133) is flawed: if I have one individual for
 another for 1-order parameter, altogether for a 2-order function, will they still have the same type?
 Currently we only set Individual to order 0, but it is supposed to be of any order 
 *)
-Definition Individual := Order 0.
 
 (* EXPERIMENTAL: the predicate below serves merely just for "how an untyped function of PM should be
 defined in Rocq". Currently it is never used anywhere and only demonstrates an experimental idea *)
@@ -56,8 +55,7 @@ Definition Intro_untyped {A : Type} (s : string) : A -> Prop. Admitted.
 
 (* `Intro` Rocq predicates are used for introducing a term in the middle of the proof, which 
 is something specific for PM's proofs. Here we provide the version for individuals and predicates *)
-(* TODO: we can rename the `Intro_individual` back to `Individual` *)
-Definition Intro_individual (s : string) : Individual. Admitted.
+Definition Intro_individual (s : string) : Order 0. Admitted.
 
 (* For the same reason above, I believe that predicative functions coming fresh(after chapter 13) should 
 also be considered as individuals. TODO: This should be merged with `Intro_individual` *)
