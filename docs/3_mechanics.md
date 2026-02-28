@@ -141,10 +141,7 @@ Chapter 9's theorems are furthermore splitted into 2 parts for different purpose
 In contrast to "what will be when `∨` is applied to different propositions", `∀` and `∃` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `∀` and `∃` is therefore only one primitive proposition, stating how `∃` is defined(p.138), and the `∨` and `¬` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
 
 ### Chapter 11
-Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables. 
-
-TODO: 
-- extra typing rules
+Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables. This chapter also provides its own version of *modus ponens* for functions with 2 arguments.
 
 ### Chapter 12
 Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to think something like "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). 
@@ -192,11 +189,10 @@ By proving a theorem,
 - Functions are allowed to be *untyped*, taking a parameter and return a proposition of *unknown* order.
 
 ### Chapter 13
-TODO: 
-- just an identity 
-- discuss how it might use definition in ch12; state the utilization of `pred` variants
-- (p.22)`=` is not defined until chapter 13, and this is being explained in chapter II.
-- (p.57)explained a proof of identity `=` informally, only to be complete with the support of axiom of reducibility
+The first citation of chapter 12's axiom of reducibility appears at \*13.101 in this chapter. See audit's [related chapters](./5_audit.md/#chapter-12) for its in-depth analysis. The identity has to be defined at such a late chapter(p.22), because:
+1. Identity is built on functions
+2. Functions comes with different types within the hierarchy defined in chapter 12
+3. Axiom of Reducibility has to be used in the proof, also because of the hierarchy. Also see (p.57) for a informal reasoning on why it needs to be used
 
 ### Chapter 14
 This chapter begins with a significantly complicated symbol `(ιx)(φx)` to denote a *description*. Here are the reasons why this symbol is such complicated:
