@@ -11,10 +11,10 @@ Require Import PM.pm.ch13.
 Require Import PM.pm.ch14.
 
 (* TODO:
-- When starting eliminating the TODOs in this chapter, revisit the TODOs in previous chapters
 - When starting eliminating the TODOs, make a clear distinction between untyped functions 
   represented as `A -> Prop` and Predicative functions
-- For implicit `Phi`s, rename them with `IPhi` and same for any other occurences(??)
+- When starting eliminating the TODOs, for implicit `Phi`s, rename them with `IPhi` and same 
+  for any other occurences(??); address this naming convention in the documentation
 - Unify the convention for namings of class vaiables, by noticing things after `@`s
 *)
 
