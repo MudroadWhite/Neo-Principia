@@ -32,8 +32,8 @@ Similarly, `Theorem`s are used to define *theorems* in Principia, and are intend
 
 Every `Definition` or `Theorem` represents a proposition in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, which will be mostly discussed in the [tactics](./4_tactics.md) chapter; and *lhs* parameters are the real ones to *set a proposition up*.
 
-### 4.1. How does Principia instantiate a proposition?
-[mechanics](./3_mechanics.md/#how-does-principia-proof-theorems) has explained different situations for Principia to prove or apply a proposition. Regardless of the context, we are generally utilizing the Rocq's default.
+### 4.1. How does Principia apply a theorem?
+[mechanics](./3_mechanics.md/#how-does-principia-proof-theorems) has explained different situations for Principia to prove or apply a theorem. Regardless of the context, we are performing all the rewriting within Rocq.
 
 ### 4.2. Naming conventions
 We have naming conventions for propositions. A proposition usually is named with `nxx_yyy`, with `xx_yyy` the number appeared in Principia for that proposition. A few of them are additionally come with their names in the text, and in that case we will adapt the `n` prefix to the name. For example, `Id2_08`. 
@@ -41,11 +41,12 @@ We have naming conventions for propositions. A proposition usually is named with
 Now we come to naming conventions for (lhs) parameters.
 - Functions as parameters are supposed to be named as the same style of original text: either greek letters like `φ` or their upper-cased English equivalent like `Phi`.
 - Apparent variables are quantified variables in `∀`, `∃` and so on. As parameters, they're usually lower case literals like `x`.
-- Real variables are variables that can directly instantiated. They're usually upper case literals like `X`.
+- Real variables are variables that can directly used in the proofs. They're usually upper case literals like `X`.
+- Sometimes, functions might be introduced on purpose as *individuals* of higher order. These individuals are prefixed with `I` as in `Iφ`. For individual of order 0(just a proposition), although it is in the same naming convention as real variables, we're planning to use things like `IX` in the future to maintain a clear distinction.
 
 ## 5. What is `Notation`?
 As chapters push on, PM will have higher requirements on symbol definitions to model the math ideas. It turns out that `Notation`s in Rocq is the perfect tool for implementing them. For these notations, we might also have naming conventions on them. Below is the naming conventions for those special variables:
-- Individuals: Sometimes, functions might be introduced on purpose as individuals of higher order. These individuals are prefixed with `I` as in `Iφ`.
+- Descriptions: A description variable in PM usually looks like `(ιx)(φx)`, with its scope omitted. In our notation, it will be written explicitly with a scope, as the `ιφ` in `[ι φ | ιφ => f ιφ]` where `f` is a function.
 - More to be added...
 
 ## 6. What's under a single proof?

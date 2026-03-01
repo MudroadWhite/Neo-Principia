@@ -58,7 +58,7 @@ We have implemented the typing algorithm, but it is wrongly interpreted and will
 ### Chapter 11
 **Coverage: 100%**
 
-**General.** Chapter 11 is doing essentially the same as chapter 10, except expanding `∀` and `∃` from one variable to multiple vars. There isn't a lot of difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
+**General.** Chapter 11 is doing essentially the same as chapter 10, except expanding `∀` and `∃` from one variable to multiple vars. Same to chapter 9, generalization in this chapter is not designed as Ltac.
 
 The *of the same type* proposition in chapter 11 is unexamined. It will gain awareness when we're considering the typing algorithm.
 
