@@ -41,7 +41,7 @@ Principia has 3 types of theorems: `Pp`(primitive proposition), `Df`(definitions
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
-- Asserting `H2 : P -> Q` means asserting `P` can successfully imply `Q`
+- Asserting `H2 : P → Q` means asserting `P` can successfully imply `Q`
 - (\*1.1)If `H1` and `H2` are asserted true, we are allowed to assert `H3 : Q`
 
 In chapter 1 we also have a rough idea on how to denote a (elementary) *propositional function*. Such kind of simple denotation will be changed into something else in later chapters. In chapter 1-5, most propositional functions don't come barely themselves - their values for variables are somehow "fixed" already during all the inference, where `φ X` and `φ Y` does not mean the same thing(p.19).
@@ -57,7 +57,7 @@ Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
 Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
 - Asserting an (elementary) **propositional function** means asserting `H1 : φ X`.
-- (\*1.11)If `H2 : φ X -> ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
+- (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
 The role of \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
 
@@ -115,7 +115,7 @@ Later, a typing algorithm is given in this chapter, completely generating the hi
 The typing algorithm is described both in name and in the style of "of the same type"(\*9.131). Basically the type information entails the order and the kind("is it a function or a proposition?") of the expression. This typing algorithm will prevent constructions such as `P P`(p.40).
 1. **Individual.** All individuals have a `Individual` type. (p.162)Individuals are supposed to be some *specific fixed value*s
 2. **EProp.** All elementary propositions have a `EProp` type
-3. **EFunc.** Arguments: types of parameters. PM doesn't actually have the idea of `->` types, but it's quite obvious `->` types are the best abstraction. Elementary functions should have same type if 
+3. **EFunc.** Arguments: types of parameters. PM doesn't actually have the idea of `→` types, but it's quite obvious `→` types are the best abstraction. Elementary functions should have same type if 
     1. e-func A is obtained through `¬` on e-func B
     2. e-func A is obtained through `∨` on e-func B and C 
     3. They take same number of arguments, and each of argument is same in type
@@ -141,10 +141,7 @@ Chapter 9's theorems are furthermore splitted into 2 parts for different purpose
 In contrast to "what will be when `∨` is applied to different propositions", `∀` and `∃` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `∀` and `∃` is therefore only one primitive proposition, stating how `∃` is defined(p.138), and the `∨` and `¬` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
 
 ### Chapter 11
-Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables. 
-
-TODO: 
-- extra typing rules
+Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables. This chapter also provides its own version of *modus ponens* for functions with 2 arguments.
 
 ### Chapter 12
 Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to think something like "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). 
@@ -153,16 +150,16 @@ The consideration for the hierarchy starts with *matrices* for generating *funct
 
 ```Rocq
 (* (p.163)This is a matrix with 2 real variables. It's also a function, and it's even predicative. *lhs* parameter of this definition is now in serious consideration *)
-Example example_matrix_1 (X : Prop) (φ : Prop -> Prop) := φ X.
+Example example_matrix_1 (X : Prop) (φ : Prop → Prop) := φ X.
 
 (* This is a function with 1 real variable and 1 apparent variable. It's not a matrix *)
-Example example_function_1 (φ : Prop -> Prop) := ∀ (x : Prop), φ x.
+Example example_function_1 (φ : Prop → Prop) := ∀ (x : Prop), φ x.
 
 (* This is another function with 1 real variable and 1 apparent variable. It has a different type from the previous function *)
-Example example_function_2 (X : Prop) := ∀ (φ : Prop -> Prop), φ X.
+Example example_function_2 (X : Prop) := ∀ (φ : Prop → Prop), φ X.
 
 (* This is a proposition with 2 apparent variables. It is *not* a function anymore *)
-Example example_proposition := ∀ (x : Prop) (φ : Prop -> Prop), φ x.
+Example example_proposition := ∀ (x : Prop) (φ : Prop → Prop), φ x.
 ```
 
 - **Predicative function** is synonym as **matrices**(p.164). Predicative function of `a` where `a`'s order is n, though, refers to a matrix of order n+1.
@@ -178,7 +175,7 @@ Several comments on matrices and functions:
 There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). Is it really that *there are no propositions containing real variables*, as [Wittgenstein](https://wittgensteinproject.org/w/index.php/Notes_on_Logic) have said? We don't really know, but let's just vibe with the [examples](./3_mechanics.md/#chapter-12). One crucial difference between real and apparent variables, though, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
 
 Axiom of Reducibility is introduced in this chapter for 2 reasons:
-1. (p.49)When we define `x = y` as `∀ φ, φ x -> φ y`, assuming it is untyped, we might still have `φ := fun x => (∀ φ, φ x -> φ y)` or `φ := fun y => ∀ φ, φ x -> φ y`. In order words for `fun x => φ x`, `fun x => (∀ φ, φ x -> φ a)` has been a value that needs to be avoided. 
+1. (p.49)When we define `x = y` as `∀ φ, φ x → φ y`, assuming it is untyped, we might still have `φ := fun x => (∀ φ, φ x → φ y)` or `φ := fun y => ∀ φ, φ x → φ y`. In order words for `fun x => φ x`, `fun x => (∀ φ, φ x → φ a)` has been a value that needs to be avoided. 
 2. On the other hand, sometimes we want to speak of as "many" functions as we can. It turns out that, while we cannot precisely say all functions of a parameter `a`, but we can say all `n`-order functions of a parameter `a` and set `n` to infinity.
 
 For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => φ a` with `φ` of order `n`, we can simulate with a predicate function `fun a => ψ a`. The predicativity of `ψ` here means it is just 1-order higher than `a`, and we are assuming *this `ψ` exists*. 
@@ -192,11 +189,10 @@ By proving a theorem,
 - Functions are allowed to be *untyped*, taking a parameter and return a proposition of *unknown* order.
 
 ### Chapter 13
-TODO: 
-- just an identity 
-- discuss how it might use definition in ch12; state the utilization of `pred` variants
-- (p.22)`=` is not defined until chapter 13, and this is being explained in chapter II.
-- (p.57)explained a proof of identity `=` informally, only to be complete with the support of axiom of reducibility
+The first citation of chapter 12's axiom of reducibility appears at \*13.101 in this chapter. See audit's [related chapters](./5_audit.md/#chapter-12) for its in-depth analysis. The identity has to be defined at such a late chapter(p.22), because:
+1. Identity is built on functions
+2. Functions comes with different types within the hierarchy defined in chapter 12
+3. Axiom of Reducibility has to be used in the proof, also because of the hierarchy. Also see (p.57) for a informal reasoning on why it needs to be used
 
 ### Chapter 14
 This chapter begins with a significantly complicated symbol `(ιx)(φx)` to denote a *description*. Here are the reasons why this symbol is such complicated:
