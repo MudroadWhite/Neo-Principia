@@ -64,7 +64,7 @@ Running the project:
 make
 ```
 
-The `Makefile` for `make` is supposed to automatically detect all `.v` files under the `pm` folder, generate the `_CoqProject` file and compile the whole folder.
+The awesome `Makefile` gathered from this [awesome repo](https://github.com/formal-land/rocq-of-rust), is supposed to automatically detect all `.v` files under the `pm` folder, generate the `_CoqProject` file and compile the whole folder. This is done without deploying the project with `dune` environment.
 
 (Minimum requirement for Coq is currently under investigation)
 
