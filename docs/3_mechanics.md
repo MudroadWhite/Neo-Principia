@@ -78,8 +78,8 @@ By proving a theorem, we mean:
 ### Chapter 2
 While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
 
-- `[x, y, z]` is called a **citation** for every step of assertion in a proof.
-  - In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
+- For general rules on citation, see related paragraphs in [How does Principia proof theorems?](./3_mechanics.md/#how-does-principia-proof-theorems).
+- In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
 - Citations for modus ponens and syllogism will generally be omitted.
 
 ### Chapter 3
@@ -126,6 +126,7 @@ The typing algorithm is described both in name and in the style of "of the same 
         2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
    Note that not all proposition of same order proposition have the same type, because of the types of functions.
 5. **Untyped function.** Argument: unknown. Although it is completely not within the "of the same type" algorithm, it has been practically used throughout the text, and is implicitly allowed, getting even greater awareness(as well as confusion) in later chapters. If we want to build a type system however, it seems that we have to expose its nature from a modern view to go further on. For the same reason, there might be *untyped propositions* constructed on these function as well...
+6. **Constants.** For something more specific, constants are some letters that shouldn't be treated as a variable, and is allowed to be appeared in functions. In our implementation such distinction is very hard to make a difference.
 
 By proving a theorem in chapter 9 - 11, we mean:
 - Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
@@ -163,7 +164,7 @@ Example example_function_2 (X : Prop) := ∀ (φ : Prop → Prop), φ X.
 Example example_proposition := ∀ (x : Prop) (φ : Prop → Prop), φ x.
 ```
 
-- **Predicative function** is synonym as **matrices**(p.164). Predicative function of `a` where `a`'s order is n, though, refers to a matrix of order n+1.
+- **Predicative function** is synonym as **matrices**(p.164). Predicative function of `a` where `a`'s order is n, though, strictly refers to a matrix of order n+1.
 - **Matrices** are built on **matrices** of a 1-level lower order.
 - **Functions** are built on **matrices**, with *not all* of its variables generalized(p.14)
 - **Propositions** are built on **matrices**, with *all* possible variables generalized
