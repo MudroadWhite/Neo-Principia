@@ -37,7 +37,7 @@ We now start explaining what new ideas are being introduced into each of the cha
 
 ## Chapters
 ### Chapter 1
-Principia has 3 types of theorems: `Pp`(primitive proposition), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq - currently with their parameter types unchecked because we didn't implement it yet.
+Principia has 3 types of theorems: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq - currently with their parameter types unchecked because we didn't implement it yet.
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
@@ -132,7 +132,7 @@ By proving a theorem in chapter 9 - 11, we mean:
 - Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
 - All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
 - *Modus ponens* is already at its maximum strength
-- *Generalization* can only be performed on *individual*s, being already atomic in the current expression
+- *Generalization* can only be performed on *individual*s, being already atomic in the current expression. Note that currently we didn't implement generalization as a `Ltac`, and to fit better into the text, we should actually implement such tactic.
 - Fresh *individual*s can be introduced in the middle of the proof on need
 
 Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
