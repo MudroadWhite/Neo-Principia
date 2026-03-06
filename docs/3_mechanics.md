@@ -152,7 +152,7 @@ The consideration for the hierarchy starts with *matrices* for generating *funct
 
 ```Rocq
 (* (p.163)This is a matrix with 2 real variables. It's also a function, and it's even predicative. *lhs* parameter of this definition is now in serious consideration *)
-Example example_matrix_1 (X : Prop) (φ : Prop → Prop) := φ X.
+Example example_matrix (X : Prop) (φ : Prop → Prop) := φ X.
 
 (* This is a function with 1 real variable and 1 apparent variable. It's not a matrix *)
 Example example_function_1 (φ : Prop → Prop) := ∀ (x : Prop), φ x.
