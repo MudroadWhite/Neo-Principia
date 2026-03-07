@@ -193,6 +193,11 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 Initially it caused some confusion for us to implement such symbol in our implementation, but eventually we find out the `Notation` system in Rocq works just fine, and it turns out that all future symbols seems to not going anywhere more complicated. 
 
 ### Chapter 20
+The first thing to mention about this chapter is the role of \*20.02(p.188). We unfold the proofs in PM in deeper expansion:
+1. `x∈(z^φz)` is a function of `φ`
+2. If we pick this function as the `f` in \*20.01, we obtain `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ (x ∈ φ)`. The `x` at the rightmost cannot be renamed into anything else because it is the `x` defined in the "function" we are using.
+3. In this form, we "patch" the expression with \*20.02, matching exactly the rightmost sub expression, and rewriting the whole expression into `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ φ x`, and then make a slight reordering.
+
 TODO: 
 - A newer hierarchy to be "practical" to use
 - ambiguity on the interpretation for `φ ! x` where we don't know if `!` stands for predicate or just the function as the focus
