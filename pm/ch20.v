@@ -124,6 +124,25 @@ in the definitions
 Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop.
 Admitted.
 
+(* 
+*20.01: f{^z => Phi z} = exists Phi, Phi x <-x-> Psi x /\ f(Phi)
+
+*20.02: x <- {Phi} = Phi x
+
+x <- {^z => Phi z} <-> exists Phi, Psi y <-y-> Phi y /\ Phi x
+
+*12.1: exists f, (φ x) <[- x -]> (f x).
+
+x <- {^z => Psi z} <-> Psi x
+
+
+
+
+
+*)
+
+
+
 Definition Cls : Prop. Admitted.
 
 Open Scope debug_class_notation.
