@@ -10,6 +10,12 @@ Require Import PM.pm.ch12.
 Require Import PM.pm.ch13.
 Require Import PM.pm.ch14.
 
+(* NOTE: to be added to `audit`:
+- f has the ambiguity to take in different "kind"s of things, because these kinds are defined 
+  to be the same thing; doubt if this is a bug rather than a feature; TODO: reexamine if this 
+  statement is true
+*)
+
 (* TODO:
 - When starting eliminating the TODOs, make a clear distinction between untyped functions 
   represented as `A -> Prop` and Predicative functions
@@ -82,10 +88,18 @@ Module Experimental.
     (at level 150, classname binder, right associativity).
 End Experimental.
 
-(* Class determined by *function* Phi...is this definition correct? I am so confused
-  about when should we use `function`s or `predicate`s. 
-TODO: make sure the correct type is indeed Prop -> Prop, not A -> Prop
-TODO: See if we need to add an extra definition for Args *)
+(* 
+TODO: 
+- redefine \*20.01 more rigorously as "function application on class"
+- make it clear when should function apply on class and on normal functions
+- link with \*20.02
+- notation of [z ^ Phi z] should support expression such as [z ^ Phi z] = [z ^ Psi z]
+
+*)
+
+
+
+(* Class determined by *function* Phi *)
 Definition Class {A : Type} (Phi : A -> Prop) : Type := Prop -> Prop.
 Example class_example := Class (fun (x : Prop) => x = x).
 (* An example to show that this definition doesn't strictly distinguish
@@ -123,25 +137,6 @@ in the definitions
 *)
 Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop.
 Admitted.
-
-(* 
-*20.01: f{^z => Phi z} = exists Phi, Phi x <-x-> Psi x /\ f(Phi)
-
-*20.02: x <- {Phi} = Phi x
-
-x <- {^z => Phi z} <-> exists Phi, Psi y <-y-> Phi y /\ Phi x
-
-*12.1: exists f, (φ x) <[- x -]> (f x).
-
-x <- {^z => Psi z} <-> Psi x
-
-
-
-
-
-*)
-
-
 
 Definition Cls : Prop. Admitted.
 
