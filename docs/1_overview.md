@@ -20,8 +20,18 @@ I started this project by
 - [x] Simplifying, bug-picking chapter 1 - 5, cutting down \~1k LoC in total
 - [x] Summary on rest of the works can be found at the beginning of [mechanics](./3_mechanics.md).
 
-## Project goal and milestones
-**Ongoing: Plan on finishing Class-related chapters, starting from chapter 20.** Implementing classes and relations should symbolize the availability to express everything in Principia.
+## Project status
+We are building: 
+- [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic demonstration for a predicate called "IsSameType". Support for instantiating individuals.
+- [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable.
+- [x] Chapter 11 - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
+- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Order` predicate.
+- [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
+- [x] Chapter 14 - Notation `ι` of the descriptions. Theorems on them.
+- [ ] \[WIP\]Chapter 20 - Notation on class, and theorems of classes.
+
+### Milestones
+**Ongoing: Finish chapter 20** Implementing classes and relations should symbolize the availability to express everything in Principia. I believe that correctly implementing class will also be a very important feature, and maybe eliminate the difficulty for PM once and for all.
 
 **2026.02:** Chapter 14, the first chapter with an *incomplete/context based* symbol(the description), has been finished. Finishing these chapters involves both new context for theorems to be assumed, and more complicated symbols to be defined. Also, we have finished the complete documentation from chapter 1 to 14. This project has been mature enough to be examined by everyone, and viewers should find it way easier to comprehend and participate into criticisms towards Principia.
 

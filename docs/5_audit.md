@@ -93,6 +93,6 @@ On its first citation in \*13.101, it has been considered that AoR not only expr
 **General.** As the definition of chapter 14 more complicated than any definitions in previous chapters, we are realizing that symbol definitions through `Df` should be best implemented with the `Notation` system in Rocq.
 
 ### Chapter 20
-**Coverage: WORKING IN PROGRESS**
+**Coverage: WIP**
 
 **General.** TODO: types has become complicated... refer to Randall's work, discuss how should we consider the types
