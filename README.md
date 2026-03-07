@@ -20,10 +20,9 @@ Compatability.
 ## Are you sure the code/proof is 100% correct?
 No. Successful `Qed`s are still false positives, due to a lot of delicate details. For example: 
 - `Ltac` isn't well designed
-- We simplified some primitive propositions and merged them as a whole
 - Some propositions are written in natural language
 - I didn't deeply examine the code in chapter 1 - 5
-- Our current implementation doesn't enforce the correct types on PM terms.
+- Our current implementation doesn't enforce types on propositions.
 
 ## Can Principia Mathematica be completely formalized?
 Yes.
@@ -41,7 +40,7 @@ Beneath the code and down to the core, the difficulty in formalization is how PM
 
 [This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) seems to arrive at similar observations. See paper in the repo on its in-depth discussions of PM's functions.
 
-Currently, we are using *shallow embedding* to express Principia Mathematica as much as we can. While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the simplifications appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*. See [project goal and milestones](./docs/1_overview.md/#project-goal-and-milestones) for further details.
+Currently, we are using *shallow embedding* to express Principia Mathematica as much as we can. While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the ambiguity appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*. See [project goal and milestones](./docs/1_overview.md/#project-goal-and-milestones) for further details.
 
 As the most central idea, can we type every proposition in Principia? Within our reach, a plan to write the typing program in Rocq has started at slow speed, and *deep embedding for Principia Mathematica seems to be feasible*.
 

@@ -31,6 +31,11 @@ The core of symbol definition, *definitional equality*, is undefined, as discuss
 
 Critics above suggest there might be freedom for us to design a different type system that is closer to Rocq type system.
 
+**Orders**. We have the orders in our current implementation, but it works mostly like a tag and doesn't involve actual typechecking. One can easily check its strength by tying to prove the following proposition
+```coq
+Goal Order 0 = Order 1.
+```
+
 **Informal propositions.** For informal propositions through the chapters, we are generally assuming that they are not implemented, as the implementation of most of them rely on a complete typing algorithm for PM.
 
 **Sheffer strokes and other updates for 2nd edition.** We are aware that 2nd edition is a ["patched" version](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) of Principia and Russell has tried to simplify the primitive ideas further down, with one of which being the Sheffer stroke `|` to further denote `¬` and `∨`, in a hidden chapter 8. We are aware that Russell eventually realized that the distinction between real and apparent variable might not be necessary. We still prefer to ignore most of the *Introduction* chapter and proceed with what has written in the most of the chapters, as this is the easiest way to maintain most of the flavor in the proofs.
