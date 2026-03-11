@@ -1,15 +1,4 @@
 # Mechanics of Principia Mathematica
-We are building: 
-- [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic demonstration for a predicate called "IsSameType". Support for instantiating individuals.
-- [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable.
-- [x] Chapter 11 - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
-- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Order` predicate.
-- [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
-- [x] Chapter 14 - Notation `ι` of the descriptions. Theorems on them.
-- [ ] \[WIP\]Chapter 20 - Notation on class, and theorems of classes.
-
-We now proceed to explain how everything is built up in Principia.
-
 ## Basic setups
 ### How to read the propositions in Principia?
 Principia Mathematica uses *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and they surprisingly never go wrong. One can even understand the priority at ease with the indentations, without much on dot notations.
@@ -37,7 +26,7 @@ We now start explaining what new ideas are being introduced into each of the cha
 
 ## Chapters
 ### Chapter 1
-Principia has 3 types of theorems: `Pp`(primitive proposition), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq - currently with their parameter types unchecked because we didn't implement it yet.
+Principia has 3 types of theorems: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq - currently with their parameter types unchecked because we didn't implement it yet.
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
@@ -78,8 +67,8 @@ By proving a theorem, we mean:
 ### Chapter 2
 While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
 
-- `[x, y, z]` is called a **citation** for every step of assertion in a proof.
-  - In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
+- For general rules on citation, see related paragraphs in [How does Principia proof theorems?](./3_mechanics.md/#how-does-principia-proof-theorems).
+- In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
 - Citations for modus ponens and syllogism will generally be omitted.
 
 ### Chapter 3
@@ -94,7 +83,7 @@ This chapter collects miscellaneous theorems of operators appeared in previous c
 ### Chapter 9
 Propositions in this chapter starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
 - Generalization: the main technique to turn a *elementary proposition* into an *elementary function*
-- *Individual*s: a placeholder, a very specific value, an unnamed constant, for a proposition to be generalized into a function or to assert a function during the proof. Sometimes individual seems to just mean something that we cannot further destructed in current denotation, whether it is a proposition, function or matrix. *These meanings are used mutually throughout the text.*
+- *Individual*s: a placeholder, a very specific value, an unnamed constant, for a proposition to be generalized into a function or to assert a function during the proof. Sometimes individual seems to just mean something that we cannot further destructed in current denotation, whether it is a proposition, function or matrix(see [chapter 12](./3_mechanics.md/#chapter-12)). *These meanings are used mutually throughout the text.*
 
 This chapter presents the only way for 1st order propositions to be constructed: generalizing from *elementary functions*. Combining with [chapter 1](./3_mechanics.md/#chapter-1) we are getting the following rules:
 
@@ -125,12 +114,14 @@ The typing algorithm is described both in name and in the style of "of the same 
         1. Have exactly 1 parameter
         2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
    Note that not all proposition of same order proposition have the same type, because of the types of functions.
+5. **Untyped function.** Argument: unknown. Although it is completely not within the "of the same type" algorithm, it has been practically used throughout the text, and is implicitly allowed, getting even greater awareness(as well as confusion) in later chapters. If we want to build a type system however, it seems that we have to expose its nature from a modern view to go further on. For the same reason, there might be *untyped propositions* constructed on these function as well...
+6. **Constants.** For something more specific, constants are some letters that shouldn't be treated as a variable, and is allowed to be appeared in functions. In our implementation such distinction is very hard to make a difference.
 
 By proving a theorem in chapter 9 - 11, we mean:
 - Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
 - All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
 - *Modus ponens* is already at its maximum strength
-- *Generalization* can only be performed on *individual*s, being already atomic in the current expression
+- *Generalization* can only be performed on *individual*s, being already atomic in the current expression. Note that currently we didn't implement generalization as a `Ltac`, and to fit better into the text, we should actually implement such tactic.
 - Fresh *individual*s can be introduced in the middle of the proof on need
 
 Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
@@ -146,11 +137,11 @@ Chapter 11's main purpose is extending functions with 1 variables to 2 variables
 ### Chapter 12
 Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to think something like "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). 
 
-The consideration for the hierarchy starts with *matrices* for generating *functions*, where the *function*'s definition has been changed(and both the old and new meaning of "function" is used mutually in the text!) - they are what expressions generated by a matrix. (p.164)1-order matrix retains the complete power as an elementary function under this hierarchy(does this claim also hold for n-order matrices?).
+The consideration for the hierarchy starts with *matrices* for generating *functions*, where the *function*'s definition has been changed(and both the old and new meaning of "function" is used mutually in the text!) - they are what expressions generated by a matrix. (p.164)1-order matrix retains the complete power as an elementary function under this hierarchy(Personal question: does this claim also hold for n-order matrices?).
 
 ```Rocq
 (* (p.163)This is a matrix with 2 real variables. It's also a function, and it's even predicative. *lhs* parameter of this definition is now in serious consideration *)
-Example example_matrix_1 (X : Prop) (φ : Prop → Prop) := φ X.
+Example example_matrix (X : Prop) (φ : Prop → Prop) := φ X.
 
 (* This is a function with 1 real variable and 1 apparent variable. It's not a matrix *)
 Example example_function_1 (φ : Prop → Prop) := ∀ (x : Prop), φ x.
@@ -162,7 +153,7 @@ Example example_function_2 (X : Prop) := ∀ (φ : Prop → Prop), φ X.
 Example example_proposition := ∀ (x : Prop) (φ : Prop → Prop), φ x.
 ```
 
-- **Predicative function** is synonym as **matrices**(p.164). Predicative function of `a` where `a`'s order is n, though, refers to a matrix of order n+1.
+- **Predicative function** is synonym as **matrices**(p.164). Predicative function of `a` where `a`'s order is n, though, strictly refers to a matrix of order n+1.
 - **Matrices** are built on **matrices** of a 1-level lower order.
 - **Functions** are built on **matrices**, with *not all* of its variables generalized(p.14)
 - **Propositions** are built on **matrices**, with *all* possible variables generalized
@@ -202,6 +193,11 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 Initially it caused some confusion for us to implement such symbol in our implementation, but eventually we find out the `Notation` system in Rocq works just fine, and it turns out that all future symbols seems to not going anywhere more complicated. 
 
 ### Chapter 20
+The first thing to mention about this chapter is the role of \*20.02(p.188). We unfold the proofs in PM in deeper expansion:
+1. `x∈(z^φz)` is a function of `φ`
+2. If we pick this function as the `f` in \*20.01, we obtain `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ (x ∈ φ)`. The `x` at the rightmost cannot be renamed into anything else because it is the `x` defined in the "function" we are using.
+3. In this form, we "patch" the expression with \*20.02, matching exactly the rightmost sub expression, and rewriting the whole expression into `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ φ x`, and then make a slight reordering.
+
 TODO: 
 - A newer hierarchy to be "practical" to use
 - ambiguity on the interpretation for `φ ! x` where we don't know if `!` stands for predicate or just the function as the focus

@@ -23,9 +23,18 @@ The core of symbol definition, *definitional equality*, is undefined, as discuss
 **Types.** Although we won't implement the typing algorithm immediately, there are still worthy comments to be made. We are aware that
 1. PM doesn't have `→` type, and the typing algorithm seems to have struggled to type the functions.
 2. PM also struggles at defining proposition's type: while same order propositions generalized from different types of arguments will not have the same type(p.162), it is supposed to be "practically ignored"(p.162).
-3. On the very other hand, individuals, potentially being instantiated as propositions different order, all share the same type. The type for these individuals is good enough, with the consideration that individuals are, actually, the *lowest order entity for an expression*, but it is not clearly stated in the text whether individuals can have different orders in the same proposition.
+3. On the very other hand, individuals, potentially being instantiated as propositions different order, all share the same type. There are several things to make clear for individuals:
+    1. Individuals are supposed to be "specific value"s, by which perhaps it means "just like a constant". As "specific value"s, they are not supposed to be instantiated and substituted with something else. Their value seems to be already settled down and the only way to use them are generalizing them into an apparent variable. 
+    2. Due to its ambiguity, our understanding is slightly different from [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT). We see individuals as constants; Randall's sees them as the simplest propositions. In our current implementation, constants still have to be manually passed in as a function parameter. I am guessing if individual's meaning has also been secretly changed in later chapters...(???)
+    3. We also think our current way to pass in an individual might be actually the way to introduce a constant, and a renaming to the `Individual` type seems to be necessary as a future plan.
+    4. The type for these individuals is good enough, with the consideration that individuals are, actually, the *lowest order entity for an expression*, but it is not clearly stated in the text whether individuals can have different orders in the same proposition.
 
 Critics above suggest there might be freedom for us to design a different type system that is closer to Rocq type system.
+
+**Orders**. We have the orders in our current implementation, but it works mostly like a tag and doesn't involve actual typechecking. One can easily check its strength by tying to prove the following proposition
+```coq
+Goal Order 0 = Order 1.
+```
 
 **Informal propositions.** For informal propositions through the chapters, we are generally assuming that they are not implemented, as the implementation of most of them rely on a complete typing algorithm for PM.
 
@@ -58,7 +67,7 @@ We have implemented the typing algorithm, but it is wrongly interpreted and will
 ### Chapter 11
 **Coverage: 100%**
 
-**General.** Chapter 11 is doing essentially the same as chapter 10, except expanding `∀` and `∃` from one variable to multiple vars. There isn't a lot of difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
+**General.** Chapter 11 is doing essentially the same as chapter 10, except expanding `∀` and `∃` from one variable to multiple vars. Same to chapter 9, generalization in this chapter is not designed as Ltac.
 
 The *of the same type* proposition in chapter 11 is unexamined. It will gain awareness when we're considering the typing algorithm.
 
@@ -89,6 +98,6 @@ On its first citation in \*13.101, it has been considered that AoR not only expr
 **General.** As the definition of chapter 14 more complicated than any definitions in previous chapters, we are realizing that symbol definitions through `Df` should be best implemented with the `Notation` system in Rocq.
 
 ### Chapter 20
-**Coverage: WORKING IN PROGRESS**
+**Coverage: WIP**
 
 **General.** TODO: types has become complicated... refer to Randall's work, discuss how should we consider the types
