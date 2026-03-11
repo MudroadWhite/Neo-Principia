@@ -56,21 +56,6 @@ uses another class?
 Declare Scope debug_class_notation.
 
 Module Experimental.
-  (* ATTEMPT 1 *)
-  (* Idea: design a dependent type version of Class to contain the information *)
-
-  (* ATTEMPT 2 - we only demonstrate the idea because it's not very different
-    from using inductive types on this purpose *)
-  Module ClassRecord.
-    Record t := {
-      (* The actual function in the class *)
-      class_get : Prop -> Prop;
-    }.
-  End ClassRecord.
-
-  (* ATTEMPT 3: Inductive type def. The advantage of this definition is that 
-  it provides better composision, but defs in Principia are exactly defined
-  in such an uncomposinional way *)
   Inductive ClassInductive {A : Type} :=
     | classind_mk (Phi : A -> Prop) 
   .
