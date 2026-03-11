@@ -31,7 +31,7 @@ The core of symbol definition, *definitional equality*, is undefined, as discuss
 
 Critics above suggest there might be freedom for us to design a different type system that is closer to Rocq type system.
 
-**Orders**. We have the orders in our current implementation, but it works mostly like a tag and doesn't involve actual typechecking. One can easily check its strength by tying to prove the following proposition
+**Orders**. We have the orders in our current implementation, but it works mostly like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
 ```coq
 Goal Order 0 = Order 1.
 ```
@@ -52,7 +52,7 @@ Goal Order 0 = Order 1.
 
 We have implemented the typing algorithm, but it is wrongly interpreted and will not be used anywhere.
 
-\*9.13, the generalization assumption, according to the text, is to be performed without `MP`. Our current design is modeling this assumption with a `→`, leading to unnecessary `MP`s on `n9_13`. Note that `if...then` written in natural language in PM is not something the same as `→`, in that `→` is defined through `∨` and `¬`.
+**Missing tactic: generalization.** \*9.13, the generalization assumption, according to the text, should be performed without `MP`. Our current design is modeling this assumption with a `→`, leading to unnecessary `MP`s on `n9_13`. Note that `if...then` written in natural language in PM is not something the same as `→`, in that `→` is defined through `∨` and `¬`.
 
 **Functions.** For our soft embedding, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will reveal higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop → Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we move on.
 
