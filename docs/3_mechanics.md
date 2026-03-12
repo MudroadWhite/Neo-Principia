@@ -198,7 +198,7 @@ The first thing to mention about this chapter is the role of \*20.02(p.188). We 
 2. If we pick this function as the `f` in \*20.01, we obtain `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ (x ∈ φ)`. The `x` at the rightmost cannot be renamed into anything else because it is the `x` defined in the "function" we are using.
 3. In this form, we "patch" the expression with \*20.02, matching exactly the rightmost sub expression, and rewriting the whole expression into `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ φ x`, and then make a slight reordering.
 
-Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq. (TODO: to be continued...)
+Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq. (TODO: to be continued...in audit)
 
 TODO: 
 - A newer hierarchy to be "practical" to use
