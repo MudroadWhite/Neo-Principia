@@ -204,6 +204,7 @@ TODO:
 - A newer hierarchy to be "practical" to use
 - ambiguity on the interpretation for `φ ! x` where we don't know if `!` stands for predicate or just the function as the focus
 - Mixed symbol definitions making it hard to distinguish
+- "ambiguity of function types for symbol definitions..."
 
 ## See Also
 - https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html
