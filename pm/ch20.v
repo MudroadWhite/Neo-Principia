@@ -1,4 +1,4 @@
-Require Import PM.pm.lib.
+(* Require Import PM.pm.lib.
 Require Import PM.pm.ch1.
 Require Import PM.pm.ch2.
 Require Import PM.pm.ch3.
@@ -588,4 +588,4 @@ Admitted.
 Close Scope formal_equiv.
 Close Scope formal_impl.
 Close Scope debug_iota_description_poly.
-Close Scope debug_class_notation.
+Close Scope debug_class_notation. *)

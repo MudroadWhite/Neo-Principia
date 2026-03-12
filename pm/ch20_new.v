@@ -52,131 +52,57 @@ what should be the type for an argument? What should be the type for a predicate
 by us to contain the necessary information for a symbol)? What will happen if a class
 uses another class?
 *)
-
-Declare Scope debug_class_notation.
-
-Module Experimental.
-  Inductive ClassInductive {A : Type} :=
-    | classind_mk (Phi : A -> Prop) 
-  .
-  Example classinductive_example := classind_mk (fun (x : Prop) => x = x).
-
-  Notation "[ '^ind' z => B ]" := (classind_mk (fun z => B))
-    (at level 130, z binder, right associativity).
-
-  Example test_destruct_ind := 
-    let '(classind_mk p) := classinductive_example in p.
-
-  (* We can see here `f` is just a normal function taking `Prop -> Prop` 
-  as its argument, but such way of our formalization on class will fail
-  to utilize the ambiguity of types for f *)
-  Definition classind_app {A : Type} (f : (A -> Prop) -> Prop) (cls : @ClassInductive A) 
-    : Prop.
-  Admitted.
-
-  (* Notice hoe we can reuse the definition of `classind_ mk` *)
-  Notation "[ cls @ classname => Bf ]" := 
-    (let '(classind_mk Phi) := cls in
-      (classind_app Phi (fun (classname : Prop -> Prop) => Bf)))
-    (at level 150, classname binder, right associativity).
-End Experimental.
+Declare Scope debug_class.
+Declare Scope class.
 
 (* 
-TODO: 
-- redefine \*20.01 more rigorously as "function application on class"
-- make it clear when should function apply on class and on normal functions
-- link with \*20.02
-- notation of [z ^ Phi z] should support expression such as [z ^ Phi z] = [z ^ Psi z]
+Failed attempts:
+- Defining `Class` as (A, Phi)
+- Defining `Class` as inductive type
+- Defining `Class` only using functions
 *)
+Module Class.
+  Record t {A : Type} : Type := {
+    (* For storing the A type *)
+    get_A : Type;
+    get_func : A -> Prop;
+  }.
+  Definition mk {A : Type} (Phi : A -> Prop) := Build_t A A Phi.
+End Class.
 
-(* Class determined by *function* Phi *)
-Definition Class {A : Type} (Phi : A -> Prop) : Type := A -> Prop.
-Example class_example := Class (fun (x : Prop) => x = x).
-(* An example to show that this definition doesn't strictly distinguish
-between different functions. A better way to design this might be using dependent type *)
-Example class_eq_example (Phi Psi : Prop -> Prop) : Class Phi = Class Psi.
-Proof. reflexivity. Qed.
+Example class_example_1 := Class.mk (fun (x : Prop) => x = x).
+Example class_mk_destruct_example := 
+  class_example_1.(Class.get_func).
 
-Definition class_mk {A : Type} (Phi : A -> Prop) : Class Phi. Admitted.
-Example class_mk_example := class_mk (fun (x : Prop) => x = x).
+(* This should be the correct way to define application on class *)
+Definition class_app {A B : Type} (f : (A -> Prop) -> B) (cls : @Class.t A) : B. Admitted.
 
-(* 
-Note that we are utilizing the fact that `f` can be both a function
-taking a normal function as param, and a function dedicated to take
-a class as a parameter. This is also how it works for descriptions
-
-It seems that whatever the predicate is, its eventual type should be `Prop`
-rather than anything like `Prop -> Prop`... maybe there will be a better clue
-in the future how to design this type
-*)
-(* NOTE: here cf should be type of Class Phi but we reduced to A -> Prop immediately
-TODO: figure out a better way *)
-Definition class_app {A : Type} (cf : A -> Prop) (f : (A -> Prop) -> Prop) : Prop. 
-Admitted.
-Example class_app_example := class_app (fun (x : Prop) => x = x)
-  (fun p => p = p).
-
-Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop.
-Admitted.
+(* NOTE: according to *20.02, `in` needs to be interpreted as a function working directly
+on the underlying function `Phi` *)
+Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop. Admitted.
 
 Definition Cls : Prop. Admitted.
 
-Open Scope debug_class_notation.
+Open Scope debug_class.
 
-Notation "[ ^ z => B ]" := (class_mk (fun z => B))
-  (at level 130, z binder, right associativity): debug_class_notation.
-Example class_mk_example1 := [^ (z : Prop) => z = z].
-Example class_mk_example2 := [^ (z : Prop -> Prop) => z = z].
-Example class_mk_example3 := [^ (z : (Prop -> Prop) -> (Prop -> Prop)) 
-  => z = z].
-(* This example should indeed never work. We shoudn't allow nesting for 
-this notation as it should be something for functions to do *)
-Fail Example class_mk_example4 := [^ (z : Prop -> Prop) => 
-  [^ (x : ((Prop -> Prop) -> (Prop -> Prop))) => x z = x z]].
+Notation "'^' z => B" := (Class.mk (fun z => B))
+  (at level 130, z binder, right associativity) : debug_class.
+Example class_example_2 := ^ (z : Prop) => z = z.
 
-(* This kind of representation suffers a lack of compositional property,
-with the inductive type demonstrated above as a counter example. By which
-I mean, we cannot reuse the definition for just a class, but we have to 
-redefine how a class is being applied on something else separately, and
-I think this is what exactly the book is telling us
+Notation "[ cls @ classname => B ]" := (
+    let A := cls.(Class.get_A) in
+    class_app (fun (classname : A -> Prop) => B) cls)
+  (at level 150, classname binder, right associativity) : debug_class.
+Example class_app_example_1 := [class_example_1 @ x => x = x].
+Example class_app_example_2 := [^(z : Prop) => z = z @ cz => cz = cz].
+Example class_app_example_3 := [class_example_1 @ c1 => [class_example_1 @ c2 => c1 = c2]].
 
-TODO: we should be able to redefine with `class_mk` and let the following 
-test passed:
-
-Definition class_test := let '(class_mk p) := class_mk_example1 in p.
-*)
-
-(* TODO: redesign the following, determine the correct type for classname *)
-Notation "[ cf @ classname => Bf ]" := 
-    (class_app cf (fun (classname : Class cf) => Bf))
-  (at level 130, classname binder, right associativity) : debug_class_notation.
-Example class_app_example1 : Prop := [class_mk_example1 @ cz => cz = cz].
-Example class_app_example2 : Prop := [[^ (z : Prop) => z = z] @ cz => cz = cz].
-Example class_app_example3 : Prop := [[^ (z : Prop -> Prop) => z = z] @ cz => cz = cz].
-Example class_app_example4 : Prop := [[^ (z : (Prop -> Prop) -> Prop) => 
-  z = z] @ cz => cz = cz].
-
-(* 
-TODO: figure out how to support passing in 2 parameters
-*)
-Example class_app_example5 := 
-  [[^ (z1 : Prop) => z1 = z1] @ cz1 =>
-    [^ (z2 : Prop) => z2 = z2] @ cz2 => cz1 = cz1]
-  .
-Example class_app_example6 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
-  [^ (z2 : Prop) => z2 = z2 @ cz2 => cz1 = cz2 ]].
-(* TODO: ALSO CHECK n20_151 *)
-Example class_app_example7 := [^ (z1 : Prop) => z1 = z1 @ cz1 =>
-  cz1 = ([^ (z2 : Prop) => z2 = z2 @ cz2 => cz2])].
-
-(* Note: this is just the special notation said to be used for *20.02 
-  solely *)
 Notation "[ x '<class_in>' Phi ]" := (class_in x Phi)
-  (at level 200, x name, right associativity) : debug_class_notation.
-Example class_in_example (x : Prop) := [x <class_in> (fun x => x = x)].
+  (at level 200, right associativity) : debug_class.
+Example class_in_example (x : Prop) := [x <class_in> (fun z => z = z)].
 
 Notation "[ x '<class_in>' ^ classname => B ]" := (class_in x (fun classname => B))
-  (at level 200, x name, classname binder, right associativity) : debug_class_notation.
+  (at level 200, x name, classname binder, right associativity) : debug_class.
 Example class_in_expanded_example (x : Prop) := [x <class_in> ^ c => c = c].
 
 (* EXPERIMENTAL: below is a copy of definitions from ch14 modified so that it supports 
