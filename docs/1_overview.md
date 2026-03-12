@@ -31,7 +31,7 @@ We are building:
 - [ ] \[WIP\]Chapter 20 - Notation on class, and theorems of classes.
 
 ### Milestones
-**Ongoing: Finish chapter 20** Implementing classes and relations should symbolize the availability to express everything in Principia. I believe that correctly implementing class will also be a very important feature, and maybe eliminate the difficulty for PM once and for all.
+**Ongoing: Finish chapter 20**  I believe that implementing classes and relations should symbolize the availability to express everything in Principia. Implementing class should be a very important feature, and maybe eliminate all technical difficulties for PM symbol definitions once and for all.
 
 **2026.02:** Chapter 14, the first chapter with an *incomplete/context based* symbol(the description), has been finished. Finishing these chapters involves both new context for theorems to be assumed, and more complicated symbols to be defined. Also, we have finished the complete documentation from chapter 1 to 14. This project has been mature enough to be examined by everyone, and viewers should find it way easier to comprehend and participate into criticisms towards Principia.
 
