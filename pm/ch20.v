@@ -27,6 +27,15 @@ being used in chapter 9.
 **Due to such ambiguity in the `!`, whether functions should be defined as predicates,
 appeared through all the notation definitions, is highly volatile and is encouraged 
 to be examined and corrected.**
+
+Our current implementation is a mixture of
+- using a special `Class` type to express class-related symbol
+- using the ambiguity on function `f`'s type, on whether it should receive a "class"-defined 
+argument or just a normal function as an argument, since "class"es also seem to have the same
+(Rocq)type as a normal function
+
+Furthermore: determining whether a function is an untyped function or a predicative function
+in this chapter is very confusing
 *)
 Declare Scope debug_class.
 Declare Scope class.
@@ -34,9 +43,13 @@ Declare Scope debug_iota_description_poly.
 
 (* 
 Failed attempts:
+- Defining `Class` only using functions
 - Defining `Class` as (A, Phi)
 - Defining `Class` as inductive type
-- Defining `Class` only using functions
+
+Using Records to define the Class symbol seems to be the best balance to 
+expose the `A` type when needed and hide away the underlying function against 
+unnecessary argument passes
 *)
 Module Class.
   Record t {A : Type} : Type := {
@@ -73,7 +86,7 @@ Example class_app_example_1 := [class_example_1 @ x => x = x].
 Example class_app_example_2 := [^(z : Prop) => z = z @ cz => cz = cz].
 Example class_app_example_3 := [class_example_1 @ c1 => [class_example_1 @ c2 => c1 = c2]].
 
-(* In our notation, the actual `class_in` will be something like ^z => z <class_in> Phi *)
+(* In contrast to our notation, the actual `class_in` will be something like ^z => z <class_in> Phi *)
 Notation "x '<class_in>' Phi" := (class_in x Phi)
   (at level 120, right associativity) : debug_class.
 Example class_in_example (x : Prop) := x <class_in> (fun z => z = z).
@@ -129,7 +142,6 @@ Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
   ([^ z => Psi z @ zPsi => f zPsi])
   = (exists Phi : Order 1, (Phi x <[- x -]> Psi x) /\ f Phi).
 
-(* We don't know if Phi should be a predicate or a function *)
 Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
   (X <class_in> Phi) = Phi X.
 
@@ -140,10 +152,10 @@ Also: "we have merely defined certain *uses* of such expressions..."
 we can see explicitly that for all definitions in Principia it is allowed
 to add more "uses" to the expressioins whenever we want 
 *)
-(* NOTE: we restrict the `Phi` to `Prop -> Prop` at the moment. `A` polymorphism
-should be used with care in the future... *)
-Definition n20_03 (Phi : Prop -> Prop) :=
-  Cls = ([^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
+Definition n20_03 {A : Type} (Phi : A -> Prop) :=
+  Cls = 
+  
+  ([^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
     [^ z => Phi z @ zPhiz => alpha = zPhiz ])]).
 
 (* We won't define notation for *20.04 because I think it is unnecessary. *)
