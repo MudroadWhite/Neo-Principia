@@ -51,40 +51,11 @@ Using Records to define the Class symbol seems to be the best balance to
 expose the `A` type when needed and hide away the underlying function against 
 unnecessary argument passes
 *)
-
-Record t {A : Type} : Type := {
-  get_A : Type; 
-}. 
-Definition test := Build_t Prop Prop. 
-Definition test_get_A : test.(get_A). Admitted. 
-
-Definition test_1 : Prop.
-  pose (test_get_A := test_get_A).
-  cbn in test_get_A.
-  exact test_get_A.
-Defined.
-
-Definition test_1_1 : Prop :=
-  ltac:(
-    pose (x := test_get_A);
-    cbn in x;
-    exact x
-  ).
-
-Print test_1_1.
-Compute test_1_1.
-
-Definition test_1_2 := ltac:(
-  let x := eval cbn in test_get_A in 
-  let f := constr:(fun y : Prop => y) in
-  exact (f x)).
-
-Print test_1_2.
-
+(* TODO: should we make `A` explicit? *)
 Module Class.
-  Record t : Type := {
+  Record t {A : Type} : Type := {
     (* For storing the A type *)
-    get_A : Type;
+    get_A := A;
     get_func : get_A -> Prop;
   }.
   Definition mk {A : Type} (Phi : A -> Prop) := Build_t A Phi.
@@ -95,10 +66,10 @@ Example class_mk_destruct_example_1 :=
   class_example_1.(Class.get_func).
 Example class_mk_destruct_example_2 := 
   class_example_1.(Class.get_A).  
-(* Compute class_mk_destruct_example_2. *)
 
-(* This should be the correct way to define application on class *)
-Definition class_app {A B : Type} (f : (A -> Prop) -> B) (cls : Class.t) : B. Admitted.
+(* This should be the correct way to define application on class
+  We need the `B` because `f` could maybe accept more parameters *)
+Definition class_app {A B : Type} (f : (A -> Prop) -> B) (cls : @Class.t A) : B. Admitted.
 
 (* By *20.02, `in` needs to be interpreted as a function working directly
 on the underlying function `Phi`. `in` itself is considered a special function *)
@@ -109,33 +80,13 @@ To be used in the future:
 Definition Cls {A : Type} {Phi : A -> Prop} : Class.t
   := Class.Build_t A Phi. 
 *)
-Definition Cls : Class.t. Admitted.
+Definition Cls {A : Type} : @Class.t A. Admitted.
 
 Open Scope debug_class.
 Notation "'^' z => B" := (Class.mk (fun z => B))
   (at level 130, z binder, right associativity) : debug_class.
 Example class_example_2 := ^ (z : Prop) => z = z.
 
-Definition testtest (cls : Class.t) := ltac:(
-  let A := eval cbn in (cls.(Class.get_A)) in 
-  let f := constr:((fun (classname : A -> Prop) => classname = classname)) in
-  exact (class_app f cls)).
-Compute testtest.
-
-(* Definition testtest (cls : @Class.t Prop) := ltac:(
-  let A := eval cbn in cls.(Class.get_A) in 
-  exact (class_app (fun (classname : A -> Prop) => classname = classname) cls)). *)
-
-(* Notation "[ cls @ classname => B ]" := (
-  ltac:(let A := eval cbn in cls.(Class.get_A) in 
-    exact (class_app (fun (classname : A -> Prop) => B) cls)))
-  (at level 150, classname binder, right associativity) : debug_class. *)
-
-(* Definition testtest2 := ltac:(
-  let A := eval cbn in (class_example_1.(Class.get_A)) in 
-  let f := constr:((fun (x : A -> Prop) => x = x)) in
-  exact (class_app f class_example_1)
-). *)
 Notation "[ cls @ classname => B ]" := (
     let A := cls.(Class.get_A) in
     class_app (fun (classname : A -> Prop) => B) cls)
@@ -144,15 +95,17 @@ Example class_app_example_1 := [class_example_1 @ x => x = x].
 Example class_app_example_2 := [^(z : Prop) => z = z @ cz => cz = cz].
 Example class_app_example_3 := [class_example_1 @ c1 => [class_example_1 @ c2 => c1 = c2]].
 
-(* In contrast to our notation, the actual `class_in` will be something like ^z => z <class_in> Phi *)
 Notation "x '<class_in>' Phi" := (class_in x Phi)
   (at level 120, right associativity) : debug_class.
 Example class_in_example (x : Prop) := x <class_in> (fun z => z = z).
 
+(* So far this is the actual `class_in`. Maybe we will change the name 
+  for this notation with above... *)
 Notation "x '<class_in_f>^' C" := 
   (let Phi := C.(Class.get_func) in class_in x Phi)
   (at level 120, right associativity) : debug_class.
 Example class_in_f_example (x : Prop) := x <class_in_f>^ class_example_1.
+
 (* EXPERIMENTAL: below is a copy of definitions from ch14 modified so that it supports 
   polymorphic type. It if works in the future, we will have to mitigrate these defs and 
   rewrite ch14 with the polymorphic version 
@@ -217,27 +170,25 @@ Definition n20_03 {A : Type} :=
   Cls = (^ (alpha : A -> Prop) => (exists (Phi : A -> Prop), 
     [^ (z : A) => Phi z @ zPhiz => alpha = zPhiz])).
 
-Definition n20_04 (alpha : Class.t) (X Y : alpha.(Class.get_A)) :
+Definition n20_04 {A : Type} (X Y : A) (alpha : @Class.t A) :
   ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha))
   = (X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha).
 Admitted.
 
-Definition n20_05 (alpha : Class.t) (X Y Z : alpha.(Class.get_A)) :
+Definition n20_05 {A : Type} (X Y Z : A) (alpha : @Class.t A):
   ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha) /\ (Z <class_in_f>^ alpha))
   = ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha)) /\ (Z <class_in_f>^ alpha).
 Admitted.
 
 (* We won't refine anything on this symbol so far *)
-Definition n20_06 (alpha : Class.t) (X : alpha.(Class.get_A)) :
+Definition n20_06 {A : Type} (X : A) (alpha : @Class.t A) :
   (~ (X <class_in_f>^ alpha)) = (~ (X <class_in_f>^ alpha)).
 Admitted.
 
-(* Fortunately, we don't have to define extra definitions separately for existing
-symbols applying on classes. Turns out that our notation essentially expressed such 
-things... *)
-Definition n20_07 {A : Type} {Psi : A -> Prop} (X : Prop) (f : (Prop -> Prop) -> Prop) :
-  forall (alpha : Class Psi), [^ z => alpha z @ calpha => f calpha]
-  = forall Phi : Predicate 1, [^ z => Phi z @ cPhi => f Phi].
+(* TODO: examine this proposition... *)
+Definition n20_07 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
+  forall (alpha : @Class.t A), [alpha @ calpha => f]
+  = forall Phi : Order 1, [^ z => Phi z @ cPhi => f].
 Admitted.
 
 Definition n20_071 {A : Type} {Psi : A -> Prop} (X : Prop) (f : (Prop -> Prop) -> Prop) :
