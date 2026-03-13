@@ -202,20 +202,21 @@ Admitted.
 
 Open Scope debug_iota_description_poly.
 
-Definition n20_072 {A : Type} (X : A) 
-  (Phi : (Prop -> Prop) -> Prop) (f : (Prop -> Prop) -> Prop) :
-  [ iotapoly Phi | iotaPhi => f iotaPhi ]
-    = (exists gamma : Class A, (forall alpha : Class A, 
-      Phi alpha <-> (alpha = gamma)) /\ ([^ z => gamma z @ cgamma => f cgamma])).
+(* TODO: our current iota notation doesn't express the `alpha`. maybe
+we can redesign the iota in the future... *)
+Definition n20_072 {A : Type} (X : A) (Phi f : (A -> Prop) -> Prop) :
+  [iotapoly Phi | iotaPhi => f iotaPhi]
+    = (exists gamma : @Class.t A, ([alpha @ calpha => Phi calpha] 
+      <[- (alpha : @Class.t A) -]> (alpha = gamma)) 
+      /\ ([gamma @ cgamma => f cgamma])).
 Admitted.
 
 Close Scope debug_iota_description_poly.
 
-(* Should we define notations for f applying on class? *)
-(* If we use the inductive type defs, here will be even better to express *)
-Definition n20_08 {A : Type} (Chi : A -> Prop) (alpha : Class Chi) (f : (Prop -> Prop) -> Prop)
-  (Psi : Class Chi -> Prop) : 
-  [^ (alpha : Class Chi) => Psi alpha @ calpha => f calpha]
+Definition n20_08 {A : Type} (f : (A -> Prop) -> Prop)
+  (Psi : (A -> Prop) -> Prop) : 
+  [(^ alpha => [alpha @ calpha => Psi calpha]) @ calpha2 => f calpha2 ].
+  [^ (alpha : @Class.t _) => Psi alpha @ calpha => [calpha @ f calpha]]
   (* It will be harder to see the nature of Phi being a predicate in this definition,
   as the type of class and predicate interferes with each other, and we are not sure
   if class can be considered as a predicate *)
