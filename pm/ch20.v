@@ -15,7 +15,8 @@ Require Import PM.pm.ch14.
   represented as `A -> Prop` and Predicative functions
 - When starting eliminating the TODOs, for implicit `Phi`s, rename them with `IPhi` and same 
   for any other occurences(??); address this naming convention in the documentation
-- Unify the convention for namings of class vaiables, by noticing things after `@`s
+- Resolve the conflict between `Order` and Classes' `A` type. Currently we cannot express both
+  of them in a unified way
 *)
 
 (* 
@@ -91,7 +92,7 @@ Notation "[ cls @ classname => B ]" := (
     let A := cls.(Class.get_A) in
     class_app (fun (classname : A -> Prop) => B) cls)
   (at level 150, classname binder, right associativity) : debug_class.
-Example class_app_example_1 := [class_example_1 @ x => x = x].
+Example class_app_example_1 := [class_example_1 @ cx => x = x].
 Example class_app_example_2 := [^(z : Prop) => z = z @ cz => cz = cz].
 Example class_app_example_3 := [class_example_1 @ c1 => [class_example_1 @ c2 => c1 = c2]].
 
@@ -154,7 +155,7 @@ Close Scope debug_iota_description_poly.
 Open Scope formal_equiv.
 
 Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
-  ([^ z => Psi z @ zPsi => f zPsi])
+  ([^ z => Psi z @ cPsi => f cPsi])
   = (exists Phi : Order 1, (Phi x <[- x -]> Psi x) /\ f Phi).
 
 Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
@@ -168,7 +169,7 @@ to add more "uses" to the expressioins whenever we want
 *)
 Definition n20_03 {A : Type} :=
   Cls = (^ (alpha : A -> Prop) => (exists (Phi : A -> Prop), 
-    [^ (z : A) => Phi z @ zPhiz => alpha = zPhiz])).
+    [^ (z : A) => Phi z @ cPhi => alpha = cPhi])).
 
 Definition n20_04 {A : Type} (X Y : A) (alpha : @Class.t A) :
   ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha))
@@ -185,24 +186,26 @@ Definition n20_06 {A : Type} (X : A) (alpha : @Class.t A) :
   (~ (X <class_in_f>^ alpha)) = (~ (X <class_in_f>^ alpha)).
 Admitted.
 
-(* TODO: examine this proposition... *)
 Definition n20_07 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
-  forall (alpha : @Class.t A), [alpha @ calpha => f]
-  = forall Phi : Order 1, [^ z => Phi z @ cPhi => f].
+  (* NOTE: we can see here `Phi` has been unsatisfying: it is not defined with \
+  `Order` anymore... maybe we need to adjust `A` in the future to make it compatible
+  with `Order`s *)
+  forall (alpha : @Class.t A), [alpha @ calpha => f calpha]
+  = forall Phi : (A -> Prop), [^ z => Phi z @ cPhi => f cPhi].
 Admitted.
 
-Definition n20_071 {A : Type} {Psi : A -> Prop} (X : Prop) (f : (Prop -> Prop) -> Prop) :
-  exists (alpha : Class Psi), [^ z => alpha z @ calpha => f calpha]
-  = exists Phi : Predicate 1, [^ z => Phi z @ cPhi => f Phi].
+(* TODO: same as above *)
+Definition n20_071 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
+  exists (alpha : @Class.t A), [alpha @ calpha => f calpha]
+  = exists Phi : (A -> Prop), [^ z => Phi z @ cPhi => f Phi].
 Admitted.
 
 Open Scope debug_iota_description_poly.
 
-(* The Phi here might need further investigation in the future *)
-Definition n20_072 {A : Type} {Psi : A -> Prop} (X : Prop) 
+Definition n20_072 {A : Type} (X : A) 
   (Phi : (Prop -> Prop) -> Prop) (f : (Prop -> Prop) -> Prop) :
   [ iotapoly Phi | iotaPhi => f iotaPhi ]
-    = (exists gamma : Class Psi, (forall alpha : Class Psi, 
+    = (exists gamma : Class A, (forall alpha : Class A, 
       Phi alpha <-> (alpha = gamma)) /\ ([^ z => gamma z @ cgamma => f cgamma])).
 Admitted.
 
@@ -237,8 +240,8 @@ Proof.
 Admitted.
 
 Theorem n20_11 (Psi Chi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
-  (Psi x <[- x -]> Chi x) -> (([^z => Psi z @ cz => f cz]) 
-    <-> ([^z => Chi z @ cz => f cz])).
+  (Psi x <[- x -]> Chi x) -> (([^z => Psi z @ cPsi => f cPsi]) 
+    <-> ([^z => Chi z @ cChi => f cChi])).
 Proof.
 Admitted.
 
