@@ -213,6 +213,7 @@ Admitted.
 
 Close Scope debug_iota_description_poly.
 
+(* TODO: determine the correct type for f and Psi *)
 Definition n20_08 {A : Type} (f : (A -> Prop) -> Prop)
   (Psi : (A -> Prop) -> Prop) : 
   [(^ alpha => [alpha @ calpha => Psi calpha]) @ calpha2 => f calpha2 ].
