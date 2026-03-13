@@ -92,7 +92,7 @@ Notation "[ cls @ classname => B ]" := (
     let A := cls.(Class.get_A) in
     class_app (fun (classname : A -> Prop) => B) cls)
   (at level 150, classname binder, right associativity) : debug_class.
-Example class_app_example_1 := [class_example_1 @ cx => x = x].
+Example class_app_example_1 := [class_example_1 @ cx => cx = cx].
 Example class_app_example_2 := [^(z : Prop) => z = z @ cz => cz = cz].
 Example class_app_example_3 := [class_example_1 @ c1 => [class_example_1 @ c2 => c1 = c2]].
 
@@ -213,17 +213,23 @@ Admitted.
 
 Close Scope debug_iota_description_poly.
 
-(* TODO: determine the correct type for f and Psi *)
-Definition n20_08 {A : Type} (f : (A -> Prop) -> Prop)
-  (Psi : (A -> Prop) -> Prop) : 
-  [(^ alpha => [alpha @ calpha => Psi calpha]) @ calpha2 => f calpha2 ].
-  [^ (alpha : @Class.t _) => Psi alpha @ calpha => [calpha @ f calpha]]
-  (* It will be harder to see the nature of Phi being a predicate in this definition,
-  as the type of class and predicate interferes with each other, and we are not sure
-  if class can be considered as a predicate *)
-  = (exists (Phi : Class Chi -> Prop), (forall alpha : Class Chi,Psi alpha <-> Phi alpha) 
-  (* I guess the alpha here is also different from the alpha in `forall` *)
-    /\ ([^ (alpha : Class Chi) => Phi alpha @ calpha => f calpha])).
+(* 
+TODO: 
+1. Find a way to reduce the type of `f` right down to the base representation
+2. Determine the correct type for `f`
+without `Class`, or design a even more recursive application
+*)
+Definition n20_08 {A : Type} (f : (((A -> Prop) -> Prop) -> Prop) -> Prop)
+  (Psi : (A -> Prop) -> Prop) 
+  :=
+  (* For some reason, this `c1` cannot be put into the bracket. To be resolved in 
+  the future... *)
+  (* let c1 := ^ (alpha : @Class.t A) => [alpha @ calpha => Psi calpha] in
+    [ c1 @ calpha2 => f calpha2]
+  =  *)
+  ((exists Phi : (A -> Prop) -> Prop, [alpha @ calpha => Psi calpha] 
+      <[- (alpha : @Class.t A) -]> [alpha @ calpha => Phi calpha]
+    /\ ([alpha @ calpha => f (Phi calpha)]))).
 Admitted.
 
 Definition n20_081 {A : Type} (Chi : A -> Prop) (alpha : Class Chi) (f : (Prop -> Prop) -> Prop)
