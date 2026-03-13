@@ -51,33 +51,91 @@ Using Records to define the Class symbol seems to be the best balance to
 expose the `A` type when needed and hide away the underlying function against 
 unnecessary argument passes
 *)
+
+Record t {A : Type} : Type := {
+  get_A : Type; 
+}. 
+Definition test := Build_t Prop Prop. 
+Definition test_get_A : test.(get_A). Admitted. 
+
+Definition test_1 : Prop.
+  pose (test_get_A := test_get_A).
+  cbn in test_get_A.
+  exact test_get_A.
+Defined.
+
+Definition test_1_1 : Prop :=
+  ltac:(
+    pose (x := test_get_A);
+    cbn in x;
+    exact x
+  ).
+
+Print test_1_1.
+Compute test_1_1.
+
+Definition test_1_2 := ltac:(
+  let x := eval cbn in test_get_A in 
+  let f := constr:(fun y : Prop => y) in
+  exact (f x)).
+
+Print test_1_2.
+
 Module Class.
-  Record t {A : Type} : Type := {
+  Record t : Type := {
     (* For storing the A type *)
     get_A : Type;
-    get_func : A -> Prop;
+    get_func : get_A -> Prop;
   }.
-  Definition mk {A : Type} (Phi : A -> Prop) := Build_t A A Phi.
+  Definition mk {A : Type} (Phi : A -> Prop) := Build_t A Phi.
 End Class.
 
 Example class_example_1 := Class.mk (fun (x : Prop) => x = x).
-Example class_mk_destruct_example := 
+Example class_mk_destruct_example_1 := 
   class_example_1.(Class.get_func).
+Example class_mk_destruct_example_2 := 
+  class_example_1.(Class.get_A).  
+(* Compute class_mk_destruct_example_2. *)
 
 (* This should be the correct way to define application on class *)
-Definition class_app {A B : Type} (f : (A -> Prop) -> B) (cls : @Class.t A) : B. Admitted.
+Definition class_app {A B : Type} (f : (A -> Prop) -> B) (cls : Class.t) : B. Admitted.
 
 (* By *20.02, `in` needs to be interpreted as a function working directly
 on the underlying function `Phi`. `in` itself is considered a special function *)
 Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop. Admitted.
 
-Definition Cls : Prop. Admitted.
+(* 
+To be used in the future: 
+Definition Cls {A : Type} {Phi : A -> Prop} : Class.t
+  := Class.Build_t A Phi. 
+*)
+Definition Cls : Class.t. Admitted.
 
 Open Scope debug_class.
 Notation "'^' z => B" := (Class.mk (fun z => B))
   (at level 130, z binder, right associativity) : debug_class.
 Example class_example_2 := ^ (z : Prop) => z = z.
 
+Definition testtest (cls : Class.t) := ltac:(
+  let A := eval cbn in (cls.(Class.get_A)) in 
+  let f := constr:((fun (classname : A -> Prop) => classname = classname)) in
+  exact (class_app f cls)).
+Compute testtest.
+
+(* Definition testtest (cls : @Class.t Prop) := ltac:(
+  let A := eval cbn in cls.(Class.get_A) in 
+  exact (class_app (fun (classname : A -> Prop) => classname = classname) cls)). *)
+
+(* Notation "[ cls @ classname => B ]" := (
+  ltac:(let A := eval cbn in cls.(Class.get_A) in 
+    exact (class_app (fun (classname : A -> Prop) => B) cls)))
+  (at level 150, classname binder, right associativity) : debug_class. *)
+
+(* Definition testtest2 := ltac:(
+  let A := eval cbn in (class_example_1.(Class.get_A)) in 
+  let f := constr:((fun (x : A -> Prop) => x = x)) in
+  exact (class_app f class_example_1)
+). *)
 Notation "[ cls @ classname => B ]" := (
     let A := cls.(Class.get_A) in
     class_app (fun (classname : A -> Prop) => B) cls)
@@ -91,6 +149,10 @@ Notation "x '<class_in>' Phi" := (class_in x Phi)
   (at level 120, right associativity) : debug_class.
 Example class_in_example (x : Prop) := x <class_in> (fun z => z = z).
 
+Notation "x '<class_in_f>^' C" := 
+  (let Phi := C.(Class.get_func) in class_in x Phi)
+  (at level 120, right associativity) : debug_class.
+Example class_in_f_example (x : Prop) := x <class_in_f>^ class_example_1.
 (* EXPERIMENTAL: below is a copy of definitions from ch14 modified so that it supports 
   polymorphic type. It if works in the future, we will have to mitigrate these defs and 
   rewrite ch14 with the polymorphic version 
@@ -146,30 +208,28 @@ Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
   (X <class_in> Phi) = Phi X.
 
 (* cf. p.188: The definition of `Cls` is also a "partial definition" and
-should be considered in specific context. It turns out that partial 
-definitions can be brilliantly modeled with the notation system in Rocq
+should be considered in specific context.
 Also: "we have merely defined certain *uses* of such expressions..."
 we can see explicitly that for all definitions in Principia it is allowed
 to add more "uses" to the expressioins whenever we want 
 *)
-Definition n20_03 {A : Type} (Phi : A -> Prop) :=
-  Cls = 
-  
-  ([^ (alpha : Prop -> Prop) => (exists (Phi : Prop -> Prop), 
-    [^ z => Phi z @ zPhiz => alpha = zPhiz ])]).
+Definition n20_03 {A : Type} :=
+  Cls = (^ (alpha : A -> Prop) => (exists (Phi : A -> Prop), 
+    [^ (z : A) => Phi z @ zPhiz => alpha = zPhiz])).
 
-(* We won't define notation for *20.04 because I think it is unnecessary. *)
-Definition n20_04 {A : Type} {Phi : A -> Prop} (X Y : Prop) (alpha : Class Phi) :
-  [X <class_in> alpha] /\ [Y <class_in> alpha] = [X <class_in> alpha] /\ [Y <class_in> alpha].
+Definition n20_04 (alpha : Class.t) (X Y : alpha.(Class.get_A)) :
+  ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha))
+  = (X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha).
 Admitted.
 
-Definition n20_05 {A : Type} {Phi : A -> Prop} (X Y Z : Prop) (alpha : Class Phi) :
-  ([X <class_in> alpha] /\ [Y <class_in> alpha]) /\ [Z <class_in> alpha] 
-  = ([X <class_in> alpha] /\ [Y <class_in> alpha]) /\ [Z <class_in> alpha].
+Definition n20_05 (alpha : Class.t) (X Y Z : alpha.(Class.get_A)) :
+  ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha) /\ (Z <class_in_f>^ alpha))
+  = ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha)) /\ (Z <class_in_f>^ alpha).
 Admitted.
 
-Definition n20_06 {A : Type} {Phi : A -> Prop} (X : Prop) (alpha : Class Phi) :
-  (~ [X <class_in> alpha]) = (~ [X <class_in> alpha]).
+(* We won't refine anything on this symbol so far *)
+Definition n20_06 (alpha : Class.t) (X : alpha.(Class.get_A)) :
+  (~ (X <class_in_f>^ alpha)) = (~ (X <class_in_f>^ alpha)).
 Admitted.
 
 (* Fortunately, we don't have to define extra definitions separately for existing
