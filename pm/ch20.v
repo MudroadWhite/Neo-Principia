@@ -72,8 +72,17 @@ Example class_mk_destruct_example_2 :=
   We need the `B` because `f` could maybe accept more parameters *)
 Definition class_app {A B : Type} (f : (A -> Prop) -> B) (cls : @Class.t A) : B. Admitted.
 
+(* This is a very ad-hoc implementation for functions that takes classes as parameters. 
+We are still figuring out the correct way to correctly define functions taking arbitrary 
+"level"s of class as parameter. See n20_08. From the nature of this definition, it seems 
+that `app` is supposed to generate the related `mk` in a "smart" way. `c` suffix stands for 
+"applying on another *c*lass" *)
+Definition class_app_c {A B : Type} (Psi : (A -> Prop) -> Prop) (f : ((A -> Prop) -> Prop) -> B)
+  : B. Admitted.
+
 (* By *20.02, `in` needs to be interpreted as a function working directly
-on the underlying function `Phi`. `in` itself is considered a special function *)
+on the underlying function `Phi`. `in` itself is considered a propositional 
+function *)
 Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop. Admitted.
 
 (* 
@@ -88,13 +97,28 @@ Notation "'^' z => B" := (Class.mk (fun z => B))
   (at level 130, z binder, right associativity) : debug_class.
 Example class_example_2 := ^ (z : Prop) => z = z.
 
+(* 
+With the `class_app_c` below, it seems that `mk` surprisingly should be redundant,
+and we should only generate the class related notation from `app`s and `iota`s
+*)
 Notation "[ cls @ classname => B ]" := (
     let A := cls.(Class.get_A) in
+    (* let f := (fun (classname : A -> Prop) => B) in
+    let Af := cls.(Class.get_func) in
+    f Af *)
     class_app (fun (classname : A -> Prop) => B) cls)
   (at level 150, classname binder, right associativity) : debug_class.
 Example class_app_example_1 := [class_example_1 @ cx => cx = cx].
 Example class_app_example_2 := [^(z : Prop) => z = z @ cz => cz = cz].
 Example class_app_example_3 := [class_example_1 @ c1 => [class_example_1 @ c2 => c1 = c2]].
+(* TODO: add failing case for class_app_c equivalent *)
+
+(* TODO: add alpha support in the future *)
+Notation "[ ^ ^ Psi @ cclassname => B ]" :=
+  (class_app_c Psi (fun cclassname => B))
+  (at level 150, cclassname binder, right associativity) : debug_class.
+Example class_app_c_example_1 {A : Type} (Psi : (A -> Prop) -> Prop) := 
+  [^^ Psi @ calphaPsi => calphaPsi].
 
 Notation "x '<class_in>' Phi" := (class_in x Phi)
   (at level 120, right associativity) : debug_class.
@@ -214,22 +238,32 @@ Admitted.
 Close Scope debug_iota_description_poly.
 
 (* 
-TODO: 
-1. Find a way to reduce the type of `f` right down to the base representation
-2. Determine the correct type for `f`
-without `Class`, or design a even more recursive application
+Definition mk {A : Type} (Phi : A -> Prop) := Build_t A Phi.
+Definition class_app {A B : Type} (f : (A -> Prop) -> B) (cls : @Class.t A) : B. Admitted.
+Definition class_app_c {A B : Type} (f : ((A -> Prop) -> Prop) -> B) (Psi : (A -> Prop) -> Prop) 
+  (cls : @Class.t (A -> Prop)) : B. Admitted.
+Notation [^ alpha ^ Psi @ cPsialpha => f cPsialpha]
 *)
-Definition n20_08 {A : Type} (f : (((A -> Prop) -> Prop) -> Prop) -> Prop)
+Definition n20_08 {A : Type} (f : ((A → Prop) → Prop) -> Prop)
   (Psi : (A -> Prop) -> Prop) 
   :=
-  (* For some reason, this `c1` cannot be put into the bracket. To be resolved in 
-  the future... *)
-  (* let c1 := ^ (alpha : @Class.t A) => [alpha @ calpha => Psi calpha] in
-    [ c1 @ calpha2 => f calpha2]
-  =  *)
+  let c1 : @Class.t (@Class.t A) := ^ (alpha : @Class.t A) => [alpha @ calpha => Psi calpha] in
+  let fc1 : ((@Class.t A) -> Prop) := c1.(Class.get_func) in
+
+
+    [ c1 @ calpha1 => 
+      let _calpha1 : (@Class.t A) := calpha1 in
+      [ calpha1 @ calpha2 =>
+        let ccc : nat := calpha2 in
+        let _calpha2 : ((@Class.t A) → Prop) := calpha2 in
+        (* let  *)
+        f calpha2  
+      ] 
+    ].
+  (* = 
   ((exists Phi : (A -> Prop) -> Prop, [alpha @ calpha => Psi calpha] 
       <[- (alpha : @Class.t A) -]> [alpha @ calpha => Phi calpha]
-    /\ ([alpha @ calpha => f (Phi calpha)]))).
+    /\ f Phi)). *)
 Admitted.
 
 Definition n20_081 {A : Type} (Chi : A -> Prop) (alpha : Class Chi) (f : (Prop -> Prop) -> Prop)
