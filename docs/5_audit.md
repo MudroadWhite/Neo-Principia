@@ -97,6 +97,8 @@ On its first citation in \*13.101, it has been considered that AoR not only expr
 
 **General.** This is the first chapter where we have to define an "incomplete" symbol, one feature of which is coming with a scope. We eventually find an elegant way to express such symbol: we want to define something almost like `λ (x : A) => ...`. `λ` here provides just the idea for a scope; `(x : A)` while seemingly assigning `x` to a type, can also assign `x` to some specification. Doing so involves our first symbol implementation in Rocq defined using a `Notation`, and the definition's difficulty has been eliminated once and for all. It seems like a general treatment for incomplete symbols in the whole PM.
 
+**Scopes.** TODO: scopes can commute while we have to allow it as an extra law
+
 ### Chapter 20
 **Coverage: WIP**
 
@@ -104,3 +106,8 @@ On its first citation in \*13.101, it has been considered that AoR not only expr
 TODO: 
 - types has become complicated... refer to Randall's work, discuss how should we consider the types
 - notation isn't well designed: doesn't "scale" to higher levels, and patch with newer definitions instead
+- - TODO in docs: for symbol defs we are using `A -> Prop`, but for actual implementations we are
+  using `Prop -> Prop`. Unsatisfying and need future optimizations....
+- we want to separate the symbol definition against computation by setting up the
+  `Admitted` clearly, but it is definitely not that clean in our current implementation
+- 
