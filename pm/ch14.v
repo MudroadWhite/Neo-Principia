@@ -92,7 +92,7 @@ Notation "[ 'iota' φ | x => B ]" := (description φ (fun (x : DescriptionArg φ
 Example debug_iota_notation_example := [ iota (fun x => x) | iotaφ => iotaφ = iotaφ ].
 
 Notation "[ 'iotaE' P ]" := (description_exists (P : Prop -> Prop))
-  (at level 100, P constr at level 150, right associativity) : debug_iota_description.
+  (at level 150, P constr at level 150, right associativity) : debug_iota_description.
 Example debug_iota_exists_example := [ iotaE (fun x => x) ].
 
 Notation "[ 'iota2' φ , ψ | x y => B ]" := 
@@ -115,7 +115,7 @@ Notation "[ 'ι' φ | x => B ]" := (description φ (fun (x : DescriptionArg φ) 
 Example iota_notation_example := [ι (fun x => x) | ιφ => ιφ = ιφ].
 
 Notation "[ 'ιE' P ]" := (description_exists (P : Prop -> Prop))
-  (at level 100, P constr at level 150, right associativity) : iota_description.
+  (at level 150, P constr at level 150, right associativity) : iota_description.
 Example iota_exists_example := [ ιE (fun x => x) ].
 
 Notation "[ 'ι2' φ , ψ | x y => B ]" := 
