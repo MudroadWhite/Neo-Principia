@@ -100,4 +100,7 @@ On its first citation in \*13.101, it has been considered that AoR not only expr
 ### Chapter 20
 **Coverage: WIP**
 
-**General.** TODO: types has become complicated... refer to Randall's work, discuss how should we consider the types
+**General.** 
+TODO: 
+- types has become complicated... refer to Randall's work, discuss how should we consider the types
+- notation isn't well designed: doesn't "scale" to higher levels, and patch with newer definitions instead
