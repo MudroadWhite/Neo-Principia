@@ -259,49 +259,43 @@ Admitted.
 
 (* **************** *)
 
-(* As always, whether we should use `Predicate 1` or `Predicate n` here is still pretty much 
-  unspecified *)
+(* NOTE: for all below, we currently don't use `A -> Prop` and restrict to `Prop -> Prop`
+instead *)
 Theorem n20_1 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
-  ([^ (z : Prop) => Psi z @ zPsi => f zPsi]) = exists Phi : Predicate 1, 
+  ([^ (z : Prop) => Psi z @ zPsi => f zPsi]) = exists Phi : Order 1, 
     (Phi x <[- x -]> Psi x) /\ f Phi.
 Proof.
 Admitted.
 
 Theorem n20_11 (Psi Chi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
-  (Psi x <[- x -]> Chi x) -> (([^z => Psi z @ cPsi => f cPsi]) 
-    <-> ([^z => Chi z @ cChi => f cChi])).
+  (Psi x <[- x -]> Chi x) -> (([^ z => Psi z @ cPsi => f cPsi]) 
+    <-> ([^ z => Chi z @ cChi => f cChi])).
 Proof.
 Admitted.
 
 Theorem n20_111 (f g : (Prop -> Prop) -> Prop) : 
-  (forall Phi : Predicate 1, f Phi <-> g Phi)
-  -> (forall Phi : Predicate 1, 
-    (([^z => Phi z @ cz => f cz]) <-> ([^z => Phi z @ cz => g cz]))).
+  (forall Phi : Order 1, f Phi <-> g Phi)
+  -> (forall Phi : Order 1, 
+    (([^ z => Phi z @ cz => f cz]) <-> ([^ z => Phi z @ cz => g cz]))).
 Proof.
 Admitted.
 
-(* TODO: `g` here cannot be `Predicate 1` and have to be `(Prop -> Prop) -> Prop`.
-  Investigate this in the future and design a better `Predicate` type. The original 
+(* TODO: `g` here cannot be `Order 1` and have to be `(Prop -> Prop) -> Prop`.
+  Investigate this in the future and design a better `Order` type. The original 
   text is also indicate this clearly *)
 Theorem n20_112 (f : (Prop -> Prop) -> Prop) : exists g : (Prop -> Prop) -> Prop, 
-  forall Phi : Predicate 1, ([^z => Phi z @ cz => f cz]) <-> ([^z => Phi z @ cz => g cz]).
+  forall Phi : Order 1, ([^z => Phi z @ cz => f cz]) <-> ([^z => Phi z @ cz => g cz]).
 Proof.
 Admitted.
 
-(* TODO: CHECK CH12 AXIOM OF REDUCIBILITY TO ENSURE THE CORRECT FORMALIZATION FOR THIS
-  THEOREM *)
+(* This is the class version of n12_1. While it is typed in Rocq, it might not express 
+the real nature of AoR. Also see critics in n12_1. *)
 Theorem n20_12 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop): 
-  exists Phi : Predicate 1, (Phi x <[- x -]> Psi x) /\
+  exists Phi : Order 1, (Phi x <[- x -]> Psi x) /\
     (([^z => Psi z @ cz => f cz]) <-> ([^z => Phi z @ cz => f cz])).
 Proof.
 Admitted.
 
-(* NOTE: we can see that with our notation all function body has to be put within the 
-innermost `class_app`, leaving nothing at the outmost part... I wonder if it will have some
-troubling thing rise from this 
-TODO: revisit other ways to write this expression and see if we can have a more natural 
-composition
-*)
 Theorem n20_13 (Psi Chi : Prop -> Prop) : (Psi x <[- x -]> Chi x)
   -> ([^z1 => Psi z1 @ cz1 => ([^z2 => Chi z2 @ cz2 => cz1 = cz2])]).
 Proof.
@@ -318,20 +312,21 @@ Theorem n20_15 (Psi Chi : Prop -> Prop) : (Psi x <[- x -]> Chi x)
 Proof.
 Admitted.
 
-(* This expression still has some ambiguity... *)
-(* [^z => Phi z] = [^z => Phi z] *)
 Theorem n20_151 (Psi : Prop -> Prop) : 
-  exists Phi : Predicate 1, [^z => Psi z @ cz1 => 
+  exists Phi : Order 1, [^z => Psi z @ cz1 => 
     [^z => Phi z @ cz2 => cz1 = cz2]].
 Proof.
 Admitted.
 
 Theorem n20_16 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
-  exists Phi : Predicate 1, 
+  exists Phi : Order 1, [^z => Psi z @ cz1 => f cz1] <-> 
+    [^z => Phi z @ cz2 => f cz2].
 Proof.
 Admitted.
 
-Theorem n20_17 : Prop.
+Theorem n20_17 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
+  forall Phi : Order 1, [^z => Psi z @ cz1 => f cz1] -> 
+    [^z => Phi z @ cz2 => f cz2].
 Proof.
 Admitted.
 
