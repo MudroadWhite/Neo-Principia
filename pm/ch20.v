@@ -18,7 +18,10 @@ Require Import PM.pm.ch14.
 - Resolve the conflict between `Order` and Classes' `A` type. Currently we cannot express both
   of them in a unified way
 - TODO in docs: for symbol defs we are using `A -> Prop`, but for actual implementations we are
-using `Prop -> Prop`. Unsatisfying and need future optimizations....
+  using `Prop -> Prop`. Unsatisfying and need future optimizations....
+- TODO in docs: we want to separate the symbol definition against computation by setting up the
+  `Admitted` clearly, but it is definitely not that clean in our current implementation
+- TODO in docs: scopes can commute while we have to allow it as an extra law
 *)
 
 (* 
@@ -56,7 +59,7 @@ unnecessary argument passes
 *)
 (* TODO: should we make `A` explicit? *)
 Module Class.
-  Record t {A : Type} : Type := {
+  Record t (A : Type) : Type := {
     (* For storing the A type *)
     get_A := A;
     get_func : get_A -> Prop;
@@ -66,13 +69,13 @@ End Class.
 
 Example class_example_1 := Class.mk (fun (x : Prop) => x = x).
 Example class_mk_destruct_example_1 := 
-  class_example_1.(Class.get_func).
+  class_example_1.(Class.get_func Prop).
 Example class_mk_destruct_example_2 := 
-  class_example_1.(Class.get_A).  
+  class_example_1.(Class.get_A Prop).  
 
 (* This should be the correct way to define application on class
   We need the `B` because `f` could maybe accept more parameters *)
-Definition class_app {A B : Type} (f : (A -> Prop) -> B) (cls : @Class.t A) : B. Admitted.
+Definition class_app {A B : Type} (f : (A -> Prop) -> B) (cls : Class.t A) : B. Admitted.
 
 (* This is a very ad-hoc implementation for functions that takes classes as parameters. 
 We are still figuring out the correct way to correctly define functions taking arbitrary 
@@ -87,7 +90,7 @@ on the underlying function `Phi`. `in` itself is considered a propositional
 function *)
 Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop. Admitted.
 
-Definition class_in_c {A : Type} (alpha : @Class.t A) (Psi : (A -> Prop) -> Prop) : Prop.
+Definition class_in_c {A : Type} (alpha : Class.t A) (Psi : (A -> Prop) -> Prop) : Prop.
 Admitted.
 
 (* 
@@ -95,7 +98,7 @@ To be used in the future:
 Definition Cls {A : Type} {Phi : A -> Prop} : Class.t
   := Class.Build_t A Phi. 
 *)
-Definition Cls {A : Type} : @Class.t A. Admitted.
+Definition Cls {A : Type} : Class.t A. Admitted.
 
 Open Scope debug_class.
 Notation "'^' z => B" := (Class.mk (fun z => B))
@@ -107,7 +110,7 @@ With the `class_app_c` below, it seems that `mk` surprisingly should be redundan
 and we should only generate the class related notation from `app`s and `iota`s
 *)
 Notation "[ cls @ classname => B ]" := (
-    let A := cls.(Class.get_A) in
+    let A := cls.(Class.get_A _) in
     (* let f := (fun (classname : A -> Prop) => B) in
     let Af := cls.(Class.get_func) in
     f Af *)
@@ -132,7 +135,7 @@ Example class_in_example (x : Prop) := x <class_in> (fun z => z = z).
 (* So far this is the actual `class_in`. Maybe we will change the name 
   for this notation with above... *)
 Notation "x '<class_in_f>^' C" := 
-  (let Phi := C.(Class.get_func) in class_in x Phi)
+  (let Phi := C.(Class.get_func _) in class_in x Phi)
   (at level 120, right associativity) : debug_class.
 Example class_in_f_example (x : Prop) := x <class_in_f>^ class_example_1.
 
@@ -205,18 +208,18 @@ Definition n20_03 {A : Type} :=
   Cls = (^ (alpha : A -> Prop) => (exists (Phi : A -> Prop), 
     [^ (z : A) => Phi z @ cPhi => alpha = cPhi])).
 
-Definition n20_04 {A : Type} (X Y : A) (alpha : @Class.t A) :
+Definition n20_04 {A : Type} (X Y : A) (alpha : Class.t A) :
   ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha))
   = (X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha).
 Admitted.
 
-Definition n20_05 {A : Type} (X Y Z : A) (alpha : @Class.t A):
+Definition n20_05 {A : Type} (X Y Z : A) (alpha : Class.t A):
   ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha) /\ (Z <class_in_f>^ alpha))
   = ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha)) /\ (Z <class_in_f>^ alpha).
 Admitted.
 
 (* We won't refine anything on this symbol so far *)
-Definition n20_06 {A : Type} (X : A) (alpha : @Class.t A) :
+Definition n20_06 {A : Type} (X : A) (alpha : Class.t A) :
   (~ (X <class_in_f>^ alpha)) = (~ (X <class_in_f>^ alpha)).
 Admitted.
 
@@ -224,13 +227,13 @@ Definition n20_07 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
   (* NOTE: we can see here `Phi` has been unsatisfying: it is not defined with \
   `Order` anymore... maybe we need to adjust `A` in the future to make it compatible
   with `Order`s *)
-  forall (alpha : @Class.t A), [alpha @ calpha => f calpha]
+  forall (alpha : Class.t A), [alpha @ calpha => f calpha]
   = forall Phi : (A -> Prop), [^ z => Phi z @ cPhi => f cPhi].
 Admitted.
 
 (* TODO: same as above *)
 Definition n20_071 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
-  exists (alpha : @Class.t A), [alpha @ calpha => f calpha]
+  exists (alpha : Class.t A), [alpha @ calpha => f calpha]
   = exists Phi : (A -> Prop), [^ z => Phi z @ cPhi => f Phi].
 Admitted.
 
@@ -240,8 +243,8 @@ Open Scope debug_iota_description_poly.
 we can redesign the iota in the future... *)
 Definition n20_072 {A : Type} (X : A) (Phi f : (A -> Prop) -> Prop) :
   [iotapoly Phi | iotaPhi => f iotaPhi]
-    = (exists gamma : @Class.t A, ([alpha @ calpha => Phi calpha] 
-      <[- (alpha : @Class.t A) -]> (alpha = gamma)) 
+    = (exists gamma : Class.t A, ([alpha @ calpha => Phi calpha] 
+      <[- (alpha : Class.t A) -]> (alpha = gamma)) 
       /\ ([gamma @ cgamma => f cgamma])).
 Admitted.
 
@@ -251,11 +254,11 @@ Definition n20_08 {A : Type} (f : ((A → Prop) → Prop) -> Prop)
   (Psi : (A -> Prop) -> Prop) :
   [^^ Psi @ calphaPsi => f calphaPsi]
   = ((exists Phi : (A -> Prop) -> Prop, [alpha @ calpha => Psi calpha] 
-      <[- (alpha : @Class.t A) -]> [alpha @ calpha => Phi calpha]
+      <[- (alpha : Class.t A) -]> [alpha @ calpha => Phi calpha]
     /\ f Phi)).
 Admitted.
 
-Definition n20_081 {A : Type} (alpha : @Class.t A) (Psi : (A -> Prop) -> Prop) :
+Definition n20_081 {A : Type} (alpha : Class.t A) (Psi : (A -> Prop) -> Prop) :
   (alpha <class_in_fc>^ Psi) = [alpha @ calpha => Psi calpha].
 Admitted.
 
@@ -365,19 +368,31 @@ Theorem n20_21 (Phi Psi : Prop -> Prop) : [^z => Phi z @ cz1 =>
 Proof.
 Admitted.
 
-Theorem n20_22 : Prop.
+Theorem n20_22 (Phi Psi Chi : Prop -> Prop) : 
+  ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]] 
+    /\ [^z => Psi z @ cz2 => [^z => Chi z @ cz3 => cz2 = cz3]])
+  -> [^z => Phi z @ cz1 => [^z => Chi z @ cz3 => cz1 = cz3]].
 Proof.
 Admitted.
 
-Theorem n20_23 : Prop.
+Theorem n20_23 (Phi Psi Chi : Prop -> Prop) : 
+  ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]] 
+    /\ [^z => Phi z @ cz1 => [^z => Chi z @ cz3 => cz1 = cz3]])
+  -> [^z => Psi z @ cz2 => [^z => Chi z @ cz3 => cz2 = cz3]].
 Proof.
 Admitted.
 
-Theorem n20_24 : Prop.
+Theorem n20_24 (Phi Psi Chi : Prop -> Prop) : 
+  ([^z => Psi z @ cz2 => [^z => Phi z @ cz1 => cz2 = cz1]] 
+    /\ [^z => Chi z @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]])
+  -> [^z => Psi z @ cz2 => [^z => Chi z @ cz3 => cz2 = cz3]].
 Proof.
 Admitted.
 
-Theorem n20_25 : Prop.
+Theorem n20_25 (Phi Psi : Prop -> Prop) :
+  ([^z => Phi z @ cz1 => alpha = cz1] <[- alpha : Class.t Prop -]>
+    [^z => Phi z @ cz1 => alpha = cz1]
+  ).
 Proof.
 Admitted.
 
