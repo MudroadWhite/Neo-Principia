@@ -128,16 +128,14 @@ Notation "[ ^ ^ Psi @ cclassname => B ]" :=
 Example class_app_c_example_1 {A : Type} (Psi : (A -> Prop) -> Prop) := 
   [^^ Psi @ calphaPsi => calphaPsi].
 
-Notation "x '<class_in>' Phi" := (class_in x Phi)
+Notation "x '<class_in_f>' Phi" := (class_in x Phi)
   (at level 120, right associativity) : debug_class.
-Example class_in_example (x : Prop) := x <class_in> (fun z => z = z).
+Example class_in_f_example (x : Prop) := x <class_in_f> (fun z => z = z).
 
-(* So far this is the actual `class_in`. Maybe we will change the name 
-  for this notation with above... *)
-Notation "x '<class_in_f>^' C" := 
+Notation "x '<class_in>' C" := 
   (let Phi := C.(Class.get_func _) in class_in x Phi)
   (at level 120, right associativity) : debug_class.
-Example class_in_f_example (x : Prop) := x <class_in_f>^ class_example_1.
+Example class_in_example (x : Prop) := x <class_in> class_example_1.
 
 (* Another `class_in` specifically for classes. All above should be subject to
 future refinements... *)
@@ -196,7 +194,7 @@ Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
   = (exists Phi : Order 1, (Phi x <[- x -]> Psi x) /\ f Phi).
 
 Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
-  (X <class_in> Phi) = Phi X.
+  (X <class_in_f> Phi) = Phi X.
 
 (* cf. p.188: The definition of `Cls` is also a "partial definition" and
 should be considered in specific context.
@@ -209,18 +207,18 @@ Definition n20_03 {A : Type} :=
     [^ (z : A) => Phi z @ cPhi => alpha = cPhi])).
 
 Definition n20_04 {A : Type} (X Y : A) (alpha : Class.t A) :
-  ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha))
-  = (X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha).
+  ((X <class_in> alpha) /\ (Y <class_in> alpha))
+  = (X <class_in> alpha) /\ (Y <class_in> alpha).
 Admitted.
 
 Definition n20_05 {A : Type} (X Y Z : A) (alpha : Class.t A):
-  ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha) /\ (Z <class_in_f>^ alpha))
-  = ((X <class_in_f>^ alpha) /\ (Y <class_in_f>^ alpha)) /\ (Z <class_in_f>^ alpha).
+  ((X <class_in> alpha) /\ (Y <class_in> alpha) /\ (Z <class_in> alpha))
+  = ((X <class_in> alpha) /\ (Y <class_in> alpha)) /\ (Z <class_in> alpha).
 Admitted.
 
 (* We won't refine anything on this symbol so far *)
 Definition n20_06 {A : Type} (X : A) (alpha : Class.t A) :
-  (~ (X <class_in_f>^ alpha)) = (~ (X <class_in_f>^ alpha)).
+  (~ (X <class_in> alpha)) = (~ (X <class_in> alpha)).
 Admitted.
 
 Definition n20_07 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
@@ -390,53 +388,73 @@ Proof.
 Admitted.
 
 Theorem n20_25 (Phi Psi : Prop -> Prop) :
-  ([^z => Phi z @ cz1 => alpha = cz1] <[- alpha : Class.t Prop -]>
-    [^z => Phi z @ cz1 => alpha = cz1]
-  ).
+  ([alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]] <[- alpha : Class.t Prop -]>
+    [alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])
+  -> [^z => Phi z @ cz2 => [^z => Psi z @ cz3 => cz2 = cz3]].
 Proof.
 Admitted.
 
-Theorem n20_3 : Prop.
+Theorem n20_3 (X : Prop) (Psi : Prop -> Prop ) : 
+  (X <class_in> (^ z => Psi z)) <-> Psi X.
 Proof.
 Admitted.
 
-Theorem n20_31 : Prop.
+Theorem n20_31 (Psi Chi : Prop -> Prop) : 
+  [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
+  <-> ((x <class_in> (^ z => Psi z)) 
+    <[- x -]> (x <class_in> (^ z => Chi z))).
 Proof.
 Admitted.
 
-Theorem n20_32 : Prop.
+Theorem n20_32 (Phi : Prop -> Prop) :
+  [(^x => x <class_in> (^z => Phi z)) @ cx =>
+    [^z => Phi z @ cz => cx = cz]].
 Proof.
 Admitted.
 
-Theorem n20_33 : Prop.
+Theorem n20_33 (alpha : Class.t Prop) (Phi : Prop -> Prop) :
+  [alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
+  <-> ((x <class_in> alpha) <[- x -]> Phi x).
 Proof.
 Admitted.
 
-Theorem n20_34 : Prop.
+Open Scope formal_impl.
+
+Theorem n20_34 (X Y : Prop) :
+  (X = Y) <-> ((X <class_in> alpha) -[ (alpha : Class.t Prop) ]> (Y <class_in> alpha)).
 Proof.
 Admitted.
 
-Theorem n20_35 : Prop.
+Theorem n20_35 (X Y : Prop) :
+  (X = Y) <-> ((X <class_in> alpha) <[- (alpha : Class.t Prop) -]> (Y <class_in> alpha)).
 Proof.
 Admitted.
 
-Theorem n20_4 : Prop.
+Theorem n20_4 (alpha : Class.t Prop) :
+  (alpha <class_in> Cls) <-> (exists (Phi : Order 1), [alpha @ calpha => 
+    [^z => Phi z @ cz => calpha = cz]]).
 Proof.
 Admitted.
 
-Theorem n20_41 : Prop.
+Theorem n20_41 (Psi : Prop -> Prop) : (^z => Psi z) <class_in> Cls.
 Proof.
 Admitted.
 
-Theorem n20_42 : Prop.
+Theorem n20_42 (alpha : Class.t Prop) : [(^z => z <class_in> alpha)
+  @ cz => [alpha @ calpha => cz = calpha]].
 Proof.
 Admitted.
 
-Theorem n20_43 : Prop.
+(* NOTE: note that we won't use `alpha = beta` directly for now *)
+Theorem n20_43 (alpha beta : Class.t Prop) : 
+  [alpha @ calpha => [beta @ cbeta => calpha = cbeta]]
+    <-> ((x <class_in> alpha) <[- x -]> (x <class_in> beta)).
 Proof.
 Admitted.
 
-Theorem n20_5 : Prop.
+Open Scope debug_iota_description.
+
+Theorem n20_5  : Prop.
 Proof.
 Admitted.
 
