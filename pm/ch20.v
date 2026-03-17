@@ -17,6 +17,8 @@ Require Import PM.pm.ch14.
   for any other occurences(??); address this naming convention in the documentation
 - Resolve the conflict between `Order` and Classes' `A` type. Currently we cannot express both
   of them in a unified way
+- TODO in docs: for symbol defs we are using `A -> Prop`, but for actual implementations we are
+using `Prop -> Prop`. Unsatisfying and need future optimizations....
 *)
 
 (* 
@@ -330,23 +332,36 @@ Theorem n20_17 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
 Proof.
 Admitted.
 
-Theorem n20_18 : Prop.
+Theorem n20_18 (Phi Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) : 
+  [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]]
+  -> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 = f cz2]].
 Proof.
 Admitted.
 
-Theorem n20_19 : Prop.
+(* Should this actually be order 2?? *)
+Theorem n20_19 (Psi Chi : Prop -> Prop) : 
+  [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
+  <-> forall f : (Order 1 -> Prop), [^z => Psi z @ cz1 => 
+    [^z => Chi z @ cz2 => f cz1 -> f cz2]].
 Proof.
 Admitted.
 
-Theorem n20_191 : Prop.
+Theorem n20_191 (Psi Chi : Prop -> Prop) : 
+  [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
+  <-> forall f : (Order 1 -> Prop), [^z => Psi z @ cz1 => 
+    [^z => Chi z @ cz2 => f cz1 <-> f cz2]].
 Proof.
 Admitted.
 
-Theorem n20_2 : Prop.
+Theorem n20_2 (Phi : Prop -> Prop) : [^z => Phi z @ cz1 => cz1 = cz1].
 Proof.
 Admitted.
 
-Theorem n20_21 : Prop.
+(* TODO: there might be some scope issues that only to be found after
+  digging into the proofs... *)
+Theorem n20_21 (Phi Psi : Prop -> Prop) : [^z => Phi z @ cz1 => 
+  [^z => Psi z @ cz2 => cz1 = cz2]] <-> [^z => Phi z @ cz1 => 
+  [^z => Psi z @ cz2 => cz2 = cz1]].
 Proof.
 Admitted.
 
