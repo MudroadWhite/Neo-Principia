@@ -17,11 +17,6 @@ Require Import PM.pm.ch14.
   for any other occurences(??); address this naming convention in the documentation
 - Resolve the conflict between `Order` and Classes' `A` type. Currently we cannot express both
   of them in a unified way
-- TODO in docs: for symbol defs we are using `A -> Prop`, but for actual implementations we are
-  using `Prop -> Prop`. Unsatisfying and need future optimizations....
-- TODO in docs: we want to separate the symbol definition against computation by setting up the
-  `Admitted` clearly, but it is definitely not that clean in our current implementation
-- TODO in docs: scopes can commute while we have to allow it as an extra law
 *)
 
 (* 
@@ -485,7 +480,8 @@ Theorem n20_54 (alpha : Class.t Prop) (Phi : (Prop -> Prop) -> Prop) : exists be
 Proof.
 Admitted.
 
-Theorem n20_55 : Prop.
+(* TODO: when filling the theorem, we will merge the two definitions of iotas in ch14 & 20 *)
+Theorem n20_55 ():
 Proof.
 Admitted.
 
