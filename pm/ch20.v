@@ -454,23 +454,34 @@ Admitted.
 
 Open Scope debug_iota_description.
 
-Theorem n20_5  : Prop.
+(* NOTE: descriptions should have larger scope than classes *)
+Theorem n20_5 (Phi Psi : Prop -> Prop) :
+  [iota Phi | iotaPhi => iotaPhi <class_in> (^z => Psi z)]
+  <-> [iota Phi | iotaPhi => Psi iotaPhi].
 Proof.
 Admitted.
 
-Theorem n20_51 : Prop.
+Theorem n20_51 (Phi : Prop -> Prop) (B : Prop) :
+  [iota Phi | iotaPhi => iotaPhi = B]
+  <-> ([iota Phi | iotaPhi => iotaPhi <class_in> alpha]
+    <[- (alpha : Class.t Prop) -]> (B <class_in> alpha)).
 Proof.
 Admitted.
 
-Theorem n20_52 : Prop.
+Theorem n20_52 (Phi : Prop -> Prop) : [iotaE Phi]
+  <-> (exists b, [iota Phi | iotaPhi => (iotaPhi <class_in> alpha)]
+    <[- (alpha : Class.t Prop) -]> (b <class_in> alpha)).
 Proof.
 Admitted.
 
-Theorem n20_53 : Prop.
+(* Should Phi here be a function of order 1..? *)
+Theorem n20_53 (alpha : Class.t Prop) (Phi : (Prop -> Prop) -> Prop) : 
+  (beta = alpha) -[ beta ]> [beta @ cbeta => Phi cbeta] <-> [alpha @ calpha => Phi calpha].
 Proof.
 Admitted.
 
-Theorem n20_54 : Prop.
+Theorem n20_54 (alpha : Class.t Prop) (Phi : (Prop -> Prop) -> Prop) : exists beta, 
+  ((beta = alpha) /\ [beta @ cbeta => Phi cbeta]) <-> [alpha @ calpha => Phi calpha].
 Proof.
 Admitted.
 
