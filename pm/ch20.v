@@ -85,6 +85,9 @@ on the underlying function `Phi`. `in` itself is considered a propositional
 function *)
 Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop. Admitted.
 
+Definition class_in_c {A : Type} (alpha : @Class.t A) (Psi : (A -> Prop) -> Prop) : Prop.
+Admitted.
+
 (* 
 To be used in the future: 
 Definition Cls {A : Type} {Phi : A -> Prop} : Class.t
@@ -130,6 +133,11 @@ Notation "x '<class_in_f>^' C" :=
   (let Phi := C.(Class.get_func) in class_in x Phi)
   (at level 120, right associativity) : debug_class.
 Example class_in_f_example (x : Prop) := x <class_in_f>^ class_example_1.
+
+(* Another `class_in` specifically for classes. All above should be subject to
+future refinements... *)
+Notation "c '<class_in_fc>^' Psi" := (class_in_c c Psi) 
+  (at level 120, right associativity) : debug_class.
 
 (* EXPERIMENTAL: below is a copy of definitions from ch14 modified so that it supports 
   polymorphic type. It if works in the future, we will have to mitigrate these defs and 
@@ -245,9 +253,8 @@ Definition n20_08 {A : Type} (f : ((A → Prop) → Prop) -> Prop)
     /\ f Phi)).
 Admitted.
 
-Definition n20_081 {A : Type} (Chi : A -> Prop) (alpha : Class Chi) (f : (Prop -> Prop) -> Prop)
-  (Psi : Class Chi -> Prop) :
-  [alpha <class_in> Psi] = Psi alpha.
+Definition n20_081 {A : Type} (alpha : @Class.t A) (Psi : (A -> Prop) -> Prop) :
+  (alpha <class_in_fc>^ Psi) = [alpha @ calpha => Psi calpha].
 Admitted.
 
 (* **************** *)
