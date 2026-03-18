@@ -74,11 +74,13 @@ The *of the same type* proposition in chapter 11 is unexamined. It will gain awa
 **Quantified propositions.** As we're using the default `∀` in Rocq, it doesn't make a clear distinction between `∀ x, ∀ y` and `∀ x y`. We will leave it in the future, assuming such distinction is generally negligible.
 
 ### Chapter 12
-**Coverage: 100%(?)**
+**Coverage: 0%(?)**
 
 **General.** Axiom of Reducibility has been subjected to tons of criticism per history. Hilbert thinks the `∃` for AoR is [useless(p.33)](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf), and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function. In our implementation we find it indeed hard to use, and there is a plan to develop other forms of AoR to make a nicer conversion.
 
-On its first citation in \*13.101, it has been considered that AoR not only express the *predicative* functions but also the *non-predicative* ones, and a strict enforcement should lead to different degrees on identity. Currently our design on both AoR and proof of \*13.101 are not aware of such technical details, and there seems to be a lot of work to do in the future.
+For chapters after chapter 12, `!` comes to significance(sometimes, critical) to be used in the theorems, denoting predicates from untyped functions. Inherently speaking, it requires us to design a useable small type system to distinguish between untyped functions and predicates. Our current implementation does not support `!`, because we don't strictly differentiate untyped and predicative functions.
+
+The result of which is, AoR is not strictly implemented in chapter 12. While it doesn't matter in chapter 13 - 14, chapter 20 brings its necessity to the surface. On its first citation in \*13.101, it has been considered that AoR not only express the *predicative* functions but also the *non-predicative* ones, and a strict enforcement should lead to different degrees on identity. Currently our design on both AoR and proof of \*13.101 are not aware of such technical details, and there seems to be a lot of work to do in the future.
 
 ### Chapter 13
 **Coverage: 92.9% = 26/28.**
@@ -97,6 +99,8 @@ On its first citation in \*13.101, it has been considered that AoR not only expr
 
 **General.** This is the first chapter where we have to define an "incomplete" symbol, one feature of which is coming with a scope. We eventually find an elegant way to express such symbol: we want to define something almost like `λ (x : A) => ...`. `λ` here provides just the idea for a scope; `(x : A)` while seemingly assigning `x` to a type, can also assign `x` to some specification. Doing so involves our first symbol implementation in Rocq defined using a `Notation`, and the definition's difficulty has been eliminated once and for all. It seems like a general treatment for incomplete symbols in the whole PM.
 
+TODO: for symbol defs we are using `A -> Prop`, but for actual implementations we are using `Prop -> Prop`. Unsatisfying and need future optimizations....
+
 **Scopes.** TODO: scopes can commute while we have to allow it as an extra law
 
 ### Chapter 20
@@ -106,8 +110,6 @@ On its first citation in \*13.101, it has been considered that AoR not only expr
 TODO: 
 - types has become complicated... refer to Randall's work, discuss how should we consider the types
 - notation isn't well designed: doesn't "scale" to higher levels, and patch with newer definitions instead
-- - TODO in docs: for symbol defs we are using `A -> Prop`, but for actual implementations we are
-  using `Prop -> Prop`. Unsatisfying and need future optimizations....
 - we want to separate the symbol definition against computation by setting up the
   `Admitted` clearly, but it is definitely not that clean in our current implementation
-- 
+- "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps? it is something focused on how automatic PM can be, not on structural similarity

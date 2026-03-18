@@ -22,9 +22,12 @@ During each steps of the proof, Principia **cites** the theorems and previous st
 
 Context to prove theorems, like symbol definitions, have its **inheriting** nature. Theorems are proven in different context between different chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for case in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for case in chapter 9 - 11, [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 - 14, [chapter 20](./3_mechanics.md/#chapter-20) for beyond.
 
-### What is the real problem to formalize Principia Mathematica?
+### What are the real problems to formalize Principia Mathematica?
+Our implementation seems to arise awareness to two problems for PM:
+1. Can we give the correct types to all parameters? For example, should the type for a function be just `Prop -> Prop`, when the difference between untyped functions and predicative functions become more and more significant in later chapters?
+2. Can we design a set of notations that can work well altogether?
 
-TODO
+These problems will not be discussed in this chapter, but can be inferred from analytics in [audit](./5_audit.md).
 
 We now start explaining what new ideas are being introduced into each of the chapters.
 
@@ -56,7 +59,7 @@ The role of \*1.11 will come to more significance after [chapter 9](./3_mechanic
 
 `H1 : φ X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `φ` solely(p.92) and we're still asserting a proposition. 
 
-Functions in the text doesn't have explicit parameter list: *they look just like propositions*. Parameter list for them will be occasionally stated in the text when necessary, but usually the actual parameters are every letters appeared in the function. The same applies to most theorems in PM.
+*What is a function in PM?* When it says something like "function X", it actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. The same applies to most theorems in PM.
 
 - (p.94)Definitional equality is undefined in PM
 - **elementary propositions** are closed under `¬` and `∨`
