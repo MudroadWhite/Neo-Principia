@@ -1,32 +1,46 @@
 # Mechanics of Principia Mathematica
 ## Basic setups
+### What are the types pf propositions in Principia?
+Principia has 3 types(not mathematical type) of theorems: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). A hidden trait of proposition in Principia is those propositions written in natural language. 
+
+With a few counter example in chapter 1, they are usually about typing a term with a specific symbol. A well formed term must be well typed. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules.
+
 ### How to read the propositions in Principia?
 Principia Mathematica uses *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and they surprisingly never go wrong. One can even understand the priority at ease with the indentations, without much on dot notations.
 
-Another symbol comes later is the `!` notation, hidden in the text without a formal definition. It usually indicates the emphasization on functions, to think that "functions can also be a parameter".
+While types for propositions in PM constitutes to a hierarchy, PM doesn't express the hierarchy directly. Instead, typing rules say "what different terms can be considered as the same type". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
-Principia also defines symbols in an **inheriting way**. That means:
-1. Some early chapters define rough ideas and propose their theorems. For example, we define what is an *animal*, and write down theorems about it.
-2. Later chapters refine the rough idea and split for different cases. We divide *animal*s into *dog*s and *cat*s.
-3. To prove a theorem in splitted cases, we might directly reuse the old theorems without any modifications. We directly use *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
+Principia also defines symbols in an **inheriting way**. Propositions in a chapter "will be used in different ways" for later chapters. For example: 
+1. In an early chapter, we define what is an *animal*, and write down theorems about it.
+1. In a later chapter, we divide *animal*s into *dog*s and *cat*s.
+2. To prove a theorem in later chapter, we directly reuse *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
 
-### How does Principia proof theorems?
+### How does Principia prove theorems?
 Principia designs its theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
 
 Principia performs everything **one step at a time**. This automatically means functions in Principia are always "small-step". We don't need to concern things like free vs bounded variables to eliminate the ambiguity, because deduction takes one step at a time, and only when a guaranteed/hand-crafted candidate exist. Functions don't come with a scope, and an ad-hoc "scope" is defined for auxiliary purpose orthogonal to functions. See chapter 14 below.
 
 During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
 
-Theorems, like symbol definitions, have its **inheriting** nature. The way for a theorem to be proven and to be used *varies* between chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for case in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for case in chapter 9 - 11, [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 - 14, [chapter 20](./3_mechanics.md/#chapter-20) for beyond.
+Context to prove theorems, like symbol definitions, have its **inheriting** nature. Theorems are proven in different context between different chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for case in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for case in chapter 9 - 11, [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 - 14, [chapter 20](./3_mechanics.md/#chapter-20) for beyond.
+
+### What are the real problems to formalize Principia Mathematica?
+Our implementation seems to arise awareness to *how well does notions of PM work with each other*. This means to the following:
+1. Can we design the correct type system for PM, since PM doesn't explicitly type the propositions?
+2. Can we distinguish different contexts for theorems in different chapters, since their validity is proven in different context?
+3. Can we design a set of notations that can work well altogether?
+4. For current implementation, can we give correct types to parameters? For example, is it really that function's type should be just `Prop -> Prop`, when the difference between untyped functions and predicative functions become more and more significant in later chapters?
+
+These problems will not be discussed in this chapter, but can be inferred from analytics in [audit](./5_audit.md).
 
 We now start explaining what new ideas are being introduced into each of the chapters.
 
 ## Chapters
 ### Chapter 1
-Principia has 3 types of theorems: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq - currently with their parameter types unchecked because we didn't implement it yet.
+Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq - currently with their parameter types unchecked because we didn't implement it yet.
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
@@ -52,7 +66,7 @@ The role of \*1.11 will come to more significance after [chapter 9](./3_mechanic
 
 `H1 : φ X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `φ` solely(p.92) and we're still asserting a proposition. 
 
-Functions in the text doesn't have explicit parameter list: *they look just like propositions*. Parameter list for them will be occasionally stated in the text when necessary, but usually the actual parameters are every letters appeared in the function. The same applies to most theorems in PM.
+*What is a function in PM?* When it says something like "function X", it actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. The same applies to most theorems in PM.
 
 - (p.94)Definitional equality is undefined in PM
 - **elementary propositions** are closed under `¬` and `∨`
@@ -100,6 +114,8 @@ There's a lot of things happening in the beginning of chapter 9.
 Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.162), which is a useful and natural feature that is still considered in later chapters.
 
 Later, a typing algorithm is given in this chapter, completely generating the hierarchy of proposition types for any order. In particular it gives special rules for individuals, as they are not propositions nor functions(p.51, p.132). Despite the explanation, why individual is not proposition is still unclear. My guess is that they are supposed to be only appeared as parameters, and cannot be asserted as a full proposition.
+
+**TODO: REWRITE PARTS ABOUT TYPING ALGORITHM**
 
 The typing algorithm is described both in name and in the style of "of the same type"(\*9.131). Basically the type information entails the order and the kind("is it a function or a proposition?") of the expression. This typing algorithm will prevent constructions such as `P P`(p.40).
 1. **Individual.** All individuals have a `Individual` type. (p.162)Individuals are supposed to be some *specific fixed value*s
@@ -169,28 +185,35 @@ Axiom of Reducibility is introduced in this chapter for 2 reasons:
 1. (p.49)When we define `x = y` as `∀ φ, φ x → φ y`, assuming it is untyped, we might still have `φ := fun x => (∀ φ, φ x → φ y)` or `φ := fun y => ∀ φ, φ x → φ y`. In order words for `fun x => φ x`, `fun x => (∀ φ, φ x → φ a)` has been a value that needs to be avoided. 
 2. On the other hand, sometimes we want to speak of as "many" functions as we can. It turns out that, while we cannot precisely say all functions of a parameter `a`, but we can say all `n`-order functions of a parameter `a` and set `n` to infinity.
 
-For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => φ a` with `φ` of order `n`, we can simulate with a predicate function `fun a => ψ a`. The predicativity of `ψ` here means it is just 1-order higher than `a`, and we are assuming *this `ψ` exists*. 
+For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => φ a` with `φ` of order `n`, we can simulate with a predicate function `fun a => ψ a`. The predicativity of `ψ` here means it is just 1-order higher than `a`, and we are assuming *this `ψ` exists*. In the context of [chapter 13](./3_mechanics.md/#chapter-13), we can have a more intuitive understanding.
+
+Chapter 12 also brings the symbol `!` to awareness, and will be frequently used in later chapters. `!` has several different meanings all within the same time:
+1. Emphasize(p.163, the second "It will be seen that...") that we might consider both the function and its parameter as variables for an expression. The purpose is to make functions as variables easier for people to recognize.
+2. Indicate that the function is a *predicative function*, not a random untyped one.
 
 By proving a theorem,
 - Theorems in all previous chapters are free to be **lift**ed to their higher order equivalents, which is independent of *Axiom of Reducibility*
 - Not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164)
 - (p.52, 162, 163, 164)Only individuals and matrices are allowed as parameters for matrices. (n-order) functions and propositions are not allowed as parameters.
 - (p.165)Only predicative functions are allowed to be generalized
-- `!` is introduced as a notation to emphasize(p.163, the second "It will be seen that...") that we might consider both the function and its parameter as variables for an expression. The purpose is to make functions as variables easier for people to recognize.
 - Functions are allowed to be *untyped*, taking a parameter and return a proposition of *unknown* order.
 
 ### Chapter 13
-The first citation of chapter 12's axiom of reducibility appears at \*13.101 in this chapter. See audit's [related chapters](./5_audit.md/#chapter-12) for its in-depth analysis. The identity has to be defined at such a late chapter(p.22), because:
+In Rocq, we have different types for `=`. We can have `=` on propositions, `=` on `=` between propositions, `=` on `=`... and so on. Russell realized that he should give the `=` a similar treatment, but the hierarchy is slightly different: `=` is itself treated as a propositional function, and `=` can be an identity on 1st order, second order, ... arbitrary order functions. The first citation of chapter 12's axiom of reducibility appears at \*13.101, and with which applied to \*13.101, the order of `=` has been generally collapsed off. 
+
+The identity has to be defined at such a late chapter(p.22), because:
 1. Identity is built on functions
 2. Functions comes with different types within the hierarchy defined in chapter 12
 3. Axiom of Reducibility has to be used in the proof, also because of the hierarchy. Also see (p.57) for a informal reasoning on why it needs to be used
+
+Also see audit's [chapter 12 & 13](./5_audit.md/#chapter-12) for a deeper analysis.
 
 ### Chapter 14
 This chapter begins with a significantly complicated symbol `(ιx)(φx)` to denote a *description*. Here are the reasons why this symbol is such complicated:
 - `(ιx)` means the descriptions should be treated as the same type of a `x`. In chapter 20, `x` will be lifted to some random `α` denoting classes
 - `(φx)` means the description should describe a thing just like `φx`
 
-Initially it caused some confusion for us to implement such symbol in our implementation, but eventually we find out the `Notation` system in Rocq works just fine, and it turns out that all future symbols seems to not going anywhere more complicated. 
+This special symbol comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Typically speaking, only functions come with scopes, but PM is defining scopes for a ("incomplete")symbol(p.67). 
 
 ### Chapter 20
 The first thing to mention about this chapter is the role of \*20.02(p.188). We unfold the proofs in PM in deeper expansion:
@@ -198,10 +221,13 @@ The first thing to mention about this chapter is the role of \*20.02(p.188). We 
 2. If we pick this function as the `f` in \*20.01, we obtain `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ (x ∈ φ)`. The `x` at the rightmost cannot be renamed into anything else because it is the `x` defined in the "function" we are using.
 3. In this form, we "patch" the expression with \*20.02, matching exactly the rightmost sub expression, and rewriting the whole expression into `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ φ x`, and then make a slight reordering.
 
+Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq. (TODO: to be continued...in audit)
+
 TODO: 
 - A newer hierarchy to be "practical" to use
 - ambiguity on the interpretation for `φ ! x` where we don't know if `!` stands for predicate or just the function as the focus
 - Mixed symbol definitions making it hard to distinguish
+- "ambiguity of function types for symbol definitions..."
 
 ## See Also
 - https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html
@@ -211,3 +237,7 @@ TODO:
 - https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/
 - https://nap.nationalacademies.org/read/10866/chapter/66
 - https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
+
+TODO:
+- rewrite related parts about "of the same type" in chapter 9; examine chapter 10 & 11, maybe chapter 13 - 14 on typing rule
+- composition nature for types/defs, ref. *20.62

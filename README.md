@@ -30,17 +30,19 @@ Yes.
 With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Our project already covers the foundation of the rewriting system with which all advanced mathematical ideas are built on.
 
 Beneath the code and down to the core, the difficulty in formalization is how PM organizes its ideas. This means:
-- PM gets a mountain of notations and symbols
-- PM doesn't explicitly type the propositions
-- Some PM rules are written in natural language
-- Theorems in different chapters are interpreted under different hierarchies, while the core idea for theorems are supposed to be shared among all chapters
+- PM gets a mountain of notations, symbols, theorems, and different contexts to interpret them. See [What are the real problems to formalize Principia Mathematica?](./docs/3_mechanics.md/#what-are-the-real-problems-to-formalize-principia-mathematica)
 - Terminologies also have different meanings in different chapters, and the range of the distinction is a manual work. For example, "functions" and "matrices"
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far: PM's notorious notation system, highly "trivial"(chores-like) theorems, and its historical background to guarantee a missing revisit.
 
 [This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) seems to arrive at similar observations. See paper in the repo on its in-depth discussions of PM's functions.
 
-Currently, we are using *shallow embedding* to express Principia Mathematica as much as we can. While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the ambiguity appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*. See [project goal and milestones](./docs/1_overview.md/#project-goal-and-milestones) for further details.
+Currently, we are using *shallow embedding* to express Principia Mathematica as much as we can, for following reasons:
+1. No one has completely formalized PM so far
+2. There are always more details to be implemented in later chapters and interfere with current implementations
+3. Setting down the underlying system hard might involve reconstructions for any changes in later chapters
+
+While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the ambiguity appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*. See [project status](./docs/1_overview.md/#project-status) for further details.
 
 As the most central idea, can we type every proposition in Principia? Within our reach, a plan to write the typing program in Rocq has started at slow speed, and *deep embedding for Principia Mathematica seems to be feasible*.
 

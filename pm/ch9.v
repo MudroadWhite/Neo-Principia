@@ -85,6 +85,7 @@ Definition is_individual (x : Prop) : Prop. Admitted.
 Definition is_efunc (F : Prop → Prop) : Prop. Admitted.
 Definition is_eprop (P : Prop) : Prop. Admitted.
 
+(* NOTE: this implementation is outdated *)
 Module IsSameType.
   Inductive t (U V : Prop) : Prop :=
     | Individual : (is_individual U) → (is_individual V) → t U V

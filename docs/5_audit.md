@@ -31,7 +31,7 @@ The core of symbol definition, *definitional equality*, is undefined, as discuss
 
 Critics above suggest there might be freedom for us to design a different type system that is closer to Rocq type system.
 
-**Orders**. We have the orders in our current implementation, but it works mostly like a tag and doesn't involve actual typechecking. One can easily check its strength by tying to prove the following proposition
+**Orders**. We have the orders in our current implementation, but it works mostly like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
 ```coq
 Goal Order 0 = Order 1.
 ```
@@ -52,9 +52,9 @@ Goal Order 0 = Order 1.
 
 We have implemented the typing algorithm, but it is wrongly interpreted and will not be used anywhere.
 
-\*9.13, the generalization assumption, according to the text, is to be performed without `MP`. Our current design is modeling this assumption with a `→`, leading to unnecessary `MP`s on `n9_13`. Note that `if...then` written in natural language in PM is not something the same as `→`, in that `→` is defined through `∨` and `¬`.
+**Missing tactic: generalization.** \*9.13, the generalization assumption, according to the text, should be performed without `MP`. Our current design is modeling this assumption with a `→`, leading to unnecessary `MP`s on `n9_13`. Note that `if...then` written in natural language in PM is not something the same as `→`, in that `→` is defined through `∨` and `¬`.
 
-**Functions.** For our soft embedding, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will reveal higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop → Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we move on.
+**Functions.** This is the first chapter for our soft embedding to consider functions, and how to rewrite on functions. For our soft embedding, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will reveal higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop → Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we move on.
 
 **Do 1-order proposition operators and "buffed" elementary proposition operators have the same type?** In chapter 9, `¬` and `∨` are clearly stated to be the elementary proposition version, so that "we can obtain first order propositions just from e-prop operators". Then, they are allowed to "break the rules" and take one 1-order proposition in one of its positions for operands. In chapter 10, `¬` and `∨` can take any 1-order propositions in their operands, because they are already the first-order version. There seems to be a confusion on the elementary proposition version to "not to break the type": we are assuming enough to see them as their 1-order version, so what is the difference between directly defining how they can be defined by directly using 1-order operators? The assumptions on these e-prop operators already break the type of them severely. If we would adapt to use 1-order operators in chapter 9, the correct statement for the chapter will not be "constructing 1-order propositions *just* using e-props", but "constructing 1-order propositions using 1-order operators on e-props", which also seems more natural in today's aspect.
 
@@ -74,11 +74,13 @@ The *of the same type* proposition in chapter 11 is unexamined. It will gain awa
 **Quantified propositions.** As we're using the default `∀` in Rocq, it doesn't make a clear distinction between `∀ x, ∀ y` and `∀ x y`. We will leave it in the future, assuming such distinction is generally negligible.
 
 ### Chapter 12
-**Coverage: 100%(?)**
+**Coverage: 0%(?)**
 
 **General.** Axiom of Reducibility has been subjected to tons of criticism per history. Hilbert thinks the `∃` for AoR is [useless(p.33)](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf), and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function. In our implementation we find it indeed hard to use, and there is a plan to develop other forms of AoR to make a nicer conversion.
 
-On its first citation in \*13.101, it has been considered that AoR not only express the *predicative* functions but also the *non-predicative* ones, and a strict enforcement should lead to different degrees on identity. Currently our design on both AoR and proof of \*13.101 are not aware of such technical details, and there seems to be a lot of work to do in the future.
+For chapters after chapter 12, `!` comes to significance(sometimes, critical) to be used in the theorems, denoting predicates from untyped functions. Inherently speaking, it requires us to design a useable small type system to distinguish between untyped functions and predicates. Our current implementation does not support `!`, because we don't strictly differentiate untyped and predicative functions.
+
+The result of which is, AoR is not strictly implemented in chapter 12. While it doesn't matter in chapter 13 - 14, chapter 20 brings its necessity to the surface. On its first citation in \*13.101, it has been considered that AoR not only express the *predicative* functions but also the *non-predicative* ones, and a strict enforcement should lead to different degrees on identity. Currently our design on both AoR and proof of \*13.101 are not aware of such technical details, and there seems to be a lot of work to do in the future.
 
 ### Chapter 13
 **Coverage: 92.9% = 26/28.**
@@ -89,15 +91,24 @@ On its first citation in \*13.101, it has been considered that AoR not only expr
 
 ### Chapter 14
 **Coverage: 84.61% = 44/52.**
-- **\*14.12.** From the 2nd step of `n14_12` we discovered a step where for a individual `X`, the utilization of `n11_11` has demonstrated a generalization procedure for multiple variables neglected the assumption that generalization abstracts away all occurrences for an individual once at a time, which seems to be against what [Randall Holme's type system model](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) is suggesting.
+- **\*14.12.** From the 2nd step of `n14_12` we discovered a step where for a individual `X`, the utilization of `n11_11` has demonstrated a generalization procedure for multiple variables neglected the assumption that generalization abstracts away all occurrences for an individual once at a time, which seems to be against what [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) is suggesting.
 - **\*14.121, \*14.17, \*14.171, \*14.201.** Multiple theorems steps involving \*13.15 has been revealed beyond the power of the deduction. \*13.15 is defined `⊦ X = X`, and these theorems tries to use \*13.15 to imply that they can immediately obtain things like `A ∧ (X = X)` to `A`, i.e. `X = X` is supposed to mean "true". We think there should be some extra theorems for \*13.15 to be patched up and make it actually useable.
 - **\*14.142.** The last 2 steps of this theorem are both unprovable, and we suspect there is a typo happening in these two steps.
 - **\*14.272.** The citation of \*10.414 seems to be invalid, because it is deducing in the other direction. We think this theorem is unprovable.
-- **\*14.32.** It has been assumed that \*14.32 is undergoing proof with same style as \*14.31, besides the fact that \*14.32 is bidirectional(using `↔`). The reverse direction involves using \*14.21(as the only way provided) and \*14.1. \*14.21 is taking a whole single `ιφ` as its premise; the hypothesis of our goal however, in our representation, is `([ι φ | ιφ => ¬ χ ιφ]) ↔ ¬ ([ι φ | ιφ => χ ιφ])` which involves two `ι`. Therefore we need to have a way to transform the two `ι`s into a single `ι`. What will be required beneath the re-scoping is a theorem of `(∃ x, P x) ∧ (∃ x, Q x) → (∃ x, P x ∧ Q x)`, which is even intuitively not always true. We conclude the reverse direction of this theorem unprovable. TODO: we might still be able to fix the proof in the future and eliminame the `admit`
+- **\*14.32.** It has been assumed that \*14.32 is undergoing proof with same style as \*14.31, besides the fact that \*14.32 is bidirectional(using `↔`). The reverse direction involves using \*14.21(as the only way provided) and \*14.1. \*14.21 is taking a whole single `ιφ` as its premise; the hypothesis of our goal however, in our self-defined notation, is `([ι φ | ιφ => ¬ χ ιφ]) ↔ ¬ ([ι φ | ιφ => χ ιφ])` which involves two `ι` scopes. Therefore we need to have a way to merge scopes of the two `ι`s into a single `ι` at a large scope. What will be required beneath the re-scoping is a theorem of `(∃ x, P x) ∧ (∃ x, Q x) → (∃ x, P x ∧ Q x)`, which is even intuitively not always true. We conclude the reverse direction of this theorem unprovable. TODO: we might still be able to fix the proof in the future and eliminate the `admit`
 
-**General.** As the definition of chapter 14 more complicated than any definitions in previous chapters, we are realizing that symbol definitions through `Df` should be best implemented with the `Notation` system in Rocq.
+**General.** This is the first chapter where we have to define an "incomplete" symbol, one feature of which is coming with a scope. We eventually find an elegant way to express such symbol: we want to define something almost like `λ (x : A) => ...`. `λ` here provides just the idea for a scope; `(x : A)` while seemingly assigning `x` to a type, can also assign `x` to some specification. Doing so involves our first symbol implementation in Rocq defined using a `Notation`, and the definition's difficulty has been eliminated once and for all. It seems like a general treatment for incomplete symbols in the whole PM.
+
+**Symbol definitions.** While generally functions only use types like `Prop -> Prop`, our symbol definition will relax the type to `A -> Prop` for polymorphic type `A`(TODO: currently still in older version). As analyzed in [mechanics](./3_mechanics.md/#chapter-14), `ιx` does not necessarily only serve for propositional variables; in chapter 20, the variable's type will be type for classes. This leads to a distinction in our implementation: polymorphic for symbol definitions, but monomorphic for theorems; and by the dependency of theorems, such polymorphism is strictly required.
+
+**Scopes.** When it involves more than one `ι` for a sub term, it turns out that the order of different `ι`s matters. While this is stated in the theorems in chapter 14, it is only *assumed* in chapter 20, and will involve adding axioms for such equivalence. Being implementation specific, for each `ι` term, our notation designed a variable to refer to the description, and these variables have to come with an extra axiom to make them order-unrelated, resulting in the extra `iota2_arg_comm`.
 
 ### Chapter 20
 **Coverage: WIP**
 
-**General.** TODO: types has become complicated... refer to Randall's work, discuss how should we consider the types
+**General.** 
+TODO: 
+- types has become complicated... refer to Randall's work, discuss how should we consider the types
+- notation isn't well designed: doesn't "scale" to higher levels, and patch with newer definitions instead
+- we want to separate the symbol definition against computation by setting up the `Admitted` clearly, but it is definitely not that clean in our current implementation
+- "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps? it is something focused on how automatic PM can be, not on structural similarity

@@ -42,10 +42,11 @@ Now we come to naming conventions for (lhs) parameters.
 - Functions as parameters are supposed to be named as the same style of original text: either greek letters like `φ` or their upper-cased English equivalent like `Phi`.
 - Apparent variables are quantified variables in `∀`, `∃` and so on. As parameters, they're usually lower case literals like `x`.
 - Real variables are variables that can directly used in the proofs. They're usually upper case literals like `X`.
-- Sometimes, functions might be introduced on purpose as *individuals* of higher order. These individuals are prefixed with `I` as in `Iφ`. For individual of order 0(just a proposition), although it is in the same naming convention as real variables, we're planning to use things like `IX` in the future to maintain a clear distinction.
 
 ## 5. What is `Notation`?
-As chapters push on, PM will have higher requirements on symbol definitions to model the math ideas. It turns out that `Notation`s in Rocq is the perfect tool for implementing them. For these notations, we might also have naming conventions on them. Below is the naming conventions for those special variables:
+As chapters push on, PM will have higher requirements on symbol definitions to model the math ideas. It turns out that `Notation`s in Rocq is the perfect tool for implementing them. For these notations, we might also have naming conventions on them. Below is the naming conventions for all special variables appeared within `Notation`s or other technical hacks beyond them:
+
+- Individuals: Sometimes, functions might be introduced on purpose as *individuals* of higher order. These individuals are prefixed with `I` as in `Iφ`. For individual of order 0(just a proposition), although it is in the same naming convention as real variables, we're planning to use things like `IX` in the future to maintain a clear distinction.
 - Descriptions: A description variable in PM usually looks like `(ιx)(φx)`, with its scope omitted. In our notation, it will be written explicitly with a scope, as the `ιφ` in `[ι φ | ιφ => f ιφ]` where `f` is a function.
 - More to be added...
 
