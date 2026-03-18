@@ -12,7 +12,11 @@ NOTE:
 into rocq
 *)
 
-(* Is it that we have designed `n12_1` totally wrong..? *)
+(* 
+Critics: f and F are both of same Order, and they should be actually one untyped while the other
+type of "predicate to x"
+TODO: define a temporarily notion of "untyped", and make a clear use to `!`; fill in documents
+*)
 Definition n12_1 (φ : Prop → Prop) : 
   ∃ f : (Order 1), (φ x) <[- x -]> ((fun (F : Order 1) =>
     F x) f).

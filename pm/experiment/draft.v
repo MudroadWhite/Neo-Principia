@@ -15,3 +15,43 @@ We want a type system with
 Draft: better `∃`, `∀` design
 - define a "EForall" and wrap up with a notation in chapter 9
 *)
+
+
+Module Experiment_ch20.
+  Record t {A : Type} : Type := {
+    get_A : Type; 
+  }. 
+  Definition test := Build_t Prop Prop. 
+  Definition test_get_A : test.(get_A). Admitted. 
+
+  Definition test_1 : Prop.
+    pose (test_get_A := test_get_A).
+    cbn in test_get_A.
+    exact test_get_A.
+  Defined.
+
+  Definition test_1_1 : Prop :=
+    ltac:(
+      pose (x := test_get_A);
+      cbn in x;
+      exact x
+    ).
+
+  Print test_1_1.
+  Compute test_1_1.
+
+  Definition test_1_2 := ltac:(
+    let x := eval cbn in test_get_A in 
+    let f := constr:(fun y : Prop => y) in
+    exact (f x)).
+
+  Print test_1_2.
+
+  (* 
+Definition testtest (cls : Class.t) := ltac:(
+  let A := eval cbn in (cls.(Class.get_A)) in 
+  let f := constr:((fun (classname : A -> Prop) => classname = classname)) in
+  exact (class_app f cls)).
+Compute testtest.
+  *)
+End Experiment_ch20.

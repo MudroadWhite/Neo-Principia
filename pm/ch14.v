@@ -87,46 +87,46 @@ Admitted.
 Open Scope debug_iota_description.
 
 Notation "[ 'iota' φ | x => B ]" := (description φ (fun (x : DescriptionArg φ) => B))
-  (at level 200, x binder, right associativity) : debug_iota_description.
+  (at level 150, x binder, right associativity) : debug_iota_description.
 (* TODO: format... *)
 Example debug_iota_notation_example := [ iota (fun x => x) | iotaφ => iotaφ = iotaφ ].
 
 Notation "[ 'iotaE' P ]" := (description_exists (P : Prop -> Prop))
-  (at level 100, P constr at level 200, right associativity) : debug_iota_description.
+  (at level 150, P constr at level 150, right associativity) : debug_iota_description.
 Example debug_iota_exists_example := [ iotaE (fun x => x) ].
 
 Notation "[ 'iota2' φ , ψ | x y => B ]" := 
   (description2 φ ψ (fun (x : DescriptionArg φ) (y : DescriptionArg ψ) => B))
-  (at level 200, x binder, y binder, right associativity) : debug_iota_description.
+  (at level 150, x binder, y binder, right associativity) : debug_iota_description.
 Example debug_iota2_example := 
   [ iota2 (fun x => x) , (fun x => x) | x y => (x = y) ].
 
 Notation "[ 'iota2rev' φ , ψ | y x => B ]" := 
   (description2 φ ψ (fun (y : DescriptionArg ψ) (x : DescriptionArg φ) => B))
-  (at level 200, x binder, y binder, right associativity) : debug_iota_description.
+  (at level 150, x binder, y binder, right associativity) : debug_iota_description.
 
 Close Scope debug_iota_description.
 
 Open Scope iota_description.
 
 Notation "[ 'ι' φ | x => B ]" := (description φ (fun (x : DescriptionArg φ) => B))
-  (at level 200, x binder, right associativity) : iota_description.
+  (at level 150, x binder, right associativity) : iota_description.
 (* TODO: format... *)
 Example iota_notation_example := [ι (fun x => x) | ιφ => ιφ = ιφ].
 
 Notation "[ 'ιE' P ]" := (description_exists (P : Prop -> Prop))
-  (at level 100, P constr at level 200, right associativity) : iota_description.
+  (at level 150, P constr at level 150, right associativity) : iota_description.
 Example iota_exists_example := [ ιE (fun x => x) ].
 
 Notation "[ 'ι2' φ , ψ | x y => B ]" := 
   (description2 φ ψ (fun (x : DescriptionArg φ) (y : DescriptionArg ψ) => B))
-  (at level 200, x binder, y binder, right associativity) : iota_description.
+  (at level 150, x binder, y binder, right associativity) : iota_description.
 Example iota2_example := 
   [ ι2 (fun x => x) , (fun x => x) | x y => (x = y) ].
 
 Notation "[ 'ι2rev' φ , ψ | y x => B ]" := 
   (description2 φ ψ (fun (y : DescriptionArg ψ) (x : DescriptionArg φ) => B))
-  (at level 200, x binder, y binder, right associativity) : iota_description.
+  (at level 150, x binder, y binder, right associativity) : iota_description.
 
 (* For our notation, a special axiom is needed to make it work... *)
 Definition iota2_arg_comm (φ ψ : Prop → Prop) (f : Prop → Prop → Prop) : 
@@ -909,8 +909,8 @@ Proof.
 Admitted.
 
 Theorem n14_144 (φ ψ χ : Prop → Prop) : 
-  [ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
-    ∧ [ι2 ψ, χ | ιψ ιχ => ιψ = ιχ]
+  ([ι2 φ, ψ | ιφ ιψ => ιφ = ιψ]
+    ∧ [ι2 ψ, χ | ιψ ιχ => ιψ = ιχ])
   → [ι2 φ, χ | ιφ ιχ => ιφ = ιχ].
 Proof.
   (* TOOLS *)
