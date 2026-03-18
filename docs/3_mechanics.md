@@ -1,9 +1,14 @@
 # Mechanics of Principia Mathematica
 ## Basic setups
+### What are the types pf propositions in Principia?
+Principia has 3 types(not mathematical type) of theorems: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). A hidden trait of proposition in Principia is those propositions written in natural language. 
+
+With a few counter example in chapter 1, they are usually about typing a term with a specific symbol. A well formed term must be well typed. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules.
+
 ### How to read the propositions in Principia?
 Principia Mathematica uses *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and they surprisingly never go wrong. One can even understand the priority at ease with the indentations, without much on dot notations.
 
-Another symbol comes later is the `!` notation, hidden in the text without a formal definition. It usually indicates the emphasization on functions, to think that "functions can also be a parameter".
+While types for propositions in PM constitutes to a hierarchy, PM doesn't express the hierarchy directly. Instead, typing rules say "what different terms can be considered as the same type". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
@@ -33,7 +38,7 @@ We now start explaining what new ideas are being introduced into each of the cha
 
 ## Chapters
 ### Chapter 1
-Principia has 3 types of theorems: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq - currently with their parameter types unchecked because we didn't implement it yet.
+Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq - currently with their parameter types unchecked because we didn't implement it yet.
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
@@ -225,3 +230,8 @@ TODO:
 - https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/
 - https://nap.nationalacademies.org/read/10866/chapter/66
 - https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
+
+TODO:
+- different meaning of `!`
+- rewrite related parts about "of the same type" in chapter 9; examine chapter 10 & 11, maybe chapter 13 - 14 on typing rule
+- composition nature for types/defs, ref. *20.62

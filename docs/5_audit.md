@@ -99,9 +99,9 @@ The result of which is, AoR is not strictly implemented in chapter 12. While it 
 
 **General.** This is the first chapter where we have to define an "incomplete" symbol, one feature of which is coming with a scope. We eventually find an elegant way to express such symbol: we want to define something almost like `λ (x : A) => ...`. `λ` here provides just the idea for a scope; `(x : A)` while seemingly assigning `x` to a type, can also assign `x` to some specification. Doing so involves our first symbol implementation in Rocq defined using a `Notation`, and the definition's difficulty has been eliminated once and for all. It seems like a general treatment for incomplete symbols in the whole PM.
 
-TODO: for symbol defs we are using `A -> Prop`, but for actual implementations we are using `Prop -> Prop`. Unsatisfying and need future optimizations....
+**Symbol definitions.** While generally functions only use types like `Prop -> Prop`, our symbol definition will relax the type to `A -> Prop` for polymorphic type `A`(TODO: currently still in older version). As analyzed in [mechanics](./3_mechanics.md/#chapter-14), `ιx` does not necessarily only serve for propositional variables; in chapter 20, the variable's type will be type for classes. This leads to a distinction in our implementation: polymorphic for symbol definitions, but monomorphic for theorems; and by the dependency of theorems, such polymorphism is strictly required.
 
-**Scopes.** TODO: scopes can commute while we have to allow it as an extra law
+**Scopes.** When it involves more than one `ι` for a sub term, it turns out that the order of different `ι`s matters. While this is stated in the theorems in chapter 14, it is only *assumed* in chapter 20, and will involve adding axioms for such equivalence. Being implementation specific, for each `ι` term, our notation designed a variable to refer to the description, and these variables have to come with an extra axiom to make them order-unrelated, resulting in the extra `iota2_arg_comm`.
 
 ### Chapter 20
 **Coverage: WIP**
