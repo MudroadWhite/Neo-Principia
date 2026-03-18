@@ -115,6 +115,8 @@ Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`
 
 Later, a typing algorithm is given in this chapter, completely generating the hierarchy of proposition types for any order. In particular it gives special rules for individuals, as they are not propositions nor functions(p.51, p.132). Despite the explanation, why individual is not proposition is still unclear. My guess is that they are supposed to be only appeared as parameters, and cannot be asserted as a full proposition.
 
+**TODO: REWRITE PARTS ABOUT TYPING ALGORITHM**
+
 The typing algorithm is described both in name and in the style of "of the same type"(\*9.131). Basically the type information entails the order and the kind("is it a function or a proposition?") of the expression. This typing algorithm will prevent constructions such as `P P`(p.40).
 1. **Individual.** All individuals have a `Individual` type. (p.162)Individuals are supposed to be some *specific fixed value*s
 2. **EProp.** All elementary propositions have a `EProp` type
@@ -185,12 +187,15 @@ Axiom of Reducibility is introduced in this chapter for 2 reasons:
 
 For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => φ a` with `φ` of order `n`, we can simulate with a predicate function `fun a => ψ a`. The predicativity of `ψ` here means it is just 1-order higher than `a`, and we are assuming *this `ψ` exists*. In the context of [chapter 13](./3_mechanics.md/#chapter-13), we can have a more intuitive understanding.
 
+Chapter 12 also brings the symbol `!` to awareness, and will be frequently used in later chapters. `!` has several different meanings all within the same time:
+1. Emphasize(p.163, the second "It will be seen that...") that we might consider both the function and its parameter as variables for an expression. The purpose is to make functions as variables easier for people to recognize.
+2. Indicate that the function is a *predicative function*, not a random untyped one.
+
 By proving a theorem,
 - Theorems in all previous chapters are free to be **lift**ed to their higher order equivalents, which is independent of *Axiom of Reducibility*
 - Not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164)
 - (p.52, 162, 163, 164)Only individuals and matrices are allowed as parameters for matrices. (n-order) functions and propositions are not allowed as parameters.
 - (p.165)Only predicative functions are allowed to be generalized
-- `!` is introduced as a notation to emphasize(p.163, the second "It will be seen that...") that we might consider both the function and its parameter as variables for an expression. The purpose is to make functions as variables easier for people to recognize.
 - Functions are allowed to be *untyped*, taking a parameter and return a proposition of *unknown* order.
 
 ### Chapter 13
@@ -234,6 +239,5 @@ TODO:
 - https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
 
 TODO:
-- different meaning of `!`
 - rewrite related parts about "of the same type" in chapter 9; examine chapter 10 & 11, maybe chapter 13 - 14 on typing rule
 - composition nature for types/defs, ref. *20.62
