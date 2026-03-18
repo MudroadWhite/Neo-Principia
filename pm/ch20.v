@@ -17,6 +17,18 @@ Require Import PM.pm.ch14.
   for any other occurences(??); address this naming convention in the documentation
 - Resolve the conflict between `Order` and Classes' `A` type. Currently we cannot express both
   of them in a unified way
+- TODO in docs: 
+  1. A hidden trait of propositions are props written in natural language. They might be also derived 
+    from certain propositions; i.e. typing rules are not completely axioms in PM
+  2. composition nature for types/defs, ref. *20.62
+  3. "generalization" for class variables seems to be different from treatments in ch9; 
+    they are theorems not pps?
+  4. "function X" means "an anonymous function with body of X, and parameters are all symbols 
+    appeared in the body"
+  5. after 12, `!` comes to significance of application
+  6. difficulty: what should be the correct type for all parameters?
+  7. explain how soft embedding allows us to perform development in ease: there are always more 
+  details to come; no one has done this before; we don't need to reconstruct a hard model
 *)
 
 (* 
@@ -150,7 +162,7 @@ Definition description_poly {A : Type} (φ : A -> Prop) (expr : (DescriptionArgP
   : Prop. 
 Admitted.
 
-(* Definition description_exists_poly {A : Type} (φ : A -> Prop) : Prop. Admitted. *)
+Definition description_exists_poly {A : Type} (φ : A -> Prop) : Prop. Admitted.
 
 (* Definition description2_poly {A B : Type} (φ : A -> Prop) (ψ : B -> Prop)
   (expr : (DescriptionArgPoly φ) -> (DescriptionArgPoly ψ) -> Prop) : Prop. 
@@ -163,12 +175,12 @@ Admitted. *)
 Open Scope debug_iota_description_poly.
 
 Notation "[ 'iotapoly' φ | x => B ]" := (description_poly φ (fun (x : DescriptionArgPoly φ) => B))
-  (at level 190, x binder, right associativity) : debug_iota_description_poly.
+  (at level 150, x binder, right associativity) : debug_iota_description_poly.
 Example debug_iota_poly_example := [ iotapoly (fun x => x) | iotaφ => iotaφ = iotaφ ].
 
-(* Notation "[ 'iotaE' P ]" := (description_exists (P : Prop -> Prop))
-  (at level 100, P constr at level 200, right associativity) : debug_iota_description. *)
-(* Example debug_iota_exists_example := [ iotaE (fun x => x) ]. *)
+Notation "[ 'iotaEpoly' P ]" := (description_exists_poly (P : _ -> Prop))
+  (at level 150, P constr at level 200, right associativity) : debug_iota_description_poly.
+Example debug_iota_exists_poly_example := [ iotaEpoly (fun (x : Prop) => x) ].
 
 (* Notation "[ 'iota2' φ , ψ | x y => B ]" := 
   (description2 φ ψ (fun (x : DescriptionArg φ) (y : DescriptionArg ψ) => B))
@@ -480,84 +492,122 @@ Theorem n20_54 (alpha : Class.t Prop) (Phi : (Prop -> Prop) -> Prop) : exists be
 Proof.
 Admitted.
 
+Close Scope debug_iota_description.
+Open Scope debug_iota_description_poly. 
 (* TODO: when filling the theorem, we will merge the two definitions of iotas in ch14 & 20 *)
-Theorem n20_55 ():
+Theorem n20_55 (Phi : Prop -> Prop) : 
+  [iotapoly (fun alpha => (x <class_in> alpha) <[- x -]> Phi x) | iotaalpha =>
+    (^z => Phi z) = iotaalpha].
 Proof.
 Admitted.
 
-Theorem n20_56 : Prop.
+Theorem n20_56 (Phi : Prop -> Prop) : [iotaEpoly (fun alpha : Class.t Prop =>
+  (x <class_in> alpha) <[- x -]> Phi x)].
 Proof.
 Admitted.
 
-Theorem n20_57 : Prop.
+Theorem n20_57 (Phi : Prop -> Prop) (f g : (Prop -> Prop) -> Prop) : 
+  [iotapoly (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+    (^z => Phi z) = iotaalpha]
+  -> ([^ z => Phi z @ cz => g cz] <-> [iotapoly (fun alpha => [alpha @ calpha => f calpha]) 
+    | iotaalpha => [iotaalpha @ ciotaalpha => g ciotaalpha]]).
 Proof.
 Admitted.
 
-Theorem n20_58 : Prop.
+(* NOTE: rigorously speaking, `=` shouldn't be directly used like this and should be applied
+within another class block. Might have some notational issue when comes to implementation *)
+Theorem n20_58 (Phi : Prop -> Prop) :
+  [iotapoly (fun alpha => alpha = (^z => Phi z)) | iotaalpha =>
+    (^z => Phi z) = iotaalpha].
 Proof.
 Admitted.
 
-Theorem n20_59 : Prop.
+(* same as above *)
+Theorem n20_59 (Phi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
+  [iotapoly (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha => 
+    (^z => Phi z) = iotaalpha] 
+  <->
+  [iotapoly (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha => 
+    iotaalpha = (^z => Phi z)].
 Proof.
 Admitted.
 
-Theorem n20_61 : Prop.
+Theorem n20_6 (f : (Prop -> Prop) -> Prop) :
+  exists alpha, [alpha @ calpha => f calpha]
+  <-> ~ (forall alpha, [alpha @ calpha => f calpha]).
 Proof.
 Admitted.
 
-Theorem n20_62 : Prop.
+Theorem n20_61 (f : (Prop -> Prop) -> Prop) (beta : Class.t Prop) :
+  (forall alpha, [alpha @ calpha => f calpha])
+  -> [beta @ cbeta => f cbeta].
 Proof.
 Admitted.
 
-Theorem n20_63 : Prop.
+(* *20.62 : type formation rule for `forall alpha` *)
+Theorem n20_63 (P : Prop) (f : (Prop -> Prop) -> Prop) :
+  (forall alpha, P \/ [alpha @ calpha => f calpha]) 
+  -> (P \/ forall alpha, [alpha @ calpha => f calpha]).
 Proof.
 Admitted.
 
-Theorem n20_631 : Prop.
+(* *20.631 - 633: omitted, other typing rules... TODO: fill in the future *)
+
+Theorem n20_64 (f g : (Prop -> Prop) -> Prop) (beta : Class.t Prop) : 
+  ((forall alpha, [alpha @ calpha => f calpha]) 
+    /\ (forall alpha, [alpha @ calpha => g calpha]))
+  -> ((forall beta, [beta @ cbeta => f cbeta])
+    /\ (forall beta, [beta @ cbeta => g cbeta])).
 Proof.
 Admitted.
 
-Theorem n20_632 : Prop.
+(* Another analogue to *12.1. Same as all above, we cannot formalize this for now *)
+Theorem n20_7 (f : (Prop -> Prop) -> Prop) :
+  exists (g : (Prop -> Prop) -> Prop), [alpha @ calpha => f calpha] 
+    <[- alpha -]> [alpha @ calpha => g calpha].
 Proof.
 Admitted.
 
-Theorem n20_633 : Prop.
+Theorem n20_701 (Phi : Prop -> Prop) (f : (Prop -> Prop) -> Prop -> Prop) :
+  exists (g : (Prop -> Prop) -> Prop -> Prop), ([^z => Phi z @ cz => f cz x]
+    <[- (Phi : Prop -> Prop) (x : Prop) -]> [^z => Phi z @ cz => g cz x]).
 Proof.
 Admitted.
 
-Theorem n20_64 : Prop.
+Theorem n20_702 (f : Prop -> (Prop -> Prop) -> Prop) :
+  exists (g : Prop -> (Prop -> Prop) -> Prop), ([^z => Phi z @ cz => f x cz]
+    <[- (Phi : Prop -> Prop) (x : Prop) -]> [^z => Phi z @ cz => g x cz]).
 Proof.
 Admitted.
 
-Theorem n20_7 : Prop.
+Theorem n20_703 (f : (Prop -> Prop) -> (Prop -> Prop) -> Prop) :
+  exists (g : (Prop -> Prop) -> (Prop -> Prop) -> Prop), ([^z => Phi z @ cz1 => 
+    [^z => Psi z @ cz2 => f cz1 cz2]]
+  <[- (Phi : Prop -> Prop) (Psi : Prop -> Prop) -]> [^z => Phi z @ cz1 => 
+    [^z => Psi z @ cz2 => g cz1 cz2]]).
 Proof.
 Admitted.
 
-Theorem n20_701 : Prop.
+Theorem n20_71 (alpha beta : Class.t Prop) :
+  (alpha = beta) <-> ([alpha @ calpha => g calpha]
+    <[- g : (Prop -> Prop) -> Prop -]> [beta @ cbeta => g cbeta]).
 Proof.
 Admitted.
 
-Theorem n20_702 : Prop.
+Theorem n20_8 (Phi : Prop -> Prop) (A : Prop) :
+  (Phi A \/ (~ Phi A)) -> [^x => (Phi x \/ (~ Phi x)) @ cx1 =>
+    [^x => (x = A \/ (~ (x = A))) @ cx2 => cx1 = cx2]].
 Proof.
 Admitted.
 
-Theorem n20_703 : Prop.
-Proof.
-Admitted.
-
-Theorem n20_71 : Prop.
-Proof.
-Admitted.
-
-Theorem n20_8 : Prop.
-Proof.
-Admitted.
-
-Theorem n20_81 : Prop.
+Theorem n20_81 (Phi Psi : Prop -> Prop) (A : Prop) :
+  ((Phi A \/ (~ Phi A)) /\ (Psi A \/ (~ Psi A)))
+  -> [^x => Phi x \/ (~ Phi x) @ cx1 => [
+    ^x => Psi x \/ (~ Psi x) @ cx2 => cx1 = cx2]].
 Proof.
 Admitted.
 
 Close Scope formal_equiv.
 Close Scope formal_impl.
 Close Scope debug_iota_description_poly.
-Close Scope debug_class_notation.
+Close Scope debug_class.
