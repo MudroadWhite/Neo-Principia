@@ -34,9 +34,9 @@ Our implementation seems to arise awareness to *how well does symbols of PM work
 3. Can we design a set of notations that can work well altogether?
 4. For current implementation, can we give correct types to parameters? For example, is it really that function's type should be just `Prop -> Prop`, when the difference between untyped functions and predicative functions become more and more significant in later chapters?
 
-These problems will not be discussed in this chapter, but can be inferred from analytics in [audit](./5_audit.md).
+Such purpose can be alleviated to a degree, if we are not insisting on using the symbols in PM. For example see [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) suggestion on alternative symbols. The problems listed above will not be discussed in this chapter, but can be inferred from analytics in [audit](./5_audit.md).
 
-We now start explaining what are the main ideas for each chapters.
+We now start exploring the main ideas for each chapters.
 
 ## Chapters
 ### Chapter 1
