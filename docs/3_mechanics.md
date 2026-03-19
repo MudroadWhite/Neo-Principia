@@ -27,8 +27,8 @@ During each steps of the proof, Principia **cites** the theorems and previous st
 
 Context to prove theorems, like symbol definitions, have its **inheriting** nature. Theorems are proven in different context between different chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for case in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for case in chapter 9 - 11, [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 - 14, [chapter 20](./3_mechanics.md/#chapter-20) for beyond.
 
-### What are the real problems to formalize Principia Mathematica?
-Our implementation seems to arise awareness to *how well does notions of PM work with each other*. This means to the following:
+### What are the actual problems to formalize Principia Mathematica?
+Our implementation seems to arise awareness to *how well does symbols of PM work together*. This means to the following:
 1. Can we design the correct type system for PM, since PM doesn't explicitly type the propositions?
 2. Can we distinguish different contexts for theorems in different chapters, since their validity is proven in different context?
 3. Can we design a set of notations that can work well altogether?
@@ -36,7 +36,7 @@ Our implementation seems to arise awareness to *how well does notions of PM work
 
 These problems will not be discussed in this chapter, but can be inferred from analytics in [audit](./5_audit.md).
 
-We now start explaining what new ideas are being introduced into each of the chapters.
+We now start explaining what are the main ideas for each chapters.
 
 ## Chapters
 ### Chapter 1
