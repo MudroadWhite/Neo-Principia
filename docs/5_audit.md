@@ -89,6 +89,8 @@ The result of which is, AoR is not strictly implemented in chapter 12. While it 
 
 **General.** This is the first chapter where we have to design `_pred` variants for previous theorems. We find lifting theorems to higher orders tedious and has to be performed manually. In the future we plan to automate such lifting.
 
+TODO: proving style: only lowest order, but assuming valid so far
+
 ### Chapter 14
 **Coverage: 84.61% = 44/52.**
 - **\*14.12.** From the 2nd step of `n14_12` we discovered a step where for a individual `X`, the utilization of `n11_11` has demonstrated a generalization procedure for multiple variables neglected the assumption that generalization abstracts away all occurrences for an individual once at a time, which seems to be against what [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) is suggesting.

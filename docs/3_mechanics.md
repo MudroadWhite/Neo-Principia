@@ -28,11 +28,13 @@ During each steps of the proof, Principia **cites** the theorems and previous st
 Context to prove theorems, like symbol definitions, have its **inheriting** nature. Theorems are proven in different context between different chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for case in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for case in chapter 9 - 11, [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 - 14, [chapter 20](./3_mechanics.md/#chapter-20) for beyond.
 
 ### What are the real problems to formalize Principia Mathematica?
-Our implementation seems to arise awareness to *how well does notions of PM work with each other*. This means to the following:
+To *reconstruct every theorems in PM as much as we can*, our implementation is facing awareness to *how well does symbols of PM work with each other*. This means to the following:
 1. Can we design the correct type system for PM, since PM doesn't explicitly type the propositions?
 2. Can we distinguish different contexts for theorems in different chapters, since their validity is proven in different context?
 3. Can we design a set of notations that can work well altogether?
 4. For current implementation, can we give correct types to parameters? For example, is it really that function's type should be just `Prop -> Prop`, when the difference between untyped functions and predicative functions become more and more significant in later chapters?
+
+Under the assumption, we will use symbols in PM in general. This situation can be turned away by some other reconstruction; see [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT).
 
 These problems will not be discussed in this chapter, but can be inferred from analytics in [audit](./5_audit.md).
 
