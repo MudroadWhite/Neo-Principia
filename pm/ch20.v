@@ -196,12 +196,14 @@ Close Scope debug_iota_description_poly.
 
 Open Scope formal_equiv.
 
-Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :=
+Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   ([^ z => Psi z @ cPsi => f cPsi])
   = (exists Phi : Order 1, (Phi x <[- x -]> Psi x) /\ f Phi).
+Admitted.
 
-Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :=
+Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :
   (X <class_in_f> Phi) = Phi X.
+Admitted.
 
 (* cf. p.188: The definition of `Cls` is also a "partial definition" and
 should be considered in specific context.
@@ -209,9 +211,10 @@ Also: "we have merely defined certain *uses* of such expressions..."
 we can see explicitly that for all definitions in Principia it is allowed
 to add more "uses" to the expressioins whenever we want 
 *)
-Definition n20_03 {A : Type} :=
+Definition n20_03 {A : Type} :
   Cls = (^ (alpha : A -> Prop) => (exists (Phi : A -> Prop), 
     [^ (z : A) => Phi z @ cPhi => alpha = cPhi])).
+Admitted.
 
 Definition n20_04 {A : Type} (X Y : A) (alpha : Class.t A) :
   ((X <class_in> alpha) /\ (Y <class_in> alpha))
@@ -269,18 +272,30 @@ Admitted.
 
 (* **************** *)
 
-(* NOTE: for all below, we currently don't use `A -> Prop` and restrict to `Prop -> Prop`
-instead *)
 Theorem n20_1 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
-  ([^ (z : Prop) => Psi z @ zPsi => f zPsi]) = exists Phi : Order 1, 
+  ([^ (z : Prop) => Psi z @ zPsi => f zPsi]) <-> exists Phi : Order 1, 
     (Phi x <[- x -]> Psi x) /\ f Phi.
 Proof.
-Admitted.
+  pose proof (n4_2 ([^ (z : Prop) => Psi z @ zPsi => f zPsi])) as n4_2.
+  now rewrite -> n20_01 in n4_2 at 2.
+Qed.  
 
 Theorem n20_11 (Psi Chi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   (Psi x <[- x -]> Chi x) -> (([^ z => Psi z @ cPsi => f cPsi]) 
     <-> ([^ z => Chi z @ cChi => f cChi])).
 Proof.
+  (* TOOLS *)
+  set (X := Intro_individual "x").
+  set (IPhi := Intro_pred "Phi" 1).
+  (* ******** *)
+  assert (S1 : (Psi x <[- x -]> Chi x) 
+    -> ((Phi x <[- x -]> Psi x)
+      <[- Phi -]> (Phi x <[- x -]> Chi x))).
+  {
+    pose proof (n4_86 (Psi X) (Chi X) (IPhi X)) as n4_86.
+    (* TODO: generalize on X; split the forall *)
+    pose proof n10_11 as n10_11.
+  }
 Admitted.
 
 Theorem n20_111 (f g : (Prop -> Prop) -> Prop) : 
