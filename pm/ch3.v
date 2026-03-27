@@ -44,16 +44,14 @@ Qed.
 
 (*3.03 is permits the inference from the theoremhood 
     of P and that of Q to the theoremhood of P and Q. So: *)
-Ltac Conj_test H1 H2 C :=
+Ltac Conj H1 H2 C :=
   match goal with 
-    | [ _H1 : ?P |- _ ] =>
+    | [ _H1 : ?P, _H2 : ?Q |- _ ] =>
       constr_eq H1 _H1;
-      match goal with 
-      | [ _H2 : ?Q |- _ ] =>
-        constr_eq H2 _H2;
-        pose proof (Conj3_03 P Q) as C;
-        pose proof (C H1 H2) as C
-      end
+      constr_eq H2 _H2;
+      pose proof (Conj3_03 P Q) as C;
+      MP C H1; 
+      MP C H2
   end.
 
 Theorem n3_1 (P Q : Prop) :
@@ -374,7 +372,7 @@ Proof.
     (((P → R) ∧ (Q → S)) → ((Q ∧ R) → (R ∧ S))) 
     (((P → R) ∧ (Q → S)) → ((P ∧ Q) → (R ∧ S)))) as Imp3_31a.
   MP Imp3_31a n2_83a.
-  Conj_test Sb Sd C.
+  Conj Sb Sd C.
   MP Imp3_31a C.
   exact Imp3_31a.
 Qed.
