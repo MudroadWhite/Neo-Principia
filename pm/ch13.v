@@ -101,7 +101,7 @@ Proof.
     (* The following two can be obtained with `n10_1` *)
     pose proof (Hn12_1 X) as Hn12_1a.
     pose proof (Hn12_1 Y) as Hn12_1b.
-    Conj Hn12_1a Hn12_1b C1.
+    Conj_as Hn12_1a Hn12_1b C1.
     pose proof (n10_24_pred
       (fun (f : Order 1) => (ψ X ↔ f X) ∧ (ψ Y ↔ f Y))
       If) as n10_24.
@@ -134,7 +134,6 @@ Proof.
   {
     intro Hp.
     pose proof (S4 Hp) as S4.
-    clear S2 S3.
     now MP S4 S1.
   }
   exact S5.
@@ -161,7 +160,7 @@ Proof.
       in n10_22l by reflexivity.
     pose proof (Simp3_26 (∀ p : Order 1, p X -> p Y)
       (∀ p : Order 1, p Y -> p X)) as Simp3_26.
-    now Syll n10_22l Simp3_26 S1.
+    now Syll_as n10_22l Simp3_26 S1.
   }
   assert (S2 : (∀ φ : Order 1, φ X ↔ φ Y)
     → (X = Y)).
@@ -177,17 +176,13 @@ Proof.
   assert (S5 : (X = Y) → (Iφ Y → Iφ X)).
   {
     pose proof (Transp2_17 (Iφ Y) (Iφ X)) as Transp2_17.
-    now Syll S4 Transp2_17 S5.
+    now Syll_as S4 Transp2_17 S5.
   }
   assert (S6 : (X = Y) → (Iφ X ↔ Iφ Y)).
   {
     pose proof (Comp3_43 (X = Y) (Iφ X → Iφ Y) (Iφ Y → Iφ X))
       as Comp3_43.
-    assert (C1 : (X = Y → Iφ X → Iφ Y) ∧ (X = Y → Iφ Y → Iφ X)).
-    { 
-      clear S1 S2 S4.
-      now Conj S3 S5 C1.
-    }
+    Conj_as S3 S5 C1.
     MP Comp3_43 C1.
     now rewrite <-Equiv4_01 in Comp3_43.
   }
@@ -201,13 +196,7 @@ Proof.
     now rewrite -> n10_21 in n10_11.
   }
   assert (S8 : (X = Y) ↔ (∀ φ : Order 1, (φ X) ↔ (φ Y))).
-  {
-    clear S1 S3 S4 S5 S6. move S2 after S7.
-    assert (C1 : (X = Y → ∀ φ : Order 1, φ X ↔ φ Y)
-      ∧ ((∀ φ : Order 1, φ X ↔ φ Y) → X = Y)).
-    { now Conj S7 S2 C1. }
-    now Equiv C1.
-  }
+  { Conj_as S7 S2 C1. now Equiv C1. }
   exact S8.
 Admitted.
 
@@ -228,8 +217,7 @@ Proof.
     destruct S1 as [S1_1l S1_1r].
     pose proof (Transp2_17 (ψ Y) (ψ X)) as Transp2_17.
     MP Transp2_17 S1_1r.
-    assert (C1 : (ψ X → ψ Y) ∧ (ψ Y → ψ X)).
-    { now Conj S1_1l Transp2_17 C1. }
+    Conj_as S1_1l Transp2_17 C1.
     now Equiv C1.
   }
   exact S2.
@@ -284,7 +272,7 @@ Proof.
     destruct n13_1a as [n13_1al _].
     pose proof (n13_1 Y Z) as n13_1b.
     destruct n13_1b as [n13_1bl _].
-    Conj n13_1al n13_1bl C1.
+    Conj_as n13_1al n13_1bl C1.
     pose proof (n3_47 (X = Y) (Y = Z)
       (∀ (p : Order 1), p X -> p Y)
       (∀ (p : Order 1), p Y -> p Z)) as n3_47.
@@ -350,11 +338,7 @@ Proof.
   MP Exp3_3b n13_172.
   pose proof (Comp3_43
     (X = Y) (Z = X → Z = Y) (Z = Y → Z = X)) as Comp3_43.
-  assert (C1 : (X = Y → Z = X → Z = Y) ∧ (X = Y → Z = Y → Z = X)).
-  {
-    clear n13_17 n13_172 n13_16a n13_16b n13_16c.
-    now Conj Exp3_3a Exp3_3b C1.
-  }
+  Conj_as Exp3_3b Exp3_3a C1.
   MP Comp3_43 C1.
   now rewrite <- Equiv4_01 in Comp3_43.
 Qed.
@@ -399,12 +383,7 @@ Proof.
     now MP S2 n13_15.
   }
   assert (S4 : (X = Y) ↔ ((X = z) <[- z -]> (z = Y))).
-  {
-    assert (C1 : (X = Y → ∀ z : Prop, X = z ↔ z = Y)
-      ∧ ((∀ z : Prop, X = z ↔ z = Y) → X = Y)).
-    { clear S2. now Conj S1 S3 C1. }
-    now Equiv C1.
-  }
+  { Conj_as S1 S3 C1. now Equiv C1. }
   exact S4.
 Qed.
 
@@ -456,11 +435,7 @@ Proof.
     now rewrite -> n10_21 in n10_11.
   }
   assert (S6 : ((y = X) -[ y ]> φ y) ↔ φ X).
-  {
-    clear S1 S3 S4.
-    Conj S2 S5 C1.
-    now Equiv C1.
-  }
+  { Conj_as S2 S5 C1. now Equiv C1. }
   exact S6.
 Qed.
 
@@ -483,7 +458,7 @@ Proof.
   {
     pose proof (n10_24 (fun c =>
       (x = B <[- x -]> x = c) ∧ ψ c) B) as n10_24.
-    now Syll S1 n10_24 S2.
+    now Syll_as S1 n10_24 S2.
   }
   assert (S3 : ((x = B <[- x -]> x = C) ∧ (ψ C)) 
     → (((B = B) ↔ (B = C)) ∧ ψ C)).
@@ -507,7 +482,7 @@ Proof.
     pose proof (n13_16 B C) as n13_16.
     rewrite <- n13_16 in n13_13.
     rewrite -> n4_3 in n13_13.
-    now Syll S4 n13_13 S5.
+    now Syll_as S4 n13_13 S5.
   }
   assert (S6 : (∃ c, ((x = B <[- x -]> x = c) ∧ ψ c)) → ψ B).
   {
@@ -520,12 +495,7 @@ Proof.
     now rewrite -> n10_23 in n10_11.
   }
   assert (S7 : (∃ c, ((x = B) <[- x -]> (x = c)) ∧ ψ c) ↔ ψ B).
-  {
-    clear S1 S3 S4 S5.
-    move S2 after S6.
-    Conj S6 S2 C1.
-    now Equiv C1.
-  }
+  { Conj_as S6 S2 C1. now Equiv C1. }
   exact S7.
 Qed.
 
@@ -538,8 +508,7 @@ Proof.
   { apply n13_13. }
   assert (S3 : (φ X ∧ (X = Y)) → (φ Y ∧ (X = Y))).
   {
-    move S1 after S2.
-    Conj S2 S1 C1.
+    Conj_as S2 S1 C1.
     pose proof (Comp3_43 (φ X ∧ (X = Y)) (φ Y) (X = Y)) as Comp3_43.
     now MP Comp3_43 C1.
   }
@@ -573,11 +542,7 @@ Proof.
     now rewrite <- n13_16 in S5.
   }
   assert (S7 : (φ X ∧ (X = Y)) ↔ (φ Y ∧ (X = Y))).
-  {
-    clear S1 S2 S4 S5.
-    Conj S3 S6 C1.
-    now Equiv C1.
-  }
+  { Conj_as S3 S6 C1. now Equiv C1. }
   exact S7.
 Qed.
 
@@ -604,7 +569,7 @@ Proof.
   assert (S2 : φ X → (∃ y, (y = X) ∧ φ y)).
   {
     pose proof (n10_24 (fun y => y = X ∧ φ y) X) as n10_24.
-    now Syll S1 n10_24 S2.
+    now Syll_as S1 n10_24 S2.
   }
   assert (S3 : ∀ y, ((y = X) ∧ φ y) → φ X).
   {
@@ -616,12 +581,7 @@ Proof.
   assert (S4 : (∃ y, (y = X) ∧ φ y) → φ X).
   { now rewrite -> n10_23 in S3. }
   assert (S5 : (∃ y, (y = X) ∧ φ y) ↔ φ X).
-  {
-    clear S1 S3.
-    move S2 after S4.
-    Conj S4 S2 C1.
-    now Equiv C1.
-  }
+  { Conj_as S4 S2 C1. now Equiv C1. }
   exact S5.
 Qed.
 
@@ -632,7 +592,7 @@ Proof.
   rewrite -> Transp4_11 in n13_195.
   setoid_rewrite -> n4_3 in n13_195 at 2.
   rewrite -> n10_51 in n13_195.
-  now symmetry in n13_195.
+  now rewrite -> n4_21 in n13_195.
 Qed.
 
 Theorem n13_21 (X Y : Prop) (φ : Prop → Prop → Prop) : 
@@ -691,16 +651,12 @@ Proof.
   {
     (* n10_13 ignored - we directly use `Conj` instead. Is it legal? *)
     (* n10_221 ignored *)
-    clear S1 S2 S3.
-    now Conj S4 S5 C1.
+    now Conj_as S4 S5 C1.
   }
   assert (S7 : ((φ A ∨ ¬ φ A) → φ X ∨ ¬ φ X)
     ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ (X ≠ A)))
     ∧ ((φ A ∨ ¬ φ A) → ((X = A) → (φ X ∨ ¬ φ X)))).
-  {
-    clear S1 S3 S4 S5.
-    now Conj S2 S6 C1.
-  }
+  { now Conj_as S2 S6 C1. }
   assert (S8 : ((φ A ∨ ¬ φ A) → φ X ∨ ¬ φ X)
     ∧ ((φ A ∨ ¬ φ A) → (X = A ∨ (X ≠ A)))).
   {

@@ -19,9 +19,7 @@ Compatability.
 
 ## Are you sure the code/proof is 100% correct?
 No. Successful `Qed`s are still false positives, due to a lot of delicate details. For example: 
-- `Ltac` isn't well designed
 - Some propositions are written in natural language
-- I didn't deeply examine the code in chapter 1 - 5
 - Our current implementation doesn't enforce types on propositions.
 
 ## Can Principia Mathematica be completely formalized?
@@ -30,7 +28,7 @@ Yes.
 With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Our project already covers the foundation of the rewriting system with which all advanced mathematical ideas are built on.
 
 Beneath the code and down to the core, the difficulty in formalization is how PM organizes its ideas. This means:
-- PM gets a mountain of notations, symbols, theorems, and different contexts to interpret them. See [What are the real problems to formalize Principia Mathematica?](./docs/3_mechanics.md/#what-are-the-real-problems-to-formalize-principia-mathematica)
+- PM gets a mountain of notations, symbols, theorems, and different contexts to interpret them. See [What are the actual problems to formalize Principia Mathematica?](./docs/3_mechanics.md/#what-are-the-actual-problems-to-formalize-principia-mathematica)
 - Terminologies also have different meanings in different chapters, and the range of the distinction is a manual work. For example, "functions" and "matrices"
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far: PM's notorious notation system, highly "trivial"(chores-like) theorems, and its historical background to guarantee a missing revisit.
