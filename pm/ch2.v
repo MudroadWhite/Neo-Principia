@@ -44,7 +44,7 @@ Proof.
 Qed.
 
 Theorem Syll2_05 (P Q R : Prop) :
-  (Q → R) → ((P  → Q) → (P → R)).
+  (Q → R) → ((P → Q) → (P → R)).
 Proof.
   pose proof (Sum1_6 (¬ P) Q R) as Sum1_6.
   replace (¬ P ∨ Q) with (P → Q) in Sum1_6.
@@ -156,7 +156,6 @@ Ltac Syll H1 H2 :=
     constr_eq H2 _H2;
     assert (S : P → R) by (intros p; exact (H2 (H1 p)));
     pose proof S as H1;
-    simpl in H1;
     clear S
   end.
 
@@ -168,8 +167,7 @@ Ltac Syll_as H1 H2 S :=
     | [ _H1 : ?P → ?Q, _H2 : ?Q → ?R |- _ ] =>
       constr_eq H1 _H1;
       constr_eq H2 _H2;
-      assert (S : P → R) by (intros p; exact (H2 (H1 p)));
-      simpl in S
+      assert (S : P → R) by (intros p; exact (H2 (H1 p)))
   end.
 
 Theorem Transp2_16 (P Q : Prop) :
