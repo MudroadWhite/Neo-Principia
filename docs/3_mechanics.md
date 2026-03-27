@@ -34,7 +34,7 @@ With *reconstruct every theorems in PM as much as we can* as our assumption, our
 3. Can we design a set of notations that can work well altogether?
 4. For current implementation, can we give correct types to parameters? For example, is it really that function's type should be just `Prop -> Prop`, when the difference between untyped functions and predicative functions become more and more significant in later chapters?
 
-Problems arisen from the assumption can be alleviated by some other reconstruction; see [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) suggestion on alternative symbols. The problems listed above will not be discussed in this chapter, but can be inferred from analytics in [audit](./5_audit.md).
+Problems arisen from the assumption can be alleviated by some other reconstruction; see [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) suggestion on alternative symbols. These problems will not be discussed in this chapter, but can be inferred from analytics in [audit](./5_audit.md).
 
 We now start exploring the main ideas for each chapters.
 
