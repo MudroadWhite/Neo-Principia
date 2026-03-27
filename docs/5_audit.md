@@ -80,18 +80,22 @@ The *of the same type* proposition in chapter 11 is unexamined. It will gain awa
 
 **General.** Axiom of Reducibility has been subjected to tons of criticism per history. Hilbert thinks the `∃` for AoR is [useless(p.33)](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf), and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function. In our implementation we find it indeed hard to use, and there is a plan to develop other forms of AoR to make a nicer conversion.
 
-For chapters after chapter 12, `!` comes to significance(sometimes, critical) to be used in the theorems, denoting predicates from untyped functions. Inherently speaking, it requires us to design a useable small type system to distinguish between untyped functions and predicates. Our current implementation does not support `!`, because we don't strictly differentiate untyped and predicative functions.
+Dependency on AoR generally matters with the utilization of `!` that also comes to (sometimes, critical)significance after chapter 12, denoting predicates from untyped functions. Inherently speaking, it requires us to design a useable small type system to distinguish between untyped functions and predicates. Our current implementation does not support `!`, because we don't strictly differentiate untyped and predicative functions. 
 
-The result of which is, AoR is not strictly implemented in chapter 12. While it doesn't matter in chapter 13 - 14, chapter 20 brings its necessity to the surface. On its first citation in \*13.101, it has been considered that AoR not only express the *predicative* functions but also the *non-predicative* ones, and a strict enforcement should lead to different degrees on identity. Currently our design on both AoR and proof of \*13.101 are not aware of such technical details, and there seems to be a lot of work to do in the future.
+Lacking of the type system results in AoR not strictly implemented in chapter 12. While it doesn't generally matter in chapter 13 - 14, chapter 20 brings its necessity to the surface. 
 
 ### Chapter 13
 **Coverage: 92.9% = 26/28.**
 - **\*13.101.** Russell stated in the text that the proof for \*13.101, \*13.15-17 should be "taken as a primitive idea"(p.169). We do find odds that blocks this proof, but it comes from a completely different reason, and a complete proof can still be given. Our proof involves using a Rocq `destruct` to get out of the routine. What the simplification we made here, inherently, is to assume we can have `(∃ x, P x) ∧ (∃ x, Q x) → (∃ x, P x ∧ Q x)`, by which PM doesn't make a theorem for unfortunately. The "distribution law" on `∃` seems to be the problem for several cases, sometimes leading to solid failure in proof; see **\*14.32** below.
 - **\*13.11, \*13.12.** Both of the theorems have used \*1.7 during the proof, which seems to be confusing. The reason that \*1.7 comes into use seems to have something to deal with a meta question: when can we substitute the individuals of a deduced proposition into something else? Should we allow such substitution? Under our current design of proof, we think \*1.7 shouldn't be used explicitly and there should be some workaround.
 
-**General.** This is the first chapter where we have to design `_pred` variants for previous theorems. We find lifting theorems to higher orders tedious and has to be performed manually. In the future we plan to automate such lifting.
+**General.** This is the first chapter where we have to design `_pred` variants for previous theorems. We find lifting theorems to higher orders tedious and has to be performed manually; these variants are only `Admitted` to be true. 
 
-TODO: proving style: only lowest order, but assuming valid so far
+(TODO: proving style: only lowest order) In the future we plan to automate such lifting.
+
+**Definition of identity.** In PM, it has been considered that AoR not only express the *predicative* functions but also the *non-predicative* ones, and a strict enforcement should lead to different degrees on identity, maybe even implying giving `=` different types depending of types of its operands. It is worthwhile to note that we are directly using Rocq's default `=` as the symbol for identity, leading to several facts below:
+- All operands of `=` are having Rocq's type, not the types in PM
+- Because of this issue, Rocq's `=` is hiding the necessity for Axiom of Reducibility.
 
 ### Chapter 14
 **Coverage: 84.61% = 44/52.**

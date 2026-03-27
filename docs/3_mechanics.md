@@ -46,8 +46,9 @@ Chapter 1 presents some basic `Pp`s to set everything up, and practically speaki
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
-- Asserting `H2 : P → Q` means asserting `P` can successfully imply `Q`
-- (\*1.1)If `H1` and `H2` are asserted true, we are allowed to assert `H3 : Q`
+- (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) -> (|- Q)`(p.92), which doesn't occur within formulae in PM.
+
+There are no dependency explicitly stated in PM on \*1.1.
 
 In chapter 1 we also have a rough idea on how to denote a (elementary) *propositional function*. Such kind of simple denotation will be changed into something else in later chapters. In chapter 1-5, most propositional functions don't come barely themselves - their values for variables are somehow "fixed" already during all the inference, where `φ X` and `φ Y` does not mean the same thing(p.19).
 
@@ -63,8 +64,9 @@ Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
 - Asserting an (elementary) **propositional function** means asserting `H1 : φ X`.
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
+- We use \*1.11 almost everywhere in PM, and \*1.1 is generally not used, see (p.93). Most judgments in PM are assertions on propositional functions.
 
-The role of \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
+\*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
 
 `H1 : φ X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `φ` solely(p.92) and we're still asserting a proposition. 
 
@@ -76,7 +78,7 @@ The role of \*1.11 will come to more significance after [chapter 9](./3_mechanic
 
 By proving a theorem, we mean:
 - Everything is restricted to elementary propositions and elementary functions
-- Deduction is performed through *modus ponens* designed in \*1.1 or \*1.11
+- Deduction is performed through *modus ponens* designed in \*1.11. Currently we don't see dependencies for \*1.1
 
 (p.92)Note: not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
 
@@ -111,7 +113,7 @@ There's a lot of things happening in the beginning of chapter 9.
 - First of all \*1.1 and \*1.11 has assumed their version for **1st order propositions**(p.128)
 - Then first few `Pp`s in chapter 9 are supposed to restricted to e-prop `¬` and `∨`(discussed in Chapter II, they are not 1-order `¬` and `∨`). 
 - After we have demonstrated that they work just fine on `∃` as well, we can lift e-prop `¬` and `∨` to 1-order ones
-- Then we have \*9.12 being the actual *modus ponens* synthesizing both \*1.1 and \*1.11.
+- Then we have \*9.12 being the actual *modus ponens* synthesizing \*1.11.
 
 Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.162), which is a useful and natural feature that is still considered in later chapters.
 
