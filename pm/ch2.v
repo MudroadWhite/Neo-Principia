@@ -733,7 +733,7 @@ Proof.
   pose proof (n2_54 P (Q → R)) as n2_54a.
   pose proof (Simp2_02 (¬ P) ((P ∨ Q → R) → (Q → R))) as Simp2_02a. (*Not cited*)
   (*Greg's suggestion per the BRS list on June 25, 2017.*)
-  MP Syll2_06a Simp2_02a.
+  MP Simp2_02a Syll2_06a.
   MP Hb Simp2_02a.
   Syll Hb n2_54a Hc.
   exact Hc.
