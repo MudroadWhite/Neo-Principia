@@ -61,7 +61,6 @@ Proof.
   { right. right. apply H. }
 Qed.
 
-
 Theorem Sum1_6 (P Q R : Prop) : 
   (Q → R) → (P ∨ Q → P ∨ R). (*Summation*)
 Proof. 
