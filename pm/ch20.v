@@ -54,6 +54,18 @@ Declare Scope debug_class.
 Declare Scope class.
 Declare Scope debug_iota_description_poly.
 
+Definition n10_11_pred (Y : Order 1) (φ : Order 1 → Prop)
+  : φ Y → ∀ x, φ x.
+Admitted.
+
+Definition n10_21_pred (φ : Order 1 → Prop) (P : Prop) :
+  (∀ x : Order 1, P → φ x) ↔ (P → (∀ x : Order 1, φ x)).
+Admitted.
+
+Definition n10_281_pred (φ ψ : (Prop -> Prop) → Prop) :
+  (∀ x, φ x ↔ ψ x) → ((∃ x, φ x) ↔ (∃ x, ψ x)).
+Admitted.
+
 (* 
 Failed attempts:
 - Defining `Class` only using functions
@@ -288,21 +300,79 @@ Proof.
   set (X := Intro_individual "x").
   set (IPhi := Intro_pred "Phi" 1).
   (* ******** *)
-  assert (S1 : (Psi x <[- x -]> Chi x) 
-    -> ((Phi x <[- x -]> Psi x)
+  assert (S1 : (Psi x <[- x -]> Chi x) -> ((Phi x <[- x -]> Psi x)
       <[- Phi -]> (Phi x <[- x -]> Chi x))).
   {
     pose proof (n4_86 (Psi X) (Chi X) (IPhi X)) as n4_86.
-    (* TODO: generalize on X; split the forall *)
-    pose proof n10_11 as n10_11.
+    setoid_rewrite -> n4_21 in n4_86 at 3.
+    setoid_rewrite -> n4_21 in n4_86 at 4.
+    pose proof (n10_11 X (fun x => Psi x ↔ Chi x 
+      → (IPhi x ↔ Psi x) ↔ (IPhi x ↔ Chi x))) as n10_11a.
+    MP n10_11a n4_86.
+    pose proof (n10_27 (fun x => Psi x ↔ Chi x)
+      (fun x => (IPhi x ↔ Psi x) ↔ (IPhi x ↔ Chi x))) as n10_27.
+    MP n10_27 n10_11.
+    pose proof (n10_271 (fun x => IPhi x ↔ Psi x)
+      (fun x => IPhi x ↔ Chi x)) as n10_271.
+    Syll n10_27 n10_271 Sy1.
+    pose proof (n10_11_pred IPhi (fun Phi => (Phi z <[- z -]> Psi z) 
+      ↔ Phi z <[- z -]> Chi z)) as n10_11b.
+    clear n4_86 n10_11a n10_27 n10_271.
+    now Syll Sy1 n10_11b Sy2.
   }
-Admitted.
+  assert (S2 : (Psi x <[- x -]> Chi x) 
+    -> (((Phi x <[- x -]> Psi x) /\ f Phi)
+      <[- Phi -]> ((Phi x <[- x -]> Chi x) /\ f Phi))).
+  {
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    pose proof (n4_36 (IPhi x <[- x -]> Psi x) (IPhi x <[- x -]> Chi x) 
+      (f IPhi)) as n4_36.
+    pose proof (n10_11_pred IPhi (fun Phi => 
+      (Phi x <[- x -]> Psi x) ↔ (Phi x <[- x -]> Chi x)
+        → (Phi x <[- x -]> Psi x) ∧ f Phi↔ (Phi x <[- x -]> Chi x) ∧ f Phi)) 
+        as n10_11.
+    MP n10_11 n4_36.
+    pose proof (n10_27_pred (fun Phi => (Phi x<[- x -]> Psi x) 
+      ↔ (Phi x <[- x -]> Chi x))
+      (fun Phi => (Phi x <[- x -]> Psi x) ∧ f Phi
+        ↔ (Phi x <[- x -]> Chi x) ∧ f Phi)) as n10_27.
+    MP n10_27 n10_11.
+    now MP n10_27 S1.
+  }
+  assert (S3 : (Psi x <[- x -]> Chi x) 
+    -> ((exists Phi : Order 1, (Phi x <[- x -]> Psi x) /\ f Phi)
+      <-> (exists Phi : Order 1, (Phi x <[- x -]> Chi x) /\ f Phi))).
+  {
+    intro Hp.
+    pose proof (S2 Hp) as S2.
+    pose proof (n10_281_pred
+      (fun Phi => (Phi x <[- x -]> Psi x) /\ f Phi)
+      (fun Phi => (Phi x <[- x -]> Chi x) /\ f Phi)) as n10_281.
+    clear S1.
+    now MP n10_281 S2.
+  }
+  assert (S4 : (Psi x <[- x -]> Chi x)
+    -> (([^ z => Psi z @ cPsi => f cPsi]) 
+      <-> ([^ z => Chi z @ cChi => f cChi]))).
+  {
+    intro Hp.
+    pose proof (S3 Hp) as S3.
+    now repeat rewrite <- n20_1 in S3.
+  }
+  exact S4.
+Qed.
 
 Theorem n20_111 (f g : (Prop -> Prop) -> Prop) : 
   (forall Phi : Order 1, f Phi <-> g Phi)
   -> (forall Phi : Order 1, 
     (([^ z => Phi z @ cz => f cz]) <-> ([^ z => Phi z @ cz => g cz]))).
 Proof.
+  (* TOOLS *)
+  set (IPhi := Intro_pred "Phi" 1).
+  set (IPsi := Intro_pred "Psi" 1).
+  (* ******** *)
+  
 Admitted.
 
 (* TODO: `g` here cannot be `Order 1` and have to be `(Prop -> Prop) -> Prop`.
