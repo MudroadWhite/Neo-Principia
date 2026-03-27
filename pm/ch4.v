@@ -25,8 +25,9 @@ automatically associates to the right, we leave
 this notational axiom commented out.*)
 
 Ltac Equiv H1 :=
-  lazymatch goal with 
-    | [ H1 : (?P → ?Q) ∧ (?Q → ?P) |- _ ] => 
+  match goal with 
+    | [ _H1 : (?P → ?Q) ∧ (?Q → ?P) |- _ ] => 
+      constr_eq H1 _H1;
       replace ((P → Q) ∧ (Q → P)) with (P ↔ Q) in H1
       by now rewrite Equiv4_01
   end.
@@ -50,13 +51,13 @@ Proof.
     pose proof (Transp2_16 Q P) as Transp2_16b.
     Conj_as Transp2_16a Transp2_16b Ca.
     pose proof (n3_47 (P → Q) (Q → P) (¬ Q → ¬ P) (¬ P → ¬ Q)) as n3_47a.
-    MP n3_47 Ca.
+    MP n3_47a Ca.
     pose proof (n3_22 (¬ Q → ¬ P) (¬ P → ¬ Q)) as n3_22a.
     Syll_as n3_47a n3_22a Sa_1.
     exact Sa_1.
   }
   replace ((P → Q) ∧ (Q → P)) with (P ↔ Q) in Sa.
-  replace ((¬ P → ¬ Q) ∧ (¬ Q → ¬ P)) with (¬ P ↔ ¬ Q) in Sa .
+  replace ((¬ P → ¬ Q) ∧ (¬ Q → ¬ P)) with (¬ P ↔ ¬ Q) in Sa.
   assert (Sb : (¬ P → ¬ Q) ∧ (¬ Q → ¬ P) → (P → Q) ∧ (Q → P)).
   {
     pose proof (Transp2_17 Q P) as Transp2_17a.
@@ -87,7 +88,7 @@ Proof.
     exact Ca.
   }
   pose proof (n3_47 (P → ¬ Q) (¬ Q → P) (Q → ¬ P) (¬ P → Q)) as n3_47a.
-  MP n3_47a C.
+  MP n3_47a Ca.
   assert (Cb : ((Q → ¬ P) → P → ¬ Q) ∧ ((¬ P → Q) → ¬ Q → P)).
   {
     pose proof (Transp2_03 Q P) as Transp2_03b.
@@ -96,7 +97,7 @@ Proof.
     exact Cb.
   }
   pose proof (n3_47 (Q → ¬ P) (¬ P → Q) (P → ¬ Q) (¬ Q → P)) as n3_47b.
-  MP n3_47b Ca.
+  MP n3_47b Cb.
   clear Ca Cb.
   Conj_as n3_47a n3_47b Cc.
   rewrite <- Equiv4_01 in Cc.
@@ -166,7 +167,7 @@ Proof.
     pose proof (n3_22 P Q) as n3_22b.
     pose proof (Syll2_06 (P ∧ Q) (Q ∧ P) (¬ R)) as Syll2_06b.
     MP Syll2_06b n3_22b.
-    Syll_as Syll2_06b Simp3_27a Sb.
+    Syll_as Simp3_27a Syll2_06b Sb.
     exact Sb.
   }
   Conj_as Sa Sb C.
@@ -261,7 +262,7 @@ Theorem n4_24 (P : Prop) :
 Proof.
   pose proof (n3_2 P P) as n3_2a.
   pose proof (n2_43 P (P ∧ P)) as n2_43a.
-  MP n3_2a n2_43a.
+  MP n2_43a n3_2a.
   pose proof (Simp3_26 P P) as Simp3_26a.
   Conj_as n2_43a Simp3_26a C.
   Equiv C.
@@ -377,7 +378,7 @@ Proof.
   Conj_as Fact3_45a Fact3_45b C.
   pose proof (n3_47 (P → Q) (Q → P) 
       (P ∧ R → Q ∧ R) (Q ∧ R → P ∧ R)) as n3_47a.
-  MP n3_47 C.
+  MP n3_47a C.
   replace  ((P → Q) ∧ (Q → P)) with (P ↔ Q) in n3_47a.
   replace ((P ∧ R → Q ∧ R) ∧ (Q ∧ R → P ∧ R)) with (P ∧ R ↔ Q ∧ R) in n3_47a.
   exact n3_47a.
@@ -392,7 +393,7 @@ Proof.
   Conj_as Sum1_6a Sum1_6b C.
   pose proof (n3_47 (P → Q) (Q → P) 
       (R ∨ P → R ∨ Q) (R ∨ Q → R ∨ P)) as n3_47a.
-  MP n3_47 C.
+  MP n3_47a C.
   replace  ((P → Q) ∧ (Q → P)) with (P ↔ Q) in n3_47a.
   replace ((R ∨ P → R ∨ Q) ∧ (R ∨ Q → R ∨ P)) with (R ∨ P ↔ R ∨ Q) in n3_47a.
   pose proof (n4_31 Q R) as n4_31a.
@@ -552,14 +553,14 @@ Proof.
   {
     pose proof (Simp3_26 Q R) as Simp3_26a.
     pose proof (Sum1_6 P (Q ∧ R) Q) as Sum1_6a.
-    MP Simp3_26a Sum1_6a.
+    MP Sum1_6a Simp3_26a.
     exact Sum1_6a.
   }
   assert (Sum1_6b: P ∨ Q ∧ R → P ∨ R).
   {
     pose proof (Simp3_27 Q R) as Simp3_27a.
     pose proof (Sum1_6 P (Q ∧ R) R) as Sum1_6b.
-    MP Simp3_27a Sum1_6b.
+    MP Sum1_6b Simp3_27a.
     exact Sum1_6b.
   }
   (* ??? *)
@@ -910,6 +911,7 @@ Proof.
   clear Id2_08a. clear Comp3_43a. clear Simp3_27a.
   Conj_as Syll2_05a Exp3_3a C.
   Equiv C.
+  rewrite -> n4_21 in C.
   exact C.
 Qed.
 
@@ -952,7 +954,7 @@ Proof.
   Conj_as n4_22b n4_12a Cc.
   pose proof (n4_22 (P → Q) ((¬ Q ∧ ¬ P) ↔ ¬ Q) 
     (Q ↔ ¬ (¬ Q ∧ ¬ P))) as n4_22c.
-  MP n4_22b Cc.
+  MP n4_22c Cc.
   pose proof (n4_57 Q P) as n4_57a.
   apply propositional_extensionality in n4_57a.
   symmetry in n4_57a.
@@ -1115,7 +1117,7 @@ Proof.
   MP Syll2_06a Transp2_15a.
   pose proof (Syll2_06 (¬ (¬ Q ∨ ¬ R) → P)
     (¬ P → (¬ Q ∨ ¬ R)) ((¬ P → ¬ Q) ∨ (¬ P → ¬ R))) as Syll2_06b.
-  MP Syll2_06b Trans2_15b.
+  MP Syll2_06b Transp2_15b.
   MP Syll2_06b Simp3_27a.
   Conj_as Syll2_06a Syll2_06b Cb.
   Equiv Cb.
@@ -1184,7 +1186,7 @@ Proof.
   pose proof (Simp2_02 (¬ P) Q) as Simp2_02b.
   Conj_as Simp2_02a Simp2_02b Ca.
   pose proof (Comp3_43 Q (P → Q) (¬ P → Q)) as Comp3_43a.
-  MP Comp3_43a H.
+  MP Comp3_43a Ca.
   clear n2_61a. clear Simp2_02a.
   clear Simp2_02b. clear Ca.
   Conj_as Imp3_31a Comp3_43a Cb.
