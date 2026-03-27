@@ -19,9 +19,7 @@ Compatability.
 
 ## Are you sure the code/proof is 100% correct?
 No. Successful `Qed`s are still false positives, due to a lot of delicate details. For example: 
-- `Ltac` isn't well designed
 - Some propositions are written in natural language
-- I didn't deeply examine the code in chapter 1 - 5
 - Our current implementation doesn't enforce types on propositions.
 
 ## Can Principia Mathematica be completely formalized?
