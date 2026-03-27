@@ -62,8 +62,22 @@ Definition n10_21_pred (φ : Order 1 → Prop) (P : Prop) :
   (∀ x : Order 1, P → φ x) ↔ (P → (∀ x : Order 1, φ x)).
 Admitted.
 
+Open Scope formal_equiv.
+
+(* This is a very ironic variant: we shouldn't write down such a variant
+if we have designed the AoR correctly *)
+Definition n12_1_pred (φ : (Prop -> Prop) → Prop) : 
+  ∃ f : (Order 2), (φ x) <[- (x : Order 1) -]> ((fun (F : Order 2) =>
+    F x) f).
+Admitted.
+
 Definition n10_281_pred (φ ψ : (Prop -> Prop) → Prop) :
   (∀ x, φ x ↔ ψ x) → ((∃ x, φ x) ↔ (∃ x, ψ x)).
+Admitted.
+
+Definition n10_24_pred_1 (φ : ((Prop -> Prop) -> Prop) → Prop) 
+  (Y : (Prop -> Prop) -> Prop) :
+  φ Y → ∃ x, φ x.
 Admitted.
 
 (* 
@@ -205,8 +219,6 @@ Example debug_iota2_example :=
   (at level 200, x binder, y binder, right associativity) : debug_iota_description. *)
 
 Close Scope debug_iota_description_poly.
-
-Open Scope formal_equiv.
 
 Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   ([^ z => Psi z @ cPsi => f cPsi])
@@ -364,23 +376,95 @@ Proof.
 Qed.
 
 Theorem n20_111 (f g : (Prop -> Prop) -> Prop) : 
-  (forall Phi : Order 1, f Phi <-> g Phi)
-  -> (forall Phi : Order 1, 
-    (([^ z => Phi z @ cz => f cz]) <-> ([^ z => Phi z @ cz => g cz]))).
+  (f Phi <[- Phi -]> g Phi)
+  -> (([^ z => Phi z @ cz => f cz]) <[- Phi -]> ([^ z => Phi z @ cz => g cz])).
 Proof.
   (* TOOLS *)
   set (IPhi := Intro_pred "Phi" 1).
   set (IPsi := Intro_pred "Psi" 1).
   (* ******** *)
-  
-Admitted.
+  assert (S1 : (f Phi <[- Phi -]> g Phi)
+    -> ((IPhi x <[- x -]> IPsi x) /\ f IPsi
+      <-> (IPhi x <[- x -]> IPsi x) /\ g IPsi)).
+  {
+    (* We don't use Fact3_45 here as n4_36 suits better *)
+    pose proof (n4_36 (f IPsi) (g IPsi) (IPhi x<[-x : Prop-]>IPsi x)) 
+      as n4_36.
+    setoid_rewrite -> n4_3 in n4_36 at 3.
+    setoid_rewrite -> n4_3 in n4_36 at 5.
+    pose proof (n10_1_pred (fun Phi => f Phi <-> g Phi) IPsi)
+      as n10_1.
+    move n4_36 after n10_1.
+    now Syll n10_1 n4_36 S1.
+  }
+  assert (S2 : (f Phi <[- Phi -]> g Phi)
+    -> (((IPhi x <[- x -]> Psi x) /\ f Psi)
+      <[- Psi -]> ((IPhi x <[- x -]> Psi x) /\ g Psi))).
+  {
+    pose proof (n10_11_pred
+      IPsi (fun Psi => (f Phi <[- Phi -]> g Phi) 
+      -> (((IPhi x <[- x -]> Psi x) ∧ f Psi)
+        ↔ ((IPhi x <[- x -]> Psi x) ∧ g Psi)))) as n10_11.
+    MP n10_11 S1.
+    now rewrite -> n10_21_pred in n10_11.
+  }
+  assert (S3 : (f Phi <[- Phi -]> g Phi)
+    -> ((exists Psi, (IPhi x <[- x -]> Psi x) /\ f Psi)
+      <-> (exists Psi, (IPhi x <[- x -]> Psi x) /\ g Psi))).
+  {
+    intro Hp.
+    pose proof (S2 Hp) as S2.
+    clear S1.
+    pose proof (n10_281_pred
+      (fun Psi => (IPhi x <[- x -]> Psi x) ∧ f Psi)
+      (fun Psi => (IPhi x <[- x -]> Psi x) /\ g Psi)) as n10_281.
+    now MP n10_281 S2.
+  }
+  assert (S4 : (f Phi <[- Phi -]> g Phi)
+    -> (([^ z => IPhi z @ cz => f cz]) 
+      <-> ([^ z => IPhi z @ cz => g cz]))).
+  {
+    setoid_rewrite -> n4_21 in S3 at 3.
+    setoid_rewrite -> n4_21 in S3 at 4.
+    now repeat setoid_rewrite <- n20_1 in S3.
+  }
+  assert (S5 : (f Phi <[- Phi -]> g Phi)
+    -> (([^ z => Phi z @ cz => f cz]) 
+      <[- Phi -]> ([^ z => Phi z @ cz => g cz]))).
+  {
+    pose proof n10_11_pred.
+    pose proof (n10_11_pred IPhi
+      (fun Phi0 => (f Phi<[-Phi : Prop → Prop-]>g Phi)
+        → ([^ z => Phi0 z @ zPsi => f zPsi])
+          ↔ ([^ z => Phi0 z @ zPsi => g zPsi]))) as n10_11.
+    MP n10_11 S4.
+    now rewrite -> n10_21_pred in n10_11.
+  }
+  exact S5.
+Qed.
 
-(* TODO: `g` here cannot be `Order 1` and have to be `(Prop -> Prop) -> Prop`.
+(* NOTE: 
+  `g` here cannot be `Order 1` and have to be `(Prop -> Prop) -> Prop`. TODO: 
   Investigate this in the future and design a better `Order` type. The original 
-  text is also indicate this clearly *)
+  text is also indicate this clearly 
+*)
 Theorem n20_112 (f : (Prop -> Prop) -> Prop) : exists g : (Prop -> Prop) -> Prop, 
-  forall Phi : Order 1, ([^z => Phi z @ cz => f cz]) <-> ([^z => Phi z @ cz => g cz]).
+  ([^z => Phi z @ cz => f cz]) <[- Phi -]> ([^z => Phi z @ cz => g cz]).
 Proof.
+  (* TOOLS *)
+  set (Ig := Intro_pred "g" 2).
+  (* ******** *)
+  assert (S1 : exists g, f Phi <[- Phi -]> g Phi).
+  { apply n12_1_pred. }
+  assert (S2 : exists g : (Prop -> Prop) -> Prop, 
+    ([^z => Phi z @ cz => f cz]) <[- Phi -]> ([^z => Phi z @ cz => g cz])).
+  {
+    pose proof (n20_111 f Ig) as n20_111.
+    pose proof (n10_24_pred_1 (fun g => (f Phi <[- Phi -]> g Phi)
+      → ([^ z => Phi z @ cz => f cz]) <[- Phi -]>
+       ([^ z => Phi z @ cz => g cz])) Ig) as n10_24.
+    MP n10_24 n20_111.
+  }
 Admitted.
 
 (* This is the class version of n12_1. While it is typed in Rocq, it might not express 
