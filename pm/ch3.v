@@ -41,23 +41,20 @@ Proof.
   exact n2_32a.
   all: now rewrite Impl1_01.
 Qed.
-(*3.03 is permits the inference from the theoremhood 
-    of P and that of Q to the theoremhood of P and Q.So:*)
 
-(* NOTE:
-Although this Ltac simplifies the proof a lot, there is only one safe way
-to perform the `Conj`. We have to 
-1. `assert` the final proposition being produced
-2. `clear` all irrevalent hypotheses
-3. `move` the only two hypotheses into right order, optionally
-4. `Conj` them and `exact` the result
-*)
-Ltac Conj H1 H2 C :=
-  let C := fresh C in lazymatch goal with 
-    | [ H1 : ?P, H2 : ?Q |- _ ] =>  
-      (pose proof (Conj3_03 P Q) as C; simpl in C;
-      MP Conj3_03 P; MP Conj3_03 Q)
-end.
+(*3.03 is permits the inference from the theoremhood 
+    of P and that of Q to the theoremhood of P and Q. So: *)
+Ltac Conj_test H1 H2 C :=
+  match goal with 
+    | [ _H1 : ?P |- _ ] =>
+      constr_eq H1 _H1;
+      match goal with 
+      | [ _H2 : ?Q |- _ ] =>
+        constr_eq H2 _H2;
+        pose proof (Conj3_03 P Q) as C;
+        pose proof (C H1 H2) as C
+      end
+  end.
 
 Theorem n3_1 (P Q : Prop) :
   (P ∧ Q) → ¬ (¬ P ∨ ¬ Q).
@@ -111,7 +108,7 @@ Theorem n3_2 (P Q : Prop) :
 Proof.
   pose proof (n3_12 P Q) as n3_12a.
   pose proof (n2_32 (¬ P) (¬ Q) (P ∧ Q)) as n2_32a.
-  MP n3_32a n3_12a.
+  MP n2_32a n3_12a.
   replace (¬ Q ∨ P ∧ Q) with (Q → P ∧ Q) in n2_32a.
   replace (¬ P ∨ (Q → P ∧ Q)) with (P → Q → P ∧ Q) in n2_32a.
   exact n2_32a.
@@ -158,7 +155,7 @@ Proof.
   pose proof (n2_31 (¬ P) (¬ Q) P) as n2_31a.
   MP n2_31a Simp2_02a.
   pose proof (n2_53 (¬ P ∨ ¬ Q) P) as n2_53a.
-  MP n2_53a Simp2_02a.
+  MP n2_53a n2_31a.
   replace (¬ (¬ P ∨ ¬ Q)) with (P ∧ Q) in n2_53a
     by now rewrite Prod3_01.
   exact n2_53a.
@@ -273,7 +270,7 @@ Theorem n3_41 (P Q R : Prop) :
 Proof.
   pose proof (Simp3_26 P Q) as Simp3_26a.
   pose proof (Syll2_06 (P ∧ Q) P R) as Syll2_06a.
-  MP Simp3_26a Syll2_06a.
+  MP Syll2_06a Simp3_26a.
   exact Syll2_06a.
 Qed.
 
@@ -295,7 +292,7 @@ Proof.
   pose proof (n2_77 P R (Q ∧ R)) as n2_77a.
   Syll Syll2_05a n2_77a Sa.
   pose proof (Imp3_31 (P → Q) (P → R) (P → Q ∧ R)) as Imp3_31a.
-  MP Sa Imp3_31a.
+  MP Imp3_31a Sa.
   exact Imp3_31a.
 Qed.
 
@@ -372,13 +369,12 @@ Proof.
     Syll Sc Syll2_05b Sd_1.
     exact Sd_1.
   }
-  clear Sa Sc.
-  Conj Sb Sd C.
   pose proof (n2_83 ((P → R) ∧ (Q → S)) (P ∧ Q) (Q ∧ R) (R ∧ S)) as n2_83a. (*This with MP works, but it omits Conj3_03.*)
   pose proof (Imp3_31 (((P → R) ∧ (Q → S)) → ((P ∧ Q) → (Q ∧ R)))
     (((P → R) ∧ (Q → S)) → ((Q ∧ R) → (R ∧ S))) 
     (((P → R) ∧ (Q → S)) → ((P ∧ Q) → (R ∧ S)))) as Imp3_31a.
   MP Imp3_31a n2_83a.
+  Conj_test Sb Sd C.
   MP Imp3_31a C.
   exact Imp3_31a.
 Qed.
