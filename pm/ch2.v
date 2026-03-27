@@ -150,7 +150,7 @@ Qed.
 (* To be tested and used in the future: syllogism in-place*)
 Ltac Syll H1 H2 :=
   let S := fresh in
-  lazymatch goal with 
+  match goal with 
   | [ _H1 : ?P → ?Q, _H2 : ?Q → ?R |- _ ] =>
     constr_eq H1 _H1;
     constr_eq H2 _H2;
@@ -163,7 +163,7 @@ Ltac Syll H1 H2 :=
   knowing that it has been already proven *)
 Ltac Syll_as H1 H2 S :=
   let S := fresh S in
-    lazymatch goal with 
+    match goal with 
     | [ _H1 : ?P → ?Q, _H2 : ?Q → ?R |- _ ] =>
       constr_eq H1 _H1;
       constr_eq H2 _H2;
