@@ -98,7 +98,6 @@ Proof.
   }
   pose proof (n3_47 (Q → ¬ P) (¬ P → Q) (P → ¬ Q) (¬ Q → P)) as n3_47b.
   MP n3_47b Cb.
-  clear Ca Cb.
   Conj_as n3_47a n3_47b Cc.
   rewrite <- Equiv4_01 in Cc.
   rewrite <- Equiv4_01 in Cc.
@@ -248,7 +247,6 @@ Proof.
   pose proof (n2_83 ((P ↔ Q) ∧ (Q ↔ R)) R Q P) as n2_83b.
   MP n2_83b Sc.
   MP n2_83b Sd.
-  clear Sa Sb Sc Sd.
   Conj_as n2_83a n2_83b C.
   pose proof (Comp3_43 ((P ↔ Q) ∧ (Q ↔ R)) (P → R) (R → P)) as Comp3_43a.
   MP Comp3_43a C.
@@ -536,11 +534,9 @@ Proof.
   }
   pose proof (n3_48 (P ∧ Q) (P ∧ R) Q R) as n3_48b.
   MP n3_48b Cc.
-  clear Ca Cb Cc Comp3_43a Sa.
   Conj_as n3_44a n3_48b Cdd. (*Cd is reserved*)
   pose proof (Comp3_43 (P ∧ Q ∨ P ∧ R) P (Q ∨ R)) as Comp3_43b.
   MP Comp3_43b Cdd.
-  clear n3_48a n3_44a n3_48b Cdd.
   Conj_as Imp3_31a Comp3_43b Ce.
   Equiv Ce.
   exact Ce.
@@ -576,9 +572,6 @@ Proof.
   Syll_as n3_47a Comp3_43b Sa.
   pose proof (n2_54 P (Q ∧ R)) as n2_54a.
   Syll_as Sa n2_54a Sb.
-  clear Sum1_6a. clear Sum1_6b. clear Ca. clear n2_53a.
-      clear n2_53b. clear Cb. clear n3_47a. clear Sa.
-      clear Comp3_43b. clear n2_54a.
   Conj_as Comp3_43a Sb Cc.
   Equiv Cc.
   exact Cc.
@@ -590,7 +583,7 @@ Proof.
   pose proof (n3_21 P (Q ∨ ¬ Q)) as n3_21a.
   pose proof (n2_11 Q) as n2_11a.
   MP n3_21a n2_11a.
-  pose proof (Simp3_26 P (Q ∨ ¬ Q)) as Simp3_26a. clear n2_11a.
+  pose proof (Simp3_26 P (Q ∨ ¬ Q)) as Simp3_26a.
   Conj_as n3_21a Simp3_26a C.
   Equiv C.
   pose proof (n4_4 P Q (¬ Q)) as n4_4a.
@@ -620,9 +613,6 @@ Proof.
   pose proof (Imp3_31 (¬ P → Q) (¬ P → ¬ Q) (P)) as Imp3_31a.
   MP Imp3_31a n2_65a.
   Syll_as n3_47a Imp3_31a Sa.
-  clear n2_2a. clear n2_2b. clear Ca. clear n2_53a.
-    clear n2_53b. clear Cb. clear n2_65a.
-    clear n3_47a. clear Imp3_31a. clear n4_13a.
   Conj_as Comp3_43a Sa Cc.
   Equiv Cc.
   exact Cc.
@@ -637,7 +627,6 @@ Proof.
   Conj_as Id2_08a Simp3_26a Ca.
   pose proof (n3_44 P P (P ∧ Q)) as n3_44a.
   MP n3_44a Ca.
-  clear Ca. clear Id2_08a. clear Simp3_26a.
   Conj_as n2_2a n3_44a Cb.
   Equiv Cb.
   exact Cb.
@@ -656,7 +645,6 @@ Proof.
   replace (P ∧ P) with P in n2_2a 
     by now apply n4_24a.
   pose proof (Simp3_26 P (P ∨ Q)) as Simp3_26a.
-  clear n4_4a. clear n4_24a.
   Conj_as n2_2a Simp3_26a C.
   Equiv C.
   exact C.
@@ -908,7 +896,6 @@ Proof.
   pose proof (Simp3_27 P Q) as Simp3_27a.
   pose proof (Syll2_05 P (P ∧ Q) Q) as Syll2_05a.
   MP Syll2_05a Simp3_27a.
-  clear Id2_08a. clear Comp3_43a. clear Simp3_27a.
   Conj_as Syll2_05a Exp3_3a C.
   Equiv C.
   rewrite -> n4_21 in C.
@@ -927,10 +914,8 @@ Proof.
   pose proof (Simp3_26 (P → (P ∧ Q)) ((P ∧ Q) → P)) as Simp3_26b.
   replace ((P → P ∧ Q) ∧ (P ∧ Q → P)) with (P ↔ (P ∧ Q)) 
     in Simp3_26b by now rewrite Equiv4_01.
-  clear Simp3_26a.
   Conj_as n3_21a Simp3_26b Ca.
   Equiv Ca.
-  clear n3_21a. clear Simp3_26b.
   Conj_as n4_7a Ca Cb.
   pose proof (n4_22 (P → Q) (P → P ∧ Q) (P ↔ P ∧ Q)) as n4_22a.
   MP n4_22a Cb.
@@ -1025,8 +1010,6 @@ Proof.
   pose proof (Comp3_43  ((Q ∨ R) → P)
     (Q → P) (R → P)) as Comp3_43a.
   MP Comp3_43a Ca.
-  clear n2_2a. clear Add1_3a. clear Ca.
-    clear Syll2_06a. clear Syll2_06b.
   Conj_as n3_44a Comp3_43a Cb.
   Equiv Cb.
   exact Cb.
@@ -1121,10 +1104,6 @@ Proof.
   MP Syll2_06b Simp3_27a.
   Conj_as Syll2_06a Syll2_06b Cb.
   Equiv Cb.
-  clear Transp4_1a. clear Transp4_1b. clear Ca.
-    clear Simp3_26a. clear Syll2_06b. clear n4_78a.
-    clear Transp2_15a. clear Simp3_27a.
-    clear Transp2_15b. clear Syll2_06a.
   Conj_as n4_39a Cb Cc.
   pose proof (n4_22 ((Q → P) ∨ (R → P))
     ((¬ P → ¬ Q) ∨ (¬ P → ¬ R)) (¬ (¬ Q ∨ ¬ R) → P)) as n4_22a.
@@ -1169,8 +1148,6 @@ Proof.
   Conj_as n2_21a n2_21b Ca.
   pose proof (Comp3_43 (¬ P) (P → Q) (P → ¬ Q)) as Comp3_43a.
   MP Comp3_43a Ca.
-  clear n2_65a. clear n2_21a.
-    clear n2_21b. clear Ca.
   Conj_as Imp3_31a Comp3_43a Cb.
   Equiv Cb.
   exact Cb.
@@ -1187,8 +1164,6 @@ Proof.
   Conj_as Simp2_02a Simp2_02b Ca.
   pose proof (Comp3_43 Q (P → Q) (¬ P → Q)) as Comp3_43a.
   MP Comp3_43a Ca.
-  clear n2_61a. clear Simp2_02a.
-  clear Simp2_02b. clear Ca.
   Conj_as Imp3_31a Comp3_43a Cb.
   Equiv Cb.
   exact Cb.
@@ -1245,7 +1220,6 @@ Proof.
   apply propositional_extensionality in n4_21a.
   replace (Q ↔ P) with (P ↔ Q) in Exp3_3a
     by now apply n4_21a.
-  clear n4_22a. clear n4_22b. clear n4_21a.
   Conj_as Exp3_3a Exp3_3b Ca.
   pose proof (Comp3_43 (P ↔ Q)
       ((P ↔ R) → (Q ↔ R)) ((Q ↔ R) → (P ↔ R))) as Comp3_43a. (*Not cited*)
@@ -1285,6 +1259,5 @@ Proof.
     now Equiv C1.
   }
   Conj_as S2 S3 C1.
-  clear S2 S3.
   now Conj_as S1 C1 C2.
 Qed.
