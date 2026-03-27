@@ -18,6 +18,7 @@ I started this project by
 - [x] Making chapter 1 - 5 of Landon's original repository into a Rocq project
 - [x] Simplifying `Nicod1_4.v`, `Yuelin.v`, `Jorgensen3_47.v`, `Lemma5_7.v`, cutting down 20% of their LoC and greatly enhance readability
 - [x] Simplifying, bug-picking chapter 1 - 5, cutting down \~1k LoC in total
+- [x] Redesigning custom `Ltac`s in chapter 1 - 5 to their perfection, eliminating all incorrect `Ltac` usages once and for all, plus cleanups like `clear`/`move` that were once necessary
 
 ## Project status
 We are building: 

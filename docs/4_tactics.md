@@ -94,18 +94,14 @@ Either for "historical reasons"(this project really doesn't have a history), or 
 - \[Simplification\]`now tactic thm ...` says that, if the `tactic` we use can directly provide a result that is not very far from the goal, then we prove the goal immediately. Typically it's very useful for saving a line of `exact thm`. Every line of `now tactic thm` can be turned back into `tactic thm` for readers to check if it does indeed generate a proposition that is exactly the same as the goal, and this tactic is **recommended** to use.
 - \[Simplification\]Further exceptions not being listed above, for example in chapter 11, have to be explicitly stated with a comment that a simplification has happened. This is **recommended** to be taken down in the future.
 
-## Bugged Ltacs
-Throughout chapter 1 - 5, there are several custom tactics defined to use the primitive ideas conveniently. However, their current design is bugged: when we're trying to use them, they might not find the exact propositions that we are referring to. If things has gone very bad, here is the full steps for just applying one tactic safely:
-1. `assert` a subgoal for the desired proposition
-2. `clear` every unrelated hypotheses
-3. `move` the propositions `before` or `after`, into the right order. For example, if we want to `MP S2 S1`, then we have to `move S1 after S2`.
-4. perform the tactic and immediately conclude the subproof.
-
-Since we don't always need to go through the full steps, we're only requiring that
-- Tactics above are **allowed** to use, when necessary to ensure correctness.
-
-## Debugging the proof
+## Ltacs for debugging/prettify the goal window
 It happens that users might want to check the proofs in more detail. How to debug the proof is completely personal, but here are some tactics I commonly use, just in case:
 - `simpl` to simplify a hypothesis
 - `Close Scope`/`Open Scope` to enable/disable specific notations. We have designed specific notations for debugging in later chapters.
 - `pose proof` another theorem to see how it looks like originally
+
+There are also some other tactics that makes the goal window just a bit prettier, for example:
+- `move` to rearrange the order of hypotheses
+- `clear` to remove some hypothesis that will never be used
+
+- Tactics above is **recommended** to be reduced to minimum when we have finished them.
