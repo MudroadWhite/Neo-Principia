@@ -11,7 +11,7 @@ Proof.
   pose proof (n4_22 Q R S) as n4_22b.
   pose proof (Exp3_3 (Q ↔ R) (R ↔ S) (Q ↔ S)) as Exp3_3a.
   MP Exp3_3a n4_22b.
-  Syll n4_22a Exp3_3a Sa.
+  Syll_as n4_22a Exp3_3a Sa.
   replace (Q ↔ P) with (P ↔ Q) in Sa by
     (apply propositional_extensionality; exact (n4_21 P Q)).
   pose proof (Imp3_31 ((P ↔ Q) ∧ (P ↔ R)) (R ↔ S) (Q ↔ S)) as Imp3_31a.
