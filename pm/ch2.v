@@ -160,7 +160,7 @@ Proof.
   pose proof (n2_12 Q) as n2_12a.
   pose proof (Syll2_05 P Q (¬¬ Q)) as Syll2_05a.
   pose proof (Transp2_03 P (¬ Q)) as Transp2_03a.
-  MP n2_12a Syll2_05a.
+  MP Syll2_05a n2_12a.
   Syll Syll2_05a Transp2_03a S.
   exact S.
 Qed.
@@ -171,7 +171,7 @@ Proof.
   pose proof (Transp2_03 (¬ Q) P) as Transp2_03a.
   pose proof (n2_14 Q) as n2_14a.
   pose proof (Syll2_05 P (¬¬ Q) Q) as Syll2_05a.
-  MP n2_14a Syll2_05a.
+  MP Syll2_05a n2_14a.
   Syll Transp2_03a Syll2_05a S.
   exact S.
 Qed.
@@ -181,7 +181,8 @@ Theorem n2_18 (P : Prop) :
 Proof.
   pose proof (n2_12 P) as n2_12a.
   pose proof (Syll2_05 (¬ P) P (¬¬ P)) as Syll2_05a.
-  MP Syll2_05a n2_12.
+  pose proof Syll2_05 as Syll2_05.
+  MP Syll2_05a n2_12a.
   pose proof (Abs2_01 (¬ P)) as Abs2_01a.
   Syll Syll2_05a Abs2_01a Sa.
   pose proof (n2_14 P) as n2_14a.
@@ -382,7 +383,7 @@ Theorem n2_45 (P Q : Prop) :
 Proof.
   pose proof (n2_2 P Q) as n2_2a.
   pose proof (Transp2_16 P (P ∨ Q)) as Transp2_16a.
-  MP n2_2 Transp2_16a.
+  MP Transp2_16a n2_2a.
   exact Transp2_16a.
 Qed.
 
@@ -391,7 +392,7 @@ Theorem n2_46 (P Q : Prop) :
 Proof.
   pose proof (Add1_3 P Q) as Add1_3a.
   pose proof (Transp2_16 Q (P ∨ Q)) as Transp2_16a.
-  MP Add1_3a Transp2_16a.
+  MP Transp2_16a Add1_3a.
   exact Transp2_16a.
 Qed.
 
@@ -477,7 +478,7 @@ Theorem n2_54 (P Q : Prop) :
 Proof.
   pose proof (n2_14 P) as n2_14a.
   pose proof (n2_38 Q (¬¬ P) P) as n2_38a.
-  MP n2_38a n2_12a.
+  MP n2_38a n2_14a.
   replace (¬¬ P ∨ Q) with (¬ P → Q) in n2_38a
     by now rewrite Impl1_01.
   exact n2_38a.
@@ -488,7 +489,7 @@ Theorem n2_55 (P Q : Prop) :
 Proof.
   pose proof (n2_53 P Q) as n2_53a.
   pose proof (Comm2_04 (P ∨ Q) (¬ P) Q) as Comm2_04a.
-  MP n2_53a Comm2_04a.
+  MP Comm2_04a n2_53a.
   exact Comm2_04a.
 Qed.
 
@@ -583,7 +584,7 @@ Proof.
   MP Syll2_06a n2_54a.
   pose proof (n2_24  P Q) as n2_24.
   pose proof (Syll2_06 P (¬ P → Q) Q) as Syll2_06b.
-  MP Syll2_06b n2_24a.
+  MP Syll2_06b n2_24.
   Syll Syll2_06b Syll2_06a S.
   exact S.
 Qed.
