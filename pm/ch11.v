@@ -8,7 +8,6 @@ Require Import PM.pm.ch9.
 Require Import PM.pm.ch10.
 
 (* TODO: 
-- Design the correct notation for multiple vars
 - Add a special rule: (∃ x, P x ∧ Q x) -> (∃ x, P x) ∧ (∃ x, Q x) 
 *)
 
@@ -106,7 +105,7 @@ Proof.
   assert (S3 : (∀ x y, P ∨ φ x y) → (P ∨ ∀ x y, φ x y)).
   {
     pose proof (n10_12 (fun x => ∀ y, φ x y) P) as n10_12.
-    now Syll_as n10_12 S2 S3.
+    now Syll_as S2 n10_12 S3.
   }
   exact S3.
 Qed.
@@ -179,7 +178,7 @@ Proof.
     now MP n11_12 S4_2.
   }
   assert (S5 : (∀ x y, φ x y) ↔ (∀ y x, φ x y)).
-  { clear S1 S2. Conj_as S3 S4 C1. now Equiv C1. }
+  { Conj_as S3 S4 C1. now Equiv C1. }
   exact S5.
 Qed.  
 
@@ -467,7 +466,7 @@ Proof.
   pose proof (n10_27 (fun x => (∀ y, φ x y ↔ ψ x y))
     (fun x => (∀ y, φ x y) ↔ ∀ y, ψ x y)) as n10_27.
   MP n10_27 n10_11.
-  now Syll_as n10_27 n10_27b S1.
+  now Syll_as n10_27 n10_271b S1.
 Qed.
 
 Theorem n11_34 (φ ψ : Prop → Prop → Prop) :
@@ -483,7 +482,7 @@ Proof.
   MP n10_11 n10_28a.
   pose proof (n10_27 (fun x => (∀ y, φ x y → ψ x y))
     (fun x => (∃ y, φ x y) → ∃ y, ψ x y)) as n10_27.
-  MP n10_27a n10_11.
+  MP n10_27 n10_11.
   pose proof (n10_28 (fun x => ∃ y, φ x y)
     (fun x => ∃ y, ψ x y)) as n10_28b.
   now Syll_as n10_27 n10_28b S1.
@@ -556,7 +555,7 @@ Proof.
       (fun x y =>
         (φ x y → ψ x y) ∧ (ψ x y → χ x y)
         → φ x y → χ x y)) as n11_11.
-    now MP Syll3_33 n11_11.
+    now MP n11_11 Syll3_33.
   }
   assert (S3 : (∀ x y, (φ x y → ψ x y) ∧ (ψ x y → χ x y))
     → (∀ x y, (φ x y → χ x y))).
@@ -877,7 +876,6 @@ Proof.
   assert (S6 : ((∃ x, ¬ ∀ y, φ x y) ↔ ¬ (∀ x y, φ x y))
     ∧ (¬ (∀ x y, φ x y) ↔ (∃ x y, ¬ φ x y))).
   {
-    clear S1 S3 S4.
     (* ??????? *)
     rewrite -> S2 in S5.
     now Conj_as S2 S5 S6.
@@ -904,7 +902,7 @@ Proof.
   {
     pose proof (n10_11 X (fun x =>
       (¬ (∀ y, φ x y) ↔ ∃ y, ¬ φ x y))) as n10_11.
-    MP S2 n10_11.
+    MP n10_11 S2.
     pose proof (n10_271 (fun x => ¬ (∀ y, φ x y))
       (fun x => ∃ y, ¬ φ x y)) as n10_271.
     now MP n10_271 n10_11.
@@ -936,7 +934,7 @@ Proof.
     pose proof (n11_11 X Y
       (fun x y => ¬ (φ x y ∧ ψ x y) ↔ (φ x y → ¬ ψ x y)))
       as n11_11.
-    MP n11_11 S2.
+    MP n11_11 S1.
     pose proof (n11_33 (fun x y => ¬ (φ x y ∧ ψ x y))
       (fun x y => φ x y → ¬ ψ x y)) as n11_33.
     now MP n11_33 n11_11.
@@ -1109,7 +1107,7 @@ Proof.
       (fun x y => φ x ∧ φ y → ψ x ∧ ψ y)) as n11_32.
     MP n11_32 n11_11.
     destruct S1 as [S1l _].
-    now Syll_as S1 n11_32 S2.
+    now Syll_as S1l n11_32 S2.
   }
   assert (S3 : (∀ x y, (φ x ∧ φ y) → (ψ x ∧ ψ y)) 
     → ((φ X ∧ φ Y) → (ψ X ∧ ψ Y))).
@@ -1144,7 +1142,6 @@ Proof.
   assert (S6 : (φ x -[ x ]> ψ x) ↔
     ((φ x ∧ φ y) -[ x y ]> (ψ x ∧ ψ y))).
   {
-    clear S1 S3 S4.
     Conj_as S2 S5 S6.
     now Equiv S6.
   }
@@ -1215,13 +1212,13 @@ Proof.
   {
     pose proof (n10_11 X (fun x => (∃ y, φ x → ψ x y) 
       → (φ x → ∃ y, ψ x y))) as n10_11.
-    MP n10_11 S1.
+    MP n10_11 S2.
     pose proof (n10_27 (fun x => ∃ y, φ x → ψ x y)
       (fun x => φ x → ∃ y, ψ x y)) as n10_27.
     now MP n10_27 n10_11.
   }
   assert (S4 : (∃ y, (φ x -[ x ]> ψ x y)) → (φ x -[ x ]> ∃ y, ψ x y)).
-  { clear S2. now Syll_as S1 S3 S4. }
+  { now Syll_as S1 S3 S4. }
   exact S4.
 Qed.
 
@@ -1327,11 +1324,7 @@ Proof.
   {
     pose proof (n10_1 (fun z => φ z → ψ z) Z) as n10_1a.
     pose proof (n10_1 (fun w => χ w → θ w) W) as n10_1b.
-    assert (C1 :
-      ((φ x -[ x ]> ψ x) → (φ Z → ψ Z))
-      ∧
-      ((χ x -[ x ]> θ x) → (χ W →θ W))).
-    { now Conj_as n10_1a n10_1b C1. }
+    Conj_as n10_1a n10_1b C1.
     pose proof (n3_47
       (φ z -[ z ]> ψ z) (χ w -[ w ]> θ w)
       (φ Z → ψ Z) (χ W → θ W)) as n3_47a.
@@ -1396,7 +1389,6 @@ Proof.
         → ψ Z)) as n4_87.
     destruct n4_87 as [n4_87 _].
     rewrite -> n4_87 in S5_1.
-    clear n4_87.
     rewrite -> Comm_Equiv in S5_1.
     pose proof (Comm2_04 
       (φ Z)
@@ -1415,13 +1407,11 @@ Proof.
     rewrite -> n10_21 in n10_11.
     now setoid_rewrite -> n10_21 in n10_11.
   }
-  clear S1 S3 S4 S5 S6.
   (* Similarly?! Wdym by similarly?!! *)
   assert (S8 : (∃ z, φ z) 
     → (((φ z ∧ χ w) -[ z w ]> (ψ z ∧ θ w))
       → (χ w -[ w ]> θ w))).
   {
-    clear S7.
     assert (S5_2 : (∀ z w, (φ z ∧ χ w) → ψ z ∧ θ w)
       → (χ W ∧ (∃ z, φ z) → (θ W ∧ ∃ z, ψ z))).
     {
@@ -1460,7 +1450,6 @@ Proof.
         → θ W)) as n4_87.
     destruct n4_87 as [n4_87 _].
     rewrite -> n4_87 in S5_3.
-    clear n4_87.
     rewrite -> Comm_Equiv in S5_3.
     pose proof (Comm2_04 
       (χ W)
@@ -1485,13 +1474,7 @@ Proof.
     destruct Hp as [HS8 HS7].
     pose proof (S7 HS7) as S7.
     pose proof (S8 HS8) as S8.
-    assert (C1 : 
-      (((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w) → (φ z -[ z ]> ψ z))
-      ∧ (((φ z ∧ χ w) -[ z w ]> ψ z ∧ θ w) → (χ w -[ w ]> θ w))).
-    {
-      clear S2 HS7 HS8.
-      now Conj_as S7 S8 C1.
-    }
+    Conj_as S7 S8 C1.
     pose proof (Comp3_43 
       (∀ z w, φ z ∧ χ w → ψ z ∧ θ w)
       (∀ z, φ z → ψ z)
@@ -1502,11 +1485,9 @@ Proof.
     → (((φ z -[ z ]> ψ z) ∧ (χ w -[ w ]> θ w))
       ↔ ((φ z ∧ χ w) -[ z w ]> (ψ z ∧ θ w)))).
   {
-    clear S7 S8.
     (* Similarly, we save the rountine *)
     intro Hp.
     pose proof (S9 Hp) as S9.
-    clear Hp.
     Conj_as S2 S9 C1.
     now Equiv C1.
   }
