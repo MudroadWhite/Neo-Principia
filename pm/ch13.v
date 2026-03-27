@@ -592,7 +592,7 @@ Proof.
   rewrite -> Transp4_11 in n13_195.
   setoid_rewrite -> n4_3 in n13_195 at 2.
   rewrite -> n10_51 in n13_195.
-  now symmetry in n13_195.
+  now rewrite -> n4_21 in n13_195.
 Qed.
 
 Theorem n13_21 (X Y : Prop) (φ : Prop → Prop → Prop) : 

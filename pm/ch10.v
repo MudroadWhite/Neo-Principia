@@ -349,7 +349,7 @@ Theorem n10_252_alt (φ : Prop → Prop) : ¬ (∃ x, φ x) ↔ (∀ x, ¬ φ x)
 Proof.
   pose proof (n4_13 (∀ x, ¬ φ x)) as n4_13.
   rewrite <- n10_01 in n4_13 at 1.
-  now symmetry in n4_13.
+  now rewrite -> n4_21 in n4_13.
 Qed.
 
 Theorem n10_253_alt (φ : Prop → Prop) : (¬ (∀ x, φ x)) ↔ (∃ x, ¬ φ x).
@@ -600,7 +600,7 @@ Proof.
   {
     pose proof (n10_22 (fun x => φ x → ψ x) 
       (fun x => φ x → χ x)) as n10_22.
-    now symmetry in n10_22.
+    now rewrite -> n4_21 in n10_22.
   }
   assert (S2 : ((φ X → ψ X) ∧ (φ X → χ X)) 
     ↔ (φ X → (ψ X ∧ χ X))).
@@ -794,7 +794,7 @@ Proof.
     pose proof (n10_22 
       (fun x => (ψ x → φ x))
       (fun x => (φ x → ψ x))) as n10_22. 
-    symmetry in n10_22.
+    rewrite -> n4_21 in n10_22.
     Conj_as S2 n10_22 C1.
     pose proof (n4_22
       (φ x <[1- x -]> ψ x)
@@ -1011,7 +1011,7 @@ Proof.
   assert (S1 : (φ X ∨ P) ↔ ((¬ φ X) → P)).
   {
     pose proof (n4_64 (φ X) P) as n4_64.
-    now symmetry in n4_64.
+    now rewrite -> n4_21 in n4_64.
   }
   assert (S2 : ∀ x, (φ x ∨ P) ↔ ((¬ φ x) → P)).
   {
@@ -1065,7 +1065,7 @@ Proof.
   {
     pose proof (n10_22 (fun x => φ x → χ x) (fun x => ψ x → θ x))
       as n10_22.
-    symmetry in n10_22.
+      rewrite -> n4_21 in n10_22.
     now destruct n10_22.
   }
   assert (S2 : ((φ x -[1 x ]> χ x) ∧ (ψ x -[1 x ]> θ x))
@@ -1337,7 +1337,7 @@ Proof.
   {
     pose proof (n10_22 
       (fun x => ¬ φ x) (fun x => ¬ ψ x)) as n10_22.
-    now symmetry in n10_22.
+    now rewrite -> n4_21 in n10_22.
   }
   assert (S2 : (¬ ((∀ x, ¬ φ x) ∧ (∀ x, ¬ ψ x)))
     ↔ (¬ (∀ x, (¬ φ x) ∧ (¬ ψ x)))).
@@ -1433,14 +1433,14 @@ Proof.
   assert (S1 : (∃ x, φ x) → (P ↔ ((∃ x, φ x) → P))).
   {
     pose proof (n5_5 (∃ x, φ x) P) as n5_5.
-    now symmetry in n5_5.
+    now rewrite -> n4_21 in n5_5.
   }
   assert (S2 : (∃ x, φ x) → (P ↔ (∀ x, φ x → P))).
   {
     pose proof n10_23 as n10_23.
     now setoid_rewrite <- n10_23 in S1 at 2.
   }
-  now symmetry in S2.
+  now rewrite -> n4_21 in S2.
 Qed.
 
 Theorem n10_53 (φ ψ : Prop → Prop) :

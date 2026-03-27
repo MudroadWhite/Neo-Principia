@@ -398,7 +398,7 @@ Proof.
     ↔ (∀ x, P → ∀ y, φ x y)).
   {
     pose proof (n10_21 (fun x => ∀ y, φ x y) P) as n10_21.
-    now symmetry in n10_21. 
+    now rewrite -> n4_21 in n10_21. 
   }
   assert (S2 : (P → (∀ x y, φ x y)) ↔ (∀ x y, P → φ x y)).
   {
@@ -417,7 +417,7 @@ Proof.
   {
     pose proof (n10_22 (fun x => ∀ y, φ x y)
       (fun x => ∀ y, ψ x y)) as n10_22.
-    now symmetry in n10_22.
+    now rewrite -> n4_21 in n10_22.
   }
   assert (S2 : ((∀ x y, φ x y) ∧ (∀ x y, ψ x y))
     ↔
@@ -850,7 +850,7 @@ Proof.
   {
     pose proof (n10_253_alt (fun x => ∀ y, φ x y))
        as n10_253_alt.
-    now symmetry in n10_253_alt.
+    now rewrite -> n4_21 in n10_253_alt.
   }
   assert (S2 : (∃ x, ¬ ∀ y, φ x y) ↔ ¬ (∀ x y, φ x y)).
   {
@@ -1040,12 +1040,12 @@ Proof.
   assert (S1 : ((∀ x, φ x) ∧ (∀ y, ψ y)) ↔ (∀ x, φ x ∧ ∀ y, ψ y)).
   { 
     pose proof (n10_33 φ (∀ y, ψ y)) as n10_33.
-    now symmetry in n10_33.
+    now rewrite -> n4_21 in n10_33.
   }
   assert (S2 : (φ X ∧ (∀ y, ψ y)) ↔ (∀ y, φ X ∧ ψ y)).
   {
     pose proof (n10_33 ψ (φ X)) as n10_33.
-    symmetry in n10_33.
+    rewrite -> n4_21 in n10_33.
     rewrite <- n4_3 in n10_33.
     now setoid_rewrite <- n4_3 in n10_33 at 3.
   }
@@ -1292,11 +1292,10 @@ Proof.
     ↔ ((∃ x y, φ x y) ∨ (∃ x y, φ y x))).
   { 
     pose proof (n11_41 φ) as n11_41.
-    now symmetry in n11_41.
+    now setoid_rewrite -> n4_21 in n11_41.
   }
   assert (S2 : (∃ x y, φ x y ∨ φ y x) 
     ↔ ((∃ x y, φ x y) ∨ (∃ y x, φ y x))).
-  (* Idk why I have to use `setoid_rewrite` on this *)
   { now setoid_rewrite -> n11_23 in S1 at 3. }
   assert (S3 : (∃ x y, φ x y ∨ φ y x) 
     ↔ (∃ x y, φ x y)).

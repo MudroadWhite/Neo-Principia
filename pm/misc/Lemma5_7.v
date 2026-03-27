@@ -21,7 +21,7 @@ Proof.
   2: {
     pose proof (n4_32 (P ↔ Q) (P ↔ R) (R ↔ S)) as n4_32a.
     apply propositional_extensionality.
-    symmetry in n4_32a.
+    rewrite -> n4_21 in n4_32a.
     exact n4_32a.
   }
   replace ((P ↔ R) ∧ (R ↔ S)) with ((R ↔ S) ∧ (P ↔ R)) in Imp3_31a
