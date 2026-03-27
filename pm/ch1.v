@@ -11,17 +11,26 @@ Qed.
   It is used to switch between "∨" and "→". *)
   
 (* Pp. 1.1: Anything implied by a true elementary proposition is true *)
+
+(* Pp. 1.11: Modus ponens *)
 (* Although being written down informally, designing an ltac to pick the 
   right and asserted hypothesis and produce a new hypothesis, is exactly what
   Principia wants to do. Since it will be used very frequently we omit the 
   number for this Ltac *)
 Ltac MP H1 H2 :=
-  lazymatch goal with 
-    | [ H1 : ?P → ?Q, H2 : ?P |- _ ] => 
-      pose proof (H1 H2) as H1; simpl in H1
+  match goal with 
+  | [ _H1 : ?P → ?Q |- _ ] => 
+    constr_eq H1 _H1;
+    pose proof (H1 H2) as H1; 
+    simpl in H1
   end.
 
-(* *1.11 ommitted: it is MP for propositions containing variables. *)
+Ltac MP_debug H1 H2 D1 D2 :=
+  match goal with 
+  | [ _H1 : ?P → ?Q |- _ ] => 
+    constr_eq H1 _H1;
+    assert (D1 : P) by admit
+  end.
 
 Theorem Taut1_2 (P : Prop) :
   P ∨ P → P. (*Tautology*)
