@@ -193,10 +193,10 @@ Proof.
   pose proof (Comp3_43 ((P ↔ Q) ∧ (P → ¬ Q)) (¬ P) (¬ Q)) as Comp3_43a.
   MP Comp3_43a C.
   pose proof (n4_65 Q P) as n4_65a.
-  pose proof (n4_3 (¬ P) (¬ Q)) as n4_3a.
-  apply propositional_extensionality in n4_3a.
+  pose proof (n4_3 (¬ P) (¬ Q)) as n4_3b.
+  apply propositional_extensionality in n4_3b.
   replace (¬ Q ∧ ¬ P) with (¬ P ∧ ¬ Q) in n4_65a
-    by now apply n4_3a.
+    by now apply n4_3b.
   apply propositional_extensionality in n4_65a.
   replace (¬ P ∧ ¬ Q) with (¬ (¬ Q → P)) in Comp3_43a
     by now apply n4_65a.
