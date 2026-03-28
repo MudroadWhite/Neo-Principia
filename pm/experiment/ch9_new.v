@@ -600,7 +600,7 @@ Proof.
     intros P1 Q1 R1.
     pose proof (n2_32 P1 Q1 R1) as n2_32.
     pose proof (n2_31 P1 Q1 R1) as n2_31.
-    Conj n2_32 n2_31 C1.
+    Conj_as n2_32 n2_31 C1.
     now Equiv C1.
   }
   set (X := Intro_individual "x").
@@ -627,10 +627,10 @@ Proof.
     assert (Sy1 : P ∨ Q ∨ (∀ x, φ x) → Q ∨ P ∨ ∀ x, φ x).
     {
       pose proof (n2_32 Q P (∀ x, φ x)) as n2_32.
-      Syll S1 n2_32 S1_1.
+      Syll_as S1 n2_32 S1_1.
       clear S1 n2_32.
       pose proof (n2_31 P Q (∀ x, φ x)) as n2_31.
-      now Syll S1_1 n2_31 S1_2.
+      now Syll_as S1_1 n2_31 S1_2.
     }
     (* 
     replace ((P ∨ Q) ∨ (∀ x, φ x)) with (P ∨ Q ∨ ∀ x, φ x) in S1.
@@ -769,13 +769,13 @@ Proof.
   assert (S2 : (P → Q) → ∃ x, (P ∨ φ x) → (Q ∨ φ Y)).
   {
     pose proof (n9_1 (fun x => P ∨ φ x → Q ∨ φ Y) Y) as n9_1.
-    now Syll S1 n9_1 S2.
+    now Syll_as S1 n9_1 S2.
   }
   assert (S3 : (P → Q) → ∀ y, ∃ x, (P ∨ φ x) → (Q ∨ φ y)).
   { 
     (* *9.04 ignored - optional *)
     pose proof (n9_13 (fun y => ∃ x, P ∨ φ x → Q ∨ φ y) Y) as n9_13.
-    now Syll S2 n9_13 S3.
+    now Syll_as S2 n9_13 S3.
   }
   assert (S4 : (P → Q) → (∃ x, ¬ (P ∨ φ x)) ∨ (∀ y, Q ∨ φ y)).
   { 
@@ -805,12 +805,12 @@ Proof.
   assert (S2 : (P → Q) → ∃ y, (P ∨ φ Y) → (Q ∨ φ y)).
   {
     pose proof (n9_1 (fun y => P ∨ φ Y → Q ∨ φ y) Y) as n9_1.
-    now Syll S1 n9_1 S2.
+    now Syll_as S1 n9_1 S2.
   }
   assert (S3 : (P → Q) → ∀ x, ∃ y, (P ∨ φ x) → (Q ∨ φ y)).
   { 
     pose proof (n9_13 (fun x => ∃ y, P ∨ φ x → Q ∨ φ y) Y) as n9_13.
-    now Syll S2 n9_13 S3.
+    now Syll_as S2 n9_13 S3.
   }
   assert (S4 : (P → Q) → (∀ x, ¬ (P ∨ φ x)) ∨ (∃ y, Q ∨ φ y)).
   {
@@ -883,7 +883,7 @@ Proof.
     assert (Sy1 : (P → φ X) → (∃ x, (P ∨ R) → (φ x ∨ R))).
     {
       pose proof (n9_1 (fun x => P ∨ R → φ x ∨ R) X) as n9_1.
-      now Syll S1 n9_1 Sy1.
+      now Syll_as S1 n9_1 Sy1.
     }
     pose proof (n9_13 (fun y => (P → φ y) → (∃ x, (P ∨ R) → (φ x ∨ R))) X)
       as n9_13.

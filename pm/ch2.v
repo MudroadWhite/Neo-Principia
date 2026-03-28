@@ -44,7 +44,7 @@ Proof.
 Qed.
 
 Theorem Syll2_05 (P Q R : Prop) :
-  (Q → R) → ((P  → Q) → (P → R)).
+  (Q → R) → ((P → Q) → (P → R)).
 Proof.
   pose proof (Sum1_6 (¬ P) Q R) as Sum1_6.
   replace (¬ P ∨ Q) with (P → Q) in Sum1_6.
@@ -147,11 +147,27 @@ Proof.
   exact Syll2_05d.
 Qed.
 
-Ltac Syll H1 H2 S :=
-  let S := fresh S in lazymatch goal with 
-    | [ H1 : ?P → ?Q, H2 : ?Q → ?R |- _ ] =>
-       assert (S : P → R) by (intros p; exact (H2 (H1 p)));
-       simpl in S
+(* To be tested and used in the future: syllogism in-place*)
+Ltac Syll H1 H2 :=
+  let S := fresh in
+  match goal with 
+  | [ _H1 : ?P → ?Q, _H2 : ?Q → ?R |- _ ] =>
+    constr_eq H1 _H1;
+    constr_eq H2 _H2;
+    assert (S : P → R) by (intros p; exact (H2 (H1 p)));
+    pose proof S as H1;
+    clear S
+  end.
+
+(* We won't use `Syll` theorem but just to perform it as efficient as possible,
+  knowing that it has been already proven *)
+Ltac Syll_as H1 H2 S :=
+  let S := fresh S in
+    match goal with 
+    | [ _H1 : ?P → ?Q, _H2 : ?Q → ?R |- _ ] =>
+      constr_eq H1 _H1;
+      constr_eq H2 _H2;
+      assert (S : P → R) by (intros p; exact (H2 (H1 p)))
   end.
 
 Theorem Transp2_16 (P Q : Prop) :
@@ -160,8 +176,8 @@ Proof.
   pose proof (n2_12 Q) as n2_12a.
   pose proof (Syll2_05 P Q (¬¬ Q)) as Syll2_05a.
   pose proof (Transp2_03 P (¬ Q)) as Transp2_03a.
-  MP n2_12a Syll2_05a.
-  Syll Syll2_05a Transp2_03a S.
+  MP Syll2_05a n2_12a.
+  Syll_as Syll2_05a Transp2_03a S.
   exact S.
 Qed.
 
@@ -171,8 +187,8 @@ Proof.
   pose proof (Transp2_03 (¬ Q) P) as Transp2_03a.
   pose proof (n2_14 Q) as n2_14a.
   pose proof (Syll2_05 P (¬¬ Q) Q) as Syll2_05a.
-  MP n2_14a Syll2_05a.
-  Syll Transp2_03a Syll2_05a S.
+  MP Syll2_05a n2_14a.
+  Syll_as Transp2_03a Syll2_05a S.
   exact S.
 Qed.
 
@@ -181,11 +197,12 @@ Theorem n2_18 (P : Prop) :
 Proof.
   pose proof (n2_12 P) as n2_12a.
   pose proof (Syll2_05 (¬ P) P (¬¬ P)) as Syll2_05a.
-  MP Syll2_05a n2_12.
+  pose proof Syll2_05 as Syll2_05.
+  MP Syll2_05a n2_12a.
   pose proof (Abs2_01 (¬ P)) as Abs2_01a.
-  Syll Syll2_05a Abs2_01a Sa.
+  Syll_as Syll2_05a Abs2_01a Sa.
   pose proof (n2_14 P) as n2_14a.
-  Syll H n2_14a Sb.
+  Syll_as Sa n2_14a Sb.
   exact Sb.
 Qed.
 
@@ -194,7 +211,7 @@ Theorem n2_2 (P Q : Prop) :
 Proof.
   pose proof (Add1_3 Q P) as Add1_3a.
   pose proof (Perm1_4 Q P) as Perm1_4a.
-  Syll Add1_3a Perm1_4a S.
+  Syll_as Add1_3a Perm1_4a S.
   exact S.
 Qed.
 
@@ -260,8 +277,8 @@ Proof.
   pose proof (n2_3 P Q R) as n2_3a.
   pose proof (Assoc1_5 P R Q) as Assoc1_5a.
   pose proof (Perm1_4 R (P ∨ Q)) as Perm1_4a.
-  Syll Assoc1_5a Perm1_4a Sa.
-  Syll n2_3a Sa Sb.
+  Syll_as Assoc1_5a Perm1_4a Sa.
+  Syll_as n2_3a Sa Sb.
   exact Sb.
 Qed.
 
@@ -307,7 +324,7 @@ Proof.
   pose proof (Syll2_05 (P ∨ Q) (P ∨ R) (R ∨ P)) as Syll2_05a.
   MP Syll2_05a Perm1_4a.
   pose proof (Sum1_6 P Q R) as Sum1_6a.
-  Syll Sum1_6a Syll2_05a S.
+  Syll_as Sum1_6a Syll2_05a S.
   exact S.
 Qed.
 
@@ -318,7 +335,7 @@ Proof.
   pose proof (Syll2_06 (Q ∨ P) (P ∨ Q) (P ∨ R)) as Syll2_06a.
   MP Syll2_06a Perm1_4a.
   pose proof (Sum1_6 P Q R) as Sum1_6a.
-  Syll Sum1_6a Syll2_06a S.
+  Syll_as Sum1_6a Syll2_06a S.
   exact S.
 Qed.
 
@@ -331,9 +348,9 @@ Proof.
   pose proof (Perm1_4 Q P) as Perm1_4b.
   pose proof (Syll2_06 (Q ∨ P) (P ∨ Q) (P ∨ R)) as Syll2_06a.
   MP Syll2_06a Perm1_4b.
-  Syll Syll2_06a Syll2_05a H.
+  Syll_as Syll2_06a Syll2_05a H.
   pose proof (Sum1_6 P Q R) as Sum1_6a.
-  Syll Sum1_6a H S.
+  Syll_as Sum1_6a H S.
   exact S.
 Qed.
 
@@ -344,7 +361,7 @@ Proof.
   pose proof (Taut1_2 P) as Taut1_2a.
   pose proof (n2_38 Q (P ∨ P) P) as n2_38a.
   MP n2_38a Taut1_2a.
-  Syll n2_31a n2_38a S.
+  Syll_as n2_31a n2_38a S.
   exact S.
 Qed.
 
@@ -355,7 +372,7 @@ Proof.
   pose proof (Taut1_2 Q) as Taut1_2a.
   pose proof (Sum1_6 P (Q ∨ Q) Q) as Sum1_6a.
   MP Sum1_6a Taut1_2a.
-  Syll Assoc1_5a Sum1_6a S.
+  Syll_as Assoc1_5a Sum1_6a S.
   exact S.
 Qed.
 
@@ -382,7 +399,7 @@ Theorem n2_45 (P Q : Prop) :
 Proof.
   pose proof (n2_2 P Q) as n2_2a.
   pose proof (Transp2_16 P (P ∨ Q)) as Transp2_16a.
-  MP n2_2 Transp2_16a.
+  MP Transp2_16a n2_2a.
   exact Transp2_16a.
 Qed.
 
@@ -391,7 +408,7 @@ Theorem n2_46 (P Q : Prop) :
 Proof.
   pose proof (Add1_3 P Q) as Add1_3a.
   pose proof (Transp2_16 Q (P ∨ Q)) as Transp2_16a.
-  MP Add1_3a Transp2_16a.
+  MP Transp2_16a Add1_3a.
   exact Transp2_16a.
 Qed.
 
@@ -400,7 +417,7 @@ Theorem n2_47 (P Q : Prop) :
 Proof.
   pose proof (n2_45 P Q) as n2_45a.
   pose proof (n2_2 (¬ P) Q) as n2_2a.
-  Syll n2_45a n2_2a S.
+  Syll_as n2_45a n2_2a S.
   exact S.
 Qed.
 
@@ -409,7 +426,7 @@ Theorem n2_48 (P Q : Prop) :
 Proof.
   pose proof (n2_46 P Q) as n2_46a.
   pose proof (Add1_3 P (¬ Q)) as Add1_3a.
-  Syll n2_46a Add1_3a S.
+  Syll_as n2_46a Add1_3a S.
   exact S.
 Qed.
 
@@ -418,7 +435,7 @@ Theorem n2_49 (P Q : Prop) :
 Proof.
   pose proof (n2_45 P Q) as n2_45a.
   pose proof (n2_2 (¬ P) (¬ Q)) as n2_2a.
-  Syll n2_45a n2_2a S.
+  Syll_as n2_45a n2_2a S.
   exact S.
 Qed.
 
@@ -457,7 +474,7 @@ Theorem n2_521 (P Q : Prop) :
 Proof.
   pose proof (n2_52 P Q) as n2_52a.
   pose proof (Transp2_17 Q P) as Transp2_17a.
-  Syll n2_52a Transp2_17a S.
+  Syll_as n2_52a Transp2_17a S.
   exact S.
 Qed.
 
@@ -477,7 +494,7 @@ Theorem n2_54 (P Q : Prop) :
 Proof.
   pose proof (n2_14 P) as n2_14a.
   pose proof (n2_38 Q (¬¬ P) P) as n2_38a.
-  MP n2_38a n2_12a.
+  MP n2_38a n2_14a.
   replace (¬¬ P ∨ Q) with (¬ P → Q) in n2_38a
     by now rewrite Impl1_01.
   exact n2_38a.
@@ -488,7 +505,7 @@ Theorem n2_55 (P Q : Prop) :
 Proof.
   pose proof (n2_53 P Q) as n2_53a.
   pose proof (Comm2_04 (P ∨ Q) (¬ P) Q) as Comm2_04a.
-  MP n2_53a Comm2_04a.
+  MP Comm2_04a n2_53a.
   exact Comm2_04a.
 Qed.
 
@@ -499,7 +516,7 @@ Proof.
   pose proof (Perm1_4 P Q) as Perm1_4a.
   pose proof (Syll2_06 (P ∨ Q) (Q ∨ P) P) as Syll2_06a.
   MP Syll2_06a Perm1_4a.
-  Syll n2_55a Syll2_06a Sa.
+  Syll_as n2_55a Syll2_06a Sa.
   exact Sa.
 Qed.
 
@@ -510,7 +527,7 @@ Proof.
   pose proof (Taut1_2 Q) as Taut1_2a.
   pose proof (Syll2_05 (¬ P ∨ Q) (Q ∨ Q) Q) as Syll2_05a.
   MP Syll2_05a Taut1_2a.
-  Syll n2_38a Syll2_05a S.
+  Syll_as n2_38a Syll2_05a S.
   replace (¬ P ∨ Q) with (P → Q) in S
     by now rewrite Impl1_01.
   exact S.
@@ -530,7 +547,7 @@ Theorem n2_62 (P Q : Prop) :
 Proof.
   pose proof (n2_53 P Q) as n2_53a.
   pose proof (n2_6 P Q) as n2_6a.
-  Syll n2_53a n2_6a S.
+  Syll_as n2_53a n2_6a S.
   exact S.
 Qed.
 
@@ -557,11 +574,11 @@ Theorem n2_64 (P Q : Prop) :
 Proof.
   pose proof (n2_63 Q P) as n2_63a.
   pose proof (Perm1_4 P Q) as Perm1_4a.
-  Syll n2_63a Perm1_4a Ha.
+  Syll_as Perm1_4a n2_63a Ha.
   pose proof (Syll2_06 (P ∨ ¬ Q) (¬ Q ∨ P) P) as Syll2_06a.
   pose proof (Perm1_4 P (¬ Q)) as Perm1_4b.
   MP Syll2_06a Perm1_4b.
-  Syll Syll2_06a Ha S.
+  Syll_as Ha Syll2_06a S.
   exact S.
 Qed.
 
@@ -583,8 +600,8 @@ Proof.
   MP Syll2_06a n2_54a.
   pose proof (n2_24  P Q) as n2_24.
   pose proof (Syll2_06 P (¬ P → Q) Q) as Syll2_06b.
-  MP Syll2_06b n2_24a.
-  Syll Syll2_06b Syll2_06a S.
+  MP Syll2_06b n2_24.
+  Syll_as Syll2_06a Syll2_06b S.
   exact S.
 Qed.
 
@@ -595,7 +612,7 @@ Proof.
   replace (¬ P ∨ Q) with (P → Q) in n2_67a
     by now rewrite Impl1_01.
   pose proof (n2_54 P Q) as n2_54a.
-  Syll n2_67a n2_54a S.
+  Syll_as n2_67a n2_54a S.
   exact S.
 Qed.
 
@@ -604,9 +621,9 @@ Theorem n2_69 (P Q : Prop) :
 Proof.
   pose proof (n2_68 P Q) as n2_68a.
   pose proof (Perm1_4 P Q) as Perm1_4a.
-  Syll n2_68a Perm1_4a Sa.
+  Syll_as n2_68a Perm1_4a Sa.
   pose proof (n2_62 Q P) as n2_62a.
-  Syll Sa n2_62a Sb.
+  Syll_as Sa n2_62a Sb.
   exact Sb.
 Qed.
 
@@ -615,7 +632,7 @@ Theorem n2_73 (P Q R : Prop) :
 Proof.
   pose proof (n2_621 P Q) as n2_621a.
   pose proof (n2_38 R (P ∨ Q) Q) as n2_38a.
-  Syll n2_621a n2_38a S.
+  Syll_as n2_621a n2_38a S.
   exact S.
 Qed.
 
@@ -625,12 +642,12 @@ Proof.
   pose proof (n2_73 Q P R) as n2_73a.
   pose proof (Assoc1_5 P Q R) as Assoc1_5a.
   pose proof (n2_31 Q P R) as n2_31a. (*not cited*)
-  Syll Assoc1_5a n2_31a Sa.
+  Syll_as Assoc1_5a n2_31a Sa.
   pose proof (n2_32 P Q R) as n2_32a. (*not cited*)
-  Syll n2_32a Sa Sb.
+  Syll_as n2_32a Sa Sb.
   pose proof (Syll2_06 ((P ∨ Q) ∨ R) ((Q ∨ P) ∨ R) (P ∨ R)) as Syll2_06a.
   MP Syll2_06a Sb.
-  Syll n2_73a Syll2_05a H.
+  Syll_as n2_73a Syll2_06a H.
   exact H.
 Qed.
 
@@ -639,13 +656,13 @@ Theorem n2_75 (P Q R : Prop) :
 Proof.
   pose proof (n2_74 P (¬ Q) R) as n2_74a.
   pose proof (n2_53 Q P) as n2_53a.
-  Syll n2_53a n2_74a Sa.
+  Syll_as n2_53a n2_74a Sa.
   pose proof (n2_31 P (¬ Q) R) as n2_31a.
   pose proof (Syll2_06 (P ∨ (¬ Q) ∨ R) ((P ∨ (¬ Q)) ∨ R) (P ∨ R)) as Syll2_06a.
   MP Syll2_06a n2_31a.
-  Syll Sa Syll2_06a Sb.
+  Syll_as Sa Syll2_06a Sb.
   pose proof (Perm1_4 P Q) as Perm1_4a. (*not cited*)
-  Syll Perm1_4a Sb Sc.
+  Syll_as Perm1_4a Sb Sc.
   replace (¬ Q ∨ R) with (Q → R) in Sc
     by now rewrite Impl1_01.
   exact Sc.
@@ -676,9 +693,9 @@ Theorem n2_8 (Q R S : Prop) :
 Proof.
   pose proof (n2_53 R Q) as n2_53a.
   pose proof (Perm1_4 Q R) as Perm1_4a.
-  Syll Perm1_4a n2_53a Ha.
+  Syll_as Perm1_4a n2_53a Ha.
   pose proof (n2_38 S (¬ R) Q) as n2_38a.
-  Syll H n2_38a Hb.
+  Syll_as Ha n2_38a Hb.
   exact Hb.
 Qed.
 
@@ -689,7 +706,7 @@ Proof.
   pose proof (n2_76 P R S) as n2_76a.
   pose proof (Syll2_05 (P ∨ Q) (P ∨ (R → S)) ((P ∨ R) → (P ∨ S))) as Syll2_05a.
   MP Syll2_05a n2_76a.
-  Syll Sum1_6a Syll2_05a H.
+  Syll_as Sum1_6a Syll2_05a H.
   exact H.
 Qed.
 
@@ -724,17 +741,17 @@ Proof.
   MP Syll2_06a Add1_3a.
   pose proof (n2_55 P R) as n2_55a.
   pose proof (Syll2_05 (P ∨ Q) (P ∨ R) R) as Syll2_05a.
-  Syll n2_55a Syll2_05a Ha.
+  Syll_as n2_55a Syll2_05a Ha.
   pose proof (n2_83 (¬ P) ((P ∨ Q) → (P ∨ R)) ((P ∨ Q) → R) (Q → R)) as n2_83a.
   MP n2_83a Ha.
   pose proof (Comm2_04 (¬ P) (P ∨ Q → P ∨ R) (Q → R)) as Comm2_04a.
-  Syll Ha Comm2_04a Hb.
+  Syll_as n2_83a Comm2_04a Hb.
   pose proof (n2_54 P (Q → R)) as n2_54a.
   pose proof (Simp2_02 (¬ P) ((P ∨ Q → R) → (Q → R))) as Simp2_02a. (*Not cited*)
   (*Greg's suggestion per the BRS list on June 25, 2017.*)
-  MP Syll2_06a Simp2_02a.
+  MP Simp2_02a Syll2_06a.
   MP Hb Simp2_02a.
-  Syll Hb n2_54a Hc.
+  Syll_as Hb n2_54a Hc.
   exact Hc.
 Qed.
 
