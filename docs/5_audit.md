@@ -120,3 +120,4 @@ TODO:
 - notation isn't well designed: doesn't "scale" to higher levels, and patch with newer definitions instead
 - we want to separate the symbol definition against computation by setting up the `Admitted` clearly, but it is definitely not that clean in our current implementation
 - "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps? it is something focused on how automatic PM can be, not on structural similarity
+- Consideration on functions(`Prop -> Prop`) seems to interfere with our `_pred` treatment changing the order base
