@@ -490,6 +490,8 @@ Theorem n20_12 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop):
   exists Phi : Order 1, (Phi x <[- x -]> Psi x) /\
     (([^z => Psi z @ cz => f cz]) <-> ([^z => Phi z @ cz => f cz])).
 Proof.
+  pose proof n20_11 as n20_11.
+  (* unprovable *)
 Admitted.
 
 Theorem n20_13 (Psi Chi : Prop -> Prop) : (Psi x <[- x -]> Chi x)
