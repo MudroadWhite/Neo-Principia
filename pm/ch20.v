@@ -58,9 +58,30 @@ Definition n10_11_pred (Y : Order 1) (φ : Order 1 → Prop)
   : φ Y → ∀ x, φ x.
 Admitted.
 
+Definition n10_11_pred_1 (Y : Order 2) (φ : Order 2 → Prop)
+  : φ Y → ∀ x, φ x.
+Admitted.
+
 Definition n10_21_pred (φ : Order 1 → Prop) (P : Prop) :
   (∀ x : Order 1, P → φ x) ↔ (P → (∀ x : Order 1, φ x)).
 Admitted.
+
+(* Definition n10_24_pred_1 (φ : ((Prop -> Prop) -> Prop) → Prop) 
+  (Y : (Prop -> Prop) -> Prop) :
+  φ Y → ∃ x, φ x.
+Admitted. *)
+
+Definition n10_28_pred_1 (φ ψ : ((Prop -> Prop) -> Prop) → Prop) :
+  (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
+Admitted.
+
+Definition n10_281_pred (φ ψ : (Prop -> Prop) → Prop) :
+  (∀ x, φ x ↔ ψ x) → ((∃ x, φ x) ↔ (∃ x, ψ x)).
+Admitted.
+
+(* Definition n10_37_pred (φ : (Prop -> Prop) → Prop) (P : Prop) :
+  (∃ x, P → φ x) ↔ (P → ∃ x, φ x).
+Admitted. *)
 
 Open Scope formal_equiv.
 
@@ -69,15 +90,6 @@ if we have designed the AoR correctly *)
 Definition n12_1_pred (φ : (Prop -> Prop) → Prop) : 
   ∃ f : (Order 2), (φ x) <[- (x : Order 1) -]> ((fun (F : Order 2) =>
     F x) f).
-Admitted.
-
-Definition n10_281_pred (φ ψ : (Prop -> Prop) → Prop) :
-  (∀ x, φ x ↔ ψ x) → ((∃ x, φ x) ↔ (∃ x, ψ x)).
-Admitted.
-
-Definition n10_24_pred_1 (φ : ((Prop -> Prop) -> Prop) → Prop) 
-  (Y : (Prop -> Prop) -> Prop) :
-  φ Y → ∃ x, φ x.
 Admitted.
 
 (* 
@@ -302,7 +314,7 @@ Theorem n20_1 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
 Proof.
   pose proof (n4_2 ([^ (z : Prop) => Psi z @ zPsi => f zPsi])) as n4_2.
   now rewrite -> n20_01 in n4_2 at 2.
-Qed.  
+Qed.
 
 Theorem n20_11 (Psi Chi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   (Psi x <[- x -]> Chi x) -> (([^ z => Psi z @ cPsi => f cPsi]) 
@@ -323,14 +335,14 @@ Proof.
     MP n10_11a n4_86.
     pose proof (n10_27 (fun x => Psi x ↔ Chi x)
       (fun x => (IPhi x ↔ Psi x) ↔ (IPhi x ↔ Chi x))) as n10_27.
-    MP n10_27 n10_11.
+    MP n10_27 n10_11a.
     pose proof (n10_271 (fun x => IPhi x ↔ Psi x)
       (fun x => IPhi x ↔ Chi x)) as n10_271.
-    Syll n10_27 n10_271 Sy1.
+    Syll_as n10_27 n10_271 Sy1.
     pose proof (n10_11_pred IPhi (fun Phi => (Phi z <[- z -]> Psi z) 
       ↔ Phi z <[- z -]> Chi z)) as n10_11b.
     clear n4_86 n10_11a n10_27 n10_271.
-    now Syll Sy1 n10_11b Sy2.
+    now Syll_as Sy1 n10_11b S1.
   }
   assert (S2 : (Psi x <[- x -]> Chi x) 
     -> (((Phi x <[- x -]> Psi x) /\ f Phi)
@@ -394,8 +406,7 @@ Proof.
     setoid_rewrite -> n4_3 in n4_36 at 5.
     pose proof (n10_1_pred (fun Phi => f Phi <-> g Phi) IPsi)
       as n10_1.
-    move n4_36 after n10_1.
-    now Syll n10_1 n4_36 S1.
+    now Syll_as n10_1 n4_36 S1.
   }
   assert (S2 : (f Phi <[- Phi -]> g Phi)
     -> (((IPhi x <[- x -]> Psi x) /\ f Psi)
@@ -460,15 +471,21 @@ Proof.
     ([^z => Phi z @ cz => f cz]) <[- Phi -]> ([^z => Phi z @ cz => g cz])).
   {
     pose proof (n20_111 f Ig) as n20_111.
-    pose proof (n10_24_pred_1 (fun g => (f Phi <[- Phi -]> g Phi)
+    pose proof (n10_11_pred_1 Ig (fun g => (f Phi <[- Phi -]> g Phi)
       → ([^ z => Phi z @ cz => f cz]) <[- Phi -]>
-       ([^ z => Phi z @ cz => g cz])) Ig) as n10_24.
-    MP n10_24 n20_111.
+        ([^ z => Phi z @ cz => g cz]))) as n10_11.
+    MP n10_11 n20_111.
+    pose proof (n10_28_pred_1 (fun g => (f Phi <[- Phi -]> g Phi))
+      (fun g => ([^ z => Phi z @ cz => f cz]) 
+        <[- Phi -]> ([^ z => Phi z @ cz => g cz]))) as n10_28.
+    MP n10_28 n10_11.
+    now MP n10_28 S1.
   }
-Admitted.
+  exact S2.
+Qed.
 
-(* This is the class version of n12_1. While it is typed in Rocq, it might not express 
-the real nature of AoR. Also see critics in n12_1. *)
+(* This is the class version of n12_1. As we currently cannot correctly 
+  implement n12_1, our implementation in n20_12 isn't nice as well *)
 Theorem n20_12 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop): 
   exists Phi : Order 1, (Phi x <[- x -]> Psi x) /\
     (([^z => Psi z @ cz => f cz]) <-> ([^z => Phi z @ cz => f cz])).
