@@ -154,6 +154,7 @@ Example class_example_2 := ^ (z : Prop) => z = z.
 With the `class_app_c` below, it seems that `mk` surprisingly should be redundant,
 and we should only generate the class related notation from `app`s and `iota`s
 *)
+(* TODO: add a wrapper to the `let` as a new function *)
 Notation "[ cls @ classname => B ]" := (
     let A := cls.(Class.get_A _) in
     (* let f := (fun (classname : A -> Prop) => B) in
@@ -491,12 +492,39 @@ Theorem n20_12 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop):
     (([^z => Psi z @ cz => f cz]) <-> ([^z => Phi z @ cz => f cz])).
 Proof.
   pose proof n20_11 as n20_11.
-  (* unprovable *)
+  (* TODO: unprovable *)
 Admitted.
 
 Theorem n20_13 (Psi Chi : Prop -> Prop) : (Psi x <[- x -]> Chi x)
   -> ([^z1 => Psi z1 @ cz1 => ([^z2 => Chi z2 @ cz2 => cz1 = cz2])]).
 Proof.
+  (* TOOLS *)
+  set (IPhi := Intro_pred "Phi" 1).
+  (* ******** *)
+  assert (S1 : ([^z1 => Psi z1 @ cz1 => [^z2 => Chi z2 @ cz2 => cz1 = cz2]])
+    <-> exists Phi, (Psi x <[- x -]> Phi x) /\ ([^z => Chi z @ cz2 => Phi = cz2])).
+  {
+    (* Yes: below code has really taken me a lot of time to figure out *)
+    pose proof (n20_1 Psi (fun cz1 => [^z2 => Chi z2 @ cz2 => cz1 = cz2])) 
+      as n20_1.
+    now setoid_rewrite -> n4_21 in n20_1 at 2.
+  }
+  assert (S2 : ([^z1 => Psi z1 @ cz1 => [^z2 => Chi z2 @ cz2 => cz1 = cz2]])
+    <-> exists Phi Theta, (Psi x <[- x -]> Phi x) /\ (Chi x <[- x -]> Theta x)
+      /\ (Phi = Theta)).
+  {
+    (* We have to generalize the IPhi to fit in the proof *)
+    pose proof (n20_1 Chi (fun cz2 => IPhi = cz2)) as n20_1.
+    pose proof (n4_36 ([^ z => Chi z @ zPsi =>
+      (λ cz2 : Prop → Prop, IPhi = cz2) zPsi])
+      (∃ Theta : Order 1, (Theta x <[- x -]> Chi x)
+        ∧ IPhi = Theta)
+      (Psi x <[- x -]> IPhi x)) as n4_36.
+    MP n4_36 n20_1.
+    pose proof n10_11_pred as n10_11.
+    pose proof n10_281_pred as n10_281.
+
+  }
 Admitted.
 
 Theorem n20_14 (Psi Chi : Prop -> Prop) :
