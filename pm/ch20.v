@@ -71,17 +71,21 @@ Admitted.
   φ Y → ∃ x, φ x.
 Admitted. *)
 
-Definition n10_28_pred_1 (φ ψ : ((Prop -> Prop) -> Prop) → Prop) :
-  (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
-Admitted.
-
 Definition n10_281_pred (φ ψ : (Prop -> Prop) → Prop) :
   (∀ x, φ x ↔ ψ x) → ((∃ x, φ x) ↔ (∃ x, ψ x)).
+Admitted.
+
+Definition n10_28_pred_1 (φ ψ : ((Prop -> Prop) -> Prop) → Prop) :
+  (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
 Admitted.
 
 (* Definition n10_37_pred (φ : (Prop -> Prop) → Prop) (P : Prop) :
   (∃ x, P → φ x) ↔ (P → ∃ x, φ x).
 Admitted. *)
+
+Definition n10_35_pred (φ : (Prop -> Prop) → Prop) (P : Prop) :
+  (∃ x, P ∧ φ x) ↔ P ∧ (∃ x, φ x).
+Admitted.
 
 Open Scope formal_equiv.
 
@@ -152,9 +156,10 @@ Example class_example_2 := ^ (z : Prop) => z = z.
 
 (* 
 With the `class_app_c` below, it seems that `mk` surprisingly should be redundant,
-and we should only generate the class related notation from `app`s and `iota`s
+and we should only generate the class related notation from `app`s and `iota`s.
+NOTE: this notation will not be corectly expanded and this seems to be unfixable
+by Rocq's design
 *)
-(* TODO: add a wrapper to the `let` as a new function *)
 Notation "[ cls @ classname => B ]" := (
     let A := cls.(Class.get_A _) in
     (* let f := (fun (classname : A -> Prop) => B) in
@@ -515,15 +520,36 @@ Proof.
   {
     (* We have to generalize the IPhi to fit in the proof *)
     pose proof (n20_1 Chi (fun cz2 => IPhi = cz2)) as n20_1.
-    pose proof (n4_36 ([^ z => Chi z @ zPsi =>
-      (λ cz2 : Prop → Prop, IPhi = cz2) zPsi])
+    pose proof (n4_36 ([^ z => Chi z @ zPsi => IPhi = zPsi])
       (∃ Theta : Order 1, (Theta x <[- x -]> Chi x)
         ∧ IPhi = Theta)
       (Psi x <[- x -]> IPhi x)) as n4_36.
     MP n4_36 n20_1.
-    pose proof n10_11_pred as n10_11.
-    pose proof n10_281_pred as n10_281.
-
+    pose proof (n10_11_pred IPhi (fun Phi =>
+      (([^ z => Chi z @ zPsi => Phi = zPsi]) 
+          /\ (Psi x <[- x -]> Phi x))
+          <-> ((∃ Theta : Order 1, (Theta x <[- x -]> Chi x)
+          ∧ Phi = Theta) /\ (Psi x <[- x -]> Phi x)))) 
+      as n10_11.
+    MP n10_11 n4_36.
+    pose proof (n10_281_pred
+      (fun Phi => ([^ z => Chi z @ zPsi => Phi = zPsi]) 
+        /\ (Psi x <[- x -]> Phi x))
+      (fun Phi => (∃ Theta : Order 1, (Theta x <[- x -]> Chi x)
+        ∧ Phi = Theta) /\  (Psi x <[- x -]> Phi x))) 
+      as n10_281.
+    MP n10_281 n10_11.
+    setoid_rewrite -> n4_3 in n10_281 at 2.
+    setoid_rewrite -> n4_3 in n10_281 at 4.
+    setoid_rewrite <- n10_35_pred in n10_281.
+    setoid_rewrite -> n4_21 in n10_281 at 4.
+    now rewrite -> n10_281 in S1.
+  }
+  assert (S3 : ([^z1 => Psi z1 @ cz1 => [^z2 => Chi z2 @ cz2 => cz1 = cz2]])
+    -> exists Phi, (Psi x <[- x -]> Phi x) /\ (Chi x <[- x -]> Phi x)).
+  {
+    pose proof n12_1 as n12_1.
+    pose proof n10_321 as n10_321.
   }
 Admitted.
 
