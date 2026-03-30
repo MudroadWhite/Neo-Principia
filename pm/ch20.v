@@ -545,24 +545,79 @@ Proof.
     setoid_rewrite -> n4_21 in n10_281 at 4.
     now rewrite -> n10_281 in S1.
   }
-  assert (S3 : ([^z1 => Psi z1 @ cz1 => [^z2 => Chi z2 @ cz2 => cz1 = cz2]])
+  assert (S3 : (Psi x <[- x -]> Chi x)
     -> exists Phi, (Psi x <[- x -]> Phi x) /\ (Chi x <[- x -]> Phi x)).
   {
-    pose proof n12_1 as n12_1.
+    pose proof (n12_1 Psi) as n12_1a.
+    pose proof (n12_1 Chi) as n12_1b.
+    (* Unprovable: we cannot merge the `exists` for now *)
     pose proof n10_321 as n10_321.
+    admit.
   }
+  assert (S4 : (Psi x <[- x -]> Chi x) ->
+    exists Phi Theta, (Psi x <[- x -]> Phi x)
+      /\ (Chi x <[- x -]> Theta x) /\ (Phi = Theta)).
+  {
+    pose proof n13_195 as n13_195.
+    (* TODO: provable by bottom up construction; to be filled 
+      in future *)
+    admit.
+  }
+  assert (S5 : (Psi x <[- x -]> Chi x)
+    -> ([^z1 => Psi z1 @ cz1 => ([^z2 => Chi z2 @ cz2 => cz1 = cz2])])).
+  {
+    now rewrite <- S2 in S4.
+  }
+  exact S5.
 Admitted.
 
 Theorem n20_14 (Psi Chi : Prop -> Prop) :
   ([^z1 => Psi z1 @ cz1 => ([^z2 => Chi z2 @ cz2 => cz1 = cz2])])
   -> (Psi x <[- x -]> Chi x).
 Proof.
+  assert (S1 : [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
+    <-> (exists Phi, (Psi x <[- x -]> Phi x) 
+      /\ [^z => Chi z @ cz2 => Phi = cz2])).
+  {
+    pose proof (n20_1 Psi (fun cz1 => [^z => Chi z @ cz2 => cz1 = cz2])) 
+      as n20_1.
+    setoid_rewrite <- n4_21 in n20_1 at 2.
+    exact n20_1.
+  }
+  assert (S2 : [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
+    <-> (exists (Phi Theta : Prop -> Prop), (Psi x <[- x -]> Phi x) 
+      /\ (Chi x <[- x -]> Theta x) /\ (Phi = Theta))).
+  {
+    setoid_rewrite -> n20_1 in S1 at 2.
+    setoid_rewrite -> n4_21 in S1 at 3.
+    now setoid_rewrite <- n10_35_pred in S1.
+  }
+  assert (S3 : [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
+    <-> (exists Phi, (Psi x <[- x -]> Phi x) /\ (Chi x <[- x -]> Phi x))).
+  {
+    pose proof n13_195 as n13_195.
+    (* TODO: provable with bottom-up construction *)
+    admit.
+  }
+  assert (S4 : [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
+    -> (Psi x <[- x -]> Chi x)).
+  {
+    pose proof n10_322 as n10_322.
+    (* TODO: might be unprovable... we cannot eliminate `exists` in 
+      this way *)
+    admit.
+  }
+  exact S4.
 Admitted.
 
 Theorem n20_15 (Psi Chi : Prop -> Prop) : (Psi x <[- x -]> Chi x)
   <-> ([^z1 => Psi z1 @ cz1 => ([^z2 => Chi z2 @ cz2 => cz1 = cz2])]).
 Proof.
-Admitted.
+  pose proof (n20_13 Psi Chi) as n20_13.
+  pose proof (n20_14 Psi Chi) as n20_14.
+  Conj_as n20_13 n20_14 C1.
+  now Equiv C1.
+Qed.
 
 Theorem n20_151 (Psi : Prop -> Prop) : 
   exists Phi : Order 1, [^z => Psi z @ cz1 => 
