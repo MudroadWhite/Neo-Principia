@@ -71,6 +71,10 @@ Admitted.
   φ Y → ∃ x, φ x.
 Admitted. *)
 
+Definition n10_28_pred (φ ψ : (Prop -> Prop) → Prop) :
+  (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
+Admitted.
+
 Definition n10_281_pred (φ ψ : (Prop -> Prop) → Prop) :
   (∀ x, φ x ↔ ψ x) → ((∃ x, φ x) ↔ (∃ x, ψ x)).
 Admitted.
@@ -623,12 +627,40 @@ Theorem n20_151 (Psi : Prop -> Prop) :
   exists Phi : Order 1, [^z => Psi z @ cz1 => 
     [^z => Phi z @ cz2 => cz1 = cz2]].
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (IPhi := Intro_pred "Phi" 1).
+  (* ******** *)
+  assert (S1 : (Psi x <[- x -]> IPhi x) -> [^z => Psi z @ cz1 => 
+    [^z => IPhi z @ cz2 => cz1 = cz2]]).
+  { apply n20_15. }
+  assert (S2 : (exists Phi, Psi x <[- x -]> Phi x) 
+    -> (exists Phi, [^z => Psi z @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]])).
+  {
+    pose proof (n10_11_pred IPhi (fun Phi =>
+      (Psi x <[- x -]> Phi x) -> [^z => Psi z @ cz1 => 
+        [^z => Phi z @ cz2 => cz1 = cz2]])) as n10_11.
+    MP n10_11 S1.
+    pose proof (n10_28_pred
+      (fun Phi => Psi x <[- x -]> Phi x)
+      (fun Phi => [^z => Psi z @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]])) 
+      as n10_28.
+    now MP n10_28 n10_11.
+  }
+  assert (S3 : exists Phi : Order 1, [^z => Psi z @ cz1 => 
+    [^z => Phi z @ cz2 => cz1 = cz2]]).
+  {
+    pose proof (n12_1 Psi) as n12_1.
+    (* Surprisingly, we can use n12_1 here *)
+    now MP S2 n12_1.
+  }
+  exact S3.
+Qed.
 
 Theorem n20_16 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   exists Phi : Order 1, [^z => Psi z @ cz1 => f cz1] <-> 
     [^z => Phi z @ cz2 => f cz2].
 Proof.
+  pose proof n12_1.
 Admitted.
 
 Theorem n20_17 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
