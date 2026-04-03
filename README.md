@@ -58,7 +58,7 @@ Coq/Rocq version: >= 8.20.0, < 9.0, installed with the [opam](https://opam.ocaml
 ```bash
 opam update
 opam install coq
-opam pin coq add 8.20.0
+opam pin add coq 8.20.0
 ```
 Running the project:
 
