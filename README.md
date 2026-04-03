@@ -1,8 +1,6 @@
 # Neo Principia
 [![Screenshot](./header.png)](https://www.youtube.com/watch?v=MMD9n-YZ93o)
 
-> Reading PM is maddening. ([Source](https://randall-holmes.github.io/Drafts/pmsemantics.pdf))
-
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
 ## Why working on it
