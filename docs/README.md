@@ -2,11 +2,11 @@
 This folder, `./docs/`, is intended to provide necessary documentation for the formalization.
 
 This documentation assumes readers have the following background:
-- Using 2nd edition or Principia Mathematica as a reference
+- Using 2nd edition of Principia Mathematica as a reference
 - Familiarity with *Software Foundations, vol.1*, and have the fundamental ability to reason about propositional logic
 - Familiarity with jargons like *type system*, *modus ponens*, *proof system*, *deduction* or can use AGI to get a basic understanding
 - Familiarity with what formalization is doing to math/philosophy, as in what logic is doing to natural language
-- Ancient coding skills such as immediately tell memory efficiency from code by seeing how many for loops are there
+- Ancient coding skills such as telling memory efficiency immediately from code by seeing how many for loops there are
 - Unfortunately, this documentation is more likely to targeted at "people who already understand the knowledge", aka. the content is organized to smoothly cover the topics from concepts to implementations, rather than explaining type system like I am 5.
 
 ## Table of contents
