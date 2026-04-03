@@ -42,7 +42,7 @@ Technically speaking, if we completely follow the deduction rules in PM's logic 
 There's also a much more convenient routine provided in chapter 4, for `↔` rules to apply on `↔` propositions. 
 
 It's straightforward that all these routines are quite a lot just for a single rewrite with `↔`. Rocq's `rewrite` tactic shrinks everything into one line, so we should use it providing that we can always expand these `rewrite`s into a sequence of `Simp`, `MP`, `Conj` and `Equiv`, or more.
-- \[Simplification\]`rewrite` on `↔` is **allowed**, with both its `->` and `<-` direction, plus the `at` variant to specify the location for rewriting. Specifying the subterm to rewrite turns out to be a finite repetition of `MP`s and `Syll`s.
+- \[Simplification\]`rewrite` on `↔` is **allowed**, with explicit `->` or `<-` direction, optionally with `at` variant to specify the location for rewriting. Specifying the subterm to rewrite turns out to be a finite repetition of `MP`s and `Syll`s.
 - The theorem for rewriting is **recommended** to provide its full (lhs) parameter list. Due to the complexity, we can generally omit the parameters after chapter 11.
 
 Now that we finished discussing the construction routine on `↔`, we come to destruction routine on `↔`. `Equiv` theorem changes `P ↔ Q` back to `P → Q ∧ Q → P`. `Simp` picks the branch we want to use later, or we use both branch at different places. A more convenient way is seamlessly use Rocq's `destruct` tactic.
@@ -57,12 +57,12 @@ It turns out that 1-order propositions are harder to be rewritten than the eleme
 
 ### Using a definition
 (p.94)Definitional equality(which is different from identity defined in chapter 13) is undefined in PM. Without specification, it seems like we can do whatever we want. For elementary propositions, Rocq's default preference `rewrite` works perfectly.
-- `rewrite` on `=` is **allowed** for its `<-` and `->` direction. Same as above, `at` variant is **allowed**.
+- `rewrite` on `=` is **allowed** with explicit `<-` and `->` direction. Same as above, `at` variant is **allowed**.
 - Providing the parameter list is **recommended**.
 
 When things become complicated, more problems will come to surface. A `∀ x` is enough to block the `rewrite` - it cannot identify the variable `x`. `setoid_rewrite` is an enhanced version of `rewrite` that can penetrate through `∀`s and `∃`s, with the drawback that it only works on `↔` relations. Hence the following rule:
 - \[Simplification\]`eq_to_equiv` is **allowed** turn a `=` proposition into its `↔` equivalent. If we need to derive the quantified version of a `=` proposition, this becomes a necessity.
-- \[Simplification\]`setoid_rewrite` on `↔` is **allowed** on its `<-` and `->` direction. Even if the `↔` doesn't come from `=`, this is a simplification.
+- \[Simplification\]`setoid_rewrite` on `↔` is **allowed** with explicit `<-` and `->` direction. Even if the `↔` doesn't come from `=`, this is a simplification.
 - Similar to above, `at` variant for `setoid_rewrite` is **allowed**.
 - Providing the full parameter list is **recommended**.
 
