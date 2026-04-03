@@ -91,6 +91,10 @@ Definition n10_35_pred (φ : (Prop -> Prop) → Prop) (P : Prop) :
   (∃ x, P ∧ φ x) ↔ P ∧ (∃ x, φ x).
 Admitted.
 
+Definition n10_5_pred (φ ψ : (Prop -> Prop) → Prop) :
+  (∃ x, φ x ∧ ψ x) → ((∃ x, φ x) ∧ (∃ x, ψ x)).
+Admitted.
+
 Open Scope formal_equiv.
 
 (* This is a very ironic variant: we shouldn't write down such a variant
@@ -660,19 +664,31 @@ Theorem n20_16 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   exists Phi : Order 1, [^z => Psi z @ cz1 => f cz1] <-> 
     [^z => Phi z @ cz2 => f cz2].
 Proof.
-  pose proof n12_1.
-Admitted.
+  pose proof (n20_12 Psi f) as n20_12.
+  pose proof (n10_5_pred
+    (fun Phi => Phi x <[- x -]> Psi x)
+    (fun Phi => ([^ z => Psi z @ cz => f cz]) 
+      ↔ ([^ z => Phi z @ cz => f cz]))) as n10_5.
+  MP n10_5 n20_12.
+  (* simplification *)
+  now destruct n10_5.
+Qed.
 
 Theorem n20_17 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   forall Phi : Order 1, [^z => Psi z @ cz1 => f cz1] -> 
     [^z => Phi z @ cz2 => f cz2].
 Proof.
+  pose proof n20_16 as n20_16.
+  pose proof n10_1 as n10_1.
+  (* TODO: unprovable or there are some details that might require 
+    more investigation *)
 Admitted.
 
 Theorem n20_18 (Phi Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) : 
   [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]]
   -> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 = f cz2]].
 Proof.
+  
 Admitted.
 
 (* Should this actually be order 2?? *)
