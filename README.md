@@ -1,6 +1,8 @@
 # Neo Principia
 [![Screenshot](./header.png)](https://www.youtube.com/watch?v=MMD9n-YZ93o)
 
+> Reading PM is maddening. ([Source](https://randall-holmes.github.io/Drafts/pmsemantics.pdf))
+
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
 ## Why working on it
@@ -51,10 +53,11 @@ Which means 2 questions:
 - **How deep can you formalize?** We won't construct the deep embedding for now, as explained above. See [audit](./docs/5_audit.md) for secondary limitations.
 
 ## Running the code
-Coq/Rocq version: >= 8.20.0, installed with the [opam](https://opam.ocaml.org/) environment:
+Coq/Rocq version: >= 8.20.0, < 9.0, installed with the [opam](https://opam.ocaml.org/) environment:
 
 ```bash
 opam update
+opam install coq
 opam pin coq add 8.20.0
 ```
 Running the project:
@@ -64,8 +67,6 @@ make
 ```
 
 The awesome `Makefile` gathered from [@clarus](https://github.com/clarus)'s [awesome repo](https://github.com/formal-land/rocq-of-rust), is supposed to automatically detect all `.v` files under the `pm` folder, generate the `_CoqProject` file and compile the whole folder. This is done without deploying the project with `dune` environment.
-
-(Minimum requirement for Coq is currently under investigation)
 
 ### Running the code, line by line
 IDEs for Coq/Rocq varies, but here is my preference:
