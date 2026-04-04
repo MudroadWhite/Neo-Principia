@@ -19,7 +19,7 @@ Technically speaking, Principia's rewrite system is very simple, maybe much more
 ## Chapter 1 - 5
 Proofs of these chapters are inherited from [Landon's work](https://github.com/LogicalAtomist/principia), simplified down so that they are using just the necessary tactics. 
 
-### Using an asserted proposition
+### Proposing a proposition
 `pose proof (thm x y z) as thm` should be almost the only way to *introduce* a theorem into the hypotheses, stating the existence of an already proven result. Also, starting from chapter 9, propositions are further come with a special kind of "type", basically the order of the proposition, and at base case we're only allowed to use elementary propositions as parameters, for elementary functions. That being said,
 - `pose proof` on a theorem is **allowed**.
 - `pose` on a theorem is strictly **not allowed**, because `pose proof` gets the proof window cleaner.
