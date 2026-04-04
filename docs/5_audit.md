@@ -31,7 +31,7 @@ The core of symbol definition, *definitional equality*, is undefined, as discuss
 
 Critics above suggest there might be freedom for us to design a different type system that is closer to Rocq type system.
 
-**Orders**. We have the orders in our current implementation, but it works mostly like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
+**Orders**. We have the orders in our implementation, but currently it is severely wrongly interpreted and doesn't stand for the correct representation of a nth order proposition. It mostly works like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
 ```coq
 Goal Order 0 = Order 1.
 ```
@@ -45,6 +45,8 @@ Goal Order 0 = Order 1.
 
 **General.** The informal propositions through chapter 1 - 5 are only the `Pp`s in chapter 1 and a special inference rule in chapter 3. As explained in [tactics](4_tactics.md), we have made several simplifications over primitive propositions.
 
+For *modus ponens*, and *syllogism* etc. in the later chapters, we are directly inheriting the tactics designed by [Landon](https://github.com/LogicalAtomist/principia). By using tactics for deductions, we can make a clear distinction between what are being performed through *modus ponens* and what are not.
+
 ### Chapter 9
 **Coverage: 100%**
 
@@ -54,7 +56,11 @@ We have implemented the typing algorithm, but it is wrongly interpreted and will
 
 **Missing tactic: generalization.** \*9.13, the generalization assumption, according to the text, should be performed without `MP`. Our current design is modeling this assumption with a `→`, leading to unnecessary `MP`s on `n9_13`. Note that `if...then` written in natural language in PM is not something the same as `→`, in that `→` is defined through `∨` and `¬`.
 
-**Functions.** This is the first chapter for our soft embedding to consider functions, and how to rewrite on functions. For our soft embedding, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will reveal higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop → Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we move on.
+**Functions.** This is the first chapter for our soft embedding to consider functions, and how to rewrite on functions. For our implementation, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will reveal higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop → Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we move on.
+
+**setoid_rewrite.** The tactic `setoid_rewrite` is completely introduced into our implementation to simplify the proofs. While it has been convenient to rewrite on subparts of a proposition correctly, it will hide away some of the citation for the proof. Similar issue apply to `destruct`, but it's underlying citation is clear: namely the `Simp` theorems.
+
+We have received feedback that `setoid_rewrite` in Rocq >9.0 in seems to adopt to a different way to recognize the subparts. So far as I can see, this should be the only factor that will break version compatability.
 
 **Do 1-order proposition operators and "buffed" elementary proposition operators have the same type?** In chapter 9, `¬` and `∨` are clearly stated to be the elementary proposition version, so that "we can obtain first order propositions just from e-prop operators". Then, they are allowed to "break the rules" and take one 1-order proposition in one of its positions for operands. In chapter 10, `¬` and `∨` can take any 1-order propositions in their operands, because they are already the first-order version. There seems to be a confusion on the elementary proposition version to "not to break the type": we are assuming enough to see them as their 1-order version, so what is the difference between directly defining how they can be defined by directly using 1-order operators? The assumptions on these e-prop operators already break the type of them severely. If we would adapt to use 1-order operators in chapter 9, the correct statement for the chapter will not be "constructing 1-order propositions *just* using e-props", but "constructing 1-order propositions using 1-order operators on e-props", which also seems more natural in today's aspect.
 
@@ -78,16 +84,22 @@ The *of the same type* proposition in chapter 11 is unexamined. It will gain awa
 
 **General.** Axiom of Reducibility has been subjected to tons of criticism per history. Hilbert thinks the `∃` for AoR is [useless(p.33)](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf), and we can always write down the 1-st order equivalent manually - or find another way to generate such an equivalent - for an arbitrary n-order function. In our implementation we find it indeed hard to use, and there is a plan to develop other forms of AoR to make a nicer conversion.
 
-For chapters after chapter 12, `!` comes to significance(sometimes, critical) to be used in the theorems, denoting predicates from untyped functions. Inherently speaking, it requires us to design a useable small type system to distinguish between untyped functions and predicates. Our current implementation does not support `!`, because we don't strictly differentiate untyped and predicative functions.
+Dependency on AoR generally matters with the utilization of `!` that also comes to (sometimes, critical)significance after chapter 12, denoting predicates from untyped functions. Inherently speaking, it requires us to design a useable small type system to distinguish between untyped functions and predicates. Our current implementation does not support `!`, because we don't strictly differentiate untyped and predicative functions. 
 
-The result of which is, AoR is not strictly implemented in chapter 12. While it doesn't matter in chapter 13 - 14, chapter 20 brings its necessity to the surface. On its first citation in \*13.101, it has been considered that AoR not only express the *predicative* functions but also the *non-predicative* ones, and a strict enforcement should lead to different degrees on identity. Currently our design on both AoR and proof of \*13.101 are not aware of such technical details, and there seems to be a lot of work to do in the future.
+Lacking of the type system results in AoR not strictly implemented in chapter 12. While it doesn't generally matter in chapter 13 - 14, chapter 20 brings its necessity to the surface. 
 
 ### Chapter 13
 **Coverage: 92.9% = 26/28.**
 - **\*13.101.** Russell stated in the text that the proof for \*13.101, \*13.15-17 should be "taken as a primitive idea"(p.169). We do find odds that blocks this proof, but it comes from a completely different reason, and a complete proof can still be given. Our proof involves using a Rocq `destruct` to get out of the routine. What the simplification we made here, inherently, is to assume we can have `(∃ x, P x) ∧ (∃ x, Q x) → (∃ x, P x ∧ Q x)`, by which PM doesn't make a theorem for unfortunately. The "distribution law" on `∃` seems to be the problem for several cases, sometimes leading to solid failure in proof; see **\*14.32** below.
 - **\*13.11, \*13.12.** Both of the theorems have used \*1.7 during the proof, which seems to be confusing. The reason that \*1.7 comes into use seems to have something to deal with a meta question: when can we substitute the individuals of a deduced proposition into something else? Should we allow such substitution? Under our current design of proof, we think \*1.7 shouldn't be used explicitly and there should be some workaround.
 
-**General.** This is the first chapter where we have to design `_pred` variants for previous theorems. We find lifting theorems to higher orders tedious and has to be performed manually. In the future we plan to automate such lifting.
+**General.** This is the first chapter where we have to design `_pred` variants for previous theorems. We find lifting theorems to higher orders tedious and has to be performed manually; these variants are only `Admitted` to be true. 
+
+(TODO: proving style: only lowest order) In the future we plan to automate such lifting.
+
+**Definition of identity.** In PM, it has been considered that AoR not only express the *predicative* functions but also the *non-predicative* ones, and a strict enforcement should lead to different degrees on identity, maybe even implying giving `=` different types depending of types of its operands. It is worthwhile to note that we are directly using Rocq's default `=` as the symbol for identity, leading to several facts below:
+- All operands of `=` are having Rocq's type, not the types in PM
+- Because of this issue, Rocq's `=` is hiding the necessity for Axiom of Reducibility.
 
 ### Chapter 14
 **Coverage: 84.61% = 44/52.**
@@ -112,3 +124,4 @@ TODO:
 - notation isn't well designed: doesn't "scale" to higher levels, and patch with newer definitions instead
 - we want to separate the symbol definition against computation by setting up the `Admitted` clearly, but it is definitely not that clean in our current implementation
 - "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps? it is something focused on how automatic PM can be, not on structural similarity
+- Consideration on functions(`Prop -> Prop`) seems to interfere with our `_pred` treatment changing the order base

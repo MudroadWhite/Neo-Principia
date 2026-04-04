@@ -27,25 +27,26 @@ During each steps of the proof, Principia **cites** the theorems and previous st
 
 Context to prove theorems, like symbol definitions, have its **inheriting** nature. Theorems are proven in different context between different chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for case in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for case in chapter 9 - 11, [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 - 14, [chapter 20](./3_mechanics.md/#chapter-20) for beyond.
 
-### What are the actual problems to formalize Principia Mathematica?
-Our implementation seems to arise awareness to *how well does symbols of PM work together*. This means to the following:
+### What are the real problems to formalize Principia Mathematica?
+With *reconstruct every theorems in PM as much as we can* as our assumption, our implementation is facing awareness to *how well does symbols of PM work with each other*. This means to the following:
 1. Can we design the correct type system for PM, since PM doesn't explicitly type the propositions?
 2. Can we distinguish different contexts for theorems in different chapters, since their validity is proven in different context?
 3. Can we design a set of notations that can work well altogether?
 4. For current implementation, can we give correct types to parameters? For example, is it really that function's type should be just `Prop -> Prop`, when the difference between untyped functions and predicative functions become more and more significant in later chapters?
 
-Such purpose can be alleviated to a degree, if we are not insisting on using the symbols in PM. For example see [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) suggestion on alternative symbols. The problems listed above will not be discussed in this chapter, but can be inferred from analytics in [audit](./5_audit.md).
+Problems arisen from the assumption can be alleviated by some other reconstruction; see [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) suggestion on alternative symbols. These problems will not be discussed in this chapter, but can be inferred from analytics in [audit](./5_audit.md).
 
 We now start exploring the main ideas for each chapters.
 
 ## Chapters
 ### Chapter 1
-Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq - currently with their parameter types unchecked because we didn't implement it yet.
+Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. Note that we didn't set up type system for checking all the types.
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
-- Asserting `H2 : P → Q` means asserting `P` can successfully imply `Q`
-- (\*1.1)If `H1` and `H2` are asserted true, we are allowed to assert `H3 : Q`
+- (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) -> (|- Q)`(p.92), which doesn't occur within formulae in PM.
+
+There are no dependency explicitly stated in PM on \*1.1.
 
 In chapter 1 we also have a rough idea on how to denote a (elementary) *propositional function*. Such kind of simple denotation will be changed into something else in later chapters. In chapter 1-5, most propositional functions don't come barely themselves - their values for variables are somehow "fixed" already during all the inference, where `φ X` and `φ Y` does not mean the same thing(p.19).
 
@@ -61,8 +62,9 @@ Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
 - Asserting an (elementary) **propositional function** means asserting `H1 : φ X`.
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
+- We use \*1.11 almost everywhere in PM, and \*1.1 is generally not used, see (p.93). Most judgments in PM are assertions on propositional functions.
 
-The role of \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
+\*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
 
 `H1 : φ X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `φ` solely(p.92) and we're still asserting a proposition. 
 
@@ -74,7 +76,7 @@ The role of \*1.11 will come to more significance after [chapter 9](./3_mechanic
 
 By proving a theorem, we mean:
 - Everything is restricted to elementary propositions and elementary functions
-- Deduction is performed through *modus ponens* designed in \*1.1 or \*1.11
+- Deduction is performed through *modus ponens* designed in \*1.11. Currently we don't see dependencies for \*1.1
 
 (p.92)Note: not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
 
@@ -109,7 +111,7 @@ There's a lot of things happening in the beginning of chapter 9.
 - First of all \*1.1 and \*1.11 has assumed their version for **1st order propositions**(p.128)
 - Then first few `Pp`s in chapter 9 are supposed to restricted to e-prop `¬` and `∨`(discussed in Chapter II, they are not 1-order `¬` and `∨`). 
 - After we have demonstrated that they work just fine on `∃` as well, we can lift e-prop `¬` and `∨` to 1-order ones
-- Then we have \*9.12 being the actual *modus ponens* synthesizing both \*1.1 and \*1.11.
+- Then we have \*9.12 being the actual *modus ponens* synthesizing \*1.11.
 
 Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.162), which is a useful and natural feature that is still considered in later chapters.
 
@@ -133,7 +135,7 @@ The typing algorithm is described both in name and in the style of "of the same 
 5. **Untyped function.** Argument: unknown. Although it is completely not within the "of the same type" algorithm, it has been practically used throughout the text, and is implicitly allowed, getting even greater awareness(as well as confusion) in later chapters. If we want to build a type system however, it seems that we have to expose its nature from a modern view to go further on. For the same reason, there might be *untyped propositions* constructed on these function as well...
 6. **Constants.** For something more specific, constants are some letters that shouldn't be treated as a variable, and is allowed to be appeared in functions. In our implementation such distinction is very hard to make a difference.
 
-By proving a theorem in chapter 9 - 11, we mean:
+By proving a theorem in chapter 9 - 11, we assume:
 - Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
 - All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
 - *Modus ponens* is already at its maximum strength

@@ -199,8 +199,8 @@ Proof.
   }
   assert (S6 : ((∃ x, ¬ (φ x → ψ x)) ∨ (∀ y, ∃ z, (¬ φ z) ∨ ψ y))).
   {
-    setoid_rewrite Impl1_01a in S5.
-    setoid_rewrite Impl1_01a in S5 at 3.
+    setoid_rewrite -> Impl1_01a in S5.
+    setoid_rewrite -> Impl1_01a in S5 at 3.
     now rewrite <- (n9_08 (fun z1 => (∃ y0, (¬ φ y0) ∨ ψ z1)) 
       (fun x1 => ¬ (φ x1 → ψ x1))) in S5.
   }
