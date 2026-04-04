@@ -692,12 +692,22 @@ Proof.
   now rewrite -> n20_15 in n20_11.
 Qed.
 
-(* Should this actually be order 2?? *)
 Theorem n20_19 (Psi Chi : Prop -> Prop) : 
   [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
-  <-> forall f : (Order 1 -> Prop), [^z => Psi z @ cz1 => 
-    [^z => Chi z @ cz2 => f cz1 -> f cz2]].
+  <-> (forall f : (Order 1 -> Prop), [^z => Psi z @ cz1 => f cz1]
+    -> [^z => Chi z @ cz2 => f cz2]).
 Proof.
+  (* TOOLS *)
+  set (If := Intro_pred "f" 2).
+  (* ******** *)
+  assert (S1 : [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
+    -> (forall f, [^z => Psi z @ cz1 => f cz1] ->
+      [^z => Chi z @ cz2 => f cz2])).
+  {
+    pose proof (n20_18 Psi Chi) as n20_18.
+    pose proof n10_11_pred_1 as n10_11.
+    pose proof n10_21_pred_1 as n10_21.
+  }
 Admitted.
 
 Theorem n20_191 (Psi Chi : Prop -> Prop) : 
