@@ -68,7 +68,7 @@ Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 
 `H1 : φ X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `φ` solely(p.92) and we're still asserting a proposition. 
 
-*What is a function in PM?* When it says something like "function X", it actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. The same applies to most theorems in PM.
+*What is a function in PM?* When it says something like "function X", it actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. The same applies to most theorems in PM. All PM function's variables are not bounded and occurring freely.
 
 - (p.94)Definitional equality is undefined in PM
 - **elementary propositions** are closed under `¬` and `∨`
@@ -224,6 +224,13 @@ The first thing to mention about this chapter is the role of \*20.02(p.188). We 
 3. In this form, we "patch" the expression with \*20.02, matching exactly the rightmost sub expression, and rewriting the whole expression into `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ φ x`, and then make a slight reordering.
 
 Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq. (TODO: to be continued...in audit)
+
+TODO:
+1. A hidden trait of propositions are props written in natural language. They might be also derived from certain propositions; i.e. typing rules are not completely axioms in PM
+2. composition nature for types/defs, ref. *20.62
+3. "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps?
+4. "function X" means "an anonymous function with body of X, and parameters are all symbols appeared in the body"
+6. difficulty: what should be the correct type for all parameters?
 
 TODO: 
 - A newer hierarchy to be "practical" to use
