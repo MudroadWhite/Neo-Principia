@@ -686,10 +686,11 @@ Admitted.
 
 Theorem n20_18 (Phi Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) : 
   [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]]
-  -> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 = f cz2]].
+  -> ([^z => Phi z @ cz1 => f cz1] <-> [^z => Psi z @ cz2 => f cz2]).
 Proof.
-  
-Admitted.
+  pose proof (n20_11 Phi Psi f) as n20_11.
+  now rewrite -> n20_15 in n20_11.
+Qed.
 
 (* Should this actually be order 2?? *)
 Theorem n20_19 (Psi Chi : Prop -> Prop) : 
