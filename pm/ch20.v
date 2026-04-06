@@ -17,18 +17,10 @@ Require Import PM.pm.ch14.
   for any other occurences(??); address this naming convention in the documentation
 - Resolve the conflict between `Order` and Classes' `A` type. Currently we cannot express both
   of them in a unified way
-- TODO in docs: 
-  1. A hidden trait of propositions are props written in natural language. They might be also derived 
-    from certain propositions; i.e. typing rules are not completely axioms in PM
-  2. composition nature for types/defs, ref. *20.62
-  3. "generalization" for class variables seems to be different from treatments in ch9; 
-    they are theorems not pps?
-  4. "function X" means "an anonymous function with body of X, and parameters are all symbols 
-    appeared in the body"
-  5. after 12, `!` comes to significance of application
-  6. difficulty: what should be the correct type for all parameters?
-  7. explain how soft embedding allows us to perform development in ease: there are always more 
-  details to come; no one has done this before; we don't need to reconstruct a hard model
+TODO in docs:
+- order shift interferes with some proving routines in PM
+- proving every steps in ch20 has been increasingly harder
+- `setoid_rewrite` seems to ignore the order issue, as in n20_19
 *)
 
 (* 
@@ -64,6 +56,10 @@ Admitted.
 
 Definition n10_21_pred (φ : Order 1 → Prop) (P : Prop) :
   (∀ x : Order 1, P → φ x) ↔ (P → (∀ x : Order 1, φ x)).
+Admitted.
+
+Definition n10_21_pred_1 (φ : Order 2 → Prop) (P : Prop) :
+  (∀ x : Order 2, P → φ x) ↔ (P → (∀ x : Order 2, φ x)).
 Admitted.
 
 (* Definition n10_24_pred_1 (φ : ((Prop -> Prop) -> Prop) → Prop) 
@@ -698,16 +694,100 @@ Theorem n20_19 (Psi Chi : Prop -> Prop) :
     -> [^z => Chi z @ cz2 => f cz2]).
 Proof.
   (* TOOLS *)
+  set (X := Intro_individual "x").
   set (If := Intro_pred "f" 2).
+  set (IPhi := Intro_pred "Phi" 1).
+  set (ITheta := Intro_pred "Theta" 1).
   (* ******** *)
   assert (S1 : [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
     -> (forall f, [^z => Psi z @ cz1 => f cz1] ->
       [^z => Chi z @ cz2 => f cz2])).
   {
-    pose proof (n20_18 Psi Chi) as n20_18.
-    pose proof n10_11_pred_1 as n10_11.
-    pose proof n10_21_pred_1 as n10_21.
+    pose proof (n20_18 Psi Chi If) as n20_18.
+    pose proof (n10_11_pred_1 If (fun f =>
+      [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
+        -> ([^z => Psi z @ cz1 => f cz1] <-> [^z => Chi z @ cz2 => f cz2]))) as n10_11.
+    MP n10_11 n20_18.
+    rewrite -> n10_21_pred_1 in n10_11.
+    (* simplification *)
+    intros Hp f.
+    pose proof (n10_11 Hp f) as n10_11.
+    now destruct n10_11.
   }
+  assert (S2 : ((IPhi x <[- x -]> Psi x) /\ (ITheta x <[- x -]> Chi x)
+      /\ ([^z => Psi z @ cz1 => If cz1] -> [^z => Chi z @ cz2 => If cz2]))
+    -> ([^z => IPhi z @ cz3 => If cz3] -> [^z => ITheta z @ cz4 => If cz4])).
+  {
+    pose proof (n20_18) as n20_18.
+    pose proof (n20_15 IPhi Psi) as n20_15a.
+    pose proof (n20_15 ITheta Chi) as n20_15b. 
+    (* TODO: fill it in the future... *)
+    admit.
+  }
+  assert (S3 : (((IPhi x <[- x -]> Psi x) /\ (ITheta x <[- x -]> Chi x))
+      /\ (forall f, [^z => Psi z @ cz1 => f cz1] -> [^z => Chi z @ cz2 => f cz2]))
+    -> forall f, ([^z => IPhi z @ cz3 => f cz3] -> [^z => ITheta z @ cz4 => f cz4])).
+  {
+    (* TODO: fill it in the future *)
+    admit.
+  }
+  assert (S4 : (((IPhi x <[- x -]> Psi x) /\ (ITheta x <[- x -]> Chi x))
+      /\ (forall f, [^z => Psi z @ cz1 => f cz1] -> [^z => Chi z @ cz2 => f cz2]))
+    -> ((IPhi x <[- x -]> IPhi x) -> (IPhi x <[- x -]> ITheta x))).
+  {
+    admit.
+  }
+  assert (S5 : (((IPhi x <[- x -]> Psi x) /\ (ITheta x <[- x -]> Chi x))
+      /\ (forall f, [^z => Psi z @ cz1 => f cz1] -> [^z => Chi z @ cz2 => f cz2]))
+    -> (IPhi x <[- x -]> ITheta x)).
+  {
+    (* simplification *)
+    intro Hp.
+    pose proof (S4 Hp) as S4.
+    pose proof (n4_2 (IPhi X)) as n4_2.
+    pose proof (n10_11 X (fun x => IPhi x <-> IPhi x)) as n10_11.
+    MP n10_11 n4_2.
+    now MP S4 n10_11.
+  }
+  assert (S6 : (((IPhi x <[- x -]> Psi x) /\ (ITheta x <[- x -]> Chi x))
+      /\ (forall f, [^z => Psi z @ cz1 => f cz1] -> [^z => Chi z @ cz2 => f cz2]))
+    -> (Psi x <[- x -]> Chi x)).
+  {
+    (* *10.301 *10.32 ignored *)
+    (* simplification *)
+    intros Hp.
+    pose proof (S5 Hp) as S5.
+    destruct Hp as [Hp1 Hp3].
+    destruct Hp1 as [Hp1 Hp2].
+    setoid_rewrite -> Hp1 in S5.
+    now setoid_rewrite -> Hp2 in S5.
+  }
+  assert (S7 : (((IPhi x <[- x -]> Psi x) /\ (ITheta x <[- x -]> Chi x))
+      /\ (forall f, [^z => Psi z @ cz1 => f cz1] -> [^z => Chi z @ cz2 => f cz2]))
+    -> ([^z => Psi z @ cz1 => [^z => Chi z @ cz2 =>  cz1 = cz2]])).
+  { now setoid_rewrite -> n20_15 in S6 at 3. }
+  assert (S8 : (exists Phi Theta, ((Phi x <[- x -]> Psi x) /\ (Theta x <[- x -]> Chi x)))
+      /\ (forall f, [^z => Psi z @ cz1 => f cz1] -> [^z => Chi z @ cz2 => f cz2])
+    -> [^z => Psi z @ cz1 => [^z => Chi z @ cz2 =>  cz1 = cz2]]).
+  {
+    pose proof n10_11 as n10_11.
+    pose proof n10_23 as n10_23.
+    pose proof n10_35 as n10_35.
+    admit.
+  }
+  assert (S9 : (forall f, [^z => Psi z @ cz1 => f cz1] -> [^z => Chi z @ cz2 => f cz2])
+    -> [^z => Psi z @ cz1 => [^z => Chi z @ cz2 =>  cz1 = cz2]]).
+  {
+    pose proof n12_1 as n12_1.
+    admit.
+  }
+  assert (S10 : [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
+    <-> (forall f : (Order 1 -> Prop), [^z => Psi z @ cz1 => f cz1]
+      -> [^z => Chi z @ cz2 => f cz2])).
+  {
+    admit.
+  }
+  exact S10.
 Admitted.
 
 Theorem n20_191 (Psi Chi : Prop -> Prop) : 
