@@ -795,6 +795,9 @@ Theorem n20_191 (Psi Chi : Prop -> Prop) :
   <-> forall f : (Order 1 -> Prop), [^z => Psi z @ cz1 => 
     [^z => Chi z @ cz2 => f cz1 <-> f cz2]].
 Proof.
+  pose proof n20_18 as n20_18.
+  pose proof n20_19 as n20_19.
+  pose proof n10_22 as n10_22.
 Admitted.
 
 Theorem n20_2 (Phi : Prop -> Prop) : [^z => Phi z @ cz1 => cz1 = cz1].
