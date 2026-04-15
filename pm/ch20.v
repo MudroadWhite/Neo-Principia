@@ -795,21 +795,48 @@ Theorem n20_191 (Psi Chi : Prop -> Prop) :
   <-> forall f : (Order 1 -> Prop), [^z => Psi z @ cz1 => 
     [^z => Chi z @ cz2 => f cz1 <-> f cz2]].
 Proof.
+  (* TODO: figure out the correct way for the proof *)
+  (* 
+  Theorem n20_18 (Phi Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) : 
+  [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]]
+  -> ([^z => Phi z @ cz1 => f cz1] <-> [^z => Psi z @ cz2 => f cz2]).
+  *)
   pose proof n20_18 as n20_18.
   pose proof n20_19 as n20_19.
   pose proof n10_22 as n10_22.
 Admitted.
 
-Theorem n20_2 (Phi : Prop -> Prop) : [^z => Phi z @ cz1 => cz1 = cz1].
+(* NOTE: not that here we cannot use cz1 = cz1 directly. TODO: add it in docss *)
+Theorem n20_2 (Phi : Prop -> Prop) : [^z => Phi z @ cz1 => 
+  [^z => Phi z @ cz2 => cz1 = cz2]].
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (X := Intro_individual "x").
+  (* ******** *)
+  assert (S1 : [^z => Phi z @ cz1 => 
+    [^z => Phi z @ cz2 => cz1 = cz2]] <-> (Phi x <[- x -]> Phi x)).
+  {
+    pose proof (n20_15 Phi Phi) as n20_15.
+    now rewrite -> n4_21 in n20_15.
+  }
+  assert (S2 : [^z => Phi z @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]]).
+  {
+    destruct S1 as [_ S1].
+    pose proof (n4_2 (Phi X)) as n4_2.
+    pose proof (n10_11 X (fun x => Phi x <-> Phi x)) as n10_11.
+    MP n10_11 n4_2.
+    now MP S1 n10_11.
+  }
+  exact S2.
+Qed.
 
-(* TODO: there might be some scope issues that only to be found after
-  digging into the proofs... *)
+(* NOTE: our implementation seems to be unable to express such proof... *)
 Theorem n20_21 (Phi Psi : Prop -> Prop) : [^z => Phi z @ cz1 => 
   [^z => Psi z @ cz2 => cz1 = cz2]] <-> [^z => Phi z @ cz1 => 
   [^z => Psi z @ cz2 => cz2 = cz1]].
 Proof.
+  pose proof n20_15 as n20_15.
+  pose proof n10_32 as n10_32.
 Admitted.
 
 Theorem n20_22 (Phi Psi Chi : Prop -> Prop) : 
