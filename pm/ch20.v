@@ -857,22 +857,30 @@ Theorem n20_23 (Phi Psi Chi : Prop -> Prop) :
     /\ [^z => Phi z @ cz1 => [^z => Chi z @ cz3 => cz1 = cz3]])
   -> [^z => Psi z @ cz2 => [^z => Chi z @ cz3 => cz2 = cz3]].
 Proof.
-  pose proof n20_21 as n20_21.
-  pose proof n20_22 as n20_22.
-Admitted.
+  pose proof (n20_21 Phi Psi) as n20_21.
+  pose proof (n20_22 Psi Phi Chi) as n20_22.
+  now rewrite <- n20_21 in n20_22.
+Qed.
 
 Theorem n20_24 (Phi Psi Chi : Prop -> Prop) : 
   ([^z => Psi z @ cz2 => [^z => Phi z @ cz1 => cz2 = cz1]] 
     /\ [^z => Chi z @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]])
   -> [^z => Psi z @ cz2 => [^z => Chi z @ cz3 => cz2 = cz3]].
 Proof.
-Admitted.
+  pose proof (n20_21 Phi Chi) as n20_21.
+  pose proof (n20_22 Psi Phi Chi) as n20_22.
+  now rewrite -> n20_21 in n20_22.
+Qed.
 
 Theorem n20_25 (Phi Psi : Prop -> Prop) :
   ([alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]] <[- alpha : Class.t Prop -]>
     [alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])
   -> [^z => Phi z @ cz2 => [^z => Psi z @ cz3 => cz2 = cz3]].
 Proof.
+  (* TOOLS *)
+
+  (* ******** *)
+  pose proof n10_1.
 Admitted.
 
 Theorem n20_3 (X : Prop) (Psi : Prop -> Prop ) : 
