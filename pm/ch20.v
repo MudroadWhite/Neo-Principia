@@ -830,27 +830,35 @@ Proof.
   exact S2.
 Qed.
 
-(* NOTE: our implementation seems to be unable to express such proof... *)
 Theorem n20_21 (Phi Psi : Prop -> Prop) : [^z => Phi z @ cz1 => 
-  [^z => Psi z @ cz2 => cz1 = cz2]] <-> [^z => Phi z @ cz1 => 
-  [^z => Psi z @ cz2 => cz2 = cz1]].
+  [^z => Psi z @ cz2 => cz1 = cz2]] <-> [^z => Psi z @ cz2 => 
+  [^z => Phi z @ cz1 => cz2 = cz1]].
 Proof.
-  pose proof n20_15 as n20_15.
-  pose proof n10_32 as n10_32.
-Admitted.
+  pose proof (n20_15 Phi Psi) as n20_15a.
+  pose proof (n20_15 Psi Phi) as n20_15b.
+  pose proof (n10_32 Phi Psi) as n10_32.
+  now rewrite -> n20_15a, -> n20_15b in n10_32.
+Qed.
 
 Theorem n20_22 (Phi Psi Chi : Prop -> Prop) : 
   ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]] 
     /\ [^z => Psi z @ cz2 => [^z => Chi z @ cz3 => cz2 = cz3]])
   -> [^z => Phi z @ cz1 => [^z => Chi z @ cz3 => cz1 = cz3]].
 Proof.
-Admitted.
+  pose proof (n20_15 Phi Psi) as n20_15a.
+  pose proof (n20_15 Psi Chi) as n20_15b.
+  pose proof (n20_15 Phi Chi) as n20_15c.
+  pose proof (n10_301 Phi Psi Chi) as n10_301.
+  now rewrite -> n20_15a, -> n20_15b, -> n20_15c in n10_301.
+Qed.
 
 Theorem n20_23 (Phi Psi Chi : Prop -> Prop) : 
   ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]] 
     /\ [^z => Phi z @ cz1 => [^z => Chi z @ cz3 => cz1 = cz3]])
   -> [^z => Psi z @ cz2 => [^z => Chi z @ cz3 => cz2 = cz3]].
 Proof.
+  pose proof n20_21 as n20_21.
+  pose proof n20_22 as n20_22.
 Admitted.
 
 Theorem n20_24 (Phi Psi Chi : Prop -> Prop) : 
