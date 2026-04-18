@@ -135,3 +135,4 @@ TODO:
 
 TODO:
 - critisism: "of the same type" is distributed throughout the chapters
+- when `setoid_rewrite` doesn't work, we would reconstruct everything bottom-up`
