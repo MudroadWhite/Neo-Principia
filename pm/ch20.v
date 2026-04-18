@@ -188,7 +188,7 @@ Notation "x '<class_in_f>' Phi" := (class_in x Phi)
 Example class_in_f_example (x : Prop) := x <class_in_f> (fun z => z = z).
 
 Notation "x '<class_in>' C" := 
-  (let Phi := C.(Class.get_func _) in class_in x Phi)
+  (let Phi := C.(Class.get_func _) in class_in x Phi)  
   (at level 120, right associativity) : debug_class.
 Example class_in_example (x : Prop) := x <class_in> class_example_1.
 
@@ -247,7 +247,7 @@ Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   = (exists Phi : Order 1, (Phi x <[- x -]> Psi x) /\ f Phi).
 Admitted.
 
-Definition n20_02 (n : nat) (X : Prop) (Phi : Prop -> Prop) :
+Definition n20_02 (X : Prop) (Phi : Prop -> Prop) :
   (X <class_in_f> Phi) = Phi X.
 Admitted.
 
@@ -873,14 +873,17 @@ Proof.
   now rewrite -> n20_21 in n20_22.
 Qed.
 
-(* 
-Theorem n10_1 (φ : Prop → Prop) (Y : Prop) : (∀ x, φ x) → φ Y.
-*)
-Definition n10_1_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
-  (∀ x, φ x) → φ Y.
-Admitted.
-
+(* TODO: redesign the intro class with admitted function provided *)
 Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
+
+Definition n10_1_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
+  (∀ x, φ x) → φ Y. Admitted.
+
+Definition n10_11_class {A : Type} (Y : Class.t A) (φ : Class.t A → Prop) 
+  : φ Y → ∀ x, φ x. Admitted.
+
+Definition n10_21_class {A : Type} (φ : Class.t A → Prop) (P : Prop) :
+  (∀ x, P → φ x) ↔ (P → (∀ x, φ x)). Admitted.
 
 (* 
   NOTE: While class is said to be an "incomplete symbol", the utilization of *10.1 in 
@@ -931,15 +934,98 @@ Proof.
     -> ([Alpha @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]]
       -> [Alpha @ cz3 => [^z => Psi z @ cz2 => cz3 = cz2]])).
   {
-    pose proof Exp3_3 as Exp3_3.
-    pose proof Comm2_04 as Comm2_04.
+    pose proof (Exp3_3 
+      ([Alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]])
+      ([^z => Phi z @ cz2 => [^z => Psi z @ cz3 => cz2 = cz3]])
+      ([Alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]]))
+      as Exp3_3.
+    MP Exp3_3 S3.
+    pose proof (Comm2_04
+      ([Alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]])
+      ([^z => Phi z @ cz2 => [^z => Psi z @ cz3 => cz2 = cz3]])
+      ([Alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]]))
+      as Comm2_04.
+    now MP Comm2_04 Exp3_3.
   }
-  
+  assert (S5 : ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]]
+      /\ [Alpha @ cz3 => [^z => Psi z @ cz2 => cz3 = cz2]])
+    -> ([Alpha @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]])).
+  {
+    (* unprovable so far. TODO: update intro class notation *)
+    pose proof n20_24 as n20_24.
+    admit.
+  }
+  assert (S6 : [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]]
+    -> ([Alpha @ cz3 => [^z => Psi z @ cz2 => cz3 = cz2]]
+      -> [Alpha @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]])).
+  {
+    pose proof (Exp3_3
+      ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]])
+      ([Alpha @ cz3 => [^z => Psi z @ cz2 => cz3 = cz2]])
+      ([Alpha @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]])) 
+      as Exp3_3.
+    now MP Exp3_3 S5.
+  }
+  assert (S7 : [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]]
+    -> ([Alpha @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]]
+      <-> [Alpha @ cz3 => [^z => Psi z @ cz2 => cz3 = cz2]])).
+  {
+    (* simplification *)
+    intro Hp.
+    pose proof (S4 Hp) as S4.
+    pose proof (S6 Hp) as S6.
+    clear S1 S2 S3 S5.
+    Conj_as S4 S6 C1.
+    now Equiv C1.
+  }
+  assert (S8 : [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]]
+    -> ([alpha @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]]
+      <[- alpha -]> [alpha @ cz3 => [^z => Psi z @ cz2 => cz3 = cz2]])).
+  {
+    pose proof (n10_11_class Alpha
+      (fun alpha => [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]]
+        -> ([alpha @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]]
+          <-> [alpha @ cz3 => [^z => Psi z @ cz2 => cz3 = cz2]])))
+      as n10_11.
+    MP n10_11 S7.
+    now rewrite -> n10_21_class in n10_11.
+  }
+  assert (S9 : ([alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]] <[- alpha -]>
+      [alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])
+    -> [^z => Phi z @ cz2 => [^z => Psi z @ cz3 => cz2 = cz3]]).
+  {
+    Conj_as S2 S8 C1.
+    now Equiv C1.
+  }
+  exact S9.
 Admitted.
 
+(* TODO in doc: the 1st step of this proof reveals some deeper notation consistency 
+  issue... designing a custum representation of these symbols seems to be a interesting
+  technical problem 
+  TODO: delete representation occurences of `X <class_in> (^ z => Psi z)`
+*)
 Theorem n20_3 (X : Prop) (Psi : Prop -> Prop ) : 
-  (X <class_in> (^ z => Psi z)) <-> Psi X.
+  ([^ z => Psi z @ cz1 => X <class_in_f> cz1]) <-> Psi X.
 Proof.
+  assert (S1 : [^ z => Psi z @ cz1 => X <class_in_f> cz1]
+    <-> exists Phi, (Psi y <[- y -]> Phi y) 
+      /\ (X <class_in_f> Phi)).
+  {
+    pose proof (n20_1 Psi (fun cz => X <class_in_f> cz)) as n20_1.
+    now setoid_rewrite -> n4_21 in n20_1 at 2.
+  }
+  assert (S2 : [^ z => Psi z @ cz1 => X <class_in_f> cz1]
+    <-> exists Phi, (Psi y <[- y -]> Phi y) /\ Phi X).
+  { now setoid_rewrite -> n20_02 in S1. }
+  assert (S3 : [^ z => Psi z @ cz1 => X <class_in_f> cz1]
+    <-> exists Phi, (Psi y <[- y -]> Phi y) /\ Psi X).
+  {
+    (* TODO: reconstruct `exists` bottom-up *)
+    (* setoid_rewrite -> n10_43 in S2. *)
+    admit.
+  }
+  assert (S4 : )
 Admitted.
 
 Theorem n20_31 (Psi Chi : Prop -> Prop) : 
