@@ -23,6 +23,11 @@ TODO in docs:
 - `setoid_rewrite` seems to ignore the order issue, as in n20_19
 *)
 
+(* TODO: naming for class variables:
+- If the function body is a function Phi, name the var as cPhi
+- If the function is being constructed in more detail, name the var as c1, c2, ...
+*)
+
 (* 
 The class in this chapter has been discussed like pretty obscure. It is not being stated
 clearly like a structure, and instead, how is it defined is written *in the middle of 
@@ -187,6 +192,8 @@ Notation "x '<class_in_f>' Phi" := (class_in x Phi)
   (at level 120, right associativity) : debug_class.
 Example class_in_f_example (x : Prop) := x <class_in_f> (fun z => z = z).
 
+(* TODO: this notation should be deleted, and at that time we will rename 
+  `class_in_f` into `class_in` *)
 Notation "x '<class_in>' C" := 
   (let Phi := C.(Class.get_func _) in class_in x Phi)  
   (at level 120, right associativity) : debug_class.
@@ -1025,26 +1032,61 @@ Proof.
     (* setoid_rewrite -> n10_43 in S2. *)
     admit.
   }
-  assert (S4 : )
+  assert (S4 : [^ z => Psi z @ cz1 => X <class_in_f> cz1]
+    <-> (exists Phi, Psi y <[- y -]> Phi y) /\ Psi X).
+  {
+    pose proof n10_35 as _n10_35.
+    setoid_rewrite -> n4_3 in S3 at 2.
+    setoid_rewrite -> n10_35_pred in S3.
+    now setoid_rewrite <- n4_3 in S3 at 2.
+  }
+  assert (S5 : [^ z => Psi z @ cz1 => X <class_in_f> cz1]
+    <-> Psi X).
+  {
+    (* unprovable?. *)
+    pose proof n12_1.
+    admit.
+  }
+  exact S5.
 Admitted.
 
 Theorem n20_31 (Psi Chi : Prop -> Prop) : 
   [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
-  <-> ((x <class_in> (^ z => Psi z)) 
-    <[- x -]> (x <class_in> (^ z => Chi z))).
+  <-> (([^ z => Psi z @ cz1 => x <class_in_f> cz1])
+    <[- x -]> [^ z => Chi z @ cz2 => x <class_in_f> cz2]).
 Proof.
-Admitted.
+  pose proof (n20_15 Psi Chi) as n20_15.
+  setoid_rewrite <- n20_3 in n20_15 at 3.
+  setoid_rewrite <- n20_3 in n20_15 at 3.
+  now rewrite -> n4_21 in n20_15.
+Qed.
 
 Theorem n20_32 (Phi : Prop -> Prop) :
-  [(^x => x <class_in> (^z => Phi z)) @ cx =>
-    [^z => Phi z @ cz => cx = cz]].
+  [^x => [^z => Phi z @ cz2 => x <class_in_f> cz2] @ cz1
+    => [^z => Phi z @ cz2 => cz1 = cz2]].
 Proof.
+  pose proof n20_3 as n20_3.
+  pose proof n20_15 as n20_15.
+  (* TODO: bottom-up construct this in the future *)
 Admitted.
 
-Theorem n20_33 (alpha : Class.t Prop) (Phi : Prop -> Prop) :
-  [alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
-  <-> ((x <class_in> alpha) <[- x -]> Phi x).
+Theorem n20_33 (Alpha : Class.t Prop) (Phi : Prop -> Prop) :
+  [Alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
+  <-> ([Alpha @ calpha => x <class_in_f> calpha] <[- x -]> Phi x).
 Proof.
+  assert (S1 : [Alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
+    <-> ([Alpha @ calpha => x <class_in_f> calpha] 
+      <[- x -]> [^z => Phi z @ cz2 => x <class_in_f> cz2])).
+  {
+    (* TODO: to be implemented after the new intro class technique? 
+      Or it is something even worse? *)
+    pose proof n20_31 as n20_31.
+    admit.
+  }
+  assert (S2 : [Alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
+    <-> ([Alpha @ calpha => x <class_in_f> calpha] <[- x -]> Phi x)).
+  { now setoid_rewrite -> n20_3 in S1. }
+  exact S2.
 Admitted.
 
 Open Scope formal_impl.
