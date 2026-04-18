@@ -908,8 +908,14 @@ Proof.
       <[- alpha -]> [alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])
     -> [^z => Phi z @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]]).
   {
-    
+    (* simplification *)
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    destruct S1 as [S1 _].
+    pose proof (n20_2 Phi) as n20_2.
+    now MP S1 n20_2.
   }
+  assert (S3 : )
   
 Admitted.
 
