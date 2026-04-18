@@ -806,7 +806,8 @@ Proof.
   pose proof n10_22 as n10_22.
 Admitted.
 
-(* NOTE: not that here we cannot use cz1 = cz1 directly. TODO: add it in docss *)
+(* NOTE: not that here we cannot use cz1 = cz1 directly. 
+  TODO: add it in docss or convert with an axiom *)
 Theorem n20_2 (Phi : Prop -> Prop) : [^z => Phi z @ cz1 => 
   [^z => Phi z @ cz2 => cz1 = cz2]].
 Proof.
@@ -872,15 +873,44 @@ Proof.
   now rewrite -> n20_21 in n20_22.
 Qed.
 
+(* 
+Theorem n10_1 (φ : Prop → Prop) (Y : Prop) : (∀ x, φ x) → φ Y.
+*)
+Definition n10_1_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
+  (∀ x, φ x) → φ Y.
+Admitted.
+
 Theorem n20_25 (Phi Psi : Prop -> Prop) :
-  ([alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]] <[- alpha : Class.t Prop -]>
+  ([alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]] <[- alpha -]>
     [alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])
   -> [^z => Phi z @ cz2 => [^z => Psi z @ cz3 => cz2 = cz3]].
 Proof.
   (* TOOLS *)
 
   (* ******** *)
-  pose proof n10_1.
+  (* 
+    NOTE: While class is said to be an "incomplete symbol", the utilization of *10.1 in 
+    this proof reveals that Russell might actually want to give class a "type"(as in Rocq) 
+    that is beyond the hierarchy of propositions and functions.
+  *)
+  assert (S1 : ([alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]] 
+      <[- alpha -]> [alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])
+    -> ([^z => Phi z @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]]
+     <-> [^z => Phi z @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])).
+  {
+    pose proof (n10_1_class (fun alpha => [alpha @ cz1 => 
+        [^z => Phi z @ cz2 => cz1 = cz2]] <-> 
+      [alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])
+      (^z => Phi z)) as n10_1.
+    exact n10_1.
+  }
+  assert (S2 : ([alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]] 
+      <[- alpha -]> [alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])
+    -> [^z => Phi z @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]]).
+  {
+    
+  }
+  
 Admitted.
 
 Theorem n20_3 (X : Prop) (Psi : Prop -> Prop ) : 
