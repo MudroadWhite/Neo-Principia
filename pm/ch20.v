@@ -13,8 +13,6 @@ Require Import PM.pm.ch14.
 (* TODO:
 - When starting eliminating the TODOs, make a clear distinction between untyped functions 
   represented as `A -> Prop` and Predicative functions
-- When starting eliminating the TODOs, for implicit `Phi`s, rename them with `IPhi` and same 
-  for any other occurences(??); address this naming convention in the documentation
 - Resolve the conflict between `Order` and Classes' `A` type. Currently we cannot express both
   of them in a unified way
 TODO in docs:
@@ -23,9 +21,19 @@ TODO in docs:
 - `setoid_rewrite` seems to ignore the order issue, as in n20_19
 *)
 
-(* TODO: naming for class variables:
-- If the function body is a function Phi, name the var as cPhi
+(* TODO: address following naming convention in the documentation, also adapt it in the project
+naming convention for class variables:
+- If the function body is given with a function variable Phi, name the var as cPhi
 - If the function is being constructed in more detail, name the var as c1, c2, ...
+
+naming convention for introduced variables:
+- implicit `Phi` predicates should be introduced as `IPhi`
+- class instance should be introduced as `Alpha` (so far)
+*)
+
+(* NOTE: representation which turns out to be illegal:
+- X <class_in> (^ z => Psi z)
+- [^z => Phi z @ cz1 => cz1 = cz1]
 *)
 
 (* 
@@ -192,13 +200,6 @@ Notation "x '<class_in_f>' Phi" := (class_in x Phi)
   (at level 120, right associativity) : debug_class.
 Example class_in_f_example (x : Prop) := x <class_in_f> (fun z => z = z).
 
-(* TODO: this notation should be deleted, and at that time we will rename 
-  `class_in_f` into `class_in` *)
-Notation "x '<class_in>' C" := 
-  (let Phi := C.(Class.get_func _) in class_in x Phi)  
-  (at level 120, right associativity) : debug_class.
-Example class_in_example (x : Prop) := x <class_in> class_example_1.
-
 (* Another `class_in` specifically for classes. All above should be subject to
 future refinements... *)
 Notation "c '<class_in_fc>^' Psi" := (class_in_c c Psi) 
@@ -269,19 +270,28 @@ Definition n20_03 {A : Type} :
     [^ (z : A) => Phi z @ cPhi => alpha = cPhi])).
 Admitted.
 
-Definition n20_04 {A : Type} (X Y : A) (alpha : Class.t A) :
-  ((X <class_in> alpha) /\ (Y <class_in> alpha))
-  = (X <class_in> alpha) /\ (Y <class_in> alpha).
+(* We won't define a notation for this abbreviation for now *)
+Definition n20_04 {A : Type} (X Y : A) (Alpha : Class.t A) :
+  ([Alpha @ calpha => X <class_in_f> calpha] 
+    /\ [Alpha @ calpha => Y <class_in_f> calpha])
+  = 
+  ([Alpha @ calpha => X <class_in_f> calpha] 
+  /\ [Alpha @ calpha => Y <class_in_f> calpha]).
 Admitted.
 
-Definition n20_05 {A : Type} (X Y Z : A) (alpha : Class.t A):
-  ((X <class_in> alpha) /\ (Y <class_in> alpha) /\ (Z <class_in> alpha))
-  = ((X <class_in> alpha) /\ (Y <class_in> alpha)) /\ (Z <class_in> alpha).
+Definition n20_05 {A : Type} (X Y Z : A) (Alpha : Class.t A):
+  ([Alpha @ calpha => X <class_in_f> calpha] 
+    /\ [Alpha @ calpha => Y <class_in_f> calpha]
+    /\ [Alpha @ calpha => Z <class_in_f> calpha])
+  = (([Alpha @ calpha => X <class_in_f> calpha] 
+      /\ [Alpha @ calpha => Y <class_in_f> calpha]) 
+    /\ [Alpha @ calpha => Z <class_in_f> calpha]).
 Admitted.
 
-(* We won't refine anything on this symbol so far *)
-Definition n20_06 {A : Type} (X : A) (alpha : Class.t A) :
-  (~ (X <class_in> alpha)) = (~ (X <class_in> alpha)).
+(* We won't define a notation for this abbreviation for now *)
+Definition n20_06 {A : Type} (X : A) (Alpha : Class.t A) :
+  (~ [Alpha @ calpha => X <class_in_f> calpha]) 
+  = (~ [Alpha @ calpha => X <class_in_f> calpha]).
 Admitted.
 
 Definition n20_07 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
@@ -1010,7 +1020,6 @@ Admitted.
 (* TODO in doc: the 1st step of this proof reveals some deeper notation consistency 
   issue... designing a custum representation of these symbols seems to be a interesting
   technical problem 
-  TODO: delete representation occurences of `X <class_in> (^ z => Psi z)`
 *)
 Theorem n20_3 (X : Prop) (Psi : Prop -> Prop ) : 
   ([^ z => Psi z @ cz1 => X <class_in_f> cz1]) <-> Psi X.
@@ -1092,12 +1101,14 @@ Admitted.
 Open Scope formal_impl.
 
 Theorem n20_34 (X Y : Prop) :
-  (X = Y) <-> ((X <class_in> alpha) -[ (alpha : Class.t Prop) ]> (Y <class_in> alpha)).
+  (X = Y) <-> ([alpha @ calpha => X <class_in_f> calpha]  
+    -[ alpha ]> [alpha @ calpha => Y <class_in_f> calpha]).
 Proof.
 Admitted.
 
 Theorem n20_35 (X Y : Prop) :
-  (X = Y) <-> ((X <class_in> alpha) <[- (alpha : Class.t Prop) -]> (Y <class_in> alpha)).
+  (X = Y) <-> ([alpha @ calpha => X <class_in_f> calpha] 
+    <[- alpha -]> [alpha @ calpha => Y <class_in_f> calpha]).
 Proof.
 Admitted.
 
