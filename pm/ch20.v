@@ -880,19 +880,21 @@ Definition n10_1_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
   (∀ x, φ x) → φ Y.
 Admitted.
 
+Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
+
+(* 
+  NOTE: While class is said to be an "incomplete symbol", the utilization of *10.1 in 
+  this proof reveals that Russell might actually want to give class a "type"(as in Rocq) 
+  that is beyond the hierarchy of propositions and functions.
+*)
 Theorem n20_25 (Phi Psi : Prop -> Prop) :
   ([alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]] <[- alpha -]>
     [alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])
   -> [^z => Phi z @ cz2 => [^z => Psi z @ cz3 => cz2 = cz3]].
 Proof.
   (* TOOLS *)
-
+  set (Alpha := @Intro_class Prop "alpha").
   (* ******** *)
-  (* 
-    NOTE: While class is said to be an "incomplete symbol", the utilization of *10.1 in 
-    this proof reveals that Russell might actually want to give class a "type"(as in Rocq) 
-    that is beyond the hierarchy of propositions and functions.
-  *)
   assert (S1 : ([alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]] 
       <[- alpha -]> [alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])
     -> ([^z => Phi z @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]]
@@ -915,7 +917,23 @@ Proof.
     pose proof (n20_2 Phi) as n20_2.
     now MP S1 n20_2.
   }
-  assert (S3 : )
+  assert (S3 : ([Alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]]
+      /\ [^z => Phi z @ cz2 => [^z => Psi z @ cz3 => cz2 = cz3]])
+    -> [Alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]]).
+  { 
+    (* unprovable with our notation. below is an attempt *)
+    set (alpha_Phi := Class.get_func Prop Alpha).
+    pose proof (n20_22 alpha_Phi Phi Psi) as n20_22.
+    (* apply n20_22. *)
+    admit.
+  }
+  assert (S4 : ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]])
+    -> ([Alpha @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]]
+      -> [Alpha @ cz3 => [^z => Psi z @ cz2 => cz3 = cz2]])).
+  {
+    pose proof Exp3_3 as Exp3_3.
+    pose proof Comm2_04 as Comm2_04.
+  }
   
 Admitted.
 
