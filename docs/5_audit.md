@@ -127,6 +127,7 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 TODO: 
 - types has become complicated... refer to Randall's work, discuss how should we consider the types(TODO: reexamine this claim)
 - implemented notation isn't well designed: doesn't "scale" to higher levels, and patch with newer definitions instead
+- notation has reached its limit to express: Rocq will not show the correct representation due to our design
 - we want to separate the symbol definition against computation by setting up the `Admitted` clearly, but it is definitely not that clean in our current implementation
 - "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps? it is something focused on how automatic PM can be, not on structural similarity
 - Consideration on functions(`Prop -> Prop`) seems to interfere with our `_pred` treatment changing the order base
