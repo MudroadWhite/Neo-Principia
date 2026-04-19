@@ -21,19 +21,27 @@ TODO in docs:
 - `setoid_rewrite` seems to ignore the order issue, as in n20_19
 *)
 
-(* TODO: address following naming convention in the documentation, also adapt it in the project
-naming convention for class variables:
+(* TODO: address following in the documentation; 
+adapt following naming convention in the project: 
+for class variables:
 - If the function body is given with a function variable Phi, name the var as cPhi
 - If the function is being constructed in more detail, name the var as c1, c2, ...
 
-naming convention for introduced variables:
+for introduced variables:
 - implicit `Phi` predicates should be introduced as `IPhi`
 - class instance should be introduced as `Alpha` (so far)
-*)
 
-(* NOTE: representation which turns out to be illegal:
+On representation of class:
+
+failed attempts:
+- Defining `Class` only using functions
+- Defining `Class` as (A, Phi)
+- Defining `Class` as inductive type
+
+representation which turns out to be illegal:
 - X <class_in> (^ z => Psi z)
 - [^z => Phi z @ cz1 => cz1 = cz1]
+- Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
 *)
 
 (* 
@@ -75,11 +83,6 @@ Definition n10_21_pred_1 (φ : Order 2 → Prop) (P : Prop) :
   (∀ x : Order 2, P → φ x) ↔ (P → (∀ x : Order 2, φ x)).
 Admitted.
 
-(* Definition n10_24_pred_1 (φ : ((Prop -> Prop) -> Prop) → Prop) 
-  (Y : (Prop -> Prop) -> Prop) :
-  φ Y → ∃ x, φ x.
-Admitted. *)
-
 Definition n10_28_pred (φ ψ : (Prop -> Prop) → Prop) :
   (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
 Admitted.
@@ -91,10 +94,6 @@ Admitted.
 Definition n10_28_pred_1 (φ ψ : ((Prop -> Prop) -> Prop) → Prop) :
   (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
 Admitted.
-
-(* Definition n10_37_pred (φ : (Prop -> Prop) → Prop) (P : Prop) :
-  (∃ x, P → φ x) ↔ (P → ∃ x, φ x).
-Admitted. *)
 
 Definition n10_35_pred (φ : (Prop -> Prop) → Prop) (P : Prop) :
   (∃ x, P ∧ φ x) ↔ P ∧ (∃ x, φ x).
@@ -114,11 +113,6 @@ Definition n12_1_pred (φ : (Prop -> Prop) → Prop) :
 Admitted.
 
 (* 
-Failed attempts:
-- Defining `Class` only using functions
-- Defining `Class` as (A, Phi)
-- Defining `Class` as inductive type
-
 Using Records to define the Class symbol seems to be the best balance to 
 expose the `A` type when needed and hide away the underlying function against 
 unnecessary argument passes
@@ -159,8 +153,7 @@ Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop. Admitted.
 Definition class_in_c {A : Type} (alpha : Class.t A) (Psi : (A -> Prop) -> Prop) : Prop.
 Admitted.
 
-(* 
-To be used in the future: 
+(* NOTE: draft
 Definition Cls {A : Type} {Phi : A -> Prop} : Class.t
   := Class.Build_t A Phi. 
 *)
@@ -693,8 +686,7 @@ Theorem n20_17 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
 Proof.
   pose proof n20_16 as n20_16.
   pose proof n10_1 as n10_1.
-  (* TODO: unprovable or there are some details that might require 
-    more investigation *)
+  (* unprovable *)
 Admitted.
 
 Theorem n20_18 (Phi Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) : 
@@ -823,8 +815,6 @@ Proof.
   pose proof n10_22 as n10_22.
 Admitted.
 
-(* NOTE: not that here we cannot use cz1 = cz1 directly. 
-  TODO: add it in docss or convert with an axiom *)
 Theorem n20_2 (Phi : Prop -> Prop) : [^z => Phi z @ cz1 => 
   [^z => Phi z @ cz2 => cz1 = cz2]].
 Proof.
@@ -890,9 +880,6 @@ Proof.
   now rewrite -> n20_21 in n20_22.
 Qed.
 
-(* TODO: redesign the intro class with admitted function provided *)
-Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
-
 Definition n10_1_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
   (∀ x, φ x) → φ Y. Admitted.
 
@@ -906,6 +893,8 @@ Definition n10_21_class {A : Type} (φ : Class.t A → Prop) (P : Prop) :
   NOTE: While class is said to be an "incomplete symbol", the utilization of *10.1 in 
   this proof reveals that Russell might actually want to give class a "type"(as in Rocq) 
   that is beyond the hierarchy of propositions and functions.
+  This is also the first proof where we have to provide a "class individual" by
+  providing a underlying function for the class
 *)
 Theorem n20_25 (Phi Psi : Prop -> Prop) :
   ([alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]] <[- alpha -]>
@@ -913,7 +902,8 @@ Theorem n20_25 (Phi Psi : Prop -> Prop) :
   -> [^z => Phi z @ cz2 => [^z => Psi z @ cz3 => cz2 = cz3]].
 Proof.
   (* TOOLS *)
-  set (Alpha := @Intro_class Prop "alpha").
+  set (Falpha := Intro_pred "Falpha" 1).
+  set (Alpha := (^z => Falpha z)).
   (* ******** *)
   assert (S1 : ([alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]] 
       <[- alpha -]> [alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]])
@@ -940,13 +930,7 @@ Proof.
   assert (S3 : ([Alpha @ cz1 => [^z => Phi z @ cz2 => cz1 = cz2]]
       /\ [^z => Phi z @ cz2 => [^z => Psi z @ cz3 => cz2 = cz3]])
     -> [Alpha @ cz1 => [^z => Psi z @ cz3 => cz1 = cz3]]).
-  { 
-    (* unprovable with our notation. below is an attempt *)
-    set (alpha_Phi := Class.get_func Prop Alpha).
-    pose proof (n20_22 alpha_Phi Phi Psi) as n20_22.
-    (* apply n20_22. *)
-    admit.
-  }
+  { apply n20_22. }
   assert (S4 : ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]])
     -> ([Alpha @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]]
       -> [Alpha @ cz3 => [^z => Psi z @ cz2 => cz3 = cz2]])).
@@ -968,9 +952,8 @@ Proof.
       /\ [Alpha @ cz3 => [^z => Psi z @ cz2 => cz3 = cz2]])
     -> ([Alpha @ cz3 => [^z => Phi z @ cz1 => cz3 = cz1]])).
   {
-    (* unprovable so far. TODO: update intro class notation *)
-    pose proof n20_24 as n20_24.
-    admit.
+    pose proof (n20_24 Psi Phi Falpha) as n20_24.
+    now setoid_rewrite -> n20_21 in n20_24 at 3.
   }
   assert (S6 : [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]]
     -> ([Alpha @ cz3 => [^z => Psi z @ cz2 => cz3 = cz2]]
@@ -1015,7 +998,7 @@ Proof.
     now Equiv C1.
   }
   exact S9.
-Admitted.
+Qed.
 
 (* TODO in doc: the 1st step of this proof reveals some deeper notation consistency 
   issue... designing a custum representation of these symbols seems to be a interesting
@@ -1079,16 +1062,21 @@ Proof.
   (* TODO: bottom-up construct this in the future *)
 Admitted.
 
+(* NOTE: this proposition is explicitly passing in the `Alpha` as a class variable.
+  In the proof we need to access its underlying function. might be tricky...
+  TODO: resolve this issue in the future *)
 Theorem n20_33 (Alpha : Class.t Prop) (Phi : Prop -> Prop) :
   [Alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
   <-> ([Alpha @ calpha => x <class_in_f> calpha] <[- x -]> Phi x).
 Proof.
+  (* TOOLS *)
+  (* set (FAlpha := Intro_pred "FAlpha" 1). *)
+  (* set (Alpha := (^z => FAlpha z)). *)
+  (* ******** *)
   assert (S1 : [Alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
     <-> ([Alpha @ calpha => x <class_in_f> calpha] 
       <[- x -]> [^z => Phi z @ cz2 => x <class_in_f> cz2])).
   {
-    (* TODO: to be implemented after the new intro class technique? 
-      Or it is something even worse? *)
     pose proof n20_31 as n20_31.
     admit.
   }
@@ -1104,12 +1092,45 @@ Theorem n20_34 (X Y : Prop) :
   (X = Y) <-> ([alpha @ calpha => X <class_in_f> calpha]  
     -[ alpha ]> [alpha @ calpha => Y <class_in_f> calpha]).
 Proof.
+  assert (S1 : ([alpha @ calpha => X <class_in_f> calpha]  
+      -[ alpha ]> [alpha @ calpha => Y <class_in_f> calpha])
+    <-> ([^z => Phi z @ cz1 => X <class_in_f> cz1] 
+      -[ Phi ]> [^z => Phi z @ cz1 => Y <class_in_f> cz1])).
+  {
+    pose proof (n4_2 ([alpha @ calpha => X <class_in_f> calpha]  
+      -[ alpha ]> [alpha @ calpha => Y <class_in_f> calpha])) as n4_2.
+    (* TODO: resolve the `forall Phi` maybe with `replace` *)
+    setoid_rewrite -> n20_07 in n4_2.
+    (* 
+    Definition n20_07 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
+    forall (alpha : Class.t A), [alpha @ calpha => f calpha]
+    = forall Phi : (A -> Prop), [^ z => Phi z @ cPhi => f cPhi].
+    *)
+    admit.
+  }
+  assert (S2 : ([alpha @ calpha => X <class_in_f> calpha]  
+      -[ alpha ]> [alpha @ calpha => Y <class_in_f> calpha])
+    <-> (Phi X -[ Phi ]> Phi Y)).
+  {
+    setoid_rewrite -> n20_3 in S1 at 1.
+    now setoid_rewrite -> n20_3 in S1 at 1.
+  }
+  assert (S3 : ([alpha @ calpha => X <class_in_f> calpha]  
+      -[ alpha ]> [alpha @ calpha => Y <class_in_f> calpha])
+    <-> (X = Y)).
+  { now rewrite <- n13_1 in S2. }
+  (* simplification... *)
+  symmetry.
+  exact S3.
 Admitted.
 
 Theorem n20_35 (X Y : Prop) :
   (X = Y) <-> ([alpha @ calpha => X <class_in_f> calpha] 
     <[- alpha -]> [alpha @ calpha => Y <class_in_f> calpha]).
 Proof.
+  pose proof (n13_11 X Y) as n13_11.
+  (* TODO: bottom-up construction *)
+  pose proof n20_3 as n20_3.
 Admitted.
 
 Theorem n20_4 (alpha : Class.t Prop) :
