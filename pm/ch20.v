@@ -15,10 +15,6 @@ Require Import PM.pm.ch14.
   represented as `A -> Prop` and Predicative functions
 - Resolve the conflict between `Order` and Classes' `A` type. Currently we cannot express both
   of them in a unified way
-TODO in docs:
-- order shift interferes with some proving routines in PM
-- proving every steps in ch20 has been increasingly harder
-- `setoid_rewrite` seems to ignore the order issue, as in n20_19
 *)
 
 (* TODO: address following in the documentation; 
