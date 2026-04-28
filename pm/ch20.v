@@ -22,6 +22,8 @@ adapt following naming convention in the project:
 for class variables:
 - If the function body is given with a function variable Phi, name the var as cPhi
 - If the function is being constructed in more detail, name the var as c1, c2, ...
+- If the class is being represented with a class variable, name the variable exactly
+  the same as the class var
 
 for introduced variables:
 - implicit `Phi` predicates should be introduced as `IPhi`
@@ -1129,14 +1131,22 @@ Proof.
   pose proof n20_3 as n20_3.
 Admitted.
 
-Theorem n20_4 (alpha : Class.t Prop) :
-  (alpha <class_in> Cls) <-> (exists (Phi : Order 1), [alpha @ calpha => 
+Theorem n20_4 (Alpha : Class.t Prop) :
+  ([Alpha @ calpha => [Cls @ Cls => calpha <class_in_f> Cls]]) <-> 
+    (exists (Phi : Order 1), [Alpha @ calpha => 
     [^z => Phi z @ cz => calpha = cz]]).
 Proof.
+  (* unprovable due to `Alpha` lacking of underlying function.
+    TODO: we can require `Alpha` being passed in with underlying 
+      function... *)
+  pose proof n20_3 as n20_3.
+  (* pose proof n20_03 as n20_03. *)
 Admitted.
 
-Theorem n20_41 (Psi : Prop -> Prop) : (^z => Psi z) <class_in> Cls.
+Theorem n20_41 (Psi : Prop -> Prop) : [^z => Psi z @ cz1 => 
+  [Cls @ Cls => cz1 <class_in_f> Cls]].
 Proof.
+  
 Admitted.
 
 Theorem n20_42 (alpha : Class.t Prop) : [(^z => z <class_in> alpha)
