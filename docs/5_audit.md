@@ -7,10 +7,10 @@ Assessment for each of the chapter is based on the following questions:
 2. Feasibility: Are they easy to be implemented in Rocq?
 3. Coverage: How much % of propositions can we formalize, and what is missing?
 
-Here's an aggregation of major problems in our implementation:
-1. Ambiguity on types
-2. Failure in AoR, so that some nature of proof is not expressed by code
-3. TODO: add more...
+### Limitations, short version
+1. We didnt implement Axiom of Reducibility.
+2. Rocq's own notation system is missing some nice features.
+3. We cannot differentiate between impredicative and predicative functions. More generally, we don't type the propositions.
 
 Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
 
