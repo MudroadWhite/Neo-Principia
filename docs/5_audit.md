@@ -7,6 +7,11 @@ Assessment for each of the chapter is based on the following questions:
 2. Feasibility: Are they easy to be implemented in Rocq?
 3. Coverage: How much % of propositions can we formalize, and what is missing?
 
+### Limitations, short version
+1. We didnt implement Axiom of Reducibility.
+2. Rocq's own notation system is missing some nice features.
+3. We cannot differentiate between impredicative and predicative functions. More generally, we don't type the propositions.
+
 Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
 
 ### Basic setups
@@ -120,8 +125,16 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 
 **General.** 
 TODO: 
-- types has become complicated... refer to Randall's work, discuss how should we consider the types
-- notation isn't well designed: doesn't "scale" to higher levels, and patch with newer definitions instead
+- types has become complicated... refer to Randall's work, discuss how should we consider the types(TODO: reexamine this claim)
+- implemented notation isn't well designed: doesn't "scale" to higher levels, and patch with newer definitions instead
+- notation has reached its limit to express: Rocq will not show the correct representation due to our design
 - we want to separate the symbol definition against computation by setting up the `Admitted` clearly, but it is definitely not that clean in our current implementation
 - "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps? it is something focused on how automatic PM can be, not on structural similarity
 - Consideration on functions(`Prop -> Prop`) seems to interfere with our `_pred` treatment changing the order base
+- Using class as an variable "just like how propositional vars is", as being used in n10_1
+- (n20_07)order shift interferes with some proving routines in PM
+- (n20_19)`setoid_rewrite` seems to ignore the order issue
+- proving every steps in ch20 has been increasingly harder
+
+TODO:
+- critisism: "of the same type" is distributed throughout the chapters
