@@ -15,6 +15,7 @@ Require Import PM.pm.ch14.
   represented as `A -> Prop` and Predicative functions
 - Resolve the conflict between `Order` and Classes' `A` type. Currently we cannot express both
   of them in a unified way
+- Add a special `as_class` to generate the class from a function
 *)
 
 (* TODO: address following in the documentation; 
@@ -1131,6 +1132,8 @@ Proof.
   pose proof n20_3 as n20_3.
 Admitted.
 
+(* TODO: figure a good way to provide `Alpha` with a function
+  idea: maybe we will just never use `Alpha` directly? we can also try the `let` *)
 Theorem n20_4 (Alpha : Class.t Prop) :
   ([Alpha @ calpha => [Cls @ Cls => calpha <class_in_f> Cls]]) <-> 
     (exists (Phi : Order 1), [Alpha @ calpha => 
@@ -1146,26 +1149,52 @@ Admitted.
 Theorem n20_41 (Psi : Prop -> Prop) : [^z => Psi z @ cz1 => 
   [Cls @ Cls => cz1 <class_in_f> Cls]].
 Proof.
-  
+  pose proof n20_4 as n20_4.
+  pose proof n20_151 as n20_151.
+  (* TODO: figure out what does it mean *)
 Admitted.
 
-Theorem n20_42 (alpha : Class.t Prop) : [(^z => z <class_in> alpha)
+(* In this proof, `Psi` is associated with `alpha` in the text without being 
+claimed explicitly *)
+Theorem n20_42 (alpha : Class.t Prop) : [(^z => [alpha @ calpha => z <class_in_f> calpha])
   @ cz => [alpha @ calpha => cz = calpha]].
 Proof.
+  (* TOOLS *)
+  set (X := Intro_individual "x").
+  set (Psi := Intro_pred "Psi" 1).
+  (* ******** *)
+  assert (S1 : ([^z => Psi z @ cz => x <class_in_f> cz]) <[- x -]> Psi x).
+  {
+    pose proof (n20_3 X Psi) as n20_3.
+    pose proof (n10_11 X (fun x =>
+      (([^ z => Psi z @ cz1 => x <class_in_f> cz1]) ↔ Psi x))) 
+      as n10_11.
+    now MP n10_11 n20_3.
+  }
+  assert (S2 : [^x => [^z => Psi z @ cz1 => x <class_in_f> cz1] @ cz2 
+    => [^x => Psi x @ cz3 => cz2 = cz3]]).
+  {
+    pose proof n20_15 as n20_15.
+    admit.
+  }
+  (* TODO: rename the ^z => Psi z into alpha *)
+  admit.
 Admitted.
 
-(* NOTE: note that we won't use `alpha = beta` directly for now *)
 Theorem n20_43 (alpha beta : Class.t Prop) : 
   [alpha @ calpha => [beta @ cbeta => calpha = cbeta]]
-    <-> ((x <class_in> alpha) <[- x -]> (x <class_in> beta)).
+    <-> ([alpha @ calpha => x <class_in_f> calpha] 
+      <[- x -]> [beta @ cbeta => x <class_in_f> cbeta]).
 Proof.
+  (* TODO: alpha function conversion *)
+  pose proof n20_31 as n20_31.
 Admitted.
 
 Open Scope debug_iota_description.
 
 (* NOTE: descriptions should have larger scope than classes *)
 Theorem n20_5 (Phi Psi : Prop -> Prop) :
-  [iota Phi | iotaPhi => iotaPhi <class_in> (^z => Psi z)]
+  [iota Phi | iotaPhi => [^z => Psi z @ cz1 => iotaPhi <class_in_f> cz1]]
   <-> [iota Phi | iotaPhi => Psi iotaPhi].
 Proof.
 Admitted.
@@ -1173,13 +1202,13 @@ Admitted.
 Theorem n20_51 (Phi : Prop -> Prop) (B : Prop) :
   [iota Phi | iotaPhi => iotaPhi = B]
   <-> ([iota Phi | iotaPhi => iotaPhi <class_in> alpha]
-    <[- (alpha : Class.t Prop) -]> (B <class_in> alpha)).
+    <[- alpha -]> (B <class_in> alpha)).
 Proof.
 Admitted.
 
 Theorem n20_52 (Phi : Prop -> Prop) : [iotaE Phi]
   <-> (exists b, [iota Phi | iotaPhi => (iotaPhi <class_in> alpha)]
-    <[- (alpha : Class.t Prop) -]> (b <class_in> alpha)).
+    <[- alpha -]> (b <class_in> alpha)).
 Proof.
 Admitted.
 
