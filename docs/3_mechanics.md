@@ -117,30 +117,29 @@ Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`
 
 Later, a typing algorithm is given in this chapter, completely generating the hierarchy of proposition types for any order. In particular it gives special rules for individuals, as they are not propositions nor functions(p.51, p.132). Despite the explanation, why individual is not proposition is still unclear. My guess is that they are supposed to be only appeared as parameters, and cannot be asserted as a full proposition.
 
-**TODO: REWRITE PARTS ABOUT TYPING ALGORITHM**
+\*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus it sets up a convention for individuals.
 
-The typing algorithm is described both in name and in the style of "of the same type"(\*9.131). Basically the type information entails the order and the kind("is it a function or a proposition?") of the expression. This typing algorithm will prevent constructions such as `P P`(p.40).
-1. **Individual.** All individuals have a `Individual` type. (p.162)Individuals are supposed to be some *specific fixed value*s
-2. **EProp.** All elementary propositions have a `EProp` type
-3. **EFunc.** Arguments: types of parameters. PM doesn't actually have the idea of `→` types, but it's quite obvious `→` types are the best abstraction. Elementary functions should have same type if 
+Individuals are the propositional variables constituted to the expression of a proposition. All individuals will have the same (lowest possible)propositional order, and to be more exact, have exactly the same proposition type. The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
+1. **EProp.** All elementary propositions have a `EProp` type
+2. **EFunc.** Arguments: types of parameters. PM doesn't actually have the idea of `→` types, but it's quite obvious `→` types can model PM's function type when carefully used. Elementary functions should have same type if 
     1. e-func A is obtained through `¬` on e-func B
     2. e-func A is obtained through `∨` on e-func B and C 
     3. They take same number of arguments, and each of argument is same in type
-4. **Prop.** Argument: type of a single function. A higher order proposition type is obtained from a 1-order lower function. Two `Prop n` should have same type if
+3. **Prop.** Argument: type of a single function. A higher order proposition type is obtained from a 1-order lower function. Two `Prop n` should have same type if
     1. Proposition A is obtained through `¬` on proposition B. `∨` can have different types for its arguments, so it doesn't preserve types
     2. Both proposition A and B are obtained by quantifying two propositional functions of the same 1-order lower type. Both of the functions either 
         1. Have exactly 1 parameter
         2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
    Note that not all proposition of same order proposition have the same type, because of the types of functions.
-5. **Untyped function.** Argument: unknown. Although it is completely not within the "of the same type" algorithm, it has been practically used throughout the text, and is implicitly allowed, getting even greater awareness(as well as confusion) in later chapters. If we want to build a type system however, it seems that we have to expose its nature from a modern view to go further on. For the same reason, there might be *untyped propositions* constructed on these function as well...
-6. **Constants.** For something more specific, constants are some letters that shouldn't be treated as a variable, and is allowed to be appeared in functions. In our implementation such distinction is very hard to make a difference.
+4. **Constants.** For something more specific, constants are some letters that shouldn't be treated as a variable, and is allowed to be appeared in functions. In our implementation such distinction is very hard to make a difference.
+5. **Others.** Every notion appeared in PM, for example classes, comes up with a typing rule for that notion. The full typing algorithm is actually scattered around the chapters.
 
 By proving a theorem in chapter 9 - 11, we assume:
 - Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
 - All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
 - *Modus ponens* is already at its maximum strength
-- *Generalization* can only be performed on *individual*s, being already atomic in the current expression. Note that currently we didn't implement generalization as a `Ltac`, and to fit better into the text, we should actually implement such tactic.
-- Fresh *individual*s can be introduced in the middle of the proof on need
+- We can *generalize* atomic variables, sometimes including functions being denoted like `Phi`. Note that currently we didn't implement generalization as a `Ltac`, and to fit better into the text, we should actually implement such tactic.
+- Fresh variabless can be introduced in the middle of the proof on need
 
 Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
 - Theorems written in natural language define the typing algorithm: what is a type, what parameters are functions allowed to take by the regulation of types. Eventually we prove that we can construct all possible functions for 1-higher order.
@@ -248,5 +247,4 @@ TODO:
 - https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
 
 TODO:
-- rewrite related parts about "of the same type" in chapter 9; examine chapter 10 & 11, maybe chapter 13 - 14 on typing rule
 - composition nature for types/defs, ref. *20.62
