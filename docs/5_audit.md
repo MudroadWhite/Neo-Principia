@@ -67,8 +67,6 @@ We have implemented the typing algorithm, but it is wrongly interpreted and will
 
 We have received feedback that `setoid_rewrite` in Rocq >9.0 in seems to adopt to a different way to recognize the subparts. So far as I can see, this should be the only factor that will break version compatability.
 
-**Do 1-order proposition operators and "buffed" elementary proposition operators have the same type?** In chapter 9, `¬` and `∨` are clearly stated to be the elementary proposition version, so that "we can obtain first order propositions just from e-prop operators". Then, they are allowed to "break the rules" and take one 1-order proposition in one of its positions for operands. In chapter 10, `¬` and `∨` can take any 1-order propositions in their operands, because they are already the first-order version. There seems to be a confusion on the elementary proposition version to "not to break the type": we are assuming enough to see them as their 1-order version, so what is the difference between directly defining how they can be defined by directly using 1-order operators? The assumptions on these e-prop operators already break the type of them severely. If we would adapt to use 1-order operators in chapter 9, the correct statement for the chapter will not be "constructing 1-order propositions *just* using e-props", but "constructing 1-order propositions using 1-order operators on e-props", which also seems more natural in today's aspect.
-
 ### Chapter 10
 **Coverage: 98.2% = 55/56.**
 - **\*10.57.** 3rd step of the proof is unprovable, simply because the theorem it uses cannot be instantiated with correct parameters.

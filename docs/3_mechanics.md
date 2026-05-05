@@ -248,3 +248,6 @@ TODO:
 
 TODO:
 - composition nature for types/defs, ref. *20.62
+- ch9: 
+  - the operators defined are directly obtaining 1-order props from e-props
+  - 1-order props are just being assumed
