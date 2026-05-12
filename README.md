@@ -18,14 +18,14 @@ Compatability.
 - "Just as it is": Principia flavor in maximum strength: Principia-style deduction; Principia-style symbols defined with `Notation`s. Clear proof structure, clean, maybe beautiful proof window. 
 
 ## Are you sure the code/proof is 100% correct?
-No. Successful `Qed`s are still false positives. The most vital drawback is that we don't type the propositions therefore miss the insights from types.
+No. Successful `Qed`s are still false positives. We haven't typed the propositions and miss the insights from them.
 
 ## Can Principia Mathematica be completely formalized?
 Yes.
 
-With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. Our project already covers the foundation of the rewriting system with which all advanced mathematical ideas are built on.
+With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. We already cover the foundation of the rewriting system with which all advanced mathematical ideas are built on.
 
-Beneath the code and down to the core, the difficulty in formalization is how PM organizes its ideas. This means:
+The difficulty in formalizing PM is how it organizes the ideas. This means:
 - PM gets a mountain of notations, symbols, theorems, and different contexts to interpret them. See [What are the actual problems to formalize Principia Mathematica?](./docs/3_mechanics.md/#what-are-the-actual-problems-to-formalize-principia-mathematica)
 - Terminologies also have different meanings in different chapters, and the range of the distinction is a manual work. For example, "functions" and "matrices"
 
