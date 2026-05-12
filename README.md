@@ -18,9 +18,7 @@ Compatability.
 - "Just as it is": Principia flavor in maximum strength: Principia-style deduction; Principia-style symbols defined with `Notation`s. Clear proof structure, clean, maybe beautiful proof window. 
 
 ## Are you sure the code/proof is 100% correct?
-No. Successful `Qed`s are still false positives, due to a lot of delicate details. For example: 
-- Some propositions are written in natural language
-- Our current implementation doesn't enforce types on propositions.
+No. Successful `Qed`s are still false positives. Our most vital drawback is that we don't type the propositions therefore miss the insights from types.
 
 ## Can Principia Mathematica be completely formalized?
 Yes.
