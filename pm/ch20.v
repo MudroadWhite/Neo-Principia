@@ -1221,11 +1221,39 @@ Proof.
 Admitted.
 
 Theorem n20_52 (Phi : Prop -> Prop) : [iotaE Phi]
-  <-> (exists b, [iota Phi | iotaPhi => (iotaPhi <class_in> alpha)]
-    <[- alpha -]> (b <class_in> alpha)).
+  <-> (exists b, [iota Phi | iotaPhi => [alpha @ calpha =>
+    (iotaPhi <class_in> calpha)]]
+    <[- alpha -]> [alpha @ calpha => b <class_in> calpha]).
 Proof.
-  
-Admitted.
+  (* TOOLS *)
+  set (B := Intro_individual "b").
+  (* ******** *)
+  assert (S1 : (exists b : Prop, [iota Phi | iotaPhi => iotaPhi = b])
+    <-> exists b : Prop, ([iota Phi | iotaPhi => [alpha @ calpha => 
+      iotaPhi <class_in> calpha]] <[- alpha -]> 
+        [alpha @ calpha => b <class_in> calpha])).
+  {
+    pose proof (n20_51 Phi B) as n20_51.
+    pose proof (n10_11 B (fun b =>
+      ([iota Phi | iotaPhi => iotaPhi = b])
+        ↔ ([iota Phi | iotaPhi => [alpha @ calpha => iotaPhi <class_in> calpha]])
+          <[- alpha -]>([alpha @ calpha => b <class_in> calpha]))) 
+      as n10_11.
+    MP n10_11 n20_51.
+    pose proof (n10_281 
+      (fun b => [iota Phi | iotaPhi => iotaPhi = b])
+      (fun b => ([iota Phi | iotaPhi => [alpha @ calpha => iotaPhi <class_in> calpha]])
+        <[- alpha -]> ([alpha @ calpha => b <class_in> calpha])))
+      as n10_281.
+    now MP n10_281 n10_11.
+  }
+  assert (S2 : [iotaE Phi]
+    <-> (exists b, [iota Phi | iotaPhi => [alpha @ calpha =>
+      (iotaPhi <class_in> calpha)]]
+      <[- alpha -]> [alpha @ calpha => b <class_in> calpha])).
+  { now rewrite <- n14_204 in S1. }
+  exact S2.
+Qed.
 
 (* Should Phi here be a function of order 1..? *)
 Theorem n20_53 (alpha : Class.t Prop) (Phi : (Prop -> Prop) -> Prop) : 
