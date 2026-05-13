@@ -1498,7 +1498,7 @@ Proof.
   exact S9.
 Qed.
 
-Theorem n14_204 (B : Prop) (φ : Prop → Prop) : [ιE φ]
+Theorem n14_204 (φ : Prop → Prop) : [ιE φ]
   ↔ ∃ b, [ι φ | ιφ => ιφ = b].
 Proof.
   (* TOOLS *)
