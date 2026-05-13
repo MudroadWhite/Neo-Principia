@@ -64,7 +64,6 @@ in this chapter is very confusing
 *)
 Declare Scope debug_class.
 Declare Scope class.
-Declare Scope debug_iota_description_poly.
 
 Definition n10_11_pred (Y : Order 1) (φ : Order 1 → Prop)
   : φ Y → ∀ x, φ x.
@@ -197,51 +196,6 @@ future refinements... *)
 Notation "c '<class_in_fc>^' Psi" := (class_in_c c Psi) 
   (at level 120, right associativity) : debug_class.
 
-(* EXPERIMENTAL: below is a copy of definitions from ch14 modified so that it supports 
-  polymorphic type. It if works in the future, we will have to mitigrate these defs and 
-  rewrite ch14 with the polymorphic version 
-  Commented defs are to be uncommented when needed
-*)
-Definition DescriptionArgPoly {A : Type} (φ : A -> Prop) : Type := A.
-Example descriptionarg_example := (fun iotaφ : (DescriptionArg (fun x => x)) =>
-  iotaφ = iotaφ).
-
-Definition description_poly {A : Type} (φ : A -> Prop) (expr : (DescriptionArgPoly φ) -> Prop) 
-  : Prop. 
-Admitted.
-
-Definition description_exists_poly {A : Type} (φ : A -> Prop) : Prop. Admitted.
-
-(* Definition description2_poly {A B : Type} (φ : A -> Prop) (ψ : B -> Prop)
-  (expr : (DescriptionArgPoly φ) -> (DescriptionArgPoly ψ) -> Prop) : Prop. 
-Admitted. *)
-
-(* Definition description2_rev_poly {A B : Type} (φ : A -> Prop) (ψ : B -> Prop)
-  (expr : (DescriptionArgPoly ψ) -> (DescriptionArgPoly φ) -> Prop) : Prop. 
-Admitted. *)
-
-Open Scope debug_iota_description_poly.
-
-Notation "[ 'iotapoly' φ | x => B ]" := (description_poly φ (fun (x : DescriptionArgPoly φ) => B))
-  (at level 150, x binder, right associativity) : debug_iota_description_poly.
-Example debug_iota_poly_example := [ iotapoly (fun x => x) | iotaφ => iotaφ = iotaφ ].
-
-Notation "[ 'iotaEpoly' P ]" := (description_exists_poly (P : _ -> Prop))
-  (at level 150, P constr at level 200, right associativity) : debug_iota_description_poly.
-Example debug_iota_exists_poly_example := [ iotaEpoly (fun (x : Prop) => x) ].
-
-(* Notation "[ 'iota2' φ , ψ | x y => B ]" := 
-  (description2 φ ψ (fun (x : DescriptionArg φ) (y : DescriptionArg ψ) => B))
-  (at level 200, x binder, y binder, right associativity) : debug_iota_description.
-Example debug_iota2_example := 
-  [ iota2 (fun x => x) , (fun x => x) | x y => (x = y) ]. *)
-
-(* Notation "[ 'iota2rev' φ , ψ | y x => B ]" := 
-  (description2 φ ψ (fun (y : DescriptionArg ψ) (x : DescriptionArg φ) => B))
-  (at level 200, x binder, y binder, right associativity) : debug_iota_description. *)
-
-Close Scope debug_iota_description_poly.
-
 Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   ([^ z => Psi z @ cPsi => f cPsi])
   = (exists Phi : Order 1, (Phi x <[- x -]> Psi x) /\ f Phi).
@@ -300,7 +254,7 @@ Definition n20_071 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
   = exists Phi : (A -> Prop), [^ z => Phi z @ cPhi => f Phi].
 Admitted.
 
-Open Scope debug_iota_description_poly.
+Open Scope debug_iota_description.
 
 (* TODO: our current iota notation doesn't express the `alpha`. maybe
 we can redesign the iota in the future... *)
@@ -311,7 +265,7 @@ Definition n20_072 {A : Type} (X : A) (Phi f : (A -> Prop) -> Prop) :
       /\ ([gamma @ cgamma => f cgamma])).
 Admitted.
 
-Close Scope debug_iota_description_poly.
+Close Scope debug_iota_description.
 
 Definition n20_08 {A : Type} (f : ((A → Prop) → Prop) -> Prop)
   (Psi : (A -> Prop) -> Prop) :
@@ -1223,8 +1177,6 @@ Theorem n20_54 (alpha : Class.t Prop) (Phi : (Prop -> Prop) -> Prop) : exists be
 Proof.
 Admitted.
 
-Close Scope debug_iota_description.
-Open Scope debug_iota_description_poly. 
 (* TODO: when filling the theorem, we will merge the two definitions of iotas in ch14 & 20 *)
 Theorem n20_55 (Phi : Prop -> Prop) : 
   [iotapoly (fun alpha => (x <class_in> alpha) <[- x -]> Phi x) | iotaalpha =>
@@ -1340,5 +1292,4 @@ Admitted.
 
 Close Scope formal_equiv.
 Close Scope formal_impl.
-Close Scope debug_iota_description_poly.
 Close Scope debug_class.
