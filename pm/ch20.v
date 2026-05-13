@@ -30,6 +30,12 @@ for introduced variables:
 - implicit `Phi` predicates should be introduced as `IPhi`
 - class instance should be introduced as `Alpha` (so far)
 
+scoping convention:
+- the 1st operand of a binop has larger scope than the 2nd operand. e.g. `x=y`
+- descriptions have larger scope than classes
+- the swapping between the scopes seems to be lacking of consideration(?)TODO: recheck 
+  related theorems
+
 On representation of class:
 
 failed attempts:
@@ -259,7 +265,7 @@ Open Scope debug_iota_description.
 (* TODO: our current iota notation doesn't express the `alpha`. maybe
 we can redesign the iota in the future... *)
 Definition n20_072 {A : Type} (X : A) (Phi f : (A -> Prop) -> Prop) :
-  [iotapoly Phi | iotaPhi => f iotaPhi]
+  [iota Phi | iotaPhi => f iotaPhi]
     = (exists gamma : Class.t A, ([alpha @ calpha => Phi calpha] 
       <[- (alpha : Class.t A) -]> (alpha = gamma)) 
       /\ ([gamma @ cgamma => f cgamma])).
@@ -1146,18 +1152,28 @@ Admitted.
 
 Open Scope debug_iota_description.
 
-(* NOTE: descriptions should have larger scope than classes *)
 Theorem n20_5 (Phi Psi : Prop -> Prop) :
   [iota Phi | iotaPhi => [^z => Psi z @ cz1 => iotaPhi <class_in_f> cz1]]
   <-> [iota Phi | iotaPhi => Psi iotaPhi].
 Proof.
-Admitted.
+  assert (S1 : [iota Phi | iotaPhi => [^z => Psi z @ cz1 => iotaPhi <class_in_f> cz1]]
+    <-> (exists c, (Phi x <[- x -]> (x = c)) /\ [^z => Psi z @ cz1 => c <class_in_f> cz1])).
+  { apply n14_1. }
+  assert (S2 : [iota Phi | iotaPhi => [^z => Psi z @ cz1 => iotaPhi <class_in_f> cz1]]
+    <-> (exists c, (Phi x <[- x -]> (x = c)) /\ Psi c)).
+  { now setoid_rewrite -> n20_3 in S1 at 2. }
+  assert (S3 : [iota Phi | iotaPhi => [^z => Psi z @ cz1 => iotaPhi <class_in_f> cz1]]
+    <-> [iota Phi | iotaPhi => Psi iotaPhi]).
+  { now setoid_rewrite <- n14_1 in S2. }
+  exact S3.
+Qed.
 
 Theorem n20_51 (Phi : Prop -> Prop) (B : Prop) :
   [iota Phi | iotaPhi => iotaPhi = B]
-  <-> ([iota Phi | iotaPhi => iotaPhi <class_in> alpha]
-    <[- alpha -]> (B <class_in> alpha)).
+  <-> ([iota Phi | iotaPhi => [alpha @ calpha => iotaPhi <class_in_f> calpha]]
+    <[- alpha -]> [alpha @ calpha => B <class_in_f> calpha]).
 Proof.
+  
 Admitted.
 
 Theorem n20_52 (Phi : Prop -> Prop) : [iotaE Phi]
@@ -1179,7 +1195,7 @@ Admitted.
 
 (* TODO: when filling the theorem, we will merge the two definitions of iotas in ch14 & 20 *)
 Theorem n20_55 (Phi : Prop -> Prop) : 
-  [iotapoly (fun alpha => (x <class_in> alpha) <[- x -]> Phi x) | iotaalpha =>
+  [iota (fun alpha => (x <class_in> alpha) <[- x -]> Phi x) | iotaalpha =>
     (^z => Phi z) = iotaalpha].
 Proof.
 Admitted.
@@ -1190,9 +1206,9 @@ Proof.
 Admitted.
 
 Theorem n20_57 (Phi : Prop -> Prop) (f g : (Prop -> Prop) -> Prop) : 
-  [iotapoly (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+  [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
     (^z => Phi z) = iotaalpha]
-  -> ([^ z => Phi z @ cz => g cz] <-> [iotapoly (fun alpha => [alpha @ calpha => f calpha]) 
+  -> ([^ z => Phi z @ cz => g cz] <-> [iota (fun alpha => [alpha @ calpha => f calpha]) 
     | iotaalpha => [iotaalpha @ ciotaalpha => g ciotaalpha]]).
 Proof.
 Admitted.
@@ -1200,17 +1216,17 @@ Admitted.
 (* NOTE: rigorously speaking, `=` shouldn't be directly used like this and should be applied
 within another class block. Might have some notational issue when comes to implementation *)
 Theorem n20_58 (Phi : Prop -> Prop) :
-  [iotapoly (fun alpha => alpha = (^z => Phi z)) | iotaalpha =>
+  [iota (fun alpha => alpha = (^z => Phi z)) | iotaalpha =>
     (^z => Phi z) = iotaalpha].
 Proof.
 Admitted.
 
 (* same as above *)
 Theorem n20_59 (Phi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
-  [iotapoly (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha => 
+  [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha => 
     (^z => Phi z) = iotaalpha] 
   <->
-  [iotapoly (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha => 
+  [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha => 
     iotaalpha = (^z => Phi z)].
 Proof.
 Admitted.
