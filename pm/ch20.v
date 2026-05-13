@@ -1192,22 +1192,39 @@ Proof.
     MP n4_86 n20_5.
     now setoid_rewrite -> n20_3 in n4_86 at 2.
   }
+  (* NOTE: here is an interesting conflict: we are generalizing both on a class made
+    out of `Psi` and `Psi` itself in different parts of a proposition *)
   assert (S2 : ([iota Phi | iotaPhi => [alpha @ calpha => iotaPhi <class_in> calpha]]
       <[- alpha -]> [alpha @ calpha => B <class_in> calpha])
     <-> ([iota Phi | iotaPhi => Psi iotaPhi] <[- Psi -]> Psi B)).
   {
+    (* unprovable: we're missing theorem of the form of
+      `(forall x, Phi x <-> P) -> ((forall x, Phi x) <-> P)`
+      destructing the equivalence does the work, but become extremely tedious *)
+    pose proof (n10_11_class Alpha (fun alpha =>
+      ([iota Phi | iotaPhi => [alpha @ cz1 => iotaPhi <class_in> cz1]]
+        <-> [alpha @ cz1 => B <class_in> cz1])
+      <-> ([iota Phi | iotaPhi => IPsi iotaPhi] <-> IPsi B))) as n10_11_class.
+    MP n10_11_class S1.
     pose proof n10_11_pred as _n10_11_pred.
-    (* pose proof n10_11_class as _n10_11_class. *)
-    (* TODO: fill in this once the whole proof is complete *)
     admit.
   }
-  assert (S3 : )
+  assert (S3 : ([iota Phi | iotaPhi => [alpha @ calpha => iotaPhi <class_in> calpha]]
+      <[- alpha -]> [alpha @ calpha => B <class_in> calpha])
+    <-> [iota Phi | iotaPhi => iotaPhi = B]).
+  { now setoid_rewrite <- n14_17 in S2. }
+  assert (S4 : [iota Phi | iotaPhi => iotaPhi = B]
+    <-> ([iota Phi | iotaPhi => [alpha @ calpha => iotaPhi <class_in> calpha]]
+      <[- alpha -]> [alpha @ calpha => B <class_in> calpha])).
+  { now rewrite -> n4_21 in S3. }
+  exact S4.
 Admitted.
 
 Theorem n20_52 (Phi : Prop -> Prop) : [iotaE Phi]
   <-> (exists b, [iota Phi | iotaPhi => (iotaPhi <class_in> alpha)]
     <[- alpha -]> (b <class_in> alpha)).
 Proof.
+  
 Admitted.
 
 (* Should Phi here be a function of order 1..? *)
