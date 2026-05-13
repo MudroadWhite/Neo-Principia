@@ -1502,6 +1502,7 @@ Theorem n14_204 (φ : Prop → Prop) : [ιE φ]
   ↔ ∃ b, [ι φ | ιφ => ιφ = b].
 Proof.
   (* TOOLS *)
+  set (B := Intro_individual "b").
   (* ******** *)
   (* Notice that the following proposition involves 2 quantifiers already, 
     so it might have a higher type..? *)
