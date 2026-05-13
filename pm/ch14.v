@@ -31,13 +31,14 @@ Whether we can restrict the iotas to typed functions only is a future question.
 Declare Scope debug_iota_description.
 Declare Scope iota_description.
 
-Definition DescriptionArg (φ : Prop -> Prop) : Type := Prop.
+Definition DescriptionArg {A : Type} (φ : A -> Prop) : Type := A.
 Example descriptionarg_example := (fun iotaφ : (DescriptionArg (fun x => x)) =>
   iotaφ = iotaφ).
 
 (* Here we only define the signature to avoid repetitive definitions, and the actual 
   definition starts after *14.01. *)
-Definition description (φ : Prop -> Prop) (expr : (DescriptionArg φ) -> Prop) : Prop. 
+Definition description {A : Type} (φ : A -> Prop) (expr : (DescriptionArg φ) -> Prop) 
+  : Prop. 
 Admitted.
 Example description_example := 
   description (fun (iotaφ : DescriptionArg (fun x => x)) =>
@@ -49,12 +50,12 @@ predicate.
 
 TODO: give this iota_E the correct `Order` type
 *)
-Definition description_exists (φ : Prop -> Prop) : Prop. Admitted.
+Definition description_exists {A : Type} (φ : A -> Prop) : Prop. Admitted.
 Example descriptionexists_example := description_exists (fun x => x).
 
 (* cf. p174, example after *14.03. Interpretation for a function containing 
   multiple descriptions *)
-Definition description2 (φ ψ : Prop -> Prop) 
+Definition description2 {A : Type} (φ ψ : A -> Prop) 
   (expr : (DescriptionArg φ) -> (DescriptionArg ψ) -> Prop): Prop. 
 Admitted.
 Example description2_example (φ ψ : Prop -> Prop) :=
@@ -66,7 +67,7 @@ Example description2_example (φ ψ : Prop -> Prop) :=
   The original definition depends on `iota_f2`. The function `iota_f` here, 
   provided with parameters, gets a similar role to the idea of scope
 *)
-Definition description2_rev (φ ψ : Prop -> Prop) 
+Definition description2_rev {A : Type} (φ ψ : A -> Prop) 
   (expr : (DescriptionArg ψ) -> (DescriptionArg φ) -> Prop): Prop. 
 Admitted.
 
