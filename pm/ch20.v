@@ -185,7 +185,9 @@ Notation "[ cls @ classname => B ]" := (
     let Af := cls.(Class.get_func) in
     f Af *)
     class_app (fun (classname : A -> Prop) => B) cls)
-  (at level 150, classname binder, right associativity) : debug_class.
+  (at level 150, classname binder, right associativity, only parsing) : debug_class.
+Notation "[ cls @ func ]" := (class_app func cls)
+  (at level 150, right associativity, only printing) : debug_class.
 Example class_app_example_1 := [class_example_1 @ cx => cx = cx].
 Example class_app_example_2 := [^(z : Prop) => z = z @ cz => cz = cz].
 Example class_app_example_3 := [class_example_1 @ c1 => [class_example_1 @ c2 => c1 = c2]].
@@ -1437,6 +1439,8 @@ Proof.
         <[- x -]> Phi x)
       <[- alpha -]> ([alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]))) 
       as n20_54.
+      symmetry in n20_54. simpl in n20_54.
+
     rewrite <- n20_54 in S1.
   }
 Admitted.
