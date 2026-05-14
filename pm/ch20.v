@@ -1440,6 +1440,10 @@ Proof.
       <[- alpha -]> ([alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]))) 
       as n20_54.
       symmetry in n20_54. simpl in n20_54.
+      assert (TT : forall x, (Class.get_A Prop x) = Prop).
+      { reflexivity. }
+      
+      setoid_rewrite -> eq_to_equiv in TT at 2.
 
     rewrite <- n20_54 in S1.
   }
