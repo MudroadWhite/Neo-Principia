@@ -25,7 +25,7 @@ Yes.
 
 With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica. We already cover the foundation of the rewriting system with which all advanced mathematical ideas are built on.
 
-The difficulty in formalizing PM is how it organizes the ideas. This means:
+Principia Mathematica is hand written code. You are only supposed to write code on paper either in university or during interviews. The difficulty in formalizing PM comes from how it organizes the ideas:
 - PM gets a mountain of notations, symbols, theorems, and different contexts to interpret them. See [What are the actual problems to formalize Principia Mathematica?](./docs/3_mechanics.md/#what-are-the-actual-problems-to-formalize-principia-mathematica)
 - Terminologies also have different meanings in different chapters, and the range of the distinction is a manual work. For example, "functions" and "matrices"
 
