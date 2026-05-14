@@ -16,6 +16,7 @@ Require Import PM.pm.ch14.
 - Resolve the conflict between `Order` and Classes' `A` type. Currently we cannot express both
   of them in a unified way
 - Add a special `as_class` to generate the class from a function
+- EXPERIMENT: there might be a way to use `replace` to eliminate the `let`s in the window
 *)
 
 (* TODO: address following in the documentation; 
@@ -31,10 +32,14 @@ for introduced variables:
 - class instance should be introduced as `Alpha` (so far)
 
 scoping convention:
+- scoping is under consideration but can be fixed nicely
+- default scope is the minimum subexp containing the symbol, except for only itself
 - the 1st operand of a binop has larger scope than the 2nd operand. e.g. `x=y`
 - descriptions have larger scope than classes
 - the swapping between the scopes seems to be lacking of consideration(?)TODO: recheck 
   related theorems
+- axioms related to notaion is exceptionally allowed to be directly applied 
+  on the goal
 
 On representation of class:
 
@@ -202,6 +207,30 @@ future refinements... *)
 Notation "c '<class_in_fc>^' Psi" := (class_in_c c Psi) 
   (at level 120, right associativity) : debug_class.
 
+(* Might still not work for even more and worse complicated situations. *)
+Definition class_scope_eq {A : Type} (Alpha : Class.t A) :
+  [Alpha @ cz => cz = cz] <-> [Alpha @ cz1 => [Alpha @ cz2 => cz1 = cz2]].
+Admitted.
+
+(* TODO: generalize to `f alpha` and name it `class_scope_dup` *)
+
+(* **************** *)
+Definition n10_1_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
+  (∀ x, φ x) → φ Y. Admitted.
+
+Definition n10_11_class {A : Type} (Y : Class.t A) (φ : Class.t A → Prop) 
+  : φ Y → ∀ x, φ x. Admitted.
+
+Definition n10_21_class {A : Type} (φ : Class.t A → Prop) (P : Prop) :
+  (∀ x, P → φ x) ↔ (P → (∀ x, φ x)). Admitted.
+
+Definition n10_23_class {A : Type} (φ : Class.t A → Prop) (P : Prop) :
+  (∀ x, φ x → P) ↔ ((∃ x, φ x) → P). Admitted.
+
+Definition n10_24_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
+  φ Y → ∃ x, φ x. Admitted.
+
+(* **************** *)
 Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   ([^ z => Psi z @ cPsi => f cPsi])
   = (exists Phi : Order 1, (Phi x <[- x -]> Psi x) /\ f Phi).
@@ -286,7 +315,6 @@ Definition n20_081 {A : Type} (alpha : Class.t A) (Psi : (A -> Prop) -> Prop) :
 Admitted.
 
 (* **************** *)
-
 Theorem n20_1 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   ([^ (z : Prop) => Psi z @ zPsi => f zPsi]) <-> exists Phi : Order 1, 
     (Phi x <[- x -]> Psi x) /\ f Phi.
@@ -839,15 +867,6 @@ Proof.
   now rewrite -> n20_21 in n20_22.
 Qed.
 
-Definition n10_1_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
-  (∀ x, φ x) → φ Y. Admitted.
-
-Definition n10_11_class {A : Type} (Y : Class.t A) (φ : Class.t A → Prop) 
-  : φ Y → ∀ x, φ x. Admitted.
-
-Definition n10_21_class {A : Type} (φ : Class.t A → Prop) (P : Prop) :
-  (∀ x, P → φ x) ↔ (P → (∀ x, φ x)). Admitted.
-
 (* 
   NOTE: While class is said to be an "incomplete symbol", the utilization of *10.1 in 
   this proof reveals that Russell might actually want to give class a "type"(as in Rocq) 
@@ -1024,13 +1043,13 @@ Admitted.
 (* NOTE: this proposition is explicitly passing in the `Alpha` as a class variable.
   In the proof we need to access its underlying function. might be tricky...
   TODO: resolve this issue in the future *)
-Theorem n20_33 (Alpha : Class.t Prop) (Phi : Prop -> Prop) :
+Theorem n20_33 (FAlpha : Prop -> Prop) (Phi : Prop -> Prop) :
+  let Alpha := (^z => FAlpha z) in
   [Alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
   <-> ([Alpha @ calpha => x <class_in> calpha] <[- x -]> Phi x).
 Proof.
   (* TOOLS *)
-  (* set (FAlpha := Intro_pred "FAlpha" 1). *)
-  (* set (Alpha := (^z => FAlpha z)). *)
+  set (Alpha := (^z => FAlpha z)).
   (* ******** *)
   assert (S1 : [Alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
     <-> ([Alpha @ calpha => x <class_in> calpha] 
@@ -1115,9 +1134,11 @@ Proof.
 Admitted.
 
 (* In this proof, `Psi` is associated with `alpha` in the text without being 
-claimed explicitly *)
-Theorem n20_42 (alpha : Class.t Prop) : [(^z => [alpha @ calpha => z <class_in> calpha])
-  @ cz => [alpha @ calpha => cz = calpha]].
+claimed explicitly
+TODO: in the future, remove the `alpha` parameter
+*)
+Theorem n20_42 (Alpha : Class.t Prop) : [(^z => [Alpha @ calpha => z <class_in> calpha])
+  @ cz => [Alpha @ calpha => cz = calpha]].
 Proof.
   (* TOOLS *)
   set (X := Intro_individual "x").
@@ -1256,21 +1277,140 @@ Proof.
 Qed.
 
 (* Should Phi here be a function of order 1..? *)
-Theorem n20_53 (alpha : Class.t Prop) (Phi : (Prop -> Prop) -> Prop) : 
-  (beta = alpha) -[ beta ]> [beta @ cbeta => Phi cbeta] <-> [alpha @ calpha => Phi calpha].
+Theorem n20_53 (FAlpha : Prop -> Prop) (Phi : (Prop -> Prop) -> Prop) : 
+  let Alpha := (^z => FAlpha z) in
+  ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+    -[ beta ]> [beta @ cbeta => Phi cbeta])
+      <-> [Alpha @ calpha => Phi calpha].
 Proof.
+  (* TOOLS *)
+  set (FBeta := Intro_pred "beta" 1).
+  set (Alpha := ^z => FAlpha z).
+  set (Beta := ^z => FBeta z).
+  (* ******** *)
+  assert (S1 : ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+      -[ beta ]> [beta @ cbeta => Phi cbeta])
+    -> ([Alpha @ calpha => calpha = calpha]
+      -> [Alpha @ calpha => Phi calpha])).
+  {
+    setoid_rewrite -> class_scope_eq.
+    apply (n10_1_class (fun beta =>
+      ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+        -> [beta @ cbeta => Phi cbeta])) Alpha).
+  }
+  assert (S2 : ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+      -[ beta ]> [beta @ cbeta => Phi cbeta])
+    -> [Alpha @ calpha => Phi calpha]).
+  {
+    (* simplification *)
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    pose proof (n20_2 FAlpha) as n20_2.
+    rewrite <- class_scope_eq in n20_2.
+    now MP S1 n20_2.
+  }
+  assert (S3 : [Beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+    -> ([Alpha @ calpha => Phi calpha] -> [Beta @ cbeta => Phi cbeta])).
+  {
+    (* *20.21 ignored *)
+    pose proof (n20_18 FBeta FAlpha Phi) as n20_18.
+    (* simplification... *)
+    intro Hp.
+    pose proof (n20_18 Hp) as n20_18.
+    rewrite -> n4_21 in n20_18.
+    now destruct n20_18.
+  }
+  assert (S4 : [Alpha @ calpha => Phi calpha]
+    -> ([Beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+      -> [Beta @ cbeta => Phi cbeta])).
+  {
+    pose proof (Comm2_04
+      ([Beta @ cbeta => [Alpha @ calpha => cbeta = calpha]])
+      ([Alpha @ calpha => Phi calpha])
+      ([Beta @ cbeta => Phi cbeta])) as Comm2_04.
+    now MP Comm2_04 S3.
+  }
+  assert (S5 : [Alpha @ calpha => Phi calpha]
+    -> ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+      -[ beta ]> [beta @ cbeta => Phi cbeta])).
+  {
+    pose proof (n10_11_class Beta (fun beta =>
+      [Alpha @ calpha => Phi calpha]
+        -> ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+          -> [beta @ cbeta => Phi cbeta]))) as n10_11.
+    MP n10_11 S4.
+    now rewrite -> n10_21_class in n10_11.
+  }
+  assert (S6 : (([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]) 
+    -[ beta ]> [beta @ cbeta => Phi cbeta]) 
+      <-> [Alpha @ calpha => Phi calpha]).
+  {
+    Conj_as S2 S5 C1.
+    now Equiv C1.
+  }
+  exact S6.
+Qed.
+
+Theorem n20_54 (FAlpha : Prop -> Prop) (Phi : (Prop -> Prop) -> Prop) : 
+  let Alpha := (^z => FAlpha z) in (exists beta, 
+    [beta @ cbeta => [Alpha @ calpha => cbeta = calpha]] /\ [beta @ cbeta => Phi cbeta])
+      <-> [Alpha @ calpha => Phi calpha].
+Proof.
+  (* TOOLS *)
+  set (Alpha := ^z => FAlpha z).
+  set (FBeta := Intro_pred "beta" 1).
+  set (Beta := ^z => FBeta z).
+  (* ******** *)
+  assert (S1 : ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]] 
+    /\ [beta @ cbeta => Phi cbeta]) -[ beta ]> [Alpha @ calpha => Phi calpha]).
+  {
+    (* unprovable: it seems to be not fit. TODO: figure out what is going on
+    in the future *)
+    admit.
+  }
+  assert (S2 : (exists beta, [beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+      /\ [beta @ cbeta => Phi cbeta])
+    -> [Alpha @ calpha => Phi calpha]).
+  { now rewrite -> n10_23_class in S1. }
+  assert (S3 : [Alpha @ calpha => Phi calpha]
+    -> ([Alpha @ calpha => calpha = calpha] 
+      /\ [Alpha @ calpha => Phi calpha])).
+  {
+    setoid_rewrite -> class_scope_eq.
+    pose proof (n20_2 FAlpha) as n20_2.
+    pose proof (n3_2
+      ([Alpha @ calpha1 => [Alpha @ calpha2 => calpha1 = calpha2]])
+      ([Alpha @ calpha => Phi calpha])) as n3_2.
+    now MP n3_2 n20_2.
+  }
+  assert (S4 : [Alpha @ calpha => Phi calpha]
+    -> (exists beta, [beta @ cbeta => 
+        [Alpha @ calpha => cbeta = calpha]]
+      /\ [beta @ cbeta => Phi cbeta])).
+  {
+    (* NOTE: we dont pick all `alpha`s in this step *)
+    setoid_rewrite -> class_scope_eq in S3.
+    pose proof (n10_24_class (fun beta => [beta @ cbeta => 
+      [Alpha @ calpha => cbeta = calpha]]
+      /\ [beta @ cbeta => Phi cbeta])
+      Alpha) as n10_24.
+    now Syll_as S3 n10_24 S4.
+  }
+  assert (S5 : (exists beta, [beta @ cbeta => [Alpha @ calpha => cbeta = calpha]] 
+    /\ [beta @ cbeta => Phi cbeta]) 
+      <-> [Alpha @ calpha => Phi calpha]).
+  {
+    Conj_as S2 S4 C1.
+    now Equiv C1.
+  }
+  exact S5.
 Admitted.
 
-Theorem n20_54 (alpha : Class.t Prop) (Phi : (Prop -> Prop) -> Prop) : exists beta, 
-  ((beta = alpha) /\ [beta @ cbeta => Phi cbeta]) <-> [alpha @ calpha => Phi calpha].
-Proof.
-Admitted.
-
-(* TODO: when filling the theorem, we will merge the two definitions of iotas in ch14 & 20 *)
 Theorem n20_55 (Phi : Prop -> Prop) : 
-  [iota (fun alpha => (x <class_in> alpha) <[- x -]> Phi x) | iotaalpha =>
-    (^z => Phi z) = iotaalpha].
+  [iota (fun alpha => ([alpha @ calpha => x <class_in> calpha]) <[- x -]> Phi x)
+    | iotaalpha => [^z => Phi z @ cz1 => [iotaalpha @ cz2 => cz1 = cz2]]].
 Proof.
+
 Admitted.
 
 Theorem n20_56 (Phi : Prop -> Prop) : [iotaEpoly (fun alpha : Class.t Prop =>
