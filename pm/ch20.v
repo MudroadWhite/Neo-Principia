@@ -837,6 +837,12 @@ Proof.
   now rewrite -> n20_15a, -> n20_15b in n10_32.
 Qed.
 
+(* This is a custom alternative for convinient reconstruction in our code *)
+Definition n20_21_alt {A : Type} (alpha beta : Class.t A) :
+  [alpha @ calpha => [beta @ cbeta => calpha = cbeta]]
+  <-> [beta @ cbeta => [alpha @ calpha => cbeta = calpha]].
+Admitted.
+
 Theorem n20_22 (Phi Psi Chi : Prop -> Prop) : 
   ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]] 
     /\ [^z => Psi z @ cz2 => [^z => Chi z @ cz3 => cz2 = cz3]])
@@ -1435,21 +1441,34 @@ Proof.
     /\ [^z => Phi z @ cz => [beta @ cbeta => cz = cbeta]]).
   {
     pose proof (n20_54 Phi (fun Phi =>
-        ([alpha @ calpha => x <class_in> calpha]
+      ([alpha @ calpha => x <class_in> calpha]
         <[- x -]> Phi x)
-      <[- alpha -]> ([alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]))) 
-      as n20_54.
-      symmetry in n20_54. simpl in n20_54.
-      assert (TT : forall x, (Class.get_A Prop x) = Prop).
-      { reflexivity. }
-      
-      setoid_rewrite -> eq_to_equiv in TT at 2.
-
-    rewrite <- n20_54 in S1.
+      <[- alpha -]> ([alpha @ calpha => [^z => Phi z @ cz => calpha = cz]])
+      )) as n20_54.
+    simpl in n20_54.
+    setoid_rewrite -> n4_3 in n20_54 at 2.
+    setoid_rewrite -> n20_21_alt in n20_54 at 2.
+    (* TODO:
+    [alpha @ cz => Phi (Psi cz)]
+    <->
+    Phi ([alpha @ cz => Psi cz])
+    *)
+    (* rewrite <- n20_54 in S1. *)
+    admit.
   }
+  assert (S3 : [iota (fun alpha => ([alpha @ calpha => x <class_in> calpha]) 
+    <[- x -]> Phi x) | iotaalpha => 
+    [^z => Phi z @ cz1 => [iotaalpha @ cz2 => cz1 = cz2]]]).
+  {
+    simpl in S2.
+    (* TODO: make a class specific vertsion for n14_1 *)
+    pose proof n14_1 as n14_1.
+    admit.
+  }
+  exact S3.
 Admitted.
 
-Theorem n20_56 (Phi : Prop -> Prop) : [iotaEpoly (fun alpha : Class.t Prop =>
+Theorem n20_56 (Phi : Prop -> Prop) : [iotaE (fun alpha : Class.t Prop =>
   (x <class_in> alpha) <[- x -]> Phi x)].
 Proof.
 Admitted.
