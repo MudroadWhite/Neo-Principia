@@ -1406,11 +1406,39 @@ Proof.
   exact S5.
 Admitted.
 
+(* I'm quite proud that the class notation can work nicely together with iotas *)
 Theorem n20_55 (Phi : Prop -> Prop) : 
   [iota (fun alpha => ([alpha @ calpha => x <class_in> calpha]) <[- x -]> Phi x)
     | iotaalpha => [^z => Phi z @ cz1 => [iotaalpha @ cz2 => cz1 = cz2]]].
 Proof.
-
+  (* TOOLS *)
+  set (FAlpha := Intro_pred "alpha" 1).
+  set (Alpha := ^z => FAlpha z).
+  (* ******** *)
+  assert (S1 : ([alpha @ calpha => x <class_in> calpha]
+      <[- x -]> Phi x)
+    <[- alpha -]> ([alpha @ calpha => [^z => Phi z @ cz => calpha = cz]])).
+  {
+    pose proof (n20_33 FAlpha Phi) as n20_33.
+    rewrite -> n4_21 in n20_33.
+    pose proof (n10_11_class Alpha (fun alpha =>
+      ([alpha @ calpha => x <class_in> calpha]  <[- x -]> Phi x)
+      <-> ([alpha @ calpha => [^z => Phi z @ cz => calpha = cz]])))
+      as n10_11.
+    now MP n10_11 n20_33.
+  }
+  assert (S2 : exists beta, (([alpha @ calpha => x <class_in> calpha]
+        <[- x -]> Phi x)
+      <[- alpha -]> [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
+    /\ [^z => Phi z @ cz => [beta @ cbeta => cz = cbeta]]).
+  {
+    pose proof (n20_54 Phi (fun Phi =>
+        ([alpha @ calpha => x <class_in> calpha]
+        <[- x -]> Phi x)
+      <[- alpha -]> ([alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]))) 
+      as n20_54.
+    rewrite <- n20_54 in S1.
+  }
 Admitted.
 
 Theorem n20_56 (Phi : Prop -> Prop) : [iotaEpoly (fun alpha : Class.t Prop =>
