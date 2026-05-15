@@ -106,11 +106,10 @@ There are also some other tactics that makes the goal window just a bit prettier
 - Tactics above is **recommended** to be reduced to minimum when we have finished them.
 
 TODO:
-- For content after chapter 9, reorganize in this idea:
-  1. explain how to construct a proposition bottom up
-  2. explain how we proceed on the proof with tactics
-  3. when what tactic doesn't work, we proceed with what alternatives to "patch" the idea
+- For content after chapter 9, reorganize in a bottom-up style:
+  1. explain how to bottom up construct a proposition with generalization
+  2. when what tactic doesn't work, we proceed with what alternatives to "patch" the idea
 - draft: 
   - when everything is normal, we use `pose proof` along with `MP`, `Syll` and `rewrite`
   - when they are not useful, we start to use `setoid_rewrite`
-  - when `setoid_rewrite` doesn't work, we would reconstruct everything bottom-up`
+  - when `setoid_rewrite` doesn't work, we would reconstruct everything bottom-up

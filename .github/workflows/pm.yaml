@@ -19,7 +19,5 @@ jobs:
         custom_script: |
           startGroup "Build"
             sudo chown -R $(whoami) .
-            # cd ${{ github.workspace }}
-            pwd
             time make
           endGroup

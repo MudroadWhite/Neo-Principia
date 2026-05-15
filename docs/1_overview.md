@@ -37,7 +37,9 @@ We are building:
 ### Milestones
 **Ongoing: Finish chapter 20**  I believe that implementing classes and relations should symbolize the availability to express everything in Principia. Implementing class should be a very important feature, and maybe eliminate all technical difficulties for PM symbol definitions once and for all.
 
-I'm also plan to stop working on this once chapter 20 has been completely translated, because I want to use my time on better things
+Even further plans: I could either
+- Quit the project once chapter 20 has been completely translated
+- Develop a new version of PM, with type system & AoR supported, and make a distinction from this project. I'm also planning to give version names like "staccato" "aria" or something
 
 **2026.02:** Chapter 14, the first chapter with an *incomplete/context based* symbol(the description), has been finished. Finishing these chapters involves both new context for theorems to be assumed, and more complicated symbols to be defined. Also, we have finished the complete documentation from chapter 1 to 14. This project has been mature enough to be examined by everyone, and viewers should find it way easier to comprehend and participate into criticisms towards Principia.
 
