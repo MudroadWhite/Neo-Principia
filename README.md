@@ -73,7 +73,7 @@ IDEs for Coq/Rocq varies, but here is my preference:
 - Extension installed on VSCode, in its remote WSL environment: VSCoq v0.3.7 from [OpenVSX](https://open-vsx.org/extension/maximedenes/vscoq).
 
 ## To contribute
-Although I have tried to organize the issues well to indicate the current progress, I don't have rich experience in collaborations. It's suggested to open a new issue for inquiries, and I'll see what I can give.
+Although I have tried to organize the issues well to indicate the current progress, I don't have rich experience in collaborations. A very rough guideline can be found under the [contribution guide](./docs/contribution_guide/) folder.
 
 ## Related works
 - [Landon Elkind's formalization of Principia Mathematica](https://github.com/LogicalAtomist/principia)
