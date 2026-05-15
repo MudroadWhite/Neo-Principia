@@ -137,4 +137,6 @@ TODO:
 - proving every steps in ch20 has been increasingly harder
 
 TODO:
-- critisism: "of the same type" is distributed throughout the chapters
+- criticism: "of the same type" is distributed throughout the chapters
+- criticism/analytics: how much can we automate on PM
+- scope related criticism in chapter 20 code

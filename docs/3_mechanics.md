@@ -248,3 +248,4 @@ TODO:
 
 TODO:
 - composition nature for types/defs, ref. *20.62
+- TODO in chapter 1: distinguish between when to use MP and when to use Syll
