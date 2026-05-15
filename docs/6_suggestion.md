@@ -3,7 +3,7 @@
 This chapter is a proposal for a specification of PM's type system, based on the details we have gathered in [Audit Report](./5_audit.md).
 
 Ideas:
-- Randall's work mostly mathematically analyze the symbols in PM
+- Randall's work mostly analyze the availability of symbols in PM from a mathematical aspect
 - We analyze PM symbols by checking how well can they implemented in Rocq
 
 TODO:
