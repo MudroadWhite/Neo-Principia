@@ -1,0 +1,63 @@
+---
+fullname: Neo Principia
+shortname: neo-pm
+organization: MudroadWhite
+community: false
+action: true
+coqdoc: false
+
+synopsis: Continuation of PM's formalization
+
+description: |-
+  This project continues on Landon's Rocq formalization of Bertrand Russell's Principia Mathematica. 
+  It aims at digitalizing all propositions in Principia Mathematica to Rocq proof and provide a 
+  documentation to help reading the code.
+
+authors:
+- name: MudroadWhite
+  initial: true
+
+maintainers:
+- name: MudroadWhite
+  nickname: MDR
+
+opam-file-version: dev
+
+license:
+  fullname: MIT
+  identifier: MIT
+
+supported_coq_versions:
+  text: 8.20 or later
+  opam: '{(>= "8.20" & < "9.0~") | (= "dev")}'
+
+tested_coq_opam_versions:
+- version: '8.20'
+
+ci_cron_schedule: '10 1 * * 0'
+
+namespace: Neo Principia
+
+keywords:
+- name: math
+- name: principia mathematica
+
+categories:
+- name: Computer Science/Decision Procedures and Certified Algorithms/Correctness proofs of algorithms
+- name: Miscellaneous/Extracted Programs/Combinatorics
+
+documentation: |-
+  ## Documentation
+
+  For more information about the project, see the [project page][ppage]
+  describing the formalization. 
+  
+  ### Running the code
+
+  To compile the project, simply
+  ```shell
+  make
+  ```
+
+  [ppage]: https://github.com/MudroadWhite/Neo-Principia
+---
