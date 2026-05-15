@@ -12,9 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # - uses: actions/checkout@v3
-    # - name: Download Git submodules
-    #   run: git submodule update --init --recursive
+    - uses: actions/checkout@v3
     - uses: coq-community/docker-coq-action@v1
       with:
         custom_image: coqorg/coq:8.20-ocaml-4.14-flambda
