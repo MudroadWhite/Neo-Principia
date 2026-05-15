@@ -21,5 +21,6 @@ jobs:
         custom_script: |
           startGroup "Build"
             sudo chown -R $(whoami) .
+            cd ${{ github.workspace }}
             time make
           endGroup
