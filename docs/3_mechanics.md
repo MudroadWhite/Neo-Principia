@@ -119,7 +119,7 @@ Later, a typing algorithm is given in this chapter, completely generating the hi
 
 \*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus it sets up a convention for individuals.
 
-Individuals are the propositional variables constituted to the expression of a proposition. All individuals will have the same (lowest possible)propositional order, and to be more exact, have exactly the same proposition type. The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
+Individuals are the propositional variables constituted to the expression of a proposition. *All individuals will have the same (lowest possible)propositional order, and to be more exact, have exactly the same proposition type*. The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
 1. **EProp.** All elementary propositions have a `EProp` type
 2. **EFunc.** Arguments: types of parameters. PM doesn't actually have the idea of `→` types, but it's quite obvious `→` types can model PM's function type when carefully used. Elementary functions should have same type if 
     1. e-func A is obtained through `¬` on e-func B
@@ -132,7 +132,7 @@ Individuals are the propositional variables constituted to the expression of a p
         2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
    Note that not all proposition of same order proposition have the same type, because of the types of functions.
 4. **Constants.** For something more specific, constants are some letters that shouldn't be treated as a variable, and is allowed to be appeared in functions. In our implementation such distinction is very hard to make a difference.
-5. **Others.** Every notion appeared in PM, for example classes, comes up with a typing rule for that notion. The full typing algorithm is actually scattered around the chapters.
+5. **Others.** Every notion appeared in PM, for example classes, comes up with a typing rule for that notion. The full typing algorithm is actually scattered around the chapters. For example see \*11.311.
 
 By proving a theorem in chapter 9 - 11, we assume:
 - Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
@@ -248,3 +248,6 @@ TODO:
 
 TODO:
 - composition nature for types/defs, ref. *20.62
+- ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "forall" highlighted and defined
+  - the operators defined are directly obtaining 1-order props from e-props
+  - 1-order props are just being assumed
