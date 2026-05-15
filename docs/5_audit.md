@@ -139,4 +139,7 @@ TODO:
 TODO:
 - criticism: "of the same type" is distributed throughout the chapters
 - criticism/analytics: how much can we automate on PM
+  attempts:
+  - can we chain MPs and Sylls together
+  - can we automatically type the parameters to be filled
 - scope related criticism in chapter 20 code
