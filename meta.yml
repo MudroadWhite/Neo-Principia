@@ -44,9 +44,12 @@ keywords:
 
 categories:
 - name: Computer Science/Decision Procedures and Certified Algorithms/Correctness proofs of algorithms
-- name: Miscellaneous/Extracted Programs/Combinatorics
+- name: Miscellaneous/Extracted Programs
 
 documentation: |-
+  WARNING: at this moment I don't want to generate anything from this YAML file because 
+  it requires Ruby and mustache. I still write this piece of YAML just in case.
+
   ## Documentation
 
   For more information about the project, see the [project page][ppage]
