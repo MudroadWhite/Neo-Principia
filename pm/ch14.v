@@ -101,7 +101,7 @@ Notation "[ 'ι' φ | x => B ]" := (description φ (fun (x : DescriptionArg φ) 
 (* TODO: format... *)
 Example iota_notation_example := [ι (fun x => x) | ιφ => ιφ = ιφ].
 
-Notation "[ 'ιE' P ]" := (description_exists (P : Prop -> Prop))
+Notation "[ 'ιE' P ]" := (description_exists P)
   (at level 150, P constr at level 150, right associativity) : iota_description.
 Example iota_exists_example := [ ιE (fun x => x) ].
 
