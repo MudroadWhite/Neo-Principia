@@ -225,6 +225,14 @@ Definition n10_23_class {A : Type} (φ : Class.t A → Prop) (P : Prop) :
 Definition n10_24_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
   φ Y → ∃ x, φ x. Admitted.
 
+Open Scope iota_description.
+
+(* might be bugged..? *)
+Definition n14_21_class {A : Type} (φ ψ : Class.t A → Prop) :
+  [ι φ | ιφ => ψ ιφ] → [ιE φ]. Admitted.
+
+Close Scope iota_description.
+
 (* **************** *)
 Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
   ([^ z => Psi z @ cPsi => f cPsi])
@@ -1461,11 +1469,15 @@ Proof.
   exact S3.
 Admitted.
 
+(* TODO: this might have some severe denotational problem about what kind of function
+should we use for the iota Phi... *)
 Theorem n20_56 (Phi : Prop -> Prop) : [iotaE (fun alpha : Class.t Prop =>
   [alpha @ calpha => x <class_in> calpha] <[- x -]> Phi x)].
 Proof.
   pose proof (n20_55 Phi) as n20_55.
-  pose proof n14_21 as n14_21.
+  (* n14_21_class might also not be the correct version *)
+  Print n14_21_class.
+  admit.
 Admitted.
 
 Theorem n20_57 (Phi : Prop -> Prop) (f g : (Prop -> Prop) -> Prop) : 
@@ -1474,6 +1486,7 @@ Theorem n20_57 (Phi : Prop -> Prop) (f g : (Prop -> Prop) -> Prop) :
   -> ([^ z => Phi z @ cz => g cz] <-> [iota (fun alpha => [alpha @ calpha => f calpha]) 
     | iotaalpha => [iotaalpha @ ciotaalpha => g ciotaalpha]]).
 Proof.
+  
 Admitted.
 
 (* NOTE: rigorously speaking, `=` shouldn't be directly used like this and should be applied
