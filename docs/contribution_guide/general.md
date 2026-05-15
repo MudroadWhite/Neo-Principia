@@ -1,3 +1,5 @@
+# General guideline
+
 We're currently only allow PRs in 3 flavors:
 
 - Formal proofs for a chapter, titled with Proofs for chapter x, part x. The parts are expected to be specified by some issue in the issue list when we're focusing on that part of proof
