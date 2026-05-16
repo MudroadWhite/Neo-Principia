@@ -280,12 +280,14 @@ Admitted.
 Definition n20_07 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
   (* NOTE: we can see here `Phi` has been unsatisfying: it is not defined with \
   `Order` anymore... maybe we need to adjust `A` in the future to make it compatible
-  with `Order`s *)
+  with `Order`s 
+  If we change `A` to `Order x`, it means we don't allow future symbols other than class
+  which has been a very annoying ambiguity
+  *)
   ∀ (alpha : Class.t A), [alpha @ calpha => f calpha]
   = ∀ Phi : (A -> Prop), [^ z => Phi z @ cPhi => f cPhi].
 Admitted.
 
-(* TODO: same as above *)
 Definition n20_071 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
   ∃ (alpha : Class.t A), [alpha @ calpha => f calpha]
   = ∃ Phi : (A -> Prop), [^ z => Phi z @ cPhi => f Phi].
@@ -1484,7 +1486,8 @@ Proof.
   (* unprovable: n20_55 doesn't have the correct form
   TODO: redesign n20_55 in the future *)
   (* TODO: add note: polymorphic design conflicts with constructing class
-  bottom-up. Also address this in the docs
+  bottom-up. `_pred` variants might therefore interfere with `_class` variants. 
+  Also address this in the docs
   *)
   admit.
 Admitted.
