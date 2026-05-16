@@ -7,14 +7,26 @@ Assessment for each of the chapter is based on the following questions:
 2. Feasibility: Are they easy to be implemented in Rocq?
 3. Coverage: How much % of propositions can we formalize, and what is missing?
 
-### Limitations, short version
+Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). For the below sections, we first make a short summary of major issues we have found, then list out everything we have found for each of the chapters.
+
+### Issues
+The issues come either from the lacking of proper implementation of our project, or directly from the Principia Mathematica itself. After stating these issues, we will expand every details we have found by each chapters.
+
+**I1: Typing.** We didn't design a proper system to type every PM propositions. This gives a massive chain effects on the following issues:
+1. We cannot distinguish between predicative and impredicative props/functions.
+2. We cannot implement Axiom of Reducibility.
+3. Several propositions that are relying on AoR cannot be properly implemented at all.
+
+**I2: Scoping.** PM's scoping notion for "incomplete symbols" is generally under consideration, and several proofs are being blocked because of the scoping issue. 
 1. We didnt implement Axiom of Reducibility.
 2. Rocq's own notation system is missing some nice features.
 3. We cannot differentiate between impredicative and predicative functions. More generally, we don't type the propositions.
 
-Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
+**I3: setoid_rewrite.** TODO: setoid_rewrite changes by versions
 
 ### Basic setups
+TODO: how much can we automate on PM's inference(rewrite?)
+
 **Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
 
 The core of symbol definition, *definitional equality*, is undefined, as discussed in [mechanics](./3_mechanics.md) and [tactics](./4_tactics.md). 
@@ -124,8 +136,8 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 **General.** 
 TODO: 
 - types has become complicated... refer to Randall's work, discuss how should we consider the types(TODO: reexamine this claim)
-- implemented notation isn't well designed: doesn't "scale" to higher levels, and patch with newer definitions instead
-- notation has reached its limit to express: Rocq will not show the correct representation due to our design
+- notation has reached its limit to express: Rocq will not show the correct representation due to our design; we therefore split the parsing and printing notation
+- Class(or polymorphic requirement) as a parameter limited many things, including `pose proof`
 - we want to separate the symbol definition against computation by setting up the `Admitted` clearly, but it is definitely not that clean in our current implementation
 - "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps? it is something focused on how automatic PM can be, not on structural similarity
 - Consideration on functions(`Prop -> Prop`) seems to interfere with our `_pred` treatment changing the order base
