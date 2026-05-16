@@ -40,7 +40,7 @@ scoping convention:
   related theorems
 - axioms related to notaion is exceptionally allowed to be directly applied 
   on the goal
-
+- conflicts between `_pred` and `_class` variant
 On representation of class:
 
 failed attempts:
@@ -52,26 +52,25 @@ representation which turns out to be illegal:
 - X <class_in> (^ z => Psi z)
 - [^z => Phi z @ cz1 => cz1 = cz1]
 - Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
+
+ambiguity between symbol and its underlying representation has affected:
+- parameter representation (`x : Class.t A` vs `fx : A`)
+- the correct representation for a proposition
+- should `A` be cut down to `Order` props or should we allow for more symbols
+  in the future
 *)
 
 (* 
+TODO: move it to chapter 20 introduction in mechanics
+
 The class in this chapter has been discussed like pretty obscure. It is not being stated
 clearly like a structure, and instead, how is it defined is written *in the middle of 
 the text*, and is defined with a `^x` that looks so similar to the "function abstraction" 
-being used in chapter 9.
+being used in chapter 9. 
 
 **Due to such ambiguity in the `!`, whether functions should be defined as predicates,
 appeared through all the notation definitions, is highly volatile and is encouraged 
 to be examined and corrected.**
-
-Our current implementation is a mixture of
-- using a special `Class` type to express class-related symbol
-- using the ambiguity on function `f`'s type, on whether it should receive a "class"-defined 
-argument or just a normal function as an argument, since "class"es also seem to have the same
-(Rocq)type as a normal function
-
-Furthermore: determining whether a function is an untyped function or a predicative function
-in this chapter is very confusing
 *)
 Declare Scope debug_class.
 Declare Scope class.
@@ -1484,11 +1483,9 @@ Proof.
     (fun iota => [^z => Phi z @ cz => cz = iota]))
     as n14_21.
   (* unprovable: n20_55 doesn't have the correct form
-  TODO: redesign n20_55 in the future *)
-  (* TODO: add note: polymorphic design conflicts with constructing class
-  bottom-up. `_pred` variants might therefore interfere with `_class` variants. 
-  Also address this in the docs
-  *)
+  TODO: redesign n20_55 in the future. Or is *20.55 ill desigend? Since it
+  is a new notation with new interpretation but without equipping with 
+  notation supps *)
   admit.
 Admitted.
 
@@ -1498,7 +1495,8 @@ Theorem n20_57 (Phi : Prop -> Prop) (f g : (Prop -> Prop) -> Prop) :
   -> ([^ z => Phi z @ cz => g cz] <-> [iota (fun alpha => [alpha @ calpha => f calpha]) 
     | iotaalpha => [iotaalpha @ ciotaalpha => g ciotaalpha]]).
 Proof.
-  
+  assert (S1 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+    (^z => Phi z) = iotaalpha])
 Admitted.
 
 Theorem n20_58 (Phi : Prop -> Prop) :
