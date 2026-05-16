@@ -112,6 +112,13 @@ Definition n10_5_pred (φ ψ : (Prop -> Prop) → Prop) :
   (∃ x, φ x ∧ ψ x) → ((∃ x, φ x) ∧ (∃ x, ψ x)).
 Admitted.
 
+Open Scope iota_description.
+
+Definition n14_21_pred (φ ψ : (Prop -> Prop) → Prop) : 
+  [ι φ | ιφ => ψ ιφ] → [ιE φ]. Admitted.
+
+Close Scope iota_description.
+
 Open Scope formal_equiv.
 
 (* This is a very ironic variant: we shouldn't write down such a variant
@@ -224,14 +231,6 @@ Definition n10_23_class {A : Type} (φ : Class.t A → Prop) (P : Prop) :
 
 Definition n10_24_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
   φ Y → ∃ x, φ x. Admitted.
-
-Open Scope iota_description.
-
-(* might be bugged..? *)
-Definition n14_21_class {A : Type} (φ ψ : Class.t A → Prop) :
-  [ι φ | ιφ => ψ ιφ] → [ιE φ]. Admitted.
-
-Close Scope iota_description.
 
 (* **************** *)
 Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
@@ -1415,6 +1414,7 @@ Proof.
   exact S5.
 Admitted.
 
+(* TODO: redesign n20_55 *)
 (* I'm quite proud that the class notation can work nicely together with iotas *)
 Theorem n20_55 (Phi : Prop -> Prop) : 
   [iota (fun alpha => ([alpha @ calpha => x <class_in> calpha]) <[- x -]> Phi x)
@@ -1475,8 +1475,17 @@ Theorem n20_56 (Phi : Prop -> Prop) : [iotaE (fun alpha : Class.t Prop =>
   [alpha @ calpha => x <class_in> calpha] <[- x -]> Phi x)].
 Proof.
   pose proof (n20_55 Phi) as n20_55.
-  (* n14_21_class might also not be the correct version *)
-  Print n14_21_class.
+  pose proof (n14_21_pred 
+    (fun falpha => 
+      let alpha := (^z => falpha z) in
+      ([alpha @ calpha => x <class_in> calpha] <[- x -]> Phi x))
+    (fun iota => [^z => Phi z @ cz => cz = iota]))
+    as n14_21.
+  (* unprovable: n20_55 doesn't have the correct form
+  TODO: redesign n20_55 in the future *)
+  (* TODO: add note: polymorphic design conflicts with constructing class
+  bottom-up. Also address this in the docs
+  *)
   admit.
 Admitted.
 
@@ -1489,8 +1498,6 @@ Proof.
   
 Admitted.
 
-(* NOTE: rigorously speaking, `=` shouldn't be directly used like this and should be applied
-within another class block. Might have some notational issue when comes to implementation *)
 Theorem n20_58 (Phi : Prop -> Prop) :
   [iota (fun alpha => alpha = (^z => Phi z)) | iotaalpha =>
     (^z => Phi z) = iotaalpha].
