@@ -22,11 +22,13 @@ The issues come either from the lacking of proper implementation of our project,
 2. Rocq's own notation system is missing some nice features.
 3. We cannot differentiate between impredicative and predicative functions. More generally, we don't type the propositions.
 
-**I3: setoid_rewrite.** 
+**I3: Representation.** TODO: some theorems are about the underlying object; some else are only the mere representation
+
+**I4: setoid_rewrite.** 
 TODO: 
 - setoid_rewrite changes by versions
 
-**I4: Tactics support.**
+**I5: Tactics support.**
 TODO: (brief introduction to missing tactics)
 
 ### Basic setups
@@ -39,7 +41,6 @@ TODO:
 - have to manually introduce individuals
 - `rewrite` cannot infer most of the parameters; the right params might be not unique
 - `MP`, `Syll`, `rewrite`, `setoid_rewrite` might have trouble to be chained together
-
 
 **Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
 
