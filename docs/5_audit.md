@@ -26,7 +26,13 @@ The issues come either from the lacking of proper implementation of our project,
 TODO: 
 - setoid_rewrite changes by versions
 
+**I4: Tactics support.**
+TODO: (brief introduction to missing tactics)
+
 ### Basic setups
+**TODO: MP vs Syll**
+TODO: mostly freely used, and don't follow the text
+
 **How much can we automate for Principia Mathematica?**
 TODO: 
 - we didn't intend to increase its automation, because this looks unhopeful. This can be an interesting direction
