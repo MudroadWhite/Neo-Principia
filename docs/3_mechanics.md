@@ -248,7 +248,9 @@ TODO:
 
 TODO:
 - composition nature for types/defs, ref. *20.62
-- TODO in chapter 1: distinguish between when to use MP and when to use Syll
+  - Should we remove the `composition` parts in the future?
+- ch1: distinguish between when to use MP and when to use Syll
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "forall" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
+- ch9: Explain when do we need `set X := Intro_x`

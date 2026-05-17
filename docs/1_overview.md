@@ -32,7 +32,7 @@ We are building:
 - [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Order` type.
 - [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
 - [x] Chapter 14 - Notation `ι` of the descriptions. Theorems on them.
-- [ ] \[WIP\]Chapter 20 - Notation on class, and theorems of classes.
+- [ ] \[WIP\]Chapter 20 - Notation on class, and theorems of classes. Under the iceberg tip, making different notations working consistently with each others.
 
 ### Milestones
 **Ongoing: Finish chapter 20**  I believe that implementing classes and relations should symbolize the availability to express everything in Principia. Implementing class should be a very important feature, and maybe eliminate all technical difficulties for PM symbol definitions once and for all.
