@@ -29,9 +29,11 @@ TODO:
 ### Basic setups
 **How much can we automate for Principia Mathematica?**
 TODO: 
+- we didn't intend to increase its automation, because this looks unhopeful. This can be an interesting direction
 - have to manually introduce individuals
 - `rewrite` cannot infer most of the parameters; the right params might be not unique
 - `MP`, `Syll`, `rewrite`, `setoid_rewrite` might have trouble to be chained together
+
 
 **Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
 
