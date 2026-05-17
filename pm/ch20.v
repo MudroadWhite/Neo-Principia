@@ -21,15 +21,6 @@ Require Import PM.pm.ch14.
 
 (* TODO: address following in the documentation; 
 adapt following naming convention in the project: 
-for class variables:
-- If the function body is given with a function variable Phi, name the var as cPhi
-- If the function is being constructed in more detail, name the var as c1, c2, ...
-- If the class is being represented with a class variable, name the variable exactly
-  the same as the class var
-
-for introduced variables:
-- implicit `Phi` predicates should be introduced as `IPhi`
-- class instance should be introduced as `Alpha` (so far)
 
 scoping convention:
 - scoping is under consideration but can be fixed nicely
