@@ -1,4 +1,6 @@
 # Project architecture
+All tactics we are using for this project have been listed out in this chapter.
+
 ## 1. What's under this project?
 - `./docs/` provides all necessary documentation for the proofs.
 - `./slides/` contains a pseudo-slide in markdown format for a presentation I held privately, written in Chinese.
@@ -8,11 +10,11 @@
 ## 2. What's under `./pm`?
 Each chapter in Principia has a corresponded `.v` file. In the future, we might further recluster the chapters into sections and parts.
 
-Chapter 1 - 5, additionally with scattered proof pieces under `pm/misc`, are directly inherited from [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia).
+`lib.v` mostly provides experimental/necessary features to be used globally.
 
-`lib.v` provides type signatures for notations in each chapter. It also provides other experimental features being used globally.
+Chapter 1 - 5, additionally with scattered proof pieces under `pm/misc`, are directly inherited from [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia). We keep the code as original as possible as a reference, with only slight optimizations.
 
-All conventions introduced below applies after chapter 9.
+That being said, all conventions introduced below **applies after chapter 9**.
 
 ## 3. What's under a single `.v` file?
 1. `Require Import` that cites other chapters and `lib.v`, so that you can use theorems and tools from these imported files.
@@ -85,6 +87,6 @@ As introduced above, `assert` and `set`, sets up the general architecture to wri
 Beneath the architecture comes the details of how we prove a theorem. By referring to [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), we can divide our tactics into 2 types - as the slogan says, "just `pose` and `rewrite`".
 
 - `pose proof`, occasionally with `apply`, instantiates a existing theorem to use.
-- `rewrite`, `setoid_rewrite`, custom defined Ltacs like `MP` `Syll` inherited from the [old repository](https://github.com/LogicalAtomist/principia), or more generally, all tactics except `pose proof` are for rewriting to, and even a level down, deducing new propositions from existing propositions.
+- `rewrite`, `setoid_rewrite`, custom defined Ltacs like `MP` `Syll`, or more generally, all tactics except `pose proof` are for rewriting to, and even a level down, deducing new propositions from existing propositions.
 
 [tactics](./4_tactics.md) goes into the details of these tactics.
