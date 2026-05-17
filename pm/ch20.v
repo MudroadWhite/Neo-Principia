@@ -1487,7 +1487,15 @@ Theorem n20_57 (Phi : Prop -> Prop) (f g : (Prop -> Prop) -> Prop) :
     | iotaalpha => [iotaalpha @ ciotaalpha => g ciotaalpha]]).
 Proof.
   assert (S1 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
-    (^z => Phi z) = iotaalpha])
+      (^z => Phi z) = iotaalpha]
+    <-> (exists beta, ([alpha @ calpha => f calpha] <[- alpha -]> 
+      [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
+      /\ [beta @ cbeta => g cbeta])).
+  {
+    pose proof n14_1 as n14_1.
+    admit.
+  }
+  assert (S2 : )
 Admitted.
 
 Theorem n20_58 (Phi : Prop -> Prop) :
