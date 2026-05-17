@@ -5,8 +5,6 @@ Require Import PM.pm.ch3.
 Require Import PM.pm.ch4.
 Require Import PM.pm.ch5.
 
-(* TODO: Find a way to correctly express "argument in P is of the same type of argument in Q" *)
-
 (* ******** *)
 
 (* Definitions involving `¬` on 1st order props. Our current simulation doesn't emphasize

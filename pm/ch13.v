@@ -8,11 +8,6 @@ Require Import PM.pm.ch10.
 Require Import PM.pm.ch11.
 Require Import PM.pm.ch12.
 
-(* 
-TODO: 
-- Investigate *1.7 and see if the rest of the missing proofs can be filled
-- Investigate support for `<[- x -]>`'s conversion to `↔ ∧ ↔`
-*)
 
 (* This chapter presents a set of theorem for `=`, the propositional identity
 in Principia. It is different from definitional identity, which is undefined. 
@@ -169,7 +164,7 @@ Proof.
   { apply n13_101. }
   assert (S4 : (X = Y) → ((¬ Iφ X) → (¬ Iφ Y))).
   {
-    (* n1_7 ignored *)
+    (* n1.7 ignored *)
     (* This step is very suspicious *)
     admit.
   }

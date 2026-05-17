@@ -8,14 +8,11 @@ Open Scope formal_equiv.
 NOTE:
 
 - `F` for AoR is having a level of exactly 1
-- constants in PM can be designed as a tagged label them just as constants when passing as a parameter
-into rocq
 *)
 
 (* 
 NOTE: f and F are both of same Order, and they should be actually one untyped while the other
 type of "predicate to x"
-TODO: define a temporarily notion of "untyped", and make a clear use to `!`; fill in documents
 *)
 Definition n12_1 (φ : Prop → Prop) : 
   ∃ f : (Order 1), (φ x) <[- x -]> ((fun (F : Order 1) =>
