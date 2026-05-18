@@ -2,9 +2,9 @@
 All tactics we are using for this project have been listed out in this chapter.
 
 ## 1. What's under this project?
-- `./docs/` provides all necessary documentation for the proofs.
+- `./docs/` provides all necessary documentation for this project. 
 - `./slides/` contains a pseudo-slide in markdown format for a presentation I held privately, written in Chinese.
-- `./Makefile` for building the project.
+- `./Makefile`, `meta.yml`, `.github/`, etc. for basic configurations on building this project.
 - `./pm/` being the actual show of this project. 
 
 ## 2. What's under `./pm`?
