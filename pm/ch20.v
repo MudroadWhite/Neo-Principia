@@ -1518,7 +1518,14 @@ Proof.
     (* setoid_rewrite -> n20_54 in S1 at 2. *)
     admit.
   }
-  assert (S3 : [iota (fun alpha => [alpha ])])
+  assert (S3 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+    [iotaalpha @ ciotaalpha => g ciotaalpha]]
+    <-> (exists beta, ([alpha @ calpha => f calpha] 
+        <[- alpha -]> [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
+      /\ [beta @ cbeta => g cbeta])).
+  {
+    
+  }
 Admitted.
 
 Theorem n20_58 (Phi : Prop -> Prop) :
