@@ -1688,7 +1688,6 @@ Proof.
       (^z => Phi z) f
       (fun ciotaalpha cAlpha => ciotaalpha = cAlpha)) 
       as iota_class_scope_eq.
-      simpl in iota_class_scope_eq, S2.
     now setoid_rewrite -> (iota_class_scope_eq) in S2.
   }
   exact S3.
