@@ -1579,7 +1579,42 @@ Theorem n20_58 (Phi : Prop -> Prop) :
     | iotaalpha => [^z => Phi z @ cz => [iotaalpha @ ciotaalpha =>
       cz = ciotaalpha]]].
 Proof.
-  
+  (* TOOLS *)
+  set (FAlpha := Intro_pred "alpha" 1).
+  set (Alpha := ^z => FAlpha z).
+  (* ******** *)
+  assert (S1 : [alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
+    <[- alpha -]> [alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]).
+  {
+    pose proof (n4_2 ([Alpha @ calpha => [^z => Phi z @ cz => calpha = cz]])) 
+      as n4_2.
+    Print n10_11_class.
+    pose proof (n10_11_class Alpha (fun alpha => 
+      [alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
+      <-> [alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]))
+      as n10_11.
+    now MP n10_11 n4_2.
+  }
+  assert (S2 : exists beta, ([alpha @ calpha => 
+    [^z => Phi z @ cz => calpha = cz]] 
+      <[- alpha -]> [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
+    /\ [^z => Phi z @ cz => [beta @ cbeta => cz = cbeta]]).
+  {
+    (* NOTE: i think the proof order is wrong. we should have first constructed
+      the `exists` and then generalize the `alpha`. Otherwise it's making things
+      so tedious that we will break everything down to reconstruct again. *)
+    (* TODO: I want to instantiate S1 again and find another way to construct the 
+      proof *)
+    (* setoid_rewrite <- n20_54 in S1. *)
+    admit.
+  }
+  assert (S3 : [iota (fun alpha => [alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]) 
+    | iotaalpha => [^z => Phi z @ cz => [iotaalpha @ ciotaalpha =>
+      cz = ciotaalpha]]]).
+  {
+    
+  }.
+  exact S3.
 Admitted.
 
 (* same as above *)
