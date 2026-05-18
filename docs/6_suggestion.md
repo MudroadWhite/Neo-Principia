@@ -10,3 +10,4 @@ TODO:
 5. polymorphic notations and monomorphic theorems(?)
 6. Utilization of `setoid_rewrite`
 7. Add Randall's conversation as suggestion on MP and individuals for "base order"
+8. philosoophy of "internalization" (relate to the inheritance nature)
