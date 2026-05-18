@@ -24,6 +24,9 @@ adapt following naming convention in the project:
 
 scoping convention:
 - scoping is under consideration but can be fixed nicely
+- if possible we want to moreover internalize the scopes (maybe determining the scope
+  when computing?) so that it can be automatically
+  inferred
 - default scope is the minimum subexp containing the symbol, except for only itself
 - the 1st operand of a binop has larger scope than the 2nd operand. e.g. `x=y`
 - descriptions have larger scope than classes
@@ -221,6 +224,19 @@ Definition n10_23_class {A : Type} (φ : Class.t A → Prop) (P : Prop) :
 
 Definition n10_24_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
   φ Y → ∃ x, φ x. Admitted.
+
+Open Scope iota_description.
+
+(* NOTE: here we can see a non-trivial variant involving the scoping...
+  and we cannot determine the right representation so far. When it comes to 
+  deep embedding, specifying how to automatically determine the `app`somehow
+  for different apolications seems to be critical
+*)
+Definition n14_1_class {A : Type} (φ ψ : Class.t A → Prop) : [ι φ | ιφ => ψ ιφ]
+  ↔ ∃ b, (φ x <[- x -]> [x @ cx => [b @ cb => cx = cb]]) 
+    ∧ ψ b. Admitted.
+
+Close Scope iota_description.
 
 (* **************** *)
 Definition n20_01 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
@@ -1482,19 +1498,16 @@ Admitted.
 
 Theorem n20_57 (Phi : Prop -> Prop) (f g : (Prop -> Prop) -> Prop) : 
   [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
-    (^z => Phi z) = iotaalpha]
+    [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
   -> ([^ z => Phi z @ cz => g cz] <-> [iota (fun alpha => [alpha @ calpha => f calpha]) 
     | iotaalpha => [iotaalpha @ ciotaalpha => g ciotaalpha]]).
 Proof.
   assert (S1 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
-      (^z => Phi z) = iotaalpha]
+    [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
     <-> (exists beta, ([alpha @ calpha => f calpha] <[- alpha -]> 
       [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
-      /\ [beta @ cbeta => g cbeta])).
-  {
-    pose proof n14_1 as n14_1.
-    admit.
-  }
+      /\ [^z => Phi z @ cz => [beta @ cbeta => cz = cbeta]])).
+  { apply n14_1_class. }
   assert (S2 : )
 Admitted.
 
