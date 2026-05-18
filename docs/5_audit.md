@@ -17,18 +17,20 @@ The issues come either from the lacking of proper implementation of our project,
 2. We cannot implement Axiom of Reducibility.
 3. Several propositions that are relying on AoR cannot be properly implemented at all.
 
-**I2: Scoping.** PM's scoping notion for "incomplete symbols" is generally under consideration, and several proofs are being blocked because of the scoping issue. 
-1. We didnt implement Axiom of Reducibility.
-2. Rocq's own notation system is missing some nice features.
-3. We cannot differentiate between impredicative and predicative functions. More generally, we don't type the propositions.
+**I2: Inheritance/internalization.** 
+TODO: this topic has a extremely wide impact, including:
+- missing support of scoping
+  - Do we have to automatically shrink the scope for a symbol?
+- inheritance nature for definitions
+  - polymorphic notations vs monomorphic definitions
+  - defs will have variants in later chapter
+  - some theorems are about the underlying object; some else are only the mere representation
 
-**I3: Representation.** TODO: some theorems are about the underlying object; some else are only the mere representation
-
-**I4: setoid_rewrite.** 
+**I3: setoid_rewrite.** 
 TODO: 
 - setoid_rewrite changes by versions
 
-**I5: Tactics support.**
+**I4: Tactics support.**
 TODO: (brief introduction to missing tactics)
 
 ### Basic setups
