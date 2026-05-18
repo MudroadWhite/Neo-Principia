@@ -52,6 +52,9 @@ ambiguity between symbol and its underlying representation has affected:
 - the correct representation for a proposition
 - should `A` be cut down to `Order` props or should we allow for more symbols
   in the future
+- theorems in text *might* mutually utilize both of them without enforcing their 
+  relationships. TODO: check this? For example claiming `^z => Psi z` is underlying 
+  representation for `alpha`
 *)
 
 (* 
@@ -224,6 +227,11 @@ Definition n10_23_class {A : Type} (φ : Class.t A → Prop) (P : Prop) :
 
 Definition n10_24_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
   φ Y → ∃ x, φ x. Admitted.
+
+Definition n13_183_class {A : Type} (X Y : Class.t A) :
+  ([X @ cx => [Y @ cy => cx = cy]]) ↔ 
+    ([X @ cx => [z @ cz => cx = cz]] 
+      <[- z -]> [z @ cz => [Y @ cy => cz = cy]]). Admitted.
 
 Open Scope iota_description.
 
@@ -1523,8 +1531,37 @@ Proof.
     <-> (exists beta, ([alpha @ calpha => f calpha] 
         <[- alpha -]> [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
       /\ [beta @ cbeta => g cbeta])).
+  { apply n14_1_class. }
+  assert (S4 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+      [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    -> ([iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+      [iotaalpha @ ciotaalpha => g ciotaalpha]]
+      <-> (exists beta, ([alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
+        <[- alpha -]> [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
+        /\ [beta @ cbeta => g cbeta]))).
   {
-    
+    (* simplification *)
+    intro Hp.
+    destruct S2 as [S2 _].
+    pose proof (S2 Hp) as S2.
+    now setoid_rewrite -> S2 in S3 at 2.
+  }
+  assert (S5 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+      [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    -> ([iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+        [iotaalpha @ ciotaalpha => g ciotaalpha]]
+      <-> (exists beta, [^z => Phi z @ cz => 
+        [beta @ cbeta => cz = cbeta]] 
+        /\ [beta @ cbeta => g cbeta]))).
+  {
+    (* simplification *)
+    intro Hp.
+    pose proof (S4 Hp) as S4.
+    simpl in S4.
+    pose proof n13_183.
+    setoid_rewrite <- n13_183_class in S4.
+    Print n13_183_class.
+    pose proof n13_183_class as n13_183.
   }
 Admitted.
 
