@@ -25,7 +25,7 @@ That being said, all conventions introduced below **applies after chapter 9**.
 - Every `Scope`s opened within a single file is **required** to be closed at the end of the file.
 
 ## What is `Definition` and `Theorem`?
-As *vernacs* in the Rocq proof system, `Definition`s and `Theorem`s are being used, not because of their *literal meaning*, but because of their ability to nicely organize the data, just like a *class* or a *structure* in typical programming languages.
+As *vernacs* in the Rocq proof system, `Definition`s and `Theorem`s are being used, not because of their *literal meaning*, but because of their ability to correctly organize the data, just like a *class* or a *structure* in typical programming languages.
 
 Rocq's `Definition`s are used to define *primitive propositions* and *definitions* in Principia. As the mechanic of `Definition` is interfering with the foundation of Principia, Principia's `Definition`s are immediately `Admitted` without providing any further proofs. Whether we should provide with proofs is a future question.
 
