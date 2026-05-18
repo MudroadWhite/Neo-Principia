@@ -183,8 +183,12 @@ Notation "[ cls @ classname => B ]" := (
     f Af *)
     class_app (fun (classname : A -> Prop) => B) cls)
   (at level 150, classname binder, right associativity, only parsing) : debug_class.
-Notation "[ cls @ func ]" := (class_app func cls)
-  (at level 150, right associativity, only printing) : debug_class.
+(* Dark magic: we re-define the notation exactly the same way to eliminate the 
+  `let`s when simplifying the definition.
+  Tradeoff: it might affect how `setoid_rewrite` identify the terms
+*)
+Notation "[ cls @ classname => B ]" := (class_app (fun classname => B) cls)
+  (at level 150, classname binder, right associativity, only printing) : debug_class.
 Example class_app_example_1 := [class_example_1 @ cx => cx = cx].
 Example class_app_example_2 := [^(z : Prop) => z = z @ cz => cz = cz].
 Example class_app_example_3 := [class_example_1 @ c1 => [class_example_1 @ c2 => c1 = c2]].
@@ -211,6 +215,18 @@ TODO: generalize to `f alpha` and name it `class_scope_dup`
 Definition class_scope_eq {A : Type} (Alpha : Class.t A) :
   [Alpha @ cz => cz = cz] <-> [Alpha @ cz1 => [Alpha @ cz2 => cz1 = cz2]].
 Admitted.
+
+Open Scope debug_iota_description.
+
+Definition iota_class_scope_eq {A : Type} (Alpha : Class.t A) (f : (A -> Prop) -> Prop) 
+  (g : (A -> Prop) -> (A -> Prop) -> Prop) :
+  [Alpha @ cAlpha => [iota (fun alpha => [alpha @ calpha => f calpha])
+  | iotaalpha => [iotaalpha @ ciotaalpha => g ciotaalpha cAlpha]]]
+  <->
+  [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+  [iotaalpha @ ciotaalpha => [Alpha @ cAlpha => g ciotaalpha cAlpha]]]. Admitted.
+
+Close Scope debug_iota_description.
 
 (* **************** *)
 Definition n10_1_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
@@ -243,6 +259,17 @@ Open Scope iota_description.
 Definition n14_1_class {A : Type} (φ ψ : Class.t A → Prop) : [ι φ | ιφ => ψ ιφ]
   ↔ ∃ b, (φ x <[- x -]> [x @ cx => [b @ cb => cx = cb]]) 
     ∧ ψ b. Admitted.
+
+(* This is a variant that has never been used so far *)
+Definition n14_13_class {B : Type} (A : Class.t B) (φ : Class.t B → Prop) : 
+  [ι φ | ιφ => [A @ cA => [ιφ @ cιφ => cA = cιφ]]] 
+  ↔ [ι φ | ιφ => [ιφ @ cιφ => [A @ cA => cιφ = cA]]]. Admitted.
+
+(* Another possible variant, which is actually used... This is why such
+  variants are annoying *)
+Definition n14_13_class_alt {B : Type} (A : B → Prop) (φ : Class.t B → Prop) : 
+  [ι φ | ιφ => [ιφ @ cιφ => A = cιφ]]
+  ↔ [ι φ | ιφ => [ιφ @ cιφ => cιφ = A]]. Admitted.
 
 Close Scope iota_description.
 
@@ -1611,21 +1638,61 @@ Proof.
   assert (S3 : [iota (fun alpha => [alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]) 
     | iotaalpha => [^z => Phi z @ cz => [iotaalpha @ ciotaalpha =>
       cz = ciotaalpha]]]).
-  {
-    
-  }.
+  { now rewrite <- n14_1_class in S2. }
   exact S3.
 Admitted.
 
-(* same as above *)
+(* NOTE: 
+  1. notice that we can see `Psi z^` being used in the text to represent
+  the function itself 
+  2. (p.194) "When there are no contrary, descriptions have larger scope
+  than classes." The contrary can be witnessed, exclusively, in this 
+  theoremby, as the first step is taking *20.1 to unfolding the definition *)
 Theorem n20_59 (Phi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
-  [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha => 
-    (^z => Phi z) = iotaalpha] 
+  [^z => Phi z @ cz => [iota (fun alpha => [alpha @ calpha => f calpha])
+    | iotaalpha => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
   <->
   [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha => 
-    iotaalpha = (^z => Phi z)].
+    [iotaalpha @ ciotaalpha => 
+      [^z => Phi z @ cz => ciotaalpha = cz]]].
 Proof.
-Admitted.
+  assert (S1 : [^z => Phi z @ cz => [iota (fun alpha => [alpha @ calpha => f calpha])
+    | iotaalpha => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    <-> (exists Psi, (Phi x <[- x -]> Psi x)
+      /\ [iota (fun alpha => [alpha @ calpha => f calpha]) 
+        | iotaalpha => [iotaalpha @ ciotaalpha =>
+          Psi = ciotaalpha]])).
+  {
+    pose proof (n20_1 Phi (fun zPsi =>
+      [iota (fun alpha => [alpha @ calpha => f calpha])
+      | iotaalpha => [iotaalpha @ ciotaalpha => zPsi = ciotaalpha]]
+    )) as n20_1.
+    now setoid_rewrite -> n4_21 in n20_1 at 2.
+  }
+  assert (S2 : [^z => Phi z @ cz => [iota (fun alpha => [alpha @ calpha => f calpha])
+    | iotaalpha => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    <-> (exists Psi, (Phi x <[- x -]> Psi x)
+      /\ [iota (fun alpha => [alpha @ calpha => f calpha]) 
+        | iotaalpha => [iotaalpha @ ciotaalpha =>
+          ciotaalpha = Psi]])).
+  { now setoid_rewrite -> n14_13_class_alt in S1. }
+  assert (S3 : [^z => Phi z @ cz => [iota (fun alpha => [alpha @ calpha => f calpha])
+    | iotaalpha => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    <-> [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha => 
+      [iotaalpha @ ciotaalpha => 
+        [^z => Phi z @ cz => ciotaalpha = cz]]]).
+  {
+    setoid_rewrite -> n4_21 in S2 at 2.
+    setoid_rewrite <- n20_1 in S2.
+    pose proof (iota_class_scope_eq 
+      (^z => Phi z) f
+      (fun ciotaalpha cAlpha => ciotaalpha = cAlpha)) 
+      as iota_class_scope_eq.
+      simpl in iota_class_scope_eq, S2.
+    now setoid_rewrite -> (iota_class_scope_eq) in S2.
+  }
+  exact S3.
+Qed.
 
 Theorem n20_6 (f : (Prop -> Prop) -> Prop) :
   ∃ alpha, [alpha @ calpha => f calpha]
