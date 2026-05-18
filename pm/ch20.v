@@ -1575,9 +1575,11 @@ Proof.
 Admitted.
 
 Theorem n20_58 (Phi : Prop -> Prop) :
-  [iota (fun alpha => alpha = (^z => Phi z)) | iotaalpha =>
-    (^z => Phi z) = iotaalpha].
+  [iota (fun alpha => [alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]) 
+    | iotaalpha => [^z => Phi z @ cz => [iotaalpha @ ciotaalpha =>
+      cz = ciotaalpha]]].
 Proof.
+  
 Admitted.
 
 (* same as above *)
