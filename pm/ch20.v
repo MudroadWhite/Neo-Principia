@@ -1554,15 +1554,24 @@ Proof.
         [beta @ cbeta => cz = cbeta]] 
         /\ [beta @ cbeta => g cbeta]))).
   {
-    (* simplification *)
-    intro Hp.
-    pose proof (S4 Hp) as S4.
-    simpl in S4.
-    pose proof n13_183.
-    setoid_rewrite <- n13_183_class in S4.
-    Print n13_183_class.
-    pose proof n13_183_class as n13_183.
+    setoid_rewrite -> n20_21_alt in S4 at 2.
+    now setoid_rewrite <- n13_183_class in S4.
   }
+  assert (S6 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+      [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    -> ([iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+      [iotaalpha @ ciotaalpha => g ciotaalpha]]
+      <-> [^z => Phi z @ cz => g cz])).
+  {
+    setoid_rewrite -> n20_21_alt in S5 at 2.
+    now setoid_rewrite -> n20_54 in S5.
+  }
+  assert (S7 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+      [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    -> ([^ z => Phi z @ cz => g cz] <-> [iota (fun alpha => [alpha @ calpha => f calpha]) 
+      | iotaalpha => [iotaalpha @ ciotaalpha => g ciotaalpha]])).
+  { now setoid_rewrite -> n4_21 in S6 at 1. }
+  exact S7.
 Admitted.
 
 Theorem n20_58 (Phi : Prop -> Prop) :
