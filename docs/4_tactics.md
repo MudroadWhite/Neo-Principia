@@ -93,17 +93,10 @@ Either for "historical reasons"(this project really doesn't have a history), or 
 - \[Simplification\]`now tactic thm ...` says that, if the `tactic` we use can directly provide a result that is not very far from the goal, then we prove the goal immediately. Typically it's very useful for saving a line of `exact thm`. Every line of `now tactic thm` can be turned back into `tactic thm` for readers to check if it does indeed generate a proposition that is exactly the same as the goal, and this tactic is **recommended** to use.
 - \[Simplification\]Further exceptions not being listed above, for example in chapter 11, have to be explicitly stated with a comment that a simplification has happened. This is **recommended** to be taken down in the future.
 
-## Ltacs for debugging/prettify the goal window
-It happens that users might want to check the proofs in more detail. How to debug the proof is completely personal, but here are some tactics I commonly use, just in case:
-- `simpl` to simplify a hypothesis
-- `Close Scope`/`Open Scope` to enable/disable specific notations. We have designed specific notations for debugging in later chapters.
-- `pose proof` another theorem to see how it looks like originally
+## Debugging
+While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debuggings that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development.
 
-There are also some other tactics that makes the goal window just a bit prettier, for example:
-- `move` to rearrange the order of hypotheses
-- `clear` to remove some hypothesis that will never be used
-
-- Tactics above is **recommended** to be reduced to minimum when we have finished them.
+- Tactics for debugging is **required** to be reduced to minimum when we have finished them.
 
 TODO:
 - For content after chapter 9, reorganize in a bottom-up style:

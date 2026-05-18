@@ -1,8 +1,8 @@
 # Style guide
 
 ## General
-- LoC limit: 120? 70-90?
-- Splitting a line by binop; indentation: no tab, only space x2;
+- Line of code limit: 80 characters as an ideal. In practice, Rocq doesn't come with a native formatter so I cannot do much on this.
+- TODO: Splitting a line by binop; indentation: no tab, only space x2;
 
 ## Naming convention
 
