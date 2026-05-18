@@ -24,7 +24,7 @@ TODO: this topic has a extremely wide impact, including:
 - inheritance nature for definitions
   - polymorphic notations vs monomorphic definitions
   - nontrivial variants for definitions
-  - some theorems are about the underlying object; some else are only the mere representation
+  - ambiguous theorem representations: some theorems are about the underlying object; some else are only the mere representation
 
 **I3: setoid_rewrite.** 
 TODO: 
