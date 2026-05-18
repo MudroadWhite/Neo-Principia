@@ -4,13 +4,6 @@ This chapter discusses the tactics we generally use for every proofs in deeper d
 ## Basic setup
 Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from *modus onens* and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.
 
-**Implementation aesthetics.** We want to pertain maximum PM flavor. This means:
-- We want minimal tools to get the work done
-- We want maximum PM theorems being proven
-- We want every proof steps followed and presented
-- If the iceberg gets too complicated, we develop minimal tools(such as `Notation`s) to maintain its tip
-- If a proof gets too tedious, we *simplify the proofs*. Tactics for simplifying doesn't need not to utilize PM theorems, but they will get the work done.
-
 **Rules to simplify routines.** We can use a new tactic to simplify a tedious part of proof, if
 - We can clearly provide its equivalent routine using PM theorems
 - We clearly identified the types of parameters, for theorems in original routine. Parameters' types matter
