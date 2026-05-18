@@ -11,5 +11,5 @@ For all these PR: please list what you have done in the description.
 
 For PRs involving coding: please make sure...
 - Your branch has passed through the GitHub Workflow.
-- You code style matches up with what have been specified in our documentation.
+- Your code style matches up with what have been specified in our documentation.
 - Your code's namings are sticking to our style guide as close as possible.
