@@ -23,7 +23,7 @@ TODO: this topic has a extremely wide impact, including:
   - Do we have to automatically shrink the scope for a symbol?
 - inheritance nature for definitions
   - polymorphic notations vs monomorphic definitions
-  - defs will have variants in later chapter
+  - nontrivial variants for definitions
   - some theorems are about the underlying object; some else are only the mere representation
 
 **I3: setoid_rewrite.** 
