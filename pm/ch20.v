@@ -1508,7 +1508,17 @@ Proof.
       [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
       /\ [^z => Phi z @ cz => [beta @ cbeta => cz = cbeta]])).
   { apply n14_1_class. }
-  assert (S2 : )
+  assert (S2 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
+    [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    <-> ([alpha @ calpha => f calpha] 
+      <[- alpha -]> [alpha @ calpha => [^z => Phi z @ cz => calpha = cz]])).
+  {
+    setoid_rewrite -> n20_21_alt in S1 at 2.
+    (* TODO: is there some rule to extend the n20_54? *)
+    (* setoid_rewrite -> n20_54 in S1 at 2. *)
+    admit.
+  }
+  assert (S3 : [iota (fun alpha => [alpha ])])
 Admitted.
 
 Theorem n20_58 (Phi : Prop -> Prop) :
