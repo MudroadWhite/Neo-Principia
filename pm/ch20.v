@@ -48,6 +48,12 @@ representation which turns out to be illegal:
 - Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
 
 ambiguity between symbol and its underlying representation has affected:
+- correct type for a function as they interfere with each other:
+  - Order n of `(Prop -> Prop) -> ... -> Prop`
+  - Polymorphic function as `A -> Prop`
+  - Actual representation like `Class.t A`
+- theorems also might be either polymorphic or monomorphic to enable/disable several 
+  feats
 - parameter representation (`x : Class.t A` vs `fx : A`)
 - the correct representation for a proposition
 - should `A` be cut down to `Order` props or should we allow for more symbols
@@ -229,6 +235,9 @@ Definition iota_class_scope_eq {A : Type} (Alpha : Class.t A) (f : (A -> Prop) -
 Close Scope debug_iota_description.
 
 (* **************** *)
+Definition n10_01_class {A : Type} (φ : A → Prop) : 
+  (∃ x, φ x) = ¬ (∀ x, ¬ φ x). Admitted. 
+
 Definition n10_1_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
   (∀ x, φ x) → φ Y. Admitted.
 
@@ -318,7 +327,7 @@ Definition n20_06 {A : Type} (X : A) (Alpha : Class.t A) :
   = (~ [Alpha @ calpha => X <class_in> calpha]).
 Admitted.
 
-Definition n20_07 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
+Definition n20_07 {A : Type} (f : (A -> Prop) -> Prop) :
   (* NOTE: we can see here `Phi` has been unsatisfying: it is not defined with \
   `Order` anymore... maybe we need to adjust `A` in the future to make it compatible
   with `Order`s 
@@ -329,9 +338,9 @@ Definition n20_07 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
   = ∀ Phi : (A -> Prop), [^ z => Phi z @ cPhi => f cPhi].
 Admitted.
 
-Definition n20_071 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
-  ∃ (alpha : Class.t A), [alpha @ calpha => f calpha]
-  = ∃ Phi : (A -> Prop), [^ z => Phi z @ cPhi => f Phi].
+Definition n20_071 {A : Type} (f : (A -> Prop) -> Prop) :
+  (∃ (alpha : Class.t A), [alpha @ calpha => f calpha])
+  = (∃ Phi : (A -> Prop), [^ z => Phi z @ cPhi => f cPhi]).
 Admitted.
 
 Open Scope debug_iota_description.
@@ -1697,6 +1706,31 @@ Theorem n20_6 (f : (Prop -> Prop) -> Prop) :
   ∃ alpha, [alpha @ calpha => f calpha]
   <-> ~ (∀ alpha, [alpha @ calpha => f calpha]).
 Proof.
+  (* TOOLS *)
+  (* 
+  Definition n10_01_class {A : Type} (φ : A → Prop) : 
+  (∃ x, φ x) = ¬ (∀ x, ¬ φ x). Admitted. 
+  *)
+  set (λ φ0 : Prop → Prop, eq_to_equiv (∃ x, φ0 x) (¬(∀ x, ¬ φ0 x))
+    (n10_01_class φ0)) as n10_01a.
+  set (λ f0 : (Prop -> Prop) -> Prop, eq_to_equiv 
+    (∃ alpha, [alpha @ calpha => f0 calpha])
+    (∃ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (n20_071 f0))
+    as n20_071a.
+  simpl in n10_01a, n20_071a.
+  (* ******** *)
+  assert (S1 : (∃ alpha, [alpha @ calpha => f calpha]) 
+    <-> (exists Phi, [^z => Phi z @ cz => f cz])).
+  {
+    pose proof (n4_2 (∃ alpha, [alpha @ calpha => f calpha])) as n4_2.
+    now setoid_rewrite -> n20_071a in n4_2 at 2.
+  }
+  assert (S2 : (∃ alpha, [alpha @ calpha => f calpha])
+    <-> (~ forall Phi, [^z => Phi z @ cz => f cz])).
+  {
+    pose proof n10_01 as n10_01.
+  }
 Admitted.
 
 Theorem n20_61 (f : (Prop -> Prop) -> Prop) (beta : Class.t Prop) :
@@ -1771,3 +1805,4 @@ Admitted.
 Close Scope formal_equiv.
 Close Scope formal_impl.
 Close Scope debug_class.
+Close Scope debug_iota_description.
