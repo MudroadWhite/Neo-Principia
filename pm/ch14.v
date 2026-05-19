@@ -31,13 +31,14 @@ Whether we can restrict the iotas to typed functions only is a future question.
 Declare Scope debug_iota_description.
 Declare Scope iota_description.
 
-Definition DescriptionArg (φ : Prop -> Prop) : Type := Prop.
+Definition DescriptionArg {A : Type} (φ : A -> Prop) : Type := A.
 Example descriptionarg_example := (fun iotaφ : (DescriptionArg (fun x => x)) =>
   iotaφ = iotaφ).
 
 (* Here we only define the signature to avoid repetitive definitions, and the actual 
   definition starts after *14.01. *)
-Definition description (φ : Prop -> Prop) (expr : (DescriptionArg φ) -> Prop) : Prop. 
+Definition description {A : Type} (φ : A -> Prop) (expr : (DescriptionArg φ) -> Prop) 
+  : Prop. 
 Admitted.
 Example description_example := 
   description (fun (iotaφ : DescriptionArg (fun x => x)) =>
@@ -49,12 +50,12 @@ predicate.
 
 TODO: give this iota_E the correct `Order` type
 *)
-Definition description_exists (φ : Prop -> Prop) : Prop. Admitted.
+Definition description_exists {A : Type} (φ : A -> Prop) : Prop. Admitted.
 Example descriptionexists_example := description_exists (fun x => x).
 
 (* cf. p174, example after *14.03. Interpretation for a function containing 
   multiple descriptions *)
-Definition description2 (φ ψ : Prop -> Prop) 
+Definition description2 {A : Type} (φ ψ : A -> Prop) 
   (expr : (DescriptionArg φ) -> (DescriptionArg ψ) -> Prop): Prop. 
 Admitted.
 Example description2_example (φ ψ : Prop -> Prop) :=
@@ -66,7 +67,7 @@ Example description2_example (φ ψ : Prop -> Prop) :=
   The original definition depends on `iota_f2`. The function `iota_f` here, 
   provided with parameters, gets a similar role to the idea of scope
 *)
-Definition description2_rev (φ ψ : Prop -> Prop) 
+Definition description2_rev {A : Type} (φ ψ : A -> Prop) 
   (expr : (DescriptionArg ψ) -> (DescriptionArg φ) -> Prop): Prop. 
 Admitted.
 
@@ -77,7 +78,7 @@ Notation "[ 'iota' φ | x => B ]" := (description φ (fun (x : DescriptionArg φ
 (* TODO: format... *)
 Example debug_iota_notation_example := [ iota (fun x => x) | iotaφ => iotaφ = iotaφ ].
 
-Notation "[ 'iotaE' P ]" := (description_exists (P : Prop -> Prop))
+Notation "[ 'iotaE' P ]" := (description_exists P)
   (at level 150, P constr at level 150, right associativity) : debug_iota_description.
 Example debug_iota_exists_example := [ iotaE (fun x => x) ].
 
@@ -100,7 +101,7 @@ Notation "[ 'ι' φ | x => B ]" := (description φ (fun (x : DescriptionArg φ) 
 (* TODO: format... *)
 Example iota_notation_example := [ι (fun x => x) | ιφ => ιφ = ιφ].
 
-Notation "[ 'ιE' P ]" := (description_exists (P : Prop -> Prop))
+Notation "[ 'ιE' P ]" := (description_exists P)
   (at level 150, P constr at level 150, right associativity) : iota_description.
 Example iota_exists_example := [ ιE (fun x => x) ].
 
@@ -199,6 +200,11 @@ Proof.
   assert (S2 : [ι2rev φ, ψ | ιψ ιφ => f ιφ ιψ]
     ↔ [ι ψ | ιψ => (∃ b, (φ x <[- x -]> (x = b)) ∧ f b ιψ)]).
   {
+    (* TODO: fix below, and refer to proof in text
+    Theorem n14_1 (φ ψ : Prop → Prop) : [ι φ | ιφ => ψ ιφ]
+    ↔ ∃ b, (φ x <[- x -]> (x = b)) ∧ ψ b.
+    *)
+    (* setoid_rewrite -> n14_1 in S1 at 2. *)
     (* Simplification: for functions not being instantiated, we use 
     functional extentionality as a shortcut. *)
     replace (λ (ιψ : DescriptionArg ψ), [ι φ | ιφ => (f ιφ ιψ)])
@@ -439,10 +445,16 @@ Theorem n14_123 (X Y : Prop) (φ : Prop → Prop → Prop) :
     ↔ ((φ z w -[ z w ]> (z = X ∧ w = Y)) ∧ ∃ z w, φ z w)).
 Proof.
   (* TOOLS *)
+  (* 
+  Definition n11_06 (φ ψ : Prop → Prop → Prop) :
+  (φ x y <[- x y -]> ψ x y) = (∀ x y, (φ x y ↔ ψ x y)).
+Admitted.
+   *)
+  set (λ φ0 ψ0 : Prop → Prop → Prop, eq_to_equiv 
+    (φ0 x y <[- x y -]> ψ0 x y) (∀ x y, (φ0 x y ↔ ψ0 x y))
+    (n11_06 φ0 ψ0)) as n11_06a.
   set (Z := Intro_individual "z").
   set (W := Intro_individual "w").
-  set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
-    (Equiv4_01 P0 Q0)) as Equiv4_01a.
   (* ******** *)
   assert (S1 : (φ z w <[- z w -]> (z = X ∧ w = Y)) 
     ↔ ((φ z w -[ z w ]> (z = X ∧ w = Y)) 
@@ -452,10 +464,7 @@ Proof.
       (fun z w => φ z w → ((z = X) ∧ (w = Y)))
       (fun z w => (((z = X) ∧ (w = Y)) → φ z w))) as n11_31a.
     rewrite -> n11_31 in n11_31a.
-    (* NOTE: this place seems to be uneliminatable *)
-    replace (∀ x y, (φ x y → x = X ∧ y = Y) ∧ (x = X ∧ y = Y → φ x y))
-      with (∀ x y, φ x y ↔ x = X ∧ y = Y) in n11_31a at 1
-      by apply n11_06.
+    setoid_rewrite <- n11_06a in n11_31a at 1.
     now rewrite <- n11_31 in n11_31a.
   }
   assert (S2 : (φ z w <[- z w -]> (z = X ∧ w = Y)) 
@@ -1405,6 +1414,9 @@ Theorem n14_203 (φ : Prop → Prop) : [ιE φ]
   ↔ ((∃ x, φ x) ∧ ((φ x ∧ φ y)) -[ x y ]> (x = y)).
 Proof.
   (* TOOLS *)
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
+    (Equiv4_01 P0 Q0))
+    as Equiv4_01a.
   set (B := Intro_individual "b").
   set (X := Intro_individual "x").
   (* ******** *)
@@ -1464,8 +1476,7 @@ Proof.
     pose proof (S4 Hp) as S4.
     rewrite <- n10_22 in S4.
     pose proof n10_22 as n10_22.
-    replace (∀ x, (x = B → φ x) ∧ (φ x → x = B))
-      with (∀ x, x = B ↔ φ x) in S4 by reflexivity.
+    setoid_rewrite <- Equiv4_01a in S4.
     now setoid_rewrite -> n4_3 in S4.
   }
   assert (S6 : (∃ b, φ b ∧ ((φ x ∧ φ y) -[ x y ]> (x = y)))
@@ -1497,10 +1508,11 @@ Proof.
   exact S9.
 Qed.
 
-Theorem n14_204 (B : Prop) (φ : Prop → Prop) : [ιE φ]
+Theorem n14_204 (φ : Prop → Prop) : [ιE φ]
   ↔ ∃ b, [ι φ | ιφ => ιφ = b].
 Proof.
   (* TOOLS *)
+  set (B := Intro_individual "b").
   (* ******** *)
   (* Notice that the following proposition involves 2 quantifiers already, 
     so it might have a higher type..? *)
@@ -1654,7 +1666,7 @@ Proof.
   set (Y := Intro_individual "y").
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
     (Equiv4_01 P0 Q0))
-  as Equiv4_01a.
+    as Equiv4_01a.
   (* ******** *)
   assert (S1 : [ιE φ] -> ((φ Y ∧ φ X) -> (Y = X))).
   {
