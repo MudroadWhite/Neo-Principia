@@ -139,6 +139,12 @@ Theorem n13_11 (X Y : Prop) :
     (∀ φ : Order 1, (φ X) ↔ (φ Y)).
 Proof.
   (* TOOLS *)
+  (* 
+  Equiv4_01
+  *)
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
+    (Equiv4_01 P0 Q0))
+    as Equiv4_01a.
   set (Iφ := Intro_pred "φ" 1).
   (* ******** *)
   assert (S1 : (∀ φ : Order 1, φ X ↔ φ Y)
@@ -148,11 +154,7 @@ Proof.
       (fun (p : Order 1) => p X -> p Y)
       (fun (p : Order 1) => p Y -> p X)) as n10_22.
     destruct n10_22 as [n10_22l _].
-    (* TODO: maybe we will find a way to fix the definition on such 
-      equiv relation *)
-    replace (∀ x : Order 1, (x X → x Y) ∧ (x Y → x X))
-      with (∀ x : Order 1, x X ↔ x Y)
-      in n10_22l by reflexivity.
+    setoid_rewrite <- Equiv4_01a in n10_22l.
     pose proof (Simp3_26 (∀ p : Order 1, p X -> p Y)
       (∀ p : Order 1, p Y -> p X)) as Simp3_26.
     now Syll_as n10_22l Simp3_26 S1.
