@@ -18,9 +18,12 @@ That being said, all conventions introduced below **applies after chapter 9**.
 ## What's under a single `.v` file?
 1. `Require Import` that cites other chapters and `lib.v`, so that you can use theorems and tools from these imported files.
 2. Occasional comments to explain what has been done here and there
-3. Self-defined Rocq predicates, being necessary in later chapters. They should be put in the beginning of each chapters rather than being aggregated in `lib` to prevent large loading overhead and unnecessary warnings during compilation.
-4. `Notations` defined corresponded to the symbols in Principia, and modeled with self-defined Rocq predicates. Each `Notation` comes with a `Scope`. To define a notation in a scope, we have to `Declare Scope`. To use the notation, we have to `Open Scope`. If we don't want the notation appear within proof, we command to `Close Scope`.
-5. And eventually, everything left are the actual proofs, coming with `Definition`s and `Theorem`s.
+3. *Variants* for existing theorems. This includes
+   - `Admitted` propositions postfixed with `_alt`, `_pred` or `_class`
+   - Locally introduced propositions postfixed with `a` within a `TOOLS` section, introduced below
+4. Self-defined Rocq predicates, being necessary in later chapters. They should be put in the beginning of each chapters rather than being aggregated in `lib` to prevent large loading overhead and unnecessary warnings during compilation.
+5. `Notations` defined corresponded to the symbols in Principia, and modeled with self-defined Rocq predicates. Each `Notation` comes with a `Scope`. To define a notation in a scope, we have to `Declare Scope`. To use the notation, we have to `Open Scope`. If we don't want the notation appear within proof, we command to `Close Scope`.
+6. And eventually, everything left are the actual proofs, coming with `Definition`s and `Theorem`s.
 
 - Every `Scope`s opened within a single file is **required** to be closed at the end of the file.
 
@@ -32,6 +35,8 @@ Rocq's `Definition`s are used to define *primitive propositions* and *definition
 Similarly, `Theorem`s are used to define *theorems* in Principia, and are intended to be proven and `Qed`ed.
 
 Every `Definition` or `Theorem` represents a proposition in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, which will be mostly discussed in the [tactics](./4_tactics.md) chapter; and *lhs* parameters are the real ones to *set a proposition up*.
+
+Additionally, for theorems in Principia, we are allowed to set up its *variants*. This will be also explained in [tactics](./4_tactics.md).
 
 ### How does Principia apply a theorem?
 [mechanics](./3_mechanics.md/#how-does-principia-proof-theorems) has explained different situations for Principia to prove or apply a theorem.

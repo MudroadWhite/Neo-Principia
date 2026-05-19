@@ -92,6 +92,8 @@ While all above tactics have covered the essentials for presenting the proof, th
 - Tactics for debugging is **required** to be reduced to minimum when we have finished them.
 
 TODO:
+- Summarize major tools we have developed so far
+  - Explain the variants mechanics somewhere in this chapter
 - For content after chapter 9, reorganize in a bottom-up style:
   1. explain how to bottom up construct a proposition with generalization
   2. when what tactic doesn't work, we proceed with what alternatives to "patch" the idea
