@@ -10,7 +10,13 @@ Require Import PM.pm.ch12.
 Require Import PM.pm.ch13.
 Require Import PM.pm.ch14.
 
-(* TODO: address following in the documentation; 
+(* TODO: 
+- Change the definitions in this chapter to monomorphic version; provide variants 
+  to patch up
+- For class, provide an assumption to associate specific class var with specific
+  function
+
+address following in the documentation; 
 adapt following naming convention in the project: 
 
 - Use `n20_61` and its variants as a starting point to explain the missing
@@ -136,7 +142,6 @@ Using Records to define the Class symbol seems to be the best balance to
 expose the `A` type when needed and hide away the underlying function against 
 unnecessary argument passes
 *)
-(* TODO: should we make `A` explicit? *)
 Module Class.
   Record t (A : Type) : Type := {
     (* For storing the A type *)
@@ -346,8 +351,6 @@ Admitted.
 
 Open Scope debug_iota_description.
 
-(* TODO: our current iota notation doesn't express the `alpha`. maybe
-we can redesign the iota in the future... *)
 Definition n20_072 {A : Type} (X : A) (Phi f : (A -> Prop) -> Prop) :
   [iota Phi | iotaPhi => f iotaPhi]
     = (∃ gamma : Class.t A, ([alpha @ calpha => Phi calpha] 
@@ -517,9 +520,8 @@ Proof.
 Qed.
 
 (* NOTE: 
-  `g` here cannot be `Order 1` and have to be `(Prop -> Prop) -> Prop`. TODO: 
-  Investigate this in the future and design a better `Order` type. The original 
-  text is also indicate this clearly 
+  `g` here cannot be `Order 1` and have to be `(Prop -> Prop) -> Prop`. 
+  TODO: Check the original text is also indicate this clearly 
 *)
 Theorem n20_112 (f : (Prop -> Prop) -> Prop) : ∃ g : (Prop -> Prop) -> Prop, 
   ([^z => Phi z @ cz => f cz]) <[- Phi -]> ([^z => Phi z @ cz => g cz]).
@@ -1101,9 +1103,6 @@ Proof.
   (* TODO: bottom-up construct this in the future *)
 Admitted.
 
-(* NOTE: this proposition is explicitly passing in the `Alpha` as a class variable.
-  In the proof we need to access its underlying function. might be tricky...
-  TODO: resolve this issue in the future *)
 Theorem n20_33 (FAlpha : Prop -> Prop) (Phi : Prop -> Prop) :
   let Alpha := (^z => FAlpha z) in
   [Alpha @ calpha => [^z => Phi z @ cz => calpha = cz]]
@@ -1174,16 +1173,16 @@ Proof.
   pose proof n20_3 as n20_3.
 Admitted.
 
-(* TODO: figure a good way to provide `Alpha` with a function
-  idea: maybe we will just never use `Alpha` directly? we can also try the `let` *)
-Theorem n20_4 (Alpha : Class.t Prop) :
+Theorem n20_4 (FAlpha : Prop -> Prop) :
+  let Alpha := (^z => FAlpha z) in
   ([Alpha @ calpha => [Cls @ Cls => calpha <class_in> Cls]]) <-> 
     (∃ (Phi : Order 1), [Alpha @ calpha => 
     [^z => Phi z @ cz => calpha = cz]]).
 Proof.
-  (* unprovable due to `Alpha` lacking of underlying function.
-    TODO: we can require `Alpha` being passed in with underlying 
-      function... *)
+  (* TOOLS *)
+  set (Alpha := ^z => FAlpha z).
+  (* ******** *)
+  (* TODO: finish proof *)
   pose proof n20_3 as n20_3.
   (* pose proof n20_03 as n20_03. *)
 Admitted.
@@ -1196,16 +1195,17 @@ Proof.
   (* TODO: figure out what does it mean *)
 Admitted.
 
-(* In this proof, `Psi` is associated with `alpha` in the text without being 
-claimed explicitly
-TODO: in the future, remove the `alpha` parameter
-*)
-Theorem n20_42 (Alpha : Class.t Prop) : [(^z => [Alpha @ calpha => z <class_in> calpha])
-  @ cz => [Alpha @ calpha => cz = calpha]].
+(* NOTE: In this proof, `Psi` is associated with `alpha` in the text without being 
+claimed explicitly *)
+Theorem n20_42 (FAlpha : Prop -> Prop) : 
+  let Alpha := (^z => FAlpha z) in
+    [(^z => [Alpha @ calpha => z <class_in> calpha])
+      @ cz => [Alpha @ calpha => cz = calpha]].
 Proof.
   (* TOOLS *)
   set (X := Intro_individual "x").
   set (Psi := Intro_pred "Psi" 1).
+  set (Alpha := ^z => FAlpha z).
   (* ******** *)
   assert (S1 : ([^z => Psi z @ cz => x <class_in> cz]) <[- x -]> Psi x).
   {
@@ -1225,6 +1225,7 @@ Proof.
   admit.
 Admitted.
 
+(* TODO: figure out how to express this *)
 Theorem n20_43 (alpha beta : Class.t Prop) : 
   [alpha @ calpha => [beta @ cbeta => calpha = cbeta]]
     <-> ([alpha @ calpha => x <class_in> calpha] 
@@ -1742,19 +1743,45 @@ Proof.
 Admitted.
 
 (* NOTE:
-  As stated in the text, this theorem needs variants in practice.
+  1. As stated in the text, this theorem needs variants in practice.
   These variants are however, revealing that the distinction between
   representation and its underlying element is very obscure, as
   there are no specifications to distinguish between when to use what;
   no specifications to identify when do we need the underlying elements
   and when we don't
+  2. This proposition has issue in associating function with class
 *)
-Theorem n20_61 (f : (Prop -> Prop) -> Prop) (FBeta : Prop -> Prop) :
-  let Beta := (^z => FBeta z) in
+Theorem n20_61 (f : (Prop -> Prop) -> Prop) (Phi : Prop -> Prop) :
+  let Beta := (^z => Phi z) in
   (∀ alpha, [alpha @ calpha => f calpha])
-  -> [Beta @ cbeta => f cbeta].
+    -> [Beta @ cbeta => f cbeta].
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (Beta := ^z => Phi z).
+  set (λ f0 : (Prop -> Prop) -> Prop, eq_to_equiv
+    (∀ alpha, [alpha @ calpha => f0 calpha])
+    (∀ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (n20_07 f0)) as n20_07a.
+  (* ******** *)
+  (* NOTE: notice the chaos of switching between a class variable and
+    its underlying function. TODO: investigate class association issue *)
+  assert (S1 : (∀ alpha, [alpha @ calpha => f calpha])
+    -> [^z => Phi z @ cz => f cz]).
+  {
+    (* pose proof (n10_1_class (fun alpha =>
+      [alpha @ calpha => f calpha]) (^z => Phi z)) 
+      as n10_1. *)
+    (* *20.07 ignored *)
+    apply n10_1_class.
+  }
+  assert (S2 : (∀ alpha, [alpha @ calpha => f calpha])
+    -> [Beta @ cbeta => f cbeta]).
+  { 
+    (* We can already infer that this is the same proposition *)
+    apply S1.
+  }
+  exact S2.
+Qed.
 
 (* Analogue to *20.17 *)
 Definition n20_61_alt (f : (Prop -> Prop) -> Prop) (Psi : Prop -> Prop) :
@@ -1767,11 +1794,13 @@ Definition n20_61_alt_1 (Psi : Prop -> Prop) :
   exists alpha, [^z => Psi z @ cz => [alpha @ calpha => cz = calpha]].
 Admitted.
 
-(* *20.62 : type formation rule for `∀ alpha` *)
+(* Thm 20.62 : type formation rule for `∀ alpha` *)
+
 Theorem n20_63 (P : Prop) (f : (Prop -> Prop) -> Prop) :
   (∀ alpha, P ∨ [alpha @ calpha => f calpha]) 
   -> (P ∨ ∀ alpha, [alpha @ calpha => f calpha]).
 Proof.
+  
 Admitted.
 
 (* *20.631 - 633: other typing rules... TODO: fill in the future *)
