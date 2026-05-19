@@ -10,17 +10,11 @@ Require Import PM.pm.ch12.
 Require Import PM.pm.ch13.
 Require Import PM.pm.ch14.
 
-(* TODO:
-- When starting eliminating the TODOs, make a clear distinction between untyped functions 
-  represented as `A -> Prop` and Predicative functions
-- Resolve the conflict between `Order` and Classes' `A` type. Currently we cannot express both
-  of them in a unified way
-- Add a special `as_class` to generate the class from a function
-- EXPERIMENT: there might be a way to use `replace` to eliminate the `let`s in the window
-*)
-
 (* TODO: address following in the documentation; 
 adapt following naming convention in the project: 
+
+- Use `n20_61` and its variants as a starting point to explain the missing
+  of specifications
 
 scoping convention:
 - scoping is under consideration but can be fixed nicely
@@ -41,8 +35,11 @@ failed attempts:
 - Defining `Class` only using functions
 - Defining `Class` as (A, Phi)
 - Defining `Class` as inductive type
+- TODO: also explain the history of how we decide to use notations 
+  somewhere in tactics/mechanics
 
-representation which turns out to be illegal:
+representation which turns out to be illegal(which our notation design 
+doesn't prevent) :
 - X <class_in> (^ z => Psi z)
 - [^z => Phi z @ cz1 => cz1 = cz1]
 - Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
@@ -1742,10 +1739,30 @@ Proof.
   exact S3.
 Admitted.
 
-Theorem n20_61 (f : (Prop -> Prop) -> Prop) (beta : Class.t Prop) :
+(* NOTE:
+  As stated in the text, this theorem needs variants in practice.
+  These variants are however, revealing that the distinction between
+  representation and its underlying element is very obscure, as
+  there are no specifications to distinguish between when to use what;
+  no specifications to identify when do we need the underlying elements
+  and when we don't
+*)
+Theorem n20_61 (f : (Prop -> Prop) -> Prop) (FBeta : Prop -> Prop) :
+  let Beta := (^z => FBeta z) in
   (∀ alpha, [alpha @ calpha => f calpha])
-  -> [beta @ cbeta => f cbeta].
+  -> [Beta @ cbeta => f cbeta].
 Proof.
+Admitted.
+
+(* Analogue to *20.17 *)
+Definition n20_61_alt (f : (Prop -> Prop) -> Prop) (Psi : Prop -> Prop) :
+  (∀ alpha, [alpha @ calpha => f calpha])
+  -> [^z => Psi z @ cz => f cz].
+Admitted.
+
+(* Analogue to *20.41 *)
+Definition n20_61_alt_1 (Psi : Prop -> Prop) :
+  exists alpha, [^z => Psi z @ cz => [alpha @ calpha => cz = calpha]].
 Admitted.
 
 (* *20.62 : type formation rule for `∀ alpha` *)
@@ -1755,7 +1772,7 @@ Theorem n20_63 (P : Prop) (f : (Prop -> Prop) -> Prop) :
 Proof.
 Admitted.
 
-(* *20.631 - 633: omitted, other typing rules... TODO: fill in the future *)
+(* *20.631 - 633: other typing rules... TODO: fill in the future *)
 
 Theorem n20_64 (f g : (Prop -> Prop) -> Prop) (beta : Class.t Prop) : 
   ((∀ alpha, [alpha @ calpha => f calpha]) 
