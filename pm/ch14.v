@@ -200,10 +200,15 @@ Proof.
   assert (S2 : [ι2rev φ, ψ | ιψ ιφ => f ιφ ιψ]
     ↔ [ι ψ | ιψ => (∃ b, (φ x <[- x -]> (x = b)) ∧ f b ιψ)]).
   {
+    (* TODO: fix below, and refer to proof in text
+    Theorem n14_1 (φ ψ : Prop → Prop) : [ι φ | ιφ => ψ ιφ]
+    ↔ ∃ b, (φ x <[- x -]> (x = b)) ∧ ψ b.
+    *)
+    (* setoid_rewrite -> n14_1 in S1 at 2. *)
     (* Simplification: for functions not being instantiated, we use 
     functional extentionality as a shortcut. *)
-    replace (λ (ιψ : DescriptionArg ψ), [ι φ | ιφ => (f ιφ ιψ)])
-      with (λ (ιψ : DescriptionArg ψ), (∃ b, 
+    replace (λ ιψ, [ι φ | ιφ => (f ιφ ιψ)])
+      with (λ ιψ, (∃ b, 
         (φ x <[- x -]> (x = b)) ∧ f b ιψ)) in S1.
     2: {
       extensionality ιψ.
@@ -440,10 +445,16 @@ Theorem n14_123 (X Y : Prop) (φ : Prop → Prop → Prop) :
     ↔ ((φ z w -[ z w ]> (z = X ∧ w = Y)) ∧ ∃ z w, φ z w)).
 Proof.
   (* TOOLS *)
+  (* 
+  Definition n11_06 (φ ψ : Prop → Prop → Prop) :
+  (φ x y <[- x y -]> ψ x y) = (∀ x y, (φ x y ↔ ψ x y)).
+Admitted.
+   *)
+  set (λ φ0 ψ0 : Prop → Prop → Prop, eq_to_equiv 
+    (φ0 x y <[- x y -]> ψ0 x y) (∀ x y, (φ0 x y ↔ ψ0 x y))
+    (n11_06 φ0 ψ0)) as n11_06a.
   set (Z := Intro_individual "z").
   set (W := Intro_individual "w").
-  set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
-    (Equiv4_01 P0 Q0)) as Equiv4_01a.
   (* ******** *)
   assert (S1 : (φ z w <[- z w -]> (z = X ∧ w = Y)) 
     ↔ ((φ z w -[ z w ]> (z = X ∧ w = Y)) 
@@ -453,10 +464,7 @@ Proof.
       (fun z w => φ z w → ((z = X) ∧ (w = Y)))
       (fun z w => (((z = X) ∧ (w = Y)) → φ z w))) as n11_31a.
     rewrite -> n11_31 in n11_31a.
-    (* NOTE: this place seems to be uneliminatable *)
-    replace (∀ x y, (φ x y → x = X ∧ y = Y) ∧ (x = X ∧ y = Y → φ x y))
-      with (∀ x y, φ x y ↔ x = X ∧ y = Y) in n11_31a at 1
-      by apply n11_06.
+    setoid_rewrite <- n11_06a in n11_31a at 1.
     now rewrite <- n11_31 in n11_31a.
   }
   assert (S2 : (φ z w <[- z w -]> (z = X ∧ w = Y)) 
@@ -1406,6 +1414,9 @@ Theorem n14_203 (φ : Prop → Prop) : [ιE φ]
   ↔ ((∃ x, φ x) ∧ ((φ x ∧ φ y)) -[ x y ]> (x = y)).
 Proof.
   (* TOOLS *)
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
+    (Equiv4_01 P0 Q0))
+    as Equiv4_01a.
   set (B := Intro_individual "b").
   set (X := Intro_individual "x").
   (* ******** *)
@@ -1465,8 +1476,7 @@ Proof.
     pose proof (S4 Hp) as S4.
     rewrite <- n10_22 in S4.
     pose proof n10_22 as n10_22.
-    replace (∀ x, (x = B → φ x) ∧ (φ x → x = B))
-      with (∀ x, x = B ↔ φ x) in S4 by reflexivity.
+    setoid_rewrite <- Equiv4_01a in S4.
     now setoid_rewrite -> n4_3 in S4.
   }
   assert (S6 : (∃ b, φ b ∧ ((φ x ∧ φ y) -[ x y ]> (x = y)))
@@ -1656,7 +1666,7 @@ Proof.
   set (Y := Intro_individual "y").
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
     (Equiv4_01 P0 Q0))
-  as Equiv4_01a.
+    as Equiv4_01a.
   (* ******** *)
   assert (S1 : [ιE φ] -> ((φ Y ∧ φ X) -> (Y = X))).
   {
