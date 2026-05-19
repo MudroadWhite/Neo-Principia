@@ -207,8 +207,8 @@ Proof.
     (* setoid_rewrite -> n14_1 in S1 at 2. *)
     (* Simplification: for functions not being instantiated, we use 
     functional extentionality as a shortcut. *)
-    replace (λ ιψ, [ι φ | ιφ => (f ιφ ιψ)])
-      with (λ ιψ, (∃ b, 
+    replace (λ (ιψ : DescriptionArg ψ), [ι φ | ιφ => (f ιφ ιψ)])
+      with (λ (ιψ : DescriptionArg ψ), (∃ b, 
         (φ x <[- x -]> (x = b)) ∧ f b ιψ)) in S1.
     2: {
       extensionality ιψ.
