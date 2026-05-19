@@ -160,4 +160,3 @@ TODO:
 
 TODO:
 - ch20: scope related criticism in chapter 20 code
-- ch11/13: `n11_06` is hardly used, but it is uneasy to use in ch13. need to investigate <[- x -]>'s conversion to ↔ ∧ ↔
