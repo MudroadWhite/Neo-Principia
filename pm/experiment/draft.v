@@ -24,12 +24,6 @@ Module Experiment_ch20.
   Definition test := Build_t Prop Prop. 
   Definition test_get_A : test.(get_A). Admitted. 
 
-  Definition test_1 : Prop.
-    pose (test_get_A := test_get_A).
-    cbn in test_get_A.
-    exact test_get_A.
-  Defined.
-
   Definition test_1_1 : Prop :=
     ltac:(
       pose (x := test_get_A);
@@ -37,15 +31,10 @@ Module Experiment_ch20.
       exact x
     ).
 
-  Print test_1_1.
-  Compute test_1_1.
-
   Definition test_1_2 := ltac:(
     let x := eval cbn in test_get_A in 
     let f := constr:(fun y : Prop => y) in
     exact (f x)).
-
-  Print test_1_2.
 
   (* 
 Definition testtest (cls : Class.t) := ltac:(
