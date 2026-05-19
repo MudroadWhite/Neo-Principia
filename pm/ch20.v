@@ -78,6 +78,10 @@ to be examined and corrected.**
 Declare Scope debug_class.
 Declare Scope class.
 
+Definition n10_01_pred (φ : (Prop -> Prop) → Prop) : 
+  (∃ x, φ x) = ¬ (∀ x, ¬ φ x). 
+Admitted.
+
 Definition n10_11_pred (Y : Order 1) (φ : Order 1 → Prop)
   : φ Y → ∀ x, φ x.
 Admitted.
@@ -235,8 +239,8 @@ Definition iota_class_scope_eq {A : Type} (Alpha : Class.t A) (f : (A -> Prop) -
 Close Scope debug_iota_description.
 
 (* **************** *)
-Definition n10_01_class {A : Type} (φ : A → Prop) : 
-  (∃ x, φ x) = ¬ (∀ x, ¬ φ x). Admitted. 
+(* Definition n10_01_class {A : Type} (φ : Class.t A → Prop) : 
+  (∃ x, φ x) = ¬ (∀ x, ¬ φ x). Admitted.  *)
 
 Definition n10_1_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
   (∀ x, φ x) → φ Y. Admitted.
@@ -334,8 +338,8 @@ Definition n20_07 {A : Type} (f : (A -> Prop) -> Prop) :
   If we change `A` to `Order x`, it means we don't allow future symbols other than class
   which has been a very annoying ambiguity
   *)
-  ∀ (alpha : Class.t A), [alpha @ calpha => f calpha]
-  = ∀ Phi : (A -> Prop), [^ z => Phi z @ cPhi => f cPhi].
+  (∀ (alpha : Class.t A), [alpha @ calpha => f calpha])
+  = (∀ Phi : (A -> Prop), [^ z => Phi z @ cPhi => f cPhi]).
 Admitted.
 
 Definition n20_071 {A : Type} (f : (A -> Prop) -> Prop) :
@@ -1703,22 +1707,21 @@ Proof.
 Qed.
 
 Theorem n20_6 (f : (Prop -> Prop) -> Prop) :
-  ∃ alpha, [alpha @ calpha => f calpha]
-  <-> ~ (∀ alpha, [alpha @ calpha => f calpha]).
+  (∃ alpha, [alpha @ calpha => f calpha])
+  <-> (~∀ alpha, ~ [alpha @ calpha => f calpha]).
 Proof.
   (* TOOLS *)
-  (* 
-  Definition n10_01_class {A : Type} (φ : A → Prop) : 
-  (∃ x, φ x) = ¬ (∀ x, ¬ φ x). Admitted. 
-  *)
-  set (λ φ0 : Prop → Prop, eq_to_equiv (∃ x, φ0 x) (¬(∀ x, ¬ φ0 x))
-    (n10_01_class φ0)) as n10_01a.
+  set (λ φ0 : (Prop -> Prop) → Prop, eq_to_equiv (∃ x, φ0 x) (¬(∀ x, ¬ φ0 x))
+    (n10_01_pred φ0)) as n10_01a.
+  set (λ f0 : (Prop -> Prop) -> Prop, eq_to_equiv
+    (∀ alpha, [alpha @ calpha => f0 calpha])
+    (∀ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (n20_07 f0)) as n20_07a.
   set (λ f0 : (Prop -> Prop) -> Prop, eq_to_equiv 
     (∃ alpha, [alpha @ calpha => f0 calpha])
     (∃ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
-    (n20_071 f0))
-    as n20_071a.
-  simpl in n10_01a, n20_071a.
+    (n20_071 f0)) as n20_071a.
+  simpl in n10_01a, n20_07a, n20_071a.
   (* ******** *)
   assert (S1 : (∃ alpha, [alpha @ calpha => f calpha]) 
     <-> (exists Phi, [^z => Phi z @ cz => f cz])).
@@ -1727,10 +1730,16 @@ Proof.
     now setoid_rewrite -> n20_071a in n4_2 at 2.
   }
   assert (S2 : (∃ alpha, [alpha @ calpha => f calpha])
-    <-> (~ forall Phi, [^z => Phi z @ cz => f cz])).
+    <-> (~ forall Phi, ~ [^z => Phi z @ cz => f cz])).
+  { now setoid_rewrite -> n10_01a in S1. }
+  assert (S3 : (∃ alpha, [alpha @ calpha => f calpha])
+    <-> (~∀ alpha, ~ [alpha @ calpha => f calpha])).
   {
-    pose proof n10_01 as n10_01.
+    (* TODO: fix the scoping for `~, not specified in the proof *)
+    (* setoid_rewrite <- n20_07a in S2. *)
+    admit.
   }
+  exact S3.
 Admitted.
 
 Theorem n20_61 (f : (Prop -> Prop) -> Prop) (beta : Class.t Prop) :
