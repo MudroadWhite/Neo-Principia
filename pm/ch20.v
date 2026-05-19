@@ -1131,6 +1131,12 @@ Theorem n20_34 (X Y : Prop) :
   (X = Y) <-> ([alpha @ calpha => X <class_in> calpha]  
     -[ alpha ]> [alpha @ calpha => Y <class_in> calpha]).
 Proof.
+  (* TOOLS *)
+  set (λ f0 : (Prop -> Prop) -> Prop, eq_to_equiv
+    (∀ alpha, [alpha @ calpha => f0 calpha])
+    (∀ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (n20_07 f0)) as n20_07a.
+  (* ******** *)
   assert (S1 : ([alpha @ calpha => X <class_in> calpha]  
       -[ alpha ]> [alpha @ calpha => Y <class_in> calpha])
     <-> ([^z => Phi z @ cz1 => X <class_in> cz1] 
@@ -1138,13 +1144,9 @@ Proof.
   {
     pose proof (n4_2 ([alpha @ calpha => X <class_in> calpha]  
       -[ alpha ]> [alpha @ calpha => Y <class_in> calpha])) as n4_2.
-    (* TODO: resolve the `∀ Phi` maybe with `replace` *)
-    setoid_rewrite -> n20_07 in n4_2.
-    (* 
-    Definition n20_07 {A : Type} (X : A) (f : (A -> Prop) -> Prop) :
-    ∀ (alpha : Class.t A), [alpha @ calpha => f calpha]
-    = ∀ Phi : (A -> Prop), [^ z => Phi z @ cPhi => f cPhi].
-    *)
+    (* TODO: scoping issues? *)
+    simpl in n4_2.
+    (* setoid_rewrite -> n20_07a in n4_2. *)
     admit.
   }
   assert (S2 : ([alpha @ calpha => X <class_in> calpha]  
