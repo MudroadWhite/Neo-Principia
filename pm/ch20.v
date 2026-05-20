@@ -43,6 +43,9 @@ failed attempts:
 - Defining `Class` as inductive type
 - TODO: also explain the history of how we decide to use notations 
   somewhere in tactics/mechanics
+one of the draft:
+Definition Cls {A : Type} {Phi : A -> Prop} : Class.t
+  := Class.Build_t A Phi. 
 
 representation which turns out to be illegal(which our notation design 
 doesn't prevent) :
@@ -177,10 +180,6 @@ Definition class_in {A : Type} (X : A) (Phi : A -> Prop) : Prop. Admitted.
 Definition class_in_c {A : Type} (alpha : Class.t A) (Psi : (A -> Prop) -> Prop) : Prop.
 Admitted.
 
-(* NOTE: draft
-Definition Cls {A : Type} {Phi : A -> Prop} : Class.t
-  := Class.Build_t A Phi. 
-*)
 Definition Cls {A : Type} : Class.t A. Admitted.
 
 Open Scope debug_class.
@@ -188,6 +187,9 @@ Notation "'^' z => B" := (Class.mk (fun z => B))
   (at level 130, z binder, right associativity) : debug_class.
 Example class_example_2 := ^ (z : Prop) => z = z.
 
+(* Dark magic: we re-define the exact notation simutaneously for parsing and printing.
+This allows `let`s being simplified when printing the definition.
+Tradeoff: it might affect how `setoid_rewrite` identify the terms *)
 Notation "[ cls @ classname => B ]" := (
     let A := cls.(Class.get_A _) in
     (* let f := (fun (classname : A -> Prop) => B) in
@@ -195,10 +197,6 @@ Notation "[ cls @ classname => B ]" := (
     f Af *)
     class_app (fun (classname : A -> Prop) => B) cls)
   (at level 150, classname binder, right associativity, only parsing) : debug_class.
-(* Dark magic: we re-define the notation exactly the same way to eliminate the 
-  `let`s when simplifying the definition.
-  Tradeoff: it might affect how `setoid_rewrite` identify the terms
-*)
 Notation "[ cls @ classname => B ]" := (class_app (fun classname => B) cls)
   (at level 150, classname binder, right associativity, only printing) : debug_class.
 Example class_app_example_1 := [class_example_1 @ cx => cx = cx].
@@ -560,7 +558,7 @@ Theorem n20_12 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop):
     (([^z => Psi z @ cz => f cz]) <-> ([^z => Phi z @ cz => f cz])).
 Proof.
   pose proof n20_11 as n20_11.
-  (* TODO: unprovable *)
+  (* unprovable *)
 Admitted.
 
 Theorem n20_13 (Psi Chi : Prop -> Prop) : (Psi x <[- x -]> Chi x)
@@ -1907,12 +1905,23 @@ Theorem n20_703 (f : (Prop -> Prop) -> (Prop -> Prop) -> Prop) :
   <[- Phi Psi -]> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => g cz1 cz2]]).
 Proof.
   (* TOOLS *)
+  (* TODO: 
+  - create function accepting 2 parameters in lib 
+  - instantiate G *)
+  set (Phi := Intro_pred "phi" 1).
+  set (Psi := Intro_pred "psi" 1).
+  set (G := Intro_pred_2 "g" 2).
   (* ******** *)
-  assert (S1 : ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 cz2]]
-      <[- Phi Psi -]> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => g cz1 cz2]])
-    -> 
-
-  )
+  assert (S1 : ((f Chi Theta) <[- Chi Theta -]> (G Chi Theta))
+    -> (((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ f Chi Theta)
+      <[- Chi Theta -]>
+      ((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ G Chi Theta))).
+  {
+    (* unprovable. TODO: see if there is an alternative for 2 params for functions *)
+    pose proof n10_311 as n10_311.
+    admit.
+  }
+  assert (S2 : )
 Admitted.
 
 Theorem n20_71 (alpha beta : Class.t Prop) :
