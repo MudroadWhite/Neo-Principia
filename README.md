@@ -20,7 +20,7 @@ Compatability.
 ## How well have you formalized?
 Which means 3 questions:
 
-- **How much can you formalize?** Theoretically, the whole book. See [overview](./docs/1_overview/#can-principia-mathematica-be-completely-formalized) for an analysis.
+- **How much can you formalize?** Theoretically, the whole book. See [overview](./docs/1_overview.md/#can-principia-mathematica-be-completely-formalized) for an analysis.
 - **How much have you formalized?** 186 - 94 = 92 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
 - **How deep can you formalize?** We're using shallow embedding, which is not rigorous deep embedding. See [audit](./docs/5_audit.md) for other secondary limitations.
 
