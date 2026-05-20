@@ -1800,7 +1800,21 @@ Theorem n20_63 (P : Prop) (f : (Prop -> Prop) -> Prop) :
   (∀ alpha, P ∨ [alpha @ calpha => f calpha]) 
   -> (P ∨ ∀ alpha, [alpha @ calpha => f calpha]).
 Proof.
-  
+  (* TOOLS *)
+  set (λ f0 : (Prop -> Prop) -> Prop, eq_to_equiv
+    (∀ alpha, [alpha @ calpha => f0 calpha])
+    (∀ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (n20_07 f0)) as n20_07a.
+  (* ******** *)
+  assert (S1 : (∀ alpha, P ∨ [alpha @ calpha => f calpha])
+    <-> forall Phi, P \/ [^z => Phi z @ cz => f cz]).
+  {
+    pose proof (n4_2 (∀ alpha, P ∨ [alpha @ calpha => f calpha])) as n4_2.
+    (* unprovable: scoping issue. TODO: implement scoping in the future *)
+    (* setoid_rewrite -> n20_07 in n4_2. *)
+    admit.
+  }
+  assert (S2 : )
 Admitted.
 
 (* *20.631 - 633: other typing rules... TODO: fill in the future *)
