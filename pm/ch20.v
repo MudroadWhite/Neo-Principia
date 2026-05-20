@@ -1905,9 +1905,6 @@ Theorem n20_703 (f : (Prop -> Prop) -> (Prop -> Prop) -> Prop) :
   <[- Phi Psi -]> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => g cz1 cz2]]).
 Proof.
   (* TOOLS *)
-  (* TODO: 
-  - create function accepting 2 parameters in lib 
-  - instantiate G *)
   set (Phi := Intro_pred "phi" 1).
   set (Psi := Intro_pred "psi" 1).
   set (G := Intro_pred_2 "g" 2).
@@ -1921,7 +1918,15 @@ Proof.
     pose proof n10_311 as n10_311.
     admit.
   }
-  assert (S2 : )
+  assert (S2 : ((f Chi Theta) <[- Chi Theta -]> (G Chi Theta))
+    -> ((exists Chi Theta, (Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x)
+        /\ f Chi Theta)
+      <[- Phi Psi -]>
+        (exists Chi Theta, (Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x)
+          /\ G Chi Theta))).
+  {
+    
+  }
 Admitted.
 
 Theorem n20_71 (alpha beta : Class.t Prop) :
