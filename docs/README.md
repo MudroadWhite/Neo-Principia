@@ -13,6 +13,6 @@ This documentation assumes readers have the following background:
 1. [Overview](./1_overview.md)
 2. [Project architecture](./2_architecture.md)
 3. [Mechanics](./3_mechanics.md)
-4. [Tactics](./4_tactics.md)
+4. Tactics
 5. [Audit report](./5_audit.md)
-6. [Suggestion](./6.md)
+6. Suggestion for perfect formalization

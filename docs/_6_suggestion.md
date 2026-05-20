@@ -1,6 +1,6 @@
-# Suggestion
+# Suggestion for perfect formalization
 
-This chapter is a proposal for a specification of PM's type system, based on the details we have gathered in [Audit Report](./5_audit.md).
+This chapter is a suggestion for a specification of PM's complete type system, based on the details we have gathered in [Audit Report](./5_audit.md).
 
 TODO:
 1. "Base order" and "shift" operator
