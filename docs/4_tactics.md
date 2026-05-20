@@ -94,11 +94,7 @@ While all above tactics have covered the essentials for presenting the proof, th
 TODO:
 - Summarize major tools we have developed so far by splitting in following topic:
   1. How do we pose a proof (Definition, theorems, pose proof, `let`, variants & polymorphic vs monomorphic)
-  2. How do we rewrite a proposition (major mechanics for this: bottom-up as PM's original, `setoid_rewrite``)
-- For content after chapter 9, reorganize in a bottom-up style:
-  1. explain how to bottom up construct a proposition with generalization
+  2. How do we rewrite a proposition (major mechanics for rewriting: our proofs are alternating between PM's bottom-up construction and `rewrite/setoid_rewrite`)
+- Explain bottom-up construction:
+  1. explain how to bottom up construction process in PM
   2. when what tactic doesn't work, we proceed with what alternatives to "patch" the idea
-- draft: 
-  - when everything is normal, we use `pose proof` along with `MP`, `Syll` and `rewrite`
-  - when they are not useful, we start to use `setoid_rewrite`
-  - when `setoid_rewrite` doesn't work, we would reconstruct everything bottom-up
