@@ -15,15 +15,13 @@ This project shows the power of type-theory-based modern formal verifiers, with 
 This is a project where you can read and write the code line by line.
 
 ## What is the aesthetics for this project?
-TODO: reorganize below
+With [Randall's work](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) as reference, I believe that most of the existing work attempts at reducing the complexity of PM with better mathematical notions. As the opposite, we want to pertain maximum PM flavor. This means:
+- We want to implement all symbols appeared in PM
+- We want minimal tools to get the work done
+- We want maximum PM theorems being proven
+- We want every proof steps followed and presented
 
-- Randall's work mostly analyze the availability of symbols in PM from a mathematical aspect
-- We want to pertain maximum PM flavor. This means:
-  - We want to implement all symbols appeared in PM
-  - We want minimal tools to get the work done
-  - We want maximum PM theorems being proven
-  - We want every proof steps followed and presented
-  - (TODO: recheck this statement)If a proof gets too tedious, we *simplify the proofs*. Tactics for simplifying doesn't need not to utilize PM theorems, but they will get the work done.
+In addition, we are allowed to simplify PM's proof when the it goes tedious. In practice, our proving style is a mixture of 2 major mechanics: PM's original "bottom-up construction" method and our "rewrite/setoid_rewrite". See [tactics](./4_tactics) for a detailed explanation.
 
 ## Can Principia Mathematica be completely formalized?
 Yes.
