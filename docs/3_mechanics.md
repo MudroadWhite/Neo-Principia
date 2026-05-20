@@ -169,7 +169,7 @@ Example example_function_2 (X : Prop) := ∀ (φ : Prop → Prop), φ X.
 Example example_proposition := ∀ (x : Prop) (φ : Prop → Prop), φ x.
 ```
 
-- **Predicative function** is synonym as **matrices**(p.164). Predicative function of `a` where `a`'s order is n, though, strictly refers to a matrix of order n+1.
+- **Predicative function** is synonym to **matrices**(p.164), after this chapter. Predicative function of `a` where `a`'s order is n, though, strictly refers to a matrix of order n+1.
 - **Matrices** are built on **matrices** of a 1-level lower order.
 - **Functions** are built on **matrices**, with *not all* of its variables generalized(p.14)
 - **Propositions** are built on **matrices**, with *all* possible variables generalized
