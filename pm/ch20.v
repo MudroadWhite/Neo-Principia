@@ -730,7 +730,7 @@ Proof.
 Qed.
 
 Theorem n20_17 (Psi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) :
-  ∀ Phi : Order 1, [^z => Psi z @ cz1 => f cz1] -> 
+  ∀ Phi, [^z => Psi z @ cz1 => f cz1] -> 
     [^z => Phi z @ cz2 => f cz2].
 Proof.
   pose proof n20_16 as n20_16.
@@ -1788,7 +1788,7 @@ Proof.
   exact S2.
 Qed.
 
-(* Analogue to *20.17 *)
+(* Analogue to *20.17. Only write out here for demonstration *)
 Definition n20_61_alt (f : (Prop -> Prop) -> Prop) (Psi : Prop -> Prop) :
   (∀ alpha, [alpha @ calpha => f calpha])
   -> [^z => Psi z @ cz => f cz].
@@ -1894,6 +1894,7 @@ Theorem n20_701 (Phi : Prop -> Prop) (f : (Prop -> Prop) -> Prop -> Prop) :
 Proof.
 Admitted.
 
+(* unprovable *)
 Theorem n20_702 (f : Prop -> (Prop -> Prop) -> Prop) :
   ∃ (g : Prop -> (Prop -> Prop) -> Prop), ([^z => Phi z @ cz => f x cz]
     <[- (Phi : Prop -> Prop) (x : Prop) -]> [^z => Phi z @ cz => g x cz]).
@@ -1901,17 +1902,24 @@ Proof.
 Admitted.
 
 Theorem n20_703 (f : (Prop -> Prop) -> (Prop -> Prop) -> Prop) :
-  ∃ (g : (Prop -> Prop) -> (Prop -> Prop) -> Prop), ([^z => Phi z @ cz1 => 
-    [^z => Psi z @ cz2 => f cz1 cz2]]
-  <[- (Phi : Prop -> Prop) (Psi : Prop -> Prop) -]> [^z => Phi z @ cz1 => 
-    [^z => Psi z @ cz2 => g cz1 cz2]]).
+  ∃ (g : (Prop -> Prop) -> (Prop -> Prop) -> Prop), 
+    ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 cz2]]
+  <[- Phi Psi -]> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => g cz1 cz2]]).
 Proof.
+  (* TOOLS *)
+  (* ******** *)
+  assert (S1 : ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 cz2]]
+      <[- Phi Psi -]> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => g cz1 cz2]])
+    -> 
+
+  )
 Admitted.
 
 Theorem n20_71 (alpha beta : Class.t Prop) :
   (alpha = beta) <-> ([alpha @ calpha => g calpha]
     <[- g : (Prop -> Prop) -> Prop -]> [beta @ cbeta => g cbeta]).
 Proof.
+
 Admitted.
 
 Theorem n20_8 (Phi : Prop -> Prop) (A : Prop) :
