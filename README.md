@@ -13,14 +13,14 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 ## Features
 Compatability.
 
-- [Documented](./docs/README.md) and with [slides](./slides/).
+- [Documented](./docs/README.md)(WIP - will be rewritten for most of the parts) and with [slides](./slides/).
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. One theorem a line.
 - "Just as it is": Principia flavor in maximum strength: Principia-style deduction; Principia-style symbols defined with `Notation`s. Clear proof structure, clean, maybe beautiful proof window. 
 
 ## How well have you formalized?
 Which means 3 questions:
 
-- **How much can you formalize?** Theoretically, the whole book. See [overview](./docs/1_overview/#can-principia-mathematica-be-completely-formalized) for an analysis.
+- **How much can you formalize?** Theoretically, the whole book. See [overview](./docs/1_overview.md/#can-principia-mathematica-be-completely-formalized) for an analysis.
 - **How much have you formalized?** 186 - 94 = 92 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
 - **How deep can you formalize?** We're using shallow embedding, which is not rigorous deep embedding. See [audit](./docs/5_audit.md) for other secondary limitations.
 
