@@ -250,6 +250,11 @@ Definition n10_1_class {A : Type} (φ : Class.t A → Prop) (Y : Class.t A) :
 Definition n10_11_class {A : Type} (Y : Class.t A) (φ : Class.t A → Prop) 
   : φ Y → ∀ x, φ x. Admitted.
 
+Definition n10_14_class {A : Type} (φ ψ : Class.t A → Prop) (Y : Class.t A) : 
+  (∀ x, φ x) ∧ (∀ x, ψ x)
+  → φ Y ∧ ψ Y.
+Admitted.
+
 Definition n10_21_class {A : Type} (φ : Class.t A → Prop) (P : Prop) :
   (∀ x, P → φ x) ↔ (P → (∀ x, φ x)). Admitted.
 
@@ -1833,18 +1838,20 @@ Admitted.
 
 (* *20.631 - 633: other typing rules... TODO: fill in the future *)
 
-Theorem n20_64 (f g : (Prop -> Prop) -> Prop) (beta : Class.t Prop) : 
+(* manually associate Beta with Psi *)
+Theorem n20_64 (f g : (Prop -> Prop) -> Prop) (Psi : Prop -> Prop) : 
+  let Beta := (^z => Psi z) in
   ((∀ alpha, [alpha @ calpha => f calpha]) 
     ∧ (∀ alpha, [alpha @ calpha => g calpha]))
-  -> ((∀ beta, [beta @ cbeta => f cbeta])
-    ∧ (∀ beta, [beta @ cbeta => g cbeta])).
+  -> (([Beta @ cbeta => f cbeta])
+    ∧ ([Beta @ cbeta => g cbeta])).
 Proof.
   (* TOOLS *)
   set (λ f0 : (Prop -> Prop) -> Prop, eq_to_equiv
     (∀ alpha, [alpha @ calpha => f0 calpha])
     (∀ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
     (n20_07 f0)) as n20_07a.
-  set (Psi := Intro_pred "psi" 1).
+  set (Beta := ^z => Psi z).
   (* ******** *)
   assert (S1 : ((∀ alpha, [alpha @ calpha => f calpha]) 
       ∧ (∀ alpha, [alpha @ calpha => g calpha]))
@@ -1858,9 +1865,20 @@ Proof.
   }
   assert (S2 : ((∀ alpha, [alpha @ calpha => f calpha]) 
       ∧ (∀ alpha, [alpha @ calpha => g calpha]))
-    <-> ([])
-    )
-Admitted.
+    -> ([^z => Psi z @ cz => f cz] /\ [^z => Psi z @ cz => g cz])).
+  {
+    (* simplification *)
+    destruct S1 as [_ S1].
+    simpl in S1.
+    pose proof (n10_14_class
+      (fun alpha => [alpha @ cz => f cz])
+      (fun alpha => [alpha @ cz => g cz])
+      (^z => Psi z)) as n10_14.
+    now Syll_as S1 n10_14 S2.
+  }
+  (* The transition from Psi to Beta can be automatically completed *)
+  exact S2.
+Qed.
 
 (* Another analogue to *12.1. Same as all above, we cannot formalize this for now *)
 Theorem n20_7 (f : (Prop -> Prop) -> Prop) :
@@ -1869,6 +1887,7 @@ Theorem n20_7 (f : (Prop -> Prop) -> Prop) :
 Proof.
 Admitted.
 
+(* unprovable *)
 Theorem n20_701 (Phi : Prop -> Prop) (f : (Prop -> Prop) -> Prop -> Prop) :
   ∃ (g : (Prop -> Prop) -> Prop -> Prop), ([^z => Phi z @ cz => f cz x]
     <[- (Phi : Prop -> Prop) (x : Prop) -]> [^z => Phi z @ cz => g cz x]).
