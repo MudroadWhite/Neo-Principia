@@ -1,9 +1,9 @@
 # Mechanics of Principia Mathematica
 ## Basic setups
 ### How many types of propositions are there in Principia?
-Principia has 3 types(not mathematical type) of theorems: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). A hidden trait of proposition in Principia is those propositions written in natural language. 
+Principia has 3 types(not mathematical type) of propositions: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). 
 
-With a few counter example in chapter 1, they are usually about typing a term with a specific symbol. A well formed term must be well typed. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules.
+A hidden trait of proposition in Principia is those propositions written in natural language. With only some exceptions in chapter 1, most of them are about typing a specific symbol. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules.
 
 ### How to read the propositions in Principia?
 Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and they surprisingly never go wrong. One can even understand the priority at ease with the indentations, without much on dot notations.
