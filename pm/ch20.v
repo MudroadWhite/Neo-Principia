@@ -1814,7 +1814,21 @@ Proof.
     (* setoid_rewrite -> n20_07 in n4_2. *)
     admit.
   }
-  assert (S2 : )
+  assert (S2 : (∀ alpha, P ∨ [alpha @ calpha => f calpha])
+    <-> (P \/ forall Phi, [^z => Phi z @ cz => f cz])).
+  {
+    (* unprovable: *10.12 is single_direction *)
+    (* TODO: check if its proof is double direction *)
+    pose proof n10_12 as n10_12.
+    admit.
+  }
+  assert (S3 : (∀ alpha, P ∨ [alpha @ calpha => f calpha])
+    <-> (P \/ forall alpha, [alpha @ cz => f cz])).
+  { now setoid_rewrite <- n20_07 in S2. }
+  assert (S4 : (∀ alpha, P ∨ [alpha @ calpha => f calpha]) 
+    -> (P ∨ ∀ alpha, [alpha @ calpha => f calpha])).
+  { now destruct S3. }
+  exact S4.
 Admitted.
 
 (* *20.631 - 633: other typing rules... TODO: fill in the future *)
@@ -1825,6 +1839,27 @@ Theorem n20_64 (f g : (Prop -> Prop) -> Prop) (beta : Class.t Prop) :
   -> ((∀ beta, [beta @ cbeta => f cbeta])
     ∧ (∀ beta, [beta @ cbeta => g cbeta])).
 Proof.
+  (* TOOLS *)
+  set (λ f0 : (Prop -> Prop) -> Prop, eq_to_equiv
+    (∀ alpha, [alpha @ calpha => f0 calpha])
+    (∀ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (n20_07 f0)) as n20_07a.
+  set (Psi := Intro_pred "psi" 1).
+  (* ******** *)
+  assert (S1 : ((∀ alpha, [alpha @ calpha => f calpha]) 
+      ∧ (∀ alpha, [alpha @ calpha => g calpha]))
+    <-> ((forall Phi, [^z => Phi z @ cz => f cz]) 
+      /\ (forall Phi, [^z => Phi z @ cz => g cz]))).
+  {
+    pose proof (n4_2 ((∀ alpha, [alpha @ calpha => f calpha]) 
+      ∧ (∀ alpha, [alpha @ calpha => g calpha]))) as n4_2.
+    setoid_rewrite -> n20_07a in n4_2 at 3.
+    now setoid_rewrite -> n20_07a in n4_2 at 3.
+  }
+  assert (S2 : ((∀ alpha, [alpha @ calpha => f calpha]) 
+      ∧ (∀ alpha, [alpha @ calpha => g calpha]))
+    <-> ([])
+    )
 Admitted.
 
 (* Another analogue to *12.1. Same as all above, we cannot formalize this for now *)
