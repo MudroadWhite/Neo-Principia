@@ -13,7 +13,7 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 ## Features
 Compatability.
 
-- [Documented](./docs/README.md) and with [slides](./slides/).
+- [Documented](./docs/README.md)(WIP - will be rewritten for most of the parts) and with [slides](./slides/).
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. One theorem a line.
 - "Just as it is": Principia flavor in maximum strength: Principia-style deduction; Principia-style symbols defined with `Notation`s. Clear proof structure, clean, maybe beautiful proof window. 
 
