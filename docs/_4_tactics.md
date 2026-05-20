@@ -1,5 +1,7 @@
 # Tactics
-This chapter discusses the tactics we generally use for every proofs in deeper details.
+This chapter is targeted for the following topics:
+- Identify between PM's native proofs and Rocq-specific simplified proofs
+- List out *all* tactics we are using in the project
 
 ## Basic setup
 Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from *modus ponens* and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.
