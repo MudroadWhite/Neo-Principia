@@ -1,12 +1,12 @@
 # Mechanics of Principia Mathematica
 ## Basic setups
-### What are the types pf propositions in Principia?
+### How many types of propositions are there in Principia?
 Principia has 3 types(not mathematical type) of theorems: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). A hidden trait of proposition in Principia is those propositions written in natural language. 
 
 With a few counter example in chapter 1, they are usually about typing a term with a specific symbol. A well formed term must be well typed. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules.
 
 ### How to read the propositions in Principia?
-Principia Mathematica uses *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and they surprisingly never go wrong. One can even understand the priority at ease with the indentations, without much on dot notations.
+Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and they surprisingly never go wrong. One can even understand the priority at ease with the indentations, without much on dot notations.
 
 While types for propositions in PM constitutes to a hierarchy, PM doesn't express the hierarchy directly. Instead, typing rules say "what different terms can be considered as the same type". Such "of the same type" style definitions have been scattered into all the chapters.
 
@@ -27,6 +27,7 @@ During each steps of the proof, Principia **cites** the theorems and previous st
 
 Context to prove theorems, like symbol definitions, have its **inheriting** nature. Theorems are proven in different context between different chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for case in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for case in chapter 9 - 11, [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 - 14, [chapter 20](./3_mechanics.md/#chapter-20) for beyond.
 
+TODO: put the following in either `audit` or `suggestion`. Make a 1-sentence reference here
 ### What are the real problems to formalize Principia Mathematica?
 With *reconstruct every theorems in PM as much as we can* as our assumption, our implementation is facing awareness to *how well does symbols of PM work with each other*. This means to the following:
 1. Can we design the correct type system for PM, since PM doesn't explicitly type the propositions?
@@ -248,6 +249,9 @@ TODO:
 
 TODO:
 - composition nature for types/defs, ref. *20.62
+  - Should we remove the `composition` parts in the future?
+- ch1: distinguish between when to use MP and when to use Syll
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "forall" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
+- ch9: Explain when do we need `set X := Intro_x`

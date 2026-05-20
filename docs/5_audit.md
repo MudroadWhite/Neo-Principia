@@ -7,14 +7,43 @@ Assessment for each of the chapter is based on the following questions:
 2. Feasibility: Are they easy to be implemented in Rocq?
 3. Coverage: How much % of propositions can we formalize, and what is missing?
 
-### Limitations, short version
-1. We didnt implement Axiom of Reducibility.
-2. Rocq's own notation system is missing some nice features.
-3. We cannot differentiate between impredicative and predicative functions. More generally, we don't type the propositions.
+Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). For the below sections, we first make a short summary of major issues we have found, then list out everything we have found for each of the chapters.
 
-Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). We start straight into the commentaries without reviewing them.
+### Issues
+The issues come either from the lacking of proper implementation of our project, or directly from the Principia Mathematica itself. After stating these issues, we will expand every details we have found by each chapters.
+
+**I1: Typing.** We didn't design a proper system to type every PM propositions. This gives a massive chain effects on the following issues:
+1. We cannot distinguish between predicative and impredicative props/functions.
+2. We cannot implement Axiom of Reducibility.
+3. Several propositions that are relying on AoR cannot be properly implemented at all.
+
+**I2: Inheritance/internalization.** 
+TODO: this topic has a extremely wide impact, including:
+- missing support of scoping
+  - Do we have to automatically shrink the scope for a symbol?
+- inheritance nature for definitions
+  - polymorphic notations vs monomorphic definitions
+  - nontrivial variants for definitions
+  - ambiguous theorem representations: some theorems are about the underlying object; some else are only the mere representation
+
+**I3: setoid_rewrite.** 
+TODO: 
+- setoid_rewrite changes by versions
+
+**I4: Tactics support.**
+TODO: (brief introduction to missing tactics)
 
 ### Basic setups
+**TODO: MP vs Syll**
+TODO: mostly freely used, and don't follow the text
+
+**How much can we automate for Principia Mathematica?**
+TODO: 
+- we didn't intend to increase its automation, because this looks unhopeful. This can be an interesting direction
+- have to manually introduce individuals
+- `rewrite` cannot infer most of the parameters; the right params might be not unique
+- `MP`, `Syll`, `rewrite`, `setoid_rewrite` might have trouble to be chained together
+
 **Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
 
 The core of symbol definition, *definitional equality*, is undefined, as discussed in [mechanics](./3_mechanics.md) and [tactics](./4_tactics.md). 
@@ -28,12 +57,7 @@ The core of symbol definition, *definitional equality*, is undefined, as discuss
 **Types.** Although we won't implement the typing algorithm immediately, there are still worthy comments to be made. We are aware that
 1. PM doesn't have `→` type, and the typing algorithm seems to have struggled to type the functions.
 2. PM also struggles at defining proposition's type: while same order propositions generalized from different types of arguments will not have the same type(p.162), it is supposed to be "practically ignored"(p.162).
-3. On the very other hand, individuals, potentially being instantiated as propositions different order, all share the same type. There are several things to make clear for individuals:
-    1. Individuals are supposed to be "specific value"s, by which perhaps it means "just like a constant". As "specific value"s, they are not supposed to be instantiated and substituted with something else. Their value seems to be already settled down and the only way to use them are generalizing them into an apparent variable. 
-    2. Due to its ambiguity, our understanding is slightly different from [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT). We see individuals as constants; Randall's sees them as the simplest propositions. In our current implementation, constants still have to be manually passed in as a function parameter. I am guessing if individual's meaning has also been secretly changed in later chapters...(???)
-    3. We also think our current way to pass in an individual might be actually the way to introduce a constant, and a renaming to the `Individual` type seems to be necessary as a future plan.
-    4. The type for these individuals is good enough, with the consideration that individuals are, actually, the *lowest order entity for an expression*, but it is not clearly stated in the text whether individuals can have different orders in the same proposition.
-
+3. The `of the same type` theorems are being scattered throughout all the chapters, which makes implementing a full type system uneasy work - you have to turn through all the pages to collect them up
 Critics above suggest there might be freedom for us to design a different type system that is closer to Rocq type system.
 
 **Orders**. We have the orders in our implementation, but currently it is severely wrongly interpreted and doesn't stand for the correct representation of a nth order proposition. It mostly works like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
@@ -41,7 +65,7 @@ Critics above suggest there might be freedom for us to design a different type s
 Goal Order 0 = Order 1.
 ```
 
-**Informal propositions.** For informal propositions through the chapters, we are generally assuming that they are not implemented, as the implementation of most of them rely on a complete typing algorithm for PM.
+**Informal propositions.** Informal propositions are mostly typing rules for Principia. These propositions should be inherently expressed with a type checker, and not implemented as theorems.
 
 **Sheffer strokes and other updates for 2nd edition.** We are aware that 2nd edition is a ["patched" version](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) of Principia and Russell has tried to simplify the primitive ideas further down, with one of which being the Sheffer stroke `|` to further denote `¬` and `∨`, in a hidden chapter 8. We are aware that Russell eventually realized that the distinction between real and apparent variable might not be necessary. We still prefer to ignore most of the *Introduction* chapter and proceed with what has written in the most of the chapters, as this is the easiest way to maintain most of the flavor in the proofs.
 
@@ -124,8 +148,8 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 **General.** 
 TODO: 
 - types has become complicated... refer to Randall's work, discuss how should we consider the types(TODO: reexamine this claim)
-- implemented notation isn't well designed: doesn't "scale" to higher levels, and patch with newer definitions instead
-- notation has reached its limit to express: Rocq will not show the correct representation due to our design
+- notation has reached its limit to express: Rocq will not show the correct representation due to our design; we therefore split the parsing and printing notation
+- Class(or polymorphic requirement) as a parameter limited many things, including `pose proof`
 - we want to separate the symbol definition against computation by setting up the `Admitted` clearly, but it is definitely not that clean in our current implementation
 - "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps? it is something focused on how automatic PM can be, not on structural similarity
 - Consideration on functions(`Prop -> Prop`) seems to interfere with our `_pred` treatment changing the order base
@@ -135,4 +159,4 @@ TODO:
 - proving every steps in ch20 has been increasingly harder
 
 TODO:
-- critisism: "of the same type" is distributed throughout the chapters
+- ch20: scope related criticism in chapter 20 code

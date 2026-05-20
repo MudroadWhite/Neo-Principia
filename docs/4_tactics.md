@@ -2,14 +2,7 @@
 This chapter discusses the tactics we generally use for every proofs in deeper details.
 
 ## Basic setup
-Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from *modus onens* and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.
-
-**Implementation aesthetics.** We want to pertain maximum PM flavor. This means:
-- We want minimal tools to get the work done
-- We want maximum PM theorems being proven
-- We want every proof steps followed and presented
-- If the iceberg gets too complicated, we develop minimal tools(such as `Notation`s) to maintain its tip
-- If a proof gets too tedious, we *simplify the proofs*. Tactics for simplifying doesn't need not to utilize PM theorems, but they will get the work done.
+Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from *modus ponens* and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.
 
 **Rules to simplify routines.** We can use a new tactic to simplify a tedious part of proof, if
 - We can clearly provide its equivalent routine using PM theorems
@@ -93,23 +86,17 @@ Either for "historical reasons"(this project really doesn't have a history), or 
 - \[Simplification\]`now tactic thm ...` says that, if the `tactic` we use can directly provide a result that is not very far from the goal, then we prove the goal immediately. Typically it's very useful for saving a line of `exact thm`. Every line of `now tactic thm` can be turned back into `tactic thm` for readers to check if it does indeed generate a proposition that is exactly the same as the goal, and this tactic is **recommended** to use.
 - \[Simplification\]Further exceptions not being listed above, for example in chapter 11, have to be explicitly stated with a comment that a simplification has happened. This is **recommended** to be taken down in the future.
 
-## Ltacs for debugging/prettify the goal window
-It happens that users might want to check the proofs in more detail. How to debug the proof is completely personal, but here are some tactics I commonly use, just in case:
-- `simpl` to simplify a hypothesis
-- `Close Scope`/`Open Scope` to enable/disable specific notations. We have designed specific notations for debugging in later chapters.
-- `pose proof` another theorem to see how it looks like originally
+## Debugging
+While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debuggings that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development.
 
-There are also some other tactics that makes the goal window just a bit prettier, for example:
-- `move` to rearrange the order of hypotheses
-- `clear` to remove some hypothesis that will never be used
-
-- Tactics above is **recommended** to be reduced to minimum when we have finished them.
+- Tactics for debugging is **required** to be reduced to minimum when we have finished them.
 
 TODO:
-- For content after chapter 9, reorganize in a bottom-up style:
-  1. explain how to bottom up construct a proposition with generalization
+- Summarize major tools we have developed so far by splitting in following topic:
+  1. How do we pose a proof (Definition, theorems, pose proof, `let`, `set` for introducing extra vars, variants & polymorphic vs monomorphic)
+  2. How do we rewrite a proposition (major mechanics for rewriting: freely alternating between PM's bottom-up construction and `rewrite/setoid_rewrite`)
+- Explain bottom-up construction:
+  1. explain how to bottom up construction process in PM
   2. when what tactic doesn't work, we proceed with what alternatives to "patch" the idea
-- draft: 
-  - when everything is normal, we use `pose proof` along with `MP`, `Syll` and `rewrite`
-  - when they are not useful, we start to use `setoid_rewrite`
-  - when `setoid_rewrite` doesn't work, we would reconstruct everything bottom-up
+- Extra set up to make proof looks better: `now`, `exact`, `propositional_extentionality` or maybe `f_equal`
+- 
