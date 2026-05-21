@@ -246,6 +246,7 @@ TODO:
 - https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
 
 TODO:
+- IMPORTANT: draw tables for things
 - composition nature for types/defs, ref. *20.62
   - Should we remove the `composition` parts in the future?
 - ch1: distinguish between when to use MP and when to use Syll
