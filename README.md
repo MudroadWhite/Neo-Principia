@@ -59,5 +59,5 @@ Although I have tried to organize the issues well to indicate the current progre
 - [ndrwnaguib's formalization of PM in Lean](https://github.com/ndrwnaguib/principia)
 - [Randall Holmes's RTT implementation](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT)
 - [xamidi's propositional calculus theorems](https://github.com/xamidi/luk-pmproofs) from [Łukasiewicz's L1-system](https://www.jstage.jst.go.jp/article/pjab1945/41/6/41_6_436/_pdf)
-- Also his [pmGenerator](https://github.com/xamidi/pmGenerator) for something I didn't know what is it yet
+- Also his [pmGenerator](https://github.com/xamidi/pmGenerator) for something I didn't check what is it yet
 - [Metamath solitaire's implementation on propositional calculus theorems](https://us.metamath.org/mmsolitaire/pmproofs.txt)
