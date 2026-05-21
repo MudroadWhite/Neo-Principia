@@ -41,13 +41,13 @@ We now start exploring the main ideas for each chapters.
 
 ## Chapters
 ### Chapter 1
-Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. Note that we didn't set up type system for checking all the types.
+Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) -> (|- Q)`(p.92), which doesn't occur within formulae in PM.
 
-There are no dependency explicitly stated in PM on \*1.1.
+There are no theorems depending on \*1.1 explicitly stated in PM.
 
 In chapter 1 we also have a rough idea on how to denote a (elementary) *propositional function*. Such kind of simple denotation will be changed into something else in later chapters. In chapter 1-5, most propositional functions don't come barely themselves - their values for variables are somehow "fixed" already during all the inference, where `φ X` and `φ Y` does not mean the same thing(p.19).
 
