@@ -19,7 +19,7 @@ Declare Scope single_formal_equiv.
 Open Scope single_formal_impl.
 Open Scope single_formal_equiv.
 
-(* p.12: This notations is due to Peano. *)
+(* p.12: This notations is due to Peano *)
 Notation " A '-[1' x ]> B " := (∀ x, A → B)
   (at level 80, x binder, B at level 100, right associativity,
   format "'[ ' A '/' '[ ' -[1 x ]> ']' '/' B ']'")
@@ -57,7 +57,7 @@ Proof.  exact (n9_25 P φ). Qed.
 (* Thm 10.122: If for some a, there is a proposition φ a, then there is a function φ x^, and vice versa. [*9.15] *)
 
 (* Thm 10.13: If φ x^ and ψ x^ takes arguments of the same type, and we have |- φ x and |- ψ x, we shall have |- φ x ∧ ψ x . *)
-(* NOTE: we didn't enforce `is_same_type` so far. Currently I decide to just leave it manually specified *)
+(* NOTE: We didn't enforce on "of the same type". *)
 Theorem n10_13 (φ ψ : Prop → Prop) (X : Prop) :
   φ X → ψ X → (φ X ∧ ψ X).
 Proof.
@@ -238,7 +238,6 @@ Proof.
     pose proof n10_21 as n10_21.
     now rewrite <- n10_21 in S1.
   }
-  (* WTF???? *)
   assert (S3 : ((∃ x, φ x) → P) → ((¬ P) → ¬ φ X)).
   {
     pose proof (n10_1 (fun x => (¬ P) → ¬ φ x) X) as n10_1.
@@ -250,7 +249,7 @@ Proof.
     pose proof (Transp2_17 (φ X) P) as Transp2_17.
     now Syll_as S3 Transp2_17 S4.
   }
-  (* The variable naming here is so wild *)
+  (* TODO: recheck here: The variable naming here is so wild *)
   assert (S5 : ∀ x0, ((∃ x, φ x) → P) → (φ x0 → P)).
   {
     pose proof (n10_11 X (fun x0 => ((∃ x, φ x) → P) → (φ x0 → P))) 
@@ -273,7 +272,8 @@ Proof.
   {
     pose proof (n10_11 X (fun x => ¬ φ x)) as n10_11.
     assert (S8_1 : ((¬ P) → ¬ φ X) → ((¬ P) → ∀ x, (¬ φ x))).
-    (* A demonstration of recursive `Syll`
+    (* TODO: move it as an example into documentation in the future 
+    A demonstration of recursive `Syll`
     maybe there's even better and more natural way to handle this *)
     {
       intro Hp.
@@ -367,7 +367,7 @@ Proof.
   }
   assert (S3 : (∀ x, φ x) → ∀ y, ¬¬ φ y).
   {
-    (* n10_21 is unused *)
+    (* n10_21 ignored *)
     pose proof (n10_11 Y (fun y => ¬¬ φ y)) as n10_11.
     now Syll_as S2 n10_11 S3.
   }
@@ -434,7 +434,7 @@ Proof.
   }
   assert (S3 : ∀ y, ((∀ z, φ z → ψ z) ∧ (∀ z, φ z)) → ψ y).
   {
-    (* Original text uses n10_1 and I think its a typo *)
+    (* *10.1 ignored : I think it's a typo in the text *)
     pose proof (n10_11 Y (fun y => (((∀ z, φ z → ψ z) ∧ (∀ z, φ z)) 
         → ψ y))) as n10_11.
     now MP n10_11 S2.
@@ -458,9 +458,8 @@ Proof.
     (Equiv4_01 P0 Q0))
   as Equiv4_01a.
   (* ******** *)
-  (* Whenever a proof involves `Hp`, this proof becomes a little special. 
-    It seems that all deductions are given the context to only deduce with
-    `Hp` being introduced, as followed... *)
+  (* Whenever a proof involves `Hp`, the theorems cited in the text usually
+    also work on the limited scope of the conclusion of theorem *)  
   pose proof (n10_22 (fun z => φ z → ψ z) (fun z => ψ z → φ z)) 
     as n10_22.
   setoid_rewrite <- Equiv4_01a in n10_22.
@@ -545,7 +544,7 @@ Proof.
   exact S5.
 Qed.
 
-(* Perhaps the most horrible concentration of proof I have ever seen *)
+(* NOTE: recheck this: Perhaps the most horrible concentration of proof I have ever seen *)
 Theorem n10_281 (φ ψ : Prop → Prop) :
   (∀ x, φ x ↔ ψ x) → ((∃ x, φ x) ↔ (∃ x, ψ x)).
 Proof.
@@ -635,7 +634,6 @@ Proof.
 Qed.
 
 (* Barbara's syllogism 2nd form *)
-
 Theorem n10_3 (φ ψ χ : Prop → Prop) :
   ((∀ x, φ x → ψ x) ∧ (∀ x, ψ x → χ x)) → ∀ x, φ x → χ x.
 Proof.
@@ -648,8 +646,7 @@ Proof.
     → ∀ x, (φ x → ψ x) ∧ (ψ x → χ x)).
   {
     (* n10_221 ignored *)
-    (* Technically we need to use `Equiv` and `Simp`. For convinience we use 
-    `destruct` immediately *)
+    (* simplification *)
     now destruct n10_22a.
   }
   assert (S2 : ((∀ x, φ x → ψ x) ∧ (∀ x, ψ x → χ x))
@@ -657,7 +654,8 @@ Proof.
   {
     intro Hp.
     pose proof (S1 Hp) as S1.
-    (* Original proof here has abbreviated a lot of proofs being explained separately *)
+    (* TODO: recheck this: original proof here has abbreviated a 
+      lot of proofs being explained separately *)
     assert (S1_1 : (φ X → ψ X) ∧ (ψ X → χ X) → (φ X → χ X)).
     {
       pose proof (Syll2_06 (φ X) (ψ X) (χ X)) as Syll2_06.
@@ -769,8 +767,7 @@ Proof.
     pose proof (n10_22
       (fun x => (φ x → ψ x))
       (fun x => (ψ x → φ x))) as n10_22.
-    (* Here we have a special case where `Equiv` doesn't work 
-      perfectly *)
+    (* TODO: check if this can be further cleared *)
     setoid_rewrite <- Equiv4_01a in n10_22.
     2: { apply Equiv4_01. }
     exact n10_22.
@@ -842,9 +839,6 @@ Proof.
   {
     intro Hp.
     pose proof (n10_32 χ φ) as n10_32.
-    (* Here we simplify the proof and omit related theorems. We directly use 
-    `rewrite` for a `↔` relation, while strictly speaking it's only allowed
-    for `=` relations. *)
     rewrite -> n10_32 in Hp.
     exact Hp.
   }
@@ -886,7 +880,7 @@ Proof.
   }
   assert (S5 : (∀ x, φ x ∧ P) → (∀ y, φ y) ∧ P).
   {
-    (* Original text here seems unsatisfying in a sense of rigor *)
+    (* TODO: recheck this: original text here seems unsatisfying in a sense of rigor *)
     Conj_as S4 S2 C1.
     now rewrite -> (n4_76 (∀ x, φ x ∧ P) (∀ y, φ y) P) in C1.
   }
@@ -897,7 +891,7 @@ Proof.
     pose proof (Fact3_45 (∀ y, φ y) (φ X) P) as Fact3_45.
     now MP Fact3_45 S6.
   }
-  (* Is it that we don't have alpha equivalence in this logic system?! *)
+  (* TODO: recheck this: Is it that we don't have alpha equivalence in this logic system?! *)
   assert (S8 : ((∀ y, φ y) ∧ P) → ∀ x, φ x ∧ P).
   {
     pose proof n10_11 as n10_11.
@@ -929,11 +923,7 @@ Proof.
     now setoid_rewrite -> n4_61 in S1.
   }
   assert (S3 : (∃ x, φ x → P) ↔ ¬ ((∀ x, φ x) ∧ ¬ P)).
-  {
-    (* In rigorous sense we should somehow use transitivity on equiv relation,
-     or MP then compose proof back  *)
-    now rewrite -> n10_33 in S2.
-  }
+  { now rewrite -> n10_33 in S2. }
   assert (S4 : (∃ x, φ x → P) ↔ (¬ ∀ x, φ x) ∨ P).
   { now setoid_rewrite -> n4_53 in S3. }
   assert (S5 : (∃ x, φ x → P) ↔ ((∀ x, φ x) → P)).
@@ -956,9 +946,7 @@ Proof.
   }
   assert (S3 : (∃ x, (P ∧ φ x)) → P).
   {
-    (* pose proof n10_23 as n10_23. *)
     pose proof (n10_23 (fun x => P ∧ φ x) P) as n10_23.
-    (* omit the MP we should use *)
     now rewrite -> n10_23 in S2.
   }
   assert (S4 : (P ∧ φ X) → (φ X)).
@@ -1026,11 +1014,7 @@ Proof.
     now MP n10_281 S2.
   }
   assert (S4 : (∃ x, φ x ∨ P) ↔ ((∀ x, ¬ φ x) → P)).
-  {
-    (* Same as previous attempts, here we directly use `rewrite` rather than
-    going on all the decomposing and recomposing *)
-    now rewrite -> n10_34 in S3.
-  }
+  { now rewrite -> n10_34 in S3. }
   assert (S5 : (∃ x, φ x ∨ P) ↔ ((∃ x, φ x) ∨ P)).
   {
     rewrite -> n4_6 in S4.
@@ -1102,7 +1086,7 @@ Proof.
     (fun x => θ x → ψ x)) as n10_22b.
   setoid_rewrite <- Equiv4_01a in n10_22b.
   destruct n10_22b as [n10_22bl _].
-  (* This step has omitted a lot of things *)
+  (* TODO: recheck this: This step has omitted a lot of things *)
   assert (S1 : ((φ x <[1- x -]> χ x) ∧ ((ψ x <[1- x -]> θ x)))
     → ((φ x -[1 x ]> χ x) ∧ (ψ x -[1 x ]> θ x))).
   {
@@ -1210,7 +1194,6 @@ Proof.
     MP n10_11 S6.
     pose proof (n10_21 (fun y => φ y ∨ ψ y)
       ((∀ x, φ x) ∨ (∀ x, ψ x))) as n10_21.
-    (* We don't use `MP` here and directly rewrite *)
     now rewrite -> n10_21 in n10_11.
   }
   exact S7.
@@ -1300,7 +1283,6 @@ Proof.
     → ((ψ x → φ x) <[1- x -]> (θ x → χ x))).
   {
     pose proof (n10_413 ψ φ θ χ) as n10_413.
-    (* as always, ignore some chores *)
     now rewrite -> n4_3 in n10_413 at 1.
   }
   assert (S2 : ((φ x <[1- x -]> χ x) ∧ ((ψ x <[1- x -]> θ x)))
@@ -1322,7 +1304,6 @@ Proof.
     rewrite -> n4_76 in C1.
     Syll_as C1 n10_4 S1_1.
     setoid_rewrite <- Equiv4_01a in S1_1.
-    (* Change the orders in conclusion *)
     setoid_rewrite -> n4_21 in S1_1 at 4.
     now setoid_rewrite -> n4_21 in S1_1 at 5.
   }
@@ -1347,11 +1328,7 @@ Proof.
   {
     rewrite -> n4_51 in S2.
     pose proof n4_56 as n4_56.
-    (* The definition of `n4_56` is `∀ P Q : Prop, ¬ P ∧ ¬ Q ↔ ¬ (P ∨ Q)`.
-    we use `n10_11` to get roughly a `∀ x, ¬ P x ∧ ¬ Q x ↔ ¬ (P x ∨ Q x)`, 
-    and then use `n10_271` to get `(∀ x, ¬ P x ∧ ¬ Q x) ↔ (∀ x, ¬ (P x ∨ Q x))`.
-    There are many places in this chapter, where both `n10_271` and `n10_11` 
-    is ignored, and we only perform a `setoid_rewrite`. *)
+    (* *10.11, *10.271 ignored *)
     now setoid_rewrite -> n4_56 in S2.
   }
   assert (S4 : (∃ x, φ x) ∨ (∃ x, ψ x) ↔ (∃ x, φ x ∨ ψ x)).
@@ -1516,7 +1493,6 @@ Proof.
   {
     pose proof (n4_71 (φ X) (ψ X)) as n4_71.
     rewrite -> (n4_21 (φ X) (φ X ∧ ψ X)) in n4_71.
-    (* Here we skip the `Simp` to select the branch *)
     now destruct n4_71.
   }
   assert (S2 : (φ x -[1 x ]> ψ x) 
