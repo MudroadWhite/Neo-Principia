@@ -1907,6 +1907,8 @@ Theorem n20_702 (f : Prop -> (Prop -> Prop) -> Prop) :
 Proof.
 Admitted.
 
+(* NOTE: most of the citations for the proofs are only providing 1-parameter
+  versions for 2 parameter requirements *)
 Theorem n20_703 (f : (Prop -> Prop) -> (Prop -> Prop) -> Prop) :
   ∃ (g : (Prop -> Prop) -> (Prop -> Prop) -> Prop), 
     ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 cz2]]
@@ -1961,10 +1963,17 @@ Proof.
       <[- Phi Psi  -]>
       [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => G cz1 cz2]])).
   {
+    intro Hp.
+    pose proof (S2 Hp) as S2.
     pose proof n20_1 as n20_1.
-    simpl in n20_1.
+    (* unprovable: provide 2-parameters version for *20.1 *)
+    simpl in n20_1. simpl.
     pose proof n10_35 as n10_35.
+    admit.
   }
+  assert (S4 : (exists g, (f Chi Theta <[- Chi Theta -]> g Chi Theta))
+    -> 
+  )
 Admitted.
 
 Theorem n20_71 (alpha beta : Class.t Prop) :
