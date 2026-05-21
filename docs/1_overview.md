@@ -8,13 +8,15 @@ Wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_o
 We also have a type system, defaulted by most people, in Lean/Rocq. Propositions are elements of sets, functions are modeled with lambda calculus. The most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in Principia. Propositions are not types. Sometimes for brevity propositions are untyped. The inference is performed by rewriting on propositions, not on types. Type plays a much more auxiliary role, and Principia which embodies ramified theory of types, is actually a rewriting system.
 
 ## What is the aesthetics for this project?
-With [Randall's work](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) as reference, I believe that most of the existing work attempts at reducing the complexity of PM with better mathematical notions. As the opposite, we want to pertain maximum PM flavor. This means:
+For formalizing Principia Mathematica, there can be many features that you want to address with. [pmGenerator](https://github.com/xamidi/pmGenerator) tries to produce the shortest proof as possible. [Randall's work](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) attempts at reducing the complexity of PM with better mathematical notions. There might exist ppl trying to provide maximum automation for Principia Mathematica's deduction.
+
+Here is our take: pertain maximum PM flavor. This means:
 - We want to implement all symbols appeared in PM
 - We want minimal tools to get the work done
 - We want maximum PM theorems being proven
 - We want every proof steps followed and presented
 
-In addition, we are allowed to simplify PM's proof when the it goes tedious. In practice, our proving style is a mixture of 2 major mechanics: PM's original "bottom-up construction" method and our "rewrite/setoid_rewrite". See [tactics](./4_tactics) for a detailed explanation.
+In addition, we are allowed to simplify PM's proof when the it goes tedious. In practice, our proving style is a mixture of 2 major mechanics: PM's original "bottom-up construction" method and our "rewrite/setoid_rewrite". See [tactics](./4_tactics) for a detailed explanation. This turns out to be the best way to provide a balanced proof: PM's citations generally will not provide all theorems to construct every step bottom-up.
 
 ## Can Principia Mathematica be completely formalized?
 Yes.
