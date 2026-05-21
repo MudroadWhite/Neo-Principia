@@ -76,8 +76,13 @@ Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 - **elementary functions** are closed under `¬` and `∨`
 
 By proving a theorem, we mean:
-- Everything is restricted to elementary propositions and elementary functions
-- Deduction is performed through *modus ponens* designed in \*1.11. Currently we don't see dependencies for \*1.1
+|           Property          |      Limitation        |
+|-----------------------------|------------------------|
+| Highest proposition order   | Elementary proposition |
+| Modus Ponens theorem        | Only \*1.11            |
+| Generalization              | Not allowed            |
+| Functions                   | Not allowed            |
+| Introducing fresh variables | Not allowed            |
 
 (p.92)Note: not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
 
@@ -119,6 +124,10 @@ Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`
 \*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus it sets up a convention for individuals. Individuals are the propositional variables constituted to the expression of a proposition. They are not propositions nor functions(p.51, p.132). *All individuals will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have exactly the same proposition type*. 
 
 The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
+
+TODO: make a table:
+- Name of type; Abbreviation; Parameters; Rules for same type
+
 1. **EProp.** All elementary propositions have a `EProp` type
 2. **EFunc.** Arguments: types of parameters. PM doesn't actually have the idea of `→` types, but it's quite obvious `→` types can model PM's function type when carefully used. Elementary functions should have same type if 
     1. e-func A is obtained through `¬` on e-func B
@@ -130,15 +139,26 @@ The rest of the text is the typing algorithm for propositions and functions. Not
         1. Have exactly 1 parameter
         2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
    Note that not all proposition of same order proposition have the same type, because of the types of functions.
-4. **Constants.** For something more specific, constants are some letters that shouldn't be treated as a variable, and is allowed to be appeared in functions. In our implementation such distinction is very hard to make a difference.
-5. **Others.** Every notion appeared in PM, for example classes, comes up with a typing rule for that notion. The full typing algorithm is actually scattered around the chapters. For example see \*11.311.
+4. **Others.** Every notion appeared in PM, for example classes, comes up with a typing rule for that notion. The full typing algorithm is actually scattered around the chapters. For example see \*11.311. In particular, we won't implement constants for our shallow embedding.
 
-By proving a theorem in chapter 9 - 11, we assume:
-- Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
+By proving a theorem in chapter 9 - 11, we mean:
+|           Property          |          Limitation         |
+|-----------------------------|-----------------------------|
+| Highest proposition order   | 1st order proposition\[\*\] |
+| Modus Ponens theorem        | Arbitrary                   |
+| Generalization              | Allowed for E-props         |
+| Functions                   | 1st order                   |
+| Introducing fresh variables | Allowed for E-props         |
+| Theorem variants            | Not allowed                 |
+| Function type               | Untyped\[\*\*\]             |
+| Function parameters         | <= 1 order                  |
+
+**\[\*\]**: Several propositions in the beginning of chapter 9 is still limited to elementary propositions
+**\[\*\*\]**: Whether it is typed depends on how they are used in later chapter, and I'm still not sure about this
+
+TODO: 
 - All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
-- *Modus ponens* is already at its maximum strength
-- We can *generalize* atomic variables, sometimes including functions being denoted like `Phi`. Note that currently we didn't implement generalization as a `Ltac`, and to fit better into the text, we should actually implement such tactic.
-- Fresh variables can be introduced in the middle of the proof on need
+- can we generalize for functions?
 
 Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
 - Theorems written in natural language define the typing algorithm: what is a type, what parameters are functions allowed to take by the regulation of types. Eventually we prove that we can construct all possible functions for 1-higher order.
@@ -191,12 +211,22 @@ Chapter 12 also brings the symbol `!` to awareness, and will be frequently used 
 1. Emphasize(p.163, the second "It will be seen that...") that we might consider both the function and its parameter as variables for an expression. The purpose is to make functions as variables easier for people to recognize.
 2. Indicate that the function is a *predicative function*, not a random untyped one.
 
-By proving a theorem,
-- Theorems in all previous chapters are free to be **lift**ed to their higher order equivalents, which is independent of *Axiom of Reducibility*
-- Not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164)
-- (p.52, 162, 163, 164)Only individuals and matrices are allowed as parameters for matrices. (n-order) functions and propositions are not allowed as parameters.
-- (p.165)Only predicative functions are allowed to be generalized
-- Functions are allowed to be *untyped*, taking a parameter and return a proposition of *unknown* order.
+By proving a theorem, we mean,
+|           Property          |                Limitation             |
+|-----------------------------|---------------------------------------|
+| Highest proposition order   | Arbitrary                             |
+| Modus Ponens theorem        | Arbitrary                             |
+| Generalization              | Predicative functions(p.165)          |
+| Functions                   | Arbitrary                             |
+| Introducing fresh variables | Arbitrary                             |
+| Theorem variants            | Arbitrary                             |
+| Function type               | Can be untyped\[\*\]                  |
+| Function parameters         | Only individuals and matrices\[\*\*\] |
+
+**\[\*\]**: Untyped functions take a parameter and return a proposition of *unknown* order.
+**\[\*\*\]**: See (p.52, 162, 163, 164).
+
+In addition, not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
 
 ### Chapter 13
 In Rocq, we have different types for `=`. We can have `=` on propositions, `=` on `=` between propositions, `=` on `=`... and so on. Russell realized that he should give the `=` a similar treatment, but the hierarchy is slightly different: `=` is itself treated as a propositional function, and `=` can be an identity on 1st order, second order, ... arbitrary order functions. The first citation of chapter 12's axiom of reducibility appears at \*13.101, and with which applied to \*13.101, the order of `=` has been generally collapsed off. 
