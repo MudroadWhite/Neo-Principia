@@ -2013,11 +2013,18 @@ Proof.
   exact S5.
 Admitted.
 
-Theorem n20_71 (alpha beta : Class.t Prop) :
-  (alpha = beta) <-> ([alpha @ calpha => g calpha]
-    <[- g : (Prop -> Prop) -> Prop -]> [beta @ cbeta => g cbeta]).
+Theorem n20_71 (FAlpha FBeta : Prop -> Prop) :
+  let Alpha := (^z => FAlpha z) in
+  let Beta := (^z => FBeta z) in
+  [Alpha @ calpha => [Beta @ cbeta => calpha = cbeta]] 
+    <-> ([Alpha @ calpha => g calpha]
+      <[- g -]> [Beta @ cbeta => g cbeta]).
 Proof.
-
+  set (Alpha := (^z => FAlpha z)).
+  set (Beta := (^z => FBeta z)).
+  (* TODO: should be easy *)
+  pose proof n20_19 as n20_19.
+  simpl in n20_19. simpl.
 Admitted.
 
 Theorem n20_8 (Phi : Prop -> Prop) (A : Prop) :
