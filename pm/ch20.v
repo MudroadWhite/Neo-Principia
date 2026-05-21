@@ -92,6 +92,10 @@ Definition n10_11_pred (Y : Order 1) (φ : Order 1 → Prop)
   : φ Y → ∀ x, φ x.
 Admitted.
 
+Definition n10_11_pred2_1 (Y : Order2 2) (φ : Order2 2 → Prop)
+  : φ Y → ∀ x, φ x.
+Admitted.
+
 Definition n10_11_pred_1 (Y : Order 2) (φ : Order 2 → Prop)
   : φ Y → ∀ x, φ x.
 Admitted.
@@ -108,11 +112,15 @@ Definition n10_28_pred (φ ψ : (Prop -> Prop) → Prop) :
   (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
 Admitted.
 
+Definition n10_28_pred_1 (φ ψ : Order 2 → Prop) :
+  (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
+Admitted.
+
 Definition n10_281_pred (φ ψ : (Prop -> Prop) → Prop) :
   (∀ x, φ x ↔ ψ x) → ((∃ x, φ x) ↔ (∃ x, ψ x)).
 Admitted.
 
-Definition n10_28_pred_1 (φ ψ : ((Prop -> Prop) -> Prop) → Prop) :
+Definition n10_281_pred2_1 (φ ψ : Order2 2 -> Prop) :
   (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
 Admitted.
 
@@ -1969,11 +1977,40 @@ Proof.
     (* unprovable: provide 2-parameters version for *20.1 *)
     simpl in n20_1. simpl.
     pose proof n10_35 as n10_35.
+    simpl in n10_35.
     admit.
   }
   assert (S4 : (exists g, (f Chi Theta <[- Chi Theta -]> g Chi Theta))
-    -> 
-  )
+    -> exists (g : (Prop -> Prop) -> (Prop -> Prop) -> Prop), 
+      ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 cz2]]
+      <[- Phi Psi -]> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => g cz1 cz2]])).
+  {
+    pose proof (n10_11_pred2_1 G (fun g =>
+      (f Chi Theta <[- Chi Theta -]> g Chi Theta)
+      → ([^ z => Phi z @ cz1 =>
+         [^ z => Psi z @ cz2 => f cz1 cz2]])
+         <[- Phi Psi -]>
+         ([^ z => Phi z @ cz1 =>
+          [^ z => Psi z @ cz2 => g cz1 cz2]])))
+      as n10_11.
+    MP n10_11 S3.
+    pose proof (n10_281_pred2_1
+      (fun g => (f Chi Theta) <[- Chi Theta -]> (g Chi Theta))
+      (fun g => 
+        ([^ z => Phi z @ cz1 => [^ z => Psi z @ cz2 => f cz1 cz2]])
+        <[- Phi Psi -]>
+        ([^ z => Phi z @ cz1 => [^ z => Psi z @ cz2 => g cz1 cz2]])))
+      as n10_281.
+    now MP n10_281 n10_11.
+  }
+  assert (S5 : ∃ (g : (Prop -> Prop) -> (Prop -> Prop) -> Prop), 
+      ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 cz2]]
+    <[- Phi Psi -]> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => g cz1 cz2]])).
+  {
+    (* unprovable *)
+    admit.
+  }
+  exact S5.
 Admitted.
 
 Theorem n20_71 (alpha beta : Class.t Prop) :
