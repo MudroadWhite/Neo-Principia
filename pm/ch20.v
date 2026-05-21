@@ -149,6 +149,7 @@ Module Class.
   Record t (A : Type) : Type := {
     (* For storing the A type *)
     get_A := A;
+    (* UNUSED *)
     get_func : get_A -> Prop;
   }.
   Definition mk {A : Type} (Phi : A -> Prop) := Build_t A Phi.
@@ -160,15 +161,15 @@ Example class_mk_destruct_example_1 :=
 Example class_mk_destruct_example_2 := 
   class_example_1.(Class.get_A Prop).  
 
-(* This should be the correct way to define application on class
-  We need the `B` because `f` could maybe accept more parameters *)
+(* We need the `B` because `f` could maybe accept more parameters *)
 Definition class_app {A B : Type} (f : (A -> Prop) -> B) (cls : Class.t A) : B. Admitted.
 
-(* This is a very ad-hoc implementation for functions that takes classes as parameters. 
+(* NOTE: This is a very ad-hoc implementation for functions that takes classes as parameters. 
 We are still figuring out the correct way to correctly define functions taking arbitrary 
 "level"s of class as parameter. See n20_08. From the nature of this definition, it seems 
 that `app` is supposed to generate the related `mk` in a "smart" way. `c` suffix stands for 
-"applying on another *c*lass" *)
+"applying on another *c*lass".
+Note that this notation and corresponded *20.08 is not used in the whole chapter *)
 Definition class_app_c {A B : Type} (f : ((A -> Prop) -> Prop) -> B) 
   (Psi : (A -> Prop) -> Prop) : B. Admitted.
 
@@ -203,7 +204,6 @@ Example class_app_example_1 := [class_example_1 @ cx => cx = cx].
 Example class_app_example_2 := [^(z : Prop) => z = z @ cz => cz = cz].
 Example class_app_example_3 := [class_example_1 @ c1 => [class_example_1 @ c2 => c1 = c2]].
 
-(* TODO: add `alpha` support in the future *)
 Notation "[ ^ ^ Psi @ cclassname => B ]" :=
   (class_app_c (fun cclassname => B) Psi)
   (at level 150, cclassname binder, right associativity) : debug_class.
@@ -214,7 +214,7 @@ Notation "x '<class_in>' Phi" := (class_in x Phi)
   (at level 120, right associativity) : debug_class.
 Example class_in_example (x : Prop) := x <class_in> (fun z => z = z).
 
-(* Another `class_in` specifically for classes. All above should be subject to
+(* Another `class_in` specifically for classes. All these should be subject to
 future refinements... *)
 Notation "c '<class_in_fc>^' Psi" := (class_in_c c Psi) 
   (at level 120, right associativity) : debug_class.
