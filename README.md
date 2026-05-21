@@ -11,7 +11,7 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 - Rocq doesn't need a lot of version updates
 
 ## Features
-Compatability.
+Ecosystem friendly.
 
 - [Documented](./docs/README.md)(WIP - will be rewritten for most of the parts) and with [slides](./slides/).
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. One theorem a line.
