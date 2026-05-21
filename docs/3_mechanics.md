@@ -266,14 +266,7 @@ TODO:
 - Mixed symbol definitions making it hard to distinguish
 - "ambiguity of function types for symbol definitions..."
 
-## See Also
-- https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html
-- https://plato.stanford.edu/entries/pm-notation/
-- https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
-- https://randall-holmes.github.io/Drafts/notesonpm.pdf
-- https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/
-- https://nap.nationalacademies.org/read/10866/chapter/66
-- https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
+----------------
 
 TODO:
 - IMPORTANT: draw tables for things

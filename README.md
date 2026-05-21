@@ -59,5 +59,13 @@ Although I have tried to organize the issues well to indicate the current progre
 - [ndrwnaguib's formalization of PM in Lean](https://github.com/ndrwnaguib/principia)
 - [Randall Holmes's RTT implementation](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT)
 - [xamidi's propositional calculus theorems](https://github.com/xamidi/luk-pmproofs) from [Łukasiewicz's L1-system](https://www.jstage.jst.go.jp/article/pjab1945/41/6/41_6_436/_pdf)
-- Also his [pmGenerator](https://github.com/xamidi/pmGenerator) for something I didn't check what is it yet
+- Also his [pmGenerator](https://github.com/xamidi/pmGenerator) generating minimal proofs for a collection of PM theorems
 - [Metamath solitaire's implementation on propositional calculus theorems](https://us.metamath.org/mmsolitaire/pmproofs.txt)
+
+## Other useful links
+- https://plato.stanford.edu/entries/pm-notation/
+- https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
+- https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
+- https://blog.plover.com/math/PM.html A rare post that goes over chapter 20 trying to give insights to PM!
+- https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/ One link that helps me understand what is matrix
+- https://nap.nationalacademies.org/read/10866/chapter/66 Another random material that I think related to the matrix in PM
