@@ -254,3 +254,4 @@ TODO:
   - 1-order props are just being assumed
 - ch9: Explain when do we need `set X := Intro_x`
 - ch9: type of props varies by funcs... "practically the same"; the definition can be fixed by change to "returning order of a function"
+- functions type more like functions in C (without currying, cannot be partially applied)
