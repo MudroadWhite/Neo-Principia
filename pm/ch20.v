@@ -124,6 +124,14 @@ Definition n10_5_pred (φ ψ : (Prop -> Prop) → Prop) :
   (∃ x, φ x ∧ ψ x) → ((∃ x, φ x) ∧ (∃ x, ψ x)).
 Admitted.
 
+Definition n11_11_pred (Z W : Prop -> Prop) (φ : (Prop -> Prop) 
+  → (Prop -> Prop) → Prop) : (φ Z W) → (∀ x y, φ x y).
+Admitted.
+
+Definition n11_2_pred (φ : (Prop -> Prop) → (Prop -> Prop) → Prop) : 
+  (∀ x y, φ x y) ↔ (∀ y x, φ x y).
+Admitted.
+
 Open Scope iota_description.
 
 Definition n14_21_pred (φ ψ : (Prop -> Prop) → Prop) : 
@@ -1925,7 +1933,37 @@ Proof.
         (exists Chi Theta, (Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x)
           /\ G Chi Theta))).
   {
-    
+    (* *11.3 ignored *)
+    intro Hp.
+    pose proof (S1 Hp) as S1.
+    (* NOTE: here the priority of `Phi Psi` and `Chi Theta`'s generalization
+    is pretty confusing *)
+    pose proof (n11_11_pred Phi Psi
+      (fun Phi Psi => 
+        (((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ f Chi Theta)
+        <[- Chi Theta -]>
+        ((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ G Chi Theta)))) 
+        as n11_11.
+    MP n11_11 S1.
+    (* NOTE: although it looks correct, I don't really know if this
+    is technically permitted *)
+    setoid_rewrite -> n11_2_pred in n11_11 at 2.
+    setoid_rewrite -> n11_2_pred in n11_11 at 1.
+    setoid_rewrite -> n11_2_pred in n11_11 at 3.
+    setoid_rewrite -> n11_2_pred in n11_11 at 2.
+    (* pose proof n11_3 as n11_3. *)
+    (* unprovable: *11.341 cannot be used in this sense *)
+    pose proof (n11_341) as n11_341.
+    admit.
+  }
+  assert (S3 : ((f Chi Theta) <[- Chi Theta -]> (G Chi Theta))
+    -> ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 cz2]]
+      <[- Phi Psi  -]>
+      [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => G cz1 cz2]])).
+  {
+    pose proof n20_1 as n20_1.
+    simpl in n20_1.
+    pose proof n10_35 as n10_35.
   }
 Admitted.
 
