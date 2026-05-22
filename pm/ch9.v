@@ -56,9 +56,9 @@ Definition n9_11 (φ : Prop → Prop) (X Y : Prop) :
 (* ******** *)
 
 (* Primitive propositions for inference, for 1st order propositions. *)
-(* Pp *9_12 : What is implied by a true premise is true. Analogue to *1.1. *)
-(* Currently I decide that we perform `MP` on 1st order props with the native 
-  `MP` tactic without explicitly citing this alternative version. *)
+(* Pp *9_12 : What is implied by a true premise is true. Analogue to *1.1. 
+  We will not distinguish between *9.12 and *1.1. For all kinds of modus ponens, we 
+  only use the `MP` tactic. *)
 Definition MP9_12 (P Q : Prop): (P → Q) → P → Q. Admitted.
 
 (* Pp n9_13 : In any assersion containing a real variable, this real variable
@@ -75,15 +75,13 @@ Definition n9_13 (φ : Prop → Prop) (Y : Prop) :
   φ Y → (∀ x , φ x). Admitted.
 (* ******** *)
 
-(* Primitive propositions for identifying propositions "of the same type" *)
-(* Individual: explained in p.51  *)
+(* Primitive propositions for identifying propositions "of the same type". WARNING:
+  this implementation is immature and won't fix *)
 Definition is_individual (x : Prop) : Prop. Admitted.
-(* TODO: currently we only assert efuncs that takes 1 argument. How to 
-  express that functions are taking multiple arguments of the same type? *)
+(* NOTE: Currently we only assert efuncs that takes 1 argument. *)
 Definition is_efunc (F : Prop → Prop) : Prop. Admitted.
 Definition is_eprop (P : Prop) : Prop. Admitted.
 
-(* NOTE: this implementation is outdated *)
 Module IsSameType.
   Inductive t (U V : Prop) : Prop :=
     | Individual : (is_individual U) → (is_individual V) → t U V
@@ -120,15 +118,7 @@ Definition n9_14 (A : Prop) (φ : Prop → Prop) (X : Prop) :
 
 (* Pp n9_15 : If for some `a` there is a proposition `φ a`, then there is a function
   `phi x^` and vice versa. *)
-(* 
-This is the `^` operator. In principia, we don't really have lambda calculus, nor is 
-function is a "first class" concept. We don't have `abs` and `app` rules on functions.
-In this system, functions have to be obtained from an already existed(and well typed) 
-proposition, limited to one parameter, and the parameter is obtained from abstracting 
-away a constant, mostly a individual.
-
-Currently our formalization is very unsatisfying, and actually didn't express the idea.
-*)
+(* This proposition is intended to type a function by saying that "this function exists". *)
 Definition n9_15 (A X : Prop) (φ : Prop → Prop) :
   (φ A) ↔ (X → φ X).
 Admitted.
@@ -141,8 +131,8 @@ Proof.
   (** Step 1 **)
   pose proof (n2_1 (φ Y)) as n2_1.
   (** Step 2 **)
-  (* Note that here we're starting to pass in a function as parameter. Whether 
-  this is allowed should be reconsidered in the future *)
+  (* TODO: we're passing in a function as parameter. Whether this is allowed should be 
+  examined *)
   pose proof (n9_1 (fun x => ¬ φ x ∨ φ Y) Y) as n9_1.
   (* MP here is the version *1.11 *)
   MP n9_1 n2_1.
@@ -159,8 +149,7 @@ Theorem n9_21 (φ ψ : Prop → Prop) :
 Proof.
   (** Necessary tools to be used globally **)
   (* Manually set up a `↔` variant from `=` relation so that we can `setoid_rewrite`. 
-  This enables substitution where `∀`s and `∃` are involved. Can we automate this 
-  with Ltac? *)
+  This enables substitution where `∀`s and `∃` are involved. *)
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
     as Impl1_01a.
   set (λ (φ0 : Prop → Prop) (P0 : Prop), 
@@ -267,8 +256,8 @@ Proof.
   assert (S8 : (∀ x, φ x → ψ x) → (∃ x, φ x) → (∃ x, ψ x)).
   { 
     now rewrite <- n9_01, <- Impl1_01,
-    (* Currently we're technically not allowed for 1st order propositions to appear
-    as parameters. Below might be not allowed and this proof might be flawed *)
+    (* TODO: by the text 1st order propositions shouldn't be allowed to appear
+    as parameters. Reexamine the proof below *)
             -> (n4_13 (∀ y, ¬ φ y)),
             <- n9_02, <- Impl1_01,
             <- (n4_13 (∃ x, φ x)) in S7.
@@ -277,7 +266,7 @@ Proof.
 Qed.
 
 Theorem n9_23 (φ : Prop → Prop) : (∀ x, φ x) → (∀ x, φ x).
-(* Original proof uses Id, 9.13, 9.21 to **turn away from the problem of mismatched 
+(* NOTE: Original proof uses Id, 9.13, 9.21 to **turn away from the problem of mismatched 
   parameter types**. *)
 Proof. 
   set (X := Intro_individual "x").
@@ -335,9 +324,6 @@ Proof.
   assert (S4 : ∀ x, (φ x ∨ ∀ y, φ y) → φ x).
   {
     setoid_rewrite -> Impl1_01a in S3.
-    (* NOTE: similar to the treatment with `n9_13`, we can use `f_equal`
-    to derive a quantified version for all these `=` propositions. Here for 
-    simplicity we omit the technical details *)
     setoid_rewrite <- n9_05a in S3.
     setoid_rewrite <- n9_01a in S3.
     setoid_rewrite <- n9_04a in S3.
@@ -597,12 +583,10 @@ Proof.
   {
     repeat setoid_rewrite <- Assoc_Equiv in S1.
     rewrite <- (n9_04 φ (P ∨ Q)), <- (n9_04 φ (Q ∨ P)) in S1.
-    (* A demonstration where we use `Syll` to perform a single-direction 
-      rewrite. We can alternative use `replace`, or `rewrite` using a 
-      equivalence relation.
-      In the future, we want to use as least `replace` as possible, and
-      optionally `rewrite on equiv`, as it requires relatively lowest 
-      setups
+    (* NOTE: A demonstration where we use `Syll` to perform a single-direction 
+      rewrite, with its proof attached below. We can alternatively use `replace`, 
+      or `rewrite` using a equivalence relation.
+      For the rest of the project, `replace` is not recommended to use.
     *)
     pose proof (n2_32 Q P (∀ x, φ x)) as n2_32.
     Syll_as S1 n2_32 S1_1.
@@ -737,8 +721,8 @@ Proof.
   (* ******** *)
   assert (S1 : (P → Q) → ((P ∨ φ Y) → (Q ∨ φ Y))).
   { 
-    (* The most optimal way here is still using `Syll` on the proposition, 
-    but we show how it can also be done with a `rewrite` on a ↔` relation  *)
+    (* While this step is supposed to be `Syll`ed, we show how it can also 
+      be done with a `rewrite` on a ↔` relation  *)
     pose proof (Sum1_6 (φ Y) P Q) as Sum1_6.
     now rewrite -> (n4_31 (φ Y) P), -> (n4_31 (φ Y) Q) in Sum1_6.
   }
@@ -749,7 +733,7 @@ Proof.
   }
   assert (S3 : (P → Q) → ∀ y, ∃ x, (P ∨ φ x) → (Q ∨ φ y)).
   { 
-    (* *9.04 ignored - optional *)
+    (* *9.04 ignored *)
     pose proof (n9_13 (fun y => ∃ x, P ∨ φ x → Q ∨ φ y) Y) as n9_13.
     now Syll_as S2 n9_13 S3.
   }
@@ -866,7 +850,6 @@ Proof.
   }
   assert (S3 : (P → ∃ x, φ x) → P ∨ R → (∃ x, φ x) ∨ R).
   {
-    (* We won't stick to `Syll` here... *)
     setoid_rewrite -> Impl1_01a in S2 at 2.
     setoid_rewrite -> Impl1_01a in S2 at 3.
     rewrite <- n9_06, <- n9_06, <- n9_05 in S2.
