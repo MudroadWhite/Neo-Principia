@@ -2027,13 +2027,33 @@ Theorem n20_8 (Phi : Prop -> Prop) (A : Prop) :
   (Phi A ∨ (~ Phi A)) -> [^x => (Phi x ∨ (~ Phi x)) @ cx1 =>
     [^x => (x = A ∨ (~ (x = A))) @ cx2 => cx1 = cx2]].
 Proof.
-Admitted.
+  (* TOOLS *)
+  set (X := Intro_individual "x").
+  (* ******** *)
+  assert (S1 : (Phi A ∨ (~ Phi A)) 
+    -> ((Phi x \/ ~ (Phi x)) <[- x -]> ((x = A) \/ ~(x = A)))).
+  {
+    pose proof (n13_3 A X Phi) as n13_3.
+    pose proof (n10_11 X (fun x => 
+      Phi A ∨ ¬ Phi A 
+        → Phi x ∨ ¬ Phi x ↔ x = A ∨ x ≠ A)) 
+      as n10_11.
+    MP n10_11 n13_3.
+    now rewrite -> n10_21 in n10_11.
+  }
+  assert (S2 : (Phi A ∨ (~ Phi A)) 
+    -> [^x => (Phi x ∨ (~ Phi x)) @ cx1 =>
+      [^x => (x = A ∨ (~ (x = A))) @ cx2 => cx1 = cx2]]).
+  { now rewrite -> n20_15 in S1. }
+  exact S2.
+Qed.
 
 Theorem n20_81 (Phi Psi : Prop -> Prop) (A : Prop) :
   ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
   -> [^x => Phi x ∨ (~ Phi x) @ cx1 => [
     ^x => Psi x ∨ (~ Psi x) @ cx2 => cx1 = cx2]].
 Proof.
+  
 Admitted.
 
 Close Scope formal_equiv.
