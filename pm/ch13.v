@@ -17,9 +17,7 @@ with explicit parameters, due to the increasing complexity only to be multiplied
 in lateer chapters.
 *)
 
-(* Modified theorems to be used in this chapter specifically for predicates
-  In the future, we might want to change `Prop → Prop` into `A → Prop`
-  for common theorems starting from ch1 *)
+(* Variants for theorems to be used in the chapter specifically for predicates *)
 Definition n10_11_pred (Y : Order 1) (φ : Order 1 → Prop)
   : φ Y → ∀ x, φ x.
 Admitted.
@@ -75,7 +73,7 @@ Theorem n13_1 (X Y : Prop) : (X = Y)
 Proof.
   pose proof (n4_2 (X = Y)) as n4_2.
   now rewrite -> n13_01 in n4_2 at 2.
-  (* n10_02 ignored: I think this is unrelated *)
+  (* *10.02 ignored: I think this is unrelated *)
 Qed.
 
 (* p.169: strictly speaking, *13.101 should be a primitive proposition.
@@ -91,7 +89,7 @@ Proof.
     (* The ambiguity in this very step is we don't have a rule
     to add `∧` into *12.1 right away *)
     pose proof (n12_1 ψ) as n12_1.
-    (* simplification... is it even possible to remove this? *)
+    (* simplification... TODO: is it even possible to remove this? *)
     destruct n12_1 as [If Hn12_1].
     (* The following two can be obtained with `n10_1` *)
     pose proof (Hn12_1 X) as Hn12_1a.
@@ -139,9 +137,6 @@ Theorem n13_11 (X Y : Prop) :
     (∀ φ : Order 1, (φ X) ↔ (φ Y)).
 Proof.
   (* TOOLS *)
-  (* 
-  Equiv4_01
-  *)
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
     (Equiv4_01 P0 Q0))
     as Equiv4_01a.
@@ -166,8 +161,8 @@ Proof.
   { apply n13_101. }
   assert (S4 : (X = Y) → ((¬ Iφ X) → (¬ Iφ Y))).
   {
-    (* n1.7 ignored *)
-    (* This step is very suspicious *)
+    (* *1.7 ignored *)
+    (* Unprovable: the intention for this step in unclear *)
     admit.
   }
   assert (S5 : (X = Y) → (Iφ Y → Iφ X)).
@@ -204,6 +199,7 @@ Proof.
   {
     pose proof n13_101 as n13_101.
     pose proof Comp3_43 as Comp3_43.
+    (* TODO: recheck this step *)
     (* Same as n13_11.S4, and this is currently under investigation *)
     admit.
   }
@@ -373,9 +369,6 @@ Proof.
     (* Simplification *)
     intro Hp.
     pose proof (S2 Hp) as S2.
-    (* This seems to be a very exceptional use of *13_15 :
-    it is being used as a term being applied not a theorem 
-    to be applied *)
     pose proof (n13_15 X) as n13_15.
     now MP S2 n13_15.
   }
@@ -521,11 +514,8 @@ Proof.
   }
   assert (S5 : (φ Y ∧ (X = Y)) → (φ X ∧ (Y = X))).
   {
-    (* For this kind of substitution we have to rely on some theorems... which
-    is different from original treatment *)
     pose proof (n10_11 X (fun x => φ x ∧ x = Y → φ Y ∧ x = Y)) as n10_11a.
     MP n10_11a S3.
-    (* This might not be technically allowed *)
     pose proof (n10_11 Y (fun y => ∀ x, φ x ∧ x = y → φ y ∧ x = y)) as n10_11b.
     MP n10_11b n10_11a.
     pose proof (n10_11b X Y) as n10_11c.
@@ -535,7 +525,7 @@ Proof.
   assert (S6 : (φ Y ∧ (X = Y)) → (φ X ∧ (X = Y))).
   {
     pose proof (n13_16 X Y) as n13_16.
-    (* Fact ignored *)
+    (* *3.45 ignored *)
     now rewrite <- n13_16 in S5.
   }
   assert (S7 : (φ X ∧ (X = Y)) ↔ (φ Y ∧ (X = Y))).
@@ -646,8 +636,7 @@ Proof.
   assert (S6 : ((φ A ∨ ¬ φ A) → (X = A ∨ (X ≠ A)))
     ∧ ((φ A ∨ ¬ φ A) → ((X = A) → (φ X ∨ ¬ φ X)))).
   {
-    (* n10_13 ignored - we directly use `Conj` instead. Is it legal? *)
-    (* n10_221 ignored *)
+    (* *10.221, *10.13 ignored - we directly use `Conj` instead. TODO: Is it legal? *)
     now Conj_as S4 S5 C1.
   }
   assert (S7 : ((φ A ∨ ¬ φ A) → φ X ∨ ¬ φ X)
