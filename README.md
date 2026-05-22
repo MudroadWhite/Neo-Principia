@@ -13,7 +13,7 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 ## What does this project do?
 We have:
 - Demonstrated a framework to formalize most of the theorems in Principia Mathematica with remarkable strength
-  - This framework has maintained a balance between accuracy and simplicity
+  - This framework has maintained a balance between term-level clarity and simplicity
   - This framework has broken the record of the formalization pass through chapter 5 to chapter 20, without unleashing its maximum  potential
 - Identified several defects and ambiguity of PM's design under a modern type theory's perspective
 - Proposed a specification for prospective participants who want to grind down to perfection
