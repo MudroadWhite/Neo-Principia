@@ -69,6 +69,7 @@ Although I have tried to organize the issues well to indicate the current progre
 - [Metamath solitaire's implementation on propositional calculus theorems](https://us.metamath.org/mmsolitaire/pmproofs.txt)
 
 ## Other useful links
+- https://proofassistants.stackexchange.com/questions/1105/how-does-the-formal-proof-of-the-four-color-theorem-work Discussion of the 4-color theorem, as a reflection. Viewers are also encouraged to check out the project since it's not that complicated
 - https://plato.stanford.edu/entries/pm-notation/
 - https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
 - https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
