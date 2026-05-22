@@ -38,6 +38,12 @@ Fixpoint Order (n : nat) : Type :=
   | (S m) => let A := Order m in (A -> Prop)
   end.
 
+Fixpoint Order2 (n : nat) : Type :=
+  match n with
+  | 0 => Prop
+  | (S m) => let A := Order m in (A -> A -> Prop)
+  end.
+
 (* p.51: To instantiate variables appeared in a propositional function, we use the concept 
 of "individual", designed as as wrapper just to tag an real variable. This allows easy identification 
 on them and they are free to be created everywhere.
@@ -61,3 +67,5 @@ Definition Intro_individual (s : string) : Order 0. Admitted.
 (* For the same reason above, I believe that predicative functions coming fresh(after chapter 13) should 
 also be considered as individuals. TODO: This should be merged with `Intro_individual` *)
 Definition Intro_pred (s : string) (n : nat) : Order n. Admitted.
+
+Definition Intro_pred_2 (s : string) (n : nat) : Order2 n. Admitted.

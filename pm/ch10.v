@@ -57,7 +57,11 @@ Proof.  exact (n9_25 P φ). Qed.
 (* Thm 10.122: If for some a, there is a proposition φ a, then there is a function φ x^, and vice versa. [*9.15] *)
 
 (* Thm 10.13: If φ x^ and ψ x^ takes arguments of the same type, and we have |- φ x and |- ψ x, we shall have |- φ x ∧ ψ x . *)
-(* NOTE: We didn't enforce on "of the same type". *)
+(* NOTE: 
+  1. We didn't enforce `of the same type` so far. Currently I decide to just leave it manually specified 
+  2. The design of *10.13 might be flawed because it will be applied
+  on 2 propositions at a time
+*)
 Theorem n10_13 (φ ψ : Prop → Prop) (X : Prop) :
   φ X → ψ X → (φ X ∧ ψ X).
 Proof.
