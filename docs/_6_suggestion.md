@@ -1,5 +1,7 @@
 # Suggestion for perfect formalization
 
+TODO: 100 yrs ago, Russell and Whitehead published the book that only few customers dare to read. TODO: x yrs ago, several ppl attemped to write this book into a program. now this is an open source project...
+
 This chapter is a suggestion for a specification of PM's complete type system, based on the details we have gathered in [Audit Report](./5_audit.md).
 
 TODO:
