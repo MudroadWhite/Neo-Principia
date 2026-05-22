@@ -197,8 +197,6 @@ Proof.
     (∀ y, ∀ x, ∀ z, φ x y z)).
   {
     pose proof (n11_2 (fun x y => ∀ z, φ x y z)) as n11_2.
-    (* NOTE: Since Rocq doesn't make a difference, we omit all the
-      `Syll`s... *)
     now rewrite -> n11_2 in S1 at 2.
   }
   assert (S3 : (∀ x y z, φ x y z) ↔
@@ -225,16 +223,13 @@ Theorem n11_22 (φ : Prop → Prop → Prop) :
 Proof.
   assert (S1 : (∃ x y, φ x y) ↔ (¬ ∀ x, ¬ ∃ y, φ x y)).
   {
-    (* The `∃` are currently separated, i.e. in the form of 
+    (* NOTE: The `∃` are currently separated, i.e. in the form of 
       `∃ x, ∃ y` *)
     pose proof (n10_252 (fun x => ∃ y, φ x y)) as n10_252.
     (* TODO: check if it is elligible to use theorems in chapter 4 *)
     rewrite -> Transp4_11 in n10_252.
     rewrite <- n4_13 in n10_252.
-    (* Now we use n11_03 to merge the ∃. Since it's pretty tedious, I
-    want to ignore this in the future. We can see that Rocq doesn't even 
-    allow such rewrite to perform. *)
-    (* rewrite <- (n11_03 φ) in n10_252. *)
+    (* *11.03 ignored *)
     exact n10_252.
   }
   assert (S2 : (∃ x y, φ x y) ↔ (¬ ∀ x, ∀ y, ¬ φ x y)).
