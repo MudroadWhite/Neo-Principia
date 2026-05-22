@@ -13,16 +13,7 @@ Require Import Logic.FunctionalExtensionality.
 
 (* TODO:
 - fix all the `replace`s
-- fill in missing proofs
-- Better notation priority level wrt ch9 - 11
-- Fix notation conflict for iotaE
-- Fix new proof after new notation
-*)
-
-(* 
-From n14_17 and onward, we will see how the iota we defined should cope with the predicative functions. 
-Currently we still let iotas being "untyped", that is, being constructed based on untyped function. 
-Whether we can restrict the iotas to typed functions only is a future question.
+- Better notation priority level wrt ch9 - 11; optional formatting
 *)
 
 (* **************** *)
@@ -47,8 +38,6 @@ Example description_example :=
 (* iota's predicate, "Exists" which states that a description exist. My understanding
 is that `E` in `E!` is the capital letter of `Exists` and `!` indicates that it is a 
 predicate. 
-
-TODO: give this iota_E the correct `Order` type
 *)
 Definition description_exists {A : Type} (φ : A -> Prop) : Prop. Admitted.
 Example descriptionexists_example := description_exists (fun x => x).
@@ -98,7 +87,6 @@ Open Scope iota_description.
 
 Notation "[ 'ι' φ | x => B ]" := (description φ (fun (x : DescriptionArg φ) => B))
   (at level 150, x binder, right associativity) : iota_description.
-(* TODO: format... *)
 Example iota_notation_example := [ι (fun x => x) | ιφ => ιφ = ιφ].
 
 Notation "[ 'ιE' P ]" := (description_exists P)
@@ -320,8 +308,7 @@ Proof.
   {
     intros Hp.
     pose proof (S2 Hp) as S2.
-    (* simplifications... don't want to figure out how to do 
-    it correctly atm *)
+    (* simplifications *)
     intros x y.
     pose proof (S2 x y) as S2.
     destruct S2 as [S2l _].
@@ -445,11 +432,6 @@ Theorem n14_123 (X Y : Prop) (φ : Prop → Prop → Prop) :
     ↔ ((φ z w -[ z w ]> (z = X ∧ w = Y)) ∧ ∃ z w, φ z w)).
 Proof.
   (* TOOLS *)
-  (* 
-  Definition n11_06 (φ ψ : Prop → Prop → Prop) :
-  (φ x y <[- x y -]> ψ x y) = (∀ x y, (φ x y ↔ ψ x y)).
-Admitted.
-   *)
   set (λ φ0 ψ0 : Prop → Prop → Prop, eq_to_equiv 
     (φ0 x y <[- x y -]> ψ0 x y) (∀ x y, (φ0 x y ↔ ψ0 x y))
     (n11_06 φ0 ψ0)) as n11_06a.
@@ -598,7 +580,7 @@ Proof.
   assert (S5 : (∃ x y, φ z w <[- z w -]> ((z = x) ∧ (w = y)))
     → ((φ z w ∧ φ u v) -[ z w u v ]> ((z = u) ∧ (w = v)))).
   {
-    (* For 4 variables, the generalization has applied twice! *)
+    (* NOTE: For 4 variables, the generalization has applied twice! *)
     pose proof (n11_11 U V (fun u v =>
       (∃ x y, φ z w <[- z w -]> ((z = x) ∧ (w = y)))
       → (((φ Z W) ∧ (φ u v)) → ((Z = u) ∧ (W = v))))) 
@@ -614,7 +596,6 @@ Proof.
   assert (S6 : ((φ X Y) ∧ (((φ z w) ∧ (φ u v)) -[ z w u v ]> ((z = u) ∧ (w = v)))
     → (φ X Y ∧ ((φ z w ∧ φ X Y) -[ z w ]> ((z = X) ∧ (w = Y)))))).
   {
-    (* The ordering here is annoying... *)
     pose proof (n11_1 X Y (fun u v =>
       (∀ z w, φ z w ∧ φ u v → z = u ∧ w = v))) as n11_1.
     assert (A1 : ((φ z w ∧ φ x y) -[ (z w x y : Prop) ]> (z = x ∧ w = y))
@@ -799,9 +780,7 @@ Proof.
     ↔ [ι2 ψ, φ | ιψ ιφ => ιψ = ιφ]).
   {
     rewrite -> n11_23 in S2.
-    (* pose proof n14_111 as n14_111. *)
     setoid_rewrite -> n13_16 in S2 at 4.
-    (* rewrite <- n14_112 in S2. *)
     rewrite <- n14_111 in S2.
     rewrite -> n14_04 in S2.
     setoid_rewrite -> n14_113 in S2 at 2.
@@ -965,8 +944,8 @@ Proof.
     setoid_rewrite <- n4_32 in S3.
     setoid_rewrite -> n4_3 in S3 at 2.
     setoid_rewrite -> n4_3 in S3.
-    (* Now we are going to construct something, "bottom up",
-    with ad-hoc individuals *)
+    (* NOTE: Below is a case where we have to manually construct
+    everything "bottom up" with `setoid_rewrite` powerless *)
     pose proof (n14_121 X Y ψ) as n14_121.
     pose proof (Fact3_45
       ((ψ x <[- x -]> x = X) ∧ ψ x <[- x -]> x = Y)
@@ -1059,9 +1038,7 @@ Proof.
     → ([ι φ | ιφ => ψ ιφ]
       ↔ ∃ c, ((x = B) <[- x -]> (x = c)) ∧ ψ c)).
   {
-    (* Simplification: for this step to be performed, S2 has become the 
-    one to rewrite on the others. Technically speaking this involves the 
-    alternative form for `Syll` *)
+    (* Simplification *)
     intro Hp.
     pose proof (S2 Hp) as S2.
     pose proof (n14_1 φ ψ) as n14_1.
@@ -1156,7 +1133,7 @@ Proof.
     pose proof (n14_15_pred B φ) as n14_15.
     now rewrite -> n10_21_pred in n14_15.
   }
-  (* The following step is a beautiful demonstration on how our ι works
+  (* NOTE: The following step is a beautiful demonstration on how our ι works
     with predicates. During formalization, we find out that there are even
     shorter ways to finish the proof, *but* that is due to our lack in setting
     up correct abstraction. We prefer the most conservative way to procceed
@@ -1167,9 +1144,7 @@ Proof.
       ∧ (∀ ψ : Order 1, [ι φ | ιφ => ψ ιφ] ↔ ψ B))
     → ([ι φ | ιφ => ιφ = B]) ↔ (B = B)).
   {
-    (* left part of the ∧ *)
     pose proof (n10_1 (fun x => Iχ x ↔ (x = B)) B) as n10_1a.
-    (* right part of the ∧ *)
     pose proof (n10_1_pred (fun x : Order 1 => 
       [ι φ | ιφ => x ιφ] ↔ x B) Iχ) as n10_1b.
     Conj_as n10_1a n10_1b C1.
@@ -1184,7 +1159,7 @@ Proof.
     rewrite -> n4_3 in n4_22.
     Syll_as n3_47 n4_22 Sy1.
     (* We can see that in the original text, `Iχ` has been substituted into
-    a concrete function. Our analogue here is generalizing over this "Individual"
+    a concrete function. Our analogue here is generalizing over this constant
     whose body is currently an "admitted" definition to further substitute into
     a concrete definition, by applying n10_1 and n10_11 variants *)
     pose proof (n10_11_pred Iχ (fun p => 
@@ -1247,15 +1222,12 @@ Proof.
   {
     (* *12.1 ignored - I don't know if we need this or how is
     it being used actually. This might be something important *)
-    pose proof (n10_1_pred
-      (fun p => p B → [ι φ | ιφ => p ιφ]) 
-      (fun x => x = B)) as n10_1.
-    exact n10_1.
+    apply n10_1_pred.
   }
   assert (S3 : (∀ ψ : Order 1, ψ B → [ι φ | ιφ => ψ ιφ])
     → [ι φ | ιφ => ιφ = B]).
   {
-    (* as always... *)
+    (* unprovable *)
     pose proof n13_15 as n13_15.
     admit.
   }
@@ -1364,7 +1336,7 @@ Proof.
   }
   assert (S3 : [ιE φ] -> ∃ x, φ x).
   {
-    (* Same issue *)
+    (* unprovable *)
     pose proof n13_15 as n13_15.
     admit.
   }
@@ -1514,8 +1486,6 @@ Proof.
   (* TOOLS *)
   set (B := Intro_individual "b").
   (* ******** *)
-  (* Notice that the following proposition involves 2 quantifiers already, 
-    so it might have a higher type..? *)
   assert (S1 : ∀ b, (φ x <[- x -]> (x = b))
     ↔ [ι φ | ιφ => ιφ = b]).
   {
@@ -1647,7 +1617,7 @@ Proof.
   assert (S2 : [ι φ | ιφ => φ y <[- y -]> y = ιφ]
     ↔ ∃ b, (φ y <[- y -]> (y = b))).
   {
-    (* n10_281 ignored *)
+    (* *10.281 ignored *)
     now setoid_rewrite <- n4_24 in S1.
   }
   assert (S3 : [ι φ | ιφ => φ y <[- y -]> y = ιφ]
@@ -1994,7 +1964,7 @@ Proof.
     MP n10_27 n10_11.
     intro Hp.
     MP n10_27 Hp.
-    (* I hightly think this step is unprovable *)
+    (* unprovable. TODO: recheck here *)
     pose proof n10_414 as _n10_414.
     admit.
   }
@@ -2056,7 +2026,6 @@ Proof.
   assert (S1 : (φ x <[- x -]> (x = B)) ↔ ((φ x <[- x -]> (x = B))
     ∧ (B = B))).
   {
-    (* Here it comes again: the n13_15... being used correctly though *)
     pose proof (n13_15 B) as n13_15.
     pose proof (n4_73 (φ x <[- x -]> (x = B)) (B = B)) as n4_73.
     now MP n4_73 n13_15.
@@ -2076,7 +2045,6 @@ Proof.
   exact S3.
 Qed.
 
-(* What a terrible looking theorem to prove *)
 Theorem n14_3 (s : string) (φ χ f : Prop → Prop) : 
   (((p ↔ q) -[ p q ]> (f p ↔ f q)) ∧ [ιE φ])
   → (f ([ι φ | ιφ => χ ιφ]) 
@@ -2236,7 +2204,8 @@ Proof.
     ↔ ¬ [ι φ | ιφ => χ ιφ]) -> [ιE φ]).
   {
     (* NOTE: Doubt this step is provable, because the different meaning in 
-    notation here could make a crucial difference *)
+    notation here could make a crucial difference.
+    TODO: check this *)
     pose proof n14_21 as _n14_21.
     pose proof n14_1 as _n14_1.
     admit.
@@ -2247,8 +2216,6 @@ Proof.
   exact S7.
 Admitted.
 
-(* In original text, we can see straightforward that the citations are not
-completely in the same order *)
 Theorem n14_33 (P : Prop) (φ χ : Prop → Prop) : [ιE φ]
   → ([ι φ | ιφ => P → χ ιφ]
     ↔ (P → [ι φ | ιφ => χ ιφ])).
@@ -2348,7 +2315,6 @@ Proof.
     rewrite -> n10_23 in n10_11.
     now rewrite <- n14_11 in n10_11.
   }
-  (* What a lovely reversion, it has been so unorganized *)
   assert (S6 : [ιE φ] → (([ι φ | ιφ => χ ιφ] → P) 
     ↔ [ι φ | ιφ => χ ιφ → P])).
   { now rewrite -> n4_21 in S5. }
