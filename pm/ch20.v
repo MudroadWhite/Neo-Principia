@@ -2050,11 +2050,61 @@ Qed.
 
 Theorem n20_81 (Phi Psi : Prop -> Prop) (A : Prop) :
   ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
-  -> [^x => Phi x ∨ (~ Phi x) @ cx1 => [
-    ^x => Psi x ∨ (~ Psi x) @ cx2 => cx1 = cx2]].
+  -> [^x => Phi x ∨ (~ Phi x) @ cx1 => 
+    [^x => Psi x ∨ (~ Psi x) @ cx2 => cx1 = cx2]].
 Proof.
-  
-Admitted.
+  assert (S1 : ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
+    -> [^x => Phi x ∨ (~ Phi x) @ cx1 => 
+      [^x => (x = A) \/ ~ (x = A) @ cx2 => cx1 = cx2]]).
+  {
+    pose proof (Simp3_26
+      (Phi A ∨ ¬ Phi A)
+      (Psi A ∨ ¬ Psi A)) 
+      as Simp3_26.
+    pose proof (n20_8 Phi A) as n20_8.
+    now Syll_as Simp3_26 n20_8 S1.
+  }
+  assert (S2 : ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
+    -> [^x => Psi x ∨ (~ Psi x) @ cx1 => 
+      [^x => (x = A) \/ ~ (x = A) @ cx2 => cx1 = cx2]]).
+  {
+    pose proof (Simp3_27
+      (Phi A ∨ ¬ Phi A)
+      (Psi A ∨ ¬ Psi A)) 
+      as Simp3_27.
+    pose proof (n20_8 Psi A) as n20_8.
+    now Syll_as Simp3_27 n20_8 S2.
+  }
+  assert (S3 : ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
+    -> ([^x => Phi x ∨ (~ Phi x) @ cx1 => 
+      [^x => (x = A) \/ ~ (x = A) @ cx2 => cx1 = cx2]]
+      /\ [^x => Psi x ∨ (~ Psi x) @ cx3 => 
+      [^x => (x = A) \/ ~ (x = A) @ cx2 => cx3 = cx2]])).
+  {
+    (* *10.121, *10.13 ignored. *10.13 might be wrongly 
+      designed and unusable here *)
+    pose proof (Comp3_43 ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
+      ([^x => Phi x ∨ (~ Phi x) @ cx1 => 
+        [^x => (x = A) \/ ~ (x = A) @ cx2 => cx1 = cx2]])
+      ([^x => Psi x ∨ (~ Psi x) @ cx3 => 
+        [^x => (x = A) \/ ~ (x = A) @ cx2 => cx3 = cx2]])) 
+      as Comp3_43.
+    Conj_as S1 S2 C1.
+    now MP Comp3_43 C1.
+  }
+  assert (S4 : ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
+    -> [^x => Phi x ∨ (~ Phi x) @ cx1 => 
+      [^x => Psi x ∨ (~ Psi x) @ cx2 => cx1 = cx2]]).
+  {
+    pose proof (n20_24 (fun x => x = A ∨ x ≠ A) 
+      (fun x => Phi x ∨ ¬ Phi x)
+      (fun x => Psi x ∨ ¬ Psi x)) 
+      as n20_24.
+    simpl in S3; simpl in n20_24.
+    now Syll_as S3 n20_24 S4.
+  }
+  exact S4.
+Qed.
 
 Close Scope formal_equiv.
 Close Scope formal_impl.
