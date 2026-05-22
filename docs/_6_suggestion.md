@@ -10,4 +10,6 @@ TODO:
 5. polymorphic notations and monomorphic theorems(?)
 6. Utilization of `setoid_rewrite`
 7. Add Randall's conversation as suggestion on MP and individuals for "base order"
-8. philosoophy of "internalization" (relate to the inheritance nature)
+8. Philosophy of "internalization" (relate to the inheritance nature)
+9. For future successors and participants: independently design a chapter, or design your own typing system for Principia
+10. What have I learned: designing the framework is the most enjoyable part; 

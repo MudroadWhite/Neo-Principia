@@ -10,12 +10,18 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 - Formalizing PM feels like building an obelisk
 - Rocq doesn't need a lot of version updates
 
-## Features
-Ecosystem friendly.
+## What does this project do?
+We have:
+- Demonstrated a framework to formalize most of the theorems in Principia Mathematica with remarkable strength
+  - This framework has maintained a balance between accuracy and simplicity
+  - This framework has broken the record of the formalization pass through chapter 5 to chapter 20, without unleashing its maximum  potential
+- Identified several defects and ambiguity of PM's design under a modern type theory's perspective
+- Proposed a specification for prospective participants who want to grind down to perfection
 
+## Features
 - [Documented](./docs/README.md)(WIP - will be rewritten for most of the parts) and with [slides](./slides/).
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. One theorem a line.
-- "Just as it is": Principia flavor in maximum strength: Principia-style deduction; Principia-style symbols defined with `Notation`s. Clear proof structure, clean, maybe beautiful proof window. 
+- "Just as it is": Principia flavor in maximum strength: Following PM's symbol definitions, deductions faithfully. Clear proof structure, clean, maybe beautiful proof window. 
 
 ## How well have you formalized?
 Which means 3 questions:
