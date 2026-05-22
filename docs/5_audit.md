@@ -7,10 +7,10 @@ Assessment for each of the chapter is based on the following questions:
 2. Feasibility: Are they easy to be implemented in Rocq?
 3. Coverage: How much % of propositions can we formalize, and what is missing?
 
-Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). For the below sections, we first make a short summary of major issues we have found, then list out everything we have found for each of the chapters.
+Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). For the below sections, we first make a short summary of major issues we have found.
 
-### Issues
-The issues come either from the lacking of proper implementation of our project, or directly from the Principia Mathematica itself. After stating these issues, we will expand every details we have found by each chapters.
+### Defects
+Defects arisen in Principia come either from the lacking of proper implementation of our project, or directly from the Principia Mathematica itself. After stating these issues, we will expand every details we have found by each chapters.
 
 **I1: Typing.** We didn't design a proper system to type every PM propositions. This gives a massive chain effects on the following issues:
 1. We cannot distinguish between predicative and impredicative props/functions.
