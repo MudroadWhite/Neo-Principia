@@ -2018,14 +2018,10 @@ Theorem n20_71 (FAlpha FBeta : Prop -> Prop) :
   let Beta := (^z => FBeta z) in
   [Alpha @ calpha => [Beta @ cbeta => calpha = cbeta]] 
     <-> ([Alpha @ calpha => g calpha]
-      <[- g -]> [Beta @ cbeta => g cbeta]).
+      -[ g ]> [Beta @ cbeta => g cbeta]).
 Proof.
-  set (Alpha := (^z => FAlpha z)).
-  set (Beta := (^z => FBeta z)).
-  (* TODO: should be easy *)
-  pose proof n20_19 as n20_19.
-  simpl in n20_19. simpl.
-Admitted.
+  apply n20_19.
+Qed.
 
 Theorem n20_8 (Phi : Prop -> Prop) (A : Prop) :
   (Phi A ∨ (~ Phi A)) -> [^x => (Phi x ∨ (~ Phi x)) @ cx1 =>
