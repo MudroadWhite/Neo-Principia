@@ -367,7 +367,7 @@ Proof.
   }
   assert (S3 : (∀ x, φ x) → ∀ y, ¬¬ φ y).
   {
-    (* n10_21 ignored *)
+    (* *10.21 ignored *)
     pose proof (n10_11 Y (fun y => ¬¬ φ y)) as n10_11.
     now Syll_as S2 n10_11 S3.
   }
@@ -389,7 +389,7 @@ Proof.
   }
   assert (S8 : (∀ y, ¬¬ φ y) → (∀ x, φ x)).
   {
-    (* n10_21 is ignored *)
+    (* *10.21 is ignored *)
     pose proof (n10_11 X φ) as n10_11.
     now Syll_as S7 n10_11 S8.
   }
@@ -645,7 +645,7 @@ Proof.
   assert (S1 : ((∀ x, φ x → ψ x) ∧ (∀ x, ψ x → χ x))
     → ∀ x, (φ x → ψ x) ∧ (ψ x → χ x)).
   {
-    (* n10_221 ignored *)
+    (* *10.221 ignored *)
     (* simplification *)
     now destruct n10_22a.
   }
@@ -919,7 +919,7 @@ Proof.
   }
   assert (S2 : (∃ x, φ x → P) ↔ ¬ (∀ x, φ x ∧ ¬ P)).
   {
-    (* n10_271 ignored *)
+    (* *10.271 ignored *)
     now setoid_rewrite -> n4_61 in S1.
   }
   assert (S3 : (∃ x, φ x → P) ↔ ¬ ((∀ x, φ x) ∧ ¬ P)).
@@ -965,7 +965,7 @@ Proof.
   { exact (n3_2 P (φ X)). }
   assert (S8 : P → (∀ x, φ x → (P ∧ φ x))).
   {
-    (* n10_21 ignored - seems completely unnecessary *)
+    (* *10.21 ignored - seems completely unnecessary *)
     pose proof (n10_11 X (fun x => φ x → (P ∧ φ x))) as n10_11.
     simpl in n10_11.
     now Syll_as S7 n10_11 S8.
@@ -1397,7 +1397,7 @@ Proof.
   { now apply n10_252. }
   assert (S2 : ¬ (∃ x, φ x ∧ ψ x) ↔ (φ x -[1 x ]> ¬ ψ x)).
   {
-    (* n10_271 ignored *)
+    (* *10.271 ignored *)
     setoid_rewrite -> n4_51 in S1.
     now setoid_rewrite <- n4_62 in S1.
   }
@@ -1462,7 +1462,7 @@ Proof.
   assert (S2 : (φ y -[1 y ]> (P ∨ ψ y)) 
     ↔ (∀ y, P ∨ (¬ φ y) ∨ ψ y)).
   {
-    (* n10_271 ignored *)
+    (* *10.271 ignored *)
     now setoid_rewrite -> Assoc1_5Eq in S1.
   }
   assert (S3 : (φ y -[1 y ]> (P ∨ ψ y)) 

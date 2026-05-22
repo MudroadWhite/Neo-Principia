@@ -180,22 +180,18 @@ Theorem n11_21 (φ : Prop → Prop → Prop → Prop) :
   (∀ x y z, φ x y z) ↔ (∀ y z x, φ x y z).
 Proof.
   (* TOOLS *)
+  set (λ φ0 : Prop → Prop → Prop → Prop, eq_to_equiv 
+    (∀ x y z, φ0 x y z)
+    (∀ x, ∀ y, ∀ z, φ0 x y z)
+    (n11_02 φ0)) as n11_02a.
   set (Y := Intro_individual "y").
   (* ******** *)
   (* We can see that Rocq really doesn't make a distinction here... *)
   assert (S1 : (∀ x y z, φ x y z) ↔
     (∀ x, ∀ y, ∀ z, φ x y z)).
   {
-    (* n11_01 ignored *)
-    (* TODO: check if this proof can be normalized? *)
-    (* NOTE: It seems that here we're getting a `↔` relation directly 
-    from a `=` definition, from original text.
-    I'm assumning that the original routine is set up 
-    (φ X Y Z → φ X Y Z), instantiate by repeatly applying n11_1,
-    and finally arrive at conclusion. Here, we omit the routine
-    *)
-    pose proof (n11_02 φ) as n11_02.
-    reflexivity.
+    (* *11.01 ignored *)
+    apply n11_02a.
   }
   assert (S2 : (∀ x y z, φ x y z) ↔
     (∀ y, ∀ x, ∀ z, φ x y z)).
@@ -243,12 +239,12 @@ Proof.
   }
   assert (S2 : (∃ x y, φ x y) ↔ (¬ ∀ x, ∀ y, ¬ φ x y)).
   {
-    (* n10_271 ignored as in ch10 *)
+    (* *10.271 ignored as in ch10 *)
     now setoid_rewrite -> n10_252 in S1.
   }
   assert (S3 : (∃ x y, φ x y) ↔ (¬ (∀ x y, ¬ φ x y))).
   {
-    (* n11_01 ignored for merging `∀`s *)
+    (* *11.01 ignored for merging `∀`s *)
     exact S2.
   }
   exact S3.
@@ -1331,7 +1327,7 @@ Proof.
   {
     (* We directly use `Syll` here for simplicity. Note that
       this might be actually not allowed in original proof *)
-    (* n11_3 ignored *)
+    (* *11.3 ignored *)
     pose proof (n11_11 Z W (fun z w => (φ z ∧ χ w) 
       → ψ z ∧ θ w)) as n11_11.
     now Syll_as S1 n11_11 S2.
@@ -1460,7 +1456,7 @@ Proof.
       →
       ((φ z -[ z ]> ψ z) ∧ (χ w -[ w ]> θ w))).
   {
-    (* n3_47 ignored. Here we try to save the routine... *)
+    (* *3.47 ignored. Here we try to save the routine... *)
     intro Hp.
     destruct Hp as [HS8 HS7].
     pose proof (S7 HS7) as S7.

@@ -75,7 +75,7 @@ Theorem n13_1 (X Y : Prop) : (X = Y)
 Proof.
   pose proof (n4_2 (X = Y)) as n4_2.
   now rewrite -> n13_01 in n4_2 at 2.
-  (* n10_02 ignored: I think this is unrelated *)
+  (* *10.02 ignored: I think this is unrelated *)
 Qed.
 
 (* p.169: strictly speaking, *13.101 should be a primitive proposition.
@@ -166,8 +166,8 @@ Proof.
   { apply n13_101. }
   assert (S4 : (X = Y) → ((¬ Iφ X) → (¬ Iφ Y))).
   {
-    (* n1.7 ignored *)
-    (* This step is very suspicious *)
+    (* *1.7 ignored *)
+    (* Unprovable: the intention for this step in unclear *)
     admit.
   }
   assert (S5 : (X = Y) → (Iφ Y → Iφ X)).
@@ -535,7 +535,7 @@ Proof.
   assert (S6 : (φ Y ∧ (X = Y)) → (φ X ∧ (X = Y))).
   {
     pose proof (n13_16 X Y) as n13_16.
-    (* Fact ignored *)
+    (* *3.45 ignored *)
     now rewrite <- n13_16 in S5.
   }
   assert (S7 : (φ X ∧ (X = Y)) ↔ (φ Y ∧ (X = Y))).
@@ -646,8 +646,7 @@ Proof.
   assert (S6 : ((φ A ∨ ¬ φ A) → (X = A ∨ (X ≠ A)))
     ∧ ((φ A ∨ ¬ φ A) → ((X = A) → (φ X ∨ ¬ φ X)))).
   {
-    (* n10_13 ignored - we directly use `Conj` instead. Is it legal? *)
-    (* n10_221 ignored *)
+    (* *10.221, *10.13 ignored - we directly use `Conj` instead. TODO: Is it legal? *)
     now Conj_as S4 S5 C1.
   }
   assert (S7 : ((φ A ∨ ¬ φ A) → φ X ∨ ¬ φ X)
