@@ -1222,7 +1222,9 @@ Proof.
   {
     (* *12.1 ignored - I don't know if we need this or how is
     it being used actually. This might be something important *)
-    apply n10_1_pred.
+    apply (n10_1_pred
+      (fun p => p B → [ι φ | ιφ => p ιφ]) 
+      (fun x => x = B)).
   }
   assert (S3 : (∀ ψ : Order 1, ψ B → [ι φ | ιφ => ψ ιφ])
     → [ι φ | ιφ => ιφ = B]).
