@@ -246,36 +246,25 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 This special symbol comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Typically speaking, only functions come with scopes, but PM is defining scopes for a ("incomplete")symbol(p.67). 
 
 ### Chapter 20
-The first thing to mention about this chapter is the role of \*20.02(p.188). We unfold the proofs in PM in deeper expansion:
+Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance) have been presented in this chapter's theorems.
+
+Another thing we can unfold into detail is the definition of \*20.02(p.188). 
 1. `x∈(z^φz)` is a function of `φ`
 2. If we pick this function as the `f` in \*20.01, we obtain `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ (x ∈ φ)`. The `x` at the rightmost cannot be renamed into anything else because it is the `x` defined in the "function" we are using.
 3. In this form, we "patch" the expression with \*20.02, matching exactly the rightmost sub expression, and rewriting the whole expression into `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ φ x`, and then make a slight reordering.
 
-Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq. (TODO: to be continued...in audit)
+Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq. The depth of its influence result in our preference of "monomorphic theorems, polymorphic symbols" as a design guide. See [tactics](./4_tactics.md) for further explanation.
 
-TODO:
-1. A hidden trait of propositions are props written in natural language. They might be also derived from certain propositions; i.e. typing rules are not completely axioms in PM
-2. composition nature for types/defs, ref. *20.62
-3. "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps?
-4. "function X" means "an anonymous function with body of X, and parameters are all symbols appeared in the body"
-6. difficulty: what should be the correct type for all parameters?
-
-TODO: 
-- A newer hierarchy to be "practical" to use
-- ambiguity on the interpretation for `φ ! x` where we don't know if `!` stands for predicate or just the function as the focus
-- Mixed symbol definitions making it hard to distinguish
-- "ambiguity of function types for symbol definitions..."
+While not being stated explicitly, being hinted in previous chapters(TODO: source?), I suppose class has constituted to a hidden and "more practical" new hierarchy. This is because theorems in this chapter has prepared a lot of aspects for class, including its equivalent for Axiom of Reducibility. It doesn't, though, provide insights such as "what is the equivalent of matrix to class?" and so on.
 
 ----------------
 
 TODO:
-- IMPORTANT: draw tables for things
 - composition nature for types/defs, ref. *20.62
-  - Should we remove the `composition` parts in the future?
 - ch1: distinguish between when to use MP and when to use Syll
+- ch1: functions type more like functions in C (without currying, cannot be partially applied)
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "forall" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
 - ch9: Explain when do we need `set X := Intro_x`
 - ch9: type of props varies by funcs... "practically the same"; the definition can be fixed by change to "returning order of a function"
-- functions type more like functions in C (without currying, cannot be partially applied)

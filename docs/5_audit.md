@@ -161,6 +161,5 @@ TODO:
 - (n20_07)order shift interferes with some proving routines in PM
 - (n20_19)`setoid_rewrite` seems to ignore the order issue
 - proving every steps in ch20 has been increasingly harder
-
-TODO:
-- ch20: scope related criticism in chapter 20 code
+- scope related criticism in chapter 20 code
+- "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps?
