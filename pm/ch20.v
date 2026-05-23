@@ -779,17 +779,27 @@ Proof.
       ∧ ([^z => Psi z @ cz1 => If cz1] → [^z => Chi z @ cz2 => If cz2]))
     → ([^z => IPhi z @ cz3 => If cz3] → [^z => ITheta z @ cz4 => If cz4])).
   {
-    pose proof (n20_18) as n20_18.
-    pose proof (n20_15 IPhi Psi) as n20_15a.
-    pose proof (n20_15 ITheta Chi) as n20_15b. 
-    (* TODO: fill it in the future... *)
-    admit.
+    (* simplification *)
+    intro Hp.
+    destruct Hp as [Hp1 [Hp2 Hp3]].
+    rewrite -> n20_15 in Hp1.
+    rewrite -> n20_15 in Hp2.
+    simpl. simpl in Hp1, Hp2, Hp3.
+    pose proof (n20_18 IPhi Psi If) as n20_18a.
+    MP n20_18a Hp1.
+    pose proof (n20_18 ITheta Chi If) as n20_18b.
+    MP n20_18b Hp2.
+    rewrite <- n20_18a in Hp3.
+    now setoid_rewrite <- n20_18b in Hp3.
   }
   assert (S3 : (((IPhi x <[- x -]> Psi x) ∧ (ITheta x <[- x -]> Chi x))
       ∧ (∀ f, [^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2]))
     → ∀ f, ([^z => IPhi z @ cz3 => f cz3] → [^z => ITheta z @ cz4 => f cz4])).
   {
     (* TODO: fill it in the future *)
+    pose proof n10_11 as n10_11.
+    pose proof n10_27 as n10_27.
+    pose proof n10_33 as n10_33.
     admit.
   }
   assert (S4 : (((IPhi x <[- x -]> Psi x) ∧ (ITheta x <[- x -]> Chi x))
