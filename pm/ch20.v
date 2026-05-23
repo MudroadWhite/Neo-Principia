@@ -15,6 +15,7 @@ Require Import PM.pm.ch14.
   to patch up
 - For class, provide an assumption to associate specific class var with specific
   function
+- Prettify the code and the notation. 0302 for hat or directly generate from internet
 
 address following in the documentation; 
 adapt following naming convention in the project: 
