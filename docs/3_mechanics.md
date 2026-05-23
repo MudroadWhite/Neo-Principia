@@ -69,7 +69,7 @@ Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 
 `H1 : φ X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `φ` solely(p.92) and we're still asserting a proposition. 
 
-*What is a function in PM?* When it says something like "function X", it actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. The same applies to most theorems in PM. All PM function's variables are not bounded and occurring freely.
+*What is a function in PM?* When it says something like "function X", it actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. The same applies to most theorems in PM. All PM function's variables are not bounded and occurring freely. Another way to see a function in PM is like it doesn't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once.
 
 - (p.94)Definitional equality is undefined in PM
 - **elementary propositions** are closed under `¬` and `∨`
@@ -85,6 +85,9 @@ By proving a theorem, we mean:
 | Introducing fresh variables | Not allowed            |
 
 (p.92)Note: not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
+
+TODO: 
+- distinguish between when to use MP and when to use Syll
 
 ### Chapter 2
 While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
@@ -261,10 +264,8 @@ While not being stated explicitly, being hinted in previous chapters(TODO: sourc
 
 TODO:
 - composition nature for types/defs, ref. *20.62
-- ch1: distinguish between when to use MP and when to use Syll
-- ch1: functions type more like functions in C (without currying, cannot be partially applied)
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "forall" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
 - ch9: Explain when do we need `set X := Intro_x`
-- ch9: type of props varies by funcs... "practically the same"; the definition can be fixed by change to "returning order of a function"
+- ch9: type of props varies by funcs...  "practically ignored"(p.162); the definition can be fixed by change to "returning order of a function"

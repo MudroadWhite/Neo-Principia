@@ -16,7 +16,7 @@ Here is our take: pertain maximum PM flavor. This means:
 - We want maximum PM theorems being proven
 - We want every proof steps followed and presented
 
-In addition, we are allowed to simplify PM's proof when the it goes tedious. In practice, our proving style is a mixture of 2 major mechanics: PM's original "bottom-up construction" method and our "rewrite/setoid_rewrite". See [tactics](./4_tactics) for a detailed explanation. This turns out to be the best way to provide a balanced proof: PM's citations generally will not provide all theorems to construct every step bottom-up.
+In addition, we are allowed to simplify PM's proof when the it goes tedious. In practice, our proving style is a mixture of 2 major mechanics: PM's original "bottom-up construction" method and our "rewrite/setoid_rewrite", being explained in detail in [tactics](./4_tactics). This turns out to be the best way to provide a balanced proof: PM's citations generally will not provide all theorems to construct every step bottom-up.
 
 ## Can Principia Mathematica be completely formalized?
 Yes.

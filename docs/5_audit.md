@@ -42,11 +42,12 @@ TODO: (brief introduction to missing tactics)
 TODO: mostly freely used, and don't follow the text
 
 **How much can we automate for Principia Mathematica?**
-TODO: 
-- we didn't intend to increase its automation, because this looks unhopeful. This can be an interesting direction
-- have to manually introduce individuals
-- `rewrite` cannot infer most of the parameters; the right params might be not unique
-- `MP`, `Syll`, `rewrite`, `setoid_rewrite` might have trouble to be chained together
+The most ideal point to increase the automation for PM seems to start from `rewrite`s, that is, we should design a more automated `rewrite` that can
+- Design a function plus its parameters that matches up with the target proposition
+- Automatically introduce extra individuals in need
+- Perform slight reordering of sub expressions like `P <-> Q` to `Q <-> P` when necessary
+
+Due to the lack of related background in proof automation, I am currently thinking that automating the inference seems to be too much and a fruitless goal.
 
 **Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
 
@@ -59,10 +60,9 @@ The core of symbol definition, *definitional equality*, is undefined, as discuss
 - And more generally, cited theorems might have different context to interpret
 
 **Types.** Although we won't implement the typing algorithm immediately, there are still worthy comments to be made. We are aware that
-1. PM doesn't have `→` type, and the typing algorithm seems to have struggled to type the functions.
-2. PM also struggles at defining proposition's type: while same order propositions generalized from different types of arguments will not have the same type(p.162), it is supposed to be "practically ignored"(p.162).
-3. The `of the same type` theorems are being scattered throughout all the chapters, which makes implementing a full type system uneasy work - you have to turn through all the pages to collect them up
-Critics above suggest there might be freedom for us to design a different type system that is closer to Rocq type system.
+1. PM doesn't have a notion for typing, also being mentioned by Randall.(TODO: reference)
+2. For functions, Rocq's `→` type can apparently simulate PM's function type assuming we never apply the parameters partially.
+3. For propositions: while same order propositions generalized from different types of arguments will not have the same type(p.162), it is supposed to be "practically ignored"(p.162). We can change the definition into the following to fix such unnecessary distinction: proposition's type is the returned order of the proposition from a completely instantiated function.
 
 **Orders**. We have the orders in our implementation, but currently it is severely wrongly interpreted and doesn't stand for the correct representation of a nth order proposition. It mostly works like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
 ```coq
