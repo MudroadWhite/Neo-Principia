@@ -12,12 +12,12 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). For the below
 ### Defects
 Defects arisen in Principia come either from the lacking of proper implementation of our project, or directly from the Principia Mathematica itself. After stating these issues, we will expand every details we have found by each chapters.
 
-**I1: Typing.** We didn't design a proper system to type every PM propositions. This gives a massive chain effects on the following issues:
+**D1: Typing.** We didn't design a proper system to type every PM propositions. This results into a massive chain effects on the missing features and insights:
 1. We cannot distinguish between predicative and impredicative props/functions.
 2. We cannot implement Axiom of Reducibility.
 3. Several propositions that are relying on AoR cannot be properly implemented at all.
 
-**I2: Inheritance/internalization.** 
+**D2: Inheritance/internalization.** 
 TODO: this topic has a extremely wide impact, including:
 - missing support of scoping
   - Do we have to automatically shrink the scope for a symbol?
@@ -26,11 +26,15 @@ TODO: this topic has a extremely wide impact, including:
   - nontrivial variants for definitions
   - ambiguous theorem representations: some theorems are about the underlying object; some else are only the mere representation
 
-**I3: setoid_rewrite.** 
+**D3: Distinction between language and interpretation.**
+TODO: things in ch20
+- ...
+
+**D3: setoid_rewrite.** 
 TODO: 
 - setoid_rewrite changes by versions
 
-**I4: Tactics support.**
+**D4: Tactics support.**
 TODO: (brief introduction to missing tactics)
 
 ### Basic setups
