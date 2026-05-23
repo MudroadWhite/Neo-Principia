@@ -26,7 +26,8 @@ TODO:
   1. explain how to bottom up construction process in PM
   2. when what tactic doesn't work, we proceed with what alternatives to "patch" the idea
 - Extra set up to make proof looks better: `now`, `exact`, `propositional_extentionality` or maybe `f_equal`
-- Lacking of distinction between representation(?) and interpretation(?)
+- Lacking of distinction between language and interpretation
+- different types: order, A -> prop, type of symbol(also mentioned by Randall)
 
 ## `rewrite/setoid_rewrite``
 TODO:
