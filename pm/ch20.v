@@ -69,18 +69,6 @@ ambiguity between symbol and its underlying representation has affected:
   representation for `alpha`
 *)
 
-(* 
-TODO: move it to chapter 20 introduction in mechanics
-
-The class in this chapter has been discussed like pretty obscure. It is not being stated
-clearly like a structure, and instead, how is it defined is written *in the middle of 
-the text*, and is defined with a `^x` that looks so similar to the "function abstraction" 
-being used in chapter 9. 
-
-**Due to such ambiguity in the `!`, whether functions should be defined as predicates,
-appeared through all the notation definitions, is highly volatile and is encouraged 
-to be examined and corrected.**
-*)
 Declare Scope debug_class.
 Declare Scope class.
 
