@@ -6,6 +6,22 @@ This chapter is targeted for the following topics:
 ## Basic setup
 Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from *modus ponens* and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.
 
+## Bottom up construction
+(the original way to deduce theorems)
+
+TODO:
+- Explain bottom-up construction:
+  1. explain how to bottom up construction process in PM
+  2. when what tactic doesn't work, we proceed with what alternatives to "patch" the idea
+- Extra set up to make proof looks better: `now`, `exact`, `propositional_extentionality` or maybe `f_equal`
+- Lacking of distinction between representation(?) and interpretation(?)
+
+## `rewrite/setoid_rewrite``
+TODO:
+- defects of MP, etc...
+- definitional equality is not defined, getting us insights on how to fix the rest
+
+TODO: put simplification at the end of the chapter
 **Rules to simplify routines.** We can use a new tactic to simplify a tedious part of proof, if
 - We can clearly provide its equivalent routine using PM theorems
 - We clearly identified the types of parameters, for theorems in original routine. Parameters' types matter
@@ -97,8 +113,3 @@ TODO:
 - Summarize major tools we have developed so far by splitting in following topic:
   1. How do we pose a proof (Definition, theorems, pose proof, `let`, `set` for introducing extra vars, variants & polymorphic vs monomorphic)
   2. How do we rewrite a proposition (major mechanics for rewriting: freely alternating between PM's bottom-up construction and `rewrite/setoid_rewrite`)
-- Explain bottom-up construction:
-  1. explain how to bottom up construction process in PM
-  2. when what tactic doesn't work, we proceed with what alternatives to "patch" the idea
-- Extra set up to make proof looks better: `now`, `exact`, `propositional_extentionality` or maybe `f_equal`
-- Lacking of distinction between representation(?) and interpretation(?)

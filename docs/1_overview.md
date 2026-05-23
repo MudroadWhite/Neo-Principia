@@ -11,7 +11,7 @@ We also have a type system, defaulted by most people, in Lean/Rocq. Propositions
 For formalizing Principia Mathematica, there can be many features that you want to address with. [pmGenerator](https://github.com/xamidi/pmGenerator) tries to produce the shortest proof as possible. [Randall's work](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) attempts at reducing the complexity of PM with better mathematical notions. There might be ppl having other directions, such as providing maximum automation for Principia Mathematica's deduction.
 
 Here is our take: pertain maximum PM flavor. This means:
-- We want to implement all symbols appeared in PM
+- We want to implement all symbols appeared in PM. In other fancier words, parse the syntax of PM at our best
 - We want minimal tools to get the work done
 - We want maximum PM theorems being proven
 - We want every proof steps followed and presented
