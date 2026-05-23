@@ -76,4 +76,4 @@ Although I have tried to organize the issues well to indicate the current progre
 - https://blog.plover.com/math/PM.html A rare post that goes over chapter 20 trying to give insights to PM!
 - https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/ One link that helps me understand what is matrix
 - https://nap.nationalacademies.org/read/10866/chapter/66 Another random material that I think related to the matrix in PM
-- https://www.ens-lyon.fr/LIP/PLUME/production/ nice papers to read, but unused in this project
+- https://www.ens-lyon.fr/LIP/PLUME/production/ A site containing nice papers with better technologies to digest, although unused in this project
