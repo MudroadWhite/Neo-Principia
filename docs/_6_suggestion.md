@@ -14,11 +14,11 @@ TODO:
 7. Add Randall's conversation as suggestion on MP and individuals for "base order"
 8. Philosophy of "internalization" (relate to the inheritance nature)
 9. For future successors and participants: independently design a chapter, or design your own typing system for Principia
-10. What have I learned: designing the framework is the most enjoyable part; 
+10. What have I learned: designing the framework is the most enjoyable part; difference between AI and hand written FV: u can design the architecture on your own and shrink the proof - produce organized things could be a challenge
 
 ## Future directions
 suggestion:
 - classify theorems
 - schemes for theorems/variants
 - add type, add predicativity, add AoR
-- automate with tactics(?)
+- tactic automation?
