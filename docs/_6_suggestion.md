@@ -1,5 +1,7 @@
 # Suggestion for perfect formalization
 
+TODO: 100 yrs ago, Russell and Whitehead published the book that only few customers dare to read. TODO: x yrs ago, several ppl attemped to write this book into a program. now this is an open source project...
+
 This chapter is a suggestion for a specification of PM's complete type system, based on the details we have gathered in [Audit Report](./5_audit.md).
 
 TODO:
@@ -10,4 +12,13 @@ TODO:
 5. polymorphic notations and monomorphic theorems(?)
 6. Utilization of `setoid_rewrite`
 7. Add Randall's conversation as suggestion on MP and individuals for "base order"
-8. philosoophy of "internalization" (relate to the inheritance nature)
+8. Philosophy of "internalization" (relate to the inheritance nature)
+9. For future successors and participants: independently design a chapter, or design your own typing system for Principia
+10. What have I learned: designing the framework is the most enjoyable part; difference between AI and hand written FV: u can design the architecture on your own and shrink the proof - produce organized things could be a challenge
+
+## Future directions
+suggestion:
+- classify theorems
+- schemes for theorems/variants
+- add type, add predicativity, add AoR
+- tactic automation?

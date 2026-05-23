@@ -35,19 +35,19 @@ With *reconstruct every theorems in PM as much as we can* as our assumption, our
 3. Can we design a set of notations that can work well altogether?
 4. For current implementation, can we give correct types to parameters? For example, is it really that function's type should be just `Prop -> Prop`, when the difference between untyped functions and predicative functions become more and more significant in later chapters?
 
-Problems arisen from the assumption can be alleviated by some other reconstruction; see [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) suggestion on alternative symbols. These problems will not be discussed in this chapter, but can be inferred from analytics in [audit](./5_audit.md).
+Problems arisen from the assumption can be alleviated by some other reconstruction; see [Randall's](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) suggestion on alternative symbols. These problems will not be discussed in this chapter, but can be inferred from analysis in [audit](./5_audit.md).
 
 We now start exploring the main ideas for each chapters.
 
 ## Chapters
 ### Chapter 1
-Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. Note that we didn't set up type system for checking all the types.
+Chapter 1 presents some basic `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) -> (|- Q)`(p.92), which doesn't occur within formulae in PM.
 
-There are no dependency explicitly stated in PM on \*1.1.
+There are no theorems depending on \*1.1 explicitly stated in PM.
 
 In chapter 1 we also have a rough idea on how to denote a (elementary) *propositional function*. Such kind of simple denotation will be changed into something else in later chapters. In chapter 1-5, most propositional functions don't come barely themselves - their values for variables are somehow "fixed" already during all the inference, where `φ X` and `φ Y` does not mean the same thing(p.19).
 
@@ -69,17 +69,25 @@ Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 
 `H1 : φ X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `φ` solely(p.92) and we're still asserting a proposition. 
 
-*What is a function in PM?* When it says something like "function X", it actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. The same applies to most theorems in PM. All PM function's variables are not bounded and occurring freely.
+*What is a function in PM?* When it says something like "function X", it actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. The same applies to most theorems in PM. All PM function's variables are not bounded and occurring freely. Another way to see a function in PM is like it doesn't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once.
 
 - (p.94)Definitional equality is undefined in PM
 - **elementary propositions** are closed under `¬` and `∨`
 - **elementary functions** are closed under `¬` and `∨`
 
 By proving a theorem, we mean:
-- Everything is restricted to elementary propositions and elementary functions
-- Deduction is performed through *modus ponens* designed in \*1.11. Currently we don't see dependencies for \*1.1
+|           Property          |      Limitation        |
+|-----------------------------|------------------------|
+| Highest proposition order   | Elementary proposition |
+| Modus Ponens theorem        | Only \*1.11            |
+| Generalization              | Not allowed            |
+| Functions                   | Not allowed            |
+| Introducing fresh variables | Not allowed            |
 
 (p.92)Note: not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
+
+TODO: 
+- distinguish between when to use MP and when to use Syll
 
 ### Chapter 2
 While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
@@ -119,6 +127,10 @@ Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`
 \*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus it sets up a convention for individuals. Individuals are the propositional variables constituted to the expression of a proposition. They are not propositions nor functions(p.51, p.132). *All individuals will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have exactly the same proposition type*. 
 
 The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
+
+TODO: make a table:
+- Name of type; Abbreviation; Parameters; Rules for same type
+
 1. **EProp.** All elementary propositions have a `EProp` type
 2. **EFunc.** Arguments: types of parameters. PM doesn't actually have the idea of `→` types, but it's quite obvious `→` types can model PM's function type when carefully used. Elementary functions should have same type if 
     1. e-func A is obtained through `¬` on e-func B
@@ -130,15 +142,26 @@ The rest of the text is the typing algorithm for propositions and functions. Not
         1. Have exactly 1 parameter
         2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
    Note that not all proposition of same order proposition have the same type, because of the types of functions.
-4. **Constants.** For something more specific, constants are some letters that shouldn't be treated as a variable, and is allowed to be appeared in functions. In our implementation such distinction is very hard to make a difference.
-5. **Others.** Every notion appeared in PM, for example classes, comes up with a typing rule for that notion. The full typing algorithm is actually scattered around the chapters. For example see \*11.311.
+4. **Others.** Every notion appeared in PM, for example classes, comes up with a typing rule for that notion. The full typing algorithm is actually scattered around the chapters. For example see \*11.311. In particular, we won't implement constants for our shallow embedding.
 
-By proving a theorem in chapter 9 - 11, we assume:
-- Proposition types are capped and proven at first order propositions, with extra e-prop type restrictions in case described above
+By proving a theorem in chapter 9 - 11, we mean:
+|           Property          |          Limitation         |
+|-----------------------------|-----------------------------|
+| Highest proposition order   | 1st order proposition\[\*\] |
+| Modus Ponens theorem        | Arbitrary                   |
+| Generalization              | Allowed for E-props         |
+| Functions                   | 1st order                   |
+| Introducing fresh variables | Allowed for E-props         |
+| Theorem variants            | Not allowed                 |
+| Function type               | Untyped\[\*\*\]             |
+| Function parameters         | <= 1 order                  |
+
+**\[\*\]**: Several propositions in the beginning of chapter 9 is still limited to elementary propositions
+**\[\*\*\]**: Whether it is typed depends on how they are used in later chapter, and I'm still not sure about this
+
+TODO: 
 - All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
-- *Modus ponens* is already at its maximum strength
-- We can *generalize* atomic variables, sometimes including functions being denoted like `Phi`. Note that currently we didn't implement generalization as a `Ltac`, and to fit better into the text, we should actually implement such tactic.
-- Fresh variables can be introduced in the middle of the proof on need
+- can we generalize for functions?
 
 Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
 - Theorems written in natural language define the typing algorithm: what is a type, what parameters are functions allowed to take by the regulation of types. Eventually we prove that we can construct all possible functions for 1-higher order.
@@ -191,12 +214,22 @@ Chapter 12 also brings the symbol `!` to awareness, and will be frequently used 
 1. Emphasize(p.163, the second "It will be seen that...") that we might consider both the function and its parameter as variables for an expression. The purpose is to make functions as variables easier for people to recognize.
 2. Indicate that the function is a *predicative function*, not a random untyped one.
 
-By proving a theorem,
-- Theorems in all previous chapters are free to be **lift**ed to their higher order equivalents, which is independent of *Axiom of Reducibility*
-- Not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164)
-- (p.52, 162, 163, 164)Only individuals and matrices are allowed as parameters for matrices. (n-order) functions and propositions are not allowed as parameters.
-- (p.165)Only predicative functions are allowed to be generalized
-- Functions are allowed to be *untyped*, taking a parameter and return a proposition of *unknown* order.
+By proving a theorem, we mean,
+|           Property          |                Limitation             |
+|-----------------------------|---------------------------------------|
+| Highest proposition order   | Arbitrary                             |
+| Modus Ponens theorem        | Arbitrary                             |
+| Generalization              | Predicative functions(p.165)          |
+| Functions                   | Arbitrary                             |
+| Introducing fresh variables | Arbitrary                             |
+| Theorem variants            | Arbitrary                             |
+| Function type               | Can be untyped\[\*\]                  |
+| Function parameters         | Only individuals and matrices\[\*\*\] |
+
+**\[\*\]**: Untyped functions take a parameter and return a proposition of *unknown* order.
+**\[\*\*\]**: See (p.52, 162, 163, 164).
+
+In addition, not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
 
 ### Chapter 13
 In Rocq, we have different types for `=`. We can have `=` on propositions, `=` on `=` between propositions, `=` on `=`... and so on. Russell realized that he should give the `=` a similar treatment, but the hierarchy is slightly different: `=` is itself treated as a propositional function, and `=` can be an identity on 1st order, second order, ... arbitrary order functions. The first citation of chapter 12's axiom of reducibility appears at \*13.101, and with which applied to \*13.101, the order of `=` has been generally collapsed off. 
@@ -216,40 +249,23 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 This special symbol comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Typically speaking, only functions come with scopes, but PM is defining scopes for a ("incomplete")symbol(p.67). 
 
 ### Chapter 20
-The first thing to mention about this chapter is the role of \*20.02(p.188). We unfold the proofs in PM in deeper expansion:
+Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance) have been presented in this chapter's theorems.
+
+Another thing we can unfold into detail is the definition of \*20.02(p.188). 
 1. `x∈(z^φz)` is a function of `φ`
 2. If we pick this function as the `f` in \*20.01, we obtain `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ (x ∈ φ)`. The `x` at the rightmost cannot be renamed into anything else because it is the `x` defined in the "function" we are using.
 3. In this form, we "patch" the expression with \*20.02, matching exactly the rightmost sub expression, and rewriting the whole expression into `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ φ x`, and then make a slight reordering.
 
-Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq. (TODO: to be continued...in audit)
+Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq. The depth of its influence result in our preference of "monomorphic theorems, polymorphic symbols" as a design guide. See [tactics](./4_tactics.md) for further explanation.
 
-TODO:
-1. A hidden trait of propositions are props written in natural language. They might be also derived from certain propositions; i.e. typing rules are not completely axioms in PM
-2. composition nature for types/defs, ref. *20.62
-3. "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps?
-4. "function X" means "an anonymous function with body of X, and parameters are all symbols appeared in the body"
-6. difficulty: what should be the correct type for all parameters?
+While not being stated explicitly, being hinted in previous chapters(TODO: source?), I suppose class has constituted to a hidden and "more practical" new hierarchy. This is because theorems in this chapter has prepared a lot of aspects for class, including its equivalent for Axiom of Reducibility. It doesn't, though, provide insights such as "what is the equivalent of matrix to class?" and so on.
 
-TODO: 
-- A newer hierarchy to be "practical" to use
-- ambiguity on the interpretation for `φ ! x` where we don't know if `!` stands for predicate or just the function as the focus
-- Mixed symbol definitions making it hard to distinguish
-- "ambiguity of function types for symbol definitions..."
-
-## See Also
-- https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html
-- https://plato.stanford.edu/entries/pm-notation/
-- https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
-- https://randall-holmes.github.io/Drafts/notesonpm.pdf
-- https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/
-- https://nap.nationalacademies.org/read/10866/chapter/66
-- https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
+----------------
 
 TODO:
 - composition nature for types/defs, ref. *20.62
-  - Should we remove the `composition` parts in the future?
-- ch1: distinguish between when to use MP and when to use Syll
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "forall" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
 - ch9: Explain when do we need `set X := Intro_x`
+- ch9: type of props varies by funcs...  "practically ignored"(p.162); the definition can be fixed by change to "returning order of a function"

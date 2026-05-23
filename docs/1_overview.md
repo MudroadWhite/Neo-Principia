@@ -8,13 +8,15 @@ Wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_o
 We also have a type system, defaulted by most people, in Lean/Rocq. Propositions are elements of sets, functions are modeled with lambda calculus. The most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in Principia. Propositions are not types. Sometimes for brevity propositions are untyped. The inference is performed by rewriting on propositions, not on types. Type plays a much more auxiliary role, and Principia which embodies ramified theory of types, is actually a rewriting system.
 
 ## What is the aesthetics for this project?
-With [Randall's work](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) as reference, I believe that most of the existing work attempts at reducing the complexity of PM with better mathematical notions. As the opposite, we want to pertain maximum PM flavor. This means:
-- We want to implement all symbols appeared in PM
+For formalizing Principia Mathematica, there can be many features that you want to address with. [pmGenerator](https://github.com/xamidi/pmGenerator) tries to produce the shortest proof as possible. [Randall's work](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) attempts at reducing the complexity of PM with better mathematical notions. There might be ppl having other directions, such as providing maximum automation for Principia Mathematica's deduction.
+
+Here is our take: pertain maximum PM flavor. This means:
+- We want to implement all symbols appeared in PM. In other fancier words, parse the syntax of PM at our best
 - We want minimal tools to get the work done
 - We want maximum PM theorems being proven
 - We want every proof steps followed and presented
 
-In addition, we are allowed to simplify PM's proof when the it goes tedious. In practice, our proving style is a mixture of 2 major mechanics: PM's original "bottom-up construction" method and our "rewrite/setoid_rewrite". See [tactics](./4_tactics) for a detailed explanation.
+In addition, we are allowed to simplify PM's proof when the it goes tedious. In practice, our proving style is a mixture of 2 major mechanics: PM's original "bottom-up construction" method and our "rewrite/setoid_rewrite", being explained in detail in [tactics](./4_tactics). This turns out to be the best way to provide a balanced proof: PM's citations generally will not provide all theorems to construct every step bottom-up.
 
 ## Can Principia Mathematica be completely formalized?
 Yes.
@@ -39,7 +41,7 @@ While this doesn't ensure 100% correctness, we are rewarded to retain tolerance 
 As the most central idea, can we type every proposition in Principia? Within our reach, a plan to write the typing program in Rocq has started at slow speed, and *deep embedding for Principia Mathematica seems to be feasible*.
 
 ## What is the value of this project?
-Proposing Principia Mathematica is a matter of theory, and verifying such a theory is a matter of application. This project aims to be a scythe to demystify a decaded myth. This project wraps up ideas in the book, writes down, organizes and iterates like a software product. This project is a small world to communicate, between math, philosophy and computer science people.
+Proposing Principia Mathematica is a matter of theory, and verifying such a theory is a matter of application. This project aims to be a [scythe](https://www.youtube.com/watch?v=gRivMEEZZE8&list=RDgRivMEEZZE8&start_radio=1&t=2420s) to demystify a decaded myth. This project wraps up ideas in the book, writes down, organizes and iterates like a software product. This project is a small world to communicate, between math, philosophy and computer science people.
 
 This project shows the [power](https://www.youtube.com/watch?v=c7X_-J8C9As) of type-theory-based modern formal verifiers, with only mediocre technology being used. This project uses Rocq like a bag of pitons to [sculpt a better checkpoint](https://x.com/jdlichtman/status/2015174938865655950) for participants to craft, and exhibits a structured PM with as minimal Rocq tactics as possible. It is to be detected bugs easily, modified easily, executed with controlled automation, and maybe built on with better abstractions. It saves you the time to buy a physical copy of the book, flip the pages with anxiety and boredom just to [grind](https://www.tiktok.com/@ryranthe1st/video/6960880389275585798) every line of proofs written in a [ruthless massive tomb](https://www.youtube.com/watch?v=aBUFiQV30eM) that appears in your dream and drags your hair into a mess every night. This project can inspire indie gamedevs whose core goal is making mediocre ideas into games; the flood of Principia Mathematica jokes therefore continues on X.
 
@@ -54,6 +56,8 @@ I started this project by
 - [x] Simplifying, bug-picking chapter 1 - 5, cutting down \~1k LoC in total
 - [x] Redesigning custom `Ltac`s in chapter 1 - 5 to their perfection, eliminating all incorrect `Ltac` usages once and for all, plus cleanups like `clear`/`move` that were once necessary
 
+Most code of chapter 1 - 5 are still pertained as a tribute to the previous work.
+
 ## Project status
 We are building: 
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic demonstration for a predicate called "IsSameType". Support for instantiating individuals.
@@ -62,10 +66,12 @@ We are building:
 - [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Order` type.
 - [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
 - [x] Chapter 14 - Notation `ι` of the descriptions. Theorems on them.
-- [ ] \[WIP\]Chapter 20 - Notation on class, and theorems of classes. Under the iceberg tip, making different notations working consistently with each others.
+- [x] Chapter 20 - Notation on class, and theorems of classes. Under the iceberg tip, making different notations working consistently with each others.
 
 ### Milestones
-**Ongoing: Finish chapter 20**  I believe that implementing classes and relations should symbolize the availability to express everything in Principia. Implementing class should be a very important feature, and maybe eliminate all technical difficulties for PM symbol definitions once and for all.
+**Ongoing: Finish chapter 20**  Class is the last notion being introduced in the *Introduction* chapter. Implementing classes and relations symbolizes the availability to express everything in Principia, therefore this should be a very important feature, and maybe eliminate all technical difficulties for PM symbol definitions once and for all.
+
+The 1st iteration to fill in the proof has finished, but filling in more missing proof definitely helps, so will be the current focus.
 
 Even further plans: I could either
 - Quit the project once chapter 20 has been completely translated

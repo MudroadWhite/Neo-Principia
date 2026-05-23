@@ -10,12 +10,18 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 - Formalizing PM feels like building an obelisk
 - Rocq doesn't need a lot of version updates
 
-## Features
-Compatability.
+## What does this project do?
+We have:
+- Demonstrated a framework to formalize most of the theorems in Principia Mathematica with remarkable strength
+  - This framework has maintained a balance between term-level clarity and simplicity
+  - This framework has broken the record of the formalization pass through chapter 5 to chapter 20, without unleashing its maximum  potential
+- Identified several defects and ambiguity of PM's design under a modern type theory's perspective
+- Proposed a specification for prospective participants who want to grind down to perfection
 
+## Features
 - [Documented](./docs/README.md)(WIP - will be rewritten for most of the parts) and with [slides](./slides/).
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. One theorem a line.
-- "Just as it is": Principia flavor in maximum strength: Principia-style deduction; Principia-style symbols defined with `Notation`s. Clear proof structure, clean, maybe beautiful proof window. 
+- "Just as it is": Principia flavor in maximum strength: Following PM's symbol definitions, deductions faithfully. Clear proof structure, clean, maybe beautiful proof window. 
 
 ## How well have you formalized?
 Which means 3 questions:
@@ -59,5 +65,15 @@ Although I have tried to organize the issues well to indicate the current progre
 - [ndrwnaguib's formalization of PM in Lean](https://github.com/ndrwnaguib/principia)
 - [Randall Holmes's RTT implementation](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT)
 - [xamidi's propositional calculus theorems](https://github.com/xamidi/luk-pmproofs) from [Łukasiewicz's L1-system](https://www.jstage.jst.go.jp/article/pjab1945/41/6/41_6_436/_pdf)
-- Also his [pmGenerator](https://github.com/xamidi/pmGenerator) for something I didn't check what is it yet
+- Also his [pmGenerator](https://github.com/xamidi/pmGenerator) generating minimal proofs for a collection of PM theorems
 - [Metamath solitaire's implementation on propositional calculus theorems](https://us.metamath.org/mmsolitaire/pmproofs.txt)
+
+## Other useful links
+- https://proofassistants.stackexchange.com/questions/1105/how-does-the-formal-proof-of-the-four-color-theorem-work Discussion of the 4-color theorem, as a reflection. Viewers are also encouraged to check out the project since it's not that complicated
+- https://plato.stanford.edu/entries/pm-notation/
+- https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
+- https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
+- https://blog.plover.com/math/PM.html A rare post that goes over chapter 20 trying to give insights to PM!
+- https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/ One link that helps me understand what is matrix
+- https://nap.nationalacademies.org/read/10866/chapter/66 Another random material that I think related to the matrix in PM
+- https://www.ens-lyon.fr/LIP/PLUME/production/ nice papers to read, but unused in this project
