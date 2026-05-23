@@ -38,9 +38,6 @@ Every `Definition` or `Theorem` represents a proposition in Principia. They usua
 
 Additionally, for theorems in Principia, we are allowed to set up its *variants*. This will be also explained in [tactics](./4_tactics.md).
 
-### How does Principia apply a theorem?
-[mechanics](./3_mechanics.md/#how-does-principia-proof-theorems) has explained different situations for Principia to prove or apply a theorem.
-
 ## What is `Notation`?
 As chapters push on, PM will have higher requirements on symbol definitions to model the math ideas. `Notation`s in Rocq is the perfect tool for implementing more complicated symbols.
 
