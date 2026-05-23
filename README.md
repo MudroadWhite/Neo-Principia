@@ -28,10 +28,7 @@ Which means 3 questions:
 
 - **How much can you formalize?** Theoretically, the whole book. See [overview](./docs/1_overview.md/#can-principia-mathematica-be-completely-formalized) for an analysis.
 - **How much have you formalized?** 194 - 94 = 100 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
-- **How deep can you formalize?** We're using shallow embedding, which is not rigorous deep embedding. See [audit](./docs/5_audit.md) for other secondary limitations.
-
-## Are you sure the code/proof is 100% correct?
-No. Successful `Qed`s are still false positives. We haven't typed the propositions and miss the insights from them.
+- **How deep can you formalize?** We're using shallow embedding, which is not rigorous deep embedding. **The proofs are still not 100% correct.** See [audit](./docs/5_audit.md) for our major defects.
 
 ## Running the code
 Coq/Rocq version: >= 8.20.0, < 9.0, installed with the [opam](https://opam.ocaml.org/) environment:
