@@ -56,6 +56,8 @@ I started this project by
 - [x] Simplifying, bug-picking chapter 1 - 5, cutting down \~1k LoC in total
 - [x] Redesigning custom `Ltac`s in chapter 1 - 5 to their perfection, eliminating all incorrect `Ltac` usages once and for all, plus cleanups like `clear`/`move` that were once necessary
 
+Most code of chapter 1 - 5 are still pertained as a tribute to the previous work.
+
 ## Project status
 We are building: 
 - [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic demonstration for a predicate called "IsSameType". Support for instantiating individuals.
