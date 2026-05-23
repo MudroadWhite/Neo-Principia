@@ -896,7 +896,7 @@ Proof.
   pose proof (n20_15 Phi Psi) as n20_15a.
   pose proof (n20_15 Psi Phi) as n20_15b.
   pose proof (n10_32 Phi Psi) as n10_32.
-  now rewrite -> n20_15a -> n20_15b in n10_32.
+  now rewrite -> n20_15a, -> n20_15b in n10_32.
 Qed.
 
 (* This is a custom alternative for convinient reconstruction in our code *)
@@ -914,7 +914,7 @@ Proof.
   pose proof (n20_15 Psi Chi) as n20_15b.
   pose proof (n20_15 Phi Chi) as n20_15c.
   pose proof (n10_301 Phi Psi Chi) as n10_301.
-  now rewrite -> n20_15a -> n20_15b -> n20_15c in n10_301.
+  now rewrite -> n20_15a, -> n20_15b, -> n20_15c in n10_301.
 Qed.
 
 Theorem n20_23 (Phi Psi Chi : Prop → Prop) : 
