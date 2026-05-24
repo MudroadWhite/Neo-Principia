@@ -83,11 +83,11 @@ By proving a theorem, we mean:
 | Generalization              | Not allowed            |
 | Functions                   | Not allowed            |
 | Introducing fresh variables | Not allowed            |
+| Theorem variants            | Not allowed            |
+| Function type               | Elementary function    |
+| Function parameters         | Only individuals       |
 
 (p.92)Note: not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
-
-TODO: 
-- distinguish between when to use MP and when to use Syll
 
 ### Chapter 2
 While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
@@ -95,6 +95,9 @@ While everything in chapter 1 are primitive propositions, chapter 2 starts to us
 - For general rules on citation, see related paragraphs in [How does Principia proof theorems?](./3_mechanics.md/#how-does-principia-proof-theorems).
 - In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
 - Citations for modus ponens and syllogism will generally be omitted.
+
+TODO: 
+- distinguish between when to use MP and when to use Syll
 
 ### Chapter 3
 Chapter 3 focuses on theorems about `∧`, which is constructed on `¬` and `∨`. In particular, \*3.03 allows us to immediately get `H3 : A ∧ B` if we have `H1 : A` and `H2 : B` in the proof window.
@@ -128,21 +131,17 @@ Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`
 
 The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
 
-TODO: make a table:
-- Name of type; Abbreviation; Parameters; Rules for same type
+|        Element name      | Type name | Arguments                    | Identification rule                            |
+|--------------------------|-----------|------------------------------|------------------------------------------------|
+| Elementary proposition   | EProp     | None                         | All elementary propositions                    |
+| Elementary function      | EFunc     | types of function parameters | Connectives on same functions                  |
+| Proposition of nth order | Prop n    | type of the function \[\*\]  | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
+| Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
 
-1. **EProp.** All elementary propositions have a `EProp` type
-2. **EFunc.** Arguments: types of parameters. PM doesn't actually have the idea of `→` types, but it's quite obvious `→` types can model PM's function type when carefully used. Elementary functions should have same type if 
-    1. e-func A is obtained through `¬` on e-func B
-    2. e-func A is obtained through `∨` on e-func B and C 
-    3. They take same number of arguments, and each of argument is same in type
-3. **Prop.** Argument: type of a single function. A higher order proposition type is obtained from a 1-order lower function. Two `Prop n` should have same type if
-    1. Proposition A is obtained through `¬` on proposition B. `∨` can have different types for its arguments, so it doesn't preserve types
-    2. Both proposition A and B are obtained by quantifying two propositional functions of the same 1-order lower type. Both of the functions either 
-        1. Have exactly 1 parameter
-        2. Have exactly 2 parameters and are quantified on the second parameter. This is the proposition-version rule to support typing for multiple-parameter functions
-   Note that not all proposition of same order proposition have the same type, because of the types of functions.
-4. **Others.** Every notion appeared in PM, for example classes, comes up with a typing rule for that notion. The full typing algorithm is actually scattered around the chapters. For example see \*11.311. In particular, we won't implement constants for our shallow embedding.
+Within which some terms is needing some clarifications: 
+- connectives : `¬` and `∨`
+- same: same propositions/functions are same in number of argument, and each argument have the same type on that index; additionally, they are usually 1-order lower to the proposition/function being constructed
+- other typing rules usually consist of varied aspects to type on : how to type a new symbol; how to type a function with more arguments from function with less arguments, and so on
 
 By proving a theorem in chapter 9 - 11, we mean:
 |           Property          |          Limitation         |
@@ -258,7 +257,18 @@ Another thing we can unfold into detail is the definition of \*20.02(p.188).
 
 Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq. The depth of its influence result in our preference of "monomorphic theorems, polymorphic symbols" as a design guide. See [tactics](./4_tactics.md) for further explanation.
 
-While not being stated explicitly, being hinted in previous chapters(TODO: source?), I suppose class has constituted to a hidden and "more practical" new hierarchy. This is because theorems in this chapter has prepared a lot of aspects for class, including its equivalent for Axiom of Reducibility. It doesn't, though, provide insights such as "what is the equivalent of matrix to class?" and so on.
+While not being stated explicitly, being hinted in previous chapters(TODO: source?), I suppose class has constituted to a hidden and "more practical" new hierarchy. This is because theorems in this chapter has prepared a lot of aspects for class, including its equivalent for Axiom of Reducibility. It doesn't, though, provide insights such as "what is the equivalent of matrix to class?" and so on. That being said,
+
+|           Property          |                Limitation             |
+|-----------------------------|---------------------------------------|
+| Highest proposition order   | Arbitrary + class?                    |
+| Modus Ponens theorem        | Arbitrary                             |
+| Generalization              | Predicative functions(p.165) + class  |
+| Functions                   | Arbitrary + class?                    |
+| Introducing fresh variables | Arbitrary + class?                    |
+| Theorem variants            | Arbitrary + class                     |
+| Function type               | Can be untyped                        |
+| Function parameters         | Individuals, matrices and classes     |
 
 ----------------
 
