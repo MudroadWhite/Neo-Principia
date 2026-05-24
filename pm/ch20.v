@@ -97,6 +97,10 @@ Definition n10_21_pred_1 (φ : Order 2 → Prop) (P : Prop) :
   (∀ x : Order 2, P → φ x) ↔ (P → (∀ x : Order 2, φ x)).
 Admitted.
 
+Definition n10_27_pred_1 (φ ψ : Order 2 → Prop) : 
+  (∀ z, φ z → ψ z) → ((∀ z, φ z) → (∀ z, ψ z)).
+Admitted.
+
 Definition n10_28_pred (φ ψ : (Prop → Prop) → Prop) :
   (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
 Admitted.
@@ -111,6 +115,10 @@ Admitted.
 
 Definition n10_281_pred2_1 (φ ψ : Order2 2 → Prop) :
   (∀ x, φ x → ψ x) → ((∃ x, φ x) → (∃ x, ψ x)).
+Admitted.
+
+Definition n10_33_pred_1 (φ : Order 2 → Prop) (P : Prop) :
+  (∀ x, φ x ∧ P) ↔ ((∀ x, φ x) ∧ P).
 Admitted.
 
 Definition n10_35_pred (φ : (Prop → Prop) → Prop) (P : Prop) :
@@ -796,16 +804,30 @@ Proof.
       ∧ (∀ f, [^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2]))
     → ∀ f, ([^z => IPhi z @ cz3 => f cz3] → [^z => ITheta z @ cz4 => f cz4])).
   {
-    (* TODO: fill it in the future *)
-    pose proof n10_11 as n10_11.
-    pose proof n10_27 as n10_27.
-    pose proof n10_33 as n10_33.
-    admit.
+    pose proof (n10_11_pred_1 If (fun f => 
+      ((IPhi x <[- x -]> Psi x) ∧ (ITheta x <[- x -]> Chi x)
+        ∧ ([^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2]))
+      → ([^z => IPhi z @ cz3 => f cz3] → [^z => ITheta z @ cz4 => f cz4]))) 
+      as n10_11.
+    MP n10_11 S2.
+    pose proof (n10_27_pred_1
+      (fun f => (IPhi x <[- x -]> Psi x) ∧ (ITheta x <[- x -]> Chi x)
+        ∧ ([^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2]))
+      (fun f => [^z => IPhi z @ cz3 => f cz3] → [^z => ITheta z @ cz4 => f cz4])) 
+      as n10_27.
+    MP n10_27 n10_11.
+    setoid_rewrite <- n4_32 in n10_27 at 1.
+    setoid_rewrite -> n4_3 in n10_27 at 1.
+    rewrite -> n10_33_pred_1 in n10_27.
+    now rewrite <- n4_3 in n10_27.
   }
   assert (S4 : (((IPhi x <[- x -]> Psi x) ∧ (ITheta x <[- x -]> Chi x))
       ∧ (∀ f, [^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2]))
     → ((IPhi x <[- x -]> IPhi x) → (IPhi x <[- x -]> ITheta x))).
   {
+    (* unprovable: *20.112 seems to be incorrectly used *)
+    pose proof n20_112 as n20_112.
+    pose proof n10_1 as n10_1.
     admit.
   }
   assert (S5 : (((IPhi x <[- x -]> Psi x) ∧ (ITheta x <[- x -]> Chi x))
@@ -839,8 +861,9 @@ Proof.
   { now setoid_rewrite -> n20_15 in S6 at 3. }
   assert (S8 : (∃ Phi Theta, ((Phi x <[- x -]> Psi x) ∧ (Theta x <[- x -]> Chi x)))
       ∧ (∀ f, [^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2])
-    → [^z => Psi z @ cz1 => [^z => Chi z @ cz2 =>  cz1 = cz2]]).
+    → [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]).
   {
+    
     pose proof n10_11 as n10_11.
     pose proof n10_23 as n10_23.
     pose proof n10_35 as n10_35.
