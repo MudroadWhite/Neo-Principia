@@ -85,7 +85,7 @@ There are several reasons for organizing proofs with `assert`. The most signific
 
 As introduced above, `assert` and `set`, sets up the general architecture to write the proof.
 
-Beneath the architecture comes the details of how we prove a theorem. By referring to [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), we can divide our tactics into 2 types - as the slogan says, "just `pose` and `rewrite`".
+Beneath the architecture comes the details of how we prove a theorem. By referring to [SEP](https://plato.stanford.edu/entries/principia-mathematica/), we can divide our tactics into 2 types. As the slogan says, "just `pose` and `rewrite`".
 
 - `pose proof`, occasionally with `apply`, instantiates a existing theorem to use.
 - `rewrite`, `setoid_rewrite`, custom defined Ltacs like `MP` `Syll`, or more generally, all tactics except `pose proof` are for rewriting to, and even a level down, deducing new propositions from existing propositions.
