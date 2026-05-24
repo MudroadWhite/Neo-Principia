@@ -70,14 +70,14 @@ Qed.
 - A `TOOLS` header is **required** to be place at the beginning of a long proof, if any tool is being used.
 - Other tools not being placed in the `TOOLS` section is **required** to be stated with an explicit comment.
 
-Technical features, that can be be found under `lib.v`, usually require a warmup before being available, for example, introducing an extra individual with the proof(with `set (X := Individual "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
+Technical features, that can be be found under `lib.v`, usually require a "warmup" before being available, for example, introducing an extra individual with the proof(with `set (X := Intro_individual "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
 
 ### `assert` blocks
 - All long proofs are **required** to adapt to the proof architecture picted above.
 
 For long proofs, the first tactic we use always starts with an `assert`, for specifying intermediate steps corresponded to ones in the original text. 
 
-There are several reasons for organizing proofs with `assert`. The most significant one is readability. Besides, we can have several equivalant forms for a proposition, i.e. `(fun x => x) x` is not very far from just `x` or `(fun y => y) x`. Switching between them requires delicate application with tactics for all different cases. If we set the desired form as a subgoal, we only need to use tactics to prove for a equivalent form to `x`, and skip the tedious transformations. One last thing for `assert` is that it limits the scope of theorems we use. When we leave the scope, these theorems are automatically cleared away, and only the intermediate steps as `S1` `S2` are being pertained. As a result, the proof window becomes extremely clean.
+There are several reasons for organizing proofs with `assert`. The most significant one is readability. Besides, we can have several equivalent forms for a proposition, i.e. `(fun x => x) x` is not very far from just `x` or `(fun y => y) x`. Switching between them requires delicate application with tactics for all different cases. If we set the desired form as a subgoal, we only need to use tactics to prove for a equivalent form to `x`, and skip the tedious transformations. One last thing for `assert` is that it limits the scope of theorems we use. When we leave the scope, these theorems are automatically cleared away, and only the intermediate steps as `S1` `S2` are being pertained. As a result, the proof window becomes extremely clean.
 
 `assert`ed intermediate steps are introduced into the hypotheses.
 
