@@ -253,12 +253,14 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 This special symbol comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Typically speaking, only functions come with scopes, but PM is defining scopes for a ("incomplete")symbol(p.67). 
 
 ### Chapter 20
-Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance) have been presented in this chapter's theorems.
+Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance at \*20.59) have been presented in this chapter's theorems.
 
 Another thing we can unfold into detail is the definition of \*20.02(p.188). 
 1. `x∈(z^φz)` is a function of `φ`
 2. If we pick this function as the `f` in \*20.01, we obtain `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ (x ∈ φ)`. The `x` at the rightmost cannot be renamed into anything else because it is the `x` defined in the "function" we are using.
 3. In this form, we "patch" the expression with \*20.02, matching exactly the rightmost sub expression, and rewriting the whole expression into `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ φ x`, and then make a slight reordering.
+
+(TODO: Use `n20_61` and its variants as a starting point to explain the missing of specifications)
 
 Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq. The depth of its influence result in our preference of "monomorphic theorems, polymorphic symbols" as a design guide. See [tactics](./4_tactics.md) for further explanation.
 

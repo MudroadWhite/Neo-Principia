@@ -19,9 +19,6 @@ Require Import PM.pm.ch14.
 address following in the documentation; 
 adapt following naming convention in the project: 
 
-- Use `n20_61` and its variants as a starting point to explain the missing
-  of specifications
-
 scoping convention:
 - scoping is under consideration but can be fixed nicely
 - if possible we want to moreover internalize the scopes (maybe determining the scope
