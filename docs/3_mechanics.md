@@ -131,6 +131,7 @@ Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`
 
 The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
 
+
 |        Element name      | Type name | Arguments                    | Identification rule                            |
 |--------------------------|-----------|------------------------------|------------------------------------------------|
 | Elementary proposition   | EProp     | None                         | All elementary propositions                    |
@@ -138,10 +139,12 @@ The rest of the text is the typing algorithm for propositions and functions. Not
 | Proposition of nth order | Prop n    | type of the function \[\*\]  | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
 | Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
 
-Within which some terms is needing some clarifications: 
+**Table X: "of the same type" algorithm from chapter 9**
+
+Within which several terms need some clarifications: 
 - connectives : `¬` and `∨`
 - same: same propositions/functions are same in number of argument, and each argument have the same type on that index; additionally, they are usually 1-order lower to the proposition/function being constructed
-- other typing rules usually consist of varied aspects to type on : how to type a new symbol; how to type a function with more arguments from function with less arguments, and so on
+- other typing rules: usually consist of varied aspects to type on: how to type a new symbol; how to type a function with more arguments from function with less arguments, and so on
 
 By proving a theorem in chapter 9 - 11, we mean:
 |           Property          |          Limitation         |
@@ -155,8 +158,10 @@ By proving a theorem in chapter 9 - 11, we mean:
 | Function type               | Untyped\[\*\*\]             |
 | Function parameters         | <= 1 order                  |
 
-**\[\*\]**: Several propositions in the beginning of chapter 9 is still limited to elementary propositions
-**\[\*\*\]**: Whether it is typed depends on how they are used in later chapter, and I'm still not sure about this
+**Table X: Proving context for chapter 9 - 11**
+
+- **\[\*\]**: Several propositions in the beginning of chapter 9 is still limited to elementary propositions
+- **\[\*\*\]**: Whether it is typed depends on how they are used in later chapter, and I'm still not sure about this
 
 TODO: 
 - All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
