@@ -6,9 +6,9 @@ Principia has 3 types(not mathematical type) of propositions: `Pp`(primitive pro
 A hidden trait of proposition in Principia is those propositions written in natural language. With only some exceptions in chapter 1, most of them are about typing a specific symbol. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules.
 
 ### How to read the propositions in Principia?
-Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and they surprisingly never go wrong. One can even understand the priority at ease with the indentations, without much on dot notations.
+Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and their hints on priority, surprisingly, never go wrong. One can understand the priority, without knowing much on dot notations.
 
-While types for propositions in PM constitutes to a hierarchy, PM doesn't express the hierarchy directly. Instead, typing rules say "what different terms can be considered as the same type". Such "of the same type" style definitions have been scattered into all the chapters.
+Each propositions in PM is supposed to come with a type, and the types form a hierarchy. Still,  PM doesn't express the hierarchy directly. PM's typing rules say "what different terms can be considered as the same type". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
