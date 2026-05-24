@@ -163,3 +163,4 @@ TODO:
 - proving every steps in ch20 has been increasingly harder
 - scope related criticism in chapter 20 code
 - "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps?
+- (highly volatile)if setups for theorems are too complicated, we might need to use `Section`s in Coq
