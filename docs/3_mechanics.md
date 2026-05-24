@@ -49,7 +49,11 @@ Chapter 1 presents some basic `Pp`s to set everything up, and practically speaki
 
 There are no theorems depending on \*1.1 explicitly stated in PM.
 
-In chapter 1 we also have a rough idea on how to denote a (elementary) *propositional function*. Such kind of simple denotation will be changed into something else in later chapters. In chapter 1-5, most propositional functions don't come barely themselves - their values for variables are somehow "fixed" already during all the inference, where `φ X` and `φ Y` does not mean the same thing(p.19).
+In chapter 1 we also have a rough idea on how to denote a (elementary) *propositional function*. The meaning of propositional functions will be changed into something else in later chapters. In chapter 1-5, most propositional functions don't come by themselves - their values for variables are somehow "fixed" already during all the inference, where `φ X` and `φ Y` does not mean the same thing(p.19).
+
+*What is a function in PM?* When it says something like "function X", it actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. The same applies to most theorems in PM. All PM function's variables are not bounded and occurring freely. Another way to see a function in PM is like it doesn't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once.
+
+TODO: integrate the following: `H1 : φ X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `φ` solely(p.92) and we're still asserting a proposition. 
 
 ```Rocq
 (* This is an elementary proposition *)
@@ -63,13 +67,8 @@ Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
 - Asserting an (elementary) **propositional function** means asserting `H1 : φ X`.
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
-- We use \*1.11 almost everywhere in PM, and \*1.1 is generally not used, see (p.93). Most judgments in PM are assertions on propositional functions.
 
-\*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
-
-`H1 : φ X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `φ` solely(p.92) and we're still asserting a proposition. 
-
-*What is a function in PM?* When it says something like "function X", it actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. The same applies to most theorems in PM. All PM function's variables are not bounded and occurring freely. Another way to see a function in PM is like it doesn't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once.
+We use \*1.11 almost everywhere in PM, and \*1.1 is generally not used, see (p.93). Most judgments in PM are assertions on propositional functions. \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
 
 - (p.94)Definitional equality is undefined in PM
 - **elementary propositions** are closed under `¬` and `∨`
@@ -85,7 +84,9 @@ By proving a theorem, we mean:
 | Introducing fresh variables | Not allowed            |
 | Theorem variants            | Not allowed            |
 | Function type               | Elementary function    |
-| Function parameters         | Only individuals       |
+| Function parameters         | Only E-propositions    |
+
+**Table X: Proving context for chapter 1 - 5**
 
 (p.92)Note: not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
 
@@ -139,6 +140,8 @@ The rest of the text is the typing algorithm for propositions and functions. Not
 | Proposition of nth order | Prop n    | type of the function \[\*\]  | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
 | Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
 
+**\[\*\]**: TODO: recheck old commits
+
 **Table X: "of the same type" algorithm from chapter 9**
 
 Within which several terms need some clarifications: 
@@ -156,7 +159,7 @@ By proving a theorem in chapter 9 - 11, we mean:
 | Introducing fresh variables | Allowed for E-props         |
 | Theorem variants            | Not allowed                 |
 | Function type               | Untyped\[\*\*\]             |
-| Function parameters         | <= 1 order                  |
+| Function parameters         | <= 1 order propositions     |
 
 **Table X: Proving context for chapter 9 - 11**
 
@@ -233,6 +236,8 @@ By proving a theorem, we mean,
 **\[\*\]**: Untyped functions take a parameter and return a proposition of *unknown* order.
 **\[\*\*\]**: See (p.52, 162, 163, 164).
 
+**Table X: Proving context for chapter 12 - 14**
+
 In addition, not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
 
 ### Chapter 13
@@ -252,10 +257,14 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 
 This special symbol comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Typically speaking, only functions come with scopes, but PM is defining scopes for a ("incomplete")symbol(p.67). 
 
+TODO: implementation
+
+TODO: polymorphic definition
+
 ### Chapter 20
 Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance at \*20.59) have been presented in this chapter's theorems.
 
-Another thing we can unfold into detail is the definition of \*20.02(p.188). 
+Next, we are taking some canonical theorems in chapter 20 to address several important points to help understanding this chapter. First we unfold the definition of \*20.02(p.188). 
 1. `x∈(z^φz)` is a function of `φ`
 2. If we pick this function as the `f` in \*20.01, we obtain `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ (x ∈ φ)`. The `x` at the rightmost cannot be renamed into anything else because it is the `x` defined in the "function" we are using.
 3. In this form, we "patch" the expression with \*20.02, matching exactly the rightmost sub expression, and rewriting the whole expression into `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ φ x`, and then make a slight reordering.
@@ -270,19 +279,24 @@ While not being stated explicitly, being hinted in previous chapters(TODO: sourc
 |-----------------------------|---------------------------------------|
 | Highest proposition order   | Arbitrary + class?                    |
 | Modus Ponens theorem        | Arbitrary                             |
-| Generalization              | Predicative functions(p.165) + class  |
+| Generalization              | Predicative functions + class         |
 | Functions                   | Arbitrary + class?                    |
 | Introducing fresh variables | Arbitrary + class?                    |
 | Theorem variants            | Arbitrary + class                     |
 | Function type               | Can be untyped                        |
 | Function parameters         | Individuals, matrices and classes     |
 
+**Table X: Proving context for chapter 20 ~ +**
+
 ----------------
 
 TODO:
-- composition nature for types/defs, ref. *20.62
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "forall" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
 - ch9: Explain when do we need `set X := Intro_x`
 - ch9: type of props varies by funcs...  "practically ignored"(p.162); the definition can be fixed by change to "returning order of a function"
+
+TODO: For each chapter, organize with following points:
+1. What is the mechanics in the book
+2. What have we implemented corresponded to the mechanics (with **Implementation** tag)

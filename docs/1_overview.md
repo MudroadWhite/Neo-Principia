@@ -19,11 +19,17 @@ Here is our take: pertain maximum PM flavor. This means:
 In addition, we are allowed to simplify PM's proof when the it goes tedious. In practice, our proving style is a mixture of 2 major mechanics: PM's original "bottom-up construction" method and our "rewrite/setoid_rewrite", being explained in detail in [tactics](./4_tactics). This turns out to be the best way to provide a balanced proof: PM's citations to theorems generally will omit trivial theorems being used for every proof step.
 
 ## Can Principia Mathematica be completely formalized?
-Yes.
+Yes. There are 3 arguments to support formalizing PM:
+
+1. Modern provers have enough tools to design a language
+   1. We can parse PM's complete syntax easily
+   2. We can give fixed interpretation to the completed language. By *fixed* I mean it doesn't need to be extended and prepare for any other exceptions
+2. We have considered everything in the *Introduction* chapter, which summarizes over the logical foundation setups in PM
+3. PM is necessarily an old rewriting system
 
 With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica.
 
-Principia Mathematica is hand written code. You are only supposed to write code on paper either in university or during interviews. The difficulty in formalizing PM comes from how it organizes the ideas:
+The difficulty in formalizing PM comes from how it organizes the ideas:
 - PM gets a mountain of notations, symbols, theorems, and different contexts to interpret them. See [What are the actual problems to formalize Principia Mathematica?](./docs/3_mechanics.md/#what-are-the-actual-problems-to-formalize-principia-mathematica)
 - Terminologies also have different meanings in different chapters, and the range of the distinction is a manual work. For example, "functions" and "matrices"
 
@@ -31,12 +37,11 @@ Principia Mathematica is hand written code. You are only supposed to write code 
 
 [This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) seems to arrive at similar observations. See paper in the repo on its in-depth discussions of PM's functions.
 
-Our implementation has already covered PM in 2 aspects: the rewriting system described in SEP, as simple as just using a `rewrite`; everything considered in the *Introduction* chapter, which summarizes over the logical foundation setups in PM. On the other hand, we are using *shallow embedding* to formalize Principia Mathematica, for following reasons:
-1. No one has completely formalized PM so far
-2. There are always more details to be implemented in later chapters and interfere with current implementations
-3. Hard-design the system will result in difficult reconstructions for any unpredictable changes
+We are using *shallow embedding* to formalize Principia Mathematica, for following reasons:
+1. This is our first time to formalize PM. There might be more details to be implemented in later chapters and affect current framework
+2. Otherwise, hard-design system will result in difficult reconstructions for any unpredictable changes
 
-While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the ambiguity appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*. See [project status](./docs/1_overview.md/#project-status) for further details.
+While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the ambiguity appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*.
 
 As the most central idea, can we type every proposition in Principia? Within our vision, *deep embedding for Principia Mathematica seems to be feasible*.
 
@@ -65,7 +70,7 @@ We are building:
 - [x] Chapter 11 - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
 - [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Order` type.
 - [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
-- [x] Chapter 14 - Notation `ι` of the descriptions. Theorems on them.
+- [x] Chapter 14 - `Notation` setups for `ι` the descriptions. Theorems on them.
 - [x] Chapter 20 - Notation on class, and theorems of classes. Under the iceberg tip, making different notations working consistently with each others.
 
 ### Milestones

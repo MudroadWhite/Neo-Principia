@@ -37,6 +37,9 @@ TODO:
 **D4: Tactics support.**
 TODO: (brief introduction to missing tactics)
 
+**D5: Unknown application of theorems.**
+TODO: special theorems that are not used in supposed way
+
 ### Basic setups
 **TODO: MP vs Syll**
 TODO: mostly freely used, and don't follow the text
@@ -164,3 +167,6 @@ TODO:
 - scope related criticism in chapter 20 code
 - "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps?
 - (highly volatile)if setups for theorems are too complicated, we might need to use `Section`s in Coq
+
+
+TODO: this chapter will not emphasize on implementation details
