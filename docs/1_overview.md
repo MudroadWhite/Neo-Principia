@@ -10,13 +10,12 @@ We also have a type system, defaulted by most people, in Lean/Rocq. Propositions
 ## What is the aesthetics for this project?
 For formalizing Principia Mathematica, there can be many features that you want to address with. [pmGenerator](https://github.com/xamidi/pmGenerator) tries to produce the shortest proof as possible. [Randall's work](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) attempts at reducing the complexity of PM with better mathematical notions. There might be ppl having other directions, such as providing maximum automation for Principia Mathematica's deduction.
 
-Here is our take: pertain maximum PM flavor. This means:
+Here is our take: pertain maximum PM flavor. Which means:
 - We want to implement all symbols appeared in PM. In other fancier words, parse the syntax of PM at our best
-- We want minimal tools to get the work done
+- We want minimal setups to get the work done
 - We want maximum PM theorems being proven
-- We want every proof steps followed and presented
-
-In addition, we are allowed to simplify PM's proof when the it goes tedious. In practice, our proving style is a mixture of 2 major mechanics: PM's original "bottom-up construction" method and our "rewrite/setoid_rewrite", being explained in detail in [tactics](./4_tactics). This turns out to be the best way to provide a balanced proof: PM's citations to theorems generally will omit trivial theorems being used for every proof step.
+- We want each proof step be followed and presented
+- In addition, we are allowed to simplify PM's proof when it goes tedious
 
 ## Can Principia Mathematica be completely formalized?
 Yes. There are 3 arguments to support formalizing PM:
@@ -29,21 +28,22 @@ Yes. There are 3 arguments to support formalizing PM:
 
 With [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), there are already a lot of materials to help formalizing Principia Mathematica.
 
-The difficulty in formalizing PM comes from how it organizes the ideas:
-- PM gets a mountain of notations, symbols, theorems, and different contexts to interpret them. See [What are the actual problems to formalize Principia Mathematica?](./docs/3_mechanics.md/#what-are-the-actual-problems-to-formalize-principia-mathematica)
-- Terminologies also have different meanings in different chapters, and the range of the distinction is a manual work. For example, "functions" and "matrices"
+To formalize PM, we have occured to the following difficulties:
+- We have to manually record the theorems, since PM doesn't have a digital version
+- We have to manually find the correct theorem to complete the proof
+- We have to manually comprehend PM's mountain of notations, symbols, theorems, and different contexts to interpret them
+- We have to manually identify different meanings for terminologies in different chapters. For example, "functions" and "matrices"
+- Being the most difficult one, we have to manually type every propositions
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) pretty much summarize what we have seen so far: PM's notorious notation system, highly "trivial"(chores-like) theorems, and its historical background to guarantee a missing revisit.
 
 [This awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) seems to arrive at similar observations. See paper in the repo on its in-depth discussions of PM's functions.
 
-We are using *shallow embedding* to formalize Principia Mathematica, for following reasons:
-1. This is our first time to formalize PM. There might be more details to be implemented in later chapters and affect current framework
-2. Otherwise, hard-design system will result in difficult reconstructions for any unpredictable changes
+All factors above resulted in our unique preference for the proof: *shallow embedding* utilizing a mixture of 2 major mechanics, PM's original "bottom-up construction" method and our "rewrite/setoid_rewrite", being detailed in [tactics](./4_tactics). As our first time to formalize PM, there might be more details to be implemented in later chapters; hard-designed system can result in difficult reconstructions for any unpredictable changes. 
 
 While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the ambiguity appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*.
 
-As the most central idea, can we type every proposition in Principia? Within our vision, *deep embedding for Principia Mathematica seems to be feasible*.
+Eventually, can we type every proposition in Principia? Within our [vision](./6_suggestion.md), *deep embedding for Principia Mathematica seems to be feasible*.
 
 ## What is the value of this project?
 Proposing Principia Mathematica is a matter of theory, and verifying such a theory is a matter of application. This project aims to be a [scythe](https://www.youtube.com/watch?v=gRivMEEZZE8&list=RDgRivMEEZZE8&start_radio=1&t=2420s) to demystify a decaded myth. This project wraps up ideas in the book, writes down, organizes and iterates like a software product. This project is a small world to communicate, between math, philosophy and computer science people.
