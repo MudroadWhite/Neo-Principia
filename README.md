@@ -16,9 +16,9 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 - "Just as it is": Principia flavor in maximum strength: Following PM's symbol definitions, deductions faithfully. Clear proof structure, clean, maybe beautiful proof window. 
 
 To be more exact, we have:
-- Demonstrated a framework to formalize most of the theorems in Principia Mathematica with remarkable strength
-  - This framework has maintained a balance between term-level clarity and proof simplicity
-  - This framework has broken the record of the formalization pass through chapter 5 to chapter 20, haven't yet unleashed its maximum  potential
+- Demonstrated a proof architecture to formalize most of the theorems in Principia Mathematica with remarkable strength
+  - This architecture has maintained a balance between term-level clarity and proof simplicity
+  - This architecture has broken the record of the formalization pass through chapter 5 to chapter 20, haven't yet unleashed its maximum potential
 - Identified several defects and ambiguity in PM from a modern theorem prover's perspective
 - Proposed a specification for prospective participants for grinding down to perfection
 

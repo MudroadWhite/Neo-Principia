@@ -8,28 +8,41 @@ Technically speaking, Principia's rewrite system is very simple, maybe much more
 
 As mentioned in previous chapters, we "just `pose` and `rewrite`". Here we are going to expand the slogan in complete details.
 
-| Feature                                                         | Implementation                               |
+| PM Feature                                                      | Implementation                               |
 |-----------------------------------------------------------------|----------------------------------------------|
-| Pp and Df                                                       | Monomorphic Rocq Definition                  |
-| Thm                                                             | Monomorphic Rocq Theorem                     |
+| **Part 1: Meta theory**                                         | -                                            |
+| Pp and Df                                                       | Monomorphic Rocq `Definition`                |
+| Thm                                                             | Monomorphic Rocq `Theorem`                   |
 | Real & Apparent variables                                       | lhs and rhs of a Rocq theorem                |
 | Functions                                                       | Rocq lambda calculus                         |
 | General `forall`, `exists`, `<->` and other logical connectives | Rocq's equivalent default                    |
-| Incomplete symbols with scopes                                  | Polymorphic `Notation`s with lambda calculus |
 | Modus Ponens, Syllogism, etc.                                   | `MP`, `Syll`, other self defined tactics     |
-| Proposition order                                               | `Order` type                                 |
 | `Hp`                                                            | Rocq `intro`                                 |
+| Incomplete symbols with scopes                                  | Polymorphic `Notation`s with lambda calculus |
+| Predicativity/impredicativity                                   | `!` without actual implementation            |
+| Proposition order                                               | `Order` type                                 |
 | Theorem polymorphism                                            | The Variant mechanic                         |
-| Extra Individuals                                               | The `Intro` mechanic                         |
-| `=` rewriting                                                   | `eq_to_equiv` + `setoid_rewrite`             |
+| Extra instances/interpretations                                 | The `Intro` mechanic                         |
+| Symbol interpretation                                           | TODO                                         |
+| **Part 2: Computation**                                         | -                                            |
+| Stepping forward                                                | `assert`                                     |
+| Conclude a step/a proof                                         | `appply`/`now`/`Qed`                         |
 | Asserting a proposition                                         | `pose proof` only                            |
 | Rewriting on a proposition                                      | `MP`/`Syll` or `rewrite`/`setoid_rewrite`    |
-| Symbol interpretation                                           | TODO                                         |
+| `=` rewriting                                                   | `eq_to_equiv` + `setoid_rewrite`             |
 
-**Table X: PM features taken and their implementations in Rocq**
+**Table X: PM features considered and their implementations in Rocq**
+
+## How do we assert a theorem is true?
+The story starts with a very simple beginning. To assert a cited theorem is true, we `pose` a proof, which is pretty fundamental in Rocq. Voila.
+
+If we only perform such a `pose`, the proof window is logically correct, but visually awful. We not only have the proof, but also the proof terms. However, we are not doing backward reasoning, nor do the proof term correctly reflect the construction when we are using a lot of `setoid_rewrite`. `pose proof` remains to be the only candidate to present a citation.
+
+TODO: tell about `apply`
+TODO: tell about polymorphism
+TODO: tell about `let`, `set`
 
 
-## How do we pose a theorem?
 TODO:
 - Definition, theorems, 
 - pose proof, 
