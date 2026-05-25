@@ -8,6 +8,27 @@ Technically speaking, Principia's rewrite system is very simple, maybe much more
 
 As mentioned in previous chapters, we "just `pose` and `rewrite`". Here we are going to expand the slogan in complete details.
 
+| Feature                                                         | Implementation                               |
+|-----------------------------------------------------------------|----------------------------------------------|
+| Pp and Df                                                       | Monomorphic Rocq Definition                  |
+| Thm                                                             | Monomorphic Rocq Theorem                     |
+| Real & Apparent variables                                       | lhs and rhs of a Rocq theorem                |
+| Functions                                                       | Rocq lambda calculus                         |
+| General `forall`, `exists`, `<->` and other logical connectives | Rocq's equivalent default                    |
+| Incomplete symbols with scopes                                  | Polymorphic `Notation`s with lambda calculus |
+| Modus Ponens, Syllogism, etc.                                   | `MP`, `Syll`, other self defined tactics     |
+| Proposition order                                               | `Order` type                                 |
+| `Hp`                                                            | Rocq `intro`                                 |
+| Theorem polymorphism                                            | The Variant mechanic                         |
+| Extra Individuals                                               | The `Intro` mechanic                         |
+| `=` rewriting                                                   | `eq_to_equiv` + `setoid_rewrite`             |
+| Asserting a proposition                                         | `pose proof` only                            |
+| Rewriting on a proposition                                      | `MP`/`Syll` or `rewrite`/`setoid_rewrite`    |
+| Symbol interpretation                                           | TODO                                         |
+
+**Table X: PM features taken and their implementations in Rocq**
+
+
 ## How do we pose a theorem?
 TODO:
 - Definition, theorems, 
