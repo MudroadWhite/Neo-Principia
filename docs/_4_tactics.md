@@ -6,7 +6,7 @@ This chapter is targeted for the following topics:
 ## Basic setup
 Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from *modus ponens* and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.
 
-As mentioned in previous chapters, our design slogan is "just `pose` and `rewrite`". Here we are going to expand the slogan in complete details.
+As mentioned in previous chapters, we "just `pose` and `rewrite`". Here we are going to expand the slogan in complete details.
 
 ## How do we pose a theorem?
 TODO:
@@ -26,7 +26,8 @@ TODO:
   1. explain how to bottom up construction process in PM
   2. when what tactic doesn't work, we proceed with what alternatives to "patch" the idea
 - Extra set up to make proof looks better: `now`, `exact`, `propositional_extentionality` or maybe `f_equal`
-- Lacking of distinction between representation(?) and interpretation(?)
+- Lacking of distinction between language and interpretation
+- different types: order, A -> prop, type of symbol(also mentioned by Randall)
 
 ## `rewrite/setoid_rewrite``
 TODO:

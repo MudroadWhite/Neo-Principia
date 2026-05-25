@@ -17,8 +17,8 @@ TODO:
 10. What have I learned: designing the framework is the most enjoyable part; difference between AI and hand written FV: u can design the architecture on your own and shrink the proof - produce organized things could be a challenge
 
 ## Future directions
-suggestion:
 - classify theorems
 - schemes for theorems/variants
 - add type, add predicativity, add AoR
 - tactic automation?
+- construct meaningful proof objects
