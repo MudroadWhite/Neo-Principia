@@ -123,11 +123,11 @@ Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`
 The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
 
 
-|        Element name      | Type name | Arguments                    | Identification rule                            |
+|          Notion          | Type name | Arguments                    | Identification rule                            |
 |--------------------------|-----------|------------------------------|------------------------------------------------|
 | Elementary proposition   | EProp     | None                         | All elementary propositions                    |
-| Elementary function      | EFunc     | types of function parameters | Connectives on same functions                  |
-| Proposition of nth order | Prop n    | type of the function \[\*\]  | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
+| Elementary function      | EFunc     | Types of function parameters | Connectives on same functions                  |
+| Proposition of nth order | Prop n    | Type of the function \[\*\]  | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
 | Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
 
 **\[\*\]**: TODO: recheck old commits
@@ -276,7 +276,7 @@ While not being stated explicitly, being hinted in previous chapters(TODO: sourc
 | Function type               | Can be untyped                        |
 | Function parameters         | Individuals, matrices and classes     |
 
-**Table X: Proving context for chapter 20 ~ +**
+**Table X: Proving context for chapter 20 - +**
 
 ----------------
 
