@@ -26,7 +26,7 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". Here we are g
 | Symbol interpretation                                           | TODO                                         |
 | **Part 2: Computation**                                         | -                                            |
 | Stepping forward                                                | `assert`                                     |
-| Conclude a step/a proof                                         | `appply`/`now`/`Qed`                         |
+| Conclude a step/a proof                                         | `appply`/`now`/`exact`                         |
 | Asserting a proposition                                         | `pose proof` only                            |
 | Rewriting on a proposition                                      | `MP`/`Syll` or `rewrite`/`setoid_rewrite`    |
 | `=` rewriting                                                   | `eq_to_equiv` + `setoid_rewrite`             |
