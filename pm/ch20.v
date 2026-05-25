@@ -1117,7 +1117,7 @@ Proof.
   assert (S5 : [^ z => Psi z @ cz1 => X <class_in> cz1]
     ↔ Psi X).
   {
-    (* unprovable?. *)
+    (* unprovable. *)
     pose proof n12_1.
     admit.
   }
