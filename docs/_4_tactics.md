@@ -8,28 +8,28 @@ Technically speaking, Principia's rewrite system is very simple, maybe much more
 
 As mentioned in previous chapters, we "just `pose` and `rewrite`". Here we are going to expand the slogan in complete details.
 
-| PM Feature                                                      | Implementation                               |
-|-----------------------------------------------------------------|----------------------------------------------|
-| **Part 1: Meta theory**                                         | -                                            |
-| Pp and Df                                                       | Monomorphic Rocq `Definition`                |
-| Thm                                                             | Monomorphic Rocq `Theorem`                   |
-| Real & Apparent variables                                       | lhs and rhs of a Rocq theorem                |
-| Functions                                                       | Rocq lambda calculus                         |
-| General `forall`, `exists`, `<->` and other logical connectives | Rocq's equivalent default                    |
-| Modus Ponens, Syllogism, etc.                                   | `MP`, `Syll`, other self defined tactics     |
-| `Hp`                                                            | Rocq `intro`                                 |
-| Incomplete symbols with scopes                                  | Polymorphic `Notation`s with lambda calculus |
-| Predicativity/impredicativity                                   | `!` without actual implementation            |
-| Proposition order                                               | `Order` type                                 |
-| Theorem polymorphism                                            | The Variant mechanic                         |
-| Extra instances/interpretations                                 | The `Intro` mechanic                         |
-| Symbol interpretation                                           | TODO                                         |
-| **Part 2: Computation**                                         | -                                            |
-| Stepping forward                                                | `assert`                                     |
-| Conclude a step/a proof                                         | `appply`/`now`/`exact`                         |
-| Asserting a proposition                                         | `pose proof` only                            |
-| Rewriting on a proposition                                      | `MP`/`Syll` or `rewrite`/`setoid_rewrite`    |
-| `=` rewriting                                                   | `eq_to_equiv` + `setoid_rewrite`             |
+| PM Feature                                                      | Implementation                                  |
+|-----------------------------------------------------------------|-------------------------------------------------|
+| **Part 1: Meta theory**                                         | -                                               |
+| Pp and Df                                                       | Monomorphic Rocq `Definition`                   |
+| Thm                                                             | Monomorphic Rocq `Theorem`                      |
+| Real & Apparent variables                                       | lhs and rhs of a Rocq theorem                   |
+| Functions                                                       | Rocq lambda calculus                            |
+| General `forall`, `exists`, `<->` and other logical connectives | Rocq's equivalent default                       |
+| Modus Ponens, Syllogism, etc.                                   | `MP`, `Syll`, other self defined tactics        |
+| `Hp`                                                            | Rocq `intro`                                    |
+| Incomplete symbols with scopes                                  | Polymorphic `Notation`s with lambda calculus    |
+| Predicativity/impredicativity                                   | `!` without actual implementation               |
+| Proposition order                                               | `Order` type                                    |
+| Theorem polymorphism                                            | The Variant mechanic                            |
+| Extra instances/interpretations                                 | The `Intro` mechanic                            |
+| Symbol interpretation                                           | TODO                                            |
+| **Part 2: Computation**                                         | -                                               |
+| Stepping forward                                                | `assert`                                        |
+| Conclude a step/a proof                                         | `apply`+`now`/`exact`                           |
+| Asserting a proposition                                         | `pose proof` only                               |
+| Rewriting on a proposition                                      | "PM-based" tactics or `rewrite`/`setoid_rewrite`|
+| `=` rewriting                                                   | `eq_to_equiv`+`setoid_rewrite`                  |
 
 **Table X: PM features considered and their implementations in Rocq**
 
