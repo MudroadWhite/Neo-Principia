@@ -34,9 +34,7 @@ When formalizing PM, we have occurred to the following difficulties:
 - We have to manually identify different meanings for terminologies in different chapters. For example, "functions" and "matrices"
 - Being the most difficult one, we have to manually type every propositions. This project doesn't type PM's propositions, rendering some completed proofs false positive.
 
-All factors above resulted in our unique preference for the proof: a *shallow embedding* utilizing a mixture of 2 major mechanics, PM's original "bottom-up construction" method and our "`rewrite`/`setoid_rewrite`", being detailed in [tactics](./4_tactics). As our first time to formalize PM, there might be more details to be implemented in later chapters; hard-designed system can result in difficult reconstructions for any unpredictable changes. 
-
-While this doesn't ensure 100% correctness, we are rewarded to retain tolerance to find the bugs, attune with the ambiguity appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*.
+All factors above resulted in our unique preference for the proof: a *shallow embedding* utilizing a mixture of 2 major mechanics, PM's original "bottom-up construction" method and our "`rewrite`/`setoid_rewrite`", being detailed in [tactics](./4_tactics). As our first time to formalize PM, there might be more details to be implemented in later chapters; hard-designed system can result in difficult reconstructions for any unpredictable changes. The shallow embedding thus has sacrificed 100% accuracy, in return to retain tolerance to find the bugs, attune with the ambiguity appeared in the text, and gather non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*, and our major task is to collect necessary information to construct the deep embedding.
 
 Eventually, can we type every proposition in Principia? Within our [vision](./6_suggestion.md), *deep embedding for Principia Mathematica seems to be feasible*.
 
