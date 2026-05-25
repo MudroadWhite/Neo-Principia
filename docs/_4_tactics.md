@@ -33,7 +33,7 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". Here we are g
 
 **Table X: PM features considered and their implementations in Rocq**
 
-## How do we assert a theorem is true?
+## How do we assert a proposition is true?
 The story starts with a very simple beginning. To assert a cited theorem is true, we `pose` a proof, which is pretty fundamental in Rocq. Voila.
 
 If we only perform such a `pose`, the proof window is logically correct, but visually awful. We not only have the proof, but also the proof terms. However, we are not doing backward reasoning, nor do the proof term correctly reflect the construction when we are using a lot of `setoid_rewrite`. `pose proof` remains to be the only candidate to present a citation.
