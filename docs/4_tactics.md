@@ -142,7 +142,6 @@ Even if we have resolved such conflict at 1st level of different hierarchies, wh
 ## Simplification and debugs
 Occasionally, we want to even further simplify the proof down, because:
 - We can clearly provide its equivalent routine using PM theorems
-- We have already identified the types of parameters, for theorems in original routine. Parameters' types matter
 - We have torturing urge to simplify the proofs. Check out `n11_71` to appreciate its ridiculous length.
 
 Below is a table for some of the simplifications we might used, but some of them might never appear in the proofs. This is because unless there is a severe technical barrier, they are **recommended** to be taken down. 
@@ -154,6 +153,8 @@ Below is a table for some of the simplifications we might used, but some of them
 | Necessary alpha conversion  | `replace...with`, `simpl`, etc.            |
 | Reorganize the proof window | `move`, `clear`, etc.                      |
 | Others                      | Addressed with comments in code            |
+
+\[\*\]: Mandatory when PM uses `Hp` in its proof. TODO: explain why
 
 While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debugs that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development. Tactics for debugging is **required** to be reduced to minimum when we have finished them.
 
