@@ -11,12 +11,15 @@ Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets
 Each propositions in PM is supposed to come with a type, and the types form a hierarchy. Still,  PM doesn't express the hierarchy directly. PM's typing rules say "what different terms can be considered as the same type". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
+
+TODO: delete composition related parts in docs, cf. `tactics` section
+
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
 Principia also defines symbols in an **inheriting way**. Propositions in a chapter "will be used in different ways" for later chapters. For example: 
 1. In an early chapter, we define what is an *animal*, and write down theorems about it.
-1. In a later chapter, we divide *animal*s into *dog*s and *cat*s.
-2. To prove a theorem in later chapter, we directly reuse *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
+2. In a later chapter, we divide *animal*s into *dog*s and *cat*s.
+3. To prove a theorem in later chapter, we directly reuse *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
 
 ### How does Principia prove theorems?
 Principia designs its theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
@@ -230,6 +233,8 @@ By proving a theorem, we mean,
 
 In addition, not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
 
+**Implementation.** TODO: `Order` type
+
 ### Chapter 13
 In Rocq, we have different types for `=`. We can have `=` on propositions, `=` on `=` between propositions, `=` on `=`... and so on. Russell realized that he should give the `=` a similar treatment, but the hierarchy is slightly different: `=` is itself treated as a propositional function, and `=` can be an identity on 1st order, second order, ... arbitrary order functions. The first citation of chapter 12's axiom of reducibility appears at \*13.101, and with which applied to \*13.101, the order of `=` has been generally collapsed off. 
 
@@ -247,9 +252,7 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 
 This special symbol comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Typically speaking, only functions come with scopes, but PM is defining scopes for a ("incomplete")symbol(p.67). 
 
-TODO: implementation
-
-TODO: polymorphic definition
+**Implementation.** TODO: polymorphic definition; merge ch20 related things to here
 
 ### Chapter 20
 Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance at \*20.59) have been presented in this chapter's theorems.
@@ -278,6 +281,8 @@ While not being stated explicitly, being hinted in previous chapters(TODO: sourc
 
 **Table X: Proving context for chapter 20 - +**
 
+TODO: address notation mechanics, and failed attempts
+
 ----------------
 
 TODO:
@@ -286,6 +291,7 @@ TODO:
   - 1-order props are just being assumed
 - ch9: Explain when do we need `set X := Intro_x`
 - ch9: type of props varies by funcs...  "practically ignored"(p.162); the definition can be fixed by change to "returning order of a function"
+- ch12 : started using `Order` type; explain why we use it
 
 TODO: For each chapter, organize with following points:
 1. What is the mechanics in the book

@@ -1,6 +1,6 @@
 # Suggestion for future architecture
 
-TODO: 100 yrs ago, Russell and Whitehead published the book that only few customers dare to read. TODO: x yrs ago, several ppl attemped to write this book into a program. now this is an open source project...
+TODO: 100 yrs ago, Russell and Whitehead published the book that only few customers dare to read. TODO: x yrs ago, several ppl attempted to write this book into a program. now this is an open source project...
 
 From the analysis in [tactics](./4_tactics.md), we are witnessing how nontrivial it can be to implement a *proof architecture*, by which I mean something similar to the design patterns in software design, could emerge just because this is how someone wants to simplify the proof and organize the content. This is something that AI currently doesn't aim at, see [example](https://www.youtube.com/watch?v=lcgPj7hge-E). While we didn't reveal the whole proof structure, we have gathered enough information for the next step. This chapter is a suggestion for a specification of PM's complete type system, based on the details we have gathered in [Audit Report](./5_audit.md).
 
@@ -22,3 +22,5 @@ TODO:
 - add type, add predicativity, add AoR
 - tactic automation?
 - construct meaningful proof objects
+- should we actually implement propositional functions as functions
+- eliminate the polymorphism by designing an AST
