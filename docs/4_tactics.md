@@ -133,6 +133,7 @@ The story of *variant*s thus start from a concept mostly common to programmers: 
 For case 2, `Order` simply fails. We design a new `Order2` manually to express such polymorphism. When a theorem is supposed to be lifted in the direction of 1 & 2, we prefer to be conservative: we don't know yet what will happen after chapter 20. We are requiring to design a proposition *variant*, mostly postfixed with `_pred`, that has *fixed order* for every necessary order we need.
 
 TODO: mention extra types for symbols, by Randall
+- since there is a hirrarchy of class, these extra type should be constructed
 
 The actual phenomenon behind case 3, is a different hierarchy constructed on *new symbols*. Chapter 20 is the first chapter introducing such symbol, but we won't know if there are any other hierarchies based on other symbols. An element of type `Class` is definitely neither an element of type `Prop` or type `Order n`. Our current implementation is generalizing all these into an arbitrary type `A`.
 
