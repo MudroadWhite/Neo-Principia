@@ -18,7 +18,7 @@ TODO:
 
 ## Future directions
 - classify theorems
-- add type, add predicativity, add AoR
+- add type, add hierarchy, add predicativity, add AoR
 - tactic automation?
 - construct meaningful proof objects
 - should we actually implement propositional functions as functions
