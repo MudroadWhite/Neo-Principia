@@ -71,26 +71,29 @@ In principal, PM's original design is only allowing proposition rewriting throug
 But how about all other propositions in general? How will they manifest, and how are they being constructed?
 
 ### Bottom up construction
-Which is how I call it for PM's original mechanic. The whole procedure of a valid proposition is being splitted into 4 steps:
+The whole procedure of a valid proposition can be splitted into 4 steps:
 
 1. Start with a theorem as a template, and substitute its variables into some expressions
 2. Apply `MP`/`Syll` for necessary alternations, for example, `P <-> Q` to `Q <-> P`
 3. Generalize on a variable as soon as possible, when the correct form for its expression has manifested
-4. Apply `MP`/`Syll` for the rest of the alternations
+4. Apply `MP`/`Syll` for the rest of the alternations. It usually involves building more sub expressions into the expression, for example from `P` to `P /\ P -> P`.
 
-Here is a huge fallback for `MP`: it can only be performed on the whole expression, but not for sub-expressions. There are many way to get rid of this problem: syllogism is already a specific case for sub expression on MP; But what if, I have propositions of the form of `P <-> (Q -> R)` and `Q`? We can view theorems in chapter 1 - 5 as common specific cases for MP to fit in and apply; chapter 9 and beyond tries to generate their *equivalent* - soon will be called *variants* later - when a new symbol has been introduced in.
+Which is what we called *bottom-up construction* by the logical connectives appeared in a proposition. One can easily verify it's also the nature of *forward reasoning* building up a proof tree building up a proof tree from "leaves" to the "root".
+
+Here is a huge fallback for `MP` appeared in this procedure: it can only be performed on the whole expression, but not for sub-expressions. There are many way to get rid of this problem: syllogism is already a specific case for sub expression on MP; But what if, I have propositions of the form of `P <-> (Q -> R)` and `Q`? We can view theorems in chapter 1 - 5 as common specific cases for MP to fit in and apply; chapter 9 and beyond tries to generate their *equivalent* - soon will be called *variants* later - when a new symbol has been introduced in.
 
 ## `rewrite/setoid_rewrite`
 If we have a proposition of `P <-> Q` and want to `MP` on it with `P`, we might *destruct* the proposition into `(P -> Q) /\ (Q /\ P)`, then destruct on `/\` to perform the MP. As we are setting the `->`, `<->` as Rocq's default, another convenient way comes into our mind immediately: `rewrite`. `rewrite` is frequently used in this project, along with theorems in the form of `<->`. Sometimes to produce a shorter proof, when `->` and `<->` version of a theorem both exist, we will adapt to the `<->` version with `rewrite`. Note that syllogism isn't `rewrite`, as it's performed on `->`.
 
-Still, the power of `rewrite` is 
+Still, the power of `rewrite` is limited. It can rewrite mostly when the whole expression is of the form `P -> Q`, plus a few exceptions. Still taking the `P <-> (Q -> R)` as example, we will not be able to rewrite `Q -> R` into `Q -> S` if we provide `R -> S`.
+
+For this situation, `setoid_rewrite`, the *generalized rewriting* of Rocq has come into utilization. It has been very useful to rewrite a sub expression connected by `->`, or wrapped up within a `forall`.
+
+TODO: `propositional_extentionality` or maybe `f_equal`; definitional equality is not defined, getting us insights on how to fix the rest
 
 TODO:
-- `propositional_extentionality` or maybe `f_equal`
 - Lacking of distinction between language and interpretation
 - different types: order, A -> prop, type of symbol(also mentioned by Randall)
-- defects of MP, etc...
-- definitional equality is not defined, getting us insights on how to fix the rest
 
 TODO: put simplification at the end of the chapter
 ## Simplification(TODO: and debugs?)
