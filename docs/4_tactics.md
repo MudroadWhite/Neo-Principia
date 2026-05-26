@@ -155,3 +155,7 @@ Below is a table for some of the simplifications we might used, but some of them
 | Others                      | Addressed with comments in code            |
 
 While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debugs that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development. Tactics for debugging is **required** to be reduced to minimum when we have finished them.
+
+TODO: symbol association 
+- does it have anything to do with hierarchy?
+- mention its incompatability
