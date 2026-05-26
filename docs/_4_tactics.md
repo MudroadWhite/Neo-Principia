@@ -42,7 +42,7 @@ If we only perform such a `pose`, the proof window is logically correct, but vis
 
 However, theorems in Principia Mathematica is different from what typical theorems you will see. First of all, all theorems are actually the *propositional function*s in Principia, and you never see a real "proposition". By *proposition function*(TODO: move this part into `mechanics`) I mean, propositional variables will not be fixed, but can be arbitrarily introduced in just like a function closure. It would seem absurd but commonly used if we want to assert yet another propositional function, with more variables appeared in the theorem.
 
-There are two ways to solve this problem. First one is interpreting the functions just as a lambda expression in Rocq: `(fun x => ...)`. However, by setting up every parameters inside the closure, we might lose many control or connections to them. For example, how do you make sure the `x` in different step of proof is the same `x`? How will this interpretation limit your situations to substitute `x` into some more complicated expressions? How should we proceed with definitional equality's substitution under this interpretation? These are actually something I have just brought up to when I write this document; that being said, this method is never tried in practice.
+There are two ways to solve this problem. First one is interpreting the functions just as a lambda expression in Rocq: `(fun x => ...)`. However, by setting up every parameters inside the closure, we might lose many control or connections to them. For example, how do you make sure the `x` in different step of proof is the same `x`? How will this interpretation limit your situations to substitute `x` into some more complicated expressions? How should we proceed with definitional equality `=`'s substitution within this interpretation? These are actually something I have just brought up to when I write this document; that being said, this method is never tried in practice.
 
 The second one is our current design. We are allowed to set up arbitrarily more propositional "variables", corresponded to the *real variable*s in PM, and are actually constants that cannot be substituted; they must only to be introduced in the `TOOLS` section at the beginning of the proof. These "real" variables are mostly for being *generalized* into a quantified apparent variable, the `x` in a `forall x`. This is being done by a series of axioms in `lib.v`, prefixed with `Intro_`.
 
@@ -89,7 +89,31 @@ Still, the power of `rewrite` is limited. It can rewrite mostly when the whole e
 
 For this situation, `setoid_rewrite`, the *generalized rewriting* of Rocq has come into utilization. It has been very useful to rewrite a sub expression connected by `->`, or wrapped up within a `forall`.
 
-TODO: `propositional_extentionality` or maybe `f_equal`; definitional equality is not defined, getting us insights on how to fix the rest
+Just like `rewrite`, `setoid_rewrite` isn't always working. The biggest part of its defect arisen from treatment with `=`. Definitional equality, on the other hand, is undefined(p.94), leaving us to freely design how to perform the rewrite on them. We set the equivalence *variant* in `TOOLS` section, when we need to use a definitional equality. A typical example will be like this:
+
+```coq
+(* The original version of `Impl1_01` *)
+Definition Impl1_01 (P Q : Prop) : (P → Q) = (¬ P ∨ Q). Admitted.
+
+Theorem x : (* ... *).
+Proof.
+  (* The equiv variant for `Impl1_01`, where definitional equality has been replaced into a `<->` *)
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+Qed.
+```
+
+Notes:
+- `eq_to_equiv` in `lib.v` is intended to be the same as `propositional_extentionality`, but more convenient to use.
+- During our formalization, there is also rare case where we need for *functional extentionality*, by using `extentionality` tactic or `f_equal`.
+
+## Variants
+And yes, even after arriving that far, we still have not covered the complete cases of when do we need to perform a *rewrite*; and there are still many cases where `setoid_rewrite` doesn't work. For example, PM might expect you to automatically generate:
+- The same proposition where `f x` has become `f x y` with an extra argument provided
+- The same proposition where argument `X` is lifted from elementary proposition to 1-order function, 2-order function, and so on
+- The same proposition where argument `X` is lifted from just an individual to a type of specific symbol, e.g. from proposition to class
+
+
 
 TODO:
 - Lacking of distinction between language and interpretation
