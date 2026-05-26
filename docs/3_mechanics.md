@@ -11,12 +11,15 @@ Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets
 Each propositions in PM is supposed to come with a type, and the types form a hierarchy. Still,  PM doesn't express the hierarchy directly. PM's typing rules say "what different terms can be considered as the same type". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
+
+TODO: delete composition related parts in docs, cf. `tactics` section
+
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
 Principia also defines symbols in an **inheriting way**. Propositions in a chapter "will be used in different ways" for later chapters. For example: 
 1. In an early chapter, we define what is an *animal*, and write down theorems about it.
-1. In a later chapter, we divide *animal*s into *dog*s and *cat*s.
-2. To prove a theorem in later chapter, we directly reuse *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
+2. In a later chapter, we divide *animal*s into *dog*s and *cat*s.
+3. To prove a theorem in later chapter, we directly reuse *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
 
 ### How does Principia prove theorems?
 Principia designs its theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
@@ -35,7 +38,7 @@ Chapter 1 presents some basic `Pp`s to set everything up, and practically speaki
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
-- (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) -> (|- Q)`(p.92), which doesn't occur within formulae in PM.
+- (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
 
 There are no theorems depending on \*1.1 explicitly stated in PM.
 
@@ -123,11 +126,11 @@ Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`
 The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
 
 
-|        Element name      | Type name | Arguments                    | Identification rule                            |
+|          Notion          | Type name | Arguments                    | Identification rule                            |
 |--------------------------|-----------|------------------------------|------------------------------------------------|
 | Elementary proposition   | EProp     | None                         | All elementary propositions                    |
-| Elementary function      | EFunc     | types of function parameters | Connectives on same functions                  |
-| Proposition of nth order | Prop n    | type of the function \[\*\]  | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
+| Elementary function      | EFunc     | Types of function parameters | Connectives on same functions                  |
+| Proposition of nth order | Prop n    | Type of the function \[\*\]  | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
 | Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
 
 **\[\*\]**: TODO: recheck old commits
@@ -230,6 +233,8 @@ By proving a theorem, we mean,
 
 In addition, not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
 
+**Implementation.** TODO: `Order` type
+
 ### Chapter 13
 In Rocq, we have different types for `=`. We can have `=` on propositions, `=` on `=` between propositions, `=` on `=`... and so on. Russell realized that he should give the `=` a similar treatment, but the hierarchy is slightly different: `=` is itself treated as a propositional function, and `=` can be an identity on 1st order, second order, ... arbitrary order functions. The first citation of chapter 12's axiom of reducibility appears at \*13.101, and with which applied to \*13.101, the order of `=` has been generally collapsed off. 
 
@@ -247,9 +252,7 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 
 This special symbol comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Typically speaking, only functions come with scopes, but PM is defining scopes for a ("incomplete")symbol(p.67). 
 
-TODO: implementation
-
-TODO: polymorphic definition
+**Implementation.** TODO: polymorphic definition; merge ch20 related things to here
 
 ### Chapter 20
 Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance at \*20.59) have been presented in this chapter's theorems.
@@ -276,17 +279,23 @@ While not being stated explicitly, being hinted in previous chapters(TODO: sourc
 | Function type               | Can be untyped                        |
 | Function parameters         | Individuals, matrices and classes     |
 
-**Table X: Proving context for chapter 20 ~ +**
+**Table X: Proving context for chapter 20 - +**
+
+TODO: address notation mechanics, and failed attempts
 
 ----------------
 
 TODO:
-- ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "forall" highlighted and defined
+- ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "∀" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
 - ch9: Explain when do we need `set X := Intro_x`
 - ch9: type of props varies by funcs...  "practically ignored"(p.162); the definition can be fixed by change to "returning order of a function"
+- ch12 : started using `Order` type; explain why we use it
 
 TODO: For each chapter, organize with following points:
 1. What is the mechanics in the book
 2. What have we implemented corresponded to the mechanics (with **Implementation** tag)
+
+TODO: move below into somewhere
+Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from *modus ponens* and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.

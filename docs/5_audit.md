@@ -169,4 +169,6 @@ TODO:
 - (highly volatile)if setups for theorems are too complicated, we might need to use `Section`s in Coq
 
 
-TODO: this chapter will not emphasize on implementation details
+TODO: 
+- this chapter will not emphasize on implementation details
+- Lacking of distinction between language and interpretation
