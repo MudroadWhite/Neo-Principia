@@ -15,6 +15,7 @@ TODO:
 8. Philosophy of "internalization" (relate to the inheritance nature)
 9. For future successors and participants: independently design a chapter, or design your own typing system for Principia
 10. What have I learned: designing the framework is the most enjoyable part; difference between AI and hand written FV: u can design the architecture on your own and shrink the proof - produce organized things could be a challenge
+11. `Hierarchy` type for correct polymorphism? symbols, orders, argument numbers
 
 ## Future directions
 - classify theorems
