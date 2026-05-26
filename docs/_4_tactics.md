@@ -1,4 +1,6 @@
 # Tactics
+> The story starts with a very simple beginning. It just isn't always working.
+
 As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter is going to expand the slogan in complete details.
 
 | PM Feature                                                      | Implementation                                  |
@@ -27,15 +29,13 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 **Table X: Full PM features considered and their implementations in Rocq**
 
 ## How do we assert a proposition is true?
-The story starts with a very simple beginning. To assert a cited theorem is true, we `pose` a proof, which is pretty fundamental in Rocq. Voila.
+The story starts with a very simple beginning. To assert a cited theorem is true, we `pose` a proof, which is pretty elementary in Rocq. Voila.
 
-If we only perform such a `pose`, the proof window is logically correct, but *visually* awful. We not only have the proof, but also the proof terms. However, we are not doing backward reasoning, nor do the proof term correctly reflect the construction when we are using a lot of `setoid_rewrite`, being introduced in later section. We choose to leave `pose proof` the only candidate to present a citation.
+The `pose` can ensure the proof window logically correct, but *visually* awful. Proof terms will take away a large part of space, before the type of terms come into our view. We are not doing backward reasoning, nor do the proof term correctly reflect the construction when we are using a lot of `setoid_rewrite`, being introduced in later section. We choose to leave `pose proof` the only candidate to present a citation.
 
 `pose proof` successfully presents a proposition in the hypothesis window, but it doesn't solve a goal. `apply` allows us to solve the goal automatically with a theorem. `now` allows us to solve the goal as soon as we have deduced the right proposition. `exact`, as mentioned in the [architecture](./2_architecture.md), is exclusively used to hint that we have covered all steps in a proof to conclude a `Qed`.
 
-The iceberg under theorems in Principia Mathematica still extends, as their nature is actually quite different from typical theorems you see. All theorems are actually *propositional function*s in Principia, and you never see a real "proposition". *Proposition function*(TODO: move this part into `mechanics`) means that propositional variables will not be fixed in number, and arbitrarily new variables can be introduced in between every proof steps, just like a function closure.
-
-If we are using Rocq's *function* to interpret the theorems in Rocq, a proof will look like this: 
+We haven't still reached the bottom of the iceberg under theorems in Principia Mathematica. PM Theorem's nature is actually quite different from typical propositions. They are actually *propositional function*s in Principia, and you almost never see a real "proposition". The nature of *proposition function*(TODO: move this part into `mechanics`) allows arbitrarily new variables to be introduced in between every proof steps, just like a function closure. See below example: here's how it will look like if we are using Rocq's *function* to interpret the theorems in Rocq.
 
 ```Coq
 (* Assuming there is a `Asserted` predicate for arbitrary Rocq functions *)
@@ -51,13 +51,11 @@ Admitted.
 ```
 While this example is actually speaking about nonsense, notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `prop_func_proof_example`. Such phenomenon seems absurd, but commonly appears in all the proof of PM.
 
+TODO: address prop function's nature better in `mechanics`
+
 Our implementation didn't use the interpretation above. First, this is an interpretation just came up when I'm writing the documentation right now. Second, with functions as interpretation for PM's propositional functions, we still have to consider how it works with other symbols: functions might be harder to manipulate than propositions. For example, how do you make sure the `x` in different step of proof is the same `x`? How will this interpretation limit your situations to substitute `x` into some more complicated expressions? How should we proceed with definitional equality `=`'s substitution within this interpretation?
 
-
-
- We are allowed to set up arbitrarily more propositional "variables", corresponded to the *real variable*s in PM, and are actually constants that cannot be substituted; they must only to be introduced in the `TOOLS` section at the beginning of the proof. These "real" variables are mostly for being *generalized* into a quantified apparent variable, the `x` in a `forall x`. This is being done by a series of axioms in `lib.v`, prefixed with `Intro_`.
-
-The complete method to use `Intro_` in the proof is `set (X := Intro_ ...)`.
+Instead, we are using *propositions* to model the propositional functions, while simulating the feature to set up arbitrarily more propositional "variables" - actually constants that cannot be substituted; they must only to be introduced in the `TOOLS` section at the beginning of the proof. These "real" variables are mostly for being *generalized* into a quantified apparent variable, the `x` in a `forall x`. This is being done by a series of axioms in `lib.v`, prefixed with `Intro_`. The complete method to use `Intro_` in the proof is `set (X := Intro_ ...)`, being available everywhere in the proof files.
 
 There is yet another problem for us to consider in PM. As analyzed in `mechanics`(TODO: add doc in ch14/20 and add link), since we didn't design an AST yet, we are assuming that symbols in PM combines with each other. Symbols can have different types, e.g. `forall alpha : Class.t` is different from `forall x : Prop`, so these symbols have to be "polymorphic". For chapter 20, it turns out further that symbols like *classes* might not exist solely; they will have to come with an underlying interpretation by default(TODO: mention this somewhere in the text), and when can we assign a function to a class has completely no specification in PM. If we come to that case, we will use the following syntax(TODO: move this into chapter 20?):
 
@@ -96,6 +94,8 @@ Here is a huge fallback for `MP` appeared in this procedure: it can only be perf
 ## `rewrite/setoid_rewrite`
 If we have a proposition of `P <-> Q` and want to `MP` on it with `P`, we might *destruct* the proposition into `(P -> Q) /\ (Q /\ P)`, then destruct on `/\` to perform the MP. As we are setting the `->`, `<->` as Rocq's default, another convenient way comes into our mind immediately: `rewrite`. `rewrite` is frequently used in this project, along with theorems in the form of `<->`. Sometimes to produce a shorter proof, when `->` and `<->` version of a theorem both exist, we will adapt to the `<->` version with `rewrite`. Note that syllogism isn't `rewrite`, as it's performed on `->`.
 
+TODO: gather simplification examples in chapter 9 & 10
+
 Still, the power of `rewrite` is limited. It can rewrite mostly when the whole expression is of the form `P -> Q`, plus a few exceptions. Still taking the `P <-> (Q -> R)` as example, we will not be able to rewrite `Q -> R` into `Q -> S` if we provide `R -> S`.
 
 For this situation, `setoid_rewrite`, the *generalized rewriting* of Rocq has come into utilization. It has been very useful to rewrite a sub expression connected by `->`, or wrapped up within a `forall`.
@@ -120,42 +120,38 @@ Notes:
 - `eq_to_equiv` in `lib.v` is intended to be the same as `propositional_extentionality`, but more convenient to use.
 - During our formalization, there is also rare case where we need for *functional extentionality*, by using `extentionality` tactic or `f_equal`.
 
-## Variants, symbol polymorphism and theorem polymorphism
-And yes, even after arriving that far, we still have not covered the complete cases of when do we need to perform a *rewrite*; and there are still many cases where `setoid_rewrite` doesn't work. For example, PM might expect you to automatically generate:
-- The same proposition where `f x` has become `f x y` with an extra argument provided
-- The same proposition where argument `X` is lifted from elementary proposition to 1-order function, 2-order function, and so on
-- The same proposition where argument `X` is lifted from just an individual to a type of specific symbol, e.g. from proposition to class
+## Polymorphism and variants
+And even after arriving that far, we still have not covered the complete cases of when do we need to perform a *rewrite*; and there are still many cases where `setoid_rewrite` doesn't work. For example, PM might expect you to automatically generate:
+1. The same proposition where argument `X` is lifted from elementary proposition to 1-order function, 2-order function, and so on
+2. The same proposition where `f x` has become `f x y` with an extra argument provided
+3. The same proposition where argument `X` is lifted from just an individual to a type of specific symbol, e.g. from proposition to class
 
+To design a similar proposition with extra feature adjusted, will be called as designing a *variant*. We can soon make a conclusion that *variant* cannot be easily resolved in a unified and single way.
 
-TODO:
-- different types: order, A -> prop, type of symbol(also mentioned by Randall)
+The story of *variant*s thus start from a concept mostly common to programmers: polymorphism. For our case 1, polymorphism seems to be simple: we have already designed a `Order n` hierarchy to simulate functions of different orders. However, such polymorphism goes "vertically", but doesn't go "horizontally" as in our case 2. 
 
-TODO: 
-- Lacking of distinction between language and interpretation
+For case 2, `Order` simply fails. We design a new `Order2` manually to express such polymorphism. When a theorem is supposed to be lifted in the direction of 1 & 2, we prefer to be conservative: we don't know yet what will happen after chapter 20. We are requiring to design a proposition *variant*, mostly postfixed with `_pred`, that has *fixed order* for every necessary order we need.
 
-## Others
-- `Simp` and `destruct Sn as [Sn _]`
-- `Hp` and `pose proof S`
+TODO: mention extra types for symbols, by Randall
 
-TODO: 
-- put simplification at the end of the chapter
-- gather simplification examples in chapter 9 & 10
+The actual phenomenon behind case 3, is a different hierarchy constructed on *new symbols*. Chapter 20 is the first chapter introducing such symbol, but we won't know if there are any other hierarchies based on other symbols. An element of type `Class` is definitely neither an element of type `Prop` or type `Order n`. Our current implementation is generalizing all these into an arbitrary type `A`.
 
-## Simplification(TODO: and debugs?)
-TODO: 
-We can use a new tactic to simplify a tedious part of proof, if
+Even if we have resolved such conflict at 1st level of different hierarchies, what will it happen at higher levels? So far we didn't resolve such conflict, and it will be discussed in [audit](./5_audit.md).
+
+## Simplification and debugs
+Occasionally, we want to even further simplify the proof down, because:
 - We can clearly provide its equivalent routine using PM theorems
-- We clearly identified the types of parameters, for theorems in original routine. Parameters' types matter
+- We have already identified the types of parameters, for theorems in original routine. Parameters' types matter
 - We have torturing urge to simplify the proofs. Check out `n11_71` to appreciate its ridiculous length.
 
-Either for "historical reasons"(this project really doesn't have a history), or when we want to work through a proof quickly, and we didn't figure out the correct way to write the proof, "technical hacks" arises for proof completions. The most common ones are listed below, but they might never appear in the proofs. This is because: unless there is a severe technical barrier, they are **recommended** to be taken down.
-- \[Simplification\]`replace...with` is a valid and flexible substitution for rewriting, but it's too heavy.
-- \[Simplification\]`apply propositional_extentionality` might occur inside `replace...with` blocks. Its purpose is to change the goal of `=` form into a goal of `↔` form for easier reasoning. It might work against original text.
-- \[Simplification\]`intro` introduces the premise as a hypothesis. `intro Hp`, as utilized in chapter 5 & 10, has proven its harmlessness. Other from `intro Hp`, other occurrences should be eliminated. The proposition `S` to be applied to, has to be replaced completely with `pose proof (S Hp) as S`.
-- \[Simplification\]`now tactic thm ...` says that, if the `tactic` we use can directly provide a result that is not very far from the goal, then we prove the goal immediately. Typically it's very useful for saving a line of `exact thm`. Every line of `now tactic thm` can be turned back into `tactic thm` for readers to check if it does indeed generate a proposition that is exactly the same as the goal, and this tactic is **recommended** to use.
-- \[Simplification\]Further exceptions not being listed above, for example in chapter 11, have to be explicitly stated with a comment that a simplification has happened. This is **recommended** to be taken down in the future.
+Below is a table for some of the simplifications we might used, but some of them might never appear in the proofs. This is because unless there is a severe technical barrier, they are **recommended** to be taken down. 
 
-## Debugging
-While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debuggings that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development.
+| Feature to implement        | Tactic                                     |
+|-----------------------------|--------------------------------------------|
+| `Hp`                        | `intro Hp`+`pose proof (Sn Hp) as S`\[\*\] |
+| `Simp` theorems' equivalent | `destruct Sn as [Sn _]`                    |
+| Necessary alpha conversion  | `replace...with`, `simpl`, etc.            |
+| Reorganize the proof window | `move`, `clear`, etc.                      |
+| Others                      | Addressed with comments in code            |
 
-- Tactics for debugging is **required** to be reduced to minimum when we have finished them.
+While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debugs that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development. Tactics for debugging is **required** to be reduced to minimum when we have finished them.
