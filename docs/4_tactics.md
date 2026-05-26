@@ -126,7 +126,7 @@ And even after arriving that far, we still have not covered the complete cases o
 2. The same proposition where `f x` has become `f x y` with an extra argument provided
 3. The same proposition where argument `X` is lifted from just an individual to a type of specific symbol, e.g. from proposition to class
 
-To design a similar proposition with extra feature adjusted, will be called as designing a *variant*. We can soon make a conclusion that *variant* cannot be easily resolved in a unified and single way.
+Designing a similar proposition with extra feature adjusted will be called as designing a *variant*. We can soon make a conclusion that *variant* cannot be easily resolved in a unified and single way.
 
 The story of *variant*s thus start from a concept mostly common to programmers: polymorphism. For our case 1, polymorphism seems to be simple: we have already designed a `Order n` hierarchy to simulate functions of different orders. However, such polymorphism goes "vertically", but doesn't go "horizontally" as in our case 2. 
 
