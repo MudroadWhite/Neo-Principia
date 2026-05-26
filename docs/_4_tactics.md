@@ -1,12 +1,5 @@
 # Tactics
-This chapter is targeted for the following topics:
-- Identify between PM's native proofs and Rocq-specific simplified proofs
-- List out *all* tactics we are using in the project
-
-## Basic setup
-Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from *modus ponens* and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.
-
-As mentioned in previous chapters, we "just `pose` and `rewrite`". Here we are going to expand the slogan in complete details.
+As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter is going to expand the slogan in complete details.
 
 | PM Feature                                                      | Implementation                                  |
 |-----------------------------------------------------------------|-------------------------------------------------|
@@ -31,20 +24,38 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". Here we are g
 | Rewriting on a proposition                                      | "PM-based" tactics or `rewrite`/`setoid_rewrite`|
 | `=` rewriting                                                   | `eq_to_equiv`+`setoid_rewrite`                  |
 
-**Table X: PM features considered and their implementations in Rocq**
+**Table X: Full PM features considered and their implementations in Rocq**
 
 ## How do we assert a proposition is true?
 The story starts with a very simple beginning. To assert a cited theorem is true, we `pose` a proof, which is pretty fundamental in Rocq. Voila.
 
-If we only perform such a `pose`, the proof window is logically correct, but visually awful. We not only have the proof, but also the proof terms. However, we are not doing backward reasoning, nor do the proof term correctly reflect the construction when we are using a lot of `setoid_rewrite`. `pose proof` remains to be the only candidate to present a citation.
+If we only perform such a `pose`, the proof window is logically correct, but *visually* awful. We not only have the proof, but also the proof terms. However, we are not doing backward reasoning, nor do the proof term correctly reflect the construction when we are using a lot of `setoid_rewrite`, being introduced in later section. We choose to leave `pose proof` the only candidate to present a citation.
 
-`pose proof` successfully present a proposition in the hypothesis window, but it doesn't solve a goal. `apply` allows us to solve the goal automatically.
+`pose proof` successfully presents a proposition in the hypothesis window, but it doesn't solve a goal. `apply` allows us to solve the goal automatically with a theorem. `now` allows us to solve the goal as soon as we have deduced the right proposition. `exact`, as mentioned in the [architecture](./2_architecture.md), is exclusively used to hint that we have covered all steps in a proof to conclude a `Qed`.
 
-However, theorems in Principia Mathematica is different from what typical theorems you will see. First of all, all theorems are actually the *propositional function*s in Principia, and you never see a real "proposition". By *proposition function*(TODO: move this part into `mechanics`) I mean, propositional variables will not be fixed, but can be arbitrarily introduced in just like a function closure. It would seem absurd but commonly used if we want to assert yet another propositional function, with more variables appeared in the theorem.
+The iceberg under theorems in Principia Mathematica still extends, as their nature is actually quite different from typical theorems you see. All theorems are actually *propositional function*s in Principia, and you never see a real "proposition". *Proposition function*(TODO: move this part into `mechanics`) means that propositional variables will not be fixed in number, and arbitrarily new variables can be introduced in between every proof steps, just like a function closure.
 
-There are two ways to solve this problem. First one is interpreting the functions just as a lambda expression in Rocq: `(fun x => ...)`. However, by setting up every parameters inside the closure, we might lose many control or connections to them. For example, how do you make sure the `x` in different step of proof is the same `x`? How will this interpretation limit your situations to substitute `x` into some more complicated expressions? How should we proceed with definitional equality `=`'s substitution within this interpretation? These are actually something I have just brought up to when I write this document; that being said, this method is never tried in practice.
+If we are using Rocq's *function* to interpret the theorems in Rocq, a proof will look like this: 
 
-The second one is our current design. We are allowed to set up arbitrarily more propositional "variables", corresponded to the *real variable*s in PM, and are actually constants that cannot be substituted; they must only to be introduced in the `TOOLS` section at the beginning of the proof. These "real" variables are mostly for being *generalized* into a quantified apparent variable, the `x` in a `forall x`. This is being done by a series of axioms in `lib.v`, prefixed with `Intro_`.
+```Coq
+(* Assuming there is a `Asserted` predicate for arbitrary Rocq functions *)
+Theorem prop_func_theorem_example : Asserted (fun P => P -> P).
+
+Theorem prop_func_proof_example : Asserted (fun P Q => (P /\ Q) -> (P /\ Q)).
+Proof.
+  assert (S1 : Asserted (fun P => P -> P)).
+  { apply prop_func_theorem_example. }
+  assert (S2 : Asserted (fun P Q R => (P -> Q) -> (Q -> R) -> (P -> R))).
+  { (* ... *) }
+Admitted.
+```
+While this example is actually speaking about nonsense, notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `prop_func_proof_example`. Such phenomenon seems absurd, but commonly appears in all the proof of PM.
+
+Our implementation didn't use the interpretation above. First, this is an interpretation just came up when I'm writing the documentation right now. Second, with functions as interpretation for PM's propositional functions, we still have to consider how it works with other symbols: functions might be harder to manipulate than propositions. For example, how do you make sure the `x` in different step of proof is the same `x`? How will this interpretation limit your situations to substitute `x` into some more complicated expressions? How should we proceed with definitional equality `=`'s substitution within this interpretation?
+
+
+
+ We are allowed to set up arbitrarily more propositional "variables", corresponded to the *real variable*s in PM, and are actually constants that cannot be substituted; they must only to be introduced in the `TOOLS` section at the beginning of the proof. These "real" variables are mostly for being *generalized* into a quantified apparent variable, the `x` in a `forall x`. This is being done by a series of axioms in `lib.v`, prefixed with `Intro_`.
 
 The complete method to use `Intro_` in the proof is `set (X := Intro_ ...)`.
 
@@ -97,9 +108,11 @@ Definition Impl1_01 (P Q : Prop) : (P → Q) = (¬ P ∨ Q). Admitted.
 
 Theorem x : (* ... *).
 Proof.
+  (* TOOLS *)
   (* The equiv variant for `Impl1_01`, where definitional equality has been replaced into a `<->` *)
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
     as Impl1_01a.
+  (* ******** *)
 Qed.
 ```
 
@@ -135,7 +148,6 @@ We can use a new tactic to simplify a tedious part of proof, if
 - We clearly identified the types of parameters, for theorems in original routine. Parameters' types matter
 - We have torturing urge to simplify the proofs. Check out `n11_71` to appreciate its ridiculous length.
 
-## Simplifications
 Either for "historical reasons"(this project really doesn't have a history), or when we want to work through a proof quickly, and we didn't figure out the correct way to write the proof, "technical hacks" arises for proof completions. The most common ones are listed below, but they might never appear in the proofs. This is because: unless there is a severe technical barrier, they are **recommended** to be taken down.
 - \[Simplification\]`replace...with` is a valid and flexible substitution for rewriting, but it's too heavy.
 - \[Simplification\]`apply propositional_extentionality` might occur inside `replace...with` blocks. Its purpose is to change the goal of `=` form into a goal of `↔` form for easier reasoning. It might work against original text.

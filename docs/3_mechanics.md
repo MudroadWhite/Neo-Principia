@@ -296,3 +296,6 @@ TODO:
 TODO: For each chapter, organize with following points:
 1. What is the mechanics in the book
 2. What have we implemented corresponded to the mechanics (with **Implementation** tag)
+
+TODO: move below into somewhere
+Technically speaking, Principia's rewrite system is very simple, maybe much more simpler than most of the modern type systems, cf. [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/). All it cares about is 1. deducing a theorem either directly or from *modus ponens* and 2. substitute/*rewrite* subparts of a proposition according to some rules. Type is being defined and used in the system, but only partially, and untyped terms are still allowed to better express the ideas.
