@@ -172,3 +172,4 @@ TODO:
 TODO: 
 - this chapter will not emphasize on implementation details
 - Lacking of distinction between language and interpretation
+- there might be a astonishing lot to do for propositional functions

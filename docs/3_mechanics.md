@@ -292,6 +292,7 @@ TODO:
 - ch9: Explain when do we need `set X := Intro_x`
 - ch9: type of props varies by funcs...  "practically ignored"(p.162); the definition can be fixed by change to "returning order of a function"
 - ch12 : started using `Order` type; explain why we use it
+- ch9 & 12 : propositional hierarchy is only used when constructing the prop func, cf. the actual implementation for prop func
 
 TODO: For each chapter, organize with following points:
 1. What is the mechanics in the book
