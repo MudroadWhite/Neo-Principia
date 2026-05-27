@@ -62,11 +62,8 @@ TODO: address prop function's nature better in `mechanics`
 
 ***Generalization* is another way to produce a new proposition.** In particular, *quantified propositions* are only constructed through: *generalization*, being explained in [mechanics](./3_mechanics.md). As we're using propositions to model the prop functions, Generalization has to utilize `Intro_` mechanics a lot. Similar to MP, generalization will also have its extension in each of the chapters.
 
-**But how about all other propositions in general?** How will they manifest, and how are they being constructed?
-
 ### Bottom up construction
-The whole procedure of a valid proposition can be splitted into 4 steps:
-
+**Besides quantified propositions, how do we produce a proposition in general?** The whole procedure can be splitted into 4 steps:
 1. Start with a theorem as a template, and substitute its variables into some expressions
 2. Apply `MP`/`Syll` for necessary alternations, for example, `P ↔ Q` to `Q ↔ P`
 3. Generalize on a variable as soon as possible, when the correct form for its expression has manifested
@@ -106,12 +103,12 @@ Notes:
 - During our formalization, there is also rare case where we need for *functional extentionality*, by using `extentionality` tactic or `f_equal`.
 
 ## Polymorphism and the variant mechanic
-**And there are still so many cases beyond `setoid_rewrite`'s power.** For example, PM might expect you to automatically generate:
+**And there are still so many cases besides that "variant".** For example, PM might expect you to automatically generate:
 1. The same proposition where argument `X` is lifted from elementary proposition to 1-order function, 2-order function, and so on
 2. The same proposition where `f x` has become `f x y` with an extra argument provided
 3. The same proposition where argument `X` is lifted from just an individual to a type of specific symbol, e.g. from proposition to class
 
-**We design *variants* for each of these cases.** Designing variant is designing a similar proposition with extra feature adjusted. We can soon make a conclusion that *variant* cannot be easily resolved in a unified and single way.
+**We design other *variants* for each of these cases.** Designing variant is designing a similar proposition with extra feature adjusted. We can soon make a conclusion that *variant* cannot be easily resolved in a unified and single way.
 
 **Case 1 above gives us the intuition to utilize *polymorphism***. As a result, we design the `Order n` hierarchy to simulate functions of different orders.
 
@@ -169,7 +166,3 @@ Below is a table for some of the simplifications we might used, but some of them
 \[\*\]: Mandatory when PM uses `Hp` in its proof. TODO: explain why
 
 While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debugs that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development. Tactics for debugging is **required** to be reduced to minimum when we have finished them.
-
-TODO: symbol association 
-- does it have anything to do with hierarchy?
-- mention its incompatability
