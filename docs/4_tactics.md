@@ -57,15 +57,6 @@ TODO: address prop function's nature better in `mechanics`
 
 **Instead, we are using *propositions* to model propositional functions,** while simulating the feature to set up arbitrarily more propositional "variables" - actually constants that cannot be substituted; they must only to be introduced in the `TOOLS` section at the beginning of the proof. These "real" variables are mostly for being *generalized* into a quantified apparent variable, the `x` in a `∀ x`. This is being done by a series of axioms in `lib.v`, prefixed with `Intro_`. The complete method to use `Intro_` in the proof is `set (X := Intro_ ...)`, available everywhere in the proof files as the identifier of *the `Intro` mechanic*.
 
-**There is yet another problem for us to consider in PM.(TODO: extend this part)** As analyzed in `mechanics`(TODO: add doc in ch14/20 and add link), since we didn't design an AST yet, we are assuming that symbols in PM combines with each other. Symbols can have different types, e.g. `∀ alpha : Class.t` is different from `∀ x : Prop`, so these symbols have to be "polymorphic". For chapter 20, it turns out further that symbols like *classes* might not exist solely; they will have to come with an underlying interpretation by default(TODO: mention this somewhere in the text), and when can we assign a function to a class has completely no specification in PM. If we come to that case, we will use the following syntax(TODO: move this into chapter 20?):
-
-```Coq
-Theorem associating_function_to_class (FAlpha : Prop → Prop) :
-  let (Alpha := ^z => FAlpha z) in
-  (* ... *)
-  .
-```
-
 ## How do we rewrite a proposition?
 **PM is supposed to only use modus ponens** to its ideal. It starts with \*1.11, but generalize manually to more cases once a new notion/symbol has been introduced into a chapter. Therefore, each chapter will contain a *modus ponens* equivalent, whenever necessary.
 
@@ -124,15 +115,24 @@ Notes:
 
 **Case 1 above gives us the intuition to utilize *polymorphism***. As a result, we design the `Order n` hierarchy to simulate functions of different orders.
 
-**However, such polymorphism simply fails for case 2.** It goes "vertically", but doesn't go "horizontally" as in our case 2. We design a new `Order2` manually to express such polymorphism. When a theorem is supposed to be lifted in the direction of 1 & 2, we prefer to be conservative: we don't know yet what will happen after chapter 20. 
+**However, such polymorphism simply fails for case 2.** The polymorphism goes "vertically", but doesn't go "horizontally" as in our case 2. Our initial take at polymorphism in this direction is the `Order2` type. It extends the argument length just by one.
+
+**As a conservative take, we design the theorem variants monomorphic.**  When designing a proposition *variant*, we will manually pick types for each of the arguments, choose which `Order` to use, how many arguments a function have, and postfix the names with `_pred`. See [naming convention](./contribution_guide/style_guide.md) for further details. As there seems to be too many factors to determine when writing the variant, we didn't try to further automate the design.
+
+TODO: mention extra types for symbols, by Randall; since we have observed the class hierarchy of class, extra type is highly suggested
+
+**Case 3 requires a different hierarchy constructed on *new symbols***. Chapter 20 is the first chapter introducing such symbol, that we have to manually assign with a `Class.t` type. As a conservative take, there might be even more hierarchies on other symbols. If we want to generalize between `Class.t` and `Prop`, the best candidate seems to be just an an arbitrary type `A`. It's easy to see that, polymorphism in this direction is orthogonal to the `Order`'s direction. Sometimes when designing the variants, we might postfix with, for example, `_class` for the theorems.
 
 
-We are requiring to design a proposition *variant*, mostly postfixed with `_pred`, that has *fixed order* for every necessary order we need.
 
-TODO: mention extra types for symbols, by Randall
-- since there is a hirrarchy of class, these extra type should be constructed
+For chapter 20, it turns out further that symbols like *classes* might not exist solely; they will have to come with an **underlying interpretation** by default(TODO: mention this somewhere in the text), and when can we assign a function to a class has completely no specification in PM. If we come to that case, we will use the following syntax(TODO: move this into chapter 20?):
 
-The actual phenomenon behind case 3, is a different hierarchy constructed on *new symbols*. Chapter 20 is the first chapter introducing such symbol, but we won't know if there are any other hierarchies based on other symbols. An element of type `Class` is definitely neither an element of type `Prop` or type `Order n`. Our current implementation is generalizing all these into an arbitrary type `A`.
+```Coq
+Theorem associating_function_to_class (FAlpha : Prop → Prop) :
+  let (Alpha := ^z => FAlpha z) in
+  (* ... *)
+  .
+```
 
 Even if we have resolved such conflict at 1st level of different hierarchies, what will it happen at higher levels? So far we didn't resolve such conflict, and it will be discussed in [audit](./5_audit.md).
 
