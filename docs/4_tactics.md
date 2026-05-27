@@ -35,23 +35,7 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 
 **We then add some tactics to conclude a proof.** `pose proof` doesn't solve a goal. `apply` allows us to solve the goal automatically with a theorem. `now` allows us to solve the goal as soon as we have deduced the right proposition. `exact`, as mentioned in the [architecture](./2_architecture.md), is exclusively used to hint that we have covered all steps in a proof to conclude a `Qed`.
 
-**Yet PM's theorems are not propositions.** They are actually *propositional function*s in Principia, and you almost never see a real "proposition". The nature of *proposition function*(TODO: move this part into `mechanics`) allows arbitrarily new variables to be introduced in between every proof steps, just like a function closure. See below example: here's how it will look like if we are using Rocq's *function* to interpret the theorems in Rocq.
-
-```Coq
-(* Assuming there is a `Asserted` predicate for arbitrary Rocq functions *)
-Theorem prop_func_theorem_example : Asserted (fun P => P → P).
-
-Theorem prop_func_proof_example : Asserted (fun P Q => (P ∧ Q) → (P ∧ Q)).
-Proof.
-  assert (S1 : Asserted (fun P => P → P)).
-  { apply prop_func_theorem_example. }
-  assert (S2 : Asserted (fun P Q R => (P → Q) → (Q → R) → (P → R))).
-  { (* ... *) }
-Admitted.
-```
-While this example is actually speaking about nonsense, notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `prop_func_proof_example`. Such phenomenon seems absurd, but commonly appears in all the proof of PM.
-
-TODO: address prop function's nature better in `mechanics`
+**Yet PM's theorems are not propositions.** They are actually *propositional function*s in Principia, and you almost never see a real "proposition". The nature of *proposition function* allows arbitrarily new variables to be introduced in between every proof steps, just like a function closure. See example in [mechanics](./3_mechanics.md/#chapter-1).
 
 **And in reality, we ignore the nature of proposition function.** First, this is an interpretation just came up when I'm writing the documentation. Second, with functions as interpretation for PM's propositional functions, we still have to consider how it works with other symbols: functions might be harder to manipulate than propositions. For example, how do you make sure the `x` in different step of proof is the same `x`? How will this interpretation limit your situations to substitute `x` into some more complicated expressions? How should we proceed with definitional equality `=`'s substitution within this interpretation?
 

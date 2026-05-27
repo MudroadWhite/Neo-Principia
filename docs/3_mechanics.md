@@ -3,7 +3,10 @@
 ### How many types of propositions are there in Principia?
 Principia has 3 types(not mathematical type) of propositions: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). 
 
-A hidden trait of proposition in Principia is those propositions written in natural language. With only some exceptions in chapter 1, most of them are about typing a specific symbol. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules.
+There are 3 hidden trait of propositions in Principia, being written mostly in natural language. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules. Only some exceptions don't belong to these 3 traits, presented in chapter 1.
+1. Typing a specific symbol, extending to more general cases
+2. Extending *modus ponens* for a specific symbol
+3. Extending *generalization* or *instantiation* for a specific symbol
 
 ### How to read the propositions in Principia?
 Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and their hints on priority, surprisingly, never go wrong. One can understand the priority, without knowing much on dot notations.
@@ -11,7 +14,6 @@ Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets
 Each propositions in PM is supposed to come with a type, and the types form a hierarchy. Still,  PM doesn't express the hierarchy directly. PM's typing rules say "what different terms can be considered as the same type". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
-
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
 Principia also defines symbols in an **inheriting way**. Propositions in a chapter "will be used in different ways" for later chapters. For example: 
@@ -32,21 +34,35 @@ We now start exploring the main ideas for each chapters.
 
 ## Chapters
 ### Chapter 1
+**Propositions, propositional functions, and modus ponens**
+
 Chapter 1 presents some fundamental `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
 
-There are no theorems depending on \*1.1 explicitly stated in PM.
+While proposition seems to be pretty fundamental, they actually plays an auxiliary role in PM. The main protagonist in chapter 1 is (elementary) *propositional function*. Text like "function X" actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. All PM function's variables are not bounded and occurring freely. Also, they don't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once. 
 
-In chapter 1 we also have a rough idea on how to denote a (elementary) *propositional function*. The meaning of propositional functions will be changed into something else in later chapters. In chapter 1-5, most propositional functions don't come by themselves - their values for variables are somehow "fixed" already during all the inference, where `φ X` and `φ Y` does not mean the same thing(p.19).
+Such a design allows PM to deduce on *propositional functions*, while it looks very close to be deducing on *propositions*. On the other hand, *proposition*s are being used in very limited situation; the only elementary propositions is individuals like `P`, `Q` and so on.
 
-*What is a function in PM?* When it says something like "function X", it actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. The same applies to most theorems in PM. All PM function's variables are not bounded and occurring freely. Another way to see a function in PM is like it doesn't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once.
+We might design our proof like the following example:
+```Coq
+(* Assuming there is a `Asserted` predicate for arbitrary Rocq functions *)
+Theorem prop_func_theorem_example : Asserted (fun P => P → P).
 
-TODO: integrate the following: 
-- `H1 : φ X` above should refer to something like `H1: (fun x => x ∧ x) X` in the proof window, but this doesn't appear in our implementation as we will mostly have simplified it away. By asserting a function, we don't assert `φ` solely(p.92) and we're still asserting a proposition. 
-- prop are used when we need to construct a prop func
+Theorem prop_func_proof_example : Asserted (fun P Q => (P ∧ Q) → (P ∧ Q)).
+Proof.
+  assert (S1 : Asserted (fun P => P → P)).
+  { apply prop_func_theorem_example. }
+  assert (S2 : Asserted (fun P Q R => (P → Q) → (Q → R) → (P → R))).
+  { (* ... *) }
+Admitted.
+```
+
+Notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `prop_func_proof_example`. Inferences on *propositions* will not allow introducing new variables like this.
+
+However, in our implementation, we will design propositional functions just like propositions. The full detail is revealed in [tactics](./4_tactics.md).
 
 ```Rocq
 (* This is an elementary proposition *)
@@ -61,7 +77,7 @@ Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 - Asserting an (elementary) **propositional function** means asserting `H1 : φ X`.
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
-We use \*1.11 almost everywhere in PM, and \*1.1 is generally not used, see (p.93). Most judgments in PM are assertions on propositional functions. \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
+We use \*1.11 almost everywhere in PM, and \*1.1 is generally not used(p.93). Most judgments in PM are assertions on propositional functions. \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
 
 - (p.94)Definitional equality is undefined in PM
 - **elementary propositions** are closed under `¬` and `∨`
