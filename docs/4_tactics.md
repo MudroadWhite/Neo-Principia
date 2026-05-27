@@ -117,16 +117,22 @@ Notes:
 
 **However, such polymorphism simply fails for case 2.** The polymorphism goes "vertically", but doesn't go "horizontally" as in our case 2. Our initial take at polymorphism in this direction is the `Order2` type. It extends the argument length just by one.
 
-**As a conservative take, we design the theorem variants monomorphic.**  When designing a proposition *variant*, we will manually pick types for each of the arguments, choose which `Order` to use, how many arguments a function have, and postfix the names with `_pred`. See [naming convention](./contribution_guide/style_guide.md) for further details. As there seems to be too many factors to determine when writing the variant, we didn't try to further automate the design.
+**As a conservative take, we design *monomorphic* theorem variants.**  When designing a proposition *variant*, we will manually pick types for each of the arguments, choose which `Order` to use, how many arguments a function have, and postfix the names with `_pred`. See [naming convention](./contribution_guide/style_guide.md) for further details. As there seems to be too many factors to determine when writing the variant, we didn't try to further automate the design.
 
 TODO: mention extra types for symbols, by Randall; since we have observed the class hierarchy of class, extra type is highly suggested
 
-**Case 3 requires a different hierarchy constructed on *new symbols***. Chapter 20 is the first chapter introducing such symbol, that we have to manually assign with a `Class.t` type. As a conservative take, there might be even more hierarchies on other symbols. If we want to generalize between `Class.t` and `Prop`, the best candidate seems to be just an an arbitrary type `A`. It's easy to see that, polymorphism in this direction is orthogonal to the `Order`'s direction. Sometimes when designing the variants, we might postfix with, for example, `_class` for the theorems.
+**Case 3 requires a different hierarchy constructed on *new symbols***. Here we take chapter 20 as the example. Chapter 20 is the first chapter introducing such symbol, that we have to manually assign with a `Class.t` type. As a conservative take, there might be even more hierarchies on other symbols. To generalize between `Class.t` and `Prop`, the best candidate is just an an arbitrary type `A`. It's easy to see that, polymorphism in this direction is orthogonal to the `Order`'s direction. Sometimes when designing the variants, we might postfix with, for example, `_class` for the theorems.
 
+**Around the `A` polymorphism is how we compose the symbols.** Chapter 14 has introduced the `iota` notation, but it soon reveals in chapter 20 that `iota`s not only work on `Prop`s, but also on `Class`es. This constitutes to another motivation where we need to generalize between `Class` and `Prop`.
 
+**Beneath the `A` polymorphism is also a whole new rabbit hole.** As mentioned in [mechanics](./3_mechanics.md/#chapter-20) (TODO: finish related part in chapter 20), sometimes we have to *expose the interpretation beneath the language* by assigning a class variable with an associated function. PM has several defects on such treatment, and we are supposing that... 
 
-For chapter 20, it turns out further that symbols like *classes* might not exist solely; they will have to come with an **underlying interpretation** by default(TODO: mention this somewhere in the text), and when can we assign a function to a class has completely no specification in PM. If we come to that case, we will use the following syntax(TODO: move this into chapter 20?):
+**Russell hasn't distinguished between his language and interpretation,** for the following reasons:
+1. PM has completely no text nor notion to state when to *associate* what function with a class. (TODO: add example theorems from chapter 20)
+2. PM has designed cases for both interpretation and language without knowing what does it mean. See (TODO: add example theorems from chapter 20)
+3. Even a level down, sometimes PM will cite a theorem from interpretation, while it should be used otherwise. (TODO: add example theorems from chapter 20)
 
+**Because of the lacking of association, some of our theorems use `let` as a result.** See example below, and related [mechanics](./3_mechanics.md/#chapter-20)/[naming convention](./contribution_guide/style_guide.md) part.
 ```Coq
 Theorem associating_function_to_class (FAlpha : Prop → Prop) :
   let (Alpha := ^z => FAlpha z) in
@@ -134,10 +140,19 @@ Theorem associating_function_to_class (FAlpha : Prop → Prop) :
   .
 ```
 
-Even if we have resolved such conflict at 1st level of different hierarchies, what will it happen at higher levels? So far we didn't resolve such conflict, and it will be discussed in [audit](./5_audit.md).
+TODO: provide an association by default
+
+**...And we forgot to look upwards of the `A`.** We have just considered the case to generalize between `Class` and `Prop`. How about the *hierarchies* betwwen `Class` and `Prop`? Our implementation has not address anything about this, and this will be discussed in [suggestion](./_6_suggestion.md).
+
+TODO: is hierarchy in PM already 2-dimensional?
+
+As a summary: we are witnessing that there are many dimensions for us to generalize, which is not just simply a polymorphism. We need polymorphism setups separately to:
+- generalizes on orders
+- generalize on argument lengths
+- generalize between different types
 
 ## Simplification and debugs
-Occasionally, we want to even further simplify the proof down, because:
+**Chores.** Occasionally, we want to even further simplify the proof down, because:
 - We can clearly provide its equivalent routine using PM theorems
 - We have torturing urge to simplify the proofs. Check out `n11_71` to appreciate its ridiculous length.
 
