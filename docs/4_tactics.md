@@ -29,13 +29,13 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 **Table X: Full PM features considered and their implementations in Rocq**
 
 ## How do we assert a proposition is true?
-The story starts with a very simple beginning. To assert a cited theorem is true, we `pose` a proof, which is pretty elementary in Rocq. Voila.
+**The story starts with a very simple beginning.** To assert a cited theorem is true, we `pose` a proof, which is pretty elementary in Rocq. Voila.
 
-The `pose` can ensure the proof window logically correct, but *visually* awful. Proof terms will take away a large part of space, before the type of terms come into our view. We are not doing backward reasoning, nor do the proof term correctly reflect the construction when we are using a lot of `setoid_rewrite`, being introduced in later section. We choose to leave `pose proof` the only candidate to present a citation.
+**`pose proof` is the only candidate to prettify the `pose`.** The `pose` can ensure the proof window logically correct, but *visually* awful. Proof terms will take away a large part of space, before the type of terms come into our view. We are not doing backward reasoning, nor are these proof terms meaningful - we will use a lot of `setoid_rewrite`, being introduced in later section.
 
-`pose proof` successfully presents a proposition in the hypothesis window, but it doesn't solve a goal. `apply` allows us to solve the goal automatically with a theorem. `now` allows us to solve the goal as soon as we have deduced the right proposition. `exact`, as mentioned in the [architecture](./2_architecture.md), is exclusively used to hint that we have covered all steps in a proof to conclude a `Qed`.
+**We then add some tactics to conclude a proof.** `pose proof` doesn't solve a goal. `apply` allows us to solve the goal automatically with a theorem. `now` allows us to solve the goal as soon as we have deduced the right proposition. `exact`, as mentioned in the [architecture](./2_architecture.md), is exclusively used to hint that we have covered all steps in a proof to conclude a `Qed`.
 
-We haven't still reached the bottom of the iceberg under theorems in Principia Mathematica. PM Theorem's nature is actually quite different from typical propositions. They are actually *propositional function*s in Principia, and you almost never see a real "proposition". The nature of *proposition function*(TODO: move this part into `mechanics`) allows arbitrarily new variables to be introduced in between every proof steps, just like a function closure. See below example: here's how it will look like if we are using Rocq's *function* to interpret the theorems in Rocq.
+**Yet PM's theorems are not propositions.** They are actually *propositional function*s in Principia, and you almost never see a real "proposition". The nature of *proposition function*(TODO: move this part into `mechanics`) allows arbitrarily new variables to be introduced in between every proof steps, just like a function closure. See below example: here's how it will look like if we are using Rocq's *function* to interpret the theorems in Rocq.
 
 ```Coq
 (* Assuming there is a `Asserted` predicate for arbitrary Rocq functions *)
@@ -53,11 +53,11 @@ While this example is actually speaking about nonsense, notice how an extra `R` 
 
 TODO: address prop function's nature better in `mechanics`
 
-Our implementation didn't use the interpretation above. First, this is an interpretation just came up when I'm writing the documentation right now. Second, with functions as interpretation for PM's propositional functions, we still have to consider how it works with other symbols: functions might be harder to manipulate than propositions. For example, how do you make sure the `x` in different step of proof is the same `x`? How will this interpretation limit your situations to substitute `x` into some more complicated expressions? How should we proceed with definitional equality `=`'s substitution within this interpretation?
+**And in reality, we ignore the nature of proposition function.** First, this is an interpretation just came up when I'm writing the documentation. Second, with functions as interpretation for PM's propositional functions, we still have to consider how it works with other symbols: functions might be harder to manipulate than propositions. For example, how do you make sure the `x` in different step of proof is the same `x`? How will this interpretation limit your situations to substitute `x` into some more complicated expressions? How should we proceed with definitional equality `=`'s substitution within this interpretation?
 
-Instead, we are using *propositions* to model the propositional functions, while simulating the feature to set up arbitrarily more propositional "variables" - actually constants that cannot be substituted; they must only to be introduced in the `TOOLS` section at the beginning of the proof. These "real" variables are mostly for being *generalized* into a quantified apparent variable, the `x` in a `∀ x`. This is being done by a series of axioms in `lib.v`, prefixed with `Intro_`. The complete method to use `Intro_` in the proof is `set (X := Intro_ ...)`, available everywhere in the proof files as the identifier of *the `Intro` mechanic*.
+**Instead, we are using *propositions* to model propositional functions,** while simulating the feature to set up arbitrarily more propositional "variables" - actually constants that cannot be substituted; they must only to be introduced in the `TOOLS` section at the beginning of the proof. These "real" variables are mostly for being *generalized* into a quantified apparent variable, the `x` in a `∀ x`. This is being done by a series of axioms in `lib.v`, prefixed with `Intro_`. The complete method to use `Intro_` in the proof is `set (X := Intro_ ...)`, available everywhere in the proof files as the identifier of *the `Intro` mechanic*.
 
-There is yet another problem for us to consider in PM. As analyzed in `mechanics`(TODO: add doc in ch14/20 and add link), since we didn't design an AST yet, we are assuming that symbols in PM combines with each other. Symbols can have different types, e.g. `∀ alpha : Class.t` is different from `∀ x : Prop`, so these symbols have to be "polymorphic". For chapter 20, it turns out further that symbols like *classes* might not exist solely; they will have to come with an underlying interpretation by default(TODO: mention this somewhere in the text), and when can we assign a function to a class has completely no specification in PM. If we come to that case, we will use the following syntax(TODO: move this into chapter 20?):
+**There is yet another problem for us to consider in PM.(TODO: extend this part)** As analyzed in `mechanics`(TODO: add doc in ch14/20 and add link), since we didn't design an AST yet, we are assuming that symbols in PM combines with each other. Symbols can have different types, e.g. `∀ alpha : Class.t` is different from `∀ x : Prop`, so these symbols have to be "polymorphic". For chapter 20, it turns out further that symbols like *classes* might not exist solely; they will have to come with an underlying interpretation by default(TODO: mention this somewhere in the text), and when can we assign a function to a class has completely no specification in PM. If we come to that case, we will use the following syntax(TODO: move this into chapter 20?):
 
 ```Coq
 Theorem associating_function_to_class (FAlpha : Prop → Prop) :
@@ -67,15 +67,15 @@ Theorem associating_function_to_class (FAlpha : Prop → Prop) :
 ```
 
 ## How do we rewrite a proposition?
-In principal, PM's original design is only allowing proposition rewriting through one mechanic: *modus ponens*. It starts with \*1.11, but generalize manually to more cases once a new notion/symbol has been introduced into a chapter. Therefore, each chapter will contain a *modus ponens* equivalent, whenever necessary.
+**PM should only use modus ponens** to its ideal. It starts with \*1.11, but generalize manually to more cases once a new notion/symbol has been introduced into a chapter. Therefore, each chapter will contain a *modus ponens* equivalent, whenever necessary.
 
-*modus ponens* isn't the only way to get a proposition. In particular, *quantified propositions* are only constructed by another mechanic: *generalization* on a variable in a "proposition"(that actually turns out to be a prop function). Same as *modus ponens*, whenever a new symbol has been introduced in, the chapter will have a `Pp`/`Thm` of its equivalent, either assumed or deduced from previous chapters.
+***modus ponens* isn't the only mechanic to get a new proposition.** In particular, *quantified propositions* are only constructed by another mechanic: *generalization* on a variable in a "proposition"(that actually turns out to be a prop function). Same as *modus ponens*, whenever a new symbol has been introduced in, the chapter will have a `Pp`/`Thm` of its equivalent, either assumed or deduced from previous chapters.
 
 *Generalization* utilizes our `Intro_` pretty frequently, but not restricted to `Intro_`. It says:
 - If we have a real variable *X* in a proposition (still as usual, turns out to be propositional function) `Phi X`
 - Then we can make a proposition `∀ x, Phi x`, occasionally with some type checks
 
-*Generalization*, `n10_11` being the most commonly used ones, is implemented as a *proposition* utilizing `MP`. In principle, there should be better ways to perform the generalization.
+***Generalization* is implemented as a *proposition* utilizing `MP`.** Within which, `n10_11` being the most commonly used ones. In principle, there should be better ways to perform the generalization.
 
 But how about all other propositions in general? How will they manifest, and how are they being constructed?
 
@@ -89,18 +89,18 @@ The whole procedure of a valid proposition can be splitted into 4 steps:
 
 Which is what we called *bottom-up construction* by the logical connectives appeared in a proposition. One can easily verify it's also the nature of *forward reasoning* building up a proof tree building up a proof tree from "leaves" to the "root".
 
-Here is a huge fallback for `MP` appeared in this procedure: it can only be performed on the whole expression, but not for sub-expressions. There are many way to get rid of this problem: syllogism is already a specific case for sub expression on MP; But what if, I have propositions of the form of `P ↔ (Q → R)` and `Q`? We can view theorems in chapter 1 - 5 as common specific cases for MP to fit in and apply; chapter 9 and beyond tries to generate their *equivalent* - soon will be called *variants* later - when a new symbol has been introduced in.
+**Here is a huge fallback for `MP` alone:** it can only be performed on the whole expression, but not for sub-expressions. There are many way to get rid of this problem: syllogism is already a specific case for sub expression on MP; But what if, I have propositions of the form of `P ↔ (Q → R)` and `Q`? We can view theorems in chapter 1 - 5 as common specific cases for MP to fit in and apply; chapter 9 and beyond tries to generate their *equivalent* - soon will be called *variants* later - when a new symbol has been introduced in.
 
 ## `rewrite/setoid_rewrite`
-If we have a proposition of `P ↔ Q` and want to `MP` on it with `P`, we might *destruct* the proposition into `(P → Q) ∧ (Q ∧ P)`, then destruct on `∧` to perform the MP. As we are setting the `→`, `↔` as Rocq's default, another convenient way comes into our mind immediately: `rewrite`. `rewrite` is frequently used in this project, along with theorems in the form of `↔`. Sometimes to produce a shorter proof, when `→` and `↔` version of a theorem both exist, we will adapt to the `↔` version with `rewrite`. Note that syllogism isn't `rewrite`, as it's performed on `→`.
+**`rewrite` is how we patch the proofs in this project.** Consider the following case: if we have a proposition of `P ↔ Q` and want to `MP` on it with `P`, we might *destruct* the proposition into `(P → Q) ∧ (Q ∧ P)`, then destruct on `∧` to perform the MP. While `→` propositions are such tedious to deal with, `↔` seems to be way more easier with our Rocq's default `rewrite`. Sometimes to produce a shorter proof, when `→` and `↔` version of a theorem both exist, we will adapt to the `↔` version with `rewrite`. Note that syllogism isn't `rewrite`, as it's performed on `→`.
 
 TODO: gather simplification examples in chapter 9 & 10
 
-Still, the power of `rewrite` is limited. It can rewrite mostly when the whole expression is of the form `P → Q`, plus a few exceptions. Still taking the `P ↔ (Q → R)` as example, we will not be able to rewrite `Q → R` into `Q → S` if we provide `R → S`.
+**Still, the power of `rewrite` is limited.** It works mostly when the whole expression is of the form `P → Q`, plus a few exceptions. Taking the `P ↔ (Q → R)` as example, we will not be able to rewrite `Q → R` into `Q → S` if we provide `R → S`.
 
-For this situation, `setoid_rewrite`, the *generalized rewriting* of Rocq has come into utilization. It has been very useful to rewrite a sub expression connected by `→`, or wrapped up within a `∀`.
+**To fix this, we introduce `setoid_rewrite`,** the *generalized rewriting* of Rocq. It has been very useful to rewrite a sub expression connected by `→`, or wrapped up within a `∀`.
 
-Just like `rewrite`, `setoid_rewrite` isn't always working. The biggest part of its defect arisen from treatment with `=`. Definitional equality, on the other hand, is undefined(p.94), leaving us to freely design how to perform the rewrite on them. We set the equivalence *variant* in `TOOLS` section, when we need to use a definitional equality. A typical example will be like this:
+**But `setoid_rewrite` isn't always working as well. For `=`, we will need extra treatments.** Definitional equality is undefined(p.94) in PM, leaving us to freely design how to perform the rewrite on them. We set the equivalence *variant* in `TOOLS` section, when we need to use a definitional equality. A typical example will be like this:
 
 ```coq
 (* The original version of `Impl1_01` *)
