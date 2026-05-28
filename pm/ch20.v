@@ -53,21 +53,6 @@ doesn't prevent) :
 - X <class_in> (^ z => Psi z)
 - [^z => Phi z @ cz1 => cz1 = cz1]
 - Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
-
-ambiguity between symbol and its underlying representation has affected:
-- correct type for a function as they interfere with each other:
-  - Order n of `(Prop → Prop) → ... → Prop`
-  - Polymorphic function as `A → Prop`
-  - Actual representation like `Class.t A`
-- theorems also might be either polymorphic or monomorphic to enable/disable several 
-  feats
-- parameter representation (`x : Class.t A` vs `fx : A`)
-- the correct representation for a proposition
-- should `A` be cut down to `Order` props or should we allow for more symbols
-  in the future
-- theorems in text *might* mutually utilize both of them without enforcing their 
-  relationships. TODO: check this? For example claiming `^z => Psi z` is underlying 
-  representation for `alpha`
 *)
 
 Declare Scope debug_class.
