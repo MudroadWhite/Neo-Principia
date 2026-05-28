@@ -40,7 +40,7 @@ We now start exploring the main ideas for each chapters.
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 ### Chapter 1
-Principia Mathematica uses propositional functions for most of the inference.(TODO: ref randall)
+Principia Mathematica uses propositional functions for most of the inference.(Also see [Randall's](https://randall-holmes.github.io/Drafts/pmsemantics.pdf))
 - **elementary propositions** are only the atomic letters such as `P` and `Q` (TODO: check p.94)
 - **elementary functions** are almost everything else involving any logical connectives
 
