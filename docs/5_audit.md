@@ -173,3 +173,4 @@ TODO:
 - this chapter will not emphasize on implementation details
 - Lacking of distinction between language and interpretation
 - there might be a astonishing lot to do for propositional functions
+- ch9: we didn't clearly identify what are propositions and what are prop functions for the theorems
