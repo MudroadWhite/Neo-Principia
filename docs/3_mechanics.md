@@ -91,9 +91,11 @@ By proving a theorem, we mean:
 | Generalization              | Not allowed            |
 | Functions                   | Not allowed            |
 | Introducing fresh variables | Not allowed            |
-| Theorem variants            | Not allowed            |
+| Theorem variants            | Not allowed\[\*\]      |
 | Function type               | Elementary function    |
 | Function parameters         | Only E-propositions    |
+
+\[\*\]: See [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic)
 
 **Table X: Proving context for chapter 1 - 5**
 
@@ -119,37 +121,29 @@ Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. 
 This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly proven because they are useful.
 
 ### Chapter 9
-Propositions in this chapter starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
+There's a lot of things happened in this chapter, making it significantly different from all the previous chapters.
+
+Chapter 9's theorems tries to generalize all over chapter 1 - 5, producing their equivalent on *formal implications*, i.e. propositions with `forall` or `exists`. It is brutally performed without using mathematical induction, since it is not allowed yet. It assumes that if our elementary propositional `¬` and `∨` is "enhanced" to allow to take one 1-order proposition as its operand, deduced theorems can extend all theorems in chapter 1 - 5 to their 1-higher order version. 
+
+Propositions in chapter 9 starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
 - Generalization: the main technique to turn a *elementary proposition* into an *elementary function*
 - *Individual*s: a placeholder, a very specific value, an unnamed constant, for a proposition to be generalized into a function or to assert a function during the proof. Sometimes individual seems to just mean something that we cannot further destructed in current denotation, whether it is a proposition, function or matrix(see [chapter 12](./3_mechanics.md/#chapter-12)). *These meanings are used mutually throughout the text.*
-
-This chapter presents the only way for 1st order propositions to be constructed: generalizing from *elementary functions*. Combining with [chapter 1](./3_mechanics.md/#chapter-1) we are getting the following rules:
 
 - **elementary propositions** are dependent on `¬` and `∨` (we cannot have `¬`s taking higher order propositions to break the type)
 - **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them)
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
-
-There's a lot of things happening in the beginning of chapter 9.
-- First of all \*1.1 and \*1.11 has assumed their version for **1st order propositions**(p.128)
-- Then first few `Pp`s in chapter 9 are supposed to restricted to e-prop `¬` and `∨`(discussed in Chapter II, they are not 1-order `¬` and `∨`). 
-- After we have demonstrated that they work just fine on `∃` as well, we can lift e-prop `¬` and `∨` to 1-order ones
-- Then we have \*9.12 being the actual *modus ponens* synthesizing \*1.11.
 
 Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.162), which is a useful and natural feature that is still considered in later chapters.
 
 \*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus it sets up a convention for individuals. Individuals are the propositional variables constituted to the expression of a proposition. They are not propositions nor functions(p.51, p.132). *All individuals will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have exactly the same proposition type*. 
 
 The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
-
-
 |          Notion          | Type name | Arguments                    | Identification rule                            |
 |--------------------------|-----------|------------------------------|------------------------------------------------|
 | Elementary proposition   | EProp     | None                         | All elementary propositions                    |
 | Elementary function      | EFunc     | Types of function parameters | Connectives on same functions                  |
-| Proposition of nth order | Prop n    | Type of the function \[\*\]  | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
+| Proposition of nth order | Prop n    | Type of the function         | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
 | Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
-
-**\[\*\]**: TODO: recheck old commits
 
 **Table X: "of the same type" algorithm from chapter 9**
 
@@ -162,7 +156,7 @@ By proving a theorem in chapter 9 - 11, we mean:
 |           Property          |          Limitation         |
 |-----------------------------|-----------------------------|
 | Highest proposition order   | 1st order proposition\[\*\] |
-| Modus Ponens theorem        | Arbitrary                   |
+| Modus Ponens theorem        | Arbitrary(p.128)            |
 | Generalization              | Allowed for E-props         |
 | Functions                   | 1st order                   |
 | Introducing fresh variables | Allowed for E-props         |
@@ -172,16 +166,8 @@ By proving a theorem in chapter 9 - 11, we mean:
 
 **Table X: Proving context for chapter 9 - 11**
 
-- **\[\*\]**: Several propositions in the beginning of chapter 9 is still limited to elementary propositions
+- **\[\*\]**: Several propositions in the beginning of chapter 9 is still limited to elementary propositions(also see chapter II of the book). All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
 - **\[\*\*\]**: Whether it is typed depends on how they are used in later chapter, and I'm still not sure about this
-
-TODO: 
-- All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
-- can we generalize for functions?
-
-Chapter 9's theorems are furthermore splitted into 2 parts for different purposes:
-- Theorems written in natural language define the typing algorithm: what is a type, what parameters are functions allowed to take by the regulation of types. Eventually we prove that we can construct all possible functions for 1-higher order.
-- Theorems written as formulae makes a *demonstration*: if our elementary propositional `¬` and `∨` is "enhanced" so that it can take one 1-order proposition as its operand, deduced theorems can extend all theorems in chapter 1 - 5 to their 1-higher order version. It could be done with mathematical induction, but we were out of the assumption for induction to work so we brute force everything.
 
 ### Chapter 10
 In contrast to "what will be when `∨` is applied to different propositions", `∀` and `∃` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `∀` and `∃` is therefore only one primitive proposition, stating how `∃` is defined(p.138), and the `∨` and `¬` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
@@ -268,7 +254,7 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 
 This special symbol comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Typically speaking, only functions come with scopes, but PM is defining scopes for a ("incomplete")symbol(p.67). 
 
-**Implementation.** TODO: polymorphic definition; merge ch20 related things to here
+Later we will find out that the `ι` in this chapter will also apply to new symbols, such as *class* in chapter 20. This is a major reason why `ι`, and in general symbols defined with `Notation` has to be polymorphic. See related parts in [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
 
 ### Chapter 20
 Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance at \*20.59) have been presented in this chapter's theorems.
@@ -309,7 +295,3 @@ TODO:
 - ch9: type of props varies by funcs...  "practically ignored"(p.162); the definition can be fixed by change to "returning order of a function"
 - ch12 : started using `Order` type; explain why we use it
 - ch9 & 12 : propositional hierarchy is only used when constructing the prop func, cf. the actual implementation for prop func
-
-TODO: For each chapter, organize with following points:
-1. What is the mechanics in the book
-2. What have we implemented corresponded to the mechanics (with **Implementation** tag)
