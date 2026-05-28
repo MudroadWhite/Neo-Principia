@@ -14,7 +14,11 @@ Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets
 Each propositions in PM is supposed to come with a type, and the types form a hierarchy. Still,  PM doesn't express the hierarchy directly. PM's typing rules say "what different terms can be considered as the same type". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
+(TODO: address the composition with polymorphic symbol definition)
+
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
+
+(TODO: address variants; name as hierarchy property; recheck everywhere mentioning inheritence)
 
 Principia also defines symbols in an **inheriting way**. Propositions in a chapter "will be used in different ways" for later chapters. For example: 
 1. In an early chapter, we define what is an *animal*, and write down theorems about it.
