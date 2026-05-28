@@ -16,9 +16,6 @@ Require Import PM.pm.ch14.
 - For class, provide an assumption to associate specific class var with specific
   function
 - Prettify the code and the notation. 0302 for hat or directly generate from internet
-
-address following in the documentation; 
-adapt following naming convention in the project: 
 *)
 
 Declare Scope debug_class.
