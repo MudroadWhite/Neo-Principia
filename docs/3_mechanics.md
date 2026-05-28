@@ -45,7 +45,7 @@ Example example_e_proposition (X : Prop) := X.
 Example example_e_prop_function (X : Prop) := X ∧ Y.
 ```
 
-It turns out that, PM function's variables are not bounded and occurring freely; also, they don't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once. Such a distinct design allows PM to perform its deduction *mostly on propositional functions*. Text like "x ∧ y" actually means `(fun x y => x ∧ y)`, where parameters are all symbols appeared within". Proposition mostly play an auxiliary role in PM, until chapter 9. 
+It turns out that, PM function's variables are not bounded and occurring freely; also, they don't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once. In addition, functions [don't have bounded variables](./3_mechanics.md/#how-does-principia-prove-theorems). Such a distinct design allows PM to perform its deduction *mostly on propositional functions*. Text like "x ∧ y" actually means `(fun x y => x ∧ y)`, where parameters are all symbols appeared within". Proposition mostly play an auxiliary role in PM, until chapter 9. 
 
 We might design our proof like the following example:
 ```Coq
@@ -61,9 +61,7 @@ Proof.
 Admitted.
 ```
 
-Notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `example_prop_func_proof`. Inferences on typical, maybe modern *propositions* will not allow introducing new variables like this.
-
-In our implementation, we will design propositional functions just like propositions. The full detail is revealed in [tactics](./4_tactics.md).
+In our implementation, we will design propositional functions just like propositions. The full detail is revealed in [tactics](./4_tactics.md). Notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `example_prop_func_proof`. Inferences on typical, maybe modern *propositions* will not allow introducing new variables like this, but such difference is not met till [chapter 9](./3_mechanics.md/#chapter-9).
 
 ```Rocq
 (* This is an elementary proposition *)
@@ -103,9 +101,9 @@ By proving a theorem, we mean:
 **Table X: Proving context for chapter 1 - 5**
 
 Note:
-- (p.92)Not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
-- (p.94)Definitional equality is undefined in PM.
-- **elementary functions** are closed under `¬` and `∨`.
+- (p.92)Not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language
+- (p.94)Definitional equality is undefined in PM
+- Elementary functions are closed under `¬` and `∨`
 
 ### Chapter 2
 While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
