@@ -19,40 +19,6 @@ Require Import PM.pm.ch14.
 
 address following in the documentation; 
 adapt following naming convention in the project: 
-
-- Use `n20_61` and its variants as a starting point to explain the missing
-  of specifications
-
-scoping convention:
-- scoping is under consideration but can be fixed nicely
-- if possible we want to moreover internalize the scopes (maybe determining the scope
-  when computing?) so that it can be automatically
-  inferred
-- default scope is the minimum subexp containing the symbol, except for only itself
-- the 1st operand of a binop has larger scope than the 2nd operand. e.g. `x=y`
-- descriptions have larger scope than classes
-- the swapping between the scopes seems to be lacking of consideration(?)TODO: recheck 
-  related theorems
-- axioms related to notaion is exceptionally allowed to be directly applied 
-  on the goal
-- conflicts between `_pred` and `_class` variant
-On representation of class:
-
-failed attempts:
-- Defining `Class` only using functions
-- Defining `Class` as (A, Phi)
-- Defining `Class` as inductive type
-- TODO: also explain the history of how we decide to use notations 
-  somewhere in tactics/mechanics
-one of the draft:
-Definition Cls {A : Type} {Phi : A → Prop} : Class.t
-  := Class.Build_t A Phi. 
-
-representation which turns out to be illegal(which our notation design 
-doesn't prevent) :
-- X <class_in> (^ z => Psi z)
-- [^z => Phi z @ cz1 => cz1 = cz1]
-- Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
 *)
 
 Declare Scope debug_class.
