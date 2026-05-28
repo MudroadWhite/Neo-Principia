@@ -252,9 +252,7 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 - `(ιx)` means the descriptions should be treated as the same type of a `x`. In chapter 20, `x` will be lifted to some random `α` denoting classes
 - `(φx)` means the description should describe a thing just like `φx`
 
-This special symbol comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Typically speaking, only functions come with scopes, but PM is defining scopes for a ("incomplete")symbol(p.67). 
-
-Later we will find out that the `ι` in this chapter will also apply to new symbols, such as *class* in chapter 20. This is a major reason why `ι`, and in general symbols defined with `Notation` has to be polymorphic. See related parts in [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
+This "incomplete symbol"(p.67) comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Since `ι` will also apply to new symbols in later chapters such as *class* in chapter 20, we design `ι`, and in general symbols defined with `Notation` to be polymorphic. See related parts in [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
 
 ### Chapter 20
 Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance at \*20.59) have been presented in this chapter's theorems.
