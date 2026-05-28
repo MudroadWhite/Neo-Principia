@@ -52,7 +52,7 @@ It turns out that, PM function's variables are not bounded and occurring freely;
 We might design our proof like the following example:
 ```Coq
 (* Assuming there is a `Asserted` predicate for arbitrary Rocq functions *)
-Theorem prop_func_theorem_example : Asserted (fun P => P → P).
+Theorem prop_func_theorem_example : Asserted (fun P => P → P). Admitted.
 
 Theorem prop_func_proof_example : Asserted (fun P Q => (P ∧ Q) → (P ∧ Q)).
 Proof.
