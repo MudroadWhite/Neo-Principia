@@ -40,6 +40,7 @@ We now start exploring the main ideas for each chapters.
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 ### Chapter 1
+Principia Mathematica uses propositional functions for most of the inference.(TODO: ref randall)
 - **elementary propositions** are only the atomic letters such as `P` and `Q` (TODO: check p.94)
 - **elementary functions** are almost everything else involving any logical connectives
 
@@ -51,7 +52,7 @@ Example example_e_proposition (X : Prop) := X.
 Example example_e_prop_function (X : Prop) := X ∧ Y.
 ```
 
-It turns out that, PM function's variables are not bounded and occurring freely; also, they don't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once. In addition, functions [don't have bounded variables](./3_mechanics.md/#how-does-principia-prove-theorems). Such a distinct design allows PM to perform its deduction *mostly on propositional functions*. Text like "x ∧ y" actually means `(fun x y => x ∧ y)`, where parameters are all symbols appeared within". Proposition mostly play an auxiliary role in PM, until chapter 9. 
+It turns out that, PM function's variables are not bounded and [occurr freely](./3_mechanics.md/#how-does-principia-prove-theorems); also, they don't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once. Such a distinct design allows PM to perform its deduction *mostly on propositional functions*. Text like "x ∧ y" actually means `(fun x y => x ∧ y)`, where parameters are all symbols appeared within". Proposition mostly play an auxiliary role in PM, until chapter 9. 
 
 We might design our proof like the following example:
 ```Coq
@@ -80,7 +81,7 @@ Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
 Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
 
-In general, chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
+Chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
