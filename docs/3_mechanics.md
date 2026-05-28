@@ -80,7 +80,7 @@ Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 We use \*1.11 almost everywhere in PM, and \*1.1 is generally not used(p.93). Most judgments in PM are assertions on propositional functions. \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
 
 - (p.94)Definitional equality is undefined in PM
-- **elementary propositions** are closed under `¬` and `∨`
+- **elementary propositions** are only the atomic letters such as `P` and `Q` (TODO: check p.94)
 - **elementary functions** are closed under `¬` and `∨`
 
 By proving a theorem, we mean:
@@ -121,21 +121,20 @@ Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. 
 This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly proven because they are useful.
 
 ### Chapter 9
-There's a lot of things happened in this chapter, making it significantly different from all the previous chapters.
+There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where the [example](./3_mechanics.md/#chapter-1) in chapter 1 starts to matter, where we can see *propositional functions* are really playing a central role in PM's reasoning. We introduce `Intro_` axioms to patch up for these functions, see `Intro_` mechanic in [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic), and review [chapter 1](./3_mechanics.md/#chapter-1) for explanation.
 
 Chapter 9's theorems tries to generalize all over chapter 1 - 5, producing their equivalent on *formal implications*, i.e. propositions with `forall` or `exists`. It is brutally performed without using mathematical induction, since it is not allowed yet. It assumes that if our elementary propositional `¬` and `∨` is "enhanced" to allow to take one 1-order proposition as its operand, deduced theorems can extend all theorems in chapter 1 - 5 to their 1-higher order version. 
 
 Propositions in chapter 9 starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
 - Generalization: the main technique to turn a *elementary proposition* into an *elementary function*
-- *Individual*s: a placeholder, a very specific value, an unnamed constant, for a proposition to be generalized into a function or to assert a function during the proof. Sometimes individual seems to just mean something that we cannot further destructed in current denotation, whether it is a proposition, function or matrix(see [chapter 12](./3_mechanics.md/#chapter-12)). *These meanings are used mutually throughout the text.*
+- *Individual*s: a placeholder, a very specific value, an unnamed constant, for a propositional function to be generalized into a proposition; they might themselves be functions when lifted to higher order.
 
-- **elementary propositions** are dependent on `¬` and `∨` (we cannot have `¬`s taking higher order propositions to break the type)
-- **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them)
+- **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them) and **elementary logical connectives**
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
 Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.162), which is a useful and natural feature that is still considered in later chapters.
 
-\*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus it sets up a convention for individuals. Individuals are the propositional variables constituted to the expression of a proposition. They are not propositions nor functions(p.51, p.132). *All individuals will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have exactly the same proposition type*. 
+\*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus a convention for individuals. All individuals in a theorem, which are not propositions nor functions(p.51, p.132), *will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have exactly the same proposition type*. 
 
 The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
 |          Notion          | Type name | Arguments                    | Identification rule                            |
@@ -204,7 +203,7 @@ Several comments on matrices and functions:
 2. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => φ x` and `fun x => ∀ φ, φ x`)
 3. It appears that any `∀`s and any `∃`, under this hierarchy, cannot be produced by directly instantiating some functions; we have to start from completely constructing a matrix, then obtain all the quantifiers through generalizing individuals/other matrices with a controlled scope. The procedure here is clearly unnatural.
 
-There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). Is it really that *there are no propositions containing real variables*, as [Wittgenstein](https://wittgensteinproject.org/w/index.php/Notes_on_Logic) have said? We don't really know, but let's just vibe with the [examples](./3_mechanics.md/#chapter-12). One crucial difference between real and apparent variables, though, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
+There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). One crucial difference between real and apparent variables, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
 
 Axiom of Reducibility is introduced in this chapter for 2 reasons:
 1. (p.49)When we define `x = y` as `∀ φ, φ x → φ y`, assuming it is untyped, we might still have `φ := fun x => (∀ φ, φ x → φ y)` or `φ := fun y => ∀ φ, φ x → φ y`. In other words for `fun x => φ x`, `fun x => (∀ φ, φ x → φ a)` has been a value that needs to be avoided. 
@@ -233,9 +232,10 @@ By proving a theorem, we mean,
 
 **Table X: Proving context for chapter 12 - 14**
 
-In addition, not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
+- Not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
+- For the hierarchy in this chapter, we have implemented a `Order` type. See [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
 
-**Implementation.** TODO: `Order` type
+TODO: recheck chapter 12 completely
 
 ### Chapter 13
 In Rocq, we have different types for `=`. We can have `=` on propositions, `=` on `=` between propositions, `=` on `=`... and so on. Russell realized that he should give the `=` a similar treatment, but the hierarchy is slightly different: `=` is itself treated as a propositional function, and `=` can be an identity on 1st order, second order, ... arbitrary order functions. The first citation of chapter 12's axiom of reducibility appears at \*13.101, and with which applied to \*13.101, the order of `=` has been generally collapsed off. 
@@ -289,7 +289,6 @@ TODO:
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "∀" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
-- ch9: Explain when do we need `set X := Intro_x`
 - ch9: type of props varies by funcs...  "practically ignored"(p.162); the definition can be fixed by change to "returning order of a function"
-- ch12 : started using `Order` type; explain why we use it
-- ch9 & 12 : propositional hierarchy is only used when constructing the prop func, cf. the actual implementation for prop func
+- ch9: recheck the definition of `forall` after we know what is a proposition
+- ch9: we didn't clearly identify what are propositions and what are prop functions for the theorems
