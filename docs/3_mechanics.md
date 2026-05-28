@@ -36,6 +36,14 @@ We now start exploring the main ideas for each chapters.
 ### Chapter 1
 Chapter 1 presents some fundamental `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
 
+```coq
+(* This is almost the only way to present an e-prop *)
+Example example_e_proposition (X : Prop) := X.
+
+(* This is an elementary proposition. It uses a connective `∧` and is not atomic *)
+Example example_e_prop_function (X : Prop) := X ∧ Y.
+```
+
 - **elementary propositions** are only the atomic letters such as `P` and `Q` (TODO: check p.94)
 - **elementary functions** are almost everything else involving any logical connectives
 
@@ -57,7 +65,7 @@ Admitted.
 
 Notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `prop_func_proof_example`. Inferences on typical, maybe modern *propositions* will not allow introducing new variables like this.
 
-However, in our implementation, we will design propositional functions just like propositions. The full detail is revealed in [tactics](./4_tactics.md).
+In our implementation, we will design propositional functions just like propositions. The full detail is revealed in [tactics](./4_tactics.md).
 
 ```Rocq
 (* This is an elementary proposition *)
@@ -109,7 +117,7 @@ TODO:
 - distinguish between when to use MP and when to use Syll
 
 ### Chapter 3
-Chapter 3 focuses on theorems about `∧`, which is constructed on `¬` and `∨`. In particular, \*3.03 allows us to immediately get `H3 : A ∧ B` if we have `H1 : A` and `H2 : B` in the proof window.
+Chapter 3 focuses on theorems about `∧`, which is constructed on `¬` and `∨`. 
 
 ### Chapter 4
 Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics](./4_tactics.md).
@@ -124,12 +132,13 @@ Chapter 9's theorems tries to generalize all over chapter 1 - 5, producing their
 
 Propositions in chapter 9 starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
 - Generalization: the main technique to turn a *elementary proposition* into an *elementary function*
-- *Individual*s: a placeholder, a very specific value, an unnamed constant, for a propositional function to be generalized into a proposition; they might themselves be functions when lifted to higher order.
+- Instantiation: the reverse transformation of generalization
+- *Individual*s: a placeholder, a very specific value, an unnamed constant, for a propositional function to be generalized into a proposition, or vice versa; they might themselves be functions when lifted to higher order.
 
 - **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them) and **elementary logical connectives**
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
-Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.162), which is a useful and natural feature that is still considered in later chapters.
+Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.52, p.162), which is a useful and natural feature that is still considered in later chapters.
 
 \*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus a convention for individuals. All individuals in a theorem, which are not propositions nor functions(p.51, p.132), *will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have exactly the same proposition type*. 
 
@@ -138,15 +147,16 @@ The rest of the text is the typing algorithm for propositions and functions. Not
 |--------------------------|-----------|------------------------------|------------------------------------------------|
 | Elementary proposition   | EProp     | None                         | All elementary propositions                    |
 | Elementary function      | EFunc     | Types of function parameters | Connectives on same functions                  |
-| Proposition of nth order | Prop n    | Type of the function         | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
+| Proposition of nth order | Prop n    | Type of the function\[\*\]   | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
 | Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
 
 **Table X: "of the same type" algorithm from chapter 9**
 
-Within which several terms need some clarifications: 
-- connectives : `¬` and `∨`
-- same: same propositions/functions are same in number of argument, and each argument have the same type on that index; additionally, they are usually 1-order lower to the proposition/function being constructed
-- other typing rules: usually consist of varied aspects to type on: how to type a new symbol; how to type a function with more arguments from function with less arguments, and so on
+- \[\*\] Functions of same order can have different types, thus propositions of same order can have different types. However, this is "practically ignored"(p.162). If we want to meet the practice, we can fix the definition to "returning order of the function".
+- Additionally, several clarifications on terms: 
+  - connectives : `¬` and `∨`
+  - same: same propositions/functions are same in number of argument, and each argument have the same type on that index; additionally, they are usually 1-order lower to the proposition/function being constructed
+  - other typing rules: usually consist of varied aspects to type on: how to type a new symbol; how to type a function with more arguments from function with less arguments, and so on
 
 By proving a theorem in chapter 9 - 11, we mean:
 |           Property          |          Limitation         |
@@ -174,7 +184,7 @@ Chapter 11's main purpose is extending functions with 1 variables to 2 variables
 ### Chapter 12
 Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to think something like "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). 
 
-The consideration for the hierarchy starts with *matrices* for generating *functions*, where the *function*'s definition has been changed(and both the old and new meaning of "function" is used mutually in the text!) - they are what expressions generated by a matrix. (p.164)1-order matrix retains the complete power as an elementary function under this hierarchy(Personal question: does this claim also hold for n-order matrices?).
+The consideration for the hierarchy starts with *matrices* for generating *functions*, where the *function*'s definition has been changed(and both the old and new meaning of "function" is used mutually in the text!) - they become what expressions generated by a matrix. (p.164)1-order matrix retains the complete power as an elementary function under this hierarchy(Personal question: does this claim also hold for n-order matrices?).
 
 ```Rocq
 (* (p.163)This is a matrix with 2 real variables. It's also a function, and it's even predicative. *lhs* parameter of this definition is now in serious consideration *)
@@ -196,17 +206,19 @@ Example example_proposition := ∀ (x : Prop) (φ : Prop → Prop), φ x.
 - **Propositions** are built on **matrices**, with *all* possible variables generalized
 
 Several comments on matrices and functions:
-1. (p.52)Matrix only takes matrices or individuals as variables. By "taking something as variable", we mean what symbols can be appeared in the `A` of the `∀ A` part, *before any instantiations*. Variables of the form `∀ (∃ a, φ a), (∃ a, φ a) x` seems to be out of consideration, which is some n-order function or proposition; also see (p.53). Note that we won't have this issue in previous chapters prior to the definition of matrix, and functions can take (elementary)propositions as parameters. Conversely, elementary propositions in this hierarchy is called elementary matrices. 
+1. (p.52)Same the the treatment in [chapter 9](./3_mechanics.md/#chapter-9), matrix only takes matrices or individuals as variables
 2. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => φ x` and `fun x => ∀ φ, φ x`)
-3. It appears that any `∀`s and any `∃`, under this hierarchy, cannot be produced by directly instantiating some functions; we have to start from completely constructing a matrix, then obtain all the quantifiers through generalizing individuals/other matrices with a controlled scope. The procedure here is clearly unnatural.
+3. It appears that any `∀`s and any `∃`, under this hierarchy, cannot be produced by directly instantiating some functions; we have to start from completely constructing a matrix, then obtain all the quantifiers through generalizing individuals/other matrices with a controlled scope. The procedure here is clearly unnatural. (TODO: relate to `tactics`)
 
 There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). One crucial difference between real and apparent variables, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
 
-Axiom of Reducibility is introduced in this chapter for 2 reasons:
+*Axiom of Reducibility* is introduced in this chapter for 2 reasons:
 1. (p.49)When we define `x = y` as `∀ φ, φ x → φ y`, assuming it is untyped, we might still have `φ := fun x => (∀ φ, φ x → φ y)` or `φ := fun y => ∀ φ, φ x → φ y`. In other words for `fun x => φ x`, `fun x => (∀ φ, φ x → φ a)` has been a value that needs to be avoided. 
 2. On the other hand, sometimes we want to speak of as "many" functions as we can. It turns out that, while we cannot precisely say all functions of a parameter `a`, but we can say all `n`-order functions of a parameter `a` and set `n` to infinity.
 
 For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => φ a` with `φ` of order `n`, we can simulate with a predicate function `fun a => ψ a`. The predicativity of `ψ` here means it is just 1-order higher than `a`, and we are assuming *this `ψ` exists*. In the context of [chapter 13](./3_mechanics.md/#chapter-13), we can have a more intuitive understanding.
+
+TODO: add demonstration of 2-order-higher function for a `x`
 
 Chapter 12 also brings the symbol `!` to awareness, and will be frequently used in later chapters. `!` has several different meanings all within the same time:
 1. Emphasize(p.163, the second "It will be seen that...") that we might consider both the function and its parameter as variables for an expression. The purpose is to make functions as variables easier for people to recognize.
@@ -242,7 +254,7 @@ The identity has to be defined at such a late chapter(p.22), because:
 2. Functions comes with different types within the hierarchy defined in chapter 12
 3. Axiom of Reducibility has to be used in the proof, also because of the hierarchy. Also see (p.57) for a informal reasoning on why it needs to be used
 
-Also see audit's [chapter 12 & 13](./5_audit.md/#chapter-12) for a deeper analysis.
+Also see audit's [chapter 12 & 13](./5_audit.md/#chapter-12) for a deeper analysis. (TODO: reexamine and consider if we should put here)
 
 ### Chapter 14
 This chapter begins with a significantly complicated symbol `(ιx)(φx)` to denote a *description*. Here are the reasons why this symbol is such complicated:
@@ -286,6 +298,4 @@ TODO:
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "∀" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
-- ch9: type of props varies by funcs...  "practically ignored"(p.162); the definition can be fixed by change to "returning order of a function"
 - ch9: recheck the definition of `forall` after we know what is a proposition
-- ch9: we didn't clearly identify what are propositions and what are prop functions for the theorems
