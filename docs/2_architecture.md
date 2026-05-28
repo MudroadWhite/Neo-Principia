@@ -38,9 +38,6 @@ Every `Definition` or `Theorem` represents a proposition in Principia. They usua
 
 Additionally, for theorems in Principia, we are allowed to set up its *variants*. This will be also explained in [tactics](./4_tactics.md).
 
-### How does Principia apply a theorem?
-[mechanics](./3_mechanics.md/#how-does-principia-proof-theorems) has explained different situations for Principia to prove or apply a theorem.
-
 ## What is `Notation`?
 As chapters push on, PM will have higher requirements on symbol definitions to model the math ideas. `Notation`s in Rocq is the perfect tool for implementing more complicated symbols.
 
@@ -73,14 +70,14 @@ Qed.
 - A `TOOLS` header is **required** to be place at the beginning of a long proof, if any tool is being used.
 - Other tools not being placed in the `TOOLS` section is **required** to be stated with an explicit comment.
 
-Technical features, that can be be found under `lib.v`, usually require a warmup before being available, for example, introducing an extra individual with the proof(with `set (X := Individual "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
+Technical features, that can be be found under `lib.v`, usually require a "warmup" before being available, for example, introducing an extra individual with the proof(with `set (X := Intro_individual "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
 
 ### `assert` blocks
 - All long proofs are **required** to adapt to the proof architecture picted above.
 
 For long proofs, the first tactic we use always starts with an `assert`, for specifying intermediate steps corresponded to ones in the original text. 
 
-There are several reasons for organizing proofs with `assert`. The most significant one is readability. Besides, we can have several equivalant forms for a proposition, i.e. `(fun x => x) x` is not very far from just `x` or `(fun y => y) x`. Switching between them requires delicate application with tactics for all different cases. If we set the desired form as a subgoal, we only need to use tactics to prove for a equivalent form to `x`, and skip the tedious transformations. One last thing for `assert` is that it limits the scope of theorems we use. When we leave the scope, these theorems are automatically cleared away, and only the intermediate steps as `S1` `S2` are being pertained. As a result, the proof window becomes extremely clean.
+There are several reasons for organizing proofs with `assert`. The most significant one is readability. Besides, we can have several equivalent forms for a proposition, i.e. `(fun x => x) x` is not very far from just `x` or `(fun y => y) x`. Switching between them requires delicate application with tactics for all different cases. If we set the desired form as a subgoal, we only need to use tactics to prove for a equivalent form to `x`, and skip the tedious transformations. One last thing for `assert` is that it limits the scope of theorems we use. When we leave the scope, these theorems are automatically cleared away, and only the intermediate steps as `S1` `S2` are being pertained. As a result, the proof window becomes extremely clean.
 
 `assert`ed intermediate steps are introduced into the hypotheses.
 
@@ -88,7 +85,7 @@ There are several reasons for organizing proofs with `assert`. The most signific
 
 As introduced above, `assert` and `set`, sets up the general architecture to write the proof.
 
-Beneath the architecture comes the details of how we prove a theorem. By referring to [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/), we can divide our tactics into 2 types - as the slogan says, "just `pose` and `rewrite`".
+Beneath the architecture comes the details of how we prove a theorem. By referring to [SEP](https://plato.stanford.edu/entries/principia-mathematica/), we can divide our tactics into 2 types. As the slogan says, "just `pose` and `rewrite`".
 
 - `pose proof`, occasionally with `apply`, instantiates a existing theorem to use.
 - `rewrite`, `setoid_rewrite`, custom defined Ltacs like `MP` `Syll`, or more generally, all tactics except `pose proof` are for rewriting to, and even a level down, deducing new propositions from existing propositions.

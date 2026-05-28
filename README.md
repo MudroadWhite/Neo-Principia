@@ -11,21 +11,23 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 - Rocq doesn't need a lot of version updates
 
 ## Features
-Compatability.
-
 - [Documented](./docs/README.md)(WIP - will be rewritten for most of the parts) and with [slides](./slides/).
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. One theorem a line.
-- "Just as it is": Principia flavor in maximum strength: Principia-style deduction; Principia-style symbols defined with `Notation`s. Clear proof structure, clean, maybe beautiful proof window. 
+- "Just as it is": Principia flavor in maximum strength: Following PM's symbol definitions, deductions faithfully. Clear proof structure, clean, maybe beautiful proof window. 
+
+To be more exact, we have:
+- Demonstrated a proof architecture to formalize most of the theorems in Principia Mathematica with remarkable strength
+  - This architecture has maintained a balance between term-level clarity and proof simplicity
+  - This architecture has broken the record of the formalization pass through chapter 5 to chapter 20, haven't yet unleashed its maximum potential
+- Identified several defects and ambiguity in PM from a modern theorem prover's perspective
+- Proposed a specification for prospective participants for grinding down to perfection
 
 ## How well have you formalized?
 Which means 3 questions:
 
 - **How much can you formalize?** Theoretically, the whole book. See [overview](./docs/1_overview.md/#can-principia-mathematica-be-completely-formalized) for an analysis.
 - **How much have you formalized?** 194 - 94 = 100 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
-- **How deep can you formalize?** We're using shallow embedding, which is not rigorous deep embedding. See [audit](./docs/5_audit.md) for other secondary limitations.
-
-## Are you sure the code/proof is 100% correct?
-No. Successful `Qed`s are still false positives. We haven't typed the propositions and miss the insights from them.
+- **How deep can you formalize?** We're using shallow embedding, which is not rigorous deep embedding. We didn't type the propositions, so **the proofs are still not 100% correct.** See [audit](./docs/5_audit.md) for our major defects.
 
 ## Running the code
 Coq/Rocq version: >= 8.20.0, < 9.0, installed with the [opam](https://opam.ocaml.org/) environment:
@@ -59,5 +61,15 @@ Although I have tried to organize the issues well to indicate the current progre
 - [ndrwnaguib's formalization of PM in Lean](https://github.com/ndrwnaguib/principia)
 - [Randall Holmes's RTT implementation](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT)
 - [xamidi's propositional calculus theorems](https://github.com/xamidi/luk-pmproofs) from [Łukasiewicz's L1-system](https://www.jstage.jst.go.jp/article/pjab1945/41/6/41_6_436/_pdf)
-- Also his [pmGenerator](https://github.com/xamidi/pmGenerator) for something I didn't check what is it yet
+- Also his [pmGenerator](https://github.com/xamidi/pmGenerator) generating minimal proofs for a collection of PM theorems
 - [Metamath solitaire's implementation on propositional calculus theorems](https://us.metamath.org/mmsolitaire/pmproofs.txt)
+
+## Other useful links
+- https://proofassistants.stackexchange.com/questions/1105/how-does-the-formal-proof-of-the-four-color-theorem-work Discussion of the 4-color theorem, as a reflection. Viewers are also encouraged to check out the project since it's not that complicated
+- https://plato.stanford.edu/entries/pm-notation/
+- https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
+- https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
+- https://blog.plover.com/math/PM.html A rare post that goes over chapter 20 trying to give insights to PM!
+- https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/ One link that helps me understand what is matrix
+- https://nap.nationalacademies.org/read/10866/chapter/66 Another random material that I think related to the matrix in PM
+- https://www.ens-lyon.fr/LIP/PLUME/production/ A site containing nice papers with better technologies to digest, although unused in this project

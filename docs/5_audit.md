@@ -7,17 +7,17 @@ Assessment for each of the chapter is based on the following questions:
 2. Feasibility: Are they easy to be implemented in Rocq?
 3. Coverage: How much % of propositions can we formalize, and what is missing?
 
-Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). For the below sections, we first make a short summary of major issues we have found, then list out everything we have found for each of the chapters.
+Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). For the below sections, we first make a short summary of major issues we have found.
 
-### Issues
-The issues come either from the lacking of proper implementation of our project, or directly from the Principia Mathematica itself. After stating these issues, we will expand every details we have found by each chapters.
+### Defects
+Defects arisen in Principia come either from the lacking of proper implementation of our project, or directly from the Principia Mathematica itself. After stating these issues, we will expand every details we have found by each chapters.
 
-**I1: Typing.** We didn't design a proper system to type every PM propositions. This gives a massive chain effects on the following issues:
+**D1: Typing.** We didn't design a proper system to type every PM propositions. This results into a massive chain effects on the missing features and insights:
 1. We cannot distinguish between predicative and impredicative props/functions.
 2. We cannot implement Axiom of Reducibility.
 3. Several propositions that are relying on AoR cannot be properly implemented at all.
 
-**I2: Inheritance/internalization.** 
+**D2: Inheritance/internalization.** 
 TODO: this topic has a extremely wide impact, including:
 - missing support of scoping
   - Do we have to automatically shrink the scope for a symbol?
@@ -26,23 +26,31 @@ TODO: this topic has a extremely wide impact, including:
   - nontrivial variants for definitions
   - ambiguous theorem representations: some theorems are about the underlying object; some else are only the mere representation
 
-**I3: setoid_rewrite.** 
+**D3: Distinction between language and interpretation.**
+TODO: things in ch20
+- ...
+
+**D3: setoid_rewrite.** 
 TODO: 
 - setoid_rewrite changes by versions
 
-**I4: Tactics support.**
+**D4: Tactics support.**
 TODO: (brief introduction to missing tactics)
+
+**D5: Unknown application of theorems.**
+TODO: special theorems that are not used in supposed way
 
 ### Basic setups
 **TODO: MP vs Syll**
 TODO: mostly freely used, and don't follow the text
 
 **How much can we automate for Principia Mathematica?**
-TODO: 
-- we didn't intend to increase its automation, because this looks unhopeful. This can be an interesting direction
-- have to manually introduce individuals
-- `rewrite` cannot infer most of the parameters; the right params might be not unique
-- `MP`, `Syll`, `rewrite`, `setoid_rewrite` might have trouble to be chained together
+The most ideal point to increase the automation for PM seems to start from `rewrite`s, that is, we should design a more automated `rewrite` that can
+- Design a function plus its parameters that matches up with the target proposition
+- Automatically introduce extra individuals in need
+- Perform slight reordering of sub expressions like `P <-> Q` to `Q <-> P` when necessary
+
+Due to the lack of related background in proof automation, I am currently thinking that automating the inference seems to be too much and a fruitless goal.
 
 **Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
 
@@ -55,10 +63,9 @@ The core of symbol definition, *definitional equality*, is undefined, as discuss
 - And more generally, cited theorems might have different context to interpret
 
 **Types.** Although we won't implement the typing algorithm immediately, there are still worthy comments to be made. We are aware that
-1. PM doesn't have `→` type, and the typing algorithm seems to have struggled to type the functions.
-2. PM also struggles at defining proposition's type: while same order propositions generalized from different types of arguments will not have the same type(p.162), it is supposed to be "practically ignored"(p.162).
-3. The `of the same type` theorems are being scattered throughout all the chapters, which makes implementing a full type system uneasy work - you have to turn through all the pages to collect them up
-Critics above suggest there might be freedom for us to design a different type system that is closer to Rocq type system.
+1. PM doesn't have a notion for typing, also being mentioned by Randall.(TODO: reference)
+2. For functions, Rocq's `→` type can apparently simulate PM's function type assuming we never apply the parameters partially.
+3. For propositions: while same order propositions generalized from different types of arguments will not have the same type(p.162), it is supposed to be "practically ignored"(p.162). We can change the definition into the following to fix such unnecessary distinction: proposition's type is the returned order of the proposition from a completely instantiated function.
 
 **Orders**. We have the orders in our implementation, but currently it is severely wrongly interpreted and doesn't stand for the correct representation of a nth order proposition. It mostly works like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
 ```coq
@@ -157,6 +164,11 @@ TODO:
 - (n20_07)order shift interferes with some proving routines in PM
 - (n20_19)`setoid_rewrite` seems to ignore the order issue
 - proving every steps in ch20 has been increasingly harder
+- scope related criticism in chapter 20 code
+- "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps?
+- (highly volatile)if setups for theorems are too complicated, we might need to use `Section`s in Coq
 
-TODO:
-- ch20: scope related criticism in chapter 20 code
+
+TODO: 
+- this chapter will not emphasize on implementation details
+- Lacking of distinction between language and interpretation
