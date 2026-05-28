@@ -127,17 +127,17 @@ Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. 
 This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly proven because they are useful.
 
 ### Chapter 9
-There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where the [example](./3_mechanics.md/#chapter-1) in chapter 1 starts to matter, where we can see *propositional functions* are really playing a central role in PM's reasoning. We introduce `Intro_` axioms to patch up for these functions, see `Intro_` mechanic in [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic), and review [chapter 1](./3_mechanics.md/#chapter-1) for explanation.
-
-Chapter 9's theorems tries to generalize all over chapter 1 - 5, producing their equivalent on *formal implications*, i.e. propositions with `forall` or `exists`. It is brutally performed without using mathematical induction, since it is not allowed yet. It assumes that if our elementary propositional `¬` and `∨` is "enhanced" to allow to take one 1-order proposition as its operand, deduced theorems can extend all theorems in chapter 1 - 5 to their 1-higher order version. 
-
-Propositions in chapter 9 starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
-- Generalization: the main technique to turn a *elementary proposition* into an *elementary function*
-- Instantiation: the reverse transformation of generalization
-- *Individual*s: a placeholder, a very specific value, an unnamed constant, for a propositional function to be generalized into a proposition, or vice versa; they might themselves be functions when lifted to higher order.
-
 - **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them) and **elementary logical connectives**
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
+
+There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where the [example](./3_mechanics.md/#chapter-1) in chapter 1 starts to matter, where we can see *propositional functions* are really playing a central role in PM's reasoning. We introduce `Intro_` axioms to patch up for these functions, see `Intro_` mechanic in [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic), and review [chapter 1](./3_mechanics.md/#chapter-1) for explanation.
+
+Chapter 9's theorems tries to generalize all over chapter 1 - 5, producing propositions with `forall` or `exists` and prove we can correctly generalize the previous theorems. It is brutally performed without using mathematical induction, since it is not allowed yet. It assumes that if our elementary propositional `¬` and `∨` is "enhanced" to allow to take one 1-order proposition as its operand, deduced theorems can extend all theorems in chapter 1 - 5 to their 1-higher order version. 
+
+Propositions in chapter 9 starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
+- Generalization: the main technique to turn a *propositional function* into an *proposition* of higher order
+- Instantiation: the reverse transformation of generalization
+- *Individual*s: a placeholder, a very specific value, an unnamed constant, for a propositional function to be generalized into a proposition, or vice versa; they might themselves be functions when lifted to higher order.
 
 Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.52, p.162), which is a useful and natural feature that is still considered in later chapters.
 
