@@ -297,24 +297,28 @@ While not being stated explicitly, being hinted in previous chapters(TODO: sourc
 
 Besides the new context for proof, we're facing many more difficulties than all of the previous chapters, which I classify into 2 issues: *notation design* and *scoping*. Identifying these problems already slows the completion of formalization way much more than all previous chapters.
 
-TODO: On representation of class: inspired why we want to leave notations polymorphic; relate with `tactics`
+TODO: should we move to `audit`?
+We have previously made several **failed** attempts to define the type for class `Class`. Suppose we want to build class on a function `A -> Prop`, I have tried:
+- Define `Class` only using functions
+- Define `Class` as (A, Phi)
+- Define `Class` as inductive type. 
 
-failed attempts:
-- Defining `Class` only using functions
-- Defining `Class` as (A, Phi)
-- Defining `Class` as inductive type. one of the draft:
-  ```
-  Definition Cls {A : Type} {Phi : A → Prop} : Class.t
-    := Class.Build_t A Phi. 
-  ```
-- TODO: also explain the history of how we decide to use notations 
-  somewhere in tactics/mechanics
+In practice, defining `Class` with record can make the function it holds *implicit*, while exposing and extracting `A` peacefully. Our current definition resulted in theorems demanding `let` clause at the beginning of the proof; but soon we find out that if we design parsing and printing notations separately(see `only printing` code in `ch20.v`), we can pertain a good notation. 
 
-representation which turns out to be illegal(which our notation design 
-doesn't prevent) :
-- X <class_in> (^ z => Psi z)
-- [^z => Phi z @ cz1 => cz1 = cz1]
-- Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
+Even still, our notation doesn't prevent several *illegal* construction cases; see [style guide](./contribution_guide/style_guide.md). After further refinements, we are supposing that PM's *scoping* mechanic is under consideration. It can be fixed with extra axioms, but it doesn't prevent such nature. See [audit](./5_audit.md/#chapter-20).
+
+TODO: move to audit; demonstrate scoping issue
+scoping convention:
+- scoping is under consideration but can be fixed nicely. 
+- scoping is usually treated with symbols, not separately - unreusable
+- default scope is the minimum subexp containing the symbol, except for only itself
+- We should design axioms related to notation directly applying on proof/goal
+- if possible we want to moreover internalize the scopes (maybe determining the scope
+  when computing?) so that it can be automatically inferred
+- the 1st operand of a binop has larger scope than the 2nd operand. e.g. `x=y`
+- descriptions have larger scope than classes, but still have to infer from the proof
+- the swapping between the scopes seems to be lacking of consideration. TODO: recheck 
+  related theorems
 
 
 ----------------
@@ -327,14 +331,4 @@ TODO:
 
 TODO: ch20: integrate the following: 
 
-scoping convention:
-- scoping is under consideration but can be fixed nicely. 
-- default scope is the minimum subexp containing the symbol, except for only itself
-- We should design axioms related to notation directly applying on proof/goal
-- if possible we want to moreover internalize the scopes (maybe determining the scope
-  when computing?) so that it can be automatically inferred
-- the 1st operand of a binop has larger scope than the 2nd operand. e.g. `x=y`
-- descriptions have larger scope than classes, but still have to infer from the proof
-- the swapping between the scopes seems to be lacking of consideration. TODO: recheck 
-  related theorems
   
