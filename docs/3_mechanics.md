@@ -261,7 +261,7 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 - `(ιx)` means the descriptions should be treated as the same type of a `x`. In chapter 20, `x` will be lifted to some random `α` denoting classes
 - `(φx)` means the description should describe a thing just like `φx`
 
-This "incomplete symbol"(p.67) comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Since `ι` will also apply to new symbols in later chapters such as *class* in chapter 20, we design `ι`, and in general symbols defined with `Notation` to be polymorphic. See related parts in [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
+This "incomplete symbol"(p.67) comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Since `ι` will also apply to new symbols in later chapters such as *class* in chapter 20, we design `ι`, and in general symbols defined with `Notation` to be polymorphic. See related parts in [chapter 20](./3_mechanics.md/#chapter-20) and [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
 
 ### Chapter 20
 Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance at \*20.59) have been presented in this chapter's theorems.
@@ -290,7 +290,27 @@ While not being stated explicitly, being hinted in previous chapters(TODO: sourc
 
 **Table X: Proving context for chapter 20 - +**
 
-TODO: address notation mechanics, and failed attempts
+Besides the new context for proof, we're facing many more difficulties than all of the previous chapters, which I classify into 2 issues: *notation design* and *scoping*. Identifying these problems already slows the completion of formalization way much more than all previous chapters.
+
+TODO: On representation of class: inspired why we want to leave notations polymorphic; relate with `tactics`
+
+failed attempts:
+- Defining `Class` only using functions
+- Defining `Class` as (A, Phi)
+- Defining `Class` as inductive type. one of the draft:
+  ```
+  Definition Cls {A : Type} {Phi : A → Prop} : Class.t
+    := Class.Build_t A Phi. 
+  ```
+- TODO: also explain the history of how we decide to use notations 
+  somewhere in tactics/mechanics
+
+representation which turns out to be illegal(which our notation design 
+doesn't prevent) :
+- X <class_in> (^ z => Psi z)
+- [^z => Phi z @ cz1 => cz1 = cz1]
+- Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
+
 
 ----------------
 
@@ -299,3 +319,17 @@ TODO:
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
 - ch9: recheck the definition of `forall` after we know what is a proposition
+
+TODO: ch20: integrate the following: 
+
+scoping convention:
+- scoping is under consideration but can be fixed nicely. 
+- default scope is the minimum subexp containing the symbol, except for only itself
+- We should design axioms related to notation directly applying on proof/goal
+- if possible we want to moreover internalize the scopes (maybe determining the scope
+  when computing?) so that it can be automatically inferred
+- the 1st operand of a binop has larger scope than the 2nd operand. e.g. `x=y`
+- descriptions have larger scope than classes, but still have to infer from the proof
+- the swapping between the scopes seems to be lacking of consideration. TODO: recheck 
+  related theorems
+  
