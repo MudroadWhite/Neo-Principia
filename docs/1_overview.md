@@ -38,6 +38,9 @@ All factors above resulted in our unique preference for the proof: a *shallow em
 
 Eventually, can we type every proposition in Principia? Within our [vision](./6_suggestion.md), *deep embedding for Principia Mathematica seems to be feasible*.
 
+## Can we port the proof to Lean?
+No. This project is heavily relied on `setoid_rewrite`, and Lean doesn't support `setoid_rewrite`, see [reference](https://leanprover-community.github.io/archive/stream/270676-lean4/topic/Rewriting.20congruent.20relations.html). Porting the proof to Lean might involve reconstructing the proof with `Quotient`, which should be an interesting alternative to discover.
+
 ## What is the value of this project?
 Proposing Principia Mathematica is a matter of theory, and verifying such a theory is a matter of application. This project aims to be a [scythe](https://www.youtube.com/watch?v=gRivMEEZZE8&t=1539s) to demystify a decaded myth. This project wraps up ideas in the book, writes down, organizes and iterates like a software product. This project is a small world to communicate, between math, philosophy and computer science people.
 
@@ -74,6 +77,8 @@ The 1st iteration to fill in the proof has finished, but filling in more missing
 Even further plans: I could either
 - Quit the project once chapter 20 has been completely translated
 - Develop a new version of PM, with type system & AoR supported, and make a distinction from this project. I'm also planning to give version names like "staccato" "aria" or something
+
+**2026.05:** Chapter 20, the last chapter we are translating, is mostly complete. We're heavily organizing the documentation, which seems to be more important. Also, welcome our [first PR](https://github.com/MudroadWhite/Neo-Principia/pull/133) from an external contributer.
 
 **2026.02:** Chapter 14, the first chapter with an *incomplete/context based* symbol(the description), has been finished. Finishing these chapters involves both new context for theorems to be assumed, and more complicated symbols to be defined. Also, we have finished the complete documentation from chapter 1 to 14. This project has been mature enough to be examined by everyone, and viewers should find it way easier to comprehend and participate into criticisms towards Principia.
 

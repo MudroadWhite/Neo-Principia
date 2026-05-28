@@ -10,17 +10,15 @@ TODO:
 3. impredicativity vs predivativity, the design of `!`
 4. Extra scoping rules
 5. MP and other tactics
-6. polymorphic notations and monomorphic theorems(?)
-7. Utilization of `setoid_rewrite` (for schemes? investigate deeper into its automatic power?)
-8. Philosophy of "internalization" (relate to the inheritance nature)
-9. For future successors and participants: independently design a chapter, or design your own typing system for Principia
-10. What have I learned: designing the framework is the most enjoyable part; difference between AI and hand written FV: u can design the architecture on your own and shrink the proof - produce organized things could be a challenge
-11. `Hierarchy` type for correct polymorphism? symbols, orders, argument numbers
+6. Utilization of `setoid_rewrite` (for schemes? investigate deeper into its automatic power?)
+7. Philosophy of "internalization" (relate to the inheritance nature)
+8. For future successors and participants: independently design a chapter, or design your own typing system for Principia
+9.  What have I learned: designing the framework is the most enjoyable part; difference between AI and hand written FV: u can design the architecture on your own and shrink the proof - produce organized things could be a challenge
+10. `Hierarchy` type for correct polymorphism to synthesize over different hierarchies & different polymorphism: symbols, orders, argument length
 
 ## Future directions
 - classify theorems
-- schemes for theorems/variants
-- add type, add predicativity, add AoR
+- add type, add hierarchy, add predicativity, add AoR
 - tactic automation?
 - construct meaningful proof objects
 - should we actually implement propositional functions as functions

@@ -12,7 +12,7 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 
 ## Features
 - [Documented](./docs/README.md)(WIP - will be rewritten for most of the parts) and with [slides](./slides/).
-- "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple tactics. One theorem a line.
+- "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple [tactics](./docs/4_tactics.md). One theorem a line.
 - "Just as it is": Principia flavor in maximum strength: Following PM's symbol definitions, deductions faithfully. Clear proof structure, clean, maybe beautiful proof window. 
 
 To be more exact, we have:

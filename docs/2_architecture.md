@@ -41,6 +41,8 @@ Additionally, for theorems in Principia, we are allowed to set up its *variants*
 ## What is `Notation`?
 As chapters push on, PM will have higher requirements on symbol definitions to model the math ideas. `Notation`s in Rocq is the perfect tool for implementing more complicated symbols.
 
+Each `Notation` comes with a `Scope` for us to freely switch between different notations. Each `Notation` will be additionally defined twice: one for easy writing, prefixed with `debug_`, and one for pretty printing.
+
 ## What's under a single proof?
 For a theorem, if it has been splitted into several steps to prove in the text, rather than just citing related theorems for hints, we call this theorem comes with a "long proof". Otherwise it has a short proof.
 
