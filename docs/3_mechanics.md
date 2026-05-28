@@ -34,7 +34,8 @@ We now start exploring the main ideas for each chapters.
 
 ## Chapters
 ### Chapter 1
-Chapter 1 presents some fundamental `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
+- **elementary propositions** are only the atomic letters such as `P` and `Q` (TODO: check p.94)
+- **elementary functions** are almost everything else involving any logical connectives
 
 ```coq
 (* This is almost the only way to present an e-prop *)
@@ -43,9 +44,6 @@ Example example_e_proposition (X : Prop) := X.
 (* This is an elementary proposition. It uses a connective `∧` and is not atomic *)
 Example example_e_prop_function (X : Prop) := X ∧ Y.
 ```
-
-- **elementary propositions** are only the atomic letters such as `P` and `Q` (TODO: check p.94)
-- **elementary functions** are almost everything else involving any logical connectives
 
 It turns out that, PM function's variables are not bounded and occurring freely; also, they don't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once. Such a distinct design allows PM to perform its deduction *mostly on propositional functions*. Text like "x ∧ y" actually means `(fun x y => x ∧ y)`, where parameters are all symbols appeared within". Proposition mostly play an auxiliary role in PM, until chapter 9. 
 
@@ -63,7 +61,7 @@ Proof.
 Admitted.
 ```
 
-Notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `prop_func_proof_example`. Inferences on typical, maybe modern *propositions* will not allow introducing new variables like this.
+Notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `example_prop_func_proof`. Inferences on typical, maybe modern *propositions* will not allow introducing new variables like this.
 
 In our implementation, we will design propositional functions just like propositions. The full detail is revealed in [tactics](./4_tactics.md).
 
@@ -78,13 +76,15 @@ Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
 Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
 
+In general, chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
+
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
 - Asserting an **elementary propositional function** means asserting `H1 : φ X`.
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
-We use \*1.11 almost everywhere in PM, and \*1.1 is generally not used(p.93). \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
+Being the actual *modus ponens*, we use \*1.11 almost everywhere in PM, and \*1.1 is generally not used(p.93). \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
 
 By proving a theorem, we mean:
 |           Property          |      Limitation        |
@@ -94,17 +94,18 @@ By proving a theorem, we mean:
 | Generalization              | Not allowed            |
 | Functions                   | Not allowed            |
 | Introducing fresh variables | Not allowed            |
-| Theorem variants            | Not allowed\[\*\]      |
+| Theorem variants\[\*\]      | Not allowed            |
 | Function type               | Elementary function    |
 | Function parameters         | Only E-propositions    |
 
-\[\*\]: See [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic)
+\[\*\]: For the meaning of variants, see [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic)
 
 **Table X: Proving context for chapter 1 - 5**
 
+Note:
 - (p.92)Not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
-- (p.94)Definitional equality is undefined in PM
-- **elementary functions** are closed under `¬` and `∨`
+- (p.94)Definitional equality is undefined in PM.
+- **elementary functions** are closed under `¬` and `∨`.
 
 ### Chapter 2
 While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
