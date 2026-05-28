@@ -68,7 +68,7 @@ Proof.
 Admitted.
 ```
 
-In our implementation, we will design propositional functions just like propositions. The full detail is revealed in [tactics](./4_tactics.md). Notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `example_prop_func_proof`. Inferences on typical, maybe modern *propositions* will not allow introducing new variables like this, but such difference is not met till [chapter 9](./3_mechanics.md/#chapter-9).
+Our current implementation designs propositional functions just like propositions. The reason is revealed in [tactics](./4_tactics.md), but formalizing with a better representation is considerable. Notice how an extra `R` can be presented as a legit variable in example above, which is not being introduced as a variable of `example_prop_func_proof`. Inferences on typical, maybe modern *propositions* will not allow introducing new variables like this, but such difference is not significant till [chapter 9](./3_mechanics.md/#chapter-9).
 
 ```Rocq
 (* This is an elementary proposition *)
