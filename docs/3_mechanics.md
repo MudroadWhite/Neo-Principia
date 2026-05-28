@@ -34,17 +34,12 @@ We now start exploring the main ideas for each chapters.
 
 ## Chapters
 ### Chapter 1
-**Propositions, propositional functions, and modus ponens**
-
 Chapter 1 presents some fundamental `Pp`s to set everything up, and practically speaking, we find it out that `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
 
-- Having something in our proof window means it has been asserted/implied true
-- Asserting `H1 : P` means asserting `P` as an **elementary proposition**
-- (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
+- **elementary propositions** are only the atomic letters such as `P` and `Q` (TODO: check p.94)
+- **elementary functions** are almost everything else involving any logical connectives
 
-While proposition seems to be pretty fundamental, they actually plays an auxiliary role in PM. The main protagonist in chapter 1 is (elementary) *propositional function*. Text like "function X" actually means "a function's *body* X, whose parameters are all symbols appeared within". If I say "function x ∧ y", it actually means `(fun x y => x ∧ y)` for Rocq's representation. All PM function's variables are not bounded and occurring freely. Also, they don't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once. 
-
-Such a design allows PM to deduce on *propositional functions*, while it looks very close to be deducing on *propositions*. On the other hand, *proposition*s are being used in very limited situation; the only elementary propositions is individuals like `P`, `Q` and so on.
+It turns out that, PM function's variables are not bounded and occurring freely; also, they don't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once. Such a distinct design allows PM to perform its deduction *mostly on propositional functions*. Text like "x ∧ y" actually means `(fun x y => x ∧ y)`, where parameters are all symbols appeared within". Proposition mostly play an auxiliary role in PM, until chapter 9. 
 
 We might design our proof like the following example:
 ```Coq
@@ -60,7 +55,7 @@ Proof.
 Admitted.
 ```
 
-Notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `prop_func_proof_example`. Inferences on *propositions* will not allow introducing new variables like this.
+Notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `prop_func_proof_example`. Inferences on typical, maybe modern *propositions* will not allow introducing new variables like this.
 
 However, in our implementation, we will design propositional functions just like propositions. The full detail is revealed in [tactics](./4_tactics.md).
 
@@ -74,14 +69,14 @@ Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
 (* This is the actual way to write the function, but we won't use it *)
 Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
-- Asserting an (elementary) **propositional function** means asserting `H1 : φ X`.
+
+- Having something in our proof window means it has been asserted/implied true
+- Asserting `H1 : P` means asserting `P` as an **elementary proposition**
+- (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
+- Asserting an **elementary propositional function** means asserting `H1 : φ X`.
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
-We use \*1.11 almost everywhere in PM, and \*1.1 is generally not used(p.93). Most judgments in PM are assertions on propositional functions. \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
-
-- (p.94)Definitional equality is undefined in PM
-- **elementary propositions** are only the atomic letters such as `P` and `Q` (TODO: check p.94)
-- **elementary functions** are closed under `¬` and `∨`
+We use \*1.11 almost everywhere in PM, and \*1.1 is generally not used(p.93). \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
 
 By proving a theorem, we mean:
 |           Property          |      Limitation        |
@@ -99,7 +94,9 @@ By proving a theorem, we mean:
 
 **Table X: Proving context for chapter 1 - 5**
 
-(p.92)Note: not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
+- (p.92)Not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
+- (p.94)Definitional equality is undefined in PM
+- **elementary functions** are closed under `¬` and `∨`
 
 ### Chapter 2
 While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
