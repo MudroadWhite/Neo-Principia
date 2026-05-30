@@ -31,7 +31,7 @@ When formalizing PM, we have occurred to the following difficulties:
 - We have to manually record the theorems, since PM doesn't have a digital version
 - We have to manually find the correct theorem to complete the proof
 - We have to manually comprehend PM's mountain of notations, symbols, theorems, and different contexts to interpret them
-- We have to manually identify different meanings for terminologies in different chapters. For example, "functions" and "matrices"
+- We have to manually [identify](https://x.com/prz_chojecki/status/2060662313464496342) different meanings for terminologies in different chapters. For example, "functions" and "matrices"
 - Being the most difficult one, we have to manually type every propositions. This project doesn't type PM's propositions, rendering some completed proofs false positive.
 
 All factors above resulted in our unique preference for the proof: a *shallow embedding* utilizing a mixture of 2 major mechanics, PM's original "bottom-up construction" method and our "`rewrite`/`setoid_rewrite`", being detailed in [tactics](./4_tactics). As our first time to formalize PM, there might be more details to be implemented in later chapters; hard-designed system can result in difficult reconstructions for any unpredictable changes. The shallow embedding, sacrificed the 100% accuracy, in return retains tolerance to find the bugs, [attunes](https://www.youtube.com/watch?v=Vrf2rYRQReA&t=559s) with the ambiguity appeared in the text, and gathers non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*, and our major task is to collect necessary information to construct the deep embedding.

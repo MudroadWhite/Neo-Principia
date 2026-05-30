@@ -48,7 +48,7 @@ Principia Mathematica uses propositional functions for most of the inference.(Al
 (* This is almost the only way to present an e-prop *)
 Example example_e_proposition (X : Prop) := X.
 
-(* This is an elementary proposition. It uses a connective `∧` and is not atomic *)
+(* This is an elementary function. It uses a connective `∧` and is not atomic *)
 Example example_e_prop_function (X : Prop) := X ∧ Y.
 ```
 
@@ -266,7 +266,7 @@ This chapter begins with a significantly complicated symbol `(ιx)(φx)` to deno
 - `(ιx)` means the descriptions should be treated as the same type of a `x`. In chapter 20, `x` will be lifted to some random `α` denoting classes
 - `(φx)` means the description should describe a thing just like `φx`
 
-This "incomplete symbol"(p.67) comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Since `ι` will also apply to new symbols in later chapters such as *class* in chapter 20, we design `ι`, and in general symbols defined with `Notation` to be polymorphic. See related parts in [chapter 20](./3_mechanics.md/#chapter-20) and [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
+This "incomplete symbol"(p.67) comes with an explicit "scope" notion, also implicitly required for symbols later chapters. For the scope, we find Rocq's *lambda calculus* the perfect candidate for such a restriction. Since `ι` will also apply to new symbols in later chapters such as *class* in chapter 20, we design `ι`, and in general symbols defined with `Notation` to be *polymorphic*. See related parts in [chapter 20](./3_mechanics.md/#chapter-20) and [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
 
 ### Chapter 20
 Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance at \*20.59) have been presented in this chapter's theorems.
