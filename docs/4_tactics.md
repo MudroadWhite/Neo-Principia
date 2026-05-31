@@ -35,15 +35,14 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 
 **We then add some tactics to conclude a proof.** `pose proof` doesn't solve a goal. `apply` allows us to solve the goal automatically with a theorem. `now` allows us to solve the goal as soon as we have deduced the right proposition. `exact`, as mentioned in the [architecture](./2_architecture.md), is exclusively used to hint that we have covered all steps in a proof to conclude a `Qed`.
 
-**Yet PM's theorems are not propositions.** They are actually *propositional function*s in Principia, and you almost never see a real "proposition". The nature of *proposition function* allows arbitrarily new variables to be introduced in between every proof steps, just like a function closure. See example in [mechanics](./3_mechanics.md/#chapter-1).
-
-**And in reality, we ignore the nature of proposition function.** First, this is an interpretation just came up when I'm writing the documentation. Second, with functions as interpretation for PM's propositional functions, we still have to consider how it works with other symbols: functions might be harder to manipulate than propositions. For example, how do you make sure the `x` in different step of proof is the same `x`? How will this interpretation limit your situations to substitute `x` into some more complicated expressions? How should we proceed with definitional equality `=`'s substitution within this interpretation?
+TODO: sometimes introduce extra variables... give example
 
 **Instead, we are using *propositions* to model propositional functions,** while simulating the feature to set up arbitrarily more propositional "variables" - actually constants that cannot be substituted; they must only to be introduced in the `TOOLS` section at the beginning of the proof. These "real" variables are mostly for being *generalized* into a quantified apparent variable, the `x` in a `∀ x`. This is being done by a series of axioms in `lib.v`, prefixed with `Intro_`. The complete method to use `Intro_` in the proof is `set (X := Intro_ ...)`, available everywhere in the proof files as the identifier of *the `Intro` mechanic*.
 
 ## How do we rewrite a proposition?
 **PM is supposed to only use modus ponens** to its ideal. It starts with \*1.11, but generalize manually to more cases once a new notion/symbol has been introduced into a chapter. Therefore, each chapter will contain a *modus ponens* equivalent, whenever necessary.
 
+TODO: rewrite below
 ***Generalization* is another way to produce a new proposition.** In particular, *quantified propositions* are only constructed through: *generalization*, being explained in [mechanics](./3_mechanics.md). As we're using propositions to model the prop functions, Generalization has to utilize `Intro_` mechanics a lot. Similar to MP, generalization will also have its extension in each of the chapters.
 
 ### Bottom up construction
@@ -88,7 +87,7 @@ Notes:
 
 ## Polymorphism and the variant mechanic
 **And there are still so many cases besides that "variant".** For example, PM might expect you to automatically generate:
-1. The same proposition where argument `X` is lifted from elementary proposition to 1-order function, 2-order function, and so on
+1. The same proposition where argument `X` is lifted from elementary proposition to 1-order proposition, 2-order proposition, and so on
 2. The same proposition where `f x` has become `f x y` with an extra argument provided
 3. The same proposition where argument `X` is lifted from just an individual to a type of specific symbol, e.g. from proposition to class
 
