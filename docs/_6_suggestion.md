@@ -5,6 +5,10 @@ TODO: 100 yrs ago, Russell and Whitehead published the book that only few custom
 From the analysis in [tactics](./4_tactics.md), we are witnessing how nontrivial it can be to implement a *proof architecture*, by which I mean something similar to the design patterns in software design, could emerge just because this is how someone wants to simplify the proof and organize the content. This is something that AI currently doesn't aim at, see [example](https://www.youtube.com/watch?v=lcgPj7hge-E). While we didn't reveal the whole proof structure, we have gathered enough information for the next step. This chapter is a suggestion for a specification of PM's complete type system, based on the details we have gathered in [Audit Report](./5_audit.md).
 
 TODO:
+1. Design a hierarchy system that works
+2. Design a typing algorithm
+
+TODO: to be reorganized:
 1. Randall's conversation influenced our insight; suggestion on MP and individuals
 2. "Base order" and "shift" operator
 3. impredicativity vs predivativity, the design of `!`

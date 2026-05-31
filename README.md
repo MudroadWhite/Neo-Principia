@@ -3,6 +3,8 @@
 
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
+**WARNING: the documentation is currently under heavy WIP and can be highly volatile**
+
 ## Why working on it
 - Principia Mathematica has a stable version
 - Principia Mathematica is not textbook math
@@ -10,22 +12,10 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 - Formalizing PM feels like building an obelisk
 - Rocq doesn't need a lot of version updates
 
-## Features
-- [Documented](./docs/README.md)(WIP - will be rewritten for most of the parts) and with [slides](./slides/).
-- "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple [tactics](./docs/4_tactics.md). One theorem a line.
-- "Just as it is": Principia flavor in maximum strength: Following PM's symbol definitions, deductions faithfully. Clear proof structure, clean, maybe beautiful proof window. 
-
-To be more exact, we have:
-- Demonstrated a proof architecture to formalize most of the theorems in Principia Mathematica with remarkable strength
-  - This architecture has maintained a balance between term-level clarity and proof simplicity
-  - This architecture has broken the record of the formalization pass through chapter 5 to chapter 20, haven't yet unleashed its maximum potential
-- Identified several defects and ambiguity in PM from a modern theorem prover's perspective
-- Proposed a specification for prospective participants for grinding down to perfection
-
 ## How well have you formalized?
 Which means 3 questions:
 
-- **How much can you formalize?** Theoretically, the whole book. See [overview](./docs/1_overview.md/#can-principia-mathematica-be-completely-formalized) for an analysis.
+- **How much can you formalize?** Theoretically, the whole book. See [overview](./docs/1_overview.md/#can-principia-mathematica-be-completely-formalized) for analysis and features.
 - **How much have you formalized?** 194 - 94 = 100 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
 - **How deep can you formalize?** We're using shallow embedding, which is not rigorous deep embedding. We didn't type the propositions, so **the proofs are still not 100% correct.** See [audit](./docs/5_audit.md) for our major defects.
 

@@ -1,9 +1,9 @@
 # Mechanics of Principia Mathematica
 ## Basic setups
-### How many types of propositions are there in Principia?
-Principia has 3 types(not mathematical type) of propositions: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). 
+### How many types of statements are there in Principia?
+Principia has 3 types(not mathematical type) of statements: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). 
 
-There are 3 hidden trait of propositions in Principia, being written mostly in natural language. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules. Only some exceptions don't belong to these 3 traits, presented in chapter 1.
+There are 3 hidden trait of statements in Principia, being written mostly in natural language. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules. Only some exceptions don't belong to these 3 traits, presented in chapter 1.
 1. Typing a specific symbol, extending to more general cases
 2. Extending *modus ponens* for a specific symbol
 3. Extending *generalization* or *instantiation* for a specific symbol
@@ -11,15 +11,16 @@ There are 3 hidden trait of propositions in Principia, being written mostly in n
 ### How to read the propositions in Principia?
 Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and their hints on priority, surprisingly, never go wrong. One can understand the priority, without knowing much on dot notations.
 
-Each propositions in PM is supposed to come with a type, and the types form a hierarchy. Still,  PM doesn't express the hierarchy directly. PM's typing rules say "what different terms can be considered as the same type". Such "of the same type" style definitions have been scattered into all the chapters.
+Each proposition in PM is supposed to come with a type within a type hierarchy. Still, PM doesn't have a notion for types, nor will it explicitly label the hierarchy. PM proposes its typing algorithm as theorems of "what different terms can be considered *of the same type*". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
-Principia also defines symbols in an **inheriting way**. Propositions in a chapter "will be used in different ways" for later chapters. For example: 
-1. In an early chapter, we define what is an *animal*, and write down theorems about it.
-2. In a later chapter, we divide *animal*s into *dog*s and *cat*s.
-3. To prove a theorem in later chapter, we directly reuse *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
+Principia also defines symbols in an **inheriting way**, as there are many hierarchies in PM system. From our limited knowledge prior to chapter 20, there are already 3 hierarchies existing in the text, plus 2 ad-hoc context from chapter 1 - 9 for easy definition. If one read from beginning to the end, he will occur to a lot of situation that "we can use our previous theorems in another way".
+
+TODO: mention in `tactics`: 
+- we address composition property by polymorphic symbol; check `audit` for composition occurrence
+- we address inheriting property by variant mechanic; check `audit` for inheritence occurrence
 
 ### How does Principia prove theorems?
 Principia designs its theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
@@ -33,41 +34,17 @@ Context to prove theorems, like symbol definitions, have its **inheriting** natu
 We now start exploring the main ideas for each chapters.
 
 ## Chapters
+> "Still, considering the difficulty of the medium, some of the jokes are very good."
+> -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 ### Chapter 1
-- **elementary propositions** are only the atomic letters such as `P` and `Q` (TODO: check p.94)
-- **elementary functions** are almost everything else involving any logical connectives
+The difference between a function and a proposition is scattered through Introduction's chapter I, II, III and chapter 1. Here is our attempt to make the most precise definition.
 
-```coq
-(* This is almost the only way to present an e-prop *)
-Example example_e_proposition (X : Prop) := X.
+- **elementary propositions** contains no variables. They are strictly alphabets after `P`, `Q`, and so on, in chapter 2 - 5(p.91).
+- **elementary functions** are propositions build up with *at least* one *real variables*(p.19). Real variables are alphabetical letters starting after `X`. 
 
-(* This is an elementary proposition. It uses a connective `∧` and is not atomic *)
-Example example_e_prop_function (X : Prop) := X ∧ Y.
-```
-
-It turns out that, PM function's variables are not bounded and occurring freely; also, they don't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once. Such a distinct design allows PM to perform its deduction *mostly on propositional functions*. Text like "x ∧ y" actually means `(fun x y => x ∧ y)`, where parameters are all symbols appeared within". Proposition mostly play an auxiliary role in PM, until chapter 9. 
-
-We might design our proof like the following example:
 ```Coq
-(* Assuming there is a `Asserted` predicate for arbitrary Rocq functions *)
-Theorem example_prop_func_theorem : Asserted (fun P => P → P). Admitted.
-
-Theorem example_prop_func_proof : Asserted (fun P Q => (P ∧ Q) → (P ∧ Q)).
-Proof.
-  assert (S1 : Asserted (fun P => P → P)).
-  { apply example_prop_func_theorem. }
-  assert (S2 : Asserted (fun P Q R => (P → Q) → (Q → R) → (P → R))).
-  { (* ... *) }
-Admitted.
-```
-
-Notice how an extra `R` can be presented as a legit variable, which is not being introduced as a variable of `example_prop_func_proof`. Inferences on typical, maybe modern *propositions* will not allow introducing new variables like this.
-
-In our implementation, we will design propositional functions just like propositions. The full detail is revealed in [tactics](./4_tactics.md).
-
-```Rocq
 (* This is an elementary proposition *)
-Example example_ch1_proposition (X : Prop) := X.
+Example example_ch1_proposition (P : Prop) := P.
 
 (* This is an asserted elementary function value *)
 Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
@@ -76,15 +53,27 @@ Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
 Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
 
-In general, chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
+It can be seen that, the alphabetical difference is the only way for us to distinguish between a *proposition* and a *proposition built up from a function*. To make the distinction clearer, here's our clues gathered and what we eventually conclude: 
+- *Proposition* can be *asserted*. *Propositional function* can be *asserted* by asserting any specific instance generated from a function, which, is a proposition.
+- Asserted propositional function can still change its variable to produce different proposition asserted
+- However, when deducing on the proof, we can also perform substitution on asserted propositions(e.g. \*2.02). 
+- Real variables, being revealed in later chapters, can be *generalized* into *apparent variables*, the variables of a `forall` or `exists`, for a proposition/function of higher order. See [chapter 9](./3_mechanics.md/#chapter-9) for meaning of generalization.
+- When using theorem, `Phi X` can freely substitute into a propositional variable `P`, and *vice versa*.
+- When we `Intro_` an extra variable, we din't find any generalization from letters of `P`, `Q`, `R`. Instead we always start from `X`, plus exceptions as functions.
+- `P`, `Q`, `R` can still be substituted into forms like `Phi x`, but never a single `x`. 
+- Everything asserted are *propositions*, while the modus ponens is mostly used as \*1.11 version for *propositional functions*
+- TODO: mention private conversation with Randall
 
+Our current conclusion is that we cannot identify the difference between *elementary proposition* and *elementary propositional function*. Higher order propositions and functions have more significant difference, will be revealed after [chapter 9](./3_mechanics.md/#chapter-9). In principle, we view everything in chapter 1 - 5 just as *propositions*, and elementary function manifests when we need to have a lambda term.
+
+Chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
-- Asserting an **elementary propositional function** means asserting `H1 : φ X`.
+- Asserting an **elementary propositional function** means asserting `H1 : φ X`. It's strictly "not asserting a proposition"(p.18), but practically the same.
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
-Being the actual *modus ponens*, we use \*1.11 almost everywhere in PM, and \*1.1 is generally not used(p.93). \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
+Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). For our implementation, we abstract all them away into a single polymorphic tactic `MP`.
 
 By proving a theorem, we mean:
 |           Property          |      Limitation        |
@@ -103,19 +92,18 @@ By proving a theorem, we mean:
 **Table X: Proving context for chapter 1 - 5**
 
 Note:
-- (p.92)Not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language.
-- (p.94)Definitional equality is undefined in PM.
-- **elementary functions** are closed under `¬` and `∨`.
+- (p.92)Not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language
+- (p.94)Definitional equality is undefined in PM
+- Elementary functions are closed under `¬` and `∨`
 
 ### Chapter 2
 While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
 
-- For general rules on citation, see related paragraphs in [How does Principia proof theorems?](./3_mechanics.md/#how-does-principia-proof-theorems).
+- For general rules on citation, see related paragraphs in [How does Principia prove theorems?](./3_mechanics.md/#how-does-principia-prove-theorems).
 - In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
-- Citations for modus ponens and syllogism will generally be omitted.
-
-TODO: 
-- distinguish between when to use MP and when to use Syll
+- (p.103)For each proof stepping in the form of `[S1 . S2 . S3]`, it is suggested to somehow construct a sequence of modus ponens with `MP`s
+- (p.105)For each citation chained up in the style of `|- P ([S1] ->) Q ([S2 ->] R ...)`, it is suggested to use syllogism to chain everything up with a syllogism tactic `Syll`
+- Citations for modus ponens and syllogism will generally be omitted, and in our implementation we allow them to be alternate freely
 
 ### Chapter 3
 Chapter 3 focuses on theorems about `∧`, which is constructed on `¬` and `∨`. 
@@ -124,13 +112,13 @@ Chapter 3 focuses on theorems about `∧`, which is constructed on `¬` and `∨
 Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics](./4_tactics.md).
 
 ### Chapter 5
-This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly proven because they are useful.
+This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly provided because they are useful.
 
 ### Chapter 9
 - **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them) and **elementary logical connectives**
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
-There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where the [example](./3_mechanics.md/#chapter-1) in chapter 1 starts to matter, where we can see *propositional functions* are really playing a central role in PM's reasoning. We introduce `Intro_` axioms to patch up for these functions, see `Intro_` mechanic in [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic), and review [chapter 1](./3_mechanics.md/#chapter-1) for explanation.
+There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics](./4_tactics.md) to patch up. TODO: write about this in `tactics`
 
 Chapter 9's theorems tries to generalize all over chapter 1 - 5, producing propositions with `forall` or `exists` and prove we can correctly generalize the previous theorems. It is brutally performed without using mathematical induction, since it is not allowed yet. It assumes that if our elementary propositional `¬` and `∨` is "enhanced" to allow to take one 1-order proposition as its operand, deduced theorems can extend all theorems in chapter 1 - 5 to their 1-higher order version. 
 
@@ -141,7 +129,7 @@ Propositions in chapter 9 starts to make a distinction between *elementary propo
 
 Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.52, p.162), which is a useful and natural feature that is still considered in later chapters.
 
-\*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus a convention for individuals. All individuals in a theorem, which are not propositions nor functions(p.51, p.132), *will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have exactly the same proposition type*. 
+\*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus a convention for individuals. All individuals in a theorem, which are not propositions(cannot be asserted and can only appear just like variables) nor functions(p.51, p.132), *will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have exactly the same proposition type*. 
 
 The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
 |          Notion          | Type name | Arguments                    | Identification rule                            |
@@ -209,7 +197,8 @@ Example example_proposition := ∀ (x : Prop) (φ : Prop → Prop), φ x.
 Several comments on matrices and functions:
 1. (p.52)Same the the treatment in [chapter 9](./3_mechanics.md/#chapter-9), matrix only takes matrices or individuals as variables
 2. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => φ x` and `fun x => ∀ φ, φ x`)
-3. It appears that any `∀`s and any `∃`, under this hierarchy, cannot be produced by directly instantiating some functions; we have to start from completely constructing a matrix, then obtain all the quantifiers through generalizing individuals/other matrices with a controlled scope. The procedure here is clearly unnatural. (TODO: relate to `tactics`)
+3. It appears that any `∀`s and any `∃`, under this hierarchy, cannot be produced by directly instantiating some functions; we have to start from completely constructing a matrix, then obtain all the quantifiers through generalizing individuals/other matrices with a controlled scope. Sometimes it will block us from, for example, perform generalization by instantiating on a *function* - which is not a *matrix*. Also see [tactics](./4_tactics.md) and the 4th comment below.
+4. (p.163) has given functions that we can generate from a matrix, of which including 2-order-higher function corresponded to a variable `x`. These examples are not derived from certain specific theorems, and are just demonstrated as eligible candidates. But in short, if we can construct a n-order matrix related to a variable `x`, we can almost immediately obtain a n-order function for variable `x`.
 
 There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). One crucial difference between real and apparent variables, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
 
@@ -218,8 +207,6 @@ There is another way to understand the difference between a matrix and a proposi
 2. On the other hand, sometimes we want to speak of as "many" functions as we can. It turns out that, while we cannot precisely say all functions of a parameter `a`, but we can say all `n`-order functions of a parameter `a` and set `n` to infinity.
 
 For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => φ a` with `φ` of order `n`, we can simulate with a predicate function `fun a => ψ a`. The predicativity of `ψ` here means it is just 1-order higher than `a`, and we are assuming *this `ψ` exists*. In the context of [chapter 13](./3_mechanics.md/#chapter-13), we can have a more intuitive understanding.
-
-TODO: add demonstration of 2-order-higher function for a `x`
 
 Chapter 12 also brings the symbol `!` to awareness, and will be frequently used in later chapters. `!` has several different meanings all within the same time:
 1. Emphasize(p.163, the second "It will be seen that...") that we might consider both the function and its parameter as variables for an expression. The purpose is to make functions as variables easier for people to recognize.
@@ -245,8 +232,6 @@ By proving a theorem, we mean,
 - Not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
 - For the hierarchy in this chapter, we have implemented a `Order` type. See [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
 
-TODO: recheck chapter 12 completely
-
 ### Chapter 13
 In Rocq, we have different types for `=`. We can have `=` on propositions, `=` on `=` between propositions, `=` on `=`... and so on. Russell realized that he should give the `=` a similar treatment, but the hierarchy is slightly different: `=` is itself treated as a propositional function, and `=` can be an identity on 1st order, second order, ... arbitrary order functions. The first citation of chapter 12's axiom of reducibility appears at \*13.101, and with which applied to \*13.101, the order of `=` has been generally collapsed off. 
 
@@ -255,14 +240,12 @@ The identity has to be defined at such a late chapter(p.22), because:
 2. Functions comes with different types within the hierarchy defined in chapter 12
 3. Axiom of Reducibility has to be used in the proof, also because of the hierarchy. Also see (p.57) for a informal reasoning on why it needs to be used
 
-Also see audit's [chapter 12 & 13](./5_audit.md/#chapter-12) for a deeper analysis. (TODO: reexamine and consider if we should put here)
-
 ### Chapter 14
 This chapter begins with a significantly complicated symbol `(ιx)(φx)` to denote a *description*. Here are the reasons why this symbol is such complicated:
 - `(ιx)` means the descriptions should be treated as the same type of a `x`. In chapter 20, `x` will be lifted to some random `α` denoting classes
 - `(φx)` means the description should describe a thing just like `φx`
 
-This "incomplete symbol"(p.67) comes with an explicit "scope" notion, also implicitly required for symbols later chapters. Since `ι` will also apply to new symbols in later chapters such as *class* in chapter 20, we design `ι`, and in general symbols defined with `Notation` to be polymorphic. See related parts in [chapter 20](./3_mechanics.md/#chapter-20) and [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
+This "incomplete symbol"(p.67) comes with an explicit "scope" notion, also implicitly required for symbols later chapters. For the scope, we find Rocq's *lambda calculus* the perfect candidate for such a restriction. Since `ι` will also apply to new symbols in later chapters such as *class* in chapter 20, we design `ι`, and in general symbols defined with `Notation` to be *polymorphic*. See related parts in [chapter 20](./3_mechanics.md/#chapter-20) and [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
 
 ### Chapter 20
 Definition of class in this chapter, at first glance, appears to be pretty obscure. It is not being stated clearly like a structure, and instead, how is it defined is written *in the middle of the text*. An extra difficulty at understanding its definition is its similarity to the definition of a function `Psi x^`. Both class and function(actually, its first appearance at \*20.59) have been presented in this chapter's theorems.
@@ -293,24 +276,28 @@ While not being stated explicitly, being hinted in previous chapters(TODO: sourc
 
 Besides the new context for proof, we're facing many more difficulties than all of the previous chapters, which I classify into 2 issues: *notation design* and *scoping*. Identifying these problems already slows the completion of formalization way much more than all previous chapters.
 
-TODO: On representation of class: inspired why we want to leave notations polymorphic; relate with `tactics`
+TODO: should we move to `audit`?
+We have previously made several **failed** attempts to define the type for class `Class`. Suppose we want to build class on a function `A -> Prop`, I have tried:
+- Define `Class` only using functions
+- Define `Class` as (A, Phi)
+- Define `Class` as inductive type. 
 
-failed attempts:
-- Defining `Class` only using functions
-- Defining `Class` as (A, Phi)
-- Defining `Class` as inductive type. one of the draft:
-  ```
-  Definition Cls {A : Type} {Phi : A → Prop} : Class.t
-    := Class.Build_t A Phi. 
-  ```
-- TODO: also explain the history of how we decide to use notations 
-  somewhere in tactics/mechanics
+In practice, defining `Class` with record can make the function it holds *implicit*, while exposing and extracting `A` peacefully. Our current definition resulted in theorems demanding `let` clause at the beginning of the proof; but soon we find out that if we design parsing and printing notations separately(see `only printing` code in `ch20.v`), we can pertain a good notation. 
 
-representation which turns out to be illegal(which our notation design 
-doesn't prevent) :
-- X <class_in> (^ z => Psi z)
-- [^z => Phi z @ cz1 => cz1 = cz1]
-- Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
+Even still, our notation doesn't prevent several *illegal* construction cases; see [style guide](./contribution_guide/style_guide.md). After further refinements, we are supposing that PM's *scoping* mechanic is under consideration. It can be fixed with extra axioms, but it doesn't prevent such nature. See [audit](./5_audit.md/#chapter-20).
+
+TODO: move to audit; demonstrate scoping issue
+scoping convention:
+- scoping is under consideration but can be fixed nicely. 
+- scoping is usually treated with symbols, not separately - unreusable
+- default scope is the minimum subexp containing the symbol, except for only itself
+- We should design axioms related to notation directly applying on proof/goal
+- if possible we want to moreover internalize the scopes (maybe determining the scope
+  when computing?) so that it can be automatically inferred
+- the 1st operand of a binop has larger scope than the 2nd operand. e.g. `x=y`
+- descriptions have larger scope than classes, but still have to infer from the proof
+- the swapping between the scopes seems to be lacking of consideration. TODO: recheck 
+  related theorems
 
 
 ----------------
@@ -320,17 +307,3 @@ TODO:
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
 - ch9: recheck the definition of `forall` after we know what is a proposition
-
-TODO: ch20: integrate the following: 
-
-scoping convention:
-- scoping is under consideration but can be fixed nicely. 
-- default scope is the minimum subexp containing the symbol, except for only itself
-- We should design axioms related to notation directly applying on proof/goal
-- if possible we want to moreover internalize the scopes (maybe determining the scope
-  when computing?) so that it can be automatically inferred
-- the 1st operand of a binop has larger scope than the 2nd operand. e.g. `x=y`
-- descriptions have larger scope than classes, but still have to infer from the proof
-- the swapping between the scopes seems to be lacking of consideration. TODO: recheck 
-  related theorems
-  

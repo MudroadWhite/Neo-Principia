@@ -18,7 +18,7 @@ That being said, all conventions introduced below **applies after chapter 9**.
 ## What's under a single `.v` file?
 1. `Require Import` that cites other chapters and `lib.v`, so that you can use theorems and tools from these imported files.
 2. Occasional comments to explain what has been done here and there
-3. *Variants* for existing theorems. This includes
+3. [Variants](./4_tactics.md/#polymorphism-and-the-variant-mechanic) for existing theorems. This includes
    - `Admitted` propositions postfixed with `_alt`, `_pred` or `_class`
    - Locally introduced propositions postfixed with `a` within a `TOOLS` section, introduced below
 4. Self-defined Rocq predicates, being necessary in later chapters. They should be put in the beginning of each chapters rather than being aggregated in `lib` to prevent large loading overhead and unnecessary warnings during compilation.
@@ -34,7 +34,7 @@ Rocq's `Definition`s are used to define *primitive propositions* and *definition
 
 Similarly, `Theorem`s are used to define *theorems* in Principia, and are intended to be proven and `Qed`ed.
 
-Every `Definition` or `Theorem` represents a proposition in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, which will be mostly discussed in the [tactics](./4_tactics.md) chapter; and *lhs* parameters are the real ones to *set a proposition up*.
+Every `Definition` or `Theorem` represents a proposition(actually, a "propositional function" - see [mechanics](./3_mechanics.md/#chapter-1)) in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, which will be mostly discussed in the [tactics](./4_tactics.md) chapter; and *lhs* parameters are the real ones to *set a proposition up*.
 
 Additionally, for theorems in Principia, we are allowed to set up its *variants*. This will be also explained in [tactics](./4_tactics.md).
 
