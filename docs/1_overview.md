@@ -17,6 +17,20 @@ Here is our take: pertain maximum PM flavor. Which means:
 - We want each proof step be followed and presented
 - In addition, we are allowed to simplify PM's proof when it goes tedious
 
+
+TODO: 
+- "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple [tactics](./docs/4_tactics.md). One theorem a line.
+- "Just as it is": Principia flavor in maximum strength: Following PM's symbol definitions, deductions faithfully. Clear proof structure, clean, maybe beautiful proof window. 
+- [Documented](./docs/README.md)(WIP - will be rewritten for most of the parts) and with [slides](./slides/).
+
+To be more exact, we have:
+- Demonstrated a proof architecture to formalize most of the theorems in Principia Mathematica with remarkable strength
+  - This architecture has maintained a balance between term-level clarity and proof simplicity
+  - This architecture has broken the record of the formalization pass through chapter 5 to chapter 20, haven't yet unleashed its maximum potential
+- Provided a clear document to help readers go through the apocalypse
+- Identified several defects and ambiguity in PM from a modern theorem prover's perspective
+- Proposed a specification for prospective participants for grinding down to perfection
+
 ## Can Principia Mathematica be completely formalized?
 Yes. There are 3 arguments to support formalizing PM:
 1. Modern provers have enough tools to design a language

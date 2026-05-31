@@ -1,9 +1,9 @@
 # Mechanics of Principia Mathematica
 ## Basic setups
-### How many types of propositions are there in Principia?
-Principia has 3 types(not mathematical type) of propositions: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). 
+### How many types of statements are there in Principia?
+Principia has 3 types(not mathematical type) of statements: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). 
 
-There are 3 hidden trait of propositions in Principia, being written mostly in natural language. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules. Only some exceptions don't belong to these 3 traits, presented in chapter 1.
+There are 3 hidden trait of statements in Principia, being written mostly in natural language. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules. Only some exceptions don't belong to these 3 traits, presented in chapter 1.
 1. Typing a specific symbol, extending to more general cases
 2. Extending *modus ponens* for a specific symbol
 3. Extending *generalization* or *instantiation* for a specific symbol
@@ -37,12 +37,14 @@ We now start exploring the main ideas for each chapters.
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 ### Chapter 1
-- **elementary propositions** are propositions either atomic, or only connected with `\/` or `~`s
-- **elementary functions** are propositions build up with *at least* one *real variables*(p.19).
+The difference between a function and a proposition is scattered through Introduction's chapter I, II, III and chapter 1. Here is our attempt to make the most precise definition.
 
-```Rocq
+- **elementary propositions** contains no variables. They are strictly alphabets after `P`, `Q`, and so on, in chapter 2 - 5(p.91).
+- **elementary functions** are propositions build up with *at least* one *real variables*(p.19). Real variables are alphabetical letters starting after `X`. 
+
+```Coq
 (* This is an elementary proposition *)
-Example example_ch1_proposition (X : Prop) := X.
+Example example_ch1_proposition (P : Prop) := P.
 
 (* This is an asserted elementary function value *)
 Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
@@ -50,13 +52,27 @@ Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
 (* This is the actual way to write the function, but we won't use it *)
 Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
-From the example above we can see that we don't really have a nice representation to distinguish between elementary propositions and elementary functions. Real variables, being revealed in later chapters, can be generalized into *apparent variables*, the variables of a `forall` or `exists`, for a proposition/function of [higher order](./3_mechanics.md/#chapter-9). Elementary propositions and functions don't have apparent variables at all, so the only thing to distinguish between them is whether they are built up with real variables, which is called *ambiguous assertion*(p.17).
+
+It can be seen that, the alphabetical difference is the only way for us to distinguish between a *proposition* and a *proposition built up from a function*. To make the distinction clearer, here's our attempt and what we have eventually found: 
+
+- *Proposition* can be *asserted*. *Propositional function* can be *asserted* by asserting any specific instance generated from a function, which, is a proposition.
+- Asserted propositional function can still change its variable to produce different proposition asserted
+- However, when deducing on the proof, we can also perform substitution on asserted propositions(e.g. \*2.02). 
+- Real variables, being revealed in later chapters, can be *generalized* into *apparent variables*, the variables of a `forall` or `exists`, for a proposition/function of higher order. See [chapter 9](./3_mechanics.md/#chapter-9) for meaning of generalization.
+- When we `Intro_` an extra variable, we din't find any generalization from letters of `P`, `Q`, `R`. Instead we always start from `X`, plus exceptions as functions.
+- `P`, `Q`, `R` can still be substituted into forms like `Phi x`, but never a single `x`. 
+
+Our current conclusion is that we can clearly identify when will we view a *proposition* as a *propositional function*, but we cannot identify when a proposition is being asserted as a function. The difference for elementary proposition and elementary propositional function is very small. Higher order propositions and functions have more significant difference, will be revealed after [chapter 9](./3_mechanics.md/#chapter-9).
+
+TODO: relation between theorems defined with proposition and theorems define with propositional function
+
+
 
 Chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
-- Asserting an **elementary propositional function** means asserting `H1 : φ X`.
+- Asserting an **elementary propositional function** means asserting `H1 : φ X`. It's strictly "not asserting a proposition"(p.18), but practically the same.
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
 TODO: recheck occurence of \*1.1 in chapter 1 - 5
@@ -89,9 +105,9 @@ While everything in chapter 1 are primitive propositions, chapter 2 starts to us
 
 - For general rules on citation, see related paragraphs in [How does Principia prove theorems?](./3_mechanics.md/#how-does-principia-prove-theorems).
 - In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
-- Citations for modus ponens and syllogism will generally be omitted.
-
-TODO: distinguish between when to use MP and when to use Syll
+- (p.103)For each proof stepping in the form of `|- A1 -> [S] |- A2`, it is suggested to somehow construct a `MP S A1` to obtain `A2`.
+- (p.102)For each citation chained up in the style of `[S1 . S2 . S3]`, it is suggested to use syllogism to chain everything up, as demonstrated in \*2.15
+- Citations for modus ponens and syllogism will generally be omitted
 
 ### Chapter 3
 Chapter 3 focuses on theorems about `∧`, which is constructed on `¬` and `∨`. 
@@ -100,7 +116,7 @@ Chapter 3 focuses on theorems about `∧`, which is constructed on `¬` and `∨
 Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics](./4_tactics.md).
 
 ### Chapter 5
-This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly proven because they are useful.
+This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly provided because they are useful.
 
 ==================================
 
