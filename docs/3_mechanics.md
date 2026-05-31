@@ -11,19 +11,16 @@ There are 3 hidden trait of propositions in Principia, being written mostly in n
 ### How to read the propositions in Principia?
 Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and their hints on priority, surprisingly, never go wrong. One can understand the priority, without knowing much on dot notations.
 
-Each propositions in PM is supposed to come with a type, and the types form a hierarchy. Still,  PM doesn't express the hierarchy directly. PM's typing rules say "what different terms can be considered as the same type". Such "of the same type" style definitions have been scattered into all the chapters.
+Each proposition in PM is supposed to come with a type within a type hierarchy. Still, PM doesn't have a notion for types, nor will it explicitly label the hierarchy. PM proposes its typing algorithm as theorems of "what different terms can be considered *of the same type*". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
-(TODO: address the composition with polymorphic symbol definition)
-
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
-(TODO: address variants; name as hierarchy property; recheck everywhere mentioning inheritence)
+Principia also defines symbols in an **inheriting way**, as there are many hierarchies in PM system. From our limited knowledge prior to chapter 20, there are already 3 hierarchies existing in the text, plus 2 ad-hoc context from chapter 1 - 9 for easy definition. If one read from beginning to the end, he will occur to a lot of situation that "we can use our previous theorems in another way".
 
-Principia also defines symbols in an **inheriting way**. Propositions in a chapter "will be used in different ways" for later chapters. For example: 
-1. In an early chapter, we define what is an *animal*, and write down theorems about it.
-2. In a later chapter, we divide *animal*s into *dog*s and *cat*s.
-3. To prove a theorem in later chapter, we directly reuse *animal* theorems instead of reinventing their analogues in *dog*s and *cat*s.
+TODO: mention in `tactics`: 
+- we address composition property by polymorphic symbol; check `audit` for composition occurrence
+- we address inheriting property by variant mechanic; check `audit` for inheritence occurrence
 
 ### How does Principia prove theorems?
 Principia designs its theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
@@ -41,8 +38,13 @@ We now start exploring the main ideas for each chapters.
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 ### Chapter 1
 Principia Mathematica uses propositional functions for most of the inference.(Also see [Randall's](https://randall-holmes.github.io/Drafts/pmsemantics.pdf))
-- **elementary propositions** are only the atomic letters such as `P` and `Q` (TODO: check p.94)
-- **elementary functions** are almost everything else involving any logical connectives
+
+TODO: (p.21) RREWRITE EVERYTHING ABOUT PROPOSITIONAL FUNCTIONS AND PROPOSITIONS; MENTION THE IMPORTANCE OF REAL VARIABLES AS IDENTIFIERS
+
+- **elementary propositions** are propositions either atomic, or only connected with `\/` or `~`s
+- **elementary functions** are propositions build up with *at least* one *real variables*(p.19)
+
+TODO: introduce real variables
 
 ```coq
 (* This is almost the only way to present an e-prop *)
