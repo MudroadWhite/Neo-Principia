@@ -10,18 +10,17 @@ We also have a type system, defaulted by most people, in [Lean](https://www.yout
 ## What is the aesthetics for this project?
 For formalizing Principia Mathematica, there can be many features that you want to address with. [pmGenerator](https://github.com/xamidi/pmGenerator) tries to produce the shortest proof as possible. [Randall's work](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) attempts at reducing the complexity of PM with better mathematical notions. There might be ppl having other directions, such as providing maximum automation for Principia Mathematica's deduction.
 
-Here is our take: pertain maximum PM flavor. This has been concentrated into the following slogan:
+Here is our take: pertain maximum PM flavor. This has been concentrated into the following slogans:
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple [tactics](./docs/4_tactics.md). One theorem a line.
 - "Just as it is": Following PM's symbol definitions, deductions faithfully. Clear proof structure, clean, maybe beautiful proof window. 
-- [Documented](./docs/README.md) and with [slides](./slides/).
 
 To be more exact, we have:
 - Demonstrated a proof architecture to formalize most of the theorems in Principia Mathematica with remarkable strength
   - This architecture has maintained a balance between term-level clarity and proof simplicity
   - This architecture has broken the record of the formalization pass through chapter 5 to chapter 20, haven't yet unleashed its maximum potential
-- Provided a clear documentation to help readers go through the apocalypse
-  - Identified several defects and ambiguity in PM from a modern theorem prover's perspective
-  - Proposed a specification for prospective participants for grinding down to perfection
+- Provided a clear series of [documentation](./docs/README.md) to help readers go through the apocalypse
+  - Which also identifies several defects and ambiguity in PM from a modern theorem prover's perspective
+  - Which also proposes a specification for prospective participants for grinding down to perfection
 
 ## Can Principia Mathematica be completely formalized?
 Yes. There are 3 arguments to support formalizing PM:
