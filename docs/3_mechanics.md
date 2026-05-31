@@ -37,42 +37,8 @@ We now start exploring the main ideas for each chapters.
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 ### Chapter 1
-Principia Mathematica uses propositional functions for most of the inference.(Also see [Randall's](https://randall-holmes.github.io/Drafts/pmsemantics.pdf))
-
-TODO: (p.21) RREWRITE EVERYTHING ABOUT PROPOSITIONAL FUNCTIONS AND PROPOSITIONS; MENTION THE IMPORTANCE OF REAL VARIABLES AS IDENTIFIERS
-
 - **elementary propositions** are propositions either atomic, or only connected with `\/` or `~`s
-- **elementary functions** are propositions build up with *at least* one *real variables*(p.19)
-
-TODO: introduce real variables
-
-TODO: there seems to be no specification for when prop funcs can turn into props or vice versa
-
-```coq
-(* This is almost the only way to present an e-prop *)
-Example example_e_proposition (X : Prop) := X.
-
-(* This is an elementary function. It uses a connective `∧` and is not atomic *)
-Example example_e_prop_function (X : Prop) := X ∧ Y.
-```
-
-It turns out that, PM function's variables are not bounded and [occurr freely](./3_mechanics.md/#how-does-principia-prove-theorems); also, they don't have the currying in typical FPs, but more like the function in C language where you have to pass in all parameters at once. Such a distinct design allows PM to perform its deduction *mostly on propositional functions*. Text like "x ∧ y" actually means `(fun x y => x ∧ y)`, where parameters are all symbols appeared within". Proposition mostly play an auxiliary role in PM, until chapter 9. 
-
-We might design our proof like the following example:
-```Coq
-(* Assuming there is a `Asserted` predicate for arbitrary Rocq functions *)
-Theorem example_prop_func_theorem : Asserted (fun P => P → P). Admitted.
-
-Theorem example_prop_func_proof : Asserted (fun P Q => (P ∧ Q) → (P ∧ Q)).
-Proof.
-  assert (S1 : Asserted (fun P => P → P)).
-  { apply example_prop_func_theorem. }
-  assert (S2 : Asserted (fun P Q R => (P → Q) → (Q → R) → (P → R))).
-  { (* ... *) }
-Admitted.
-```
-
-Our current implementation designs propositional functions just like propositions. The reason is revealed in [tactics](./4_tactics.md), but formalizing with a better representation is considerable. Notice how an extra `R` can be presented as a legit variable in example above, which is not being introduced as a variable of `example_prop_func_proof`. Inferences on typical, maybe modern *propositions* will not allow introducing new variables like this, but such difference is not significant till [chapter 9](./3_mechanics.md/#chapter-9).
+- **elementary functions** are propositions build up with *at least* one *real variables*(p.19).
 
 ```Rocq
 (* This is an elementary proposition *)
@@ -84,6 +50,7 @@ Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
 (* This is the actual way to write the function, but we won't use it *)
 Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
+From the example above we can see that we don't really have a nice representation to distinguish between elementary propositions and elementary functions. Real variables, being revealed in later chapters, can be generalized into *apparent variables*, the variables of a `forall` or `exists`, for a proposition/function of [higher order](./3_mechanics.md/#chapter-9). Elementary propositions and functions don't have apparent variables at all, so the only thing to distinguish between them is whether they are built up with real variables, which is called *ambiguous assertion*(p.17).
 
 Chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
 - Having something in our proof window means it has been asserted/implied true
@@ -92,7 +59,9 @@ Chapter 1 also presents some fundamental `Pp`s to set everything up, and we find
 - Asserting an **elementary propositional function** means asserting `H1 : φ X`.
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
-Being the actual *modus ponens*, we use \*1.11 almost everywhere in PM, and \*1.1 is generally not used(p.93). \*1.11 will come to more significance after [chapter 9](./3_mechanics.md/#chapter-9).
+TODO: recheck occurence of \*1.1 in chapter 1 - 5
+
+Being the actual *modus ponens*, we use \*1.11 almost everywhere in PM, and \*1.1 is generally not used(p.93).
 
 By proving a theorem, we mean:
 |           Property          |      Limitation        |
@@ -122,8 +91,7 @@ While everything in chapter 1 are primitive propositions, chapter 2 starts to us
 - In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
 - Citations for modus ponens and syllogism will generally be omitted.
 
-TODO: 
-- distinguish between when to use MP and when to use Syll
+TODO: distinguish between when to use MP and when to use Syll
 
 ### Chapter 3
 Chapter 3 focuses on theorems about `∧`, which is constructed on `¬` and `∨`. 
@@ -133,6 +101,8 @@ Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. 
 
 ### Chapter 5
 This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly proven because they are useful.
+
+==================================
 
 ### Chapter 9
 - **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them) and **elementary logical connectives**
