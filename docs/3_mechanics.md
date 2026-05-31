@@ -46,6 +46,8 @@ TODO: (p.21) RREWRITE EVERYTHING ABOUT PROPOSITIONAL FUNCTIONS AND PROPOSITIONS;
 
 TODO: introduce real variables
 
+TODO: there seems to be no specification for when prop funcs can turn into props or vice versa
+
 ```coq
 (* This is almost the only way to present an e-prop *)
 Example example_e_proposition (X : Prop) := X.
