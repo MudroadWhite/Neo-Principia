@@ -174,3 +174,24 @@ TODO:
 - Lacking of distinction between language and interpretation
 - there might be a astonishing lot to do for propositional functions
 - ch9: we didn't clearly identify what are propositions and what are prop functions for the theorems
+
+**Representation conversion**. With our current design on class, `Alpha := ^z => FAlpha z` for some function `FAlpha`, we will call `Alpha` the representation of a *class variable*, while `FAlpha` the *underlying function*. Through the proof we can observe several facts:
+- While \*20.21 is using `alpha` as its representation of class, \*20.55 want to use it when it has been instantiated into a function
+- \*20.42 associates `Psi` with `Alpha` without explicitly mentioning such association
+- \*20.53, while only uses `Alpha` in its representation, automatically 
+- \*20.61 has explicitly stated its variant to switch between its class variable and its underlying construction with function
+- One can also consider, if for our current design, `FAlpha` turns out to be some `Class.t A -> Prop`, and for that exclusive `Class.t A` instance we didn't provide its underlying function.
+
+Above information suggests us to develop a general way to make an assumption such that we can freely associate an underlying function with a class variable, immediately and anywhere in the proof, even if it's right started in the definition.
+
+**scoping convention**:
+- scoping is under consideration but can be fixed nicely. 
+- scoping is usually treated with symbols, not separately - unreusable
+- default scope is the minimum subexp containing the symbol, except for only itself
+- We should design axioms related to notation directly applying on proof/goal
+- if possible we want to moreover internalize the scopes (maybe determining the scope
+  when computing?) so that it can be automatically inferred
+- the 1st operand of a binop has larger scope than the 2nd operand. e.g. `x=y`
+- descriptions have larger scope than classes, but still have to infer from the proof
+- the swapping between the scopes seems to be lacking of consideration. TODO: recheck 
+  related theorems
