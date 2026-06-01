@@ -28,22 +28,19 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 
 **Table X: Full PM features considered and their implementations in Rocq**
 
-## How do we assert a proposition is true?
+## How do we assert a statement is true?
 **The story starts with a very simple beginning.** To assert a cited theorem is true, we `pose` a proof, which is pretty elementary in Rocq. Voila.
 
 **`pose proof` is the only candidate to prettify the `pose`.** The `pose` can ensure the proof window logically correct, but *visually* awful. Proof terms will take away a large part of space, before the type of terms come into our view. We are not doing backward reasoning, nor are these proof terms meaningful - we will use a lot of `setoid_rewrite`, being introduced in later section.
 
 **We then add some tactics to conclude a proof.** `pose proof` doesn't solve a goal. `apply` allows us to solve the goal automatically with a theorem. `now` allows us to solve the goal as soon as we have deduced the right proposition. `exact`, as mentioned in the [architecture](./2_architecture.md), is exclusively used to hint that we have covered all steps in a proof to conclude a `Qed`.
 
-TODO: sometimes introduce extra variables... give example
-
-**Instead, we are using *propositions* to model propositional functions,** while simulating the feature to set up arbitrarily more propositional "variables" - actually constants that cannot be substituted; they must only to be introduced in the `TOOLS` section at the beginning of the proof. These "real" variables are mostly for being *generalized* into a quantified apparent variable, the `x` in a `∀ x`. This is being done by a series of axioms in `lib.v`, prefixed with `Intro_`. The complete method to use `Intro_` in the proof is `set (X := Intro_ ...)`, available everywhere in the proof files as the identifier of *the `Intro` mechanic*.
+**Sometimes, the proof further involves extra variables.** See for example \*9.37, adding a new real variable in the middle of the proof, just to be *generalized* in the future. To resolve this, we add a series of axioms in `lib.v`, prefixed with `Intro_`, and add a line of `set (X := Intro_ ...)` in the `TOOLS` section. This is called the `Intro` mechanic. Without the `Intro` mechanic, intermediate statements cannot be normally asserted.
 
 ## How do we rewrite a proposition?
 **PM is supposed to only use modus ponens** to its ideal. It starts with \*1.11, but generalize manually to more cases once a new notion/symbol has been introduced into a chapter. Therefore, each chapter will contain a *modus ponens* equivalent, whenever necessary.
 
-TODO: rewrite below
-***Generalization* is another way to produce a new proposition.** In particular, *quantified propositions* are only constructed through: *generalization*, being explained in [mechanics](./3_mechanics.md). As we're using propositions to model the prop functions, Generalization has to utilize `Intro_` mechanics a lot. Similar to MP, generalization will also have its extension in each of the chapters.
+***Generalization* is another way to produce a new proposition.** In particular, *quantified propositions* are only constructed through: *generalization*, being explained in [mechanics](./3_mechanics.md). Generalization utilizes `Intro_` mechanics a lot. Similar to MP, PM also extend generalize for each symbols in each of the chapters.
 
 ### Bottom up construction
 **Besides quantified propositions, how do we produce a proposition in general?** The whole procedure can be splitted into 4 steps:
@@ -123,8 +120,6 @@ Theorem associating_function_to_class (FAlpha : Prop → Prop) :
 TODO: provide an association by default
 
 **...And we forgot to look upwards of the `A`.** We have just considered the case to generalize between `Class` and `Prop`. How about the *hierarchies* betwwen `Class` and `Prop`? Our implementation has not address anything about this, and this will be discussed in [suggestion](./_6_suggestion.md).
-
-TODO: is hierarchy in PM already 2-dimensional?
 
 As a summary: we are witnessing that there are many dimensions for us to generalize, which is not just simply a polymorphism. We need polymorphism setups separately to:
 - generalizes on orders
