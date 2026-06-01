@@ -18,7 +18,7 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 | Proposition order                                               | `Order` type                                    |
 | Theorem polymorphism                                            | The Variant mechanic                            |
 | Extra instances/interpretations                                 | The `Intro` mechanic                            |
-| Symbol interpretation                                           | `let` clause + TODO mechanic                    |
+| Symbol interpretation                                           | `let` clause + explicit interpretation mechanic |
 | **Part 2: Computation**                                         | -                                               |
 | Stepping forward                                                | `assert`                                        |
 | Conclude a step/a proof                                         | `apply`+`now`/`exact`                           |
@@ -104,10 +104,13 @@ TODO: mention extra types for symbols, by Randall; since we have observed the cl
 
 **Beneath the `A` polymorphism is also a whole new rabbit hole.** As mentioned in [mechanics](./3_mechanics.md/#chapter-20) (TODO: finish related part in chapter 20), sometimes we have to *expose the interpretation beneath the language* by assigning a class variable with an associated function. PM has several defects on such treatment, and we are supposing that... 
 
-**Russell hasn't distinguished between his language and interpretation,** for the following reasons:
-1. PM has completely no text nor notion to state when to *associate* what function with a class. (TODO: add example theorems from chapter 20)
-2. PM has designed cases for both interpretation and language without knowing what does it mean. See (TODO: add example theorems from chapter 20)
-3. Even a level down, sometimes PM will cite a theorem from interpretation, while it should be used otherwise. (TODO: add example theorems from chapter 20)
+**Russell hasn't distinguished between his language and interpretation,**. We are witnessing numerous examples in chapter 20 in particular. As we're currently designing class as `Alpha := ^z => FAlpha z` for some function `FAlpha`, we will call `Alpha` the representation of a *class variable*, while `FAlpha` the *underlying function*. Through proofs in the book we can observe several facts:
+- While \*20.21 is using `alpha` as its representation of class, \*20.55 want to use it when it has been instantiated into a function
+- \*20.42 associates `Psi` with `Alpha` without explicitly mentioning such association
+- \*20.53, while only uses `Alpha` in its representation, automatically 
+- \*20.61 has explicitly stated its variant to switch between its class variable and its underlying construction with function
+- One can also consider, if for our current design, `FAlpha` turns out to be some `Class.t A -> Prop`, and for that exclusive `Class.t A` instance we didn't provide its underlying function.
+- Even a level down, sometimes PM will cite a theorem from interpretation, while it should be used otherwise.
 
 **Because of the lacking of association, some of our theorems use `let` as a result.** See example below, and related [mechanics](./3_mechanics.md/#chapter-20)/[naming convention](./contribution_guide/style_guide.md) part.
 ```Coq
@@ -117,7 +120,7 @@ Theorem associating_function_to_class (FAlpha : Prop → Prop) :
   .
 ```
 
-TODO: provide an association by default
+**In addition, we are supposed to develop a mechanic to *explicitly interpret* the terms.** TODO: explicit interpretation for ch20
 
 **...And we forgot to look upwards of the `A`.** We have just considered the case to generalize between `Class` and `Prop`. How about the *hierarchies* betwwen `Class` and `Prop`? Our implementation has not address anything about this, and this will be discussed in [suggestion](./_6_suggestion.md).
 
@@ -125,6 +128,8 @@ As a summary: we are witnessing that there are many dimensions for us to general
 - generalizes on orders
 - generalize on argument lengths
 - generalize between different types
+
+And maybe most importantly: give a *unique type* to a term, so that types from these 3 hierarchies don't interfere with each other.
 
 ## Simplification and debugs
 **Chores.** Occasionally, we want to even further simplify the proof down, because:

@@ -150,31 +150,14 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 **General.** 
 TODO: 
 - types has become complicated... refer to Randall's work, discuss how should we consider the types(TODO: reexamine this claim)
-- notation has reached its limit to express: Rocq will not show the correct representation due to our design; we therefore split the parsing and printing notation
-- Class(or polymorphic requirement) as a parameter limited many things, including `pose proof`
+- proving every steps in ch20 has been increasingly harder
+- (polymorphic symbol)Class(or polymorphic requirement) as a parameter limited many things, including `pose proof`
 - we want to separate the symbol definition against computation by setting up the `Admitted` clearly, but it is definitely not that clean in our current implementation
-- "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps? it is something focused on how automatic PM can be, not on structural similarity
-- Consideration on functions(`Prop -> Prop`) seems to interfere with our `_pred` treatment changing the order base
-- Using class as an variable "just like how propositional vars is", as being used in n10_1
 - (n20_07)order shift interferes with some proving routines in PM
 - (n20_19)`setoid_rewrite` seems to ignore the order issue
-- proving every steps in ch20 has been increasingly harder
-- scope related criticism in chapter 20 code
-- "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps?
-- (highly volatile)if setups for theorems are too complicated, we might need to use `Section`s in Coq
 
-TODO: 
-- this chapter will not emphasize on implementation details
-- Lacking of distinction between language and interpretation
-- there might be a astonishing lot to do for propositional functions
+TODO:  
 - ch9: we didn't clearly identify what are propositions and what are prop functions for the theorems
-
-**Representation conversion**. With our current design on class, `Alpha := ^z => FAlpha z` for some function `FAlpha`, we will call `Alpha` the representation of a *class variable*, while `FAlpha` the *underlying function*. Through the proof we can observe several facts:
-- While \*20.21 is using `alpha` as its representation of class, \*20.55 want to use it when it has been instantiated into a function
-- \*20.42 associates `Psi` with `Alpha` without explicitly mentioning such association
-- \*20.53, while only uses `Alpha` in its representation, automatically 
-- \*20.61 has explicitly stated its variant to switch between its class variable and its underlying construction with function
-- One can also consider, if for our current design, `FAlpha` turns out to be some `Class.t A -> Prop`, and for that exclusive `Class.t A` instance we didn't provide its underlying function.
 
 Above information suggests us to develop a general way to make an assumption such that we can freely associate an underlying function with a class variable, immediately and anywhere in the proof, even if it's right started in the definition.
 

@@ -267,7 +267,7 @@ However, there turns out to be more issues with class notation. Here we will lis
 - To make the symbols work with each other, we eventually developed a design principle called "monomorphic theorems, polymorphic symbols". See [tactics](./4_tactics.md).
 - Even with our notation definition, our notation doesn't prevent several *illegal* construction cases. See [style guide](./contribution_guide/style_guide.md).
 - Class is generally missing a lot of things for dealing with the *scope*s. See [audit](./5_audit.md) for an analysis.
-- Also, class is a good example that Russell doesn't make a clear distinction between language and its interpretation, so that we need to design a  treatment for *representation conversion*. See [audit](./5_audit.md).
+- Also, class is a good example that Russell doesn't make a clear distinction between language and its interpretation, so that we need to design a mechanic of *explicit interpretation*. See [tactics](./4_tactics.md).
 
 While not being stated explicitly, being mentioned in previous chapter(p.165), class, relations, etc. constitute to a "more convenient" new hierarchy. This is because theorems in this chapter has prepared a lot of aspects for class, including its equivalent for Axiom of Reducibility. It doesn't, though, provide insights such as "what is the equivalent of matrix to class?" and so on. That being said,
 
