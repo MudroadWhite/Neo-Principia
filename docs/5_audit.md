@@ -41,9 +41,6 @@ TODO: (brief introduction to missing tactics)
 TODO: special theorems that are not used in supposed way
 
 ### Basic setups
-**TODO: MP vs Syll**
-TODO: mostly freely used, and don't follow the text
-
 **How much can we automate for Principia Mathematica?**
 The most ideal point to increase the automation for PM seems to start from `rewrite`s, that is, we should design a more automated `rewrite` that can
 - Design a function plus its parameters that matches up with the target proposition
@@ -127,9 +124,7 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 - **\*13.101.** Russell stated in the text that the proof for \*13.101, \*13.15-17 should be "taken as a primitive idea"(p.169). We do find odds that blocks this proof, but it comes from a completely different reason, and a complete proof can still be given. Our proof involves using a Rocq `destruct` to get out of the routine. What the simplification we made here, inherently, is to assume we can have `(∃ x, P x) ∧ (∃ x, Q x) → (∃ x, P x ∧ Q x)`, by which PM doesn't make a theorem for unfortunately. The "distribution law" on `∃` seems to be the problem for several cases, sometimes leading to solid failure in proof; see **\*14.32** below.
 - **\*13.11, \*13.12.** Both of the theorems have used \*1.7 during the proof, which seems to be confusing. The reason that \*1.7 comes into use seems to have something to deal with a meta question: when can we substitute the individuals of a deduced proposition into something else? Should we allow such substitution? Under our current design of proof, we think \*1.7 shouldn't be used explicitly and there should be some workaround.
 
-**General.** This is the first chapter where we have to design `_pred` variants for previous theorems. We find lifting theorems to higher orders tedious and has to be performed manually; these variants are only `Admitted` to be true. 
-
-(TODO: proving style: only lowest order) In the future we plan to automate such lifting.
+**General.** This is the first chapter where we have to design `_pred` variants for previous theorems, as the *variant* mechanic in [tactics](./4_tactics.md).
 
 **Definition of identity.** In PM, it has been considered that AoR not only express the *predicative* functions but also the *non-predicative* ones, and a strict enforcement should lead to different degrees on identity, maybe even implying giving `=` different types depending of types of its operands. It is worthwhile to note that we are directly using Rocq's default `=` as the symbol for identity, leading to several facts below:
 - All operands of `=` are having Rocq's type, not the types in PM
@@ -145,32 +140,37 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 
 **General.** This is the first chapter where we have to define an "incomplete" symbol, one feature of which is coming with a scope. We eventually find an elegant way to express such symbol: we want to define something almost like `λ (x : A) => ...`. `λ` here provides just the idea for a scope; `(x : A)` while seemingly assigning `x` to a type, can also assign `x` to some specification. Doing so involves our first symbol implementation in Rocq defined using a `Notation`, and the definition's difficulty has been eliminated once and for all. It seems like a general treatment for incomplete symbols in the whole PM.
 
-**Symbol definitions.** While generally functions only use types like `Prop -> Prop`, our symbol definition will relax the type to `A -> Prop` for polymorphic type `A`(TODO: currently still in older version). As analyzed in [mechanics](./3_mechanics.md/#chapter-14), `ιx` does not necessarily only serve for propositional variables; in chapter 20, the variable's type will be type for classes. This leads to a distinction in our implementation: polymorphic for symbol definitions, but monomorphic for theorems; and by the dependency of theorems, such polymorphism is strictly required.
+**Symbol definitions.** While generally functions only use types like `Prop -> Prop`, our symbol definition will relax the type to `A -> Prop` for polymorphic type `A`, as our design principle "polymorphic symbol" requires in [tactics](./4_tactics.md). By [mechanics](./3_mechanics.md/#chapter-14), `ιx` does not necessarily only serve for propositional variables; in chapter 20, the variable's type will be type for classes. This leads to a distinction in our implementation: polymorphic for symbol definitions, but monomorphic for theorems; and by the dependency of theorems, such polymorphism is strictly required.
 
 **Scopes.** When it involves more than one `ι` for a sub term, it turns out that the order of different `ι`s matters. While this is stated in the theorems in chapter 14, it is only *assumed* in chapter 20, and will involve adding axioms for such equivalence. Being implementation specific, for each `ι` term, our notation designed a variable to refer to the description, and these variables have to come with an extra axiom to make them order-unrelated, resulting in the extra `iota2_arg_comm`.
 
 ### Chapter 20
 **Coverage: WIP**
 
-**General.** 
+**General.** Designing proofs in this chapter has been increasingly harder. As analyzed in [mechanics](./3_mechanics.md/#chapter-20), our current design is still not at its perfection. As this chapter has added in a new hierarchy of class, we coincide with [Randall's](TODO: add link) suggestion to design a type for class. I'm guessing that such a separate type is strictly needed, and the reason it isn't in Russell's type system is that such hierarchy can be induced from all previous theorems, supposing we have provided the definition for the class symbol.
+
+Even when we have just designed the type for class, and have not built up an actual hierarchy for class, it is already affecting and slightly troubling the rest of the system. For example, if we have a definition of `Definition example_def_with_class {A : Type] (c : Class.t a)}`, since we have a polymorphic type `{A : Type}`, we cannot `pose proof example_def_with_class` already. We have to either set the `A` down to a fixed type, or use the theorem within a better context.
+
+TODO: explicit interpretation hasn't been implemented yet
+
+**Scoping convention.** During developing the proof we have found scopes for incomplete symbols are heavily lacking of proper treatment. Too see why is the case, below is an example.
+
+TODO: design the correct example
+
+```Coq
+Definition example_class_scope_1 (Phi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) := [^x => Phi x @ cPhi => f cPhi].
+
+Definition example_class_scope_2 (Phi : Prop -> Prop) := [^x => Phi x @ cPhi => cPhi = cPhi]
+```
+
+By text in PM, scope for an incomplete symbol is defaulted by the minimum sub expression containing the symbol, except for only itself. The above example shows that, the current design of scope is not always ensured that it is the smallest scope around the symbol we wish to contain, per substitution. Sometimes we have to design some axioms for safe scope conversion(TODO: example).
+
+We can also see PM's scope as a design failure from another perspective: scope doesn't have a notion of its own. It is usually treated with other symbols, in our case, one for description and one for class. Such design makes scoping rule un-reusable and hard to specify.
+
 TODO: 
-- types has become complicated... refer to Randall's work, discuss how should we consider the types(TODO: reexamine this claim)
-- notation has reached its limit to express: Rocq will not show the correct representation due to our design; we therefore split the parsing and printing notation
-- Class(or polymorphic requirement) as a parameter limited many things, including `pose proof`
-- we want to separate the symbol definition against computation by setting up the `Admitted` clearly, but it is definitely not that clean in our current implementation
-- "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps? it is something focused on how automatic PM can be, not on structural similarity
-- Consideration on functions(`Prop -> Prop`) seems to interfere with our `_pred` treatment changing the order base
-- Using class as an variable "just like how propositional vars is", as being used in n10_1
 - (n20_07)order shift interferes with some proving routines in PM
 - (n20_19)`setoid_rewrite` seems to ignore the order issue
-- proving every steps in ch20 has been increasingly harder
-- scope related criticism in chapter 20 code
-- "generalization" for class variables seems to be different from treatments in ch9; they are theorems not pps?
-- (highly volatile)if setups for theorems are too complicated, we might need to use `Section`s in Coq
 
-
+--------
 TODO: 
-- this chapter will not emphasize on implementation details
-- Lacking of distinction between language and interpretation
-- there might be a astonishing lot to do for propositional functions
-- ch9: we didn't clearly identify what are propositions and what are prop functions for the theorems
+- why is "real variables untyped?" why can it be still used in propositions?

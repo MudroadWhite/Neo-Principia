@@ -18,7 +18,7 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 | Proposition order                                               | `Order` type                                    |
 | Theorem polymorphism                                            | The Variant mechanic                            |
 | Extra instances/interpretations                                 | The `Intro` mechanic                            |
-| Symbol interpretation                                           | `let` clause + TODO mechanic                    |
+| Symbol interpretation                                           | `let` clause + explicit interpretation mechanic |
 | **Part 2: Computation**                                         | -                                               |
 | Stepping forward                                                | `assert`                                        |
 | Conclude a step/a proof                                         | `apply`+`now`/`exact`                           |
@@ -28,23 +28,19 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 
 **Table X: Full PM features considered and their implementations in Rocq**
 
-## How do we assert a proposition is true?
+## How do we assert a statement is true?
 **The story starts with a very simple beginning.** To assert a cited theorem is true, we `pose` a proof, which is pretty elementary in Rocq. Voila.
 
 **`pose proof` is the only candidate to prettify the `pose`.** The `pose` can ensure the proof window logically correct, but *visually* awful. Proof terms will take away a large part of space, before the type of terms come into our view. We are not doing backward reasoning, nor are these proof terms meaningful - we will use a lot of `setoid_rewrite`, being introduced in later section.
 
 **We then add some tactics to conclude a proof.** `pose proof` doesn't solve a goal. `apply` allows us to solve the goal automatically with a theorem. `now` allows us to solve the goal as soon as we have deduced the right proposition. `exact`, as mentioned in the [architecture](./2_architecture.md), is exclusively used to hint that we have covered all steps in a proof to conclude a `Qed`.
 
-**Yet PM's theorems are not propositions.** They are actually *propositional function*s in Principia, and you almost never see a real "proposition". The nature of *proposition function* allows arbitrarily new variables to be introduced in between every proof steps, just like a function closure. See example in [mechanics](./3_mechanics.md/#chapter-1).
-
-**And in reality, we ignore the nature of proposition function.** First, this is an interpretation just came up when I'm writing the documentation. Second, with functions as interpretation for PM's propositional functions, we still have to consider how it works with other symbols: functions might be harder to manipulate than propositions. For example, how do you make sure the `x` in different step of proof is the same `x`? How will this interpretation limit your situations to substitute `x` into some more complicated expressions? How should we proceed with definitional equality `=`'s substitution within this interpretation?
-
-**Instead, we are using *propositions* to model propositional functions,** while simulating the feature to set up arbitrarily more propositional "variables" - actually constants that cannot be substituted; they must only to be introduced in the `TOOLS` section at the beginning of the proof. These "real" variables are mostly for being *generalized* into a quantified apparent variable, the `x` in a `∀ x`. This is being done by a series of axioms in `lib.v`, prefixed with `Intro_`. The complete method to use `Intro_` in the proof is `set (X := Intro_ ...)`, available everywhere in the proof files as the identifier of *the `Intro` mechanic*.
+**Sometimes, the proof further involves extra variables.** See for example \*9.37, adding a new real variable in the middle of the proof, just to be *generalized* in the future. To resolve this, we add a series of axioms in `lib.v`, prefixed with `Intro_`, and add a line of `set (X := Intro_ ...)` in the `TOOLS` section. This is called the `Intro` mechanic. Without the `Intro` mechanic, intermediate statements cannot be normally asserted.
 
 ## How do we rewrite a proposition?
 **PM is supposed to only use modus ponens** to its ideal. It starts with \*1.11, but generalize manually to more cases once a new notion/symbol has been introduced into a chapter. Therefore, each chapter will contain a *modus ponens* equivalent, whenever necessary.
 
-***Generalization* is another way to produce a new proposition.** In particular, *quantified propositions* are only constructed through: *generalization*, being explained in [mechanics](./3_mechanics.md). As we're using propositions to model the prop functions, Generalization has to utilize `Intro_` mechanics a lot. Similar to MP, generalization will also have its extension in each of the chapters.
+***Generalization* is another way to produce a new proposition.** In particular, *quantified propositions* are only constructed through: *generalization*, being explained in [mechanics](./3_mechanics.md). Generalization utilizes `Intro_` mechanics a lot. Similar to MP, PM also extend generalize for each symbols in each of the chapters.
 
 ### Bottom up construction
 **Besides quantified propositions, how do we produce a proposition in general?** The whole procedure can be splitted into 4 steps:
@@ -88,7 +84,7 @@ Notes:
 
 ## Polymorphism and the variant mechanic
 **And there are still so many cases besides that "variant".** For example, PM might expect you to automatically generate:
-1. The same proposition where argument `X` is lifted from elementary proposition to 1-order function, 2-order function, and so on
+1. The same proposition where argument `X` is lifted from elementary proposition to 1-order proposition, 2-order proposition, and so on
 2. The same proposition where `f x` has become `f x y` with an extra argument provided
 3. The same proposition where argument `X` is lifted from just an individual to a type of specific symbol, e.g. from proposition to class
 
@@ -108,10 +104,13 @@ TODO: mention extra types for symbols, by Randall; since we have observed the cl
 
 **Beneath the `A` polymorphism is also a whole new rabbit hole.** As mentioned in [mechanics](./3_mechanics.md/#chapter-20) (TODO: finish related part in chapter 20), sometimes we have to *expose the interpretation beneath the language* by assigning a class variable with an associated function. PM has several defects on such treatment, and we are supposing that... 
 
-**Russell hasn't distinguished between his language and interpretation,** for the following reasons:
-1. PM has completely no text nor notion to state when to *associate* what function with a class. (TODO: add example theorems from chapter 20)
-2. PM has designed cases for both interpretation and language without knowing what does it mean. See (TODO: add example theorems from chapter 20)
-3. Even a level down, sometimes PM will cite a theorem from interpretation, while it should be used otherwise. (TODO: add example theorems from chapter 20)
+**Russell hasn't distinguished between his language and interpretation,**. We are witnessing numerous examples in chapter 20 in particular. As we're currently designing class as `Alpha := ^z => FAlpha z` for some function `FAlpha`, we will call `Alpha` the representation of a *class variable*, while `FAlpha` the *underlying function*. Through proofs in the book we can observe several facts:
+- While \*20.21 is using `alpha` as its representation of class, \*20.55 want to use it when it has been instantiated into a function
+- \*20.42 associates `Psi` with `Alpha` without explicitly mentioning such association
+- \*20.53, while only uses `Alpha` in its representation, automatically 
+- \*20.61 has explicitly stated its variant to switch between its class variable and its underlying construction with function
+- One can also consider, if for our current design, `FAlpha` turns out to be some `Class.t A -> Prop`, and for that exclusive `Class.t A` instance we didn't provide its underlying function.
+- Even a level down, sometimes PM will cite a theorem from interpretation, while it should be used otherwise.
 
 **Because of the lacking of association, some of our theorems use `let` as a result.** See example below, and related [mechanics](./3_mechanics.md/#chapter-20)/[naming convention](./contribution_guide/style_guide.md) part.
 ```Coq
@@ -121,16 +120,16 @@ Theorem associating_function_to_class (FAlpha : Prop → Prop) :
   .
 ```
 
-TODO: provide an association by default
+**In addition, we are supposed to develop a mechanic to *explicitly interpret* the terms.** TODO: explicit interpretation for ch20
 
 **...And we forgot to look upwards of the `A`.** We have just considered the case to generalize between `Class` and `Prop`. How about the *hierarchies* betwwen `Class` and `Prop`? Our implementation has not address anything about this, and this will be discussed in [suggestion](./_6_suggestion.md).
-
-TODO: is hierarchy in PM already 2-dimensional?
 
 As a summary: we are witnessing that there are many dimensions for us to generalize, which is not just simply a polymorphism. We need polymorphism setups separately to:
 - generalizes on orders
 - generalize on argument lengths
 - generalize between different types
+
+And maybe most importantly: give a *unique type* to a term, so that types from these 3 hierarchies don't interfere with each other.
 
 ## Simplification and debugs
 **Chores.** Occasionally, we want to even further simplify the proof down, because:

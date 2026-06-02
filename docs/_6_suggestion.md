@@ -19,6 +19,7 @@ TODO: to be reorganized:
 8. For future successors and participants: independently design a chapter, or design your own typing system for Principia
 9.  What have I learned: designing the framework is the most enjoyable part; difference between AI and hand written FV: u can design the architecture on your own and shrink the proof - produce organized things could be a challenge
 10. `Hierarchy` type for correct polymorphism to synthesize over different hierarchies & different polymorphism: symbols, orders, argument length
+11. (ch20)(highly volatile)if setups for theorems are too complicated, we might need to use `Section`s in Coq
 
 ## Future directions
 - classify theorems
@@ -27,3 +28,4 @@ TODO: to be reorganized:
 - construct meaningful proof objects
 - should we actually implement propositional functions as functions
 - eliminate the polymorphism by designing an AST
+- see if we can automate scoping so that it always picks the smallest scope when possible?
