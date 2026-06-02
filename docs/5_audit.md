@@ -147,28 +147,30 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 ### Chapter 20
 **Coverage: WIP**
 
-**General.** 
+**General.** Designing proofs in this chapter has been increasingly harder. As analyzed in [mechanics](./3_mechanics.md/#chapter-20), our current design is still not at its perfection. As this chapter has added in a new hierarchy of class, we coincide with [Randall's](TODO: add link) suggestion to design a type for class. I'm guessing that such a separate type is strictly needed, and the reason it isn't in Russell's type system is that such hierarchy can be induced from all previous theorems, supposing we have provided the definition for the class symbol.
+
+Even when we have just designed the type for class, and have not built up an actual hierarchy for class, it is already affecting and slightly troubling the rest of the system. For example, if we have a definition of `Definition example_def_with_class {A : Type] (c : Class.t a)}`, since we have a polymorphic type `{A : Type}`, we cannot `pose proof example_def_with_class` already. We have to either set the `A` down to a fixed type, or use the theorem within a better context.
+
+TODO: explicit interpretation hasn't been implemented yet
+
+**Scoping convention.** During developing the proof we have found scopes for incomplete symbols are heavily lacking of proper treatment. Too see why is the case, below is an example.
+
+TODO: design the correct example
+
+```Coq
+Definition example_class_scope_1 (Phi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) := [^x => Phi x @ cPhi => f cPhi].
+
+Definition example_class_scope_2 (Phi : Prop -> Prop) := [^x => Phi x @ cPhi => cPhi = cPhi]
+```
+
+By text in PM, scope for an incomplete symbol is defaulted by the minimum sub expression containing the symbol, except for only itself. The above example shows that, the current design of scope is not always ensured that it is the smallest scope around the symbol we wish to contain, per substitution. Sometimes we have to design some axioms for safe scope conversion(TODO: example).
+
+We can also see PM's scope as a design failure from another perspective: scope doesn't have a notion of its own. It is usually treated with other symbols, in our case, one for description and one for class. Such design makes scoping rule un-reusable and hard to specify.
+
 TODO: 
-- types has become complicated... refer to Randall's work, discuss how should we consider the types(TODO: reexamine this claim)
-- proving every steps in ch20 has been increasingly harder
-- (polymorphic symbol)Class(or polymorphic requirement) as a parameter limited many things, including `pose proof`
-- we want to separate the symbol definition against computation by setting up the `Admitted` clearly, but it is definitely not that clean in our current implementation
 - (n20_07)order shift interferes with some proving routines in PM
 - (n20_19)`setoid_rewrite` seems to ignore the order issue
 
-TODO:  
-- ch9: we didn't clearly identify what are propositions and what are prop functions for the theorems
-
-Above information suggests us to develop a general way to make an assumption such that we can freely associate an underlying function with a class variable, immediately and anywhere in the proof, even if it's right started in the definition.
-
-**scoping convention**:
-- scoping is under consideration but can be fixed nicely. 
-- scoping is usually treated with symbols, not separately - unreusable
-- default scope is the minimum subexp containing the symbol, except for only itself
-- We should design axioms related to notation directly applying on proof/goal
-- if possible we want to moreover internalize the scopes (maybe determining the scope
-  when computing?) so that it can be automatically inferred
-- the 1st operand of a binop has larger scope than the 2nd operand. e.g. `x=y`
-- descriptions have larger scope than classes, but still have to infer from the proof
-- the swapping between the scopes seems to be lacking of consideration. TODO: recheck 
-  related theorems
+--------
+TODO: 
+- why is "real variables untyped?" why can it be still used in propositions?

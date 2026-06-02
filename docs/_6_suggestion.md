@@ -28,3 +28,4 @@ TODO: to be reorganized:
 - construct meaningful proof objects
 - should we actually implement propositional functions as functions
 - eliminate the polymorphism by designing an AST
+- see if we can automate scoping so that it always picks the smallest scope when possible?
