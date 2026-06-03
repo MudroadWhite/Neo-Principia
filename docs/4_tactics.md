@@ -149,3 +149,5 @@ Below is a table for some of the simplifications we might used, but some of them
 \[\*\]: Mandatory when PM uses `Hp` in its proof. TODO: explain why
 
 While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debugs that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development. Tactics for debugging is **required** to be reduced to minimum when we have finished them.
+
+TODO: draw table for hierarchies
