@@ -150,4 +150,12 @@ Below is a table for some of the simplifications we might used, but some of them
 
 While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debugs that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development. Tactics for debugging is **required** to be reduced to minimum when we have finished them.
 
-TODO: draw table for hierarchies
+TODO: place hierarchy table somewhere
+| Type of hierarchy      | Base case                                 | Higher order case                |
+|------------------------|-------------------------------------------|----------------------------------|
+| **Primary**            | -                                         | -                                |
+| proposition            | atomic symbol                             | total generalization of matrix   |
+| propositional function | 0-order matrix                            | partial generalization of matrix |
+| **Supplementary**      |                                           |                                  |
+| matrix                 | atomic symbol                             | TODO: figure out                 |
+| class                  | description-like construction on function | inferred from function           |
