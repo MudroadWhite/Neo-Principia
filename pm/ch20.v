@@ -1153,13 +1153,19 @@ Proof.
   exact S3.
 Admitted.
 
+(* NOTE: implicit interpretation *)
 Theorem n20_35 (X Y : Prop) :
   (X = Y) ↔ ([alpha @ calpha => X <class_in> calpha] 
     <[- alpha -]> [alpha @ calpha => Y <class_in> calpha]).
 Proof.
   pose proof (n13_11 X Y) as n13_11.
-  (* TODO: bottom-up construction *)
-  pose proof n20_3 as n20_3.
+  pose proof n20_3 as _n20_3.
+  simpl in _n20_3. simpl.
+  setoid_rewrite <- n20_3 in n13_11 at 5.
+  simpl in n13_11.
+  setoid_rewrite <- n20_3 in n13_11 at 4.
+  simpl in n13_11.
+  (* unprovable *)  
 Admitted.
 
 Theorem n20_4 (FAlpha : Prop → Prop) :
