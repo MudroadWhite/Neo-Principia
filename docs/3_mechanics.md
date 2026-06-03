@@ -286,6 +286,7 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 
 TODO:
 - ch1: *proposition* as an ambiguous text "consists of" *e-props* and *e-funcs*; we still prefer to call everything working on *propositions* for the rest of the text; rewrite parts on elementary functions
+- ch1: *propositional functions* doesn't include identity function
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "∀" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
