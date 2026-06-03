@@ -85,6 +85,10 @@ Definition n11_2_pred (φ : (Prop → Prop) → (Prop → Prop) → Prop) :
   (∀ x y, φ x y) ↔ (∀ y x, φ x y).
 Admitted.
 
+Definition n13_195_pred (X : Prop -> Prop) (φ : (Prop -> Prop) → Prop) : 
+  (∃ y, (y = X) ∧ φ y) ↔ φ X.
+Admitted.
+
 Open Scope iota_description.
 
 Definition n14_21_pred (φ ψ : (Prop → Prop) → Prop) : 
@@ -575,17 +579,23 @@ Proof.
     ∃ Phi Theta, (Psi x <[- x -]> Phi x)
       ∧ (Chi x <[- x -]> Theta x) ∧ (Phi = Theta)).
   {
-    pose proof n13_195 as n13_195.
-    
-    (* TODO: provable by bottom up construction; to be filled 
-      in future *)
+    set (X := Intro_individual "x").
+    pose proof (n13_195_pred Chi (fun f => f X)) as n13_195.
+    pose proof (n10_11 X (fun x => 
+      (∃ f, f = Chi ∧ f x) ↔ Chi x)) as n10_11.
+    MP n10_11 n13_195.
+    setoid_rewrite <- n10_11 in S3 at 2.
+    setoid_rewrite -> n4_3 in S3 at 2.
+    setoid_rewrite <- n10_33 in S3.
+    setoid_rewrite <- n4_3 in S3 at 2.
+    (* unprovable: no theorem for `<->`'s conversion with `exists` *)
+    pose proof n10_35_pred as _n10_35.
+    (* setoid_rewrite <- n10_35_pred in S3. *)
     admit.
   }
   assert (S5 : (Psi x <[- x -]> Chi x)
     → ([^z1 => Psi z1 @ cz1 => ([^z2 => Chi z2 @ cz2 => cz1 = cz2])])).
-  {
-    now rewrite <- S2 in S4.
-  }
+  { now rewrite <- S2 in S4. }
   exact S5.
 Admitted.
 
