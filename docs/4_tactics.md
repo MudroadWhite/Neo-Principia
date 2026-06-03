@@ -159,3 +159,5 @@ TODO: place hierarchy table somewhere
 | **Supplementary**      |                                           |                                  |
 | matrix                 | atomic symbol                             | TODO: figure out                 |
 | class                  | description-like construction on function | inferred from function           |
+
+TODO: "originally, we use `prop -> prop` for impredicative funcs, `Order` for predicative funcs... issue in hierarchy in chapter 20
