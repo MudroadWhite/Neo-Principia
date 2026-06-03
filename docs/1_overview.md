@@ -3,12 +3,12 @@
 > Reading PM is maddening. ([Source](https://randall-holmes.github.io/Drafts/pmsemantics.pdf))
 
 ## What is Principia Mathematica?
-Wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_of_type_theory) says Principia is a *ramified theory of types*. This gives us the impression that Principia is a big type system, familiar to most of the functional programmers. At the moment, the only formalization of RTT I can find on GitHub is [written by Randall Holmes](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT).
+Wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_of_type_theory) says Principia is a *ramified theory of types*. This gives us the impression that Principia is a big type system, familiar to most of the functional programmers. At the moment, the only formalization of RTT I can find on GitHub is [written by Randall Holmes]([RTT]).
 
 We also have a type system, defaulted by most people, in [Lean](https://www.youtube.com/watch?v=d3K3ZfiyG3I)/[Rocq](https://www.youtube.com/watch?v=I42Qq7LCyO8). Propositions are elements of sets, functions are modeled with lambda calculus. The most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in Principia. Propositions are not types. Sometimes for brevity propositions are untyped. The inference is performed by rewriting on propositions, not on types. Type plays a much more auxiliary role, and Principia which embodies ramified theory of types, is actually a rewriting system.
 
 ## What is the aesthetics for this project?
-For formalizing Principia Mathematica, there can be many features that you want to address with. [pmGenerator](https://github.com/xamidi/pmGenerator) tries to produce the shortest proof as possible. [Randall's work](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT) attempts at reducing the complexity of PM with better mathematical notions. There might be ppl having other directions, such as providing maximum automation for Principia Mathematica's deduction.
+For formalizing Principia Mathematica, there can be many features that you want to address with. [pmGenerator](https://github.com/xamidi/pmGenerator) tries to produce the shortest proof as possible. [Randall's work]([RTT]) attempts at reducing the complexity of PM with better mathematical notions. There might be ppl having other directions, such as providing maximum automation for Principia Mathematica's deduction.
 
 Here is our take: pertain maximum PM flavor. This has been concentrated into the following slogans:
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple [tactics](./docs/4_tactics.md). One theorem a line.
@@ -30,7 +30,7 @@ Yes. There are 3 arguments to support formalizing PM:
 2. We have been following the details of most in the *Introduction* chapter, which summarizes over the logical foundation setups in PM
 3. PM is necessarily an old rewriting system
 
-[This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) have summarized over the situations we have seen: despite its historical background(see [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/)) to guarantee a missing revisit, PM still gets a notorious notation system, highly "trivial"(chores-like) theorems. Also see [this awesome repo](https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT)'s paper on its in-depth discussions of PM's propositional functions.
+[This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) have summarized over the situations we have seen: despite its historical background(see [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/)) to guarantee a missing revisit, PM still gets a notorious notation system, highly "trivial"(chores-like) theorems. Also see [this awesome repo]([RTT])'s paper on its in-depth discussions of PM's propositional functions.
 
 When formalizing PM, we have occurred to the following difficulties:
 - We have to manually record the theorems, since PM doesn't have a digital version
@@ -90,3 +90,5 @@ Even further plans: I could either
 **2025.10:** Chapter 9, the first chapter after chapter 5, has been finished. Chapter 9's theorems has a whole new context to be interpreted, so designing a new way to prove the theorems, in contrast to chapter 1 - 5, is required. Completion of this chapter involves a lot of mind works and deprecated experiments. Also, "New Principia" has been renamed into "Neo Principia".
 
 **2025.9:** New Principia, this project, has been started and established. We have set up a workable environment for Landon's project and successfully compiled everything in chapter 1 - 5.
+
+[RTT]: https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT
