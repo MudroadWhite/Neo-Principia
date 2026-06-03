@@ -171,6 +171,7 @@ We can also see PM's scope as a design failure from another perspective: scope d
 TODO: 
 - (n20_07)order shift interferes with some proving routines in PM
 - (n20_19)`setoid_rewrite` seems to ignore the order issue
+- missing theorems on scopes make us unsure if our proof is legit
 
 --------
 TODO: 
