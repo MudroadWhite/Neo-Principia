@@ -483,10 +483,6 @@ Proof.
   exact S5.
 Qed.
 
-(* NOTE: 
-  `g` here cannot be `Order 1` and have to be `(Prop → Prop) → Prop`. 
-  TODO: Check the original text is also indicate this clearly 
-*)
 Theorem n20_112 (f : (Prop → Prop) → Prop) : ∃ g : (Prop → Prop) → Prop, 
   ([^z => Phi z @ cz => f cz]) <[- Phi -]> ([^z => Phi z @ cz => g cz]).
 Proof.
@@ -531,7 +527,6 @@ Proof.
   assert (S1 : ([^z1 => Psi z1 @ cz1 => [^z2 => Chi z2 @ cz2 => cz1 = cz2]])
     ↔ ∃ Phi, (Psi x <[- x -]> Phi x) ∧ ([^z => Chi z @ cz2 => Phi = cz2])).
   {
-    (* Yes: below code has really taken me a lot of time to figure out *)
     pose proof (n20_1 Psi (fun cz1 => [^z2 => Chi z2 @ cz2 => cz1 = cz2])) 
       as n20_1.
     now setoid_rewrite -> n4_21 in n20_1 at 2.
@@ -581,6 +576,7 @@ Proof.
       ∧ (Chi x <[- x -]> Theta x) ∧ (Phi = Theta)).
   {
     pose proof n13_195 as n13_195.
+    
     (* TODO: provable by bottom up construction; to be filled 
       in future *)
     admit.
