@@ -98,6 +98,7 @@ We have received feedback that `setoid_rewrite` in Rocq >9.0 in seems to adopt t
 ### Chapter 10
 **Coverage: 98.2% = 55/56.**
 - **\*10.57.** 3rd step of the proof is unprovable, simply because the theorem it uses cannot be instantiated with correct parameters.
+- **\*10.23, alternative proof.** In the 5th step of the proof, the proposition has used variable name `x` twice referring to two different actual variables. Although the proof is generally unaffected when we give it the right renaming, this is still a rare case of bad text.
 
 **General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `∀` and `∃`. We didn't find any difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
 

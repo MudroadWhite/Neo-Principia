@@ -583,22 +583,10 @@ Proof.
   {
     repeat setoid_rewrite <- Assoc_Equiv in S1.
     rewrite <- (n9_04 φ (P ∨ Q)), <- (n9_04 φ (Q ∨ P)) in S1.
-    (* NOTE: A demonstration where we use `Syll` to perform a single-direction 
-      rewrite, with its proof attached below. We can alternatively use `replace`, 
-      or `rewrite` using a equivalence relation.
-      For the rest of the project, `replace` is not recommended to use.
-    *)
     pose proof (n2_32 Q P (∀ x, φ x)) as n2_32.
     Syll_as S1 n2_32 S1_1.
     pose proof (n2_31 P Q (∀ x, φ x)) as n2_31.
     Syll_as n2_31 S1_1 S2.
-    (* 
-    replace ((P ∨ Q) ∨ (∀ x, φ x)) with (P ∨ Q ∨ ∀ x, φ x) in S1.
-    replace ((Q ∨ P) ∨ ∀ x, φ x) with (Q ∨ P ∨ ∀ x, φ x) in S1.
-    2, 3: (
-      apply propositional_extensionality; split; [ apply n2_31 | apply n2_32 ]; exact H0
-    ). 
-    *)
     exact S2.
   }
   exact S2.
