@@ -37,7 +37,19 @@ We now start exploring the main ideas for each chapters.
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 ### Chapter 1
-The difference between a function and a proposition is scattered through Introduction's chapter I, II, III and chapter 1. Here is our attempt to make the most precise definition.
+The difference between a function and a proposition is scattered through Introduction's chapter I, II, III and chapter 1. As the first concepts being introduced in, the definition of a proposition is full of ambiguity. When figuring out the difference between a *proposition* and a *proposition built up from a function*, we have gathered below clues only to reveal how much is the chaos: 
+- *Proposition* can be *asserted*. *Propositional function* can be *asserted* by asserting any specific instance generated from a function, which, is a proposition.
+- Asserted propositional function can still change its variable to produce different proposition asserted
+- However, when deducing on the proof, we can also perform substitution on asserted propositions(e.g. \*2.02). 
+- Real variables, being revealed in later chapters, can be *generalized* into *apparent variables*, the variables of a `forall` or `exists`, for a proposition/function of higher order. See [chapter 9](./3_mechanics.md/#chapter-9) for meaning of generalization.
+- When using theorem, `Phi X` can freely substitute into a propositional variable `P`, and *vice versa*.
+- When we `Intro_` an extra variable, we din't find any generalization from letters of `P`, `Q`, `R`. Instead we always start from `X`, plus exceptions as functions.
+- `P`, `Q`, `R` can still be substituted into forms like `Phi x`, but never a single `x`. 
+- Everything asserted are *propositions*, while the modus ponens is mostly used as \*1.11 version for *propositional functions*
+- We also 
+- TODO: mention private conversation with Randall
+
+Here is our attempt to make the most precise definition.
 
 - **elementary propositions** contains no variables. They are strictly alphabets after `P`, `Q`, and so on, in chapter 2 - 5(p.91).
 - **elementary functions** are propositions build up with *at least* one *real variables*(p.19). Real variables are alphabetical letters starting after `X`. 
@@ -52,18 +64,6 @@ Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
 (* This is the actual way to write the function, but we won't use it *)
 Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
-
-It can be seen that, the alphabetical difference is the only way for us to distinguish between a *proposition* and a *proposition built up from a function*. To make the distinction clearer, here's our clues gathered and what we eventually conclude: 
-- *Proposition* can be *asserted*. *Propositional function* can be *asserted* by asserting any specific instance generated from a function, which, is a proposition.
-- Asserted propositional function can still change its variable to produce different proposition asserted
-- However, when deducing on the proof, we can also perform substitution on asserted propositions(e.g. \*2.02). 
-- Real variables, being revealed in later chapters, can be *generalized* into *apparent variables*, the variables of a `forall` or `exists`, for a proposition/function of higher order. See [chapter 9](./3_mechanics.md/#chapter-9) for meaning of generalization.
-- When using theorem, `Phi X` can freely substitute into a propositional variable `P`, and *vice versa*.
-- When we `Intro_` an extra variable, we din't find any generalization from letters of `P`, `Q`, `R`. Instead we always start from `X`, plus exceptions as functions.
-- `P`, `Q`, `R` can still be substituted into forms like `Phi x`, but never a single `x`. 
-- Everything asserted are *propositions*, while the modus ponens is mostly used as \*1.11 version for *propositional functions*
-- We also 
-- TODO: mention private conversation with Randall
 
 Our current conclusion is that we cannot identify the difference between *elementary proposition* and *elementary propositional function*. Higher order propositions and functions have more significant difference, will be revealed after [chapter 9](./3_mechanics.md/#chapter-9). In principle, we view everything in chapter 1 - 5 just as *propositions*, and elementary function manifests when we need to have a lambda term.
 
@@ -285,7 +285,7 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 **Table X: Proving context for chapter 20 - +**
 
 TODO:
-- ch1: *proposition* as an ambiguous text "consists of" *e-props* and *e-funcs*
+- ch1: *proposition* as an ambiguous text "consists of" *e-props* and *e-funcs*; we still prefer to call everything working on *propositions* for the rest of the text; rewrite parts on elementary functions
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "∀" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
