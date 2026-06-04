@@ -38,13 +38,13 @@ We now start exploring the main ideas for each chapters.
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 ### Chapter 1
 The difference between a function and a proposition is scattered through Introduction's chapter I, II, III and chapter 1. As the first concepts being introduced in, the definition of a proposition is full of ambiguity. When figuring out the difference between a *proposition* and a *proposition built up from a function*, we have gathered below clues only to reveal how much is the chaos: 
-- *Proposition* can be *asserted*. *Propositional function* can be *asserted* by asserting any specific instance generated from a function, which, is a proposition.
+- *Proposition* can be *asserted*. *Propositional function* also can be *asserted* by asserting any specific value by instantiating a function, and which, is a proposition.
 - Asserted propositional function can still change its variable to produce different proposition asserted
-- However, when deducing on the proof, we can also perform substitution on asserted propositions(e.g. \*2.02). 
+- (\*2.02)However, when deducing on the proof, we can also perform substitution on asserted propositions. 
 - Real variables, being revealed in later chapters, can be *generalized* into *apparent variables*, the variables of a `forall` or `exists`, for a proposition/function of higher order. See [chapter 9](./3_mechanics.md/#chapter-9) for meaning of generalization.
 - When using theorem, `Phi X` can freely substitute into a propositional variable `P`, and *vice versa*.
 - When we `Intro_` an extra variable, we din't find any generalization from letters of `P`, `Q`, `R`. Instead we always start from `X`, plus exceptions as functions.
-- `P`, `Q`, `R` can still be substituted into forms like `Phi x`, but never a single `x`. 
+- `P`, `Q`, `R` can still be substituted into forms like `Phi X`, but never a single `X`. 
 - Everything asserted are *propositions*, while the modus ponens is mostly used as \*1.11 version for *propositional functions*
 - We also 
 - TODO: mention private conversation with Randall
@@ -52,7 +52,7 @@ The difference between a function and a proposition is scattered through Introdu
 Here is our attempt to make the most precise definition.
 
 - **elementary propositions** contains no variables. They are strictly alphabets after `P`, `Q`, and so on, in chapter 2 - 5(p.91).
-- **elementary functions** are propositions build up with *at least* one *real variables*(p.19). Real variables are alphabetical letters starting after `X`. 
+- **elementary functions** are propositions build up with *at least* one logical connectives. When a expression is identified as a function, atomic letters after `X` appeared in it are called *real variables*(p.19).
 
 ```Coq
 (* This is an elementary proposition *)
