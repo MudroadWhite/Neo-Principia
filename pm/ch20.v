@@ -817,10 +817,10 @@ Proof.
       ∧ (∀ f, [^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2])
     → [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]).
   {
-    
-    pose proof n10_11 as n10_11.
-    pose proof n10_23 as n10_23.
-    pose proof n10_35 as n10_35.
+    pose proof n10_11 as _n10_11.
+    pose proof n10_23 as _n10_23.
+    pose proof n10_35 as _n10_35.
+    simpl in S7. simpl.
     admit.
   }
   assert (S9 : (∀ f, [^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2])
