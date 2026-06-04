@@ -159,6 +159,7 @@ TODO: place hierarchy table somewhere
 | **Supplementary**      |                                           |                                  |
 | matrix                 | atomic symbol                             | TODO: figure out                 |
 | class                  | description-like construction on function | inferred from function           |
+| untyped functions(?)   | Rocq type `Prop -> Prop`                  | `(...(Prop -> Prop)...) -> Prop` |
 
 TODO: 
 - (\*20.112)"originally, we use `prop -> prop` for impredicative funcs, `Order` for predicative funcs... issue in hierarchy in chapter 20
