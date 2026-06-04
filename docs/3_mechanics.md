@@ -291,3 +291,6 @@ TODO:
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
 - ch9: recheck the definition of `forall` after we know what is a proposition
+
+TODO:
+- is `exists` statement of higher order 8propositional functions*?
