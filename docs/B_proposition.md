@@ -1,0 +1,1 @@
+TODO: heavy analysis on what is a proposition
