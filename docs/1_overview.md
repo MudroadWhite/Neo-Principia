@@ -1,5 +1,4 @@
 # Overview
-
 > Reading PM is maddening. ([Source](https://randall-holmes.github.io/Drafts/pmsemantics.pdf))
 
 ## What is Principia Mathematica?
