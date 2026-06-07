@@ -1,22 +1,3 @@
-(* 
-Draft: formal type system 
-We want a type system with
-- Propositions' type of order n (TODO: if they are still not the same type, is that necessary? if we are talking about 
-"∀ propositions of a type", will identifying props in different range matters?)
-- Functions'/matrices' type with order n, (?) maybe distinguish between different arguments
-- Individual's type which we don't even know if it is needed
-- **Untyped** functions(not matrices anymore?) as a *type* - taking in argument of order n,
-   return an arbitarily large proposition of order greater than n
-- Constant's type? or is it unnecessary?
-- If things goes better, we should be able to prove equivalance to "of the same type" primitive proposition
-*)
-
-(* 
-Draft: better `∃`, `∀` design
-- define a "EForall" and wrap up with a notation in chapter 9
-*)
-
-
 Module Experiment_ch20.
   Record t {A : Type} : Type := {
     get_A : Type; 
@@ -44,3 +25,13 @@ Definition testtest (cls : Class.t) := ltac:(
 Compute testtest.
   *)
 End Experiment_ch20.
+
+(* Draft: Automatic scoping PM symbol suite
+
+Notation "[| O1 < mid_op > O2 |]" :=
+  (expand_symbol O1
+    (expand_symbol O2 (mid_op))).
+
+
+
+*)
