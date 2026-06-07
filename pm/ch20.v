@@ -1194,9 +1194,9 @@ Proof.
   {
     pose proof (n4_2 ([alpha @ calpha => X <class_in> calpha]  
       -[ alpha ]> [alpha @ calpha => Y <class_in> calpha])) as n4_2.
-    (* TODO: scoping issues? *)
-    simpl in n4_2.
-    (* setoid_rewrite -> n20_07a in n4_2. *)
+    simpl; simpl in n4_2.
+    simpl in n20_07a.
+    (* unprovable: scoping issue *)
     admit.
   }
   assert (S2 : ([alpha @ calpha => X <class_in> calpha]  
