@@ -727,6 +727,9 @@ Theorem n20_19 (Psi Chi : Prop → Prop) :
     → [^z => Chi z @ cz2 => f cz2]).
 Proof.
   (* TOOLS *)
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 ↔ Q0) ((P0 → Q0) ∧ (Q0 → P0)) 
+    (Equiv4_01 P0 Q0))
+  as Equiv4_01a.
   set (X := Intro_individual "x").
   set (If := Intro_pred "f" 2).
   set (IPhi := Intro_pred "Phi" 1).
@@ -827,14 +830,32 @@ Proof.
       ∧ (∀ f, [^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2])
     → [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]).
   {
-    (* TODO: finish this *)
-    pose proof n10_11 as _n10_11.
-    pose proof n10_23 as _n10_23.
+    pose proof (n10_11_pred ITheta
+      (fun Theta =>
+          (((IPhi x <[- x -]>Psi x) ∧ Theta x <[- x -]> Chi x)
+        ∧ (∀ f, ([^ z => Psi z @ cz1 => f cz1]) 
+          → [^ z => Chi z @ cz2 => f cz2])
+        → [^ z => Psi z @ cz1 => [^ z => Chi z @ cz2 => cz1 = cz2]]))) 
+        as n10_1a.
+    MP n10_1a S7.
+    pose proof (n10_11_pred IPhi
+      (fun Phi => forall Theta, 
+        (((Phi x <[- x -]> Psi x) ∧ Theta x <[- x -]> Chi x)
+        ∧ (∀ f, ([^ z => Psi z @ cz1 => f cz1]) 
+          → [^ z => Chi z @ cz2 => f cz2]))
+        → [^ z => Psi z @ cz1 => [^ z => Chi z @ cz2 => cz1 = cz2]]))
+        as n10_1b.
+    MP n10_1b n10_1a.
+    setoid_rewrite -> n10_23_pred in n10_1b.
+    setoid_rewrite -> n10_23_pred in n10_1b.
+    setoid_rewrite -> n4_3 in n10_1b at 1.
+    simpl in n10_1b.
     pose proof n10_35 as _n10_35.
-    simpl in S7. simpl.
-    admit.
+    setoid_rewrite -> n10_35_pred in n10_1b.
+    setoid_rewrite -> n10_35_pred in n10_1b.
+    now rewrite <- n4_3 in n10_1b.
   }
-  assert (S9 : (∀ f, [^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2])
+  assert (S9 : (∀ f : (Prop -> Prop) -> Prop, [^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2])
     → [^z => Psi z @ cz1 => [^z => Chi z @ cz2 =>  cz1 = cz2]]).
   {
     pose proof n12_1 as n12_1.
@@ -844,7 +865,9 @@ Proof.
     ↔ (∀ f : (Order 1 → Prop), [^z => Psi z @ cz1 => f cz1]
       → [^z => Chi z @ cz2 => f cz2])).
   {
-    admit.
+    Conj_as S1 S9 C1.
+    (* NOTE: we cannot use Equiv ltac for unknown reason *)
+    now setoid_rewrite <- Equiv4_01a in C1.
   }
   exact S10.
 Admitted.

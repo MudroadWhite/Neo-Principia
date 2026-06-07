@@ -26,12 +26,10 @@ Compute testtest.
   *)
 End Experiment_ch20.
 
-(* Draft: Automatic scoping PM symbol suite
+(* Draft: Automatic scopedsymbol suite
 
 Notation "[| O1 < mid_op > O2 |]" :=
   (expand_symbol O1
     (expand_symbol O2 (mid_op))).
-
-
 
 *)
