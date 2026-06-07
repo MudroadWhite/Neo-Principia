@@ -827,6 +827,7 @@ Proof.
       ∧ (∀ f, [^z => Psi z @ cz1 => f cz1] → [^z => Chi z @ cz2 => f cz2])
     → [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]).
   {
+    (* TODO: finish this *)
     pose proof n10_11 as _n10_11.
     pose proof n10_23 as _n10_23.
     pose proof n10_35 as _n10_35.
@@ -1099,6 +1100,10 @@ Proof.
   exact S5.
 Admitted.
 
+Definition n20_3_pred (X : Prop -> Prop) (Psi : (Prop -> Prop) → Prop) : 
+  ([^ z => Psi z @ cz1 => X <class_in> cz1]) ↔ Psi X.
+Admitted.
+
 Theorem n20_31 (Psi Chi : Prop → Prop) : 
   [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
   ↔ (([^ z => Psi z @ cz1 => x <class_in> cz1])
@@ -1209,11 +1214,13 @@ Theorem n20_4 (FAlpha : Prop → Prop) :
     [^z => Phi z @ cz => calpha = cz]]).
 Proof.
   (* TOOLS *)
+  set (IX := Intro_pred "x" 1).
   set (Alpha := ^z => FAlpha z).
   (* ******** *)
-  (* TODO: finish proof *)
-  pose proof n20_3 as n20_3.
-  (* pose proof n20_03 as n20_03. *)
+  pose proof (n20_3_pred IX (fun FAlpha =>
+    ∃ Phi, [^ z => Phi z @ cPhi => FAlpha = cPhi])) 
+    as n20_3.
+  (* unprovable: scoping issue *)
 Admitted.
 
 Theorem n20_41 (Psi : Prop → Prop) : [^z => Psi z @ cz1 => 
