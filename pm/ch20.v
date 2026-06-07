@@ -1049,6 +1049,9 @@ Qed.
 Theorem n20_3 (X : Prop) (Psi : Prop → Prop ) : 
   ([^ z => Psi z @ cz1 => X <class_in> cz1]) ↔ Psi X.
 Proof.
+  (* TOOLS *)
+  set (IPhi := Intro_pred "Phi" 1).
+  (* ******** *)
   assert (S1 : [^ z => Psi z @ cz1 => X <class_in> cz1]
     ↔ ∃ Phi, (Psi y <[- y -]> Phi y) 
       ∧ (X <class_in> Phi)).
@@ -1057,14 +1060,26 @@ Proof.
     now setoid_rewrite -> n4_21 in n20_1 at 2.
   }
   assert (S2 : [^ z => Psi z @ cz1 => X <class_in> cz1]
-    ↔ ∃ Phi, (Psi y <[- y -]> Phi y) ∧ Phi X).
+    ↔ (∃ Phi, (Psi y <[- y -]> Phi y) ∧ Phi X)).
   { now setoid_rewrite -> n20_02 in S1. }
   assert (S3 : [^ z => Psi z @ cz1 => X <class_in> cz1]
     ↔ ∃ Phi, (Psi y <[- y -]> Phi y) ∧ Psi X).
   {
-    (* TODO: reconstruct `∃` bottom-up *)
-    (* setoid_rewrite -> n10_43 in S2. *)
-    admit.
+    simpl; simpl in S2.
+    pose proof (n10_43 IPhi Psi X) as n10_43.
+    pose proof (n10_11_pred IPhi (fun Phi =>
+      ((Phi z <[- z -]> Psi z) ∧ Phi X )
+      ↔ (Phi z <[- z -]>Psi z) ∧ Psi X)) 
+      as n10_11.
+    MP n10_11 n10_43.
+    pose proof (n10_281_pred
+      (fun Phi => (Phi z <[- z -]> Psi z) ∧ Phi X)
+      (fun Phi => (Phi z <[- z -]> Psi z) ∧ Psi X)) 
+      as n10_281.
+    MP n10_281 n10_11.
+    setoid_rewrite -> n4_21 in n10_281 at 2.
+    setoid_rewrite -> n4_21 in n10_281 at 3.
+    now rewrite -> n10_281 in S2.
   }
   assert (S4 : [^ z => Psi z @ cz1 => X <class_in> cz1]
     ↔ (∃ Phi, Psi y <[- y -]> Phi y) ∧ Psi X).
@@ -1099,10 +1114,17 @@ Theorem n20_32 (Phi : Prop → Prop) :
   [^x => [^z => Phi z @ cz2 => x <class_in> cz2] @ cz1
     => [^z => Phi z @ cz2 => cz1 = cz2]].
 Proof.
-  pose proof n20_3 as n20_3.
-  pose proof n20_15 as n20_15.
-  (* TODO: bottom-up construct this in the future *)
-Admitted.
+  set (X := Intro_individual "x").
+  pose proof (n20_15 (fun x =>
+    [^ z => Phi z @ cz2 => x <class_in> cz2]) 
+    Phi) as n20_15.
+  pose proof (n20_3 X Phi) as n20_3.
+  pose proof (n10_11 X
+    (fun x => ([^ z => Phi z @ cz1 => x <class_in> cz1]) ↔ Phi x)) 
+    as n10_11.
+  MP n10_11 n20_3.
+  now rewrite -> n20_15 in n10_11.
+Qed.
 
 Theorem n20_33 (FAlpha : Prop → Prop) (Phi : Prop → Prop) :
   let Alpha := (^z => FAlpha z) in
