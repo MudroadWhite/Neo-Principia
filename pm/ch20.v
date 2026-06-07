@@ -85,6 +85,9 @@ Definition n11_2_pred (φ : (Prop → Prop) → (Prop → Prop) → Prop) :
   (∀ x y, φ x y) ↔ (∀ y x, φ x y).
 Admitted.
 
+Definition n13_16_pred (X Y : Prop -> Prop) : (X = Y) ↔ (Y = X).
+Admitted.
+
 Definition n13_195_pred (X : Prop -> Prop) (φ : (Prop -> Prop) → Prop) : 
   (∃ y, (y = X) ∧ φ y) ↔ φ X.
 Admitted.
@@ -623,16 +626,23 @@ Proof.
   assert (S3 : [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
     ↔ (∃ Phi, (Psi x <[- x -]> Phi x) ∧ (Chi x <[- x -]> Phi x))).
   {
-    pose proof n13_195 as n13_195.
-    (* TODO: provable with bottom-up construction *)
-    admit.
+    setoid_rewrite -> n10_35_pred in S2.
+    setoid_rewrite -> n4_3 in S2 at 4.
+    (* simplification: some tiny trick when `setoid_rewrit` doesn't immediately
+      work *)
+    pose proof n13_195_pred as n13_195.
+    setoid_rewrite <- n13_16_pred in n13_195.
+    now setoid_rewrite -> n13_195 in S2.
   }
   assert (S4 : [^z => Psi z @ cz1 => [^z => Chi z @ cz2 => cz1 = cz2]]
     → (Psi x <[- x -]> Chi x)).
   {
+    (* simplification *)
+    intro Hp.
+    destruct S3 as [S3 _].
+    pose proof (S3 Hp) as S3.
     pose proof n10_322 as n10_322.
-    (* TODO: might be unprovable... we cannot eliminate `∃` in 
-      this way *)
+    (* unprovable: we don't have rules to apply `∃` in this way *)
     admit.
   }
   exact S4.
@@ -843,14 +853,10 @@ Theorem n20_191 (Psi Chi : Prop → Prop) :
   ↔ ∀ f : (Order 1 → Prop), [^z => Psi z @ cz1 => 
     [^z => Chi z @ cz2 => f cz1 ↔ f cz2]].
 Proof.
-  (* TODO: figure out the correct way for the proof *)
-  (* 
-  Theorem n20_18 (Phi Psi : Prop → Prop) (f : (Prop → Prop) → Prop) : 
-  [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => cz1 = cz2]]
-  → ([^z => Phi z @ cz1 => f cz1] ↔ [^z => Psi z @ cz2 => f cz2]).
-  *)
-  pose proof n20_18 as n20_18.
-  pose proof n20_19 as n20_19.
+  (* *20.18 ignored *)
+  (* unprovable: the `<->` generated has to go pass the scopes *)
+  pose proof (n20_19 Psi Chi) as n20_19a.
+  pose proof (n20_19 Chi Psi) as n20_19b.
   pose proof n10_22 as n10_22.
 Admitted.
 
