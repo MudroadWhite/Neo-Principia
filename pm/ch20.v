@@ -261,7 +261,7 @@ Close Scope iota_description.
 
 (* **************** *)
 Definition n20_01 (Psi : Prop → Prop) (f : (Prop → Prop) → Prop) :
-  ([^ z => Psi z @ cPsi => f cPsi])
+  ([^z => Psi z @ cPsi => f cPsi])
   = (∃ Phi : Order 1, (Phi x <[- x -]> Psi x) ∧ f Phi).
 Admitted.
 
@@ -282,26 +282,26 @@ Admitted.
 
 (* We won't define a notation for this abbreviation for now *)
 Definition n20_04 {A : Type} (X Y : A) (Alpha : Class.t A) :
-  ([Alpha @ calpha => X <class_in> calpha] 
-    ∧ [Alpha @ calpha => Y <class_in> calpha])
+  ([Alpha @ cAlpha => X <class_in> cAlpha] 
+    ∧ [Alpha @ cAlpha => Y <class_in> cAlpha])
   = 
-  ([Alpha @ calpha => X <class_in> calpha] 
-  ∧ [Alpha @ calpha => Y <class_in> calpha]).
+  ([Alpha @ cAlpha => X <class_in> cAlpha] 
+  ∧ [Alpha @ cAlpha => Y <class_in> cAlpha]).
 Admitted.
 
 Definition n20_05 {A : Type} (X Y Z : A) (Alpha : Class.t A):
-  ([Alpha @ calpha => X <class_in> calpha] 
-    ∧ [Alpha @ calpha => Y <class_in> calpha]
-    ∧ [Alpha @ calpha => Z <class_in> calpha])
-  = (([Alpha @ calpha => X <class_in> calpha] 
-      ∧ [Alpha @ calpha => Y <class_in> calpha]) 
-    ∧ [Alpha @ calpha => Z <class_in> calpha]).
+  ([Alpha @ cAlpha => X <class_in> cAlpha] 
+    ∧ [Alpha @ cAlpha => Y <class_in> cAlpha]
+    ∧ [Alpha @ cAlpha => Z <class_in> cAlpha])
+  = (([Alpha @ cAlpha => X <class_in> cAlpha] 
+      ∧ [Alpha @ cAlpha => Y <class_in> cAlpha]) 
+    ∧ [Alpha @ cAlpha => Z <class_in> cAlpha]).
 Admitted.
 
 (* We won't define a notation for this abbreviation for now *)
 Definition n20_06 {A : Type} (X : A) (Alpha : Class.t A) :
-  (~ [Alpha @ calpha => X <class_in> calpha]) 
-  = (~ [Alpha @ calpha => X <class_in> calpha]).
+  (~ [Alpha @ cAlpha => X <class_in> cAlpha]) 
+  = (~ [Alpha @ cAlpha => X <class_in> cAlpha]).
 Admitted.
 
 Definition n20_07 {A : Type} (f : (A → Prop) → Prop) :
@@ -312,12 +312,12 @@ Definition n20_07 {A : Type} (f : (A → Prop) → Prop) :
   which has been a very annoying ambiguity
   *)
   (∀ (alpha : Class.t A), [alpha @ calpha => f calpha])
-  = (∀ Phi : (A → Prop), [^ z => Phi z @ cPhi => f cPhi]).
+  = (∀ Phi : (A → Prop), [^z => Phi z @ cPhi => f cPhi]).
 Admitted.
 
 Definition n20_071 {A : Type} (f : (A → Prop) → Prop) :
   (∃ (alpha : Class.t A), [alpha @ calpha => f calpha])
-  = (∃ Phi : (A → Prop), [^ z => Phi z @ cPhi => f cPhi]).
+  = (∃ Phi : (A → Prop), [^z => Phi z @ cPhi => f cPhi]).
 Admitted.
 
 Open Scope debug_iota_description.
@@ -353,8 +353,8 @@ Proof.
 Qed.
 
 Theorem n20_11 (Psi Chi : Prop → Prop) (f : (Prop → Prop) → Prop) :
-  (Psi x <[- x -]> Chi x) → (([^ z => Psi z @ cPsi => f cPsi]) 
-    ↔ ([^ z => Chi z @ cChi => f cChi])).
+  (Psi x <[- x -]> Chi x) → (([^z => Psi z @ cPsi => f cPsi]) 
+    ↔ ([^z => Chi z @ cChi => f cChi])).
 Proof.
   (* TOOLS *)
   set (X := Intro_individual "x").
@@ -413,8 +413,8 @@ Proof.
     now MP n10_281 S2.
   }
   assert (S4 : (Psi x <[- x -]> Chi x)
-    → (([^ z => Psi z @ cPsi => f cPsi]) 
-      ↔ ([^ z => Chi z @ cChi => f cChi]))).
+    → (([^z => Psi z @ cPsi => f cPsi]) 
+      ↔ ([^z => Chi z @ cChi => f cChi]))).
   {
     intro Hp.
     pose proof (S3 Hp) as S3.
@@ -425,7 +425,7 @@ Qed.
 
 Theorem n20_111 (f g : (Prop → Prop) → Prop) : 
   (f Phi <[- Phi -]> g Phi)
-  → (([^ z => Phi z @ cz => f cz]) <[- Phi -]> ([^ z => Phi z @ cz => g cz])).
+  → (([^z => Phi z @ cz => f cz]) <[- Phi -]> ([^z => Phi z @ cz => g cz])).
 Proof.
   (* TOOLS *)
   set (IPhi := Intro_pred "Phi" 1).
@@ -468,22 +468,22 @@ Proof.
     now MP n10_281 S2.
   }
   assert (S4 : (f Phi <[- Phi -]> g Phi)
-    → (([^ z => IPhi z @ cz => f cz]) 
-      ↔ ([^ z => IPhi z @ cz => g cz]))).
+    → (([^z => IPhi z @ cz => f cz]) 
+      ↔ ([^z => IPhi z @ cz => g cz]))).
   {
     setoid_rewrite -> n4_21 in S3 at 3.
     setoid_rewrite -> n4_21 in S3 at 4.
     now repeat setoid_rewrite <- n20_1 in S3.
   }
   assert (S5 : (f Phi <[- Phi -]> g Phi)
-    → (([^ z => Phi z @ cz => f cz]) 
-      <[- Phi -]> ([^ z => Phi z @ cz => g cz]))).
+    → (([^z => Phi z @ cz => f cz]) 
+      <[- Phi -]> ([^z => Phi z @ cz => g cz]))).
   {
     pose proof n10_11_pred.
     pose proof (n10_11_pred IPhi
       (fun Phi0 => (f Phi<[-Phi : Prop → Prop-]>g Phi)
-        → ([^ z => Phi0 z @ zPsi => f zPsi])
-          ↔ ([^ z => Phi0 z @ zPsi => g zPsi]))) as n10_11.
+        → ([^z => Phi0 z @ zPsi => f zPsi])
+          ↔ ([^z => Phi0 z @ zPsi => g zPsi]))) as n10_11.
     MP n10_11 S4.
     now rewrite -> n10_21_pred in n10_11.
   }
@@ -503,12 +503,12 @@ Proof.
   {
     pose proof (n20_111 f Ig) as n20_111.
     pose proof (n10_11_pred_1 Ig (fun g => (f Phi <[- Phi -]> g Phi)
-      → ([^ z => Phi z @ cPhi => f cPhi]) <[- Phi -]>
-        ([^ z => Phi z @ cPhi => g cPhi]))) as n10_11.
+      → ([^z => Phi z @ cPhi => f cPhi]) <[- Phi -]>
+        ([^z => Phi z @ cPhi => g cPhi]))) as n10_11.
     MP n10_11 n20_111.
     pose proof (n10_28_pred_1 (fun g => (f Phi <[- Phi -]> g Phi))
-      (fun g => ([^ z => Phi z @ cPhi => f cPhi]) 
-        <[- Phi -]> ([^ z => Phi z @ cPhi => g cPhi]))) as n10_28.
+      (fun g => ([^z => Phi z @ cPhi => f cPhi]) 
+        <[- Phi -]> ([^z => Phi z @ cPhi => g cPhi]))) as n10_28.
     MP n10_28 n10_11.
     now MP n10_28 S1.
   }
@@ -551,14 +551,14 @@ Proof.
       (Psi x <[- x -]> IPhi x)) as n4_36.
     MP n4_36 n20_1.
     pose proof (n10_11_pred IPhi (fun Phi =>
-      (([^ z => Chi z @ cChi => Phi = cChi])
+      (([^z => Chi z @ cChi => Phi = cChi])
           ∧ (Psi x <[- x -]> Phi x))
           ↔ ((∃ Theta : Order 1, (Theta x <[- x -]> Chi x)
           ∧ Phi = Theta) ∧ (Psi x <[- x -]> Phi x)))) 
       as n10_11.
     MP n10_11 n4_36.
     pose proof (n10_281_pred
-      (fun Phi => ([^ z => Chi z @ cChi => Phi = cChi])
+      (fun Phi => ([^z => Chi z @ cChi => Phi = cChi])
         ∧ (Psi x <[- x -]> Phi x))
       (fun Phi => (∃ Theta : Order 1, (Theta x <[- x -]> Chi x)
         ∧ Phi = Theta) ∧  (Psi x <[- x -]> Phi x))) 
@@ -697,8 +697,8 @@ Proof.
   pose proof (n20_12 Psi f) as n20_12.
   pose proof (n10_5_pred
     (fun Phi => Phi x <[- x -]> Psi x)
-    (fun Phi => ([^ z => Psi z @ cPsi => f cPsi]) 
-      ↔ ([^ z => Phi z @ cPhi => f cPhi]))) as n10_5.
+    (fun Phi => ([^z => Psi z @ cPsi => f cPsi]) 
+      ↔ ([^z => Phi z @ cPhi => f cPhi]))) as n10_5.
   MP n10_5 n20_12.
   (* simplification *)
   now destruct n10_5.
@@ -834,15 +834,15 @@ Proof.
           (((IPhi x <[- x -]>Psi x) ∧ Theta x <[- x -]> Chi x)
         ∧ (∀ f, ([^z => Psi z @ cPsi => f cPsi])
           → [^z => Chi z @ cChi => f cChi])
-        → [^ z => Psi z @ cPsi => [^ z => Chi z @ cChi => cPsi = cChi]]))) 
+        → [^z => Psi z @ cPsi => [^z => Chi z @ cChi => cPsi = cChi]]))) 
         as n10_1a.
     MP n10_1a S7.
     pose proof (n10_11_pred IPhi
       (fun Phi => forall Theta, 
         (((Phi x <[- x -]> Psi x) ∧ Theta x <[- x -]> Chi x)
-        ∧ (∀ f, ([^ z => Psi z @ cPsi => f cPsi]) 
-          → [^ z => Chi z @ cChi => f cChi]))
-        → [^ z => Psi z @ cPsi => [^ z => Chi z @ cChi => cPsi = cChi]]))
+        ∧ (∀ f, ([^z => Psi z @ cPsi => f cPsi]) 
+          → [^z => Chi z @ cChi => f cChi]))
+        → [^z => Psi z @ cPsi => [^z => Chi z @ cChi => cPsi = cChi]]))
         as n10_1b.
     MP n10_1b n10_1a.
     setoid_rewrite -> n10_23_pred in n10_1b.
@@ -995,44 +995,44 @@ Proof.
       ∧ [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => cPhi = cPsi]])
     → [Alpha @ cAlpha => [^z => Psi z @ cPsi => cAlpha = cPsi]]).
   { apply n20_22. }
-  assert (S4 : ([^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => cz1 = cz2]])
-    → ([Alpha @ cz3 => [^z => Phi z @ cPhi1 => cz3 = cz1]]
-      → [Alpha @ cz3 => [^z => Psi z @ cPsi => cz3 = cz2]])).
+  assert (S4 : ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => cPhi = cPsi]])
+    → ([Alpha @ cAlpha => [^z => Phi z @ cPhi => cAlpha = cPhi]]
+      → [Alpha @ cAlpha => [^z => Psi z @ cPsi => cAlpha = cPsi]])).
   {
     pose proof (Exp3_3 
-      ([Alpha @ cz1 => [^z => Phi z @ cPhi2 => cz1 = cz2]])
-      ([^z => Phi z @ cPhi2 => [^z => Psi z @ cPsi3 => cz2 = cz3]])
-      ([Alpha @ cz1 => [^z => Psi z @ cPsi3 => cz1 = cz3]]))
+      ([Alpha @ cAlpha => [^z => Phi z @ cPhi => cAlpha = cPhi]])
+      ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => cPhi = cPsi]])
+      ([Alpha @ cAlpha => [^z => Psi z @ cPsi => cAlpha = cPsi]]))
       as Exp3_3.
     MP Exp3_3 S3.
     pose proof (Comm2_04
-      ([Alpha @ cz1 => [^z => Phi z @ cPhi2 => cz1 = cz2]])
-      ([^z => Phi z @ cPhi2 => [^z => Psi z @ cPsi3 => cz2 = cz3]])
-      ([Alpha @ cz1 => [^z => Psi z @ cPsi3 => cz1 = cz3]]))
+      ([Alpha @ cAlpha => [^z => Phi z @ cPhi => cAlpha = cPhi]])
+      ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => cPhi = cPsi]])
+      ([Alpha @ cAlpha => [^z => Psi z @ cPsi => cAlpha = cPsi]]))
       as Comm2_04.
     now MP Comm2_04 Exp3_3.
   }
-  assert (S5 : ([^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => cz1 = cz2]]
-      ∧ [Alpha @ cz3 => [^z => Psi z @ cPsi => cz3 = cz2]])
-    → ([Alpha @ cz3 => [^z => Phi z @ cPhi1 => cz3 = cz1]])).
+  assert (S5 : ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => cPhi = cPsi]]
+      ∧ [Alpha @ cAlpha => [^z => Psi z @ cPsi => cAlpha = cPsi]])
+    → ([Alpha @ cAlpha => [^z => Phi z @ cPhi => cAlpha = cPhi]])).
   {
     pose proof (n20_24 Psi Phi Falpha) as n20_24.
     now setoid_rewrite -> n20_21 in n20_24 at 3.
   }
-  assert (S6 : [^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => cz1 = cz2]]
-    → ([Alpha @ cz3 => [^z => Psi z @ cPsi => cz3 = cz2]]
-      → [Alpha @ cz3 => [^z => Phi z @ cPhi1 => cz3 = cz1]])).
+  assert (S6 : [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => cPhi = cPsi]]
+    → ([Alpha @ cAlpha => [^z => Psi z @ cPsi => cAlpha = cPsi]]
+      → [Alpha @ cAlpha => [^z => Phi z @ cPhi => cAlpha = cPhi]])).
   {
     pose proof (Exp3_3
-      ([^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => cz1 = cz2]])
-      ([Alpha @ cz3 => [^z => Psi z @ cPsi => cz3 = cz2]])
-      ([Alpha @ cz3 => [^z => Phi z @ cPhi1 => cz3 = cz1]])) 
+      ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => cPhi = cPsi]])
+      ([Alpha @ cAlpha => [^z => Psi z @ cPsi => cAlpha = cPsi]])
+      ([Alpha @ cAlpha => [^z => Phi z @ cPhi => cAlpha = cPhi]])) 
       as Exp3_3.
     now MP Exp3_3 S5.
   }
-  assert (S7 : [^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => cz1 = cz2]]
-    → ([Alpha @ cz3 => [^z => Phi z @ cPhi1 => cz3 = cz1]]
-      ↔ [Alpha @ cz3 => [^z => Psi z @ cPsi => cz3 = cz2]])).
+  assert (S7 : [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => cPhi = cPsi]]
+    → ([Alpha @ cAlpha => [^z => Phi z @ cPhi => cAlpha = cPhi]]
+      ↔ [Alpha @ cAlpha => [^z => Psi z @ cPsi => cAlpha = cPsi]])).
   {
     (* simplification *)
     intro Hp.
@@ -1042,21 +1042,21 @@ Proof.
     Conj_as S4 S6 C1.
     now Equiv C1.
   }
-  assert (S8 : [^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => cz1 = cz2]]
-    → ([alpha @ cz3 => [^z => Phi z @ cPhi1 => cz3 = cz1]]
-      <[- alpha -]> [alpha @ cz3 => [^z => Psi z @ cPsi => cz3 = cz2]])).
+  assert (S8 : [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => cPhi = cPsi]]
+    → ([alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]]
+      <[- alpha -]> [alpha @ calpha => [^z => Psi z @ cPsi => calpha = cPsi]])).
   {
     pose proof (n10_11_class Alpha
-      (fun alpha => [^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => cz1 = cz2]]
-        → ([alpha @ cz3 => [^z => Phi z @ cPhi1 => cz3 = cz1]]
-          ↔ [alpha @ cz3 => [^z => Psi z @ cPsi => cz3 = cz2]])))
+      (fun alpha => [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => cPhi = cPsi]]
+        → ([alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]]
+          ↔ [alpha @ calpha => [^z => Psi z @ cPsi => calpha = cPsi]])))
       as n10_11.
     MP n10_11 S7.
     now rewrite -> n10_21_class in n10_11.
   }
-  assert (S9 : ([alpha @ cz1 => [^z => Phi z @ cPhi2 => cz1 = cz2]] <[- alpha -]>
-      [alpha @ cz1 => [^z => Psi z @ cPsi3 => cz1 = cz3]])
-    → [^z => Phi z @ cPhi2 => [^z => Psi z @ cPsi3 => cz2 = cz3]]).
+  assert (S9 : ([alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]] <[- alpha -]>
+      [alpha @ calpha => [^z => Psi z @ cPsi => calpha = cPsi]])
+    → [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => cPhi = cPsi]]).
   {
     Conj_as S2 S8 C1.
     now Equiv C1.
@@ -1069,22 +1069,22 @@ Qed.
   technical problem 
 *)
 Theorem n20_3 (X : Prop) (Psi : Prop → Prop ) : 
-  ([^ z => Psi z @ cz1 => X <class_in> cz1]) ↔ Psi X.
+  ([^z => Psi z @ cPsi => X <class_in> cPsi]) ↔ Psi X.
 Proof.
   (* TOOLS *)
   set (IPhi := Intro_pred "Phi" 1).
   (* ******** *)
-  assert (S1 : [^ z => Psi z @ cz1 => X <class_in> cz1]
+  assert (S1 : [^z => Psi z @ cPsi => X <class_in> cPsi]
     ↔ ∃ Phi, (Psi y <[- y -]> Phi y) 
       ∧ (X <class_in> Phi)).
   {
     pose proof (n20_1 Psi (fun cz => X <class_in> cz)) as n20_1.
     now setoid_rewrite -> n4_21 in n20_1 at 2.
   }
-  assert (S2 : [^ z => Psi z @ cz1 => X <class_in> cz1]
+  assert (S2 : [^z => Psi z @ cPsi => X <class_in> cPsi]
     ↔ (∃ Phi, (Psi y <[- y -]> Phi y) ∧ Phi X)).
   { now setoid_rewrite -> n20_02 in S1. }
-  assert (S3 : [^ z => Psi z @ cz1 => X <class_in> cz1]
+  assert (S3 : [^z => Psi z @ cPsi => X <class_in> cPsi]
     ↔ ∃ Phi, (Psi y <[- y -]> Phi y) ∧ Psi X).
   {
     simpl; simpl in S2.
@@ -1103,7 +1103,7 @@ Proof.
     setoid_rewrite -> n4_21 in n10_281 at 3.
     now rewrite -> n10_281 in S2.
   }
-  assert (S4 : [^ z => Psi z @ cz1 => X <class_in> cz1]
+  assert (S4 : [^z => Psi z @ cPsi => X <class_in> cPsi]
     ↔ (∃ Phi, Psi y <[- y -]> Phi y) ∧ Psi X).
   {
     pose proof n10_35 as _n10_35.
@@ -1111,7 +1111,7 @@ Proof.
     setoid_rewrite -> n10_35_pred in S3.
     now setoid_rewrite <- n4_3 in S3 at 2.
   }
-  assert (S5 : [^ z => Psi z @ cz1 => X <class_in> cz1]
+  assert (S5 : [^z => Psi z @ cPsi => X <class_in> cPsi]
     ↔ Psi X).
   {
     (* unprovable. *)
@@ -1122,13 +1122,13 @@ Proof.
 Admitted.
 
 Definition n20_3_pred (X : Prop -> Prop) (Psi : (Prop -> Prop) → Prop) : 
-  ([^ z => Psi z @ cz1 => X <class_in> cz1]) ↔ Psi X.
+  ([^z => Psi z @ cPsi => X <class_in> cPsi]) ↔ Psi X.
 Admitted.
 
 Theorem n20_31 (Psi Chi : Prop → Prop) : 
-  [^z => Psi z @ cPsi => [^z => Chi z @ cz2 => cz1 = cz2]]
-  ↔ (([^ z => Psi z @ cz1 => x <class_in> cz1])
-    <[- x -]> [^ z => Chi z @ cz2 => x <class_in> cz2]).
+  [^z => Psi z @ cPsi => [^z => Chi z @ cChi => cPsi = cChi]]
+  ↔ (([^z => Psi z @ cPsi => x <class_in> cPsi])
+    <[- x -]> [^z => Chi z @ cChi => x <class_in> cChi]).
 Proof.
   pose proof (n20_15 Psi Chi) as n20_15.
   setoid_rewrite <- n20_3 in n20_15 at 3.
@@ -1137,16 +1137,16 @@ Proof.
 Qed.
 
 Theorem n20_32 (Phi : Prop → Prop) :
-  [^x => [^z => Phi z @ cPhi2 => x <class_in> cz2] @ cz1
-    => [^z => Phi z @ cPhi2 => cz1 = cz2]].
+  [^x => [^z => Phi z @ cPhi => x <class_in> cPhi] @ cz
+    => [^z => Phi z @ cPhi => cz = cPhi]].
 Proof.
   set (X := Intro_individual "x").
   pose proof (n20_15 (fun x =>
-    [^ z => Phi z @ cz2 => x <class_in> cz2]) 
+    [^z => Phi z @ cPhi => x <class_in> cPhi]) 
     Phi) as n20_15.
   pose proof (n20_3 X Phi) as n20_3.
   pose proof (n10_11 X
-    (fun x => ([^ z => Phi z @ cz1 => x <class_in> cz1]) ↔ Phi x)) 
+    (fun x => ([^z => Phi z @ cPhi => x <class_in> cPhi]) ↔ Phi x)) 
     as n10_11.
   MP n10_11 n20_3.
   now rewrite -> n20_15 in n10_11.
@@ -1154,21 +1154,21 @@ Qed.
 
 Theorem n20_33 (FAlpha : Prop → Prop) (Phi : Prop → Prop) :
   let Alpha := (^z => FAlpha z) in
-  [Alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]]
-  ↔ ([Alpha @ calpha => x <class_in> calpha] <[- x -]> Phi x).
+  [Alpha @ cAlpha => [^z => Phi z @ cPhi => cAlpha = cPhi]]
+  ↔ ([Alpha @ cAlpha => x <class_in> cAlpha] <[- x -]> Phi x).
 Proof.
   (* TOOLS *)
   set (Alpha := (^z => FAlpha z)).
   (* ******** *)
-  assert (S1 : [Alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]]
-    ↔ ([Alpha @ calpha => x <class_in> calpha] 
-      <[- x -]> [^z => Phi z @ cPhi2 => x <class_in> cz2])).
+  assert (S1 : [Alpha @ cAlpha => [^z => Phi z @ cPhi => cAlpha = cPhi]]
+    ↔ ([Alpha @ cAlpha => x <class_in> cAlpha] 
+      <[- x -]> [^z => Phi z @ cPhi => x <class_in> cPhi])).
   {
     pose proof n20_31 as n20_31.
     admit.
   }
-  assert (S2 : [Alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]]
-    ↔ ([Alpha @ calpha => x <class_in> calpha] <[- x -]> Phi x)).
+  assert (S2 : [Alpha @ cAlpha => [^z => Phi z @ cPhi => calpha = cPhi]]
+    ↔ ([Alpha @ cAlpha => x <class_in> cAlpha] <[- x -]> Phi x)).
   { now setoid_rewrite -> n20_3 in S1. }
   exact S2.
 Admitted.
@@ -1182,13 +1182,13 @@ Proof.
   (* TOOLS *)
   set (λ f0 : (Prop → Prop) → Prop, eq_to_equiv
     (∀ alpha, [alpha @ calpha => f0 calpha])
-    (∀ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (∀ Phi, [^z => Phi z @ cPhi => f0 cPhi])
     (n20_07 f0)) as n20_07a.
   (* ******** *)
   assert (S1 : ([alpha @ calpha => X <class_in> calpha]  
       -[ alpha ]> [alpha @ calpha => Y <class_in> calpha])
-    ↔ ([^z => Phi z @ cPhi1 => X <class_in> cz1] 
-      -[ Phi ]> [^z => Phi z @ cPhi1 => Y <class_in> cz1])).
+    ↔ ([^z => Phi z @ cPhi => X <class_in> cPhi] 
+      -[ Phi ]> [^z => Phi z @ cPhi => Y <class_in> cPhi])).
   {
     pose proof (n4_2 ([alpha @ calpha => X <class_in> calpha]  
       -[ alpha ]> [alpha @ calpha => Y <class_in> calpha])) as n4_2.
@@ -1230,22 +1230,22 @@ Admitted.
 
 Theorem n20_4 (FAlpha : Prop → Prop) :
   let Alpha := (^z => FAlpha z) in
-  ([Alpha @ calpha => [Cls @ Cls => calpha <class_in> Cls]]) ↔ 
-    (∃ (Phi : Order 1), [Alpha @ calpha => 
-    [^z => Phi z @ cPhi => calpha = cz]]).
+  ([Alpha @ cAlpha => [Cls @ Cls => cAlpha <class_in> Cls]]) ↔ 
+    (∃ (Phi : Order 1), [Alpha @ cAlpha => 
+    [^z => Phi z @ cPhi => cAlpha = cPhi]]).
 Proof.
   (* TOOLS *)
   set (IX := Intro_pred "x" 1).
   set (Alpha := ^z => FAlpha z).
   (* ******** *)
   pose proof (n20_3_pred IX (fun FAlpha =>
-    ∃ Phi, [^ z => Phi z @ cPhi => FAlpha = cPhi])) 
+    ∃ Phi, [^z => Phi z @ cPhi => FAlpha = cPhi])) 
     as n20_3.
   (* unprovable: scoping issue *)
 Admitted.
 
 Theorem n20_41 (Psi : Prop → Prop) : [^z => Psi z @ cPsi => 
-  [Cls @ Cls => cz1 <class_in> Cls]].
+  [Cls @ Cls => cPsi <class_in> Cls]].
 Proof.
   pose proof (n20_151 Psi) as n20_151.
   now rewrite <- n20_4 in n20_151.
@@ -1255,24 +1255,24 @@ Qed.
 claimed explicitly *)
 Theorem n20_42 (FAlpha : Prop → Prop) : 
   let Alpha := (^z => FAlpha z) in
-    [(^z => [Alpha @ calpha => z <class_in> calpha])
-      @ cz => [Alpha @ calpha => cz = calpha]].
+    [(^z => [Alpha @ cAlpha => z <class_in> cAlpha])
+      @ cz => [Alpha @ cAlpha => cz = cAlpha]].
 Proof.
   (* TOOLS *)
   set (X := Intro_individual "x").
   set (IPsi := Intro_pred "Psi" 1).
   set (Alpha := ^z => FAlpha z).
   (* ******** *)
-  assert (S1 : ([^z => IPsi z @ cz => x <class_in> cz]) <[- x -]> IPsi x).
+  assert (S1 : ([^z => IPsi z @ cPsi => x <class_in> cPsi]) <[- x -]> IPsi x).
   {
     pose proof (n20_3 X IPsi) as n20_3.
     pose proof (n10_11 X (fun x =>
-      (([^ z => IPsi z @ cz1 => x <class_in> cz1]) ↔ IPsi x))) 
+      (([^z => IPsi z @ cPsi => x <class_in> cPsi]) ↔ IPsi x))) 
       as n10_11.
     now MP n10_11 n20_3.
   }
-  assert (S2 : [^x => [^z => IPsi z @ cz1 => x <class_in> cz1] @ cz2 
-    => [^x => IPsi x @ cz3 => cz2 = cz3]]).
+  assert (S2 : [^x => [^z => IPsi z @ cPsi => x <class_in> cPsi] @ cz
+    => [^x => IPsi x @ cPsi => cz = cPsi]]).
   {
     pose proof n20_15 as n20_15.
     admit.
@@ -1294,16 +1294,16 @@ Admitted.
 Open Scope debug_iota_description.
 
 Theorem n20_5 (Phi Psi : Prop → Prop) :
-  [iota Phi | iotaPhi => [^z => Psi z @ cPsi => iotaPhi <class_in> cz1]]
+  [iota Phi | iotaPhi => [^z => Psi z @ cPsi => iotaPhi <class_in> cPsi]]
   ↔ [iota Phi | iotaPhi => Psi iotaPhi].
 Proof.
-  assert (S1 : [iota Phi | iotaPhi => [^z => Psi z @ cPsi => iotaPhi <class_in> cz1]]
-    ↔ (∃ c, (Phi x <[- x -]> (x = c)) ∧ [^z => Psi z @ cPsi => c <class_in> cz1])).
+  assert (S1 : [iota Phi | iotaPhi => [^z => Psi z @ cPsi => iotaPhi <class_in> cPsi]]
+    ↔ (∃ c, (Phi x <[- x -]> (x = c)) ∧ [^z => Psi z @ cPsi => c <class_in> cPsi])).
   { apply n14_1. }
-  assert (S2 : [iota Phi | iotaPhi => [^z => Psi z @ cPsi => iotaPhi <class_in> cz1]]
+  assert (S2 : [iota Phi | iotaPhi => [^z => Psi z @ cPsi => iotaPhi <class_in> cPsi]]
     ↔ (∃ c, (Phi x <[- x -]> (x = c)) ∧ Psi c)).
   { now setoid_rewrite -> n20_3 in S1 at 2. }
-  assert (S3 : [iota Phi | iotaPhi => [^z => Psi z @ cPsi => iotaPhi <class_in> cz1]]
+  assert (S3 : [iota Phi | iotaPhi => [^z => Psi z @ cPsi => iotaPhi <class_in> cPsi]]
     ↔ [iota Phi | iotaPhi => Psi iotaPhi]).
   { now setoid_rewrite <- n14_1 in S2. }
   exact S3.
@@ -1318,17 +1318,17 @@ Proof.
   set (IPsi := Intro_pred "Psi" 1).
   set (Alpha := (^z => IPsi z)).
   (* ******** *)
-  assert (S1 : ([iota Phi | iotaPhi => [^z => IPsi z @ cz1 => iotaPhi <class_in> cz1]]
-      ↔ [^z => IPsi z @ cz1 => B <class_in> cz1])
+  assert (S1 : ([iota Phi | iotaPhi => [^z => IPsi z @ cPsi => iotaPhi <class_in> cPsi]]
+      ↔ [^z => IPsi z @ cPsi => B <class_in> cPsi])
     ↔ ([iota Phi | iotaPhi => IPsi iotaPhi] ↔ IPsi B)).
   {
     pose proof (n20_5 Phi IPsi) as n20_5.
     pose proof (n20_3 B IPsi) as n20_3.
     pose proof n4_86 as _n4_86.
     pose proof (n4_86
-      ([iota Phi | iotaPhi => [^z => IPsi z @ cz1 => iotaPhi <class_in> cz1]])
+      ([iota Phi | iotaPhi => [^z => IPsi z @ cPsi => iotaPhi <class_in> cPsi]])
       ([iota Phi | iotaPhi => IPsi iotaPhi])
-      ([^ z => IPsi z @ cz1 => B <class_in> cz1])) 
+      ([^z => IPsi z @ cPsi => B <class_in> cPsi])) 
       as n4_86.
     MP n4_86 n20_5.
     now setoid_rewrite -> n20_3 in n4_86 at 2.
@@ -1343,8 +1343,8 @@ Proof.
       `(∀ x, Phi x ↔ P) → ((∀ x, Phi x) ↔ P)`
       destructing the equivalence does the work, but become extremely tedious *)
     pose proof (n10_11_class Alpha (fun alpha =>
-      ([iota Phi | iotaPhi => [alpha @ cz1 => iotaPhi <class_in> cz1]]
-        ↔ [alpha @ cz1 => B <class_in> cz1])
+      ([iota Phi | iotaPhi => [alpha @ calpha => iotaPhi <class_in> calpha]]
+        ↔ [alpha @ calpha => B <class_in> calpha])
       ↔ ([iota Phi | iotaPhi => IPsi iotaPhi] ↔ IPsi B))) as n10_11_class.
     MP n10_11_class S1.
     pose proof n10_11_pred as _n10_11_pred.
@@ -1398,28 +1398,28 @@ Qed.
 
 Theorem n20_53 (FAlpha : Prop → Prop) (Phi : (Prop → Prop) → Prop) : 
   let Alpha := (^z => FAlpha z) in
-  ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+  ([beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]]
     -[ beta ]> [beta @ cbeta => Phi cbeta])
-      ↔ [Alpha @ calpha => Phi calpha].
+      ↔ [Alpha @ cAlpha => Phi cAlpha].
 Proof.
   (* TOOLS *)
   set (FBeta := Intro_pred "beta" 1).
   set (Alpha := ^z => FAlpha z).
   set (Beta := ^z => FBeta z).
   (* ******** *)
-  assert (S1 : ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+  assert (S1 : ([beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]]
       -[ beta ]> [beta @ cbeta => Phi cbeta])
-    → ([Alpha @ calpha => calpha = calpha]
-      → [Alpha @ calpha => Phi calpha])).
+    → ([Alpha @ cAlpha => cAlpha = cAlpha]
+      → [Alpha @ cAlpha => Phi cAlpha])).
   {
     setoid_rewrite -> class_scope_eq.
     apply (n10_1_class (fun beta =>
-      ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+      ([beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]]
         → [beta @ cbeta => Phi cbeta])) Alpha).
   }
-  assert (S2 : ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+  assert (S2 : ([beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]]
       -[ beta ]> [beta @ cbeta => Phi cbeta])
-    → [Alpha @ calpha => Phi calpha]).
+    → [Alpha @ cAlpha => Phi cAlpha]).
   {
     (* simplification *)
     intro Hp.
@@ -1428,8 +1428,8 @@ Proof.
     rewrite <- class_scope_eq in n20_2.
     now MP S1 n20_2.
   }
-  assert (S3 : [Beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
-    → ([Alpha @ calpha => Phi calpha] → [Beta @ cbeta => Phi cbeta])).
+  assert (S3 : [Beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]]
+    → ([Alpha @ cAlpha => Phi cAlpha] → [Beta @ cbeta => Phi cbeta])).
   {
     (* *20.21 ignored *)
     pose proof (n20_18 FBeta FAlpha Phi) as n20_18.
@@ -1439,30 +1439,30 @@ Proof.
     rewrite -> n4_21 in n20_18.
     now destruct n20_18.
   }
-  assert (S4 : [Alpha @ calpha => Phi calpha]
-    → ([Beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+  assert (S4 : [Alpha @ cAlpha => Phi cAlpha]
+    → ([Beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]]
       → [Beta @ cbeta => Phi cbeta])).
   {
     pose proof (Comm2_04
-      ([Beta @ cbeta => [Alpha @ calpha => cbeta = calpha]])
-      ([Alpha @ calpha => Phi calpha])
+      ([Beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]])
+      ([Alpha @ cAlpha => Phi cAlpha])
       ([Beta @ cbeta => Phi cbeta])) as Comm2_04.
     now MP Comm2_04 S3.
   }
-  assert (S5 : [Alpha @ calpha => Phi calpha]
-    → ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+  assert (S5 : [Alpha @ cAlpha => Phi cAlpha]
+    → ([beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]]
       -[ beta ]> [beta @ cbeta => Phi cbeta])).
   {
     pose proof (n10_11_class Beta (fun beta =>
-      [Alpha @ calpha => Phi calpha]
-        → ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+      [Alpha @ cAlpha => Phi cAlpha]
+        → ([beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]]
           → [beta @ cbeta => Phi cbeta]))) as n10_11.
     MP n10_11 S4.
     now rewrite -> n10_21_class in n10_11.
   }
-  assert (S6 : (([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]) 
+  assert (S6 : (([beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]]) 
     -[ beta ]> [beta @ cbeta => Phi cbeta]) 
-      ↔ [Alpha @ calpha => Phi calpha]).
+      ↔ [Alpha @ cAlpha => Phi cAlpha]).
   {
     Conj_as S2 S5 C1.
     now Equiv C1.
@@ -1472,52 +1472,53 @@ Qed.
 
 Theorem n20_54 (FAlpha : Prop → Prop) (Phi : (Prop → Prop) → Prop) : 
   let Alpha := (^z => FAlpha z) in (∃ beta, 
-    [beta @ cbeta => [Alpha @ calpha => cbeta = calpha]] ∧ [beta @ cbeta => Phi cbeta])
-      ↔ [Alpha @ calpha => Phi calpha].
+    [beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]] ∧ [beta @ cbeta => Phi cbeta])
+      ↔ [Alpha @ cAlpha => Phi cAlpha].
 Proof.
   (* TOOLS *)
   set (Alpha := ^z => FAlpha z).
   set (FBeta := Intro_pred "beta" 1).
   set (Beta := ^z => FBeta z).
   (* ******** *)
-  assert (S1 : ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]] 
-    ∧ [beta @ cbeta => Phi cbeta]) -[ beta ]> [Alpha @ calpha => Phi calpha]).
+  assert (S1 : ([beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]] 
+    ∧ [beta @ cbeta => Phi cbeta]) -[ beta ]> [Alpha @ cAlpha => Phi cAlpha]).
   {
     (* unprovable: it seems to be not fit. TODO: figure out what is going on
     in the future *)
     admit.
   }
-  assert (S2 : (∃ beta, [beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
+  assert (S2 : (∃ beta, [beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]]
       ∧ [beta @ cbeta => Phi cbeta])
-    → [Alpha @ calpha => Phi calpha]).
+    → [Alpha @ cAlpha => Phi cAlpha]).
   { now rewrite -> n10_23_class in S1. }
-  assert (S3 : [Alpha @ calpha => Phi calpha]
-    → ([Alpha @ calpha => calpha = calpha] 
-      ∧ [Alpha @ calpha => Phi calpha])).
+  (* NOTE: notice the `cAlpha = cAlpha` below which is "illegal" *)
+  assert (S3 : [Alpha @ cAlpha => Phi cAlpha]
+    → ([Alpha @ cAlpha => cAlpha = cAlpha]
+      ∧ [Alpha @ cAlpha => Phi cAlpha])).
   {
     setoid_rewrite -> class_scope_eq.
     pose proof (n20_2 FAlpha) as n20_2.
     pose proof (n3_2
-      ([Alpha @ calpha1 => [Alpha @ calpha2 => calpha1 = calpha2]])
-      ([Alpha @ calpha => Phi calpha])) as n3_2.
+      ([Alpha @ cAlpha1 => [Alpha @ cAlpha2 => cAlpha1 = cAlpha2]])
+      ([Alpha @ cAlpha => Phi cAlpha])) as n3_2.
     now MP n3_2 n20_2.
   }
-  assert (S4 : [Alpha @ calpha => Phi calpha]
+  assert (S4 : [Alpha @ cAlpha => Phi cAlpha]
     → (∃ beta, [beta @ cbeta => 
-        [Alpha @ calpha => cbeta = calpha]]
+        [Alpha @ cAlpha => cbeta = cAlpha]]
       ∧ [beta @ cbeta => Phi cbeta])).
   {
     (* NOTE: we dont pick all `alpha`s in this step *)
     setoid_rewrite -> class_scope_eq in S3.
     pose proof (n10_24_class (fun beta => [beta @ cbeta => 
-      [Alpha @ calpha => cbeta = calpha]]
+      [Alpha @ cAlpha => cbeta = cAlpha]]
       ∧ [beta @ cbeta => Phi cbeta])
       Alpha) as n10_24.
     now Syll_as S3 n10_24 S4.
   }
-  assert (S5 : (∃ beta, [beta @ cbeta => [Alpha @ calpha => cbeta = calpha]] 
+  assert (S5 : (∃ beta, [beta @ cbeta => [Alpha @ cAlpha => cbeta = cAlpha]] 
     ∧ [beta @ cbeta => Phi cbeta]) 
-      ↔ [Alpha @ calpha => Phi calpha]).
+      ↔ [Alpha @ cAlpha => Phi cAlpha]).
   {
     Conj_as S2 S4 C1.
     now Equiv C1.
@@ -1528,8 +1529,8 @@ Admitted.
 (* TODO: redesign n20_55 *)
 (* I'm quite proud that the class notation can work nicely together with iotas *)
 Theorem n20_55 (Phi : Prop → Prop) : 
-  [iota (fun alpha => ([alpha @ calpha => x <class_in> calpha]) <[- x -]> Phi x)
-    | iotaalpha => [^z => Phi z @ cPhi1 => [iotaalpha @ cz2 => cz1 = cz2]]].
+  [iota (fun alpha => ([alpha @ cAlpha => x <class_in> cAlpha]) <[- x -]> Phi x)
+    | iotaalpha => [^z => Phi z @ cPhi => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]].
 Proof.
   (* TOOLS *)
   set (FAlpha := Intro_pred "alpha" 1).
@@ -1537,26 +1538,26 @@ Proof.
   (* ******** *)
   assert (S1 : ([alpha @ calpha => x <class_in> calpha]
       <[- x -]> Phi x)
-    <[- alpha -]> ([alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]])).
+    <[- alpha -]> ([alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]])).
   {
     pose proof (n20_33 FAlpha Phi) as n20_33.
     rewrite -> n4_21 in n20_33.
     pose proof (n10_11_class Alpha (fun alpha =>
       ([alpha @ calpha => x <class_in> calpha]  <[- x -]> Phi x)
-      ↔ ([alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]])))
+      ↔ ([alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]])))
       as n10_11.
     now MP n10_11 n20_33.
   }
   assert (S2 : ∃ beta, (([alpha @ calpha => x <class_in> calpha]
         <[- x -]> Phi x)
       <[- alpha -]> [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
-    ∧ [^z => Phi z @ cPhi => [beta @ cbeta => cz = cbeta]]).
+    ∧ [^z => Phi z @ cPhi => [beta @ cbeta => cPhi = cbeta]]).
   {
     pose proof (n20_54 Phi (fun Phi =>
       ([alpha @ calpha => x <class_in> calpha]
         <[- x -]> Phi x)
-      <[- alpha -]> ([alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]])
-      )) as n20_54.
+      <[- alpha -]> ([alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]]))) 
+      as n20_54.
     simpl in n20_54.
     setoid_rewrite -> n4_3 in n20_54 at 2.
     setoid_rewrite -> n20_21_alt in n20_54 at 2.
@@ -1570,7 +1571,7 @@ Proof.
   }
   assert (S3 : [iota (fun alpha => ([alpha @ calpha => x <class_in> calpha]) 
     <[- x -]> Phi x) | iotaalpha => 
-    [^z => Phi z @ cPhi1 => [iotaalpha @ cz2 => cz1 = cz2]]]).
+    [^z => Phi z @ cPhi => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]]).
   {
     simpl in S2.
     (* TODO: make a class specific vertsion for n14_1 *)
@@ -1592,7 +1593,7 @@ Proof.
     (fun falpha => 
       let alpha := (^z => falpha z) in
       ([alpha @ calpha => x <class_in> calpha] <[- x -]> Phi x))
-    (fun iota => [^z => Phi z @ cPhi => cz = iota]))
+    (fun iotaalpha => [^z => Phi z @ cPhi => cPhi = iotaalpha]))
     as n14_21.
   (* unprovable: n20_55 doesn't have the correct form
   TODO: redesign n20_55 in the future. Or is *20.55 ill desigend? Since it
@@ -1604,19 +1605,19 @@ Admitted.
 Theorem n20_57 (Phi : Prop → Prop) (f g : (Prop → Prop) → Prop) : 
   [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
     [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
-  → ([^ z => Phi z @ cz => g cz] ↔ [iota (fun alpha => [alpha @ calpha => f calpha]) 
+  → ([^z => Phi z @ cz => g cz] ↔ [iota (fun alpha => [alpha @ calpha => f calpha]) 
     | iotaalpha => [iotaalpha @ ciotaalpha => g ciotaalpha]]).
 Proof.
   assert (S1 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
-    [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    [^z => Phi z @ cPhi => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]]
     ↔ (∃ beta, ([alpha @ calpha => f calpha] <[- alpha -]> 
       [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
-      /\ [^z => Phi z @ cPhi => [beta @ cbeta => cz = cbeta]])).
+      /\ [^z => Phi z @ cPhi => [beta @ cbeta => cPhi = cbeta]])).
   { apply n14_1_class. }
   assert (S2 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
-    [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    [^z => Phi z @ cPhi => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]]
     ↔ ([alpha @ calpha => f calpha] 
-      <[- alpha -]> [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]])).
+      <[- alpha -]> [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]])).
   {
     setoid_rewrite -> n20_21_alt in S1 at 2.
     pose proof n20_54 as _n20_54.
@@ -1632,10 +1633,10 @@ Proof.
       /\ [beta @ cbeta => g cbeta])).
   { apply n14_1_class. }
   assert (S4 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
-      [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+      [(^z => Phi z) @ cPhi => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]]
     → ([iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
       [iotaalpha @ ciotaalpha => g ciotaalpha]]
-      ↔ (∃ beta, ([alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]]
+      ↔ (∃ beta, ([alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]]
         <[- alpha -]> [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
         /\ [beta @ cbeta => g cbeta]))).
   {
@@ -1646,57 +1647,57 @@ Proof.
     now setoid_rewrite -> S2 in S3 at 2.
   }
   assert (S5 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
-      [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+      [(^z => Phi z) @ cPhi => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]]
     → ([iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
         [iotaalpha @ ciotaalpha => g ciotaalpha]]
       ↔ (∃ beta, [^z => Phi z @ cPhi => 
-        [beta @ cbeta => cz = cbeta]] 
+        [beta @ cbeta => cPhi = cbeta]] 
         /\ [beta @ cbeta => g cbeta]))).
   {
     setoid_rewrite -> n20_21_alt in S4 at 2.
     now setoid_rewrite <- n13_183_class in S4.
   }
   assert (S6 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
-      [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+      [(^z => Phi z) @ cPhi => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]]
     → ([iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
       [iotaalpha @ ciotaalpha => g ciotaalpha]]
-      ↔ [^z => Phi z @ cPhi => g cz])).
+      ↔ [^z => Phi z @ cPhi => g cPhi])).
   {
     setoid_rewrite -> n20_21_alt in S5 at 2.
     now setoid_rewrite -> n20_54 in S5.
   }
   assert (S7 : [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha =>
-      [(^z => Phi z) @ cz => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
-    → ([^ z => Phi z @ cz => g cz] ↔ [iota (fun alpha => [alpha @ calpha => f calpha]) 
+      [(^z => Phi z) @ cPhi => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]]
+    → ([^z => Phi z @ cPhi => g cPhi] ↔ [iota (fun alpha => [alpha @ calpha => f calpha]) 
       | iotaalpha => [iotaalpha @ ciotaalpha => g ciotaalpha]])).
   { now setoid_rewrite -> n4_21 in S6 at 1. }
   exact S7.
 Admitted.
 
 Theorem n20_58 (Phi : Prop → Prop) :
-  [iota (fun alpha => [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]]) 
+  [iota (fun alpha => [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]]) 
     | iotaalpha => [^z => Phi z @ cPhi => [iotaalpha @ ciotaalpha =>
-      cz = ciotaalpha]]].
+      cPhi = ciotaalpha]]].
 Proof.
   (* TOOLS *)
   set (FAlpha := Intro_pred "alpha" 1).
   set (Alpha := ^z => FAlpha z).
   (* ******** *)
-  assert (S1 : [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]]
-    <[- alpha -]> [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]]).
+  assert (S1 : [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]]
+    <[- alpha -]> [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]]).
   {
-    pose proof (n4_2 ([Alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]])) 
+    pose proof (n4_2 ([Alpha @ cAlpha => [^z => Phi z @ cPhi => cAlpha = cPhi]])) 
       as n4_2.
     pose proof (n10_11_class Alpha (fun alpha => 
-      [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]]
-      ↔ [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]]))
+      [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]]
+      ↔ [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]]))
       as n10_11.
     now MP n10_11 n4_2.
   }
   assert (S2 : ∃ beta, ([alpha @ calpha => 
-    [^z => Phi z @ cPhi => calpha = cz]] 
+    [^z => Phi z @ cPhi => calpha = cPhi]] 
       <[- alpha -]> [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
-    /\ [^z => Phi z @ cPhi => [beta @ cbeta => cz = cbeta]]).
+    /\ [^z => Phi z @ cPhi => [beta @ cbeta => cPhi = cbeta]]).
   {
     (* NOTE: i think the proof order is wrong. we should have first constructed
       the `∃` and then generalize the `alpha`. Otherwise it's making things
@@ -1706,9 +1707,9 @@ Proof.
     (* setoid_rewrite <- n20_54 in S1. *)
     admit.
   }
-  assert (S3 : [iota (fun alpha => [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cz]]) 
+  assert (S3 : [iota (fun alpha => [alpha @ calpha => [^z => Phi z @ cPhi => calpha = cPhi]]) 
     | iotaalpha => [^z => Phi z @ cPhi => [iotaalpha @ ciotaalpha =>
-      cz = ciotaalpha]]]).
+      cPhi = ciotaalpha]]]).
   { now rewrite <- n14_1_class in S2. }
   exact S3.
 Admitted.
@@ -1721,37 +1722,37 @@ Admitted.
   theoremby, as the first step is taking *20.1 to unfolding the definition *)
 Theorem n20_59 (Phi : Prop → Prop) (f : (Prop → Prop) → Prop) :
   [^z => Phi z @ cPhi => [iota (fun alpha => [alpha @ calpha => f calpha])
-    | iotaalpha => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    | iotaalpha => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]]
   ↔
   [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha => 
     [iotaalpha @ ciotaalpha => 
-      [^z => Phi z @ cPhi => ciotaalpha = cz]]].
+      [^z => Phi z @ cPhi => ciotaalpha = cPhi]]].
 Proof.
   assert (S1 : [^z => Phi z @ cPhi => [iota (fun alpha => [alpha @ calpha => f calpha])
-    | iotaalpha => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    | iotaalpha => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]]
     ↔ (∃ Psi, (Phi x <[- x -]> Psi x)
       /\ [iota (fun alpha => [alpha @ calpha => f calpha]) 
         | iotaalpha => [iotaalpha @ ciotaalpha =>
           Psi = ciotaalpha]])).
   {
-    pose proof (n20_1 Phi (fun zPsi =>
+    pose proof (n20_1 Phi (fun cPsi =>
       [iota (fun alpha => [alpha @ calpha => f calpha])
-      | iotaalpha => [iotaalpha @ ciotaalpha => zPsi = ciotaalpha]]
+      | iotaalpha => [iotaalpha @ ciotaalpha => cPsi = ciotaalpha]]
     )) as n20_1.
     now setoid_rewrite -> n4_21 in n20_1 at 2.
   }
   assert (S2 : [^z => Phi z @ cPhi => [iota (fun alpha => [alpha @ calpha => f calpha])
-    | iotaalpha => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    | iotaalpha => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]]
     ↔ (∃ Psi, (Phi x <[- x -]> Psi x)
       /\ [iota (fun alpha => [alpha @ calpha => f calpha]) 
         | iotaalpha => [iotaalpha @ ciotaalpha =>
           ciotaalpha = Psi]])).
   { now setoid_rewrite -> n14_13_class_alt in S1. }
   assert (S3 : [^z => Phi z @ cPhi => [iota (fun alpha => [alpha @ calpha => f calpha])
-    | iotaalpha => [iotaalpha @ ciotaalpha => cz = ciotaalpha]]]
+    | iotaalpha => [iotaalpha @ ciotaalpha => cPhi = ciotaalpha]]]
     ↔ [iota (fun alpha => [alpha @ calpha => f calpha]) | iotaalpha => 
       [iotaalpha @ ciotaalpha => 
-        [^z => Phi z @ cPhi => ciotaalpha = cz]]]).
+        [^z => Phi z @ cPhi => ciotaalpha = cPhi]]]).
   {
     setoid_rewrite -> n4_21 in S2 at 2.
     setoid_rewrite <- n20_1 in S2.
@@ -1773,22 +1774,22 @@ Proof.
     (n10_01_pred φ0)) as n10_01a.
   set (λ f0 : (Prop → Prop) → Prop, eq_to_equiv
     (∀ alpha, [alpha @ calpha => f0 calpha])
-    (∀ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (∀ Phi, [^z => Phi z @ cPhi => f0 cPhi])
     (n20_07 f0)) as n20_07a.
   set (λ f0 : (Prop → Prop) → Prop, eq_to_equiv 
     (∃ alpha, [alpha @ calpha => f0 calpha])
-    (∃ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (∃ Phi, [^z => Phi z @ cPhi => f0 cPhi])
     (n20_071 f0)) as n20_071a.
   simpl in n10_01a, n20_07a, n20_071a.
   (* ******** *)
   assert (S1 : (∃ alpha, [alpha @ calpha => f calpha]) 
-    ↔ (∃ Phi, [^z => Phi z @ cPhi => f cz])).
+    ↔ (∃ Phi, [^z => Phi z @ cPhi => f cPhi])).
   {
     pose proof (n4_2 (∃ alpha, [alpha @ calpha => f calpha])) as n4_2.
     now setoid_rewrite -> n20_071a in n4_2 at 2.
   }
   assert (S2 : (∃ alpha, [alpha @ calpha => f calpha])
-    ↔ (~ ∀ Phi, ~ [^z => Phi z @ cPhi => f cz])).
+    ↔ (~ ∀ Phi, ~ [^z => Phi z @ cPhi => f cPhi])).
   { now setoid_rewrite -> n10_01a in S1. }
   assert (S3 : (∃ alpha, [alpha @ calpha => f calpha])
     ↔ (~∀ alpha, ~ [alpha @ calpha => f calpha])).
@@ -1818,13 +1819,13 @@ Proof.
   set (Beta := ^z => Phi z).
   set (λ f0 : (Prop → Prop) → Prop, eq_to_equiv
     (∀ alpha, [alpha @ calpha => f0 calpha])
-    (∀ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (∀ Phi, [^z => Phi z @ cPhi => f0 cPhi])
     (n20_07 f0)) as n20_07a.
   (* ******** *)
   (* NOTE: notice the chaos of switching between a class variable and
     its underlying function. TODO: investigate class association issue *)
   assert (S1 : (∀ alpha, [alpha @ calpha => f calpha])
-    → [^z => Phi z @ cPhi => f cz]).
+    → [^z => Phi z @ cPhi => f cPhi]).
   {
     (* *20.07 ignored *)
     apply n10_1_class.
@@ -1841,12 +1842,12 @@ Qed.
 (* Analogue to *20.17. Only write out here for demonstration *)
 Definition n20_61_alt (f : (Prop → Prop) → Prop) (Psi : Prop → Prop) :
   (∀ alpha, [alpha @ calpha => f calpha])
-  → [^z => Psi z @ cPsi => f cz].
+  → [^z => Psi z @ cPsi => f cPsi].
 Admitted.
 
 (* Analogue to *20.41 *)
 Definition n20_61_alt_1 (Psi : Prop → Prop) :
-  ∃ alpha, [^z => Psi z @ cPsi => [alpha @ calpha => cz = calpha]].
+  ∃ alpha, [^z => Psi z @ cPsi => [alpha @ calpha => cPsi = calpha]].
 Admitted.
 
 (* Thm 20.62 : type formation rule for `∀ alpha` *)
@@ -1858,11 +1859,11 @@ Proof.
   (* TOOLS *)
   set (λ f0 : (Prop → Prop) → Prop, eq_to_equiv
     (∀ alpha, [alpha @ calpha => f0 calpha])
-    (∀ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (∀ Phi, [^z => Phi z @ cPhi => f0 cPhi])
     (n20_07 f0)) as n20_07a.
   (* ******** *)
   assert (S1 : (∀ alpha, P ∨ [alpha @ calpha => f calpha])
-    ↔ ∀ Phi, P \/ [^z => Phi z @ cPhi => f cz]).
+    ↔ ∀ Phi, P \/ [^z => Phi z @ cPhi => f cPhi]).
   {
     pose proof (n4_2 (∀ alpha, P ∨ [alpha @ calpha => f calpha])) as n4_2.
     (* unprovable: scoping issue. TODO: implement scoping in the future *)
@@ -1870,7 +1871,7 @@ Proof.
     admit.
   }
   assert (S2 : (∀ alpha, P ∨ [alpha @ calpha => f calpha])
-    ↔ (P \/ ∀ Phi, [^z => Phi z @ cPhi => f cz])).
+    ↔ (P \/ ∀ Phi, [^z => Phi z @ cPhi => f cPhi])).
   {
     (* unprovable: *10.12 is single_direction *)
     (* TODO: check if its proof is double direction *)
@@ -1878,7 +1879,7 @@ Proof.
     admit.
   }
   assert (S3 : (∀ alpha, P ∨ [alpha @ calpha => f calpha])
-    ↔ (P \/ ∀ alpha, [alpha @ cz => f cz])).
+    ↔ (P \/ ∀ alpha, [alpha @ cPhi => f cPhi])).
   { now setoid_rewrite <- n20_07 in S2. }
   assert (S4 : (∀ alpha, P ∨ [alpha @ calpha => f calpha]) 
     → (P ∨ ∀ alpha, [alpha @ calpha => f calpha])).
@@ -1899,14 +1900,14 @@ Proof.
   (* TOOLS *)
   set (λ f0 : (Prop → Prop) → Prop, eq_to_equiv
     (∀ alpha, [alpha @ calpha => f0 calpha])
-    (∀ Phi, [^ z => Phi z @ cPhi => f0 cPhi])
+    (∀ Phi, [^z => Phi z @ cPhi => f0 cPhi])
     (n20_07 f0)) as n20_07a.
   set (Beta := ^z => Psi z).
   (* ******** *)
   assert (S1 : ((∀ alpha, [alpha @ calpha => f calpha]) 
       ∧ (∀ alpha, [alpha @ calpha => g calpha]))
-    ↔ ((∀ Phi, [^z => Phi z @ cPhi => f cz]) 
-      /\ (∀ Phi, [^z => Phi z @ cPhi => g cz]))).
+    ↔ ((∀ Phi, [^z => Phi z @ cPhi => f cPhi]) 
+      /\ (∀ Phi, [^z => Phi z @ cPhi => g cPhi]))).
   {
     pose proof (n4_2 ((∀ alpha, [alpha @ calpha => f calpha]) 
       ∧ (∀ alpha, [alpha @ calpha => g calpha]))) as n4_2.
@@ -1915,14 +1916,14 @@ Proof.
   }
   assert (S2 : ((∀ alpha, [alpha @ calpha => f calpha]) 
       ∧ (∀ alpha, [alpha @ calpha => g calpha]))
-    → ([^z => Psi z @ cPsi => f cz] /\ [^z => Psi z @ cPsi => g cz])).
+    → ([^z => Psi z @ cPsi => f cPsi] /\ [^z => Psi z @ cPsi => g cPsi])).
   {
     (* simplification *)
     destruct S1 as [_ S1].
     simpl in S1.
     pose proof (n10_14_class
-      (fun alpha => [alpha @ cz => f cz])
-      (fun alpha => [alpha @ cz => g cz])
+      (fun alpha => [alpha @ calpha => f calpha])
+      (fun alpha => [alpha @ calpha => g calpha])
       (^z => Psi z)) as n10_14.
     now Syll_as S1 n10_14 S2.
   }
@@ -1939,15 +1940,15 @@ Admitted.
 
 (* unprovable *)
 Theorem n20_701 (Phi : Prop → Prop) (f : (Prop → Prop) → Prop → Prop) :
-  ∃ (g : (Prop → Prop) → Prop → Prop), ([^z => Phi z @ cPhi => f cz x]
-    <[- (Phi : Prop → Prop) (x : Prop) -]> [^z => Phi z @ cPhi => g cz x]).
+  ∃ (g : (Prop → Prop) → Prop → Prop), ([^z => Phi z @ cPhi => f cPhi x]
+    <[- (Phi : Prop → Prop) (x : Prop) -]> [^z => Phi z @ cPhi => g cPhi x]).
 Proof.
 Admitted.
 
 (* unprovable *)
 Theorem n20_702 (f : Prop → (Prop → Prop) → Prop) :
-  ∃ (g : Prop → (Prop → Prop) → Prop), ([^z => Phi z @ cPhi => f x cz]
-    <[- (Phi : Prop → Prop) (x : Prop) -]> [^z => Phi z @ cPhi => g x cz]).
+  ∃ (g : Prop → (Prop → Prop) → Prop), ([^z => Phi z @ cPhi => f x cPhi]
+    <[- (Phi : Prop → Prop) (x : Prop) -]> [^z => Phi z @ cPhi => g x cPhi]).
 Proof.
 Admitted.
 
@@ -1955,8 +1956,8 @@ Admitted.
   versions for 2 parameter requirements *)
 Theorem n20_703 (f : (Prop → Prop) → (Prop → Prop) → Prop) :
   ∃ (g : (Prop → Prop) → (Prop → Prop) → Prop), 
-    ([^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => f cz1 cz2]]
-  <[- Phi Psi -]> [^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => g cz1 cz2]]).
+    ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => f cPhi cPsi]]
+  <[- Phi Psi -]> [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => g cPhi cPsi]]).
 Proof.
   (* TOOLS *)
   set (IPhi := Intro_pred "phi" 1).
@@ -2023,19 +2024,19 @@ Proof.
   {
     pose proof (n10_11_pred2_1 IG (fun g =>
       (f Chi Theta <[- Chi Theta -]> g Chi Theta)
-      → ([^ z => Phi z @ cz1 =>
-         [^ z => Psi z @ cz2 => f cz1 cz2]])
+      → ([^z => Phi z @ cz1 =>
+         [^z => Psi z @ cz2 => f cz1 cz2]])
          <[- Phi Psi -]>
-         ([^ z => Phi z @ cz1 =>
-          [^ z => Psi z @ cz2 => g cz1 cz2]])))
+         ([^z => Phi z @ cz1 =>
+          [^z => Psi z @ cz2 => g cz1 cz2]])))
       as n10_11.
     MP n10_11 S3.
     pose proof (n10_281_pred2_1
       (fun g => (f Chi Theta) <[- Chi Theta -]> (g Chi Theta))
       (fun g => 
-        ([^ z => Phi z @ cz1 => [^ z => Psi z @ cz2 => f cz1 cz2]])
+        ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 cz2]])
         <[- Phi Psi -]>
-        ([^ z => Phi z @ cz1 => [^ z => Psi z @ cz2 => g cz1 cz2]])))
+        ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => g cz1 cz2]])))
       as n10_281.
     now MP n10_281 n10_11.
   }
@@ -2052,8 +2053,8 @@ Admitted.
 Theorem n20_71 (FAlpha FBeta : Prop → Prop) :
   let Alpha := (^z => FAlpha z) in
   let Beta := (^z => FBeta z) in
-  [Alpha @ calpha => [Beta @ cbeta => calpha = cbeta]] 
-    ↔ ([Alpha @ calpha => g calpha]
+  [Alpha @ cAlpha => [Beta @ cbeta => calpha = cbeta]] 
+    ↔ ([Alpha @ cAlpha => g calpha]
       -[ g ]> [Beta @ cbeta => g cbeta]).
 Proof.
   apply n20_19.
