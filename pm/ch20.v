@@ -1249,11 +1249,9 @@ Admitted.
 Theorem n20_41 (Psi : Prop → Prop) : [^z => Psi z @ cz1 => 
   [Cls @ Cls => cz1 <class_in> Cls]].
 Proof.
-  pose proof n20_4 as n20_4.
-  pose proof n20_151 as n20_151.
-  simpl; simpl in n20_4, n20_151.
-  (* TODO: figure out what does it mean *)
-Admitted.
+  pose proof (n20_151 Psi) as n20_151.
+  now rewrite <- n20_4 in n20_151.
+Qed.
 
 (* NOTE: In this proof, `Psi` is associated with `alpha` in the text without being 
 claimed explicitly *)
@@ -1400,7 +1398,6 @@ Proof.
   exact S2.
 Qed.
 
-(* Should Phi here be a function of order 1..? *)
 Theorem n20_53 (FAlpha : Prop → Prop) (Phi : (Prop → Prop) → Prop) : 
   let Alpha := (^z => FAlpha z) in
   ([beta @ cbeta => [Alpha @ calpha => cbeta = calpha]]
@@ -1579,6 +1576,8 @@ Proof.
   {
     simpl in S2.
     (* TODO: make a class specific vertsion for n14_1 *)
+    (* TODO: is the citation wrong? and we should pick from this chapter
+      instead? *)
     pose proof n14_1 as n14_1.
     admit.
   }
@@ -1622,6 +1621,8 @@ Proof.
       <[- alpha -]> [alpha @ calpha => [^z => Phi z @ cz => calpha = cz]])).
   {
     setoid_rewrite -> n20_21_alt in S1 at 2.
+    pose proof n20_54 as _n20_54.
+    simpl in _n20_54, S1; simpl.
     (* TODO: is there some rule to extend the n20_54? *)
     (* setoid_rewrite -> n20_54 in S1 at 2. *)
     admit.
@@ -1827,9 +1828,6 @@ Proof.
   assert (S1 : (∀ alpha, [alpha @ calpha => f calpha])
     → [^z => Phi z @ cz => f cz]).
   {
-    (* pose proof (n10_1_class (fun alpha =>
-      [alpha @ calpha => f calpha]) (^z => Phi z)) 
-      as n10_1. *)
     (* *20.07 ignored *)
     apply n10_1_class.
   }
