@@ -47,7 +47,7 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 1. Start with a theorem as a template, and substitute its variables into some expressions
 2. Apply `MP`/`Syll` for necessary alternations, for example, `P ↔ Q` to `Q ↔ P`
 3. Generalize on a variable as soon as possible, when the correct form for its expression has manifested
-4. Apply `MP`/`Syll` for the rest of the alternations. It usually involves building more sub expressions into the expression, for example from `P` to `P ∧ P → P`.
+4. Repeat 2 and 3 until all variables are being generalized and the statement has become a proposition
 
 **We call this *bottom-up construction*** by the logical connectives appeared in a proposition. One can easily verify it's also the nature of *forward reasoning* building up a proof tree building up a proof tree from "leaves" to the "root".
 
