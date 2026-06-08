@@ -1167,7 +1167,7 @@ Proof.
     pose proof n20_31 as n20_31.
     admit.
   }
-  assert (S2 : [Alpha @ cAlpha => [^z => Phi z @ cPhi => calpha = cPhi]]
+  assert (S2 : [Alpha @ cAlpha => [^z => Phi z @ cPhi => cAlpha = cPhi]]
     ↔ ([Alpha @ cAlpha => x <class_in> cAlpha] <[- x -]> Phi x)).
   { now setoid_rewrite -> n20_3 in S1. }
   exact S2.
@@ -1699,6 +1699,8 @@ Proof.
       <[- alpha -]> [alpha @ calpha => [beta @ cbeta => calpha = cbeta]])
     /\ [^z => Phi z @ cPhi => [beta @ cbeta => cPhi = cbeta]]).
   {
+    simpl in S1; simpl.
+    
     (* NOTE: i think the proof order is wrong. we should have first constructed
       the `∃` and then generalize the `alpha`. Otherwise it's making things
       so tedious that we will break everything down to reconstruct again. *)
