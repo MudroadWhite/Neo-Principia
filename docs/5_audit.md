@@ -9,7 +9,7 @@ Assessment for each of the chapter is based on the following questions:
 
 Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). For the below sections, we first make a short summary of major issues we have found.
 
-### Defects
+### The Defects
 Defects arisen in Principia come either from the lacking of proper implementation of our project, or directly from the Principia Mathematica itself. After stating these issues, we will expand every details we have found by each chapters.
 
 **D1: Typing.** We didn't design a proper system to type every PM propositions. This results into a massive chain effects on the missing features and insights:
@@ -40,15 +40,9 @@ TODO: (brief introduction to missing tactics)
 **D5: Unknown application of theorems.**
 TODO: special theorems that are not used in supposed way
 
+We will address the corresponded issues we have found in each chapter with the index number of the defects above, when applicable.
+
 ### Basic setups
-**How much can we automate for Principia Mathematica?**
-The most ideal point to increase the automation for PM seems to start from `rewrite`s, that is, we should design a more automated `rewrite` that can
-- Design a function plus its parameters that matches up with the target proposition
-- Automatically introduce extra individuals in need
-- Perform slight reordering of sub expressions like `P <-> Q` to `Q <-> P` when necessary
-
-Due to the lack of related background in proof automation, I am currently thinking that automating the inference seems to be too much and a fruitless goal.
-
 **Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
 
 The core of symbol definition, *definitional equality*, is undefined, as discussed in [mechanics](./3_mechanics.md) and [tactics](./4_tactics.md). 
@@ -98,6 +92,7 @@ We have received feedback that `setoid_rewrite` in Rocq >9.0 in seems to adopt t
 ### Chapter 10
 **Coverage: 98.2% = 55/56.**
 - **\*10.57.** 3rd step of the proof is unprovable, simply because the theorem it uses cannot be instantiated with correct parameters.
+- **\*10.23, alternative proof.** In the 5th step of the proof, the proposition has used variable name `x` twice referring to two different actual variables. Although the proof is generally unaffected when we give it the right renaming, this is still a rare case of bad text.
 
 **General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `∀` and `∃`. We didn't find any difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
 
@@ -170,6 +165,7 @@ We can also see PM's scope as a design failure from another perspective: scope d
 TODO: 
 - (n20_07)order shift interferes with some proving routines in PM
 - (n20_19)`setoid_rewrite` seems to ignore the order issue
+- missing theorems on scopes make us unsure if our proof is legit
 
 --------
 TODO: 

@@ -37,10 +37,24 @@ We now start exploring the main ideas for each chapters.
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 ### Chapter 1
-The difference between a function and a proposition is scattered through Introduction's chapter I, II, III and chapter 1. Here is our attempt to make the most precise definition.
+TODO: move discussions on propositions to appendix A; only bring the conclusion here
+
+The difference between a function and a proposition is scattered through Introduction's chapter I, II, III and chapter 1. As the first concepts being introduced in, the definition of a proposition is full of ambiguity. When figuring out the difference between a *proposition* and a *proposition built up from a function*, we have gathered below clues only to reveal how much is the chaos: 
+- *Proposition* can be *asserted*. *Propositional function* also can be *asserted* by asserting any specific value by instantiating a function, and which, is a proposition.
+- Asserted propositional function can still change its variable to produce different proposition asserted
+- (\*2.02)However, when deducing on the proof, we can also perform substitution on asserted propositions. 
+- Real variables, being revealed in later chapters, can be *generalized* into *apparent variables*, the variables of a `forall` or `exists`, for a proposition/function of higher order. See [chapter 9](./3_mechanics.md/#chapter-9) for meaning of generalization.
+- When using theorem, `Phi X` can freely substitute into a propositional variable `P`, and *vice versa*.
+- When we `Intro_` an extra variable, we din't find any generalization from letters of `P`, `Q`, `R`. Instead we always start from `X`, plus exceptions as functions.
+- `P`, `Q`, `R` can still be substituted into forms like `Phi X`, but never a single `X`. 
+- Everything asserted are *propositions*, while the modus ponens is mostly used as \*1.11 version for *propositional functions*
+- We also 
+- TODO: mention private conversation with Randall
+
+Here is our attempt to make the most precise definition.
 
 - **elementary propositions** contains no variables. They are strictly alphabets after `P`, `Q`, and so on, in chapter 2 - 5(p.91).
-- **elementary functions** are propositions build up with *at least* one *real variables*(p.19). Real variables are alphabetical letters starting after `X`. 
+- **elementary functions** are propositions build up with *at least* one logical connectives. When a expression is identified as a function, atomic letters after `X` appeared in it are called *real variables*(p.19).
 
 ```Coq
 (* This is an elementary proposition *)
@@ -52,18 +66,6 @@ Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
 (* This is the actual way to write the function, but we won't use it *)
 Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
 ```
-
-It can be seen that, the alphabetical difference is the only way for us to distinguish between a *proposition* and a *proposition built up from a function*. To make the distinction clearer, here's our clues gathered and what we eventually conclude: 
-- *Proposition* can be *asserted*. *Propositional function* can be *asserted* by asserting any specific instance generated from a function, which, is a proposition.
-- Asserted propositional function can still change its variable to produce different proposition asserted
-- However, when deducing on the proof, we can also perform substitution on asserted propositions(e.g. \*2.02). 
-- Real variables, being revealed in later chapters, can be *generalized* into *apparent variables*, the variables of a `forall` or `exists`, for a proposition/function of higher order. See [chapter 9](./3_mechanics.md/#chapter-9) for meaning of generalization.
-- When using theorem, `Phi X` can freely substitute into a propositional variable `P`, and *vice versa*.
-- When we `Intro_` an extra variable, we din't find any generalization from letters of `P`, `Q`, `R`. Instead we always start from `X`, plus exceptions as functions.
-- `P`, `Q`, `R` can still be substituted into forms like `Phi x`, but never a single `x`. 
-- Everything asserted are *propositions*, while the modus ponens is mostly used as \*1.11 version for *propositional functions*
-- We also 
-- TODO: mention private conversation with Randall
 
 Our current conclusion is that we cannot identify the difference between *elementary proposition* and *elementary propositional function*. Higher order propositions and functions have more significant difference, will be revealed after [chapter 9](./3_mechanics.md/#chapter-9). In principle, we view everything in chapter 1 - 5 just as *propositions*, and elementary function manifests when we need to have a lambda term.
 
@@ -110,7 +112,7 @@ While everything in chapter 1 are primitive propositions, chapter 2 starts to us
 Chapter 3 focuses on theorems about `∧`, which is constructed on `¬` and `∨`. 
 
 ### Chapter 4
-Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics](./4_tactics.md).
+Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics][4].
 
 ### Chapter 5
 This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly provided because they are useful.
@@ -119,7 +121,7 @@ This chapter collects miscellaneous theorems of operators appeared in previous c
 - **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them) and **elementary logical connectives**
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
-There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics](./4_tactics.md) to patch up. TODO: write about this in `tactics`
+There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. TODO: write about this in `tactics`
 
 Chapter 9's theorems tries to generalize all over chapter 1 - 5, producing propositions with `forall` or `exists` and prove we can correctly generalize the previous theorems. It is brutally performed without using mathematical induction, since it is not allowed yet. It assumes that if our elementary propositional `¬` and `∨` is "enhanced" to allow to take one 1-order proposition as its operand, deduced theorems can extend all theorems in chapter 1 - 5 to their 1-higher order version. 
 
@@ -198,7 +200,7 @@ Example example_proposition := ∀ (x : Prop) (φ : Prop → Prop), φ x.
 Several comments on matrices and functions:
 1. (p.52)Same the the treatment in [chapter 9](./3_mechanics.md/#chapter-9), matrix only takes matrices or individuals as variables
 2. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => φ x` and `fun x => ∀ φ, φ x`)
-3. It appears that any `∀`s and any `∃`, under this hierarchy, cannot be produced by directly instantiating some functions; we have to start from completely constructing a matrix, then obtain all the quantifiers through generalizing individuals/other matrices with a controlled scope. Sometimes it will block us from, for example, perform generalization by instantiating on a *function* - which is not a *matrix*. Also see [tactics](./4_tactics.md) and the 4th comment below.
+3. It appears that any `∀`s and any `∃`, under this hierarchy, cannot be produced by directly instantiating some functions; we have to start from completely constructing a matrix, then obtain all the quantifiers through generalizing individuals/other matrices with a controlled scope. Sometimes it will block us from, for example, perform generalization by instantiating on a *function* - which is not a *matrix*. Also see [tactics][4] and the 4th comment below.
 4. (p.163) has given functions that we can generate from a matrix, of which including 2-order-higher function corresponded to a variable `x`. These examples are not derived from certain specific theorems, and are just demonstrated as eligible candidates. But in short, if we can construct a n-order matrix related to a variable `x`, we can almost immediately obtain a n-order function for variable `x`.
 
 There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). One crucial difference between real and apparent variables, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
@@ -264,10 +266,10 @@ Analyzing on how this proof applies also reveals more insights on how should we 
 In practice, defining `Class` with record can make the function it holds *implicit*, while exposing and extracting `A` peacefully. Our current definition resulted in theorems demanding `let` clause at the beginning of the proof; but soon we find out that if we design parsing and printing notations separately(see `only printing` code in `ch20.v`), we can pertain a good notation. 
 
 However, there turns out to be more issues with class notation. Here we will list out the rest we have found:
-- To make the symbols work with each other, we eventually developed a design principle called "monomorphic theorems, polymorphic symbols". See [tactics](./4_tactics.md).
+- To make the symbols work with each other, we eventually developed a design principle called "monomorphic theorems, polymorphic symbols". See [tactics][4].
 - Even with our notation definition, our notation doesn't prevent several *illegal* construction cases. See [style guide](./contribution_guide/style_guide.md).
 - Class is generally missing a lot of things for dealing with the *scope*s. See [audit](./5_audit.md) for an analysis.
-- Also, class is a good example that Russell doesn't make a clear distinction between language and its interpretation, so that we need to design a mechanic of *explicit interpretation*. See [tactics](./4_tactics.md).
+- Also, class is a good example that Russell doesn't make a clear distinction between language and its interpretation, so that we need to design a mechanic of *explicit interpretation*. See [tactics][4].
 
 While not being stated explicitly, being mentioned in previous chapter(p.165), class, relations, etc. constitute to a "more convenient" new hierarchy. This is because theorems in this chapter has prepared a lot of aspects for class, including its equivalent for Axiom of Reducibility. It doesn't, though, provide insights such as "what is the equivalent of matrix to class?" and so on. That being said,
 
@@ -284,10 +286,16 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 
 **Table X: Proving context for chapter 20 - +**
 
+[RTT]: https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT
+[4]: ./4_tactics.md
+
 TODO:
+- ch1: *proposition* as an ambiguous text "consists of" *e-props* and *e-funcs*; we still prefer to call everything working on *propositions* for the rest of the text; rewrite parts on elementary functions
+- ch1: *propositional functions* doesn't include identity function
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "∀" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
 - ch9: recheck the definition of `forall` after we know what is a proposition
 
-TODO: Add Randall's private conversation on propositional function
+TODO:
+- is `exists` statement of higher order 8propositional functions*?

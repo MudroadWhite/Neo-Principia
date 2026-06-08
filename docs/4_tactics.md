@@ -47,7 +47,7 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 1. Start with a theorem as a template, and substitute its variables into some expressions
 2. Apply `MP`/`Syll` for necessary alternations, for example, `P ↔ Q` to `Q ↔ P`
 3. Generalize on a variable as soon as possible, when the correct form for its expression has manifested
-4. Apply `MP`/`Syll` for the rest of the alternations. It usually involves building more sub expressions into the expression, for example from `P` to `P ∧ P → P`.
+4. Repeat 2 and 3 until all variables are being generalized and the statement has become a proposition
 
 **We call this *bottom-up construction*** by the logical connectives appeared in a proposition. One can easily verify it's also the nature of *forward reasoning* building up a proof tree building up a proof tree from "leaves" to the "root".
 
@@ -146,6 +146,20 @@ Below is a table for some of the simplifications we might used, but some of them
 | Reorganize the proof window | `move`, `clear`, etc.                      |
 | Others                      | Addressed with comments in code            |
 
-\[\*\]: Mandatory when PM uses `Hp` in its proof. TODO: explain why
+\[\*\]: Mandatory when PM uses `Hp` in its proof. When a `Hp` has appeared in the text, we find out that the theorems PM cites have a high chance to be working *exactly* on the conclusion after `Hp`, although with a lot of exceptions as well. In general, we still think that use `Hp` to abstract away the premise matches up nicely with how PM applies the theorems.
 
 While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debugs that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development. Tactics for debugging is **required** to be reduced to minimum when we have finished them.
+
+TODO: place hierarchy table somewhere
+| Type of hierarchy      | Base case                                 | Higher order case                |
+|------------------------|-------------------------------------------|----------------------------------|
+| **Primary**            | -                                         | -                                |
+| proposition            | atomic symbol                             | total generalization of matrix   |
+| propositional function | 0-order matrix                            | partial generalization of matrix |
+| **Supplementary**      |                                           |                                  |
+| matrix                 | atomic symbol                             | TODO: figure out                 |
+| class                  | description-like construction on function | inferred from function           |
+| untyped functions(?)   | Rocq type `Prop -> Prop`                  | `(...(Prop -> Prop)...) -> Prop` |
+
+TODO: 
+- (\*20.112)"originally, we use `prop -> prop` for impredicative funcs, `Order` for predicative funcs... issue in hierarchy in chapter 20
