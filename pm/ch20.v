@@ -1251,6 +1251,7 @@ Theorem n20_41 (Psi : Prop → Prop) : [^z => Psi z @ cz1 =>
 Proof.
   pose proof n20_4 as n20_4.
   pose proof n20_151 as n20_151.
+  simpl; simpl in n20_4, n20_151.
   (* TODO: figure out what does it mean *)
 Admitted.
 
@@ -1263,19 +1264,19 @@ Theorem n20_42 (FAlpha : Prop → Prop) :
 Proof.
   (* TOOLS *)
   set (X := Intro_individual "x").
-  set (Psi := Intro_pred "Psi" 1).
+  set (IPsi := Intro_pred "Psi" 1).
   set (Alpha := ^z => FAlpha z).
   (* ******** *)
-  assert (S1 : ([^z => Psi z @ cz => x <class_in> cz]) <[- x -]> Psi x).
+  assert (S1 : ([^z => IPsi z @ cz => x <class_in> cz]) <[- x -]> IPsi x).
   {
-    pose proof (n20_3 X Psi) as n20_3.
+    pose proof (n20_3 X IPsi) as n20_3.
     pose proof (n10_11 X (fun x =>
-      (([^ z => Psi z @ cz1 => x <class_in> cz1]) ↔ Psi x))) 
+      (([^ z => IPsi z @ cz1 => x <class_in> cz1]) ↔ IPsi x))) 
       as n10_11.
     now MP n10_11 n20_3.
   }
-  assert (S2 : [^x => [^z => Psi z @ cz1 => x <class_in> cz1] @ cz2 
-    => [^x => Psi x @ cz3 => cz2 = cz3]]).
+  assert (S2 : [^x => [^z => IPsi z @ cz1 => x <class_in> cz1] @ cz2 
+    => [^x => IPsi x @ cz3 => cz2 = cz3]]).
   {
     pose proof n20_15 as n20_15.
     admit.
@@ -1962,36 +1963,36 @@ Theorem n20_703 (f : (Prop → Prop) → (Prop → Prop) → Prop) :
   <[- Phi Psi -]> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => g cz1 cz2]]).
 Proof.
   (* TOOLS *)
-  set (Phi := Intro_pred "phi" 1).
-  set (Psi := Intro_pred "psi" 1).
-  set (G := Intro_pred_2 "g" 2).
+  set (IPhi := Intro_pred "phi" 1).
+  set (IPsi := Intro_pred "psi" 1).
+  set (IG := Intro_pred_2 "g" 2).
   (* ******** *)
-  assert (S1 : ((f Chi Theta) <[- Chi Theta -]> (G Chi Theta))
-    → (((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ f Chi Theta)
+  assert (S1 : ((f Chi Theta) <[- Chi Theta -]> (IG Chi Theta))
+    → (((IPhi x <[- x -]> Chi x) /\ (IPsi x <[- x -]> Theta x) /\ f Chi Theta)
       <[- Chi Theta -]>
-      ((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ G Chi Theta))).
+      ((IPhi x <[- x -]> Chi x) /\ (IPsi x <[- x -]> Theta x) /\ IG Chi Theta))).
   {
     (* unprovable. TODO: see if there is an alternative for 2 params for functions *)
     pose proof n10_311 as n10_311.
     admit.
   }
-  assert (S2 : ((f Chi Theta) <[- Chi Theta -]> (G Chi Theta))
+  assert (S2 : ((f Chi Theta) <[- Chi Theta -]> (IG Chi Theta))
     → ((∃ Chi Theta, (Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x)
         /\ f Chi Theta)
       <[- Phi Psi -]>
         (∃ Chi Theta, (Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x)
-          /\ G Chi Theta))).
+          /\ IG Chi Theta))).
   {
     (* *11.3 ignored *)
     intro Hp.
     pose proof (S1 Hp) as S1.
     (* NOTE: here the priority of `Phi Psi` and `Chi Theta`'s generalization
     is pretty confusing *)
-    pose proof (n11_11_pred Phi Psi
+    pose proof (n11_11_pred IPhi IPsi
       (fun Phi Psi => 
         (((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ f Chi Theta)
         <[- Chi Theta -]>
-        ((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ G Chi Theta)))) 
+        ((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ IG Chi Theta)))) 
         as n11_11.
     MP n11_11 S1.
     (* NOTE: although it looks correct, I don't really know if this
@@ -2005,10 +2006,10 @@ Proof.
     pose proof (n11_341) as n11_341.
     admit.
   }
-  assert (S3 : ((f Chi Theta) <[- Chi Theta -]> (G Chi Theta))
+  assert (S3 : ((f Chi Theta) <[- Chi Theta -]> (IG Chi Theta))
     → ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 cz2]]
       <[- Phi Psi  -]>
-      [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => G cz1 cz2]])).
+      [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => IG cz1 cz2]])).
   {
     intro Hp.
     pose proof (S2 Hp) as S2.
@@ -2024,7 +2025,7 @@ Proof.
       ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 cz2]]
       <[- Phi Psi -]> [^z => Phi z @ cz1 => [^z => Psi z @ cz2 => g cz1 cz2]])).
   {
-    pose proof (n10_11_pred2_1 G (fun g =>
+    pose proof (n10_11_pred2_1 IG (fun g =>
       (f Chi Theta <[- Chi Theta -]> g Chi Theta)
       → ([^ z => Phi z @ cz1 =>
          [^ z => Psi z @ cz2 => f cz1 cz2]])
