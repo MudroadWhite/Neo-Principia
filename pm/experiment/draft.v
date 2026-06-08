@@ -26,10 +26,20 @@ Compute testtest.
   *)
 End Experiment_ch20.
 
-(* Draft: Automatic scopedsymbol suite
+(* Draft: Automatic scoped symbol suite
+
+TODO: how about uni op?
 
 Notation "[| O1 < mid_op > O2 |]" :=
   (expand_symbol O1
     (expand_symbol O2 (mid_op))).
+
+Definition expand_symbol `{A : Operand} (O1 : A) (op : Operator)
+  := make_symbol (Operand.get_func O1) op.
+
+Definition make_symbol `{A : ?} (f : A -> Prop) (expr : OperandExpr A -> Prop)
+  := ? -> Prop.
+Admitted.
+
 
 *)
