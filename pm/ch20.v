@@ -10,6 +10,8 @@ Require Import PM.pm.ch12.
 Require Import PM.pm.ch13.
 Require Import PM.pm.ch14.
 
+Require Import Logic.FunctionalExtensionality.
+
 (* TODO: 
 - Change the definitions in this chapter to monomorphic version; provide variants 
   to patch up
@@ -152,9 +154,10 @@ Admitted.
 Definition Cls {A : Type} : Class.t A. Admitted.
 
 Open Scope debug_class.
+
 Notation "'^' z => B" := (Class.mk (fun z => B))
   (at level 130, z binder, right associativity) : debug_class.
-Example class_example_2 := ^ (z : Prop) => z = z.
+Example debug_class_example_2 := ^ (z : Prop) => z = z.
 
 (* Dark magic: we re-define the exact notation simutaneously for parsing and printing.
 This allows `let`s being simplified when printing the definition.
@@ -168,24 +171,61 @@ Notation "[ cls @ classname => B ]" := (
   (at level 150, classname binder, right associativity, only parsing) : debug_class.
 Notation "[ cls @ classname => B ]" := (class_app (fun classname => B) cls)
   (at level 150, classname binder, right associativity, only printing) : debug_class.
+Example debug_class_app_example_1 := [class_example_1 @ cx => cx = cx].
+Example debug_class_app_example_2 := [^(z : Prop) => z = z @ cz => cz = cz].
+Example debug_class_app_example_3 := [class_example_1 @ c1 => [class_example_1 @ c2 => c1 = c2]].
+
+Notation "[ ^ ^ ψ @ cclassname => B ]" :=
+  (class_app_c (fun cclassname => B) ψ)
+  (at level 150, cclassname binder, right associativity) : debug_class.
+Example debug_class_app_c_example_1 {A : Type} (ψ : (A → Prop) → Prop) := 
+  [^^ ψ @ cαψ => cαψ].
+
+Notation "x '<class_in>' φ" := (class_in x φ)
+  (at level 120, right associativity) : debug_class.
+Example debug_class_in_example (x : Prop) := x <class_in> (fun z => z = z).
+
+(* Another `class_in` specifically for classes. All these should be subject to
+future refinements... *)
+Notation "c '<class_in_fc>^' ψ" := (class_in_c c ψ) 
+  (at level 120, right associativity) : debug_class.
+
+Close Scope debug_class.
+
+Open Scope class.
+
+Notation "'^' z => B" := (Class.mk (fun z => B))
+  (at level 130, z binder, right associativity) : class.
+Example class_example_2 := ^ (z : Prop) => z = z.
+
+Notation "[ cls @ classname => B ]" := (
+    let A := cls.(Class.get_A _) in
+    class_app (fun (classname : A → Prop) => B) cls)
+  (at level 150, classname binder, right associativity, only parsing) : class.
+Notation "[ cls @ classname => B ]" := (class_app (fun classname => B) cls)
+  (at level 150, classname binder, right associativity, only printing) : class.
 Example class_app_example_1 := [class_example_1 @ cx => cx = cx].
 Example class_app_example_2 := [^(z : Prop) => z = z @ cz => cz = cz].
 Example class_app_example_3 := [class_example_1 @ c1 => [class_example_1 @ c2 => c1 = c2]].
 
 Notation "[ ^ ^ ψ @ cclassname => B ]" :=
   (class_app_c (fun cclassname => B) ψ)
-  (at level 150, cclassname binder, right associativity) : debug_class.
+  (at level 150, cclassname binder, right associativity) : class.
 Example class_app_c_example_1 {A : Type} (ψ : (A → Prop) → Prop) := 
   [^^ ψ @ cαψ => cαψ].
 
-Notation "x '<class_in>' φ" := (class_in x φ)
-  (at level 120, right associativity) : debug_class.
-Example class_in_example (x : Prop) := x <class_in> (fun z => z = z).
+Notation "x ∈ φ" := (class_in x φ)
+  (at level 120, right associativity) : class.
+Example class_in_example (x : Prop) := x ∈ (fun z => z = z).
 
-(* Another `class_in` specifically for classes. All these should be subject to
-future refinements... *)
-Notation "c '<class_in_fc>^' ψ" := (class_in_c c ψ) 
-  (at level 120, right associativity) : debug_class.
+Notation "c '∈c^' ψ" := (class_in_c c ψ) 
+  (at level 120, right associativity) : class.
+
+(* Draft: associate a function `f` with `g` for classes' 
+  underlying functions' association. *)
+Definition class_func_associate {A : Type} (f g : A → Prop) : 
+  ∀ x, f x = g x.
+Admitted.
 
 (* Might still not work for even more and worse complicated situations.
 TODO: generalize to `f α` and name it `class_scope_dup`
@@ -266,7 +306,7 @@ Definition n20_01 (ψ : Prop → Prop) (f : (Prop → Prop) → Prop) :
 Admitted.
 
 Definition n20_02 (X : Prop) (φ : Prop → Prop) :
-  (X <class_in> φ) = φ X.
+  (X ∈ φ) = φ X.
 Admitted.
 
 (* cf. p.188: The definition of `Cls` is also a "partial definition" and
@@ -282,26 +322,26 @@ Admitted.
 
 (* We won't define a notation for this abbreviation for now *)
 Definition n20_04 {A : Type} (X Y : A) (α : Class.t A) :
-  ([α @ cα => X <class_in> cα] 
-    ∧ [α @ cα => Y <class_in> cα])
+  ([α @ cα => X ∈ cα] 
+    ∧ [α @ cα => Y ∈ cα])
   = 
-  ([α @ cα => X <class_in> cα] 
-  ∧ [α @ cα => Y <class_in> cα]).
+  ([α @ cα => X ∈ cα] 
+  ∧ [α @ cα => Y ∈ cα]).
 Admitted.
 
 Definition n20_05 {A : Type} (X Y Z : A) (α : Class.t A):
-  ([α @ cα => X <class_in> cα] 
-    ∧ [α @ cα => Y <class_in> cα]
-    ∧ [α @ cα => Z <class_in> cα])
-  = (([α @ cα => X <class_in> cα] 
-      ∧ [α @ cα => Y <class_in> cα]) 
-    ∧ [α @ cα => Z <class_in> cα]).
+  ([α @ cα => X ∈ cα] 
+    ∧ [α @ cα => Y ∈ cα]
+    ∧ [α @ cα => Z ∈ cα])
+  = (([α @ cα => X ∈ cα] 
+      ∧ [α @ cα => Y ∈ cα]) 
+    ∧ [α @ cα => Z ∈ cα]).
 Admitted.
 
 (* We won't define a notation for this abbreviation for now *)
 Definition n20_06 {A : Type} (X : A) (α : Class.t A) :
-  (¬ [α @ cα => X <class_in> cα]) 
-  = (¬ [α @ cα => X <class_in> cα]).
+  (¬ [α @ cα => X ∈ cα]) 
+  = (¬ [α @ cα => X ∈ cα]).
 Admitted.
 
 Definition n20_07 {A : Type} (f : (A → Prop) → Prop) :
@@ -340,7 +380,7 @@ Definition n20_08 {A : Type} (f : ((A → Prop) → Prop) → Prop)
 Admitted.
 
 Definition n20_081 {A : Type} (α : Class.t A) (ψ : (A → Prop) → Prop) :
-  (α <class_in_fc>^ ψ) = [α @ cα => ψ cα].
+  (α ∈c^ ψ) = [α @ cα => ψ cα].
 Admitted.
 
 (* **************** *)
@@ -1065,22 +1105,22 @@ Proof.
 Qed.
 
 Theorem n20_3 (X : Prop) (ψ : Prop → Prop ) : 
-  ([^z => ψ z @ cψ => X <class_in> cψ]) ↔ ψ X.
+  ([^z => ψ z @ cψ => X ∈ cψ]) ↔ ψ X.
 Proof.
   (* TOOLS *)
   set (Iφ := Intro_pred "φ" 1).
   (* ******** *)
-  assert (S1 : [^z => ψ z @ cψ => X <class_in> cψ]
+  assert (S1 : [^z => ψ z @ cψ => X ∈ cψ]
     ↔ ∃ φ, (ψ y <[- y -]> φ y) 
-      ∧ (X <class_in> φ)).
+      ∧ (X ∈ φ)).
   {
-    pose proof (n20_1 ψ (fun cz => X <class_in> cz)) as n20_1.
+    pose proof (n20_1 ψ (fun cz => X ∈ cz)) as n20_1.
     now setoid_rewrite -> n4_21 in n20_1 at 2.
   }
-  assert (S2 : [^z => ψ z @ cψ => X <class_in> cψ]
+  assert (S2 : [^z => ψ z @ cψ => X ∈ cψ]
     ↔ (∃ φ, (ψ y <[- y -]> φ y) ∧ φ X)).
   { now setoid_rewrite -> n20_02 in S1. }
-  assert (S3 : [^z => ψ z @ cψ => X <class_in> cψ]
+  assert (S3 : [^z => ψ z @ cψ => X ∈ cψ]
     ↔ ∃ φ, (ψ y <[- y -]> φ y) ∧ ψ X).
   {
     simpl; simpl in S2.
@@ -1099,7 +1139,7 @@ Proof.
     setoid_rewrite -> n4_21 in n10_281 at 3.
     now rewrite -> n10_281 in S2.
   }
-  assert (S4 : [^z => ψ z @ cψ => X <class_in> cψ]
+  assert (S4 : [^z => ψ z @ cψ => X ∈ cψ]
     ↔ (∃ φ, ψ y <[- y -]> φ y) ∧ ψ X).
   {
     pose proof n10_35 as _n10_35.
@@ -1107,7 +1147,7 @@ Proof.
     setoid_rewrite -> n10_35_pred in S3.
     now setoid_rewrite <- n4_3 in S3 at 2.
   }
-  assert (S5 : [^z => ψ z @ cψ => X <class_in> cψ]
+  assert (S5 : [^z => ψ z @ cψ => X ∈ cψ]
     ↔ ψ X).
   {
     (* unprovable. *)
@@ -1118,13 +1158,13 @@ Proof.
 Admitted.
 
 Definition n20_3_pred (X : Prop → Prop) (ψ : (Prop → Prop) → Prop) : 
-  ([^z => ψ z @ cψ => X <class_in> cψ]) ↔ ψ X.
+  ([^z => ψ z @ cψ => X ∈ cψ]) ↔ ψ X.
 Admitted.
 
 Theorem n20_31 (ψ χ : Prop → Prop) : 
   [^z => ψ z @ cψ => [^z => χ z @ cχ => cψ = cχ]]
-  ↔ (([^z => ψ z @ cψ => x <class_in> cψ])
-    <[- x -]> [^z => χ z @ cχ => x <class_in> cχ]).
+  ↔ (([^z => ψ z @ cψ => x ∈ cψ])
+    <[- x -]> [^z => χ z @ cχ => x ∈ cχ]).
 Proof.
   pose proof (n20_15 ψ χ) as n20_15.
   setoid_rewrite <- n20_3 in n20_15 at 3.
@@ -1133,16 +1173,16 @@ Proof.
 Qed.
 
 Theorem n20_32 (φ : Prop → Prop) :
-  [^x => [^z => φ z @ cφ => x <class_in> cφ] @ cz
+  [^x => [^z => φ z @ cφ => x ∈ cφ] @ cz
     => [^z => φ z @ cφ => cz = cφ]].
 Proof.
   set (X := Intro_individual "x").
   pose proof (n20_15 (fun x =>
-    [^z => φ z @ cφ => x <class_in> cφ]) 
+    [^z => φ z @ cφ => x ∈ cφ]) 
     φ) as n20_15.
   pose proof (n20_3 X φ) as n20_3.
   pose proof (n10_11 X
-    (fun x => ([^z => φ z @ cφ => x <class_in> cφ]) ↔ φ x)) 
+    (fun x => ([^z => φ z @ cφ => x ∈ cφ]) ↔ φ x)) 
     as n10_11.
   MP n10_11 n20_3.
   now rewrite -> n20_15 in n10_11.
@@ -1151,20 +1191,20 @@ Qed.
 Theorem n20_33 (Fα : Prop → Prop) (φ : Prop → Prop) :
   let α := (^z => Fα z) in
   [α @ cα => [^z => φ z @ cφ => cα = cφ]]
-  ↔ ([α @ cα => x <class_in> cα] <[- x -]> φ x).
+  ↔ ([α @ cα => x ∈ cα] <[- x -]> φ x).
 Proof.
   (* TOOLS *)
   set (α := (^z => Fα z)).
   (* ******** *)
   assert (S1 : [α @ cα => [^z => φ z @ cφ => cα = cφ]]
-    ↔ ([α @ cα => x <class_in> cα] 
-      <[- x -]> [^z => φ z @ cφ => x <class_in> cφ])).
+    ↔ ([α @ cα => x ∈ cα] 
+      <[- x -]> [^z => φ z @ cφ => x ∈ cφ])).
   {
     pose proof n20_31 as n20_31.
     admit.
   }
   assert (S2 : [α @ cα => [^z => φ z @ cφ => cα = cφ]]
-    ↔ ([α @ cα => x <class_in> cα] <[- x -]> φ x)).
+    ↔ ([α @ cα => x ∈ cα] <[- x -]> φ x)).
   { now setoid_rewrite -> n20_3 in S1. }
   exact S2.
 Admitted.
@@ -1172,8 +1212,8 @@ Admitted.
 Open Scope formal_impl.
 
 Theorem n20_34 (X Y : Prop) :
-  (X = Y) ↔ ([α @ cα => X <class_in> cα]  
-    -[ α ]> [α @ cα => Y <class_in> cα]).
+  (X = Y) ↔ ([α @ cα => X ∈ cα]  
+    -[ α ]> [α @ cα => Y ∈ cα]).
 Proof.
   (* TOOLS *)
   set (λ f0 : (Prop → Prop) → Prop, eq_to_equiv
@@ -1181,27 +1221,27 @@ Proof.
     (∀ φ, [^z => φ z @ cφ => f0 cφ])
     (n20_07 f0)) as n20_07a.
   (* ******** *)
-  assert (S1 : ([α @ cα => X <class_in> cα]  
-      -[ α ]> [α @ cα => Y <class_in> cα])
-    ↔ ([^z => φ z @ cφ => X <class_in> cφ] 
-      -[ φ ]> [^z => φ z @ cφ => Y <class_in> cφ])).
+  assert (S1 : ([α @ cα => X ∈ cα]  
+      -[ α ]> [α @ cα => Y ∈ cα])
+    ↔ ([^z => φ z @ cφ => X ∈ cφ] 
+      -[ φ ]> [^z => φ z @ cφ => Y ∈ cφ])).
   {
-    pose proof (n4_2 ([α @ cα => X <class_in> cα]  
-      -[ α ]> [α @ cα => Y <class_in> cα])) as n4_2.
+    pose proof (n4_2 ([α @ cα => X ∈ cα]  
+      -[ α ]> [α @ cα => Y ∈ cα])) as n4_2.
     simpl; simpl in n4_2.
     simpl in n20_07a.
     (* unprovable: scoping issue *)
     admit.
   }
-  assert (S2 : ([α @ cα => X <class_in> cα]  
-      -[ α ]> [α @ cα => Y <class_in> cα])
+  assert (S2 : ([α @ cα => X ∈ cα]  
+      -[ α ]> [α @ cα => Y ∈ cα])
     ↔ (φ X -[ φ ]> φ Y)).
   {
     setoid_rewrite -> n20_3 in S1 at 1.
     now setoid_rewrite -> n20_3 in S1 at 1.
   }
-  assert (S3 : ([α @ cα => X <class_in> cα]  
-      -[ α ]> [α @ cα => Y <class_in> cα])
+  assert (S3 : ([α @ cα => X ∈ cα]  
+      -[ α ]> [α @ cα => Y ∈ cα])
     ↔ (X = Y)).
   { now rewrite <- n13_1 in S2. }
   (* simplification... *)
@@ -1211,8 +1251,8 @@ Admitted.
 
 (* NOTE: implicit interpretation *)
 Theorem n20_35 (X Y : Prop) :
-  (X = Y) ↔ ([α @ cα => X <class_in> cα] 
-    <[- α -]> [α @ cα => Y <class_in> cα]).
+  (X = Y) ↔ ([α @ cα => X ∈ cα] 
+    <[- α -]> [α @ cα => Y ∈ cα]).
 Proof.
   pose proof (n13_11 X Y) as n13_11.
   pose proof n20_3 as _n20_3.
@@ -1226,7 +1266,7 @@ Admitted.
 
 Theorem n20_4 (Fα : Prop → Prop) :
   let α := (^z => Fα z) in
-  ([α @ cα => [Cls @ Cls => cα <class_in> Cls]]) ↔ 
+  ([α @ cα => [Cls @ Cls => cα ∈ Cls]]) ↔ 
     (∃ (φ : Order 1), [α @ cα => 
     [^z => φ z @ cφ => cα = cφ]]).
 Proof.
@@ -1241,23 +1281,15 @@ Proof.
 Admitted.
 
 Theorem n20_41 (ψ : Prop → Prop) : [^z => ψ z @ cψ => 
-  [Cls @ Cls => cψ <class_in> Cls]].
+  [Cls @ Cls => cψ ∈ Cls]].
 Proof.
   pose proof (n20_151 ψ) as n20_151.
   now rewrite <- n20_4 in n20_151.
 Qed.
 
-(* Initial draft: associate a function `f` with `g`. *)
-(* TODO: move it somewhere *)
-Definition class_func_associate {A : Type} (f g : A → Prop) : 
-  ∀ x, f x = g x.
-Admitted.
-
-Require Import Logic.FunctionalExtensionality.
-
 Theorem n20_42 (Fα : Prop → Prop) : 
   let α := (^z => Fα z) in
-    [(^z => [α @ cα => z <class_in> cα])
+    [(^z => [α @ cα => z ∈ cα])
       @ cz => [α @ cα => cz = cα]].
 Proof.
   (* TOOLS *)
@@ -1266,15 +1298,15 @@ Proof.
   set (assoc_Fα_ψ := class_func_associate Fα Iψ).
   set (α := ^z => Fα z).
   (* ******** *)
-  assert (S1 : ([^z => Iψ z @ cψ => x <class_in> cψ]) <[- x -]> Iψ x).
+  assert (S1 : ([^z => Iψ z @ cψ => x ∈ cψ]) <[- x -]> Iψ x).
   {
     pose proof (n20_3 X Iψ) as n20_3.
     pose proof (n10_11 X (fun x =>
-      (([^z => Iψ z @ cψ => x <class_in> cψ]) ↔ Iψ x))) 
+      (([^z => Iψ z @ cψ => x ∈ cψ]) ↔ Iψ x))) 
       as n10_11.
     now MP n10_11 n20_3.
   }
-  assert (S2 : [^x => [^z => Iψ z @ cψ => x <class_in> cψ] @ cz
+  assert (S2 : [^x => [^z => Iψ z @ cψ => x ∈ cψ] @ cz
     => [^x => Iψ x @ cψ => cz = cψ]]).
   { now rewrite -> n20_15 in S1. }
   (* simplification - currently for some very special trick *)
@@ -1293,8 +1325,8 @@ Qed.
 (* TODO: figure out how to express this *)
 Theorem n20_43 (α β : Class.t Prop) : 
   [α @ cα => [β @ cβ => cα = cβ]]
-    ↔ ([α @ cα => x <class_in> cα] 
-      <[- x -]> [β @ cβ => x <class_in> cβ]).
+    ↔ ([α @ cα => x ∈ cα] 
+      <[- x -]> [β @ cβ => x ∈ cβ]).
 Proof.
   (* TODO: α function conversion *)
   pose proof n20_31 as n20_31.
@@ -1303,16 +1335,16 @@ Admitted.
 Open Scope iota_description.
 
 Theorem n20_5 (φ ψ : Prop → Prop) :
-  [ι φ | ιφ => [^z => ψ z @ cψ => ιφ <class_in> cψ]]
+  [ι φ | ιφ => [^z => ψ z @ cψ => ιφ ∈ cψ]]
   ↔ [ι φ | ιφ => ψ ιφ].
 Proof.
-  assert (S1 : [ι φ | ιφ => [^z => ψ z @ cψ => ιφ <class_in> cψ]]
-    ↔ (∃ c, (φ x <[- x -]> (x = c)) ∧ [^z => ψ z @ cψ => c <class_in> cψ])).
+  assert (S1 : [ι φ | ιφ => [^z => ψ z @ cψ => ιφ ∈ cψ]]
+    ↔ (∃ c, (φ x <[- x -]> (x = c)) ∧ [^z => ψ z @ cψ => c ∈ cψ])).
   { apply n14_1. }
-  assert (S2 : [ι φ | ιφ => [^z => ψ z @ cψ => ιφ <class_in> cψ]]
+  assert (S2 : [ι φ | ιφ => [^z => ψ z @ cψ => ιφ ∈ cψ]]
     ↔ (∃ c, (φ x <[- x -]> (x = c)) ∧ ψ c)).
   { now setoid_rewrite -> n20_3 in S1 at 2. }
-  assert (S3 : [ι φ | ιφ => [^z => ψ z @ cψ => ιφ <class_in> cψ]]
+  assert (S3 : [ι φ | ιφ => [^z => ψ z @ cψ => ιφ ∈ cψ]]
     ↔ [ι φ | ιφ => ψ ιφ]).
   { now setoid_rewrite <- n14_1 in S2. }
   exact S3.
@@ -1320,87 +1352,87 @@ Qed.
 
 Theorem n20_51 (φ : Prop → Prop) (B : Prop) :
   [ι φ | ιφ => ιφ = B]
-  ↔ ([ι φ | ιφ => [α @ cα => ιφ <class_in> cα]]
-    <[- α -]> [α @ cα => B <class_in> cα]).
+  ↔ ([ι φ | ιφ => [α @ cα => ιφ ∈ cα]]
+    <[- α -]> [α @ cα => B ∈ cα]).
 Proof.
   (* TOOLS *)
   set (Iψ := Intro_pred "ψ" 1).
   set (α := (^z => Iψ z)).
   (* ******** *)
-  assert (S1 : ([ι φ | ιφ => [^z => Iψ z @ cψ => ιφ <class_in> cψ]]
-      ↔ [^z => Iψ z @ cψ => B <class_in> cψ])
+  assert (S1 : ([ι φ | ιφ => [^z => Iψ z @ cψ => ιφ ∈ cψ]]
+      ↔ [^z => Iψ z @ cψ => B ∈ cψ])
     ↔ ([ι φ | ιφ => Iψ ιφ] ↔ Iψ B)).
   {
     pose proof (n20_5 φ Iψ) as n20_5.
     pose proof (n20_3 B Iψ) as n20_3.
     pose proof n4_86 as _n4_86.
     pose proof (n4_86
-      ([ι φ | ιφ => [^z => Iψ z @ cψ => ιφ <class_in> cψ]])
+      ([ι φ | ιφ => [^z => Iψ z @ cψ => ιφ ∈ cψ]])
       ([ι φ | ιφ => Iψ ιφ])
-      ([^z => Iψ z @ cψ => B <class_in> cψ])) 
+      ([^z => Iψ z @ cψ => B ∈ cψ])) 
       as n4_86.
     MP n4_86 n20_5.
     now setoid_rewrite -> n20_3 in n4_86 at 2.
   }
   (* NOTE: here is an interesting conflict: we are generalizing both on a class made
     out of `ψ` and `ψ` itself in different parts of a proposition *)
-  assert (S2 : ([ι φ | ιφ => [α @ cα => ιφ <class_in> cα]]
-      <[- α -]> [α @ cα => B <class_in> cα])
+  assert (S2 : ([ι φ | ιφ => [α @ cα => ιφ ∈ cα]]
+      <[- α -]> [α @ cα => B ∈ cα])
     ↔ ([ι φ | ιφ => ψ ιφ] <[- ψ -]> ψ B)).
   {
     (* unprovable: we're missing theorem of the form of
       `(∀ x, φ x ↔ P) → ((∀ x, φ x) ↔ P)`
       destructing the equivalence does the work, but become extremely tedious *)
     pose proof (n10_11_class α (fun α =>
-      ([ι φ | ιφ => [α @ cα => ιφ <class_in> cα]]
-        ↔ [α @ cα => B <class_in> cα])
+      ([ι φ | ιφ => [α @ cα => ιφ ∈ cα]]
+        ↔ [α @ cα => B ∈ cα])
       ↔ ([ι φ | ιφ => Iψ ιφ] ↔ Iψ B))) as n10_11_class.
     MP n10_11_class S1.
     pose proof n10_11_pred as _n10_11_pred.
     admit.
   }
-  assert (S3 : ([ι φ | ιφ => [α @ cα => ιφ <class_in> cα]]
-      <[- α -]> [α @ cα => B <class_in> cα])
+  assert (S3 : ([ι φ | ιφ => [α @ cα => ιφ ∈ cα]]
+      <[- α -]> [α @ cα => B ∈ cα])
     ↔ [ι φ | ιφ => ιφ = B]).
   { now setoid_rewrite <- n14_17 in S2. }
   assert (S4 : [ι φ | ιφ => ιφ = B]
-    ↔ ([ι φ | ιφ => [α @ cα => ιφ <class_in> cα]]
-      <[- α -]> [α @ cα => B <class_in> cα])).
+    ↔ ([ι φ | ιφ => [α @ cα => ιφ ∈ cα]]
+      <[- α -]> [α @ cα => B ∈ cα])).
   { now rewrite -> n4_21 in S3. }
   exact S4.
 Admitted.
 
 Theorem n20_52 (φ : Prop → Prop) : [ιE φ]
   ↔ (∃ b, [ι φ | ιφ => [α @ cα =>
-    (ιφ <class_in> cα)]]
-    <[- α -]> [α @ cα => b <class_in> cα]).
+    (ιφ ∈ cα)]]
+    <[- α -]> [α @ cα => b ∈ cα]).
 Proof.
   (* TOOLS *)
   set (B := Intro_individual "b").
   (* ******** *)
   assert (S1 : (∃ b : Prop, [ι φ | ιφ => ιφ = b])
     ↔ ∃ b : Prop, ([ι φ | ιφ => [α @ cα => 
-      ιφ <class_in> cα]] <[- α -]> 
-        [α @ cα => b <class_in> cα])).
+      ιφ ∈ cα]] <[- α -]> 
+        [α @ cα => b ∈ cα])).
   {
     pose proof (n20_51 φ B) as n20_51.
     pose proof (n10_11 B (fun b =>
       ([ι φ | ιφ => ιφ = b])
-        ↔ ([ι φ | ιφ => [α @ cα => ιφ <class_in> cα]])
-          <[- α -]>([α @ cα => b <class_in> cα]))) 
+        ↔ ([ι φ | ιφ => [α @ cα => ιφ ∈ cα]])
+          <[- α -]>([α @ cα => b ∈ cα]))) 
       as n10_11.
     MP n10_11 n20_51.
     pose proof (n10_281 
       (fun b => [ι φ | ιφ => ιφ = b])
-      (fun b => ([ι φ | ιφ => [α @ cα => ιφ <class_in> cα]])
-        <[- α -]> ([α @ cα => b <class_in> cα])))
+      (fun b => ([ι φ | ιφ => [α @ cα => ιφ ∈ cα]])
+        <[- α -]> ([α @ cα => b ∈ cα])))
       as n10_281.
     now MP n10_281 n10_11.
   }
   assert (S2 : [ιE φ]
     ↔ (∃ b, [ι φ | ιφ => [α @ cα =>
-      (ιφ <class_in> cα)]]
-      <[- α -]> [α @ cα => b <class_in> cα])).
+      (ιφ ∈ cα)]]
+      <[- α -]> [α @ cα => b ∈ cα])).
   { now rewrite <- n14_204 in S1. }
   exact S2.
 Qed.
@@ -1538,32 +1570,32 @@ Admitted.
 (* TODO: redesign n20_55 *)
 (* I'm quite proud that the class notation can work nicely together with ιs *)
 Theorem n20_55 (φ : Prop → Prop) : 
-  [ι (fun α => ([α @ cα => x <class_in> cα]) <[- x -]> φ x)
+  [ι (fun α => ([α @ cα => x ∈ cα]) <[- x -]> φ x)
     | ια => [^z => φ z @ cφ => [ια @ cια => cφ = cια]]].
 Proof.
   (* TOOLS *)
   set (Fα := Intro_pred "α" 1).
   set (α := ^z => Fα z).
   (* ******** *)
-  assert (S1 : ([α @ cα => x <class_in> cα]
+  assert (S1 : ([α @ cα => x ∈ cα]
       <[- x -]> φ x)
     <[- α -]> ([α @ cα => [^z => φ z @ cφ => cα = cφ]])).
   {
     pose proof (n20_33 Fα φ) as n20_33.
     rewrite -> n4_21 in n20_33.
     pose proof (n10_11_class α (fun α =>
-      ([α @ cα => x <class_in> cα]  <[- x -]> φ x)
+      ([α @ cα => x ∈ cα]  <[- x -]> φ x)
       ↔ ([α @ cα => [^z => φ z @ cφ => cα = cφ]])))
       as n10_11.
     now MP n10_11 n20_33.
   }
-  assert (S2 : ∃ β, (([α @ cα => x <class_in> cα]
+  assert (S2 : ∃ β, (([α @ cα => x ∈ cα]
         <[- x -]> φ x)
       <[- α -]> [α @ cα => [β @ cβ => cα = cβ]])
     ∧ [^z => φ z @ cφ => [β @ cβ => cφ = cβ]]).
   {
     pose proof (n20_54 φ (fun φ =>
-      ([α @ cα => x <class_in> cα]
+      ([α @ cα => x ∈ cα]
         <[- x -]> φ x)
       <[- α -]> ([α @ cα => [^z => φ z @ cφ => cα = cφ]]))) 
       as n20_54.
@@ -1578,7 +1610,7 @@ Proof.
     (* rewrite <- n20_54 in S1. *)
     admit.
   }
-  assert (S3 : [ι (fun α => ([α @ cα => x <class_in> cα]) 
+  assert (S3 : [ι (fun α => ([α @ cα => x ∈ cα]) 
     <[- x -]> φ x) | ια => 
     [^z => φ z @ cφ => [ια @ cια => cφ = cια]]]).
   {
@@ -1595,13 +1627,13 @@ Admitted.
 (* TODO: this might have some severe denotational problem about what kind of function
 should we use for the ι φ... *)
 Theorem n20_56 (φ : Prop → Prop) : [ιE (fun α : Class.t Prop =>
-  [α @ cα => x <class_in> cα] <[- x -]> φ x)].
+  [α @ cα => x ∈ cα] <[- x -]> φ x)].
 Proof.
   pose proof (n20_55 φ) as n20_55.
   pose proof (n14_21_pred 
     (fun fα => 
       let α := (^z => fα z) in
-      ([α @ cα => x <class_in> cα] <[- x -]> φ x))
+      ([α @ cα => x ∈ cα] <[- x -]> φ x))
     (fun ια => [^z => φ z @ cφ => cφ = ια]))
     as n14_21.
   (* unprovable: n20_55 doesn't have the correct form
@@ -2158,5 +2190,5 @@ Qed.
 
 Close Scope formal_equiv.
 Close Scope formal_impl.
-Close Scope debug_class.
+Close Scope class.
 Close Scope iota_description.

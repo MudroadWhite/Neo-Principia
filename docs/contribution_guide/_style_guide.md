@@ -35,6 +35,6 @@ for introduced variables:
 
 representation which turns out to be illegal(which our notation design 
 doesn't prevent) :
-- X <class_in> (^ z => Psi z)
+- X ∈ (^ z => Psi z)
 - [^z => Phi z @ cz1 => cz1 = cz1]
 - Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
