@@ -2004,9 +2004,9 @@ Proof.
     admit.
   }
   assert (S3 : ((f Chi Theta) <[- Chi Theta -]> (IG Chi Theta))
-    → ([^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => f cz1 cz2]]
+    → ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => f cPhi cPsi]]
       <[- Phi Psi  -]>
-      [^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => IG cz1 cz2]])).
+      [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => IG cPhi cPsi]])).
   {
     intro Hp.
     pose proof (S2 Hp) as S2.
@@ -2019,30 +2019,30 @@ Proof.
   }
   assert (S4 : (∃ g, (f Chi Theta <[- Chi Theta -]> g Chi Theta))
     → ∃ (g : (Prop → Prop) → (Prop → Prop) → Prop), 
-      ([^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => f cz1 cz2]]
-      <[- Phi Psi -]> [^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => g cz1 cz2]])).
+      ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => f cPhi cPsi]]
+      <[- Phi Psi -]> [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => g cPhi cPsi]])).
   {
     pose proof (n10_11_pred2_1 IG (fun g =>
       (f Chi Theta <[- Chi Theta -]> g Chi Theta)
-      → ([^z => Phi z @ cz1 =>
-         [^z => Psi z @ cz2 => f cz1 cz2]])
+      → ([^z => Phi z @ cPhi =>
+         [^z => Psi z @ cPsi => f cPhi cPsi]])
          <[- Phi Psi -]>
-         ([^z => Phi z @ cz1 =>
-          [^z => Psi z @ cz2 => g cz1 cz2]])))
+         ([^z => Phi z @ cPhi =>
+          [^z => Psi z @ cPsi => g cPhi cPsi]])))
       as n10_11.
     MP n10_11 S3.
     pose proof (n10_281_pred2_1
       (fun g => (f Chi Theta) <[- Chi Theta -]> (g Chi Theta))
       (fun g => 
-        ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => f cz1 cz2]])
+        ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => f cPhi cPsi]])
         <[- Phi Psi -]>
-        ([^z => Phi z @ cz1 => [^z => Psi z @ cz2 => g cz1 cz2]])))
+        ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => g cPhi cPsi]])))
       as n10_281.
     now MP n10_281 n10_11.
   }
   assert (S5 : ∃ (g : (Prop → Prop) → (Prop → Prop) → Prop), 
-      ([^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => f cz1 cz2]]
-    <[- Phi Psi -]> [^z => Phi z @ cPhi1 => [^z => Psi z @ cPsi => g cz1 cz2]])).
+      ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => f cPhi cPsi]]
+    <[- Phi Psi -]> [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => g cPhi cPsi]])).
   {
     (* unprovable *)
     admit.
@@ -2053,16 +2053,16 @@ Admitted.
 Theorem n20_71 (FAlpha FBeta : Prop → Prop) :
   let Alpha := (^z => FAlpha z) in
   let Beta := (^z => FBeta z) in
-  [Alpha @ cAlpha => [Beta @ cbeta => calpha = cbeta]] 
-    ↔ ([Alpha @ cAlpha => g calpha]
-      -[ g ]> [Beta @ cbeta => g cbeta]).
+  [Alpha @ cAlpha => [Beta @ cBeta => cAlpha = cBeta]] 
+    ↔ ([Alpha @ cAlpha => g cAlpha]
+      -[ g ]> [Beta @ cBeta => g cBeta]).
 Proof.
   apply n20_19.
 Qed.
 
 Theorem n20_8 (Phi : Prop → Prop) (A : Prop) :
-  (Phi A ∨ (~ Phi A)) → [^x => (Phi x ∨ (~ Phi x)) @ cx1 =>
-    [^x => (x = A ∨ (~ (x = A))) @ cx2 => cx1 = cx2]].
+  (Phi A ∨ (~ Phi A)) → [^x => (Phi x ∨ (~ Phi x)) @ cz1 =>
+    [^x => (x = A ∨ (~ (x = A))) @ cz2 => cz1 = cz2]].
 Proof.
   (* TOOLS *)
   set (X := Intro_individual "x").
@@ -2079,20 +2079,20 @@ Proof.
     now rewrite -> n10_21 in n10_11.
   }
   assert (S2 : (Phi A ∨ (~ Phi A)) 
-    → [^x => (Phi x ∨ (~ Phi x)) @ cx1 =>
-      [^x => (x = A ∨ (~ (x = A))) @ cx2 => cx1 = cx2]]).
+    → [^x => (Phi x ∨ (~ Phi x)) @ cz1 =>
+      [^x => (x = A ∨ (~ (x = A))) @ cz2 => cz1 = cz2]]).
   { now rewrite -> n20_15 in S1. }
   exact S2.
 Qed.
 
 Theorem n20_81 (Phi Psi : Prop → Prop) (A : Prop) :
   ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
-  → [^x => Phi x ∨ (~ Phi x) @ cx1 => 
-    [^x => Psi x ∨ (~ Psi x) @ cx2 => cx1 = cx2]].
+  → [^x => Phi x ∨ (~ Phi x) @ cz1 => 
+    [^x => Psi x ∨ (~ Psi x) @ cz2 => cz1 = cz2]].
 Proof.
   assert (S1 : ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
-    → [^x => Phi x ∨ (~ Phi x) @ cx1 => 
-      [^x => (x = A) \/ ~ (x = A) @ cx2 => cx1 = cx2]]).
+    → [^x => Phi x ∨ (~ Phi x) @ cz1 => 
+      [^x => (x = A) \/ ~ (x = A) @ cz2 => cz1 = cz2]]).
   {
     pose proof (Simp3_26
       (Phi A ∨ ¬ Phi A)
@@ -2102,8 +2102,8 @@ Proof.
     now Syll_as Simp3_26 n20_8 S1.
   }
   assert (S2 : ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
-    → [^x => Psi x ∨ (~ Psi x) @ cx1 => 
-      [^x => (x = A) \/ ~ (x = A) @ cx2 => cx1 = cx2]]).
+    → [^x => Psi x ∨ (~ Psi x) @ cz1 => 
+      [^x => (x = A) \/ ~ (x = A) @ cz2 => cz1 = cz2]]).
   {
     pose proof (Simp3_27
       (Phi A ∨ ¬ Phi A)
@@ -2113,31 +2113,30 @@ Proof.
     now Syll_as Simp3_27 n20_8 S2.
   }
   assert (S3 : ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
-    → ([^x => Phi x ∨ (~ Phi x) @ cx1 => 
-      [^x => (x = A) \/ ~ (x = A) @ cx2 => cx1 = cx2]]
-      /\ [^x => Psi x ∨ (~ Psi x) @ cx3 => 
-      [^x => (x = A) \/ ~ (x = A) @ cx2 => cx3 = cx2]])).
+    → ([^x => Phi x ∨ (~ Phi x) @ cz1 => 
+      [^x => (x = A) \/ ~ (x = A) @ cz2 => cz1 = cz2]]
+      /\ [^x => Psi x ∨ (~ Psi x) @ cz3 => 
+      [^x => (x = A) \/ ~ (x = A) @ cz2 => cz3 = cz2]])).
   {
     (* *10.121, *10.13 ignored. *10.13 might be wrongly 
       designed and unusable here *)
     pose proof (Comp3_43 ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
-      ([^x => Phi x ∨ (~ Phi x) @ cx1 => 
-        [^x => (x = A) \/ ~ (x = A) @ cx2 => cx1 = cx2]])
-      ([^x => Psi x ∨ (~ Psi x) @ cx3 => 
-        [^x => (x = A) \/ ~ (x = A) @ cx2 => cx3 = cx2]])) 
+      ([^x => Phi x ∨ (~ Phi x) @ cz1 => 
+        [^x => (x = A) \/ ~ (x = A) @ cz2 => cz1 = cz2]])
+      ([^x => Psi x ∨ (~ Psi x) @ cz3 => 
+        [^x => (x = A) \/ ~ (x = A) @ cz2 => cz3 = cz2]])) 
       as Comp3_43.
     Conj_as S1 S2 C1.
     now MP Comp3_43 C1.
   }
   assert (S4 : ((Phi A ∨ (~ Phi A)) ∧ (Psi A ∨ (~ Psi A)))
-    → [^x => Phi x ∨ (~ Phi x) @ cx1 => 
-      [^x => Psi x ∨ (~ Psi x) @ cx2 => cx1 = cx2]]).
+    → [^x => Phi x ∨ (~ Phi x) @ cz1 => 
+      [^x => Psi x ∨ (~ Psi x) @ cz2 => cz1 = cz2]]).
   {
     pose proof (n20_24 (fun x => x = A ∨ x ≠ A) 
       (fun x => Phi x ∨ ¬ Phi x)
       (fun x => Psi x ∨ ¬ Psi x)) 
       as n20_24.
-    simpl in S3; simpl in n20_24.
     now Syll_as S3 n20_24 S4.
   }
   exact S4.
