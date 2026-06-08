@@ -85,10 +85,10 @@ Definition n11_2_pred (φ : (Prop → Prop) → (Prop → Prop) → Prop) :
   (∀ x y, φ x y) ↔ (∀ y x, φ x y).
 Admitted.
 
-Definition n13_16_pred (X Y : Prop -> Prop) : (X = Y) ↔ (Y = X).
+Definition n13_16_pred (X Y : Prop → Prop) : (X = Y) ↔ (Y = X).
 Admitted.
 
-Definition n13_195_pred (X : Prop -> Prop) (φ : (Prop -> Prop) → Prop) : 
+Definition n13_195_pred (X : Prop → Prop) (φ : (Prop → Prop) → Prop) : 
   (∃ y, (y = X) ∧ φ y) ↔ φ X.
 Admitted.
 
@@ -300,8 +300,8 @@ Admitted.
 
 (* We won't define a notation for this abbreviation for now *)
 Definition n20_06 {A : Type} (X : A) (α : Class.t A) :
-  (~ [α @ cα => X <class_in> cα]) 
-  = (~ [α @ cα => X <class_in> cα]).
+  (¬ [α @ cα => X <class_in> cα]) 
+  = (¬ [α @ cα => X <class_in> cα]).
 Admitted.
 
 Definition n20_07 {A : Type} (f : (A → Prop) → Prop) :
@@ -591,7 +591,7 @@ Proof.
     setoid_rewrite -> n4_3 in S3 at 2.
     setoid_rewrite <- n10_33 in S3.
     setoid_rewrite <- n4_3 in S3 at 2.
-    (* unprovable: no theorem for `<->`'s conversion with `exists` *)
+    (* unprovable: no theorem for `↔`'s conversion with `exists` *)
     pose proof n10_35_pred as _n10_35.
     (* setoid_rewrite <- n10_35_pred in S3. *)
     admit.
@@ -838,7 +838,7 @@ Proof.
         as n10_1a.
     MP n10_1a S7.
     pose proof (n10_11_pred Iφ
-      (fun φ => forall θ, 
+      (fun φ => ∀ θ, 
         (((φ x <[- x -]> ψ x) ∧ θ x <[- x -]> χ x)
         ∧ (∀ f, ([^z => ψ z @ cψ => f cψ]) 
           → [^z => χ z @ cχ => f cχ]))
@@ -853,7 +853,7 @@ Proof.
     setoid_rewrite -> n10_35_pred in n10_1b.
     now rewrite <- n4_3 in n10_1b.
   }
-  assert (S9 : (∀ f : (Prop -> Prop) -> Prop, [^z => ψ z @ cψ => f cψ] → [^z => χ z @ cχ => f cχ])
+  assert (S9 : (∀ f : (Prop → Prop) → Prop, [^z => ψ z @ cψ => f cψ] → [^z => χ z @ cχ => f cχ])
     → [^z => ψ z @ cψ => [^z => χ z @ cχ => cψ = cχ]]).
   {
     pose proof n12_1 as n12_1.
@@ -876,7 +876,7 @@ Theorem n20_191 (ψ χ : Prop → Prop) :
     [^z => χ z @ cχ => f cψ  ↔ f cχ]].
 Proof.
   (* *20.18 ignored *)
-  (* unprovable: the `<->` generated has to go pass the scopes *)
+  (* unprovable: the `↔` generated has to go pass the scopes *)
   pose proof (n20_19 ψ χ) as n20_19a.
   pose proof (n20_19 χ ψ) as n20_19b.
   pose proof n10_22 as n10_22.
@@ -1064,10 +1064,6 @@ Proof.
   exact S9.
 Qed.
 
-(* TODO in doc: the 1st step of this proof reveals some deeper notation consistency 
-  issue... designing a custum representation of these symbols seems to be a interesting
-  technical problem 
-*)
 Theorem n20_3 (X : Prop) (ψ : Prop → Prop ) : 
   ([^z => ψ z @ cψ => X <class_in> cψ]) ↔ ψ X.
 Proof.
@@ -1121,7 +1117,7 @@ Proof.
   exact S5.
 Admitted.
 
-Definition n20_3_pred (X : Prop -> Prop) (ψ : (Prop -> Prop) → Prop) : 
+Definition n20_3_pred (X : Prop → Prop) (ψ : (Prop → Prop) → Prop) : 
   ([^z => ψ z @ cψ => X <class_in> cψ]) ↔ ψ X.
 Admitted.
 
@@ -1251,8 +1247,14 @@ Proof.
   now rewrite <- n20_4 in n20_151.
 Qed.
 
-(* NOTE: In this proof, `ψ` is associated with `α` in the text without being 
-claimed explicitly *)
+(* Initial draft: associate a function `f` with `g`. *)
+(* TODO: move it somewhere *)
+Definition class_func_associate {A : Type} (f g : A → Prop) : 
+  ∀ x, f x = g x.
+Admitted.
+
+Require Import Logic.FunctionalExtensionality.
+
 Theorem n20_42 (Fα : Prop → Prop) : 
   let α := (^z => Fα z) in
     [(^z => [α @ cα => z <class_in> cα])
@@ -1261,6 +1263,7 @@ Proof.
   (* TOOLS *)
   set (X := Intro_individual "x").
   set (Iψ := Intro_pred "ψ" 1).
+  set (assoc_Fα_ψ := class_func_associate Fα Iψ).
   set (α := ^z => Fα z).
   (* ******** *)
   assert (S1 : ([^z => Iψ z @ cψ => x <class_in> cψ]) <[- x -]> Iψ x).
@@ -1273,13 +1276,19 @@ Proof.
   }
   assert (S2 : [^x => [^z => Iψ z @ cψ => x <class_in> cψ] @ cz
     => [^x => Iψ x @ cψ => cz = cψ]]).
-  {
-    pose proof n20_15 as n20_15.
-    admit.
+  { now rewrite -> n20_15 in S1. }
+  (* simplification - currently for some very special trick *)
+  (* TODO: make this prettier *)
+  simpl. simpl in S2.
+  replace (^z => Iψ z) with (^z => Fα z) in S2.
+  2: {
+    cbv. 
+    f_equal. (* For desugaring record functions *)
+    extensionality x.
+    apply assoc_Fα_ψ.
   }
-  (* TODO: rename the ^z => ψ z into α *)
-  admit.
-Admitted.
+  exact S2.
+Qed.
 
 (* TODO: figure out how to express this *)
 Theorem n20_43 (α β : Class.t Prop) : 
@@ -1612,7 +1621,7 @@ Proof.
     [^z => φ z @ cφ => [ια @ cια => cφ = cια]]]
     ↔ (∃ β, ([α @ cα => f cα] <[- α -]> 
       [α @ cα => [β @ cβ => cα = cβ]])
-      /\ [^z => φ z @ cφ => [β @ cβ => cφ = cβ]])).
+      ∧ [^z => φ z @ cφ => [β @ cβ => cφ = cβ]])).
   { apply n14_1_class. }
   assert (S2 : [ι (fun α => [α @ cα => f cα]) | ια =>
     [^z => φ z @ cφ => [ια @ cια => cφ = cια]]]
@@ -1622,15 +1631,15 @@ Proof.
     setoid_rewrite -> n20_21_alt in S1 at 2.
     pose proof n20_54 as _n20_54.
     simpl in _n20_54, S1; simpl.
-    (* TODO: is there some rule to extend the n20_54? *)
-    (* setoid_rewrite -> n20_54 in S1 at 2. *)
+    setoid_rewrite -> n4_3 in S1 at 2.
+    (* unprovable: heavy scoping issue *)
     admit.
   }
   assert (S3 : [ι (fun α => [α @ cα => f cα]) | ια =>
     [ια @ cια => g cια]]
     ↔ (∃ β, ([α @ cα => f cα] 
         <[- α -]> [α @ cα => [β @ cβ => cα = cβ]])
-      /\ [β @ cβ => g cβ])).
+      ∧ [β @ cβ => g cβ])).
   { apply n14_1_class. }
   assert (S4 : [ι (fun α => [α @ cα => f cα]) | ια =>
       [(^z => φ z) @ cφ => [ια @ cια => cφ = cια]]]
@@ -1638,7 +1647,7 @@ Proof.
       [ια @ cια => g cια]]
       ↔ (∃ β, ([α @ cα => [^z => φ z @ cφ => cα = cφ]]
         <[- α -]> [α @ cα => [β @ cβ => cα = cβ]])
-        /\ [β @ cβ => g cβ]))).
+        ∧ [β @ cβ => g cβ]))).
   {
     (* simplification *)
     intro Hp.
@@ -1652,7 +1661,7 @@ Proof.
         [ια @ cια => g cια]]
       ↔ (∃ β, [^z => φ z @ cφ => 
         [β @ cβ => cφ = cβ]] 
-        /\ [β @ cβ => g cβ]))).
+        ∧ [β @ cβ => g cβ]))).
   {
     setoid_rewrite -> n20_21_alt in S4 at 2.
     now setoid_rewrite <- n13_183_class in S4.
@@ -1697,10 +1706,9 @@ Proof.
   assert (S2 : ∃ β, ([α @ cα => 
     [^z => φ z @ cφ => cα = cφ]] 
       <[- α -]> [α @ cα => [β @ cβ => cα = cβ]])
-    /\ [^z => φ z @ cφ => [β @ cβ => cφ = cβ]]).
+    ∧ [^z => φ z @ cφ => [β @ cβ => cφ = cβ]]).
   {
     simpl in S1; simpl.
-    
     (* NOTE: i think the proof order is wrong. we should have first constructed
       the `∃` and then generalize the `α`. Otherwise it's making things
       so tedious that we will break everything down to reconstruct again. *)
@@ -1733,7 +1741,7 @@ Proof.
   assert (S1 : [^z => φ z @ cφ => [ι (fun α => [α @ cα => f cα])
     | ια => [ια @ cια => cφ = cια]]]
     ↔ (∃ ψ, (φ x <[- x -]> ψ x)
-      /\ [ι (fun α => [α @ cα => f cα]) 
+      ∧ [ι (fun α => [α @ cα => f cα]) 
         | ια => [ια @ cια =>
           ψ = cια]])).
   {
@@ -1746,7 +1754,7 @@ Proof.
   assert (S2 : [^z => φ z @ cφ => [ι (fun α => [α @ cα => f cα])
     | ια => [ια @ cια => cφ = cια]]]
     ↔ (∃ ψ, (φ x <[- x -]> ψ x)
-      /\ [ι (fun α => [α @ cα => f cα]) 
+      ∧ [ι (fun α => [α @ cα => f cα]) 
         | ια => [ια @ cια =>
           cια = ψ]])).
   { now setoid_rewrite -> n14_13_class_alt in S1. }
@@ -1769,7 +1777,7 @@ Qed.
 
 Theorem n20_6 (f : (Prop → Prop) → Prop) :
   (∃ α, [α @ cα => f cα])
-  ↔ (~∀ α, ~ [α @ cα => f cα]).
+  ↔ (¬∀ α, ¬ [α @ cα => f cα]).
 Proof.
   (* TOOLS *)
   set (λ φ0 : (Prop → Prop) → Prop, eq_to_equiv (∃ x, φ0 x) (¬(∀ x, ¬ φ0 x))
@@ -1791,12 +1799,12 @@ Proof.
     now setoid_rewrite -> n20_071a in n4_2 at 2.
   }
   assert (S2 : (∃ α, [α @ cα => f cα])
-    ↔ (~ ∀ φ, ~ [^z => φ z @ cφ => f cφ])).
+    ↔ (¬ ∀ φ, ¬ [^z => φ z @ cφ => f cφ])).
   { now setoid_rewrite -> n10_01a in S1. }
   assert (S3 : (∃ α, [α @ cα => f cα])
-    ↔ (~∀ α, ~ [α @ cα => f cα])).
+    ↔ (¬∀ α, ¬ [α @ cα => f cα])).
   {
-    (* TODO: fix the scoping for `~, not specified in the proof *)
+    (* unprovable: scoping issue *)
     (* setoid_rewrite <- n20_07a in S2. *)
     admit.
   }
@@ -1865,7 +1873,7 @@ Proof.
     (n20_07 f0)) as n20_07a.
   (* ******** *)
   assert (S1 : (∀ α, P ∨ [α @ cα => f cα])
-    ↔ ∀ φ, P \/ [^z => φ z @ cφ => f cφ]).
+    ↔ ∀ φ, P ∨ [^z => φ z @ cφ => f cφ]).
   {
     pose proof (n4_2 (∀ α, P ∨ [α @ cα => f cα])) as n4_2.
     (* unprovable: scoping issue. TODO: implement scoping in the future *)
@@ -1873,15 +1881,18 @@ Proof.
     admit.
   }
   assert (S2 : (∀ α, P ∨ [α @ cα => f cα])
-    ↔ (P \/ ∀ φ, [^z => φ z @ cφ => f cφ])).
+    ↔ (P ∨ ∀ φ, [^z => φ z @ cφ => f cφ])).
   {
-    (* unprovable: *10.12 is single_direction *)
-    (* TODO: check if its proof is double direction *)
+    (* unprovable: *10.12 is single direction *)
+    (* NOTE: as we trace back to the original proof, it
+    turns out to be a "deordering" for `∀`. It has been
+    pretty weird that *10.12 is single direction while
+    analytically we can have both direction  *)
     pose proof n10_12 as n10_12.
     admit.
   }
   assert (S3 : (∀ α, P ∨ [α @ cα => f cα])
-    ↔ (P \/ ∀ α, [α @ cφ => f cφ])).
+    ↔ (P ∨ ∀ α, [α @ cφ => f cφ])).
   { now setoid_rewrite <- n20_07 in S2. }
   assert (S4 : (∀ α, P ∨ [α @ cα => f cα]) 
     → (P ∨ ∀ α, [α @ cα => f cα])).
@@ -1904,12 +1915,13 @@ Proof.
     (∀ α, [α @ cα => f0 cα])
     (∀ φ, [^z => φ z @ cφ => f0 cφ])
     (n20_07 f0)) as n20_07a.
+  (* TODO: use proper tools to normalize the association *)
   set (β := ^z => ψ z).
   (* ******** *)
   assert (S1 : ((∀ α, [α @ cα => f cα]) 
       ∧ (∀ α, [α @ cα => g cα]))
     ↔ ((∀ φ, [^z => φ z @ cφ => f cφ]) 
-      /\ (∀ φ, [^z => φ z @ cφ => g cφ]))).
+      ∧ (∀ φ, [^z => φ z @ cφ => g cφ]))).
   {
     pose proof (n4_2 ((∀ α, [α @ cα => f cα]) 
       ∧ (∀ α, [α @ cα => g cα]))) as n4_2.
@@ -1918,7 +1930,7 @@ Proof.
   }
   assert (S2 : ((∀ α, [α @ cα => f cα]) 
       ∧ (∀ α, [α @ cα => g cα]))
-    → ([^z => ψ z @ cψ => f cψ] /\ [^z => ψ z @ cψ => g cψ])).
+    → ([^z => ψ z @ cψ => f cψ] ∧ [^z => ψ z @ cψ => g cψ])).
   {
     (* simplification *)
     destruct S1 as [_ S1].
@@ -1967,20 +1979,20 @@ Proof.
   set (Ig := Intro_pred_2 "g" 2).
   (* ******** *)
   assert (S1 : ((f χ θ) <[- χ θ -]> (Ig χ θ))
-    → (((Iφ x <[- x -]> χ x) /\ (Iψ x <[- x -]> θ x) /\ f χ θ)
+    → (((Iφ x <[- x -]> χ x) ∧ (Iψ x <[- x -]> θ x) ∧ f χ θ)
       <[- χ θ -]>
-      ((Iφ x <[- x -]> χ x) /\ (Iψ x <[- x -]> θ x) /\ Ig χ θ))).
+      ((Iφ x <[- x -]> χ x) ∧ (Iψ x <[- x -]> θ x) ∧ Ig χ θ))).
   {
     (* unprovable. TODO: see if there is an alternative for 2 params for functions *)
     pose proof n10_311 as n10_311.
     admit.
   }
   assert (S2 : ((f χ θ) <[- χ θ -]> (Ig χ θ))
-    → ((∃ χ θ, (φ x <[- x -]> χ x) /\ (ψ x <[- x -]> θ x)
-        /\ f χ θ)
+    → ((∃ χ θ, (φ x <[- x -]> χ x) ∧ (ψ x <[- x -]> θ x)
+        ∧ f χ θ)
       <[- φ ψ -]>
-        (∃ χ θ, (φ x <[- x -]> χ x) /\ (ψ x <[- x -]> θ x)
-          /\ Ig χ θ))).
+        (∃ χ θ, (φ x <[- x -]> χ x) ∧ (ψ x <[- x -]> θ x)
+          ∧ Ig χ θ))).
   {
     (* *11.3 ignored *)
     intro Hp.
@@ -1989,9 +2001,9 @@ Proof.
     is pretty confusing *)
     pose proof (n11_11_pred Iφ Iψ
       (fun φ ψ => 
-        (((φ x <[- x -]> χ x) /\ (ψ x <[- x -]> θ x) /\ f χ θ)
+        (((φ x <[- x -]> χ x) ∧ (ψ x <[- x -]> θ x) ∧ f χ θ)
         <[- χ θ -]>
-        ((φ x <[- x -]> χ x) /\ (ψ x <[- x -]> θ x) /\ Ig χ θ)))) 
+        ((φ x <[- x -]> χ x) ∧ (ψ x <[- x -]> θ x) ∧ Ig χ θ)))) 
         as n11_11.
     MP n11_11 S1.
     (* NOTE: although it looks correct, I don't really know if this
@@ -2063,14 +2075,14 @@ Proof.
 Qed.
 
 Theorem n20_8 (φ : Prop → Prop) (A : Prop) :
-  (φ A ∨ (~ φ A)) → [^x => (φ x ∨ (~ φ x)) @ cz1 =>
-    [^x => (x = A ∨ (~ (x = A))) @ cz2 => cz1 = cz2]].
+  (φ A ∨ (¬ φ A)) → [^x => (φ x ∨ (¬ φ x)) @ cz1 =>
+    [^x => (x = A ∨ (¬ (x = A))) @ cz2 => cz1 = cz2]].
 Proof.
   (* TOOLS *)
   set (X := Intro_individual "x").
   (* ******** *)
-  assert (S1 : (φ A ∨ (~ φ A)) 
-    → ((φ x \/ ~ (φ x)) <[- x -]> ((x = A) \/ ~(x = A)))).
+  assert (S1 : (φ A ∨ (¬ φ A)) 
+    → ((φ x ∨ ¬ (φ x)) <[- x -]> ((x = A) ∨ ¬(x = A)))).
   {
     pose proof (n13_3 A X φ) as n13_3.
     pose proof (n10_11 X (fun x => 
@@ -2080,21 +2092,21 @@ Proof.
     MP n10_11 n13_3.
     now rewrite -> n10_21 in n10_11.
   }
-  assert (S2 : (φ A ∨ (~ φ A)) 
-    → [^x => (φ x ∨ (~ φ x)) @ cz1 =>
-      [^x => (x = A ∨ (~ (x = A))) @ cz2 => cz1 = cz2]]).
+  assert (S2 : (φ A ∨ (¬ φ A)) 
+    → [^x => (φ x ∨ (¬ φ x)) @ cz1 =>
+      [^x => (x = A ∨ (¬ (x = A))) @ cz2 => cz1 = cz2]]).
   { now rewrite -> n20_15 in S1. }
   exact S2.
 Qed.
 
 Theorem n20_81 (φ ψ : Prop → Prop) (A : Prop) :
-  ((φ A ∨ (~ φ A)) ∧ (ψ A ∨ (~ ψ A)))
-  → [^x => φ x ∨ (~ φ x) @ cz1 => 
-    [^x => ψ x ∨ (~ ψ x) @ cz2 => cz1 = cz2]].
+  ((φ A ∨ (¬ φ A)) ∧ (ψ A ∨ (¬ ψ A)))
+  → [^x => φ x ∨ (¬ φ x) @ cz1 => 
+    [^x => ψ x ∨ (¬ ψ x) @ cz2 => cz1 = cz2]].
 Proof.
-  assert (S1 : ((φ A ∨ (~ φ A)) ∧ (ψ A ∨ (~ ψ A)))
-    → [^x => φ x ∨ (~ φ x) @ cz1 => 
-      [^x => (x = A) \/ ~ (x = A) @ cz2 => cz1 = cz2]]).
+  assert (S1 : ((φ A ∨ (¬ φ A)) ∧ (ψ A ∨ (¬ ψ A)))
+    → [^x => φ x ∨ (¬ φ x) @ cz1 => 
+      [^x => (x = A) ∨ ¬ (x = A) @ cz2 => cz1 = cz2]]).
   {
     pose proof (Simp3_26
       (φ A ∨ ¬ φ A)
@@ -2103,9 +2115,9 @@ Proof.
     pose proof (n20_8 φ A) as n20_8.
     now Syll_as Simp3_26 n20_8 S1.
   }
-  assert (S2 : ((φ A ∨ (~ φ A)) ∧ (ψ A ∨ (~ ψ A)))
-    → [^x => ψ x ∨ (~ ψ x) @ cz1 => 
-      [^x => (x = A) \/ ~ (x = A) @ cz2 => cz1 = cz2]]).
+  assert (S2 : ((φ A ∨ (¬ φ A)) ∧ (ψ A ∨ (¬ ψ A)))
+    → [^x => ψ x ∨ (¬ ψ x) @ cz1 => 
+      [^x => (x = A) ∨ ¬ (x = A) @ cz2 => cz1 = cz2]]).
   {
     pose proof (Simp3_27
       (φ A ∨ ¬ φ A)
@@ -2114,26 +2126,26 @@ Proof.
     pose proof (n20_8 ψ A) as n20_8.
     now Syll_as Simp3_27 n20_8 S2.
   }
-  assert (S3 : ((φ A ∨ (~ φ A)) ∧ (ψ A ∨ (~ ψ A)))
-    → ([^x => φ x ∨ (~ φ x) @ cz1 => 
-      [^x => (x = A) \/ ~ (x = A) @ cz2 => cz1 = cz2]]
-      /\ [^x => ψ x ∨ (~ ψ x) @ cz3 => 
-      [^x => (x = A) \/ ~ (x = A) @ cz2 => cz3 = cz2]])).
+  assert (S3 : ((φ A ∨ (¬ φ A)) ∧ (ψ A ∨ (¬ ψ A)))
+    → ([^x => φ x ∨ (¬ φ x) @ cz1 => 
+      [^x => (x = A) ∨ ¬ (x = A) @ cz2 => cz1 = cz2]]
+      ∧ [^x => ψ x ∨ (¬ ψ x) @ cz3 => 
+      [^x => (x = A) ∨ ¬ (x = A) @ cz2 => cz3 = cz2]])).
   {
     (* *10.121, *10.13 ignored. *10.13 might be wrongly 
       designed and unusable here *)
-    pose proof (Comp3_43 ((φ A ∨ (~ φ A)) ∧ (ψ A ∨ (~ ψ A)))
-      ([^x => φ x ∨ (~ φ x) @ cz1 => 
-        [^x => (x = A) \/ ~ (x = A) @ cz2 => cz1 = cz2]])
-      ([^x => ψ x ∨ (~ ψ x) @ cz3 => 
-        [^x => (x = A) \/ ~ (x = A) @ cz2 => cz3 = cz2]])) 
+    pose proof (Comp3_43 ((φ A ∨ (¬ φ A)) ∧ (ψ A ∨ (¬ ψ A)))
+      ([^x => φ x ∨ (¬ φ x) @ cz1 => 
+        [^x => (x = A) ∨ ¬ (x = A) @ cz2 => cz1 = cz2]])
+      ([^x => ψ x ∨ (¬ ψ x) @ cz3 => 
+        [^x => (x = A) ∨ ¬ (x = A) @ cz2 => cz3 = cz2]])) 
       as Comp3_43.
     Conj_as S1 S2 C1.
     now MP Comp3_43 C1.
   }
-  assert (S4 : ((φ A ∨ (~ φ A)) ∧ (ψ A ∨ (~ ψ A)))
-    → [^x => φ x ∨ (~ φ x) @ cz1 => 
-      [^x => ψ x ∨ (~ ψ x) @ cz2 => cz1 = cz2]]).
+  assert (S4 : ((φ A ∨ (¬ φ A)) ∧ (ψ A ∨ (¬ ψ A)))
+    → [^x => φ x ∨ (¬ φ x) @ cz1 => 
+      [^x => ψ x ∨ (¬ ψ x) @ cz2 => cz1 = cz2]]).
   {
     pose proof (n20_24 (fun x => x = A ∨ x ≠ A) 
       (fun x => φ x ∨ ¬ φ x)
