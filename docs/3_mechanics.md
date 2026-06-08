@@ -37,6 +37,8 @@ We now start exploring the main ideas for each chapters.
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 ### Chapter 1
+TODO: move discussions on propositions to appendix A; only bring the conclusion here
+
 The difference between a function and a proposition is scattered through Introduction's chapter I, II, III and chapter 1. As the first concepts being introduced in, the definition of a proposition is full of ambiguity. When figuring out the difference between a *proposition* and a *proposition built up from a function*, we have gathered below clues only to reveal how much is the chaos: 
 - *Proposition* can be *asserted*. *Propositional function* also can be *asserted* by asserting any specific value by instantiating a function, and which, is a proposition.
 - Asserted propositional function can still change its variable to produce different proposition asserted
