@@ -462,8 +462,6 @@ Proof.
     (Equiv4_01 P0 Q0))
   as Equiv4_01a.
   (* ******** *)
-  (* Whenever a proof involves `Hp`, the theorems cited in the text usually
-    also work on the limited scope of the conclusion of theorem *)  
   pose proof (n10_22 (fun z => φ z → ψ z) (fun z => ψ z → φ z)) 
     as n10_22.
   setoid_rewrite <- Equiv4_01a in n10_22.
@@ -476,12 +474,6 @@ Proof.
   }
   assert (S2 : (∀ z, φ z ↔ ψ z) → ((∀ z, φ z) → (∀ z, ψ z))).
   {
-    (* `Hp` always have to be after the line where `Hp` is declared. All
-      theorems involved are supposed to be match directly on the conclusion 
-      part of the proposition, with `Hp` removed from the goal.
-      This isn't something breaking the rule, as we can always proceed with 
-      `Syll`s. But I think a slight intro of `Hp` adds a tiny spice aligned 
-      with original proof, without harming it too much *)
     intro Hp.
     pose proof (n10_27 φ ψ) as n10_27.
     pose proof (S1 Hp) as S1.
