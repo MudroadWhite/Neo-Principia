@@ -1962,23 +1962,23 @@ Proof.
   (* TOOLS *)
   set (IPhi := Intro_pred "phi" 1).
   set (IPsi := Intro_pred "psi" 1).
-  set (IG := Intro_pred_2 "g" 2).
+  set (Ig := Intro_pred_2 "g" 2).
   (* ******** *)
-  assert (S1 : ((f Chi Theta) <[- Chi Theta -]> (IG Chi Theta))
+  assert (S1 : ((f Chi Theta) <[- Chi Theta -]> (Ig Chi Theta))
     → (((IPhi x <[- x -]> Chi x) /\ (IPsi x <[- x -]> Theta x) /\ f Chi Theta)
       <[- Chi Theta -]>
-      ((IPhi x <[- x -]> Chi x) /\ (IPsi x <[- x -]> Theta x) /\ IG Chi Theta))).
+      ((IPhi x <[- x -]> Chi x) /\ (IPsi x <[- x -]> Theta x) /\ Ig Chi Theta))).
   {
     (* unprovable. TODO: see if there is an alternative for 2 params for functions *)
     pose proof n10_311 as n10_311.
     admit.
   }
-  assert (S2 : ((f Chi Theta) <[- Chi Theta -]> (IG Chi Theta))
+  assert (S2 : ((f Chi Theta) <[- Chi Theta -]> (Ig Chi Theta))
     → ((∃ Chi Theta, (Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x)
         /\ f Chi Theta)
       <[- Phi Psi -]>
         (∃ Chi Theta, (Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x)
-          /\ IG Chi Theta))).
+          /\ Ig Chi Theta))).
   {
     (* *11.3 ignored *)
     intro Hp.
@@ -1989,7 +1989,7 @@ Proof.
       (fun Phi Psi => 
         (((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ f Chi Theta)
         <[- Chi Theta -]>
-        ((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ IG Chi Theta)))) 
+        ((Phi x <[- x -]> Chi x) /\ (Psi x <[- x -]> Theta x) /\ Ig Chi Theta)))) 
         as n11_11.
     MP n11_11 S1.
     (* NOTE: although it looks correct, I don't really know if this
@@ -2003,10 +2003,10 @@ Proof.
     pose proof (n11_341) as n11_341.
     admit.
   }
-  assert (S3 : ((f Chi Theta) <[- Chi Theta -]> (IG Chi Theta))
+  assert (S3 : ((f Chi Theta) <[- Chi Theta -]> (Ig Chi Theta))
     → ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => f cPhi cPsi]]
       <[- Phi Psi  -]>
-      [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => IG cPhi cPsi]])).
+      [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => Ig cPhi cPsi]])).
   {
     intro Hp.
     pose proof (S2 Hp) as S2.
@@ -2022,7 +2022,7 @@ Proof.
       ([^z => Phi z @ cPhi => [^z => Psi z @ cPsi => f cPhi cPsi]]
       <[- Phi Psi -]> [^z => Phi z @ cPhi => [^z => Psi z @ cPsi => g cPhi cPsi]])).
   {
-    pose proof (n10_11_pred2_1 IG (fun g =>
+    pose proof (n10_11_pred2_1 Ig (fun g =>
       (f Chi Theta <[- Chi Theta -]> g Chi Theta)
       → ([^z => Phi z @ cPhi =>
          [^z => Psi z @ cPsi => f cPhi cPsi]])
