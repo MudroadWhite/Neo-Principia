@@ -16,7 +16,7 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 Which means 3 questions:
 
 - **How much can you formalize?** Theoretically, the whole book. See [overview](./docs/1_overview.md/#can-principia-mathematica-be-completely-formalized) for analysis and features.
-- **How much have you formalized?** 194 - 94 = 100 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
+- **How much have you formalized?** 199 - 94 = 105 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
 - **How deep can you formalize?** We're using shallow embedding, which is not rigorous deep embedding. We didn't type the propositions, so **the proofs are still not 100% correct.** See [audit](./docs/5_audit.md) for our major defects.
 
 ## Running the code
