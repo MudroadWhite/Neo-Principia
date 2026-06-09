@@ -55,11 +55,11 @@ Although I have tried to organize the issues well to indicate the current progre
 - [Metamath solitaire's implementation on propositional calculus theorems](https://us.metamath.org/mmsolitaire/pmproofs.txt)
 
 ## Other useful links
-- https://proofassistants.stackexchange.com/questions/1105/how-does-the-formal-proof-of-the-four-color-theorem-work Discussion of the 4-color theorem, as a reflection. 
-- https://plato.stanford.edu/entries/pm-notation/
-- https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
-- https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
-- https://blog.plover.com/math/PM.html A rare post that goes over chapter 20 giving insights to PM!
-- https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/ One link that helps me understand what is matrix
-- https://nap.nationalacademies.org/read/10866/chapter/66 Another random material that I think related to the matrix in PM
-- https://www.ens-lyon.fr/LIP/PLUME/production/ A site containing nice papers with better technologies to digest, although unused in this project
+- [1](https://proofassistants.stackexchange.com/questions/1105/how-does-the-formal-proof-of-the-four-color-theorem-work) Discussion of the 4-color theorem, as a reflection. 
+- [2](https://plato.stanford.edu/entries/pm-notation/)
+- [3](https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica)
+- [4](https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified)
+- [5](https://blog.plover.com/math/PM.html) A rare post that goes over chapter 20 giving insights to PM!
+- [6](https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/) One link that helps me understand what is matrix
+- [7](https://nap.nationalacademies.org/read/10866/chapter/66) Another random material that I think related to the matrix in PM
+- [8](https://www.ens-lyon.fr/LIP/PLUME/production/) A site containing nice papers with better technologies to digest, although unused in this project
