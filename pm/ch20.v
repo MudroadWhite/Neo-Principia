@@ -15,9 +15,6 @@ Require Import Logic.FunctionalExtensionality.
 (* TODO: 
 - Change the definitions in this chapter to monomorphic version; provide variants 
   to patch up
-- For class, provide an assumption to associate specific class var with specific
-  function
-- Prettify the code and the notation. 0302 for hat or directly generate from internet
 *)
 
 Declare Scope debug_class.
