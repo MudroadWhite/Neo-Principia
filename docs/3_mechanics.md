@@ -40,19 +40,20 @@ We now start exploring the main ideas for each chapters.
 ## Chapters
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
+
 ### Chapter 1
-Principia Mathematica has made a pretty ambiguous description on what are *elementary propositions* and *elementary propositional functions*, such that we still cannot figure out the precise meaning on our own. A detailed discussion of our attempt has been made in [propositions](./B_proposition.md).
+Principia Mathematica has made a pretty ambiguous description on what are *elementary propositions* and *elementary propositional functions*, so we still cannot define them. A detailed discussion of our attempt has been made in [propositions](./B_proposition.md).
 
-Chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
+Chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system.
 
-Implementation-wise, here are some ideas for these definitions:
+Implementation-wise, here are some ideas for definitions in chapter 1:
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
 - Asserting an **elementary propositional function** means asserting `H1 : φ X`. It's strictly "not asserting a proposition"(p.18), but practically the same.
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
-Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). For our implementation, we abstract all them away into a single polymorphic tactic `MP`.
+Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). For our implementation, we abstract all them away into a single tactic `MP`.
 
 By proving a theorem, we mean:
 |           Property          |      Limitation        |
