@@ -18,4 +18,4 @@ This documentation assumes readers have the following background:
 6. Suggestion for perfect formalization
 7. Appendix
    A. Supplementary materials
-   B. Definition of proposition
+   B. [Definition of proposition](./B_proposition.md)
