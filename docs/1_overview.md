@@ -45,6 +45,8 @@ Eventually, can we type every proposition in Principia? Within our [vision](./6_
 ## Can we port the proof to Lean?
 No. This project is heavily relied on `setoid_rewrite`, and Lean doesn't support `setoid_rewrite`, see [reference](https://leanprover-community.github.io/archive/stream/270676-lean4/topic/Rewriting.20congruent.20relations.html). Porting the proof to Lean might involve reconstructing the proof with `Quotient`, which should be an interesting alternative to discover.
 
+The technical preference to Rocq should be attributed to [Landon Elkind](https://github.com/LogicalAtomist/principia), who told me in a private conversation that other provers seem to be harder to use. Without the preference, this project will not exist.
+
 ## What is the value of this project?
 Proposing Principia Mathematica is a matter of theory, and verifying such a theory is a matter of application. This project aims to be a [scythe](https://www.youtube.com/watch?v=gRivMEEZZE8&t=1539s) to demystify a decaded myth. This project wraps up ideas in the book, writes down, organizes and iterates like a software product. This project is a small world to communicate, between math, philosophy and computer science people.
 

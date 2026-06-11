@@ -39,7 +39,12 @@ TODO: " It's strictly "not asserting a proposition"(p.18), but practically the s
 TODO: heavy analysis on what is a proposition
 
 mention: there can be more interpretations;
-todo: read church's interpretation on PM
+TODO: read church's interpretation on PM
+
+- ch1: *proposition* as an ambiguous text "consists of" *e-props* and *e-funcs*; we still prefer to call everything working on *propositions* for the rest of the text; rewrite parts on elementary functions
+- ch1: *propositional functions* doesn't include identity function
+
+- If it follows our guess, `forall` gets a proposition while `exists` is a propositional function
 
 - https://plato.stanford.edu/entries/pm-notation/
 - https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica

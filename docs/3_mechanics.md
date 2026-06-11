@@ -267,12 +267,9 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 [4]: ./4_tactics.md
 
 TODO:
-- ch1: *proposition* as an ambiguous text "consists of" *e-props* and *e-funcs*; we still prefer to call everything working on *propositions* for the rest of the text; rewrite parts on elementary functions
-- ch1: *propositional functions* doesn't include identity function
 - ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "∀" highlighted and defined
   - the operators defined are directly obtaining 1-order props from e-props
   - 1-order props are just being assumed
 - ch9: recheck the definition of `forall` after we know what is a proposition
 
-TODO:
-- is `exists` statement of higher order 8propositional functions*?
+- ch9: (p.128) real variables can be untyped and can be applied on any propositions; apparent variable cannot
