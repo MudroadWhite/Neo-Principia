@@ -22,6 +22,9 @@ TODO: mention in `tactics`:
 - we address composition property by polymorphic symbol; check `audit` for composition occurrence
 - we address inheriting property by variant mechanic; check `audit` for inheritence occurrence
 
+TODO: 
+- address Gregory's observation from later chapters
+
 ### How does Principia prove theorems?
 Principia designs its theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
 
