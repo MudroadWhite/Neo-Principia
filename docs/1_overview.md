@@ -25,8 +25,8 @@ To be more exact, we have:
 Yes. There are 3 arguments to support formalizing PM:
 1. Modern provers have enough tools to design a language
    1. We can parse PM's complete syntax easily
-   2. We can give fixed interpretation to the completed language. By *fixed* I mean it doesn't need to be extended and prepare for any other exceptions
-2. We have been following the details of most in the *Introduction* chapter, which summarizes over the logical foundation setups in PM
+   2. We can give fixed interpretation to the complete language. By *fixed* I mean it doesn't need to be extended and prepare for any other exceptions
+2. We have been reconstructing most of the ideas in the *Introduction* chapter, which summarizes over the logical foundation setups in PM
 3. PM is necessarily an old rewriting system
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) have summarized over the situations we have seen: despite its historical background(see [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/)) to guarantee a missing revisit, PM still gets a notorious notation system, highly "trivial"(chores-like) theorems. Also see [this awesome repo][RTT]'s paper on its in-depth discussions of PM's propositional functions.

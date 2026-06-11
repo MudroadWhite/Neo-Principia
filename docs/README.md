@@ -16,3 +16,6 @@ This documentation assumes readers have the following background:
 4. [Tactics](./4_tactics.md)
 5. [Audit report](./5_audit.md)
 6. Suggestion for perfect formalization
+7. Appendix
+   A. Supplementary materials
+   B. Definition of proposition
