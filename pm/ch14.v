@@ -42,7 +42,7 @@ predicate.
 Definition description_exists {A : Type} (φ : A -> Prop) : Prop. Admitted.
 Example descriptionexists_example := description_exists (fun x => x).
 
-(* cf. p174, example after *14.03. Interpretation for a function containing 
+(* cf. p.174, example after *14.03. Interpretation for a function containing 
   multiple descriptions *)
 Definition description2 {A : Type} (φ ψ : A -> Prop) 
   (expr : (DescriptionArg φ) -> (DescriptionArg ψ) -> Prop): Prop. 
@@ -50,7 +50,7 @@ Admitted.
 Example description2_example (φ ψ : Prop -> Prop) :=
   description2 φ ψ (fun x y => x = y).
 
-(* cf. p174, explanation after *14.04. The iota variant where inner function has 
+(* cf. p.174, explanation after *14.04. The iota variant where inner function has 
   larger scope than outer function. This variant will be proven later unecessary. 
 
   The original definition depends on `iota_f2`. The function `iota_f` here, 

@@ -6,18 +6,20 @@ Open Scope formal_equiv.
 
 (* 
 NOTE:
-
 - `F` for AoR is having a level of exactly 1
-*)
-
-(* 
-NOTE: f and F are both of same Order, and they should be actually one untyped while the other
+- f and F are both of same Order, and they should be actually one untyped while the other
 type of "predicate to x"
 *)
 Definition n12_1 (φ : Prop → Prop) : 
   ∃ f : (Order 1), (φ x) <[- x -]> ((fun (F : Order 1) =>
     F x) f).
 Admitted.
+
+(* To be uncommented *)
+(* Definition n12_11 (f Phi : Prop → Prop → Prop) :
+  ∃ fPsi : Prop → Prop → Prop,
+    ∃ f : Order2.t 1, (Phi x y) <[- x y -]> (f.(Order2.fix_func 1) x y fPsi).
+Admitted. *)
 
 Module Experimental.
   (*
@@ -50,11 +52,5 @@ Module Experimental.
     (Phi = f) ∧ (Phi X ↔ (fix_param n X) f).
   Admitted. *)
 End Experimental.
-
-(* To be uncommented *)
-(* Definition n12_11 (f Phi : Prop → Prop → Prop) :
-  ∃ fPsi : Prop → Prop → Prop,
-    ∃ f : Order2.t 1, (Phi x y) <[- x y -]> (f.(Order2.fix_func 1) x y fPsi).
-Admitted. *)
 
 Close Scope formal_equiv.
