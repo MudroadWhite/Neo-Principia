@@ -28,13 +28,9 @@ We are building:
 - [x] Chapter 20 - Notation on class, and theorems of classes. Under the iceberg tip, making different notations working consistently with each others.
 
 ### Milestones
-**Ongoing: Finish chapter 20**  Class is the last notion being introduced in the *Introduction* chapter. Implementing classes and relations symbolizes the availability to express everything in Principia, therefore this should be a very important feature, and maybe eliminate all technical difficulties for PM symbol definitions once and for all.
+**Ongoing: Finish the documentation.** Chapter 20 is mostly complete, and will not have any major updates. This will be the last chapter we are going to formalize and conclude, and the only thing left to do is write the documentation again and again..
 
-The 1st iteration to fill in the proof has finished, but filling in more missing proof definitely helps, so will be the current focus.
-
-Even further plans: I could either
-- Quit the project once chapter 20 has been completely translated
-- Develop a new version of PM, with type system & AoR supported, and make a distinction from this project. I'm also planning to give version names like "staccato" "aria" or something
+Class is the last notion being introduced in the *Introduction* chapter. Implementing classes and relations symbolizes the availability to express everything in Principia, therefore this should be a very important milestone, and maybe eliminate all technical difficulties for PM symbol definitions once and for all.
 
 **2026.05:** Chapter 20, the last chapter we are translating, is mostly complete. We're heavily organizing the documentation, which seems to be more important. Also, welcome our [first PR](https://github.com/MudroadWhite/Neo-Principia/pull/133) from an external contributer.
 

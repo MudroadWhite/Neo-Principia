@@ -9,18 +9,18 @@ There are 3 hidden trait of statements in Principia, being written mostly in nat
 3. Extending *generalization* or *instantiation* for a specific symbol
 
 ### How to read the propositions in Principia?
-Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and their hints on priority, surprisingly, never go wrong. One can understand the priority, without knowing much on dot notations.
+Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and their hints on priority, surprisingly, never go wrong. One can easily guess the priority, without knowing much about the dot notation.
 
 Each proposition in PM is supposed to come with a type within a type hierarchy. Still, PM doesn't have a notion for types, nor will it explicitly label the hierarchy. PM proposes its typing algorithm as theorems of "what different terms can be considered *of the same type*". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
+While not presented in this project, later chapters might suggest further complexities of such "composition". For example, Gregory Landini's [Note on Principia's *38 on Operations](https://mulpress.mcmaster.ca/russelljournal/article/download/5046/4059/17479) discusses a "female" symbol that abstract previous PM symbols at meta-level.
+
 Principia also defines symbols in an **inheriting way**, as there are many hierarchies in PM system. From our limited knowledge prior to chapter 20, there are already 3 hierarchies existing in the text, plus 2 ad-hoc context from chapter 1 - 9 for easy definition. If one read from beginning to the end, he will occur to a lot of situation that "we can use our previous theorems in another way".
 
-TODO: mention in `tactics`: 
-- we address composition property by polymorphic symbol; check `audit` for composition occurrence
-- we address inheriting property by variant mechanic; check `audit` for inheritence occurrence
+Above 2 natures of PM's definitions has a deep influence in our [tactics](./4_tactics.md)' design.
 
 ### How does Principia prove theorems?
 Principia designs its theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
@@ -36,47 +36,20 @@ We now start exploring the main ideas for each chapters.
 ## Chapters
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
+
 ### Chapter 1
-TODO: move discussions on propositions to appendix A; only bring the conclusion here
+Principia Mathematica has made a pretty ambiguous description on what are *elementary propositions* and *elementary propositional functions*, so we still cannot define them. A detailed discussion of our attempt has been made in [propositions](./B_proposition.md).
 
-The difference between a function and a proposition is scattered through Introduction's chapter I, II, III and chapter 1. As the first concepts being introduced in, the definition of a proposition is full of ambiguity. When figuring out the difference between a *proposition* and a *proposition built up from a function*, we have gathered below clues only to reveal how much is the chaos: 
-- *Proposition* can be *asserted*. *Propositional function* also can be *asserted* by asserting any specific value by instantiating a function, and which, is a proposition.
-- Asserted propositional function can still change its variable to produce different proposition asserted
-- (\*2.02)However, when deducing on the proof, we can also perform substitution on asserted propositions. 
-- Real variables, being revealed in later chapters, can be *generalized* into *apparent variables*, the variables of a `forall` or `exists`, for a proposition/function of higher order. See [chapter 9](./3_mechanics.md/#chapter-9) for meaning of generalization.
-- When using theorem, `Phi X` can freely substitute into a propositional variable `P`, and *vice versa*.
-- When we `Intro_` an extra variable, we din't find any generalization from letters of `P`, `Q`, `R`. Instead we always start from `X`, plus exceptions as functions.
-- `P`, `Q`, `R` can still be substituted into forms like `Phi X`, but never a single `X`. 
-- Everything asserted are *propositions*, while the modus ponens is mostly used as \*1.11 version for *propositional functions*
-- We also 
-- TODO: mention private conversation with Randall
+Chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system.
 
-Here is our attempt to make the most precise definition.
-
-- **elementary propositions** contains no variables. They are strictly alphabets after `P`, `Q`, and so on, in chapter 2 - 5(p.91).
-- **elementary functions** are propositions build up with *at least* one logical connectives. When a expression is identified as a function, atomic letters after `X` appeared in it are called *real variables*(p.19).
-
-```Coq
-(* This is an elementary proposition *)
-Example example_ch1_proposition (P : Prop) := P.
-
-(* This is an asserted elementary function value *)
-Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
-
-(* This is the actual way to write the function, but we won't use it *)
-Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
-```
-
-Our current conclusion is that we cannot identify the difference between *elementary proposition* and *elementary propositional function*. Higher order propositions and functions have more significant difference, will be revealed after [chapter 9](./3_mechanics.md/#chapter-9). In principle, we view everything in chapter 1 - 5 just as *propositions*, and elementary function manifests when we need to have a lambda term.
-
-Chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system: for PM's *modus ponens* to work, we will have to implement a *MP* tactic in Rocq. 
+Implementation-wise, here are some ideas for definitions in chapter 1:
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
 - Asserting an **elementary propositional function** means asserting `H1 : φ X`. It's strictly "not asserting a proposition"(p.18), but practically the same.
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
-Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). For our implementation, we abstract all them away into a single polymorphic tactic `MP`.
+Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). For our implementation, we abstract all them away into a single tactic `MP`.
 
 By proving a theorem, we mean:
 |           Property          |      Limitation        |
@@ -121,11 +94,32 @@ This chapter collects miscellaneous theorems of operators appeared in previous c
 - **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them) and **elementary logical connectives**
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
-There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. TODO: write about this in `tactics`
+There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
 
-Chapter 9's theorems tries to generalize all over chapter 1 - 5, producing propositions with `forall` or `exists` and prove we can correctly generalize the previous theorems. It is brutally performed without using mathematical induction, since it is not allowed yet. It assumes that if our elementary propositional `¬` and `∨` is "enhanced" to allow to take one 1-order proposition as its operand, deduced theorems can extend all theorems in chapter 1 - 5 to their 1-higher order version. 
+To understand what chapter 9 does, we first look back at \*1.3:
 
-Propositions in chapter 9 starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
+```Rocq
+Theorem Add1_3 (P Q : Prop) : Q → P ∨ Q.
+```
+
+In chapter 9, it is corresponded to the following cases:
+
+```Rocq
+Theorem n9_32 (φ : Prop → Prop) (Q : Prop) : Q → (∀ x, φ x) ∨ Q.
+Theorem n9_33 (φ : Prop → Prop) (Q : Prop) : Q → (∃ x, φ x) ∨ Q.
+Theorem n9_34 (φ : Prop → Prop) (P : Prop) : (∀ x, φ x) → P ∨ (∀ x, φ x).
+Theorem n9_35 (φ : Prop → Prop) (P : Prop) : (∃ x, φ x) → P ∨ (∃ x, φ x).
+```
+
+Theorems in chapter 9 wants to prove that we can replace a *subpart* of a theorem in *chapter 1* to its `forall`/`exists` version. It is brutally performed without using mathematical induction, since it is not allowed yet. It further constitutes to the following reasoning:
+
+- (p.128)If our *elementary* operators `¬` and `∨` is "enhanced"(p.128) to allow to take one 1-order proposition as its operand
+- Then we can deduce 1-order theorems for chapter 1
+- Therefore, we are allowed to have first-order `¬` and `∨`s.
+
+Which is why or chapter 10, we can use first-order operators by default.
+
+Propositions in chapter 9 starts to make a rough distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
 - Generalization: the main technique to turn a *propositional function* into an *proposition* of higher order
 - Instantiation: the reverse transformation of generalization
 - *Individual*s: a placeholder, a very specific value, an unnamed constant, for a propositional function to be generalized into a proposition, or vice versa; they might themselves be functions when lifted to higher order.
@@ -288,14 +282,3 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 
 [RTT]: https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT
 [4]: ./4_tactics.md
-
-TODO:
-- ch1: *proposition* as an ambiguous text "consists of" *e-props* and *e-funcs*; we still prefer to call everything working on *propositions* for the rest of the text; rewrite parts on elementary functions
-- ch1: *propositional functions* doesn't include identity function
-- ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "∀" highlighted and defined
-  - the operators defined are directly obtaining 1-order props from e-props
-  - 1-order props are just being assumed
-- ch9: recheck the definition of `forall` after we know what is a proposition
-
-TODO:
-- is `exists` statement of higher order 8propositional functions*?

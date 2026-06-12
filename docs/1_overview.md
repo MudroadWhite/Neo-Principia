@@ -25,8 +25,8 @@ To be more exact, we have:
 Yes. There are 3 arguments to support formalizing PM:
 1. Modern provers have enough tools to design a language
    1. We can parse PM's complete syntax easily
-   2. We can give fixed interpretation to the completed language. By *fixed* I mean it doesn't need to be extended and prepare for any other exceptions
-2. We have been following the details of most in the *Introduction* chapter, which summarizes over the logical foundation setups in PM
+   2. We can give fixed interpretation to the complete language. By *fixed* I mean it doesn't need to be extended and prepare for any other exceptions
+2. We have been reconstructing most of the ideas in the *Introduction* chapter, which summarizes over the logical foundation setups in PM
 3. PM is necessarily an old rewriting system
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) have summarized over the situations we have seen: despite its historical background(see [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/)) to guarantee a missing revisit, PM still gets a notorious notation system, highly "trivial"(chores-like) theorems. Also see [this awesome repo][RTT]'s paper on its in-depth discussions of PM's propositional functions.
@@ -42,8 +42,19 @@ All factors above resulted in our unique preference for the proof: a *shallow em
 
 Eventually, can we type every proposition in Principia? Within our [vision](./6_suggestion.md), *deep embedding for Principia Mathematica seems to be feasible*.
 
+## Did you use AI for code?
+I use AI for checking the official Rocq documentation, which writes better. But one might actually ask this question for a deeper purpose: can this project be completed using AI?
+
+The answer is no, for the following reasons:
+- PM is very ambiguous
+- All online materials you can find don't give the precise definitions either
+
+Figuring out the exact definitions should be a human-specific activity, which needs conversations with professors, and which cannot be decided by AI alone. I do hope, as people says, once you have fixed down the definitions, all the proofs follow.
+
 ## Can we port the proof to Lean?
 No. This project is heavily relied on `setoid_rewrite`, and Lean doesn't support `setoid_rewrite`, see [reference](https://leanprover-community.github.io/archive/stream/270676-lean4/topic/Rewriting.20congruent.20relations.html). Porting the proof to Lean might involve reconstructing the proof with `Quotient`, which should be an interesting alternative to discover.
+
+The technical preference to Rocq should be attributed to [Landon Elkind](https://github.com/LogicalAtomist/principia), who told me in a private conversation that other provers seem to be harder to use. Without the preference, this project will not exist.
 
 ## What is the value of this project?
 Proposing Principia Mathematica is a matter of theory, and verifying such a theory is a matter of application. This project aims to be a [scythe](https://www.youtube.com/watch?v=gRivMEEZZE8&t=1539s) to demystify a decaded myth. This project wraps up ideas in the book, writes down, organizes and iterates like a software product. This project is a small world to communicate, between math, philosophy and computer science people.
