@@ -126,19 +126,12 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 **Scopes.** When it involves more than one `ι` for a sub term, it turns out that the order of different `ι`s matters. While this is stated in the theorems in chapter 14, it is only *assumed* in chapter 20, and will involve adding axioms for such equivalence. Being implementation specific, for each `ι` term, our notation designed a variable to refer to the description, and these variables have to come with an extra axiom to make them order-unrelated, resulting in the extra `iota2_arg_comm`.
 
 ### Chapter 20
-**Coverage: WIP**
+**Coverage: %= ?/61.**
 
 **General.** Designing proofs in this chapter has been increasingly harder. As analyzed in [mechanics](./3_mechanics.md/#chapter-20), our current design is still not at its perfection. 
 
-Our implementation eventually arrive at a conclusion where, although not explicitly required in the text, a hierarchy for class, and a association mechanic for classes' underlying function is needed. But what has been blocking more of the proof is the issue of scoping issues, which seems to be under proper treatment for PM.
+Our implementation eventually arrive at a conclusion where, although not explicitly required in the text, a hierarchy for class, and a association mechanic for classes' underlying function is needed. Another issue blocking most of the proofs is *scoping*, which also seems to be below proper treatment for PM.
 
-**Scopes.** 
+**Scopes.** A major part of theorems are unprovable, because of the scoping issue. Consider two expressions `e1 := Phi x` and `e2 := ~ Psi x /\ x`, and assert `x`s' scopes are limited to the whole expression. PM tends to set the default scope for such an `x` to be the *minimal sub expression* except itself; but if we instantiate `Phi` such that `Phi := (fun y => ~ Psi y /\ y)`, the scopes for `x` in e2, if without any treatments, still remains to be the whole expression, while it should be for `Psi x` and `..... /\ x` separately.
 
-By text in PM, scope for an incomplete symbol is defaulted by the minimum sub expression containing the symbol, except for only itself. The above example shows that, the current design of scope is not always ensured that it is the smallest scope around the symbol we wish to contain, per substitution. Sometimes we have to design some axioms for safe scope conversion(TODO: example).
-
-We can also see PM's scope as a design failure from another perspective: scope doesn't have a notion of its own. It is usually treated with other symbols, in our case, one for description and one for class. Such design makes scoping rule un-reusable and hard to specify.
-
-TODO: 
-- (n20_19)`setoid_rewrite` seems to ignore the order issue
-- missing theorems on scopes make us unsure if our proof is legit
-- We are intended to design a automatic way to merge the scope correctly
+On surface, it suggests that PM is lacking a lot of axioms to specify how the scope converts. But we have found a possible solution, which might be better to eliminate such problems, once implemented. We have proposed an experimental feature, only be outlined under `experiment/draft.v`. We find out that there can be a fixed set of tactics to shrink the scopes, or maybe design the correct representation closer to PM's original syntax, such that the scope can be automatically given during parsing the expression. This is, yet, left to be a draft, and we plan to terminate the development before it is put into use.
