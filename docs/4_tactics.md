@@ -18,7 +18,7 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 | Proposition order                                               | `Order` type                                    |
 | Theorem polymorphism                                            | The Variant mechanic                            |
 | Extra instances/interpretations                                 | The `Intro` mechanic                            |
-| Symbol interpretation                                           | `let` clause + explicit interpretation mechanic |
+| Symbol interpretation                                           | `let` clause + `class_func_associate`           |
 | **Part 2: Computation**                                         | -                                               |
 | Stepping forward                                                | `assert`                                        |
 | Conclude a step/a proof                                         | `apply`+`now`/`exact`                           |
@@ -119,16 +119,25 @@ Theorem associating_function_to_class (FAlpha : Prop → Prop) :
   .
 ```
 
-**In addition, we are supposed to develop a mechanic to *explicitly interpret* the terms.** TODO: explicit interpretation for ch20
+There are cases where `let` still doesn't cover. As our experimental attempt, axiom `class_func_associate` is being used for such rare case, to manually declare association between two functions in a proof.
 
-**...And we forgot to look upwards of the `A`.** We have just considered the case to generalize between `Class` and `Prop`. How about the *hierarchies* betwwen `Class` and `Prop`? Our implementation has not address anything about this, and this will be discussed in [suggestion](./_6_suggestion.md).
+**We cannot use `A` to cover hierarchies of different symbols.** `A` can generalize a single type of `Class` and `Prop`, but not the *hierarchies* between them. Our implementation has not address anything about this, and this will be discussed in [suggestion](./_6_suggestion.md).
 
-As a summary: we are witnessing that there are many dimensions for us to generalize, which is not just simply a polymorphism. We need polymorphism setups separately to:
-- generalizes on orders
-- generalize on argument lengths
-- generalize between different types
+Implementation wise, we can view `Class` hierarchies as one "supplementary" hierarchy in the text. Another supplementary hierarchy that should be useful to mention, is our attempt at distinguishing *untyped functions*. Simply put, we wanted to use `Order x -> Prop` to mean a predicative function, while `(Prop -> Prop) ... -> Prop` means it's untyped function. This works prior chapter 14, but has lost its functionality completely in chapter 20, creating an unnecessary chaos. See \*20.112 for such an unavoidable failure as our attempt.
 
-And maybe most importantly: give a *unique type* to a term, so that types from these 3 hierarchies don't interfere with each other.
+To summarize: we are witnessing that there are many dimensions for us to generalize, which is not just simply a polymorphism. To uniquely *type* a term in PM, we have to consider the hierarchies listed below:
+
+| Type of hierarchy      | Base case                                 | Higher order case                |
+|------------------------|-------------------------------------------|----------------------------------|
+| **Primary**            | -                                         | -                                |
+| proposition            | atomic symbol                             | total generalization of matrix   |
+| propositional function | 0-order matrix                            | partial generalization of matrix |
+| **Supplementary**      |                                           |                                  |
+| matrix                 | atomic symbol                             | predicative functions            |
+| class                  | description-like construction on function | inferred from function           |
+| untyped functions      | Rocq type `Prop -> Prop`                  | `(...(Prop -> Prop)...) -> Prop` |
+
+**Table X: discovered hierarchies in Principia Mathematica**
 
 ## Simplification and debugs
 **Chores.** Occasionally, we want to even further simplify the proof down, because:
@@ -148,17 +157,3 @@ Below is a table for some of the simplifications we might used, but some of them
 \[\*\]: Mandatory when PM uses `Hp` in its proof. When a `Hp` has appeared in the text, we find out that the theorems PM cites have a high chance to be working *exactly* on the conclusion after `Hp`, although with a lot of exceptions as well. In general, we still think that use `Hp` to abstract away the premise matches up nicely with how PM applies the theorems.
 
 While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debugs that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development. Tactics for debugging is **required** to be reduced to minimum when we have finished them.
-
-TODO: place hierarchy table somewhere
-| Type of hierarchy      | Base case                                 | Higher order case                |
-|------------------------|-------------------------------------------|----------------------------------|
-| **Primary**            | -                                         | -                                |
-| proposition            | atomic symbol                             | total generalization of matrix   |
-| propositional function | 0-order matrix                            | partial generalization of matrix |
-| **Supplementary**      |                                           |                                  |
-| matrix                 | atomic symbol                             | TODO: figure out                 |
-| class                  | description-like construction on function | inferred from function           |
-| untyped functions(?)   | Rocq type `Prop -> Prop`                  | `(...(Prop -> Prop)...) -> Prop` |
-
-TODO: 
-- (\*20.112)"originally, we use `prop -> prop` for impredicative funcs, `Order` for predicative funcs... issue in hierarchy in chapter 20
