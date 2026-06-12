@@ -12,7 +12,7 @@ Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). For the below
 ### The Defects
 Defects arisen in Principia come either from the lacking of proper implementation of our project, or directly from the Principia Mathematica itself. After stating these issues, we will expand every details we have found by each chapters.
 
-**D1: Typing.** We didn't design a proper system to type every PM propositions. This results into a massive chain effects on the missing features and insights:
+**D1: Typing.** We didn't design a proper system to type every PM propositions. The very root of this defect originates in [lacking of definition](./B_proposition.md). The result is also a massive chain effects:
 1. We cannot distinguish between predicative and impredicative props/functions.
 2. We cannot implement Axiom of Reducibility.
 3. Several propositions that are relying on AoR cannot be properly implemented at all.
@@ -166,6 +166,7 @@ TODO:
 - (n20_07)order shift interferes with some proving routines in PM
 - (n20_19)`setoid_rewrite` seems to ignore the order issue
 - missing theorems on scopes make us unsure if our proof is legit
+- mention the `Prop -> Prop` chaos
 
 --------
 TODO: 
