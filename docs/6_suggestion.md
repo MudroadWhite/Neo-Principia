@@ -1,4 +1,4 @@
-# Suggestion for future architecture
+# Suggestion for future works
 
 TODO: 100 yrs ago, Russell and Whitehead published the book that only few customers dare to read. TODO: x yrs ago, several ppl attempted to write this book into a program. now this is an open source project...
 
