@@ -40,8 +40,8 @@ To actually pose a theorem, we have still made a tradeoff. `pose` can ensure the
 ## How do we rewrite a proposition?
 To answer this question, we have to identify how many different ways are there in PM to rewrite. We recall the summarization in [mechanics](./3_mechanics.md/#chapter-9):
 - Modus ponens, which starts from \*1.11, but generalize manually to more cases once a new notion/symbol has been introduced into a chapter
-- Generalization, to produce a `forall` proposition. Generalization utilizes `Intro_` mechanics a lot. 
-- Instantiation, the reverse of generalization, turning a `forall` into an "any". 
+- Generalization, to produce a `∀` proposition. Generalization utilizes `Intro_` mechanics a lot. 
+- Instantiation, the reverse of generalization, turning a `∀` into an "any". 
 
 By "different ways", we mean they are separately supported by distinguish primitive propositions and is not inferred from one or another. Also note that the above procedure doesn't involve typing, which is ignored in our project.
 
@@ -108,7 +108,7 @@ We call the above example a *variant*, so that we can manually settle down a pat
 - \*20.42 associates `Psi` with `Alpha` without explicitly mentioning such association
 - \*20.53, while only uses `Alpha` in its representation, automatically 
 - \*20.61 has explicitly stated its variant to switch between its class variable and its underlying construction with function
-- One can also consider, if for our current design, `FAlpha` turns out to be some `Class.t A -> Prop`, and for that exclusive `Class.t A` instance we didn't provide its underlying function.
+- One can also consider, if for our current design, `FAlpha` turns out to be some `Class.t A → Prop`, and for that exclusive `Class.t A` instance we didn't provide its underlying function.
 - Even a level down, sometimes PM will cite a theorem from interpretation, while it should be used otherwise.
 
 **Because of the lacking of association, some of our theorems use `let` as a result.** See example below, and related [mechanics](./3_mechanics.md/#chapter-20)/[naming convention](./contribution_guide/style_guide.md) part.
@@ -123,7 +123,7 @@ There are cases where `let` still doesn't cover. As our experimental attempt, ax
 
 **We cannot use `A` to cover hierarchies of different symbols.** `A` can generalize a single type of `Class` and `Prop`, but not the *hierarchies* between them. Our implementation has not address anything about this, and this will be discussed in [suggestion](./_6_suggestion.md).
 
-Implementation wise, we can view `Class` hierarchies as one "supplementary" hierarchy in the text. Another supplementary hierarchy that should be useful to mention, is our attempt at distinguishing *untyped functions*. Simply put, we wanted to use `Order x -> Prop` to mean a predicative function, while `(Prop -> Prop) ... -> Prop` means it's untyped function. This works prior chapter 14, but has lost its functionality completely in chapter 20, creating an unnecessary chaos. See \*20.112 for such an unavoidable failure as our attempt.
+Implementation wise, we can view `Class` hierarchies as one "supplementary" hierarchy in the text. Another supplementary hierarchy that should be useful to mention, is our attempt at distinguishing *untyped functions*. Simply put, we wanted to use `Order x → Prop` to mean a predicative function, while `(Prop → Prop) ... → Prop` means it's untyped function. This works prior chapter 14, but has lost its functionality completely in chapter 20, creating an unnecessary chaos. See \*20.112 for such an unavoidable failure as our attempt.
 
 To summarize: we are witnessing that there are many dimensions for us to generalize, which is not just simply a polymorphism. To uniquely *type* a term in PM, we have to consider the hierarchies listed below:
 
@@ -135,7 +135,7 @@ To summarize: we are witnessing that there are many dimensions for us to general
 | **Supplementary**      |                                           |                                  |
 | matrix                 | atomic symbol                             | predicative functions            |
 | class                  | description-like construction on function | inferred from function           |
-| untyped functions      | Rocq type `Prop -> Prop`                  | `(...(Prop -> Prop)...) -> Prop` |
+| untyped functions      | Rocq type `Prop → Prop`                  | `(...(Prop → Prop)...) → Prop` |
 
 **Table X: discovered hierarchies in Principia Mathematica**
 

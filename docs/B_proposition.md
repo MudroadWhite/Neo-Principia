@@ -8,7 +8,7 @@ The difference between a (elementary)function and a proposition is scattered thr
 - *Proposition* can be *asserted*. *Propositional function* also can be *asserted* by asserting any specific value by instantiating a function, and which, is a proposition.
 - Asserted propositional function can still change its variable to produce different proposition asserted
 - (\*2.02)However, when deducing on the proof, we can also perform substitution on asserted propositions. 
-- Real variables, being revealed in later chapters, can be *generalized* into *apparent variables*, the variables of a `forall` or `exists`, for a proposition/function of higher order. See [chapter 9](./3_mechanics.md/#chapter-9) for meaning of generalization.
+- Real variables, being revealed in later chapters, can be *generalized* into *apparent variables*, the variables of a `∀` or `∃`, for a proposition/function of higher order. See [chapter 9](./3_mechanics.md/#chapter-9) for meaning of generalization.
 - When using theorem, `Phi X` can freely substitute into a propositional variable `P`, and *vice versa*.
 - When we `Intro_` an extra variable, we din't find any generalization from letters of `P`, `Q`, `R`. Instead we always start from `X`, plus exceptions as functions.
 - `P`, `Q`, `R` can still be substituted into forms like `Phi X`, but never a single `X`. 
@@ -42,7 +42,7 @@ Despite the guess, there are still a lot of places unclear:
 
 With our guess, functions are excluded from identity functions, which means identity function shouldn't appear in our formalization.  By simply searching our formalization we can find that, there is indeed very few appearance of `fun x => x`, but not to nil.
 
-By definition of \*10.01, another severe consequence follows: while chapter 9 still pertains such balance, chapter 10 and onward sets `exists` propositions as *propositional functions*, while `forall` remains to be *propositions*. This unbalance seems very sus.
+By definition of \*10.01, another severe consequence follows: while chapter 9 still pertains such balance, chapter 10 and onward sets `∃` propositions as *propositional functions*, while `∀` remains to be *propositions*. This unbalance seems very sus.
 
 PM "asserts a function" by asserting a specific value of function, which is, a proposition. So sometimes when asserting a "proposition", it can actually mean "asserting a function". Even still, Russell emphasizes that (p.18):
 

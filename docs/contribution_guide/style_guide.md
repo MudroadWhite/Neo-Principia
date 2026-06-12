@@ -4,8 +4,8 @@ Line of code limit: 80 characters as an ideal. In practice, Rocq doesn't come wi
 
 Line splitting: line can be splitted either by spaces or by a binary operator, such as
 ```Rocq
-(P /\ R)
-/\ Q (* <- Here we split the line *)
+(P ∧ R)
+∧ Q (* <- Here we split the line *)
 ```
 When splitting by a binary operator, its indentation should indicate the priority, just as propositions rendered by Rocq.
 
@@ -22,25 +22,21 @@ We have naming conventions for propositions. A proposition usually is named with
 
 ##### Variables
 **Individuals.** All propositional individuals have to be capital letters like `X`, `Y`, `Z`. 
+
 **Functions.** For function variables being introduced with `Intro_pred`, all of them have to prefixed with `I`, as in `Iφ`. Classes' associated functions are an exception here.
+
+**Quantifiers.** We might sometimes introduce functions as apparent variables, as in `∃ φ`. Here `φ` is mandatory to be typed with `Order n → Prop` to emphasize that it is a typed function.
+
+**Descriptions** A description variable in PM usually looks like `(ιx)(φx)`, with its scope omitted. In our notation, it will be written explicitly with a scope, as the `ιφ` in `[ι φ | ιφ => f ιφ]`. Within the scope, if the function is named `φ`, the corresponded description variable has to be prefixed with `ι`, as in `ιφ`.
+
 **Functions of classes.** These special functions in chapter 20 are introduced with `Intro_pred`, and should be the class name prefixed with `F`, as in `FAlpha` or `Fα`.
-- Descriptions: A description variable in PM usually looks like `(ιx)(φx)`, with its scope omitted. In our notation, it will be written explicitly with a scope, as the `ιφ` in `[ι φ | ιφ => f ιφ]` where `f` is a function.
-- More to be added...
 
-for class variables:
-- If the function body is given with a function variable Phi, name the var as cPhi
-- If the function is being constructed in more detail, name the var as c1, c2, ...
-- If the class is being represented with a class variable, name the variable exactly
-  the same as the class var
+**Classes.** Class generally takes the form of `[α @ cα => f cα]`. With in which, we have specific convention on class variables:
+- If the function body is given with a function variable `φ`, prefix the name with `c` as in `cφ`
+- If the class is being represented with a class variable like `α`, prefix the name in same style, as in `cα`
+- If the function is being constructed with a concrete expression like `x ∧ y`, name the var as `c1`, `c2`, ...
 
-for introduced variables:
-- implicit `Phi` predicates should be introduced as `IPhi`
-- class instance should be introduced as `Alpha` (so far)
-
-representation which turns out to be illegal(which our notation design 
-doesn't prevent) :
-- X ∈ (^ z => Psi z)
-- [^z => Phi z @ cz1 => cz1 = cz1]
-- Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
-
-TODO: for function variables of `forall`/`exists`, `Order n` is mandatory
+In addition, it is worthwhile to note that our current design of class notation could produce false positives: there are cases where it is legal, but disallowed - even we do occur to those disallowed cases in our implementation, due to heavy scoping issues. Here are some cases where you should use *as least as possible*:
+- `α ∈ (^ z => ψ z)` where `α` has not be scoped
+- `[^z => φ z @ cz1 => cz1 = cz1]` where two `cz1` appears in the same scope. `=` should apply `cz1` separately in two different scopes.
+- Expect something like `Intro_class {A : Type} (s : string) : Class.t A.` to directly introduce a class variable into the `TOOLS` section. We should only use classes' functions as variables, for example `Fα`. A class can then be asserted, with `set α := ^z => Fα z`.

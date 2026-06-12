@@ -628,7 +628,7 @@ Proof.
     setoid_rewrite -> n4_3 in S3 at 2.
     setoid_rewrite <- n10_33 in S3.
     setoid_rewrite <- n4_3 in S3 at 2.
-    (* unprovable: no theorem for `↔`'s conversion with `exists` *)
+    (* unprovable: no theorem for `↔`'s conversion with `∃` *)
     pose proof n10_35_pred as _n10_35.
     (* setoid_rewrite <- n10_35_pred in S3. *)
     admit.

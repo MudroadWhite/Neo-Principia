@@ -6,7 +6,7 @@ Before getting further, several ppl should be given credits and thanks: Landon E
 We have a lot of things done, and still a lot of things undone and unplanned. Below is a collection of suggestions that prospective investigators might be interested in. To make the project better, one might want to:
 - Figure out the precise meaning of elementary proposition and elementary propositional functions
   - which enables us to implement propositions as propositions, and functions as functions
-  - which enables us to use custom `\/`, `~`, and `forall` precisely
+  - which enables us to use custom `∨`, `¬`, and `∀` precisely
   - which might enables us to construct meaningful proof objects
   - and which enables the availability to design a typing algorithm
   - furthermore enables the availability to design correct hierarchies
