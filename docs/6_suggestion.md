@@ -1,31 +1,25 @@
 # Suggestion for future works
+As everyone should expect, this chapter intends to draw a full period to the project. It has been 100 yrs ago that Russell and Whitehead published such a book that only receive a couple of readers; history flows fast, and in 2008, first complete proof for 4-color theorem has been published and be [discussed](https://proofassistants.stackexchange.com/questions/1105/how-does-the-formal-proof-of-the-four-color-theorem-work) on the internet. It should have been a regret that I haven't finished this project earlier; we have implemented a formalization project with extremely simple setups, and the difficulty for reading Principia Mathematica, after 100 years, should be supposed to be even easier than a open source project. 
 
-TODO: 100 yrs ago, Russell and Whitehead published the book that only few customers dare to read. TODO: x yrs ago, several ppl attempted to write this book into a program. now this is an open source project...
+Before getting further, several ppl should be given credits and thanks: Landon Elkind as the predecessor of this project; Randall Holmes, as another precious source of information, and many thanks for your warm and welcoming discussions that helps the completion of this project. We're having a collaborator, [tangyongsheng17-sudo](https://github.com/tangyongsheng17-sudo) who will make this project even better looking; Without any of above, this project will not be complete.
 
-From the analysis in [tactics](./4_tactics.md), we are witnessing how nontrivial it can be to implement a *proof architecture*, by which I mean something similar to the design patterns in software design, could emerge just because this is how someone wants to simplify the proof and organize the content. This is something that AI currently doesn't aim at, see [example](https://www.youtube.com/watch?v=lcgPj7hge-E). While we didn't reveal the whole proof structure, we have gathered enough information for the next step. This chapter is a suggestion for a specification of PM's complete type system, based on the details we have gathered in [Audit Report](./5_audit.md).
+We have a lot of things done, and still a lot of things undone and unplanned. Below is a collection of suggestions that prospective investigators might be interested in. To make the project better, one might want to:
+- Figure out the precise meaning of elementary proposition and elementary propositional functions
+  - Which enables us to implement propositions as propositions, and functions as functions
+  - Which enables us to use custom `\/`, `~`, and `forall` precisely
+  - Which might enables us to construct meaningful proof objects
+  - And which enables the availability to design a typing algorithm
+  - Furthermore enables the availability to design correct hierarchies
+- Design a full hierarchy system mechanic, which might
+  - include a polymorphic `Hierarchy` type to abstract over necessary ingredients
+  - include a `Base` order for all individuals to share with, and for functions' types built on them
+  - include a `shift` tactic where `shift x thm` produces a x-order lifted version of the theorem
+  - include another `shift` where `Base` can be changed from `Prop` into `Class` or other symbol types
+- Record and implement all `!`s appeared in the text, to make a strict difference for predicative and impredicative functions
+  - Which enables us to implement Axiom of Reducibility
+- Implement the scoping mechanic proposed in `experiment.v`
+- Design tactics for generalization and instantiation such that they are as convenient as `MP`
+- Investigate deep into `setoid_rewrite` so that it supports rewriting on custom-defined notations like descriptions and classes
+- Classify theorems in chapter 1 - 10, to see if they have a conventional name like "absorption rule" more than just a number
 
-TODO:
-1. Design a hierarchy system that works
-2. Design a typing algorithm
-
-TODO: to be reorganized:
-1. Randall's conversation influenced our insight; suggestion on MP and individuals
-2. "Base order" and "shift" operator
-3. impredicativity vs predivativity, the design of `!`
-4. Extra scoping rules
-5. MP and other tactics
-6. Utilization of `setoid_rewrite` (for schemes? investigate deeper into its automatic power?)
-7. Philosophy of "internalization" (relate to the inheritance nature)
-8. For future successors and participants: independently design a chapter, or design your own typing system for Principia
-9.  What have I learned: designing the framework is the most enjoyable part; difference between AI and hand written FV: u can design the architecture on your own and shrink the proof - produce organized things could be a challenge
-10. `Hierarchy` type for correct polymorphism to synthesize over different hierarchies & different polymorphism: symbols, orders, argument length
-11. (ch20)(highly volatile)if setups for theorems are too complicated, we might need to use `Section`s in Coq
-
-## Future directions
-- classify theorems
-- add type, add hierarchy, add predicativity, add AoR
-- tactic automation?
-- construct meaningful proof objects
-- should we actually implement propositional functions as functions
-- eliminate the polymorphism by designing an AST
-- see if we can automate scoping so that it always picks the smallest scope when possible?
+And at the very last, it is recommended for any investigators to independently formalize one whole chapter at a time, to enjoy the joy and the pain that I have felt. As something I have learnt during writing this project, designing the framework, rather than presenting the complete proof, is the most enjoyable part for the development. Should there be anyone accepting the challenge, hopefully one day everyone will witness the most compact and detailed crystalization of `1+1=2`, no more cloaked up as a century myth.
