@@ -78,7 +78,7 @@ While everything in chapter 1 are primitive propositions, chapter 2 starts to us
 - For general rules on citation, see related paragraphs in [How does Principia prove theorems?](./3_mechanics.md/#how-does-principia-prove-theorems).
 - In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
 - (p.103)For each proof stepping in the form of `[S1 . S2 . S3]`, it is suggested to somehow construct a sequence of modus ponens with `MP`s
-- (p.105)For each citation chained up in the style of `|- P ([S1] ->) Q ([S2 ->] R ...)`, it is suggested to use syllogism to chain everything up with a syllogism tactic `Syll`
+- (p.105)For each citation chained up in the style of `|- P ([S1] →) Q ([S2 →] R ...)`, it is suggested to use syllogism to chain everything up with a syllogism tactic `Syll`
 - Citations for modus ponens and syllogism will generally be omitted, and in our implementation we allow them to be alternate freely
 
 ### Chapter 3
@@ -111,7 +111,7 @@ Theorem n9_34 (φ : Prop → Prop) (P : Prop) : (∀ x, φ x) → P ∨ (∀ x, 
 Theorem n9_35 (φ : Prop → Prop) (P : Prop) : (∃ x, φ x) → P ∨ (∃ x, φ x).
 ```
 
-Theorems in chapter 9 wants to prove that we can replace a *subpart* of a theorem in *chapter 1* to its `forall`/`exists` version. It is brutally performed without using mathematical induction, since it is not allowed yet. It further constitutes to the following reasoning:
+Theorems in chapter 9 wants to prove that we can replace a *subpart* of a theorem in *chapter 1* to its `∀`/`∃` version. It is brutally performed without using mathematical induction, since it is not allowed yet. It further constitutes to the following reasoning:
 
 - (p.128)If our *elementary* operators `¬` and `∨` is "enhanced"(p.128) to allow to take one 1-order proposition as its operand
 - Then we can deduce 1-order theorems for chapter 1
@@ -249,10 +249,10 @@ Definition of class in this chapter, at first glance, appears to be pretty obscu
 
 Next, we are taking some canonical theorems in chapter 20 to address several important points to help understanding this chapter. First we unfold the definition of \*20.02(p.188). 
 1. `x∈(z^φz)` is a function of `φ`
-2. If we pick this function as the `f` in \*20.01, we obtain `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ (x ∈ φ)`. The `x` at the rightmost cannot be renamed into anything else because it is the `x` defined in the "function" we are using.
-3. In this form, we "patch" the expression with \*20.02, matching exactly the rightmost sub expression, and rewriting the whole expression into `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z /\ φ x`, and then make a slight reordering.
+2. If we pick this function as the `f` in \*20.01, we obtain `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z ∧ (x ∈ φ)`. The `x` at the rightmost cannot be renamed into anything else because it is the `x` defined in the "function" we are using.
+3. In this form, we "patch" the expression with \*20.02, matching exactly the rightmost sub expression, and rewriting the whole expression into `x∈(z^ψz) = ∃φ, φ z <[- z -]> ψ z ∧ φ x`, and then make a slight reordering.
 
-Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq: we don't just want a valid representation of `Class` as `^z => Phi z`, we also want it to work with all other necessary symbols smoothly. This resulted into several **failed** attempts previously made to define the type for `Class`. Suppose we want to build class on a function `A -> Prop`, below are failed attempts:
+Analyzing on how this proof applies also reveals more insights on how should we design PM symbols in Rocq: we don't just want a valid representation of `Class` as `^z => Phi z`, we also want it to work with all other necessary symbols smoothly. This resulted into several **failed** attempts previously made to define the type for `Class`. Suppose we want to build class on a function `A → Prop`, below are failed attempts:
 - Define `Class` only using functions
 - Define `Class` as `(A, Phi)`
 - Define `Class` as inductive type. 
