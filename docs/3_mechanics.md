@@ -20,6 +20,8 @@ While not presented in this project, later chapters might suggest further comple
 
 Principia also defines symbols in an **inheriting way**, as there are many hierarchies in PM system. From our limited knowledge prior to chapter 20, there are already 3 hierarchies existing in the text, plus 2 ad-hoc context from chapter 1 - 9 for easy definition. If one read from beginning to the end, he will occur to a lot of situation that "we can use our previous theorems in another way".
 
+Above 2 natures of PM's definitions has a deep influence in our [tactics](./4_tactics.md)' design.
+
 ### How does Principia prove theorems?
 Principia designs its theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
 
