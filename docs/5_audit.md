@@ -126,7 +126,7 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 **Scopes.** When it involves more than one `ι` for a sub term, it turns out that the order of different `ι`s matters. While this is stated in the theorems in chapter 14, it is only *assumed* in chapter 20, and will involve adding axioms for such equivalence. Being implementation specific, for each `ι` term, our notation designed a variable to refer to the description, and these variables have to come with an extra axiom to make them order-unrelated, resulting in the extra `iota2_arg_comm`.
 
 ### Chapter 20
-**Coverage: %= ?/61.**
+**Coverage: 59.32%= 35/59.** As there are too many theorems unprovable, the details are left as comments in code, and description below.
 
 **General.** Designing proofs in this chapter has been increasingly harder. As analyzed in [mechanics](./3_mechanics.md/#chapter-20), our current design is still not at its perfection. 
 
