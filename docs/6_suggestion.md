@@ -23,3 +23,7 @@ We have a lot of things done, and still a lot of things undone and unplanned. Be
 - Classify theorems in chapter 1 - 10, to see if they have a conventional name like "absorption rule" more than just a number
 
 And at the very last, it is recommended for any investigators to independently formalize one whole chapter at a time, to enjoy the joy and the pain that I have felt. As something I have learnt during writing this project, designing the framework, rather than presenting the complete proof, is the most enjoyable part for the development. Should there be anyone accepting the challenge, hopefully one day everyone will witness the most compact and detailed crystalization of `1+1=2`, no more cloaked up as a century myth.
+
+\- 2026.06.12, hastily finished by 
+
+MDR/MudroadWhite
