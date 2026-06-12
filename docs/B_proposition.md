@@ -42,6 +42,8 @@ Despite the guess, there are still a lot of places unclear:
 
 With our guess, functions are excluded from identity functions, which means identity function shouldn't appear in our formalization.  By simply searching our formalization we can find that, there is indeed very few appearance of `fun x => x`, but not to nil.
 
+By definition of \*10.01, another severe consequence follows: while chapter 9 still pertains such balance, chapter 10 and onward sets `exists` propositions as *propositional functions*, while `forall` remains to be *propositions*. This unbalance seems very sus.
+
 PM "asserts a function" by asserting a specific value of function, which is, a proposition. So sometimes when asserting a "proposition", it can actually mean "asserting a function". Even still, Russell emphasizes that (p.18):
 
 > It's strictly not asserting a proposition... but practically the same.

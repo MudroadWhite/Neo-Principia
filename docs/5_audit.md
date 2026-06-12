@@ -170,3 +170,6 @@ TODO:
 --------
 TODO: 
 - why is "real variables untyped?" why can it be still used in propositions?
+- critics on chapter 9: from a modern perspective, we should assume that first order `~` and `\/` works on e-props, not the other way around; why e-prop operators can be suddenly allowed on 1-order props? how will we type such ambiguous case?
+- "operators works therefore order works" vs "type works therefore order works"
+- ch9: (p.128) real variables can be untyped and can be applied on any propositions; apparent variable cannot; we cannot make such distinction

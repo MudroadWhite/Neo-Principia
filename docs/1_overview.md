@@ -49,7 +49,7 @@ The answer is no, for the following reasons:
 - PM is very ambiguous
 - All online materials you can find don't give the precise definitions either
 
-Figuring out the exact definitions should be a human-specific activity, which needs conversation with professors, and which cannot be decided by AI alone. I do hope, as people says, once you have fixed down the definitions, all the proofs follow.
+Figuring out the exact definitions should be a human-specific activity, which needs conversations with professors, and which cannot be decided by AI alone. I do hope, as people says, once you have fixed down the definitions, all the proofs follow.
 
 ## Can we port the proof to Lean?
 No. This project is heavily relied on `setoid_rewrite`, and Lean doesn't support `setoid_rewrite`, see [reference](https://leanprover-community.github.io/archive/stream/270676-lean4/topic/Rewriting.20congruent.20relations.html). Porting the proof to Lean might involve reconstructing the proof with `Quotient`, which should be an interesting alternative to discover.

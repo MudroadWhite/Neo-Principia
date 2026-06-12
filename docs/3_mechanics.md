@@ -16,15 +16,9 @@ Each proposition in PM is supposed to come with a type within a type hierarchy. 
 ### How does Principia define symbols?
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
+While not presented in this project, later chapters might suggest further complexities of such "composition". For example, Gregory Landini's [Note on Principia's *38 on Operations](https://mulpress.mcmaster.ca/russelljournal/article/download/5046/4059/17479) discusses a "female" symbol that abstract previous PM symbols at meta-level.
+
 Principia also defines symbols in an **inheriting way**, as there are many hierarchies in PM system. From our limited knowledge prior to chapter 20, there are already 3 hierarchies existing in the text, plus 2 ad-hoc context from chapter 1 - 9 for easy definition. If one read from beginning to the end, he will occur to a lot of situation that "we can use our previous theorems in another way".
-
-TODO: mention in `tactics`: 
-- we address composition property by polymorphic symbol; check `audit` for composition occurrence
-- we address inheriting property by variant mechanic; check `audit` for inheritence occurrence
-
-TODO: 
-- address Gregory's observation from later chapters
-- recheck the "composition" w.r.t. gregory
 
 ### How does Principia prove theorems?
 Principia designs its theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
@@ -98,11 +92,32 @@ This chapter collects miscellaneous theorems of operators appeared in previous c
 - **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them) and **elementary logical connectives**
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
-There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. TODO: write about this in `tactics`
+There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
 
-Chapter 9's theorems tries to generalize all over chapter 1 - 5, producing propositions with `forall` or `exists` and prove we can correctly generalize the previous theorems. It is brutally performed without using mathematical induction, since it is not allowed yet. It assumes that if our elementary propositional `¬` and `∨` is "enhanced" to allow to take one 1-order proposition as its operand, deduced theorems can extend all theorems in chapter 1 - 5 to their 1-higher order version. 
+To understand what chapter 9 does, we first look back at \*1.3:
 
-Propositions in chapter 9 starts to make a distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
+```Rocq
+Theorem Add1_3 (P Q : Prop) : Q → P ∨ Q.
+```
+
+In chapter 9, it is corresponded to the following cases:
+
+```Rocq
+Theorem n9_32 (φ : Prop → Prop) (Q : Prop) : Q → (∀ x, φ x) ∨ Q.
+Theorem n9_33 (φ : Prop → Prop) (Q : Prop) : Q → (∃ x, φ x) ∨ Q.
+Theorem n9_34 (φ : Prop → Prop) (P : Prop) : (∀ x, φ x) → P ∨ (∀ x, φ x).
+Theorem n9_35 (φ : Prop → Prop) (P : Prop) : (∃ x, φ x) → P ∨ (∃ x, φ x).
+```
+
+Theorems in chapter 9 wants to prove that we can replace a *subpart* of a theorem in *chapter 1* to its `forall`/`exists` version. It is brutally performed without using mathematical induction, since it is not allowed yet. It further constitutes to the following reasoning:
+
+- (p.128)If our *elementary* operators `¬` and `∨` is "enhanced"(p.128) to allow to take one 1-order proposition as its operand
+- Then we can deduce 1-order theorems for chapter 1
+- Therefore, we are allowed to have first-order `¬` and `∨`s.
+
+Which is why or chapter 10, we can use first-order operators by default.
+
+Propositions in chapter 9 starts to make a rough distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
 - Generalization: the main technique to turn a *propositional function* into an *proposition* of higher order
 - Instantiation: the reverse transformation of generalization
 - *Individual*s: a placeholder, a very specific value, an unnamed constant, for a propositional function to be generalized into a proposition, or vice versa; they might themselves be functions when lifted to higher order.
@@ -265,11 +280,3 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 
 [RTT]: https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT
 [4]: ./4_tactics.md
-
-TODO:
-- ch9: rewrite parts about how operator works; plan to rewrite the whole chapter in the future, with custom "∀" highlighted and defined
-  - the operators defined are directly obtaining 1-order props from e-props
-  - 1-order props are just being assumed
-- ch9: recheck the definition of `forall` after we know what is a proposition
-
-- ch9: (p.128) real variables can be untyped and can be applied on any propositions; apparent variable cannot

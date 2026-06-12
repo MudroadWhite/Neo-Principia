@@ -54,6 +54,8 @@ How do we produce a proposition in general? The whole procedure can be splitted 
 3. Generalize on a variable as soon as possible, when the correct form for its expression has manifested
 4. Repeat 2 and 3 until all variables are being generalized and the statement has become a proposition
 
+Note that this doesn't involve *typing* for PM, which is ignored in this project.
+
 **Above procedure will be called *bottom-up construction***, by the logical connectives appeared in a proposition. One can easily verify it's also the nature of *forward reasoning* building up a proof tree building up a proof tree from "leaves" to the "root".
 
 TODO: rewrite below
