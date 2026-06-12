@@ -3,8 +3,6 @@
 
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
-**WARNING: the documentation is currently under heavy WIP and can be highly volatile**
-
 ## Why working on it
 - Principia Mathematica has a stable version
 - Principia Mathematica is not textbook math

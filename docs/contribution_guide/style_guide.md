@@ -1,22 +1,26 @@
 # Style guide
-
 ## General
-- Line of code limit: 80 characters as an ideal. In practice, Rocq doesn't come with a native formatter so I cannot do much on this.
-- TODO: Splitting a line by binop; indentation: no tab, only space x2;
+Line of code limit: 80 characters as an ideal. In practice, Rocq doesn't come with a native formatter so I cannot do much on this.
+
+Line splitting: line can be splitted either by spaces or by a binary operator, such as
+```Rocq
+(P /\ R)
+/\ Q (* <- Here we split the line *)
+```
+When splitting by a binary operator, its indentation should indicate the priority, just as propositions rendered by Rocq.
+
+Tabs: all tabs has to be spaces, indented by exactly 2 spaces.
 
 ## Naming convention
-
-TODO: rewrite all below
-
-**Theorems and propositions.** 
+##### Theorems and propositions
 We have naming conventions for propositions. A proposition usually is named with `nxx_yyy`, with `xx_yyy` the number appeared in Principia for that proposition. A few of them are additionally come with their names in the text, and in that case we will adapt the `n` prefix to the name. For example, `Id2_08`. 
 
-Now we come to naming conventions for (lhs) parameters.
+##### Parameters
 - Functions as parameters are supposed to be named as the same style of original text: either greek letters like `φ` or their upper-cased English equivalent like `Phi`.
 - Apparent variables are quantified variables in `∀`, `∃` and so on. As parameters, they're usually lower case literals like `x`.
 - Real variables are variables that can directly used in the proofs. They're usually upper case literals like `X`.
 
-**Variables.** 
+##### Variables
 (there are different kinds of variables... some from notations)
 
 - Individuals: Sometimes, functions might be introduced on purpose as *individuals* of higher order. These individuals are prefixed with `I` as in `Iφ`. For individual of order 0(just a proposition), although it is in the same naming convention as real variables, we're planning to use things like `IX` in the future to maintain a clear distinction.
@@ -35,7 +39,7 @@ for introduced variables:
 
 representation which turns out to be illegal(which our notation design 
 doesn't prevent) :
-- X <class_in> (^ z => Psi z)
+- X ∈ (^ z => Psi z)
 - [^z => Phi z @ cz1 => cz1 = cz1]
 - Definition Intro_class {A : Type} (s : string) : Class.t A. Admitted.
 
