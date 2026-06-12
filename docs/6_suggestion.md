@@ -26,4 +26,4 @@ And at the very last, it is recommended for any investigators to independently f
 
 \- 2026.06.12, hastily finished by 
 
-MDR/MudroadWhite
+MDR/MudroadWhite. Onward, to my next project!

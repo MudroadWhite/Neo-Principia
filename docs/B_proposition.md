@@ -14,7 +14,7 @@ The difference between a (elementary)function and a proposition is scattered thr
 - `P`, `Q`, `R` can still be substituted into forms like `Phi X`, but never a single `X`. 
 - Everything asserted are *propositions*, while the modus ponens is mostly used as \*1.11 version for *propositional functions*
 
-On the other side, no material has identified what is exactly an elementary proposition. [Wiki](https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica) simply doesn't have such an entry; [SEP](https://plato.stanford.edu/entries/pm-notation/) presents an alternative to be a modern reconstruction, that "would drastically alter the very content of the book."
+On the other side, no material has identified what is exactly an elementary proposition. [Wiki](https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica) simply doesn't have such an entry; [SEP](https://plato.stanford.edu/entries/pm-notation/) presents an alternative to be a modern reconstruction, that "would drastically alter the very content of the book". And I have also consulted with Randall Holmes about the definition; he has provide valuable insights on them, see [conversation](./A_conversation.md)
 
 The final decision for us is just to present a guess, while leaving the implementation alone vague. Lack of definition will very much prevent further refinement: since you don't know the exact definition of elementary proposition, you're also unable to build the typing algorithm, from the very beginning. Still the general formalization looks already great, and everything compiles.
 
