@@ -21,9 +21,9 @@ We have naming conventions for propositions. A proposition usually is named with
 - Real variables are variables that can directly used in the proofs. They're usually upper case literals like `X`.
 
 ##### Variables
-(there are different kinds of variables... some from notations)
-
-- Individuals: Sometimes, functions might be introduced on purpose as *individuals* of higher order. These individuals are prefixed with `I` as in `Iφ`. For individual of order 0(just a proposition), although it is in the same naming convention as real variables, we're planning to use things like `IX` in the future to maintain a clear distinction.
+**Individuals.** All propositional individuals have to be capital letters like `X`, `Y`, `Z`. 
+**Functions.** For function variables being introduced with `Intro_pred`, all of them have to prefixed with `I`, as in `Iφ`. Classes' associated functions are an exception here.
+**Functions of classes.** These special functions in chapter 20 are introduced with `Intro_pred`, and should be the class name prefixed with `F`, as in `FAlpha` or .
 - Descriptions: A description variable in PM usually looks like `(ιx)(φx)`, with its scope omitted. In our notation, it will be written explicitly with a scope, as the `ιφ` in `[ι φ | ιφ => f ιφ]` where `f` is a function.
 - More to be added...
 
