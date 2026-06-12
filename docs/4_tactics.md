@@ -29,28 +29,34 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 **Table X: Full PM features considered and their implementations in Rocq**
 
 ## How do we assert a statement is true?
-**The story starts with a very simple beginning.** To assert a cited theorem is true, we `pose` a proof, which is pretty elementary in Rocq. Voila.
+**Just `pose` it.** To assert a cited theorem is true, we `pose` a proof, which is pretty elementary in Rocq. Voila.
 
-**`pose proof` is the only candidate to prettify the `pose`.** The `pose` can ensure the proof window logically correct, but *visually* awful. Proof terms will take away a large part of space, before the type of terms come into our view. We are not doing backward reasoning, nor are these proof terms meaningful - we will use a lot of `setoid_rewrite`, being introduced in later section.
+To actually pose a theorem, we have still made a tradeoff. `pose` can ensure the proof window logically correct, but *visually* awful. Proof terms will take away a large part of space, before the type of terms come into our view. We are not doing backward reasoning, nor are these proof terms meaningful - we will use a lot of `setoid_rewrite`, being introduced in later section. `pose proof` becomes our final choice.
 
-**We then add some tactics to conclude a proof.** `pose proof` doesn't solve a goal. `apply` allows us to solve the goal automatically with a theorem. `now` allows us to solve the goal as soon as we have deduced the right proposition. `exact`, as mentioned in the [architecture](./2_architecture.md), is exclusively used to hint that we have covered all steps in a proof to conclude a `Qed`.
+`pose proof` doesn't solve a goal. `apply` allows us to solve the goal automatically with a theorem. `now` allows us to solve the goal as soon as we have deduced the right proposition. `exact`, as mentioned in the [architecture](./2_architecture.md), is exclusively used to hint that we have covered all steps in a proof to conclude a `Qed`.
 
-**Sometimes, the proof further involves extra variables.** See for example \*9.37, adding a new real variable in the middle of the proof, just to be *generalized* in the future. To resolve this, we add a series of axioms in `lib.v`, prefixed with `Intro_`, and add a line of `set (X := Intro_ ...)` in the `TOOLS` section. This is called the `Intro` mechanic. Without the `Intro` mechanic, intermediate statements cannot be normally asserted.
+**For extra variables, we use the `Intro` mechanic.** See for example \*9.37, adding a new real variable in the middle of the proof, just to be *generalized* in the future. To resolve this, we add a series of axioms in `lib.v`, prefixed with `Intro_`, and add a line of `set (X := Intro_ ...)` in the `TOOLS` section. This is called the `Intro` mechanic. Without the `Intro` mechanic, intermediate statements cannot be normally asserted.
 
 ## How do we rewrite a proposition?
-**PM is supposed to only use modus ponens** to its ideal. It starts with \*1.11, but generalize manually to more cases once a new notion/symbol has been introduced into a chapter. Therefore, each chapter will contain a *modus ponens* equivalent, whenever necessary.
+To answer this question, we have to identify how many different ways are there in PM to rewrite. To summarize, there should be:
+- Modus ponens, which starts from \*1.11, but generalize manually to more cases once a new notion/symbol has been introduced into a chapter
+- Generalization, to produce a `forall` proposition. Generalization utilizes `Intro_` mechanics a lot. 
+- Instantiation, the reverse of generalization, turning a `forall` into an "any". 
 
-***Generalization* is another way to produce a new proposition.** In particular, *quantified propositions* are only constructed through: *generalization*, being explained in [mechanics](./3_mechanics.md). Generalization utilizes `Intro_` mechanics a lot. Similar to MP, PM also extend generalize for each symbols in each of the chapters.
+By "different ways", we mean they are separately supported by distinguish primitive propositions and is not inferred from one or another.
+
+PM actually uses all these rewrites in a more systematic way to produce a proof.
 
 ### Bottom up construction
-**Besides quantified propositions, how do we produce a proposition in general?** The whole procedure can be splitted into 4 steps:
+How do we produce a proposition in general? The whole procedure can be splitted into 4 steps:
 1. Start with a theorem as a template, and substitute its variables into some expressions
 2. Apply `MP`/`Syll` for necessary alternations, for example, `P ↔ Q` to `Q ↔ P`
 3. Generalize on a variable as soon as possible, when the correct form for its expression has manifested
 4. Repeat 2 and 3 until all variables are being generalized and the statement has become a proposition
 
-**We call this *bottom-up construction*** by the logical connectives appeared in a proposition. One can easily verify it's also the nature of *forward reasoning* building up a proof tree building up a proof tree from "leaves" to the "root".
+**Above procedure will be called *bottom-up construction***, by the logical connectives appeared in a proposition. One can easily verify it's also the nature of *forward reasoning* building up a proof tree building up a proof tree from "leaves" to the "root".
 
+TODO: rewrite below
 **However, `MP` alone is very limited:** it only works on the whole expression, but not for sub-expressions. There are many way to get rid of this problem: syllogism is already a specific case for sub expression on MP; But what if, I have propositions of the form of `P ↔ (Q → R)` and `Q`? We can view theorems in chapter 1 - 5 as common specific cases for MP to fit in and apply; chapter 9 and beyond tries to generate their *equivalent* - soon will be called *variants* later - when a new symbol has been introduced in.
 
 ## `rewrite/setoid_rewrite`
