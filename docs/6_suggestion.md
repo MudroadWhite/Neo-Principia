@@ -6,13 +6,13 @@ Before getting further, several ppl should be given credits and thanks: Landon E
 We have a lot of things done, and still a lot of things undone and unplanned. Below is a collection of suggestions that prospective investigators might be interested in. To make the project better, one might want to:
 - Figure out the precise meaning of elementary proposition and elementary propositional functions
   - which enables us to implement propositions as propositions, and functions as functions
-  - which enables us to use custom `∨`, `¬`, and `∀` precisely
+  - which enables us to design `∨`, `¬`, and `∀` precisely, no longer as Rocq's defaults
   - which might enables us to construct meaningful proof objects
   - and which enables the availability to design a typing algorithm, that patches the most crucial insight missed in this project
 - Design a full hierarchy system mechanic, which might
   - include a polymorphic `Hierarchy` type to abstract over necessary ingredients
-  - include a `Base` order for all individuals to share with, and for functions' types built on them
-  - include a `shift` tactic where `shift x thm` produces a x-order lifted version of the theorem
+  - include a `Base` type to settle down an order for all individuals to share with, and for functions' types built on them
+  - include a `shift` tactic/predicate where `shift x thm` produces a x-order lifted version of the theorem
   - include another `shift` where `Base` can be changed from `Prop` into `Class` or other symbol types
 - Record and implement all `!`s appeared in the text, to make a strict difference for predicative and impredicative functions
   - which enables us to implement Axiom of Reducibility
