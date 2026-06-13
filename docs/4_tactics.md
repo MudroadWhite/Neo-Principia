@@ -132,7 +132,7 @@ To summarize: we are witnessing that there are many dimensions for us to general
 | **Primary**            | -                                         | -                                |
 | proposition            | atomic symbol                             | total generalization of matrix   |
 | propositional function | 0-order matrix                            | partial generalization of matrix |
-| **Supplementary**      |                                           |                                  |
+| **Supplementary**      | -                                         | -                                |
 | matrix                 | atomic symbol                             | predicative functions            |
 | class                  | description-like construction on function | inferred from function           |
 | untyped functions      | Rocq type `Prop → Prop`                  | `(...(Prop → Prop)...) → Prop` |
