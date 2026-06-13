@@ -34,7 +34,7 @@ Rocq's `Definition`s are used to define *primitive propositions* and *definition
 
 Similarly, `Theorem`s are used to define *theorems* in Principia, and are intended to be proven and `Qed`ed.
 
-Every `Definition` or `Theorem` represents a proposition(actually, a "propositional function" - see [mechanics][3]) in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, which will be mostly discussed in the [tactics][4] chapter; and *lhs* parameters are the real ones to *set a proposition up*.
+Every `Definition` or `Theorem` represents a proposition in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, and *lhs* parameters are the real ones to *set a proposition up*.
 
 Additionally, for theorems in Principia, we are allowed to set up its *variants*. This will be also explained in [tactics][4].
 
@@ -48,7 +48,7 @@ For a theorem, if it has been splitted into several steps to prove in the text, 
 
 - Our structure is **not required** to be enforced on short proofs.
 
-Otherwise for a long proof, it usually has the following structure:
+A long proof usually has the following structure:
 ```Coq
 Proof.
   (* TOOLS *)

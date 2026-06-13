@@ -3,7 +3,7 @@
 ### How many types of statements are there in Principia?
 Principia has 3 types(not mathematical type) of statements: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). 
 
-There are 3 hidden trait of statements in Principia, being written mostly in natural language. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules. Only some exceptions don't belong to these 3 traits, presented in chapter 1.
+There are 3 hidden traits of statements in Principia, being written mostly in natural language. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules. Only some exceptions don't belong to these 3 traits, presented in chapter 1.
 1. Typing a specific symbol, extending to more general cases
 2. Extending *modus ponens* for a specific symbol
 3. Extending *generalization* or *instantiation* for a specific symbol

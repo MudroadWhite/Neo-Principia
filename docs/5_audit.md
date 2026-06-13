@@ -30,7 +30,7 @@ Defects arisen in Principia come either from the lacking of proper implementatio
 During formalizing the proof, we have observed several theorems being applied in unnatural way that is not just using simply deduction. We cannot identify why they are present.
 
 ### Basic setups
-**Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
+**Symbol definitions.** We didn't explicitly utilize the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond.
 
 The core of symbol definition, *definitional equality*, is undefined, as discussed in [mechanics](./3_mechanics.md) and [tactics](./4_tactics.md). 
 
@@ -56,9 +56,7 @@ Goal Order 0 = Order 1.
 ### Chapter 1 - 5
 **Coverage: 100%**
 
-**General.** The informal propositions through chapter 1 - 5 are only the `Pp`s in chapter 1 and a special inference rule in chapter 3. As explained in [tactics](4_tactics.md), we have made several simplifications over primitive propositions.
-
-For *modus ponens*, and *syllogism* etc. in the later chapters, we are directly inheriting the tactics designed by [Landon](https://github.com/LogicalAtomist/principia). By using tactics for deductions, we can make a clear distinction between what are being performed through *modus ponens* and what are not.
+**General.** The informal propositions through chapter 1 - 5 are only the `Pp`s in chapter 1 and a typing rule in chapter 3. For *modus ponens*, and *syllogism* etc. in the later chapters, we are directly inheriting the tactics designed by [Landon](https://github.com/LogicalAtomist/principia).
 
 ### Chapter 9
 **Coverage: 100%**
@@ -69,11 +67,9 @@ Implementation-wise, we're using the default `∀`, `∨`, `¬` in Rocq to model
 
 We have implemented the typing algorithm in chapter 9, but it is wrongly interpreted and will not be used anywhere.
 
-**Functions.** This is the first chapter for our soft embedding to consider functions, and how to rewrite on functions. For our implementation, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will reveal higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop → Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we move on.
+**Functions.** This is the first chapter for our soft embedding to consider functions, and how to rewrite on functions. For our implementation, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. Behind the formalization, we have made failed attempt to let Rocq automatically infer the function instance for a theorem to apply. As a result, all functions have to be filled in manually.
 
-**setoid_rewrite.** The tactic `setoid_rewrite` is completely introduced into our implementation to simplify the proofs. While it has been convenient to rewrite on subparts of a proposition correctly, it will hide away some of the citation for the proof. Similar issue apply to `destruct`, but it's underlying citation is clear: namely the `Simp` theorems.
-
-We have received feedback that `setoid_rewrite` in Rocq >9.0 in seems to adopt to a different way to recognize the subparts. So far as I can see, this should be the only factor that will break version compatability.
+Later chapters will reveal even higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop → Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? They are explained in [mechanics](./3_mechanics.md/#chapter-12).
 
 ### Chapter 10
 **Coverage: 98.2% = 55/56.**
@@ -132,6 +128,6 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 
 Our implementation eventually arrive at a conclusion where, although not explicitly required in the text, a hierarchy for class, and a association mechanic for classes' underlying function is needed. Another issue blocking most of the proofs is *scoping*, which also seems to be below proper treatment for PM.
 
-**Scopes.** A major part of theorems are unprovable, because of the scoping issue. Consider two expressions `e1 := Phi x` and `e2 := ~ Psi x ∧ x`, and assert `x`s' scopes are limited to the whole expression. PM tends to set the default scope for such an `x` to be the *minimal sub expression* except itself; but if we instantiate `Phi` such that `Phi := (fun y => ~ Psi y ∧ y)`, the scopes for `x` in e2, if without any treatments, still remains to be the whole expression, while it should be for `Psi x` and `..... ∧ x` separately.
+**Scopes.** A major part of theorems are unprovable, because of the scoping issue. Consider two expressions `e1 := Phi x` and `e2 := ~ Psi x ∧ x`, and assert `x`s' scopes are limited to the whole expression. PM has a default scope for such a symbol `x` to be the *minimal sub expression* except itself; but if we instantiate `Phi` such that `Phi := (fun y => ~ Psi y ∧ y)`, the scopes for `x` in e2, if without any treatments, still remains to be the whole expression; the minimal scopes for the `x`s is updated to `Psi x` and `..... ∧ x` separately. `~ Psi x ∧ x` is no longer the new minimal scope `Psi x`.
 
 On surface, it suggests that PM is lacking a lot of axioms to specify how the scope converts. But we have found a possible solution, which might be better to eliminate such problems, once implemented. We have proposed an experimental feature, only be outlined under `experiment/draft.v`. We find out that there can be a fixed set of tactics to shrink the scopes, or maybe design the correct representation closer to PM's original syntax, such that the scope can be automatically given during parsing the expression. This is, yet, left to be a draft, and we plan to terminate the development before it is put into use.
