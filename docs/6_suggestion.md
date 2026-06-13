@@ -8,8 +8,7 @@ We have a lot of things done, and still a lot of things undone and unplanned. Be
   - which enables us to implement propositions as propositions, and functions as functions
   - which enables us to use custom `∨`, `¬`, and `∀` precisely
   - which might enables us to construct meaningful proof objects
-  - and which enables the availability to design a typing algorithm
-  - furthermore enables the availability to design correct hierarchies
+  - and which enables the availability to design a typing algorithm, that patches the most crucial insight missed in this project
 - Design a full hierarchy system mechanic, which might
   - include a polymorphic `Hierarchy` type to abstract over necessary ingredients
   - include a `Base` order for all individuals to share with, and for functions' types built on them
@@ -23,7 +22,7 @@ We have a lot of things done, and still a lot of things undone and unplanned. Be
 - Classify theorems in chapter 1 - 10, to see if they have a conventional name like "absorption rule" more than just a number
   - which enables us to see the conceptual relations between the theorems explicitly
 
-And at the very end, it is recommended for any investigators to independently formalize one whole chapter at a time, to enjoy the joy and the pain that I have felt; as something I have learnt during writing this project, designing the framework, rather than presenting the complete proof, is the most enjoyable part for the development. It is recommended for any investigators to soon leave it to the next successor, to allocate the rest of your life on even more meaningful events; as a project of historical perspective, we always have the freedom to step at a slower and more enlightening pace. Should there be ppl accepting the challenge, there shall be one day when the most compact and detailed crystalization of `1+1=2` can be witnessed, no more cloaked up as a century myth.
+And at the very end, it is recommended for any investigators to independently formalize one whole chapter at a time, to enjoy the joy and the pain that I have felt; as something I have learnt during writing this project, designing the framework, rather than presenting the complete proof, is the most enjoyable part for the development. It is recommended for any investigators to soon leave it to the next successor, to allocate the rest of your life on even more meaningful events; as a project of historical perspective, we always have the freedom to step at a slower and more enlightening pace. Should there be ppl taking over the continuation, there shall be one day when the most compact and detailed crystallization of `1+1=2` can be witnessed, no more cloaked up as a century myth.
 
 \- 2026.06.12, hastily finished by 
 

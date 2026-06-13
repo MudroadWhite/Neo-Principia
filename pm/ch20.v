@@ -1120,7 +1120,6 @@ Proof.
   assert (S3 : [^z => ψ z @ cψ => X ∈ cψ]
     ↔ ∃ φ, (ψ y <[- y -]> φ y) ∧ ψ X).
   {
-    simpl; simpl in S2.
     pose proof (n10_43 Iφ ψ X) as n10_43.
     pose proof (n10_11_pred Iφ (fun φ =>
       ((φ z <[- z -]> ψ z) ∧ φ X )
@@ -1819,7 +1818,6 @@ Proof.
     (∃ α, [α @ cα => f0 cα])
     (∃ φ, [^z => φ z @ cφ => f0 cφ])
     (n20_071 f0)) as n20_071a.
-  simpl in n10_01a, n20_07a, n20_071a.
   (* ******** *)
   assert (S1 : (∃ α, [α @ cα => f cα]) 
     ↔ (∃ φ, [^z => φ z @ cφ => f cφ])).
@@ -1963,7 +1961,6 @@ Proof.
   {
     (* simplification *)
     destruct S1 as [_ S1].
-    simpl in S1.
     pose proof (n10_14_class
       (fun α => [α @ cα => f cα])
       (fun α => [α @ cα => g cα])

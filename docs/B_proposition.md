@@ -38,6 +38,8 @@ First of all, it rhymes with how the hierarchy builds up in chapter 12. For high
 
 Second, one might compare with definition in [SEP](https://plato.stanford.edu/entries/pm-notation/), that we should distinguish between different letter's meaning: propositions and real variables can have different letter. While there is indeed such a distinction throughout the text, chapter 2, immediately, uses \*1.11 on propositions made up of only `P`, `Q` and `R`, somehow hinting that they are propositional functions, while in ideal case they should be used on `X`, `Y`, `Z` which are exactly the real variables for propositional functions. I believe that the difference of letter is, in this sense, still unclear.
 
+And third, this can make clear sense of what \*1.1 and \*1.11 mean. \*1.1 works on atomic letters, while \*1.11 works on everything else except atomic letters. This conclusion is simple and tempting.
+
 Despite the guess, there are still a lot of places unclear:
 
 With our guess, functions are excluded from identity functions, which means identity function shouldn't appear in our formalization.  By simply searching our formalization we can find that, there is indeed very few appearance of `fun x => x`, but not to nil.
