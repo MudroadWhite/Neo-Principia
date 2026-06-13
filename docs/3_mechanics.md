@@ -52,6 +52,7 @@ Implementation-wise, here are some ideas for definitions in chapter 1:
 Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). For our implementation, we abstract all them away into a single tactic `MP`.
 
 By proving a theorem, we mean:
+
 |           Property          |      Limitation        |
 |-----------------------------|------------------------|
 | Highest proposition order   | Elementary proposition |
