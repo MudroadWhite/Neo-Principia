@@ -1,4 +1,4 @@
-Appendix B: Definition of proposition in Principia Mathematica
+# Appendix B: Definition of proposition in Principia Mathematica
 
 > The preliminary terror, which chokes off most fifth-form boys from even attempting to learn how to calculate, can be abolished once and for all... That's all.
 > 
