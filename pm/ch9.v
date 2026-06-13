@@ -285,7 +285,7 @@ Proof. exact (Id2_08 (∃ x, φ x)). Qed.
 Theorem n9_25 (P : Prop) (φ : Prop → Prop) : 
   (∀ x, P ∨ φ x) → P ∨ (∀ x, φ x).
 Proof.
-  pose proof (n9_23 (fun x => P ∨ φ x)) as n9_23; simpl in n9_23.
+  pose proof (n9_23 (fun x => P ∨ φ x)) as n9_23.
   now rewrite <- (n9_04 φ P) in n9_23 at 2.
 Qed.
 (* ******** *)

@@ -953,7 +953,6 @@ Proof.
   {
     (* *10.21 ignored - seems completely unnecessary *)
     pose proof (n10_11 X (fun x => φ x → (P ∧ φ x))) as n10_11.
-    simpl in n10_11.
     now Syll_as S7 n10_11 S8.
   }
   assert (S9 : P → ((∃ x, φ x) → (∃ x, P ∧ φ x))).
