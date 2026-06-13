@@ -18,7 +18,7 @@ To be more exact, we have:
   - This architecture has maintained a balance between term-level clarity and proof simplicity
   - This architecture has broken the record of the formalization pass through chapter 5 to chapter 20, haven't yet unleashed its maximum potential
 - Provided a clear set of [documentation](./docs/README.md) to help readers go through the apocalypse
-  - which also provides understandings directly from PM text, rather than from simplified attempts
+  - which also directly analyzes PM text, rather than simplified attempts in the history
   - which also identifies several defects and ambiguity in PM from a modern theorem prover's perspective
   - which also proposes a specification for prospective participants for grinding down to perfection
 
@@ -41,7 +41,7 @@ When formalizing PM, we have occurred to the following difficulties:
 
 All factors above resulted in our unique preference for the proof: a *shallow embedding* utilizing a mixture of 2 major mechanics, PM's original "bottom-up construction" method and our "`rewrite`/`setoid_rewrite`", being detailed in [tactics](./4_tactics). As our first time to formalize PM, there might be more details to be implemented in later chapters; hard-designed system can result in difficult reconstructions for any unpredictable changes. The shallow embedding, sacrificed the 100% accuracy, in return retains tolerance to find the bugs, [attunes](https://www.youtube.com/watch?v=Vrf2rYRQReA&t=559s) with the ambiguity appeared in the text, and gathers non-trivial, easy problems for other people to collaborate with. *Early optimization is the root of all evil*, and our major task is to collect necessary information to construct the deep embedding.
 
-Eventually, can we type every proposition in Principia? Within our [vision](./6_suggestion.md), *deep embedding for Principia Mathematica seems to be feasible*.
+Eventually, can we type every proposition in Principia? With clues we have [gathered](./6_suggestion.md), *deep embedding for Principia Mathematica is feasible*.
 
 ## Did you use AI for code?
 I use AI for checking the official Rocq documentation, which writes better. But one might actually ask this question for a deeper purpose: can this project be completed using AI?
