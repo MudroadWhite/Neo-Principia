@@ -67,7 +67,7 @@ Implementation-wise, we're using the default `∀`, `∨`, `¬` in Rocq to model
 
 We have implemented the typing algorithm in chapter 9, but it is wrongly interpreted and will not be used anywhere.
 
-**Functions.** This is the first chapter for our soft embedding to consider functions, and how to rewrite on functions. For our implementation, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. Behind the formalization, we have made failed attempt to let Rocq automatically infer the function instance for a theorem to apply. As a result, all functions have to be filled in manually.
+**Functions.** This is the first chapter for our shallow embedding to consider functions, and how to rewrite on functions. For our implementation, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. Behind the formalization, we have made failed attempt to let Rocq automatically infer the function instance for a theorem to apply. As a result, all functions have to be filled in manually.
 
 Later chapters will reveal even higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop → Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? They are explained in [mechanics](./3_mechanics.md/#chapter-12).
 
