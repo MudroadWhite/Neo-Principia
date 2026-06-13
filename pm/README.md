@@ -4,7 +4,7 @@ This folder, `./pm/`, is the place where you see the proofs. The proof for chapt
 ## Who did what
 [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia) has been mostly pertained as a tribute.
 
-[I](https://github.com/MudroadWhite/) started this project by
+[I(MDR)](https://github.com/MudroadWhite/) started this project by
 - [x] Making chapter 1 - 5 of Landon's original repository into a Rocq project
 - [x] Simplifying `Nicod1_4.v`, `Yuelin.v`, `Jorgensen3_47.v`, `Lemma5_7.v`, cutting down 20% of their LoC and greatly enhance readability
 - [x] Simplifying, bug-picking chapter 1 - 5, cutting down \~1k LoC in total
@@ -14,23 +14,21 @@ This folder, `./pm/`, is the place where you see the proofs. The proof for chapt
 
 ## Project status
 We are building: 
-- [ ] Chapter 1
-- [ ] Chapter 2
-- [ ] Chapter 3
-- [ ] Chapter 4
-- [ ] Chapter 5
-- [x] Chapter 9 - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic demonstration for a predicate called "IsSameType". Support for instantiating individuals.
-- [x] Chapter 10 - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable.
-- [x] Chapter 11 - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
-- [x] Chapter 12 - Axiom of reducibility, and its conceptual support, the `Order` type.
-- [x] Chapter 13 - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
-- [x] Chapter 14 - `Notation` setups for `ι` the descriptions. Theorems on them.
-- [x] Chapter 20 - Notation on class, and theorems of classes. Under the iceberg tip, making different notations working consistently with each others.
+- [ ] [Chapter 1](./ch1.v)
+- [ ] [Chapter 2](./ch2.v)
+- [ ] [Chapter 3](./ch3.v)
+- [ ] [Chapter 4](./ch4.v)
+- [ ] [Chapter 5](./ch5.v)
+- [x] [Chapter 9](./ch9.v) - A demonstration set of theorems to show chapter 1 - 5 can be extended to quantified propositions(with single "apparent variable"). Basic demonstration for a predicate called "IsSameType". Support for instantiating individuals.
+- [x] [Chapter 10](./ch10.v) - The real and practical alternative to chapter 9, being used in later chapters. Material implications converted to formal implications. Notation supports for `→` and `↔` with single apparent variable.
+- [x] [Chapter 11](./ch11.v) - Quantified propositions extended to more than one variables. Similarly, extended notation supports for `→` and `↔`.
+- [x] [Chapter 12](./ch12.v) - Axiom of reducibility, and its conceptual support, the `Order` type.
+- [x] [Chapter 13](./ch13.v) - Propositional equality(different from definitional equality). Support for instantiating predicative functions. 
+- [x] [Chapter 14](./ch14.v) - `Notation` setups for `ι` the descriptions. Theorems on them.
+- [x] [Chapter 20](./ch20.v) - Notation on class, and theorems of classes. Under the iceberg tip, making different notations working consistently with each others.
 
 ### Milestones
-**Ongoing: Finish the documentation.** Chapter 20 is mostly complete, and will not have any major updates. This will be the last chapter we are going to formalize and conclude, and the only thing left to do is write the documentation again and again..
-
-Class is the last notion being introduced in the *Introduction* chapter. Implementing classes and relations symbolizes the availability to express everything in Principia, therefore this should be a very important milestone, and maybe eliminate all technical difficulties for PM symbol definitions once and for all.
+**2026.06:** The documentation for this project is complete. There will be no more major updates for this project, unless something is happening. We have identified all technical difficulties, and they are enough to provide a solid foundation to formalize PM.
 
 **2026.05:** Chapter 20, the last chapter we are translating, is mostly complete. We're heavily organizing the documentation, which seems to be more important. Also, welcome our [first PR](https://github.com/MudroadWhite/Neo-Principia/pull/133) from an external contributer.
 
