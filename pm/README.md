@@ -1,6 +1,12 @@
 # The Proof
 This folder, `./pm/`, is the place where you see the proofs. The proof for chapter `n` will be put in the `.v` file named `ch*n*`.
 
+`./misc/` contains some pieces of proofs inherited from [principia](https://github.com/LogicalAtomist/principia).
+
+`./experiment/` contains some experimental pieces during developing the proof. It is also the best playground to develop tools if you want to push on the chapters.
+
+`./dagaz/` is our *purification* act on chapter 1 - 5, to provide a more refined, organized proof for these chapters.
+
 ## Who did what
 [Landon's formalization of Principia](https://github.com/LogicalAtomist/principia) has been mostly pertained as a tribute.
 
@@ -10,7 +16,7 @@ This folder, `./pm/`, is the place where you see the proofs. The proof for chapt
 - [x] Simplifying, bug-picking chapter 1 - 5, cutting down \~1k LoC in total
 - [x] Redesigning custom `Ltac`s in chapter 1 - 5 to their perfection, eliminating all incorrect `Ltac` usages once and for all, plus cleanups like `clear`/`move` that were once necessary
 
-[Our first contributor, @tangyongsheng17-sudo](https://github.com/tangyongsheng17-sudo) is responsible for `./dagaz/` as our *purification* act on chapter 1 - 5, to provide a more refined, organized proof for them.
+[Our first contributor, @tangyongsheng17-sudo](https://github.com/tangyongsheng17-sudo) is responsible for `./dagaz/`.
 
 ## Project status
 We are building: 
