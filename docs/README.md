@@ -17,5 +17,5 @@ This documentation assumes readers have the following background:
 5. [Audit report](./5_audit.md)
 6. [Suggestion for future works](./6_suggestion.md)
 7. Appendix
-  - [A.Conversation](./A_conversation.md)
-  - [B.Definition of proposition](./B_proposition.md)
+    - [A. Conversation](./A_conversation.md)
+    - [B. Definition of proposition](./B_proposition.md)
