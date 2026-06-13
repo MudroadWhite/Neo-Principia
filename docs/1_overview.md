@@ -14,12 +14,13 @@ Here is our take: pertain maximum PM flavor. This has been concentrated into the
 - "Just as it is": Following PM's symbol definitions, deductions faithfully. Clear proof structure, clean, maybe beautiful proof window. 
 
 To be more exact, we have:
-- Demonstrated a proof architecture to formalize most of the theorems in Principia Mathematica with remarkable strength
+- Demonstrated a proof architecture to formalize most theorems in Principia Mathematica with remarkable strength
   - This architecture has maintained a balance between term-level clarity and proof simplicity
   - This architecture has broken the record of the formalization pass through chapter 5 to chapter 20, haven't yet unleashed its maximum potential
 - Provided a clear set of [documentation](./docs/README.md) to help readers go through the apocalypse
-  - Which also identifies several defects and ambiguity in PM from a modern theorem prover's perspective
-  - Which also proposes a specification for prospective participants for grinding down to perfection
+  - which also provides understandings directly from PM text, rather than from simplified attempts
+  - which also identifies several defects and ambiguity in PM from a modern theorem prover's perspective
+  - which also proposes a specification for prospective participants for grinding down to perfection
 
 ## Can Principia Mathematica be completely formalized?
 Yes. There are 3 arguments to support formalizing PM:
@@ -29,7 +30,7 @@ Yes. There are 3 arguments to support formalizing PM:
 2. We have been reconstructing most of the ideas in the *Introduction* chapter, which summarizes over the logical foundation setups in PM
 3. PM is necessarily an old rewriting system
 
-[This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) have summarized over the situations we have seen: despite its historical background(see [SEP entry for Principia Mathematica](https://plato.stanford.edu/entries/principia-mathematica/)) to guarantee a missing revisit, PM still gets a notorious notation system, highly "trivial"(chores-like) theorems. Also see [this awesome repo][RTT]'s paper on its in-depth discussions of PM's propositional functions.
+[This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) have summarized over the situations we have seen: despite its [historical background](https://plato.stanford.edu/entries/principia-mathematica/) to guarantee a missing revisit, PM still gets a notorious notation system, highly "trivial"(chores-like) theorems. Also see [this awesome repo][RTT]'s paper on its in-depth discussions of PM's propositional functions.
 
 When formalizing PM, we have occurred to the following difficulties:
 - We have to manually record the theorems, since PM doesn't have a digital version

@@ -68,7 +68,7 @@ In addition, it is worthwhile to note that our current design of class notation 
 
 **Variants.** There is an exclusive variant for `eq_to_equiv`. All variables should be postfixed with `0` to indicate that we will never use them. e.g. `X` to `X0`, `P` to `P0`, `α` to `α0`. The theorem's names, should be postfixed with `a`, as from `Impl1_01` to `Impl1_01a`. Note that this is a bad naming and conflicts with others, so it is recommended to fix with a better convention.
 
-## tactics
+## Tactics
 The general principle is, We want to re-use the names as much as possible, and introduce least extra names as possible. For example:
 ```Rocq
 pose proof (thm0 thm1) as thm0.
@@ -87,3 +87,10 @@ assert (S3 : ...).
 }
 ```
 Other occurrence can be found in the code in chapter 9 - 20.
+
+## Comments
+There are several **mandatory** comment pieces:
+- `(* simplification *)` is required when you want to use *any* tactics beyond PM tactics including `MP`. `Syll`, etc.. and `pose proof` plus `rewrite/setoid_rewrite`.
+- `(* thm ignored *)` is required whenever your proof doesn't use all citations corresponded to the text
+- `(* unprovable *)` is required when you have really tried filling in the proof
+- `(* UNUSED *)` when you have something unused but feel it necessary to be kept in the codebase
