@@ -36,7 +36,7 @@ Similarly, `Theorem`s are used to define *theorems* in Principia, and are intend
 
 Every `Definition` or `Theorem` represents a proposition in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, and *lhs* parameters are the real ones to *set a proposition up*.
 
-Additionally, for theorems in Principia, we are allowed to set up its *variants*. This will be also explained in [tactics][4].
+Additionally, for theorems in Principia, we are allowed to set up its *variants*.
 
 ## What is `Notation`?
 As chapters push on, PM will have higher requirements on symbol definitions to model the math ideas. `Notation`s in Rocq is the perfect tool for implementing more complicated symbols.
@@ -72,7 +72,7 @@ Qed.
 - A `TOOLS` header is **required** to be place at the beginning of a long proof, if any tool is being used.
 - Other tools not being placed in the `TOOLS` section is **required** to be stated with an explicit comment.
 
-Technical features, that can be be found under `lib.v`, usually require a "warmup" before being available, for example, introducing an extra individual with the proof(with `set (X := Intro_individual "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
+Technical features, that can be be found under `lib.v`, usually needs a "warmup" before being available, for example, introducing an extra individual with the proof(with `set (X := Intro_individual "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
 
 ### `assert` blocks
 - All long proofs are **required** to adapt to the proof architecture picted above.
