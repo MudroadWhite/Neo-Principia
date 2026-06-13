@@ -221,8 +221,8 @@ By proving a theorem, we mean,
 | Function type               | Can be untyped\[\*\]                  |
 | Function parameters         | Only individuals and matrices\[\*\*\] |
 
-**\[\*\]**: Untyped functions take a parameter and return a proposition of *unknown* order.
-**\[\*\*\]**: See (p.52, 162, 163, 164).
+- **\[\*\]**: Untyped functions take a parameter and return a proposition of *unknown* order.
+- **\[\*\*\]**: See (p.52, 162, 163, 164).
 
 **Table 3.4: Proving context for chapter 12 - 14**
 
@@ -278,7 +278,7 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 | Function type               | Can be untyped                        |
 | Function parameters         | Individuals, matrices and classes     |
 
-**Table 3.5: Proving context for chapter 20 - +**
+**Table 3.5: Proving context for chapter 20 - \***
 
 [RTT]: https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT
 [4]: ./4_tactics.md
