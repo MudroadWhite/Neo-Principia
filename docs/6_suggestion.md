@@ -8,8 +8,7 @@ We have a lot of things done, and still a lot of things undone and unplanned. Be
   - which enables us to implement propositions as propositions, and functions as functions
   - which enables us to use custom `∨`, `¬`, and `∀` precisely
   - which might enables us to construct meaningful proof objects
-  - and which enables the availability to design a typing algorithm
-  - furthermore enables the availability to design correct hierarchies
+  - and which enables the availability to design a typing algorithm, that patches the most crucial insight missed in this project
 - Design a full hierarchy system mechanic, which might
   - include a polymorphic `Hierarchy` type to abstract over necessary ingredients
   - include a `Base` order for all individuals to share with, and for functions' types built on them
