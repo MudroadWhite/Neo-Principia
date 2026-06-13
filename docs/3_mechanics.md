@@ -65,7 +65,7 @@ By proving a theorem, we mean:
 
 \[\*\]: For the meaning of variants, see [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic)
 
-**Table X: Proving context for chapter 1 - 5**
+**Table 3.1: Proving context for chapter 1 - 5**
 
 Note:
 - (p.92)Not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language
@@ -117,7 +117,7 @@ Theorems in chapter 9 wants to prove that we can replace a *subpart* of a theore
 - Then we can deduce 1-order theorems for chapter 1
 - Therefore, we are allowed to have first-order `¬` and `∨`s.
 
-Which is why or chapter 10, we can use first-order operators by default.
+Which is why in chapter 10, we can use first-order operators by default.
 
 Propositions in chapter 9 starts to make a rough distinction between *elementary proposition*s and *1st order proposition*s, and the transition is being made through
 - Generalization: the main technique to turn a *propositional function* into an *proposition* of higher order
@@ -136,7 +136,7 @@ The rest of the text is the typing algorithm for propositions and functions. Not
 | Proposition of nth order | Prop n    | Type of the function\[\*\]   | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
 | Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
 
-**Table X: "of the same type" algorithm from chapter 9**
+**Table 3.2: "of the same type" algorithm from chapter 9**
 
 - \[\*\] Functions of same order can have different types, thus propositions of same order can have different types. However, this is "practically ignored"(p.162). If we want to meet the practice, we can fix the definition to "returning order of the function".
 - Additionally, several clarifications on terms: 
@@ -156,7 +156,7 @@ By proving a theorem in chapter 9 - 11, we mean:
 | Function type               | Untyped\[\*\*\]             |
 | Function parameters         | <= 1 order propositions     |
 
-**Table X: Proving context for chapter 9 - 11**
+**Table 3.3: Proving context for chapter 9 - 11**
 
 - **\[\*\]**: Several propositions in the beginning of chapter 9 is still limited to elementary propositions(also see chapter II of the book). All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
 - **\[\*\*\]**: Whether it is typed depends on how they are used in later chapter, and I'm still not sure about this
@@ -224,7 +224,7 @@ By proving a theorem, we mean,
 **\[\*\]**: Untyped functions take a parameter and return a proposition of *unknown* order.
 **\[\*\*\]**: See (p.52, 162, 163, 164).
 
-**Table X: Proving context for chapter 12 - 14**
+**Table 3.4: Proving context for chapter 12 - 14**
 
 - Not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
 - For the hierarchy in this chapter, we have implemented a `Order` type. See [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
@@ -278,7 +278,7 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 | Function type               | Can be untyped                        |
 | Function parameters         | Individuals, matrices and classes     |
 
-**Table X: Proving context for chapter 20 - +**
+**Table 3.5: Proving context for chapter 20 - +**
 
 [RTT]: https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT
 [4]: ./4_tactics.md

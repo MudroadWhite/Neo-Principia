@@ -26,7 +26,7 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 | Rewriting on a proposition                                      | "PM-based" tactics or `rewrite`/`setoid_rewrite`|
 | `=` rewriting                                                   | `eq_to_equiv`+`setoid_rewrite`                  |
 
-**Table X: Full PM features considered and their implementations in Rocq**
+**Table 4.1: Full PM features considered and their implementations in Rocq**
 
 ## How do we assert a statement is true?
 **Just `pose` it.** To assert a cited theorem is true, we `pose` a proof, which is pretty elementary in Rocq. Voila.
@@ -137,7 +137,7 @@ To summarize: we are witnessing that there are many dimensions for us to general
 | class                  | description-like construction on function | inferred from function           |
 | untyped functions      | Rocq type `Prop → Prop`                  | `(...(Prop → Prop)...) → Prop` |
 
-**Table X: discovered hierarchies in Principia Mathematica**
+**Table 4.2: Discovered hierarchies in Principia Mathematica**
 
 ## Simplification and debugs
 **Chores.** Occasionally, we want to even further simplify the proof down, because:
