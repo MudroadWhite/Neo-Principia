@@ -19,3 +19,7 @@ This documentation assumes readers have the following background:
 7. Appendix
     - [A. Conversation](./A_conversation.md)
     - [B. Definition of proposition](./B_proposition.md)
+8. Contribution guide
+    - [General](./contribution_guide/general.md)
+    - [Style guide](./contribution_guide/style_guide.md)
+    - [Debugging proof](./contribution_guide/debugging_proof.md)

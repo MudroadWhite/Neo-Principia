@@ -54,10 +54,10 @@ Although I have tried to organize the issues well to indicate the current progre
 
 ## Other useful links
 - [1](https://proofassistants.stackexchange.com/questions/1105/how-does-the-formal-proof-of-the-four-color-theorem-work) Discussion of the 4-color theorem, as a reflection. 
-- [2](https://plato.stanford.edu/entries/pm-notation/) SEP's entry on PM
-- [3](https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica) Wiki's entry on PM
+- [2](https://plato.stanford.edu/entries/pm-notation/) PM SEP
+- [3](https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica) PM Wiki
 - [4](https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified) MO QA
-- [5](https://mathoverflow.net/questions/115967/how-to-get-the-modern-logic-formulas-in-principia-mathematica) MP QA 2
+- [5](https://mathoverflow.net/questions/115967/how-to-get-the-modern-logic-formulas-in-principia-mathematica) MO QA 2
 - [6](https://blog.plover.com/math/PM.html) A rare post that goes over chapter 20 giving insights to PM!
 - [7](https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/) One link that helps me understand what is matrix
 - [8](https://nap.nationalacademies.org/read/10866/chapter/66) Another random material that I think related to the matrix in PM

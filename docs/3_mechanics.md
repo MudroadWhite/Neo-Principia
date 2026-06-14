@@ -3,15 +3,15 @@
 ### How many types of statements are there in Principia?
 Principia has 3 types(not mathematical type) of statements: `Pp`(primitive propositions), `Df`(definitions, usually definitions for new symbols) and `Thm`s(ordinary theorems). 
 
-There are 3 hidden trait of statements in Principia, being written mostly in natural language. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules. Only some exceptions don't belong to these 3 traits, presented in chapter 1.
+There are 3 hidden traits of statements in Principia, being written mostly in natural language. Some of these typing rules are `Pp`; while some of them might be `Thm`, being derived from some previous typing rules. Only some exceptions don't belong to these 3 traits, presented in chapter 1.
 1. Typing a specific symbol, extending to more general cases
 2. Extending *modus ponens* for a specific symbol
 3. Extending *generalization* or *instantiation* for a specific symbol
 
 ### How to read the propositions in Principia?
-Principia Mathematica uses Peano's *dot notation* just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and their hints on priority, surprisingly, never go wrong. One can easily guess the priority, without knowing much about the dot notation.
+Principia Mathematica uses Peano's [dot notation](https://www.researchgate.net/publication/373080778_Squaring_the_Circles_a_Genealogy_of_Principia_'s_Dot_Notation) just to eliminate the brackets. There are a lot of materials explaining how to understand the dot notation. In practice, Principia also sets up the indentation for propositions that have to be splitted into multiple lines, and their hints on priority, surprisingly, never go wrong. One can easily guess the priority, without knowing much about the dot notation.
 
-Each proposition in PM is supposed to come with a type within a type hierarchy. Still, PM doesn't have a notion for types, nor will it explicitly label the hierarchy. PM proposes its typing algorithm as theorems of "what different terms can be considered *of the same type*". Such "of the same type" style definitions have been scattered into all the chapters.
+Each proposition in PM is supposed to come with a type from a type hierarchy. Still, PM doesn't have a notion for types, nor will it explicitly label the hierarchy. PM proposes its typing algorithm as theorems of "what different terms can be considered *of the same type*". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
@@ -92,7 +92,7 @@ Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. 
 This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly provided because they are useful.
 
 ### Chapter 9
-- **elementary functions** are dependent on **elementary propositions** (by generalizing individuals in them) and **elementary logical connectives**
+- **elementary functions** are dependent on **elementary propositions** and **elementary logical connectives**
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
 There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
@@ -139,7 +139,7 @@ The rest of the text is the typing algorithm for propositions and functions. Not
 
 **Table 3.2: "of the same type" algorithm from chapter 9**
 
-- \[\*\] Functions of same order can have different types, thus propositions of same order can have different types. However, this is "practically ignored"(p.162). If we want to meet the practice, we can fix the definition to "returning order of the function".
+- **\[\*\]**: Functions of same order can have different types, thus propositions of same order can have different types. However, this is "practically ignored"(p.162). If we want to meet the practice, we can fix the definition to "returning order of the function".
 - Additionally, several clarifications on terms: 
   - connectives : `¬` and `∨`
   - same: same propositions/functions are same in number of argument, and each argument have the same type on that index; additionally, they are usually 1-order lower to the proposition/function being constructed
