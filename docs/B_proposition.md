@@ -5,7 +5,7 @@
 > \-- *[TO DELIVER YOU FROM THE PRELIMINARY OF TERRORS](https://x.com/JustDeezGuy/status/2062903814621921405)*, random old calculus textbook found on X
 
 
-**Update**: see [this PO QA](https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086) for an update on this topic. If I have time I will expand and update this chapter, but I will mostly leave it alone.
+**Update**: see [this PhilSE QA](https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086) for an update on this topic. If I have time I will expand and update this chapter, but I mostly decide to leave here just like this.
 
 ----------
 
