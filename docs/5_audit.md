@@ -27,7 +27,7 @@ Defects arisen in Principia come either from the lacking of proper implementatio
 **D4: Tactics support.** We have identified 3 separate ways for PM to perform rewrite, while implementation-wise, we have only designed a `MP` tactic. Missing tactics for generalization and instantiation leaves our design not as "symmetric" as it should be. This is merely an aesthetical issue that hardly affect the interpretation quality of our formalization.
 
 **D5: Unknown application of theorems.**
-During formalizing the proof, we have observed several theorems being applied in unnatural way that is not just using simply deduction. We cannot identify why they are present.
+During formalizing the proof, we have observed several theorems being applied in unnatural way that is not just using simply deduction. We cannot identify why they are present. One particular case I have occured to is when a goal requires the reverse direction of a `->` theorem; and this particular `->` theorem is implicitly deduced from a `<->` version in the middle of the proof.
 
 ### Basic setups
 **Symbol definitions.** We didn't explicitly utilize the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond.
@@ -40,18 +40,18 @@ The core of symbol definition, *definitional equality*, is undefined, as discuss
 - Cited propositions might be a mixture of both expressions and `Ltac`
 - And more generally, cited theorems might have different context to interpret
 
-**Types.** Although we won't implement the typing algorithm immediately, there are still worthy comments to be made. We are aware that
+**Types.** Although we won't implement the typing algorithm, there are still comments to be made. We are aware that
 1. PM doesn't have a notion for typing, also being mentioned by [Randall](https://randall-holmes.github.io/Drafts/pmsemantics.pdf).
 2. For functions, Rocq's `→` type can apparently simulate PM's function type assuming we never apply the parameters partially.
 3. For propositions: while same order propositions generalized from different types of arguments will not have the same type(p.162), it is supposed to be "practically ignored"(p.162). We can change the definition into the following to fix such unnecessary distinction: proposition's type is the returned order of the proposition from a completely instantiated function.
 4. (p.128)Starting from chapter 9, it has been stated that "real variables can be untyped and can be applied on any propositions". Typing has been already hard for us, while this seems to be an important feature to address with, we didn't investigate anywhere deeper in situations where real variables should be typed.
 
-**Orders**. We have the orders in our implementation, but currently it is severely wrongly interpreted and doesn't stand for the correct representation of a nth order proposition. It mostly works like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
+**Orders**. We have the orders in our implementation, but it is severely misinterpreted and doesn't stand for the correct representation of a nth order proposition. It mostly works like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
 ```coq
 Goal Order 0 = Order 1.
 ```
 
-**Sheffer strokes and other updates for 2nd edition.** We are aware that 2nd edition is a ["patched" version](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) of Principia and Russell has tried to simplify the primitive ideas further down, with one of which being the Sheffer stroke `|` to further denote `¬` and `∨`, in a hidden chapter 8. We are aware that Russell eventually realized that the distinction between real and apparent variable might not be necessary. We still prefer to ignore most of the *Introduction* chapter and proceed with what has written in the most of the chapters, as this is the easiest way to maintain most of the flavor in the proofs.
+**Sheffer strokes and other updates for 2nd edition.** We are aware that 2nd edition is a ["patched" version](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) of Principia and Russell has tried to simplify the primitive ideas further down, with one of which being the Sheffer stroke `|` to further denote `¬` and `∨`, in a hidden chapter 8. We are aware that Russell eventually realized that the distinction between real and apparent variable might not be necessary. We still prefer to ignore most of the *Introduction* chapter and proceed with what has written in the most of the chapters, as this is the easiest way to maintain maximum flavor for PM.
 
 ### Chapter 1 - 5
 **Coverage: 100%**

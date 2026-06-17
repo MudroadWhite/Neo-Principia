@@ -9,20 +9,26 @@ We have a lot of things done, and still a lot of things undone and unplanned. Be
   - which enables us to design `∨`, `¬`, and `∀` precisely, no longer as Rocq's defaults
   - which might enables us to construct meaningful proof objects
   - and which enables the availability to design a typing algorithm, that patches the most crucial insight missed in this project
+  - which eliminates all false positives in our proofs
 - Design a full hierarchy system mechanic, which might
   - include a polymorphic `Hierarchy` type to abstract over necessary ingredients
   - include a `Base` type to settle down an order for all individuals to share with, and for functions' types built on them
   - include a `shift` tactic/predicate where `shift x thm` produces a x-order lifted version of the theorem
   - include another `shift` where `Base` can be changed from `Prop` into `Class` or other symbol types
+- Implement the scoping mechanic proposed in `experiment.v`
+  - which can resolve a large portion of unprovable theorems in chapter 20, plus \*14.32
+  - which will also break down the slope for later chapters, reducing at least 40% the difficulty, and add completion to chapter 20 by at least 20%
 - Record and implement all `!`s appeared in the text, to make a strict difference for predicative and impredicative functions
   - which enables us to implement Axiom of Reducibility
-- Implement the scoping mechanic proposed in `experiment.v`
+  - which enables us to reconstruct chapter 12 - 20 faithfully
 - Design tactics for generalization and instantiation such that they are as convenient as `MP`
 - Investigate deep into `setoid_rewrite` so that it supports rewriting on custom-defined notations like descriptions and classes
 - Classify theorems in chapter 1 - 10, to see if they have a conventional name like "absorption rule" more than just a number
   - which enables us to see the conceptual relations between the theorems explicitly
 
-And at the very end, it is recommended for any investigators to independently formalize one whole chapter at a time, to enjoy the joy and the pain that I have felt; as something I have learnt during writing this project, designing the framework, rather than presenting the complete proof, is the most enjoyable part for the development. It is recommended for any investigators to soon leave it to the next successor, to allocate the rest of your life on even more meaningful events; as a project of historical perspective, we always have the freedom to pace casually and walk with a light mood. Should there be ppl taking over the continuation, there shall be one day when the most compact and detailed crystallization of `1+1=2` can be witnessed, no more cloaked up as a century myth.
+Viewers might be also in a question: are there any other projects of similar difficulty that you might suggest? As I'm writing this chapter, the blooming of FV has already come - hopefully it will be a bigger trend than Haskell soon - so just find papers like Haskellers is enough. But I can have picked a random paper such as [Canonical big operators](https://www-sop.inria.fr/marelle/bigops/main.pdf) for example, which caught my interest just occasionally. Having a habit to read papers takes you easy beyond the news.
+
+At the very end, it is recommended for any investigators to independently formalize one whole chapter at a time, to enjoy the joy and the pain that I have felt; as something I have learnt during writing this project, designing the framework, rather than presenting the complete proof, is the most enjoyable part for the development. It is recommended for any investigators to soon leave it to the next successor, to allocate the rest of your life on even more meaningful events; as a project of historical perspective, we always have the freedom to pace casually and walk with a light mood. Should there be ppl taking over the continuation, there shall be one day when the most compact and detailed crystallization of `1+1=2` can be witnessed, no more cloaked up as a century myth.
 
 \- 2026.06.12, hastily finished by 
 

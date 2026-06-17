@@ -90,7 +90,9 @@ Other occurrence can be found in the code in chapter 9 - 20.
 
 ## Comments
 There are several **mandatory** comment pieces:
-- `(* simplification *)` is required when you want to use *any* tactics beyond PM tactics including `MP`. `Syll`, etc.. and `pose proof` plus `rewrite/setoid_rewrite`.
+- `(* simplification *)` is required when you don't want to follow PM's method to prove theorem, and want to introduce "unrelated" Rocq tactics into the context.
 - `(* thm ignored *)` is required whenever your proof doesn't use all citations corresponded to the text
 - `(* unprovable *)` is required when you have really tried filling in the proof
 - `(* UNUSED *)` when you have something unused but feel it necessary to be kept in the codebase
+
+In particular, `destruct` is a common tactic being used in chapter 9 - 20. This should be counted as a `simplification`, although its corresponded theorem should be `Simp`. All simplifications are supposed to be eliminated as much as possible, when we are confident enough to do so.
