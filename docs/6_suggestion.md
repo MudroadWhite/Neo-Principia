@@ -3,7 +3,7 @@ As everyone should [expect](https://www.youtube.com/watch?v=qhF2Dxrt9i4), this c
 
 Before getting further, several ppl should be given credits and thanks: Guillaume Clauret, my first boss, who initiated, ignited my fuel to motor the Rocq prover; Landon Elkind the predecessor of this project; Randall Holmes, another precious source of information, many thanks for your warm and welcoming discussions that helps the completion of this project. We're having a collaborator, [tangyongsheng17-sudo](https://github.com/tangyongsheng17-sudo) who will make this project even better looking; without any of above, this project will not be complete.
 
-We have a lot of things done, and still a lot of things undone and unplanned. Below is a collection of suggestions that prospective investigators might be interested in. To make the project better, one might want to:
+We have a lot of things done, a lot of things undone and unplanned. Below is a collection of suggestions that prospective investigators might be interested in. To make the project better, one might want to:
 - Figure out the precise meaning of elementary proposition and elementary propositional functions
   - which enables us to implement propositions as propositions, and functions as functions
   - which enables us to design `∨`, `¬`, and `∀` precisely, no longer as Rocq's defaults
@@ -26,7 +26,7 @@ We have a lot of things done, and still a lot of things undone and unplanned. Be
 - Classify theorems in chapter 1 - 10, to see if they have a conventional name like "absorption rule" more than just a number
   - which enables us to see the conceptual relations between the theorems explicitly
 
-Viewers might be also in a question: are there any other projects of similar difficulty that you might suggest? As I'm writing this chapter, the blooming of FV has already come - hopefully it will be a bigger trend than Haskell soon - so just find papers like Haskellers is enough. But I can have picked a random paper such as [Canonical big operators](https://www-sop.inria.fr/marelle/bigops/main.pdf) for example, which caught my interest just occasionally. Having a habit to read papers takes you easy beyond the news.
+Viewers might be also in a question: are there any other projects of similar difficulty that you might suggest? As I'm writing this chapter, the blooming of FV has already come - hopefully it will be a bigger trend than Haskell soon - so just find papers like what Haskellers do is enough. But I can have picked a random paper such as [Canonical big operators](https://www-sop.inria.fr/marelle/bigops/main.pdf) for example, which caught my interest just occasionally. Having a habit to read papers takes you easy beyond the news.
 
 At the very end, it is recommended for any investigators to independently formalize one whole chapter at a time, to enjoy the joy and the pain that I have felt; as something I have learnt during writing this project, designing the framework, rather than presenting the complete proof, is the most enjoyable part for the development. It is recommended for any investigators to soon leave it to the next successor, to allocate the rest of your life on even more meaningful events; as a project of historical perspective, we always have the freedom to pace casually and walk with a light mood. Should there be ppl taking over the continuation, there shall be one day when the most compact and detailed crystallization of `1+1=2` can be witnessed, no more cloaked up as a century myth.
 
