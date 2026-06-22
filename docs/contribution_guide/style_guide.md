@@ -69,7 +69,7 @@ In addition, it is worthwhile to note that our current design of class notation 
 **Variants.** There is an exclusive variant for `eq_to_equiv`. All variables should be postfixed with `0` to indicate that we will never use them. e.g. `X` to `X0`, `P` to `P0`, `α` to `α0`. The theorem's names, should be postfixed with `a`, as from `Impl1_01` to `Impl1_01a`. Note that this is a bad naming and conflicts with others, so it is recommended to fix with a better convention.
 
 ## Tactics
-The general principle is, We want to re-use the names as much as possible, and introduce least extra names as possible. For example:
+See below examples:
 ```Rocq
 pose proof (thm0 thm1) as thm0.
 destruct S1 as [_ S1].
@@ -86,11 +86,14 @@ assert (S3 : ...).
   Conj_as thm0 thm1 C1.
 }
 ```
-Other occurrence can be found in the code in chapter 9 - 20.
+
+A large portion of tactics involves giving a new hypothesis a name, especially for `... as`.. The general idea is we want to re-use the names as much as possible, and introduce least extra names as possible. Whenever possible with a few exceptions, please let the new name be `Sn` where `Sn` is the last proven step; or use `Sn+1` to indicate that this construct is almost just the goal. Similar as above, postfix with `a`, `b`, ... when you need more than one copy for a proposition. For more details, please refer to code in chapter 9 - 20.
 
 ## Comments
 There are several **mandatory** comment pieces:
-- `(* simplification *)` is required when you want to use *any* tactics beyond PM tactics including `MP`. `Syll`, etc.. and `pose proof` plus `rewrite/setoid_rewrite`.
+- `(* simplification *)` is required when you don't want to follow PM's method to prove theorem, and want to introduce "unrelated" Rocq tactics into the context.
 - `(* thm ignored *)` is required whenever your proof doesn't use all citations corresponded to the text
 - `(* unprovable *)` is required when you have really tried filling in the proof
 - `(* UNUSED *)` when you have something unused but feel it necessary to be kept in the codebase
+
+In particular, `destruct` is a common tactic being used in chapter 9 - 20. This should be labeled with `simplification`, although its corresponded theorem should be `Simp`. All simplifications are supposed to be eliminated as much as possible, when we are confident enough to do so.

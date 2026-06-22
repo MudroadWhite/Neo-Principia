@@ -4,6 +4,11 @@
 > 
 > \-- *[TO DELIVER YOU FROM THE PRELIMINARY OF TERRORS](https://x.com/JustDeezGuy/status/2062903814621921405)*, random old calculus textbook found on X
 
+
+**Update**: I asked a question online, to gather more clues on this topic. See [this PhilSE QA](https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086) for the newest discussion. If I have time I will expand and update this chapter, but I mostly decide to leave here just like this.
+
+----------
+
 The difference between a (elementary)function and a proposition is scattered through Introduction's chapter I, II, III and chapter 1. As the first concepts being introduced in, the definition of a proposition is full of ambiguity. When figuring out the difference between a *proposition* and a *proposition built up from a function*, we have gathered below clues only to reveal how much is the chaos: 
 - *Proposition* can be *asserted*. *Propositional function* also can be *asserted* by asserting any specific value by instantiating a function, and which, is a proposition.
 - Asserted propositional function can still change its variable to produce different proposition asserted
