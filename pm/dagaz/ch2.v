@@ -617,7 +617,7 @@ Proof.
     as Impl1_01a.
   
   assert (S4 : (¬ P → Q) → P ∨ Q).
-  { now rewrite (Impl1_01a (¬ P) Q) in S3. }
+  { now rewrite <-(Impl1_01a (¬ P) Q) in S3. }
   exact S4.
 Qed.
 
