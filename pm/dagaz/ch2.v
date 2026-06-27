@@ -590,260 +590,423 @@ Qed.
 Theorem n2_53 (P Q : Prop) :
   (P ∨ Q) → (¬ P → Q).
 Proof.
-  pose proof (n2_12 P) as n2_12a.
-  pose proof (n2_38 Q P (¬¬ P)) as n2_38a.
-  MP n2_38a n2_12a.
-  now replace (¬¬ P ∨ Q) with (¬ P → Q) in n2_38a by now rewrite Impl1_01.
+  assert (S1 : P → ¬¬ P).
+  { exact (n2_12 P). }
+  assert (S2 : (P → ¬¬ P) → (P ∨ Q → ¬¬ P ∨ Q)).
+  { exact (n2_38 Q P (¬¬ P)). }
+  assert (S3 : P ∨ Q → ¬¬ P ∨ Q).
+  { now MP S2 S1. }
+  
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+  
+  assert (S4 : P ∨ Q → (¬ P → Q)).
+  { now rewrite <- (Impl1_01a (¬ P) Q) in S3. }
+  exact S4.
 Qed.
 
 Theorem n2_54 (P Q : Prop) :
   (¬ P → Q) → (P ∨ Q).
 Proof.
-  pose proof (n2_14 P) as n2_14a.
-  pose proof (n2_38 Q (¬¬ P) P) as n2_38a.
-  MP n2_38a n2_14a.
-  now replace (¬¬ P ∨ Q) with (¬ P → Q) in n2_38a by now rewrite Impl1_01.
+  assert (S1 : ¬¬ P → P).
+  { exact (n2_14 P). }
+  assert (S2 : (¬¬ P → P) → (¬¬ P ∨ Q → P ∨ Q)).
+  { exact (n2_38 Q (¬¬ P) P). }
+  assert (S3 : ¬¬ P ∨ Q → P ∨ Q).
+  { now MP S2 S1. }
+  
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+  
+  assert (S4 : (¬ P → Q) → P ∨ Q).
+  { now rewrite (Impl1_01a (¬ P) Q) in S3. }
+  exact S4.
 Qed.
 
 Theorem n2_55 (P Q : Prop) :
   ¬ P → ((P ∨ Q) → Q).
 Proof.
-  pose proof (n2_53 P Q) as n2_53a.
-  pose proof (Comm2_04 (P ∨ Q) (¬ P) Q) as Comm2_04a.
-  now MP Comm2_04a n2_53a.
+  assert (S1 : P ∨ Q → (¬ P → Q)).
+  { exact (n2_53 P Q). }
+  assert (S2 : (P ∨ Q → (¬ P → Q)) → (¬ P → (P ∨ Q → Q))).
+  { exact (Comm2_04 (P ∨ Q) (¬ P) Q). }
+  assert (S3 : ¬ P → (P ∨ Q → Q)).
+  { now MP S2 S1. }
+  exact S3.
 Qed.
 
 Theorem n2_56 (P Q : Prop) :
   ¬ Q → ((P ∨ Q) → P).
 Proof.
-  pose proof (n2_55 Q P) as n2_55a.
-  pose proof (Perm1_4 P Q) as Perm1_4a.
-  pose proof (Syll2_06 (P ∨ Q) (Q ∨ P) P) as Syll2_06a.
-  MP Syll2_06a Perm1_4a.
-  now Syll_as n2_55a Syll2_06a Sa.
+  assert (S1 : ¬ Q → (Q ∨ P → P)).
+  { exact (n2_55 Q P). }
+  assert (S2 : P ∨ Q → Q ∨ P).
+  { exact (Perm1_4 P Q). }
+  assert (S3 : (P ∨ Q → Q ∨ P) → ((Q ∨ P → P) → (P ∨ Q → P))).
+  { exact (Syll2_06 (P ∨ Q) (Q ∨ P) P). }
+  assert (S4 : (Q ∨ P → P) → (P ∨ Q → P)).
+  { now MP S3 S2. }
+  Syll_as S1 S4 S5.
+  exact S5.
 Qed.
 
 Theorem n2_6 (P Q : Prop) :
   (¬ P → Q) → ((P → Q) → Q).
 Proof.
-  pose proof (n2_38 Q (¬ P) Q) as n2_38a.
-  pose proof (Taut1_2 Q) as Taut1_2a.
-  pose proof (Syll2_05 (¬ P ∨ Q) (Q ∨ Q) Q) as Syll2_05a.
-  MP Syll2_05a Taut1_2a.
-  Syll_as n2_38a Syll2_05a S.
-  now replace (¬ P ∨ Q) with (P → Q) in S by now rewrite Impl1_01.
+  assert (S1 : (¬ P → Q) → (¬ P ∨ Q → Q ∨ Q)).
+  { exact (n2_38 Q (¬ P) Q). }
+  assert (S2 : Q ∨ Q → Q).
+  { exact (Taut1_2 Q). }
+  assert (S3 : (Q ∨ Q → Q) → ((¬ P ∨ Q → Q ∨ Q) → (¬ P ∨ Q → Q))).
+  { exact (Syll2_05 (¬ P ∨ Q) (Q ∨ Q) Q). }
+  assert (S4 : (¬ P ∨ Q → Q ∨ Q) → (¬ P ∨ Q → Q)).
+  { now MP S3 S2. }
+  Syll_as S1 S4 S5.
+  
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+  
+  assert (S6 : (¬ P → Q) → ((P → Q) → Q)).
+  { now rewrite <- (Impl1_01a P Q) in S5. }
+  exact S6.
 Qed.
 
 Theorem n2_61 (P Q : Prop) :
   (P → Q) → ((¬ P → Q) → Q).
 Proof.
-  pose proof (n2_6 P Q) as n2_6a.
-  pose proof (Comm2_04 (¬ P → Q) (P → Q) Q) as Comm2_04a.
-  now MP Comm2_04a n2_6a.
+  assert (S1 : (¬ P → Q) → ((P → Q) → Q)).
+  { exact (n2_6 P Q). }
+  assert (S2 : ((¬ P → Q) → ((P → Q) → Q)) → ((P → Q) → ((¬ P → Q) → Q))).
+  { exact (Comm2_04 (¬ P → Q) (P → Q) Q). }
+  assert (S3 : (P → Q) → ((¬ P → Q) → Q)).
+  { now MP S2 S1. }
+  exact S3.
 Qed.
 
 Theorem n2_62 (P Q : Prop) :
   (P ∨ Q) → ((P → Q) → Q).
 Proof.
-  pose proof (n2_53 P Q) as n2_53a.
-  pose proof (n2_6 P Q) as n2_6a.
-  now Syll_as n2_53a n2_6a S.
+  assert (S1 : P ∨ Q → (¬ P → Q)).
+  { exact (n2_53 P Q). }
+  assert (S2 : (¬ P → Q) → ((P → Q) → Q)).
+  { exact (n2_6 P Q). }
+  Syll_as S1 S2 S3.
+  exact S3.
 Qed.
 
 Theorem n2_621 (P Q : Prop) :
   (P → Q) → ((P ∨ Q) → Q).
 Proof.
-  pose proof (n2_62 P Q) as n2_62a.
-  pose proof (Comm2_04 (P ∨ Q) (P → Q) Q) as Comm2_04a.
-  now MP Comm2_04a n2_62a.
+  assert (S1 : P ∨ Q → ((P → Q) → Q)).
+  { exact (n2_62 P Q). }
+  assert (S2 : (P ∨ Q → ((P → Q) → Q)) → ((P → Q) → (P ∨ Q → Q))).
+  { exact (Comm2_04 (P ∨ Q) (P → Q) Q). }
+  assert (S3 : (P → Q) → (P ∨ Q → Q)).
+  { now MP S2 S1. }
+  exact S3.
 Qed.
 
 Theorem n2_63 (P Q : Prop) :
   (P ∨ Q) → ((¬ P ∨ Q) → Q).
 Proof.
-  pose proof (n2_62 P Q) as n2_62a.
-  now replace (P → Q) with (¬ P ∨ Q) in n2_62a by now rewrite Impl1_01.
+  assert (S1 : P ∨ Q → ((P → Q) → Q)).
+  { exact (n2_62 P Q). }
+  
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+  
+  assert (S2 : P ∨ Q → (¬ P ∨ Q → Q)).
+  { now rewrite (Impl1_01a P Q) in S1. }
+  exact S2.
 Qed.
+
 
 Theorem n2_64 (P Q : Prop) :
   (P ∨ Q) → ((P ∨ ¬ Q) → P).
 Proof.
-  pose proof (n2_63 Q P) as n2_63a.
-  pose proof (Perm1_4 P Q) as Perm1_4a.
-  Syll_as Perm1_4a n2_63a Ha.
-  pose proof (Syll2_06 (P ∨ ¬ Q) (¬ Q ∨ P) P) as Syll2_06a.
-  pose proof (Perm1_4 P (¬ Q)) as Perm1_4b.
-  MP Syll2_06a Perm1_4b.
-  now Syll_as Ha Syll2_06a S.
+  assert (S1 : Q ∨ P → (¬ Q ∨ P → P)).
+  { exact (n2_63 Q P). }
+  assert (S2 : P ∨ Q → Q ∨ P).
+  { exact (Perm1_4 P Q). }
+  Syll_as S2 S1 S3.
+  assert (S4 : P ∨ ¬ Q → ¬ Q ∨ P).
+  { exact (Perm1_4 P (¬ Q)). }
+  assert (S5 : (P ∨ ¬ Q → ¬ Q ∨ P) → ((¬ Q ∨ P → P) → (P ∨ ¬ Q → P))).
+  { exact (Syll2_06 (P ∨ ¬ Q) (¬ Q ∨ P) P). }
+  assert (S6 : (¬ Q ∨ P → P) → (P ∨ ¬ Q → P)).
+  { now MP S5 S4. }
+  Syll_as S3 S6 S7.
+  exact S7.
 Qed.
 
 Theorem n2_65 (P Q : Prop) :
   (P → Q) → ((P → ¬ Q) → ¬ P).
 Proof.
-  pose proof (n2_64 (¬ P) Q) as n2_64a.
-  replace (¬ P ∨ Q) with (P → Q) in n2_64a.
-  replace (¬ P ∨ ¬ Q) with (P → ¬ Q) in n2_64a.
-  exact n2_64a.
-  all: now rewrite Impl1_01.
+  assert (S1 : ¬ P ∨ Q → (¬ P ∨ ¬ Q → ¬ P)).
+  { exact (n2_64 (¬ P) Q). }
+  
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+  
+  assert (S2 : (P → Q) → (P → ¬ Q) → ¬ P).
+  { 
+    rewrite <- (Impl1_01a P Q) in S1.
+    now rewrite <- (Impl1_01a P (¬ Q)) in S1.
+  }
+  exact S2.
 Qed.
 
 Theorem n2_67 (P Q : Prop) :
   ((P ∨ Q) → Q) → (P → Q).
 Proof.
-  pose proof (n2_54 P Q) as n2_54a.
-  pose proof (Syll2_06 (¬ P → Q) (P ∨ Q) Q) as Syll2_06a.
-  MP Syll2_06a n2_54a.
-  pose proof (n2_24 P Q) as n2_24a.
-  pose proof (Syll2_06 P (¬ P → Q) Q) as Syll2_06b.
-  MP Syll2_06b n2_24a.
-  now Syll_as Syll2_06a Syll2_06b S.
+  assert (S1 : (¬ P → Q) → P ∨ Q).
+  { exact (n2_54 P Q). }
+  assert (S2 : ((¬ P → Q) → P ∨ Q) → ((P ∨ Q → Q) → ((¬ P → Q) → Q))).
+  { exact (Syll2_06 (¬ P → Q) (P ∨ Q) Q). }
+  assert (S3 : (P ∨ Q → Q) → ((¬ P → Q) → Q)).
+  { now MP S2 S1. }
+  assert (S4 : P → (¬ P → Q)).
+  { exact (n2_24 P Q). }
+  assert (S5 : (P → (¬ P → Q)) → (((¬ P → Q) → Q) → (P → Q))).
+  { exact (Syll2_06 P (¬ P → Q) Q). }
+  assert (S6 : ((¬ P → Q) → Q) → (P → Q)).
+  { now MP S5 S4. }
+  Syll_as S3 S6 S7.
+  exact S7.
 Qed.
+
 
 Theorem n2_68 (P Q : Prop) :
   ((P → Q) → Q) → (P ∨ Q).
 Proof.
-  pose proof (n2_67 (¬ P) Q) as n2_67a.
-  replace (¬ P ∨ Q) with (P → Q) in n2_67a
-    by now rewrite Impl1_01.
-  pose proof (n2_54 P Q) as n2_54a.
-  now Syll_as n2_67a n2_54a S.
+  assert (S1 : (¬ P ∨ Q → Q) → (¬ P → Q)).
+  { exact (n2_67 (¬ P) Q). }
+  
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+  
+  assert (S2 : ((P → Q) → Q) → (¬ P → Q)).
+  { now rewrite <- (Impl1_01a P Q) in S1. }
+  assert (S3 : (¬ P → Q) → P ∨ Q).
+  { exact (n2_54 P Q). }
+  Syll_as S2 S3 S4.
+  exact S4.
 Qed.
+
 
 Theorem n2_69 (P Q : Prop) :
   ((P → Q) → Q) → ((Q → P) → P).
 Proof.
-  pose proof (n2_68 P Q) as n2_68a.
-  pose proof (Perm1_4 P Q) as Perm1_4a.
-  Syll_as n2_68a Perm1_4a Sa.
-  pose proof (n2_62 Q P) as n2_62a.
-  now Syll_as Sa n2_62a Sb.
+  assert (S1 : ((P → Q) → Q) → P ∨ Q).
+  { exact (n2_68 P Q). }
+  assert (S2 : P ∨ Q → Q ∨ P).
+  { exact (Perm1_4 P Q). }
+  Syll_as S1 S2 S3.
+  assert (S4 : Q ∨ P → ((Q → P) → P)).
+  { exact (n2_62 Q P). }
+  Syll_as S3 S4 S5.
+  exact S5.
 Qed.
 
 Theorem n2_73 (P Q R : Prop) :
   (P → Q) → (((P ∨ Q) ∨ R) → (Q ∨ R)).
 Proof.
-  pose proof (n2_621 P Q) as n2_621a.
-  pose proof (n2_38 R (P ∨ Q) Q) as n2_38a.
-  now Syll_as n2_621a n2_38a S.
+  assert (S1 : (P → Q) → (P ∨ Q → Q)).
+  { exact (n2_621 P Q). }
+  assert (S2 : (P ∨ Q → Q) → ((P ∨ Q) ∨ R → Q ∨ R)).
+  { exact (n2_38 R (P ∨ Q) Q). }
+  Syll_as S1 S2 S3.
+  exact S3.
 Qed.
 
 Theorem n2_74 (P Q R : Prop) :
   (Q → P) → ((P ∨ Q) ∨ R) → (P ∨ R).
 Proof.
-  pose proof (n2_73 Q P R) as n2_73a.
-  pose proof (Assoc1_5 P Q R) as Assoc1_5a.
-  pose proof (n2_31 Q P R) as n2_31a.
-  Syll_as Assoc1_5a n2_31a Sa.
-  pose proof (n2_32 P Q R) as n2_32a.
-  Syll_as n2_32a Sa Sb.
-  pose proof (Syll2_06 ((P ∨ Q) ∨ R) ((Q ∨ P) ∨ R) (P ∨ R)) as Syll2_06a.
-  MP Syll2_06a Sb.
-  now Syll_as n2_73a Syll2_06a H.
+  assert (S1 : (Q → P) → ((Q ∨ P) ∨ R → P ∨ R)).
+  { exact (n2_73 Q P R). }
+  assert (S2 : P ∨ (Q ∨ R) → Q ∨ (P ∨ R)).
+  { exact (Assoc1_5 P Q R). }
+  assert (S3 : Q ∨ (P ∨ R) → (Q ∨ P) ∨ R).
+  { exact (n2_31 Q P R). }
+  Syll_as S2 S3 S4.
+  assert (S5 : (P ∨ Q) ∨ R → P ∨ (Q ∨ R)).
+  { exact (n2_32 P Q R). }
+  Syll_as S5 S4 S6.
+  assert (S7 : ((P ∨ Q) ∨ R → (Q ∨ P) ∨ R) → (((Q ∨ P) ∨ R → P ∨ R) → ((P ∨ Q) ∨ R → P ∨ R))).
+  { exact (Syll2_06 ((P ∨ Q) ∨ R) ((Q ∨ P) ∨ R) (P ∨ R)). }
+  assert (S8 : ((Q ∨ P) ∨ R → P ∨ R) → ((P ∨ Q) ∨ R → P ∨ R)).
+  { now MP S7 S6. }
+  Syll_as S1 S8 S9.
+  exact S9.
 Qed.
 
 Theorem n2_75 (P Q R : Prop) :
   (P ∨ Q) → ((P ∨ (Q → R)) → (P ∨ R)).
 Proof.
-  pose proof (n2_74 P (¬ Q) R) as n2_74a.
-  pose proof (n2_53 Q P) as n2_53a.
-  Syll_as n2_53a n2_74a Sa.
-  pose proof (n2_31 P (¬ Q) R) as n2_31a.
-  pose proof (Syll2_06 (P ∨ (¬ Q) ∨ R) ((P ∨ (¬ Q)) ∨ R) (P ∨ R)) as Syll2_06a.
-  MP Syll2_06a n2_31a.
-  Syll_as Sa Syll2_06a Sb.
-  pose proof (Perm1_4 P Q) as Perm1_4a.
-  Syll_as Perm1_4a Sb Sc.
-  now replace (¬ Q ∨ R) with (Q → R) in Sc by now rewrite Impl1_01.
+  assert (S1 : (¬ Q → P) → ((P ∨ ¬ Q) ∨ R → P ∨ R)).
+  { exact (n2_74 P (¬ Q) R). }
+  assert (S2 : Q ∨ P → (¬ Q → P)).
+  { exact (n2_53 Q P). }
+  Syll_as S2 S1 S3.
+  assert (S4 : P ∨ (¬ Q ∨ R) → (P ∨ ¬ Q) ∨ R).
+  { exact (n2_31 P (¬ Q) R). }
+  assert (S5 : (P ∨ (¬ Q ∨ R) → (P ∨ ¬ Q) ∨ R) → (((P ∨ ¬ Q) ∨ R → P ∨ R) → (P ∨ (¬ Q ∨ R) → P ∨ R))).
+  { exact (Syll2_06 (P ∨ (¬ Q ∨ R)) ((P ∨ ¬ Q) ∨ R) (P ∨ R)). }
+  assert (S6 : ((P ∨ ¬ Q) ∨ R → P ∨ R) → (P ∨ (¬ Q ∨ R) → P ∨ R)).
+  { now MP S5 S4. }
+  Syll_as S3 S6 S7.
+  assert (S8 : P ∨ Q → Q ∨ P).
+  { exact (Perm1_4 P Q). }
+  Syll_as S8 S7 S9.
+  
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+  
+  assert (S10 : P ∨ Q → (P ∨ (Q → R) → P ∨ R)).
+  { now rewrite <- (Impl1_01a Q R) in S9. }
+  exact S10.
 Qed.
 
 Theorem n2_76 (P Q R : Prop) :
   (P ∨ (Q → R)) → ((P ∨ Q) → (P ∨ R)).
 Proof.
-  pose proof (n2_75 P Q R) as n2_75a.
-  pose proof (Comm2_04 (P ∨ Q) (P ∨ (Q → R)) (P ∨ R)) as Comm2_04a.
-  now MP Comm2_04a n2_75a.
+  assert (S1 : P ∨ Q → (P ∨ (Q → R) → P ∨ R)).
+  { exact (n2_75 P Q R). }
+  assert (S2 : (P ∨ Q → (P ∨ (Q → R) → P ∨ R)) → (P ∨ (Q → R) → (P ∨ Q → P ∨ R))).
+  { exact (Comm2_04 (P ∨ Q) (P ∨ (Q → R)) (P ∨ R)). }
+  assert (S3 : P ∨ (Q → R) → (P ∨ Q → P ∨ R)).
+  { now MP S2 S1. }
+  exact S3.
 Qed.
 
 Theorem n2_77 (P Q R : Prop) :
   (P → (Q → R)) → ((P → Q) → (P → R)).
 Proof.
-  pose proof (n2_76 (¬ P) Q R) as n2_76a.
-  replace (¬ P ∨ (Q → R)) with (P → Q → R) in n2_76a.
-  replace (¬ P ∨ Q) with (P → Q) in n2_76a.
-  replace (¬ P ∨ R) with (P → R) in n2_76a.
-  exact n2_76a.
-  all: now rewrite Impl1_01.
+  assert (S1 : ¬ P ∨ (Q → R) → (¬ P ∨ Q → ¬ P ∨ R)).
+  { exact (n2_76 (¬ P) Q R). }
+  
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+  
+  assert (S2 : (P → Q → R) → (P → Q) → (P → R)).
+  {
+    rewrite <- (Impl1_01a P (Q → R)) in S1.
+    rewrite <- (Impl1_01a P Q) in S1.
+    now rewrite <- (Impl1_01a P R) in S1.
+  }
+  exact S2.
 Qed.
 
 Theorem n2_8 (Q R S : Prop) :
   (Q ∨ R) → ((¬ R ∨ S) → (Q ∨ S)).
 Proof.
-  pose proof (n2_53 R Q) as n2_53a.
-  pose proof (Perm1_4 Q R) as Perm1_4a.
-  Syll_as Perm1_4a n2_53a Ha.
-  pose proof (n2_38 S (¬ R) Q) as n2_38a.
-  now Syll_as Ha n2_38a Hb.
+  assert (S1 : R ∨ Q → (¬ R → Q)).
+  { exact (n2_53 R Q). }
+  assert (S2 : Q ∨ R → R ∨ Q).
+  { exact (Perm1_4 Q R). }
+  Syll_as S2 S1 S3.
+  assert (S4 : (¬ R → Q) → (¬ R ∨ S → Q ∨ S)).
+  { exact (n2_38 S (¬ R) Q). }
+  Syll_as S3 S4 S5.
+  exact S5.
 Qed.
+
 
 Theorem n2_81 (P Q R S : Prop) :
   (Q → (R → S)) → ((P ∨ Q) → ((P ∨ R) → (P ∨ S))).
 Proof.
-  pose proof (Sum1_6 P Q (R → S)) as Sum1_6a.
-  pose proof (n2_76 P R S) as n2_76a.
-  pose proof (Syll2_05 (P ∨ Q) (P ∨ (R → S)) ((P ∨ R) → (P ∨ S))) as Syll2_05a.
-  MP Syll2_05a n2_76a.
-  now Syll_as Sum1_6a Syll2_05a H.
+  assert (S1 : (Q → (R → S)) → (P ∨ Q → P ∨ (R → S))).
+  { exact (Sum1_6 P Q (R → S)). }
+  assert (S2 : P ∨ (R → S) → (P ∨ R → P ∨ S)).
+  { exact (n2_76 P R S). }
+  assert (S3 : (P ∨ (R → S) → (P ∨ R → P ∨ S)) → ((P ∨ Q → P ∨ (R → S)) → (P ∨ Q → (P ∨ R → P ∨ S)))).
+  { exact (Syll2_05 (P ∨ Q) (P ∨ (R → S)) (P ∨ R → P ∨ S)). }
+  assert (S4 : (P ∨ Q → P ∨ (R → S)) → (P ∨ Q → (P ∨ R → P ∨ S))).
+  { now MP S3 S2. }
+  Syll_as S1 S4 S5.
+  exact S5.
 Qed.
 
 Theorem n2_82 (P Q R S : Prop) :
   (P ∨ Q ∨ R) → ((P ∨ ¬ R ∨ S) → (P ∨ Q ∨ S)).
 Proof.
-  pose proof (n2_8 Q R S) as n2_8a.
-  pose proof (n2_81 P (Q ∨ R) (¬ R ∨ S) (Q ∨ S)) as n2_81a.
-  now MP n2_81a n2_8a.
+  assert (S1 : Q ∨ R → (¬ R ∨ S → Q ∨ S)).
+  { exact (n2_8 Q R S). }
+  assert (S2 : (Q ∨ R → (¬ R ∨ S → Q ∨ S)) → (P ∨ (Q ∨ R) → (P ∨ (¬ R ∨ S) → P ∨ (Q ∨ S)))).
+  { exact (n2_81 P (Q ∨ R) (¬ R ∨ S) (Q ∨ S)). }
+  assert (S3 : P ∨ (Q ∨ R) → (P ∨ (¬ R ∨ S) → P ∨ (Q ∨ S))).
+  { now MP S2 S1. }
+  exact S3.
 Qed.
 
 Theorem n2_83 (P Q R S : Prop) :
   (P → (Q → R)) → ((P → (R → S)) → (P → (Q → S))).
 Proof.
-  pose proof (n2_82 (¬ P) (¬ Q) R S) as n2_82a.
-  replace (¬ Q ∨ R) with (Q → R) in n2_82a.
-  replace (¬ P ∨ (Q → R)) with (P → Q → R) in n2_82a.
-  replace (¬ R ∨ S) with (R → S) in n2_82a.
-  replace (¬ P ∨ (R → S)) with (P → R → S) in n2_82a.
-  replace (¬ Q ∨ S) with (Q → S) in n2_82a.
-  replace (¬ P ∨ (Q → S)) with (P → Q → S) in n2_82a.
-  exact n2_82a.
-  all : now rewrite Impl1_01.
+  assert (S1 : ¬ P ∨ (¬ Q ∨ R) → (¬ P ∨ (¬ R ∨ S) → ¬ P ∨ (¬ Q ∨ S))).
+  { exact (n2_82 (¬ P) (¬ Q) R S). }
+  
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+  
+  assert (S2 : (P → Q → R) → (P → R → S) → (P → Q → S)).
+  {
+    rewrite <- (Impl1_01a Q R) in S1.
+    rewrite <- (Impl1_01a P (Q → R)) in S1.
+    rewrite <- (Impl1_01a R S) in S1.
+    rewrite <- (Impl1_01a P (R → S)) in S1.
+    rewrite <- (Impl1_01a Q S) in S1.
+    now rewrite <- (Impl1_01a P (Q → S)) in S1.
+  }
+  exact S2.
 Qed.
 
 Theorem n2_85 (P Q R : Prop) :
   ((P ∨ Q) → (P ∨ R)) → (P ∨ (Q → R)).
 Proof.
-  pose proof (Add1_3 P Q) as Add1_3a.
-  pose proof (Syll2_06 Q (P ∨ Q) R) as Syll2_06a.
-  MP Syll2_06a Add1_3a.
-  pose proof (n2_55 P R) as n2_55a.
-  pose proof (Syll2_05 (P ∨ Q) (P ∨ R) R) as Syll2_05a.
-  Syll_as n2_55a Syll2_05a Ha.
-  pose proof (n2_83 (¬ P) ((P ∨ Q) → (P ∨ R)) ((P ∨ Q) → R) (Q → R)) as n2_83a.
-  MP n2_83a Ha.
-  pose proof (Comm2_04 (¬ P) (P ∨ Q → P ∨ R) (Q → R)) as Comm2_04a.
-  Syll_as n2_83a Comm2_04a Hb.
-  pose proof (n2_54 P (Q → R)) as n2_54a.
-  pose proof (Simp2_02 (¬ P) ((P ∨ Q → R) → (Q → R))) as Simp2_02a. 
-  MP Simp2_02a Syll2_06a.
-  MP Hb Simp2_02a.
-  now Syll_as Hb n2_54a Hc.
+  assert (S1 : Q → P ∨ Q).
+  { exact (Add1_3 P Q). }
+  assert (S2 : (Q → P ∨ Q) → ((P ∨ Q → R) → (Q → R))).
+  { exact (Syll2_06 Q (P ∨ Q) R). }
+  assert (S3 : (P ∨ Q → R) → (Q → R)).
+  { now MP S2 S1. }
+  assert (S4 : ¬ P → (P ∨ R → R)).
+  { exact (n2_55 P R). }
+  assert (S5 : (P ∨ R → R) → ((P ∨ Q → P ∨ R) → (P ∨ Q → R))).
+  { exact (Syll2_05 (P ∨ Q) (P ∨ R) R). }
+  Syll_as S4 S5 S6.
+  assert (S7 : (¬ P → ((P ∨ Q → P ∨ R) → (P ∨ Q → R))) → ((¬ P → ((P ∨ Q → R) → (Q → R))) → (¬ P → ((P ∨ Q → P ∨ R) → (Q → R))))). 
+  { exact (n2_83 (¬ P) (P ∨ Q → P ∨ R) (P ∨ Q → R) (Q → R)). }
+  assert (S8 : (¬ P → ((P ∨ Q → R) → (Q → R))) → (¬ P → ((P ∨ Q → P ∨ R) → (Q → R)))).
+  { now MP S7 S6. }
+  assert (S9 : (¬ P → ((P ∨ Q → P ∨ R) → (Q → R))) → ((P ∨ Q → P ∨ R) → (¬ P → (Q → R)))). 
+  { exact (Comm2_04 (¬ P) (P ∨ Q → P ∨ R) (Q → R)). }
+  Syll_as S8 S9 S10.
+  assert (S11 : ((P ∨ Q → R) → (Q → R)) → (¬ P → ((P ∨ Q → R) → (Q → R)))).
+  { exact (Simp2_02 (¬ P) ((P ∨ Q → R) → (Q → R))). }
+  assert (S12 : ¬ P → ((P ∨ Q → R) → (Q → R))).
+  { now MP S11 S3. }
+  assert (S13 : (P ∨ Q → P ∨ R) → (¬ P → (Q → R))).
+  { now MP S10 S12. }
+  assert (S14 : (¬ P → (Q → R)) → P ∨ (Q → R)).
+  { exact (n2_54 P (Q → R)). }
+  Syll_as S13 S14 S15.
+  exact S15.
 Qed.
-
+    
 Theorem n2_86 (P Q R : Prop) :
   ((P → Q) → (P → R)) → (P → (Q → R)).
 Proof.
-  pose proof (n2_85 (¬ P) Q R) as n2_85a.
-  replace (¬ P ∨ Q) with (P → Q) in n2_85a.
-  replace (¬ P ∨ R) with (P → R) in n2_85a.
-  replace (¬ P ∨ (Q → R)) with (P → Q → R) in n2_85a.
-  exact n2_85a.
-  all: now rewrite Impl1_01.
+  assert (S1 : (¬ P ∨ Q → ¬ P ∨ R) → ¬ P ∨ (Q → R)).
+  { exact (n2_85 (¬ P) Q R). }
+  
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+  
+  assert (S2 : ((P → Q) → (P → R)) → (P → (Q → R))).
+  {
+    rewrite <- (Impl1_01a P Q) in S1.
+    rewrite <- (Impl1_01a P R) in S1.
+    now rewrite <- (Impl1_01a P (Q → R)) in S1.
+  }
+  exact S2.
 Qed.
