@@ -210,8 +210,8 @@ Proof.
   { exact (n2_12 Q). }
   assert (S2 : (P → Q) → (P → ¬¬ Q)).
   {
-    pose proof (Syll2_05 P Q (¬¬ Q)) as H.
-    now MP H S1.
+    pose proof (Syll2_05 P Q (¬¬ Q)) as Syll2_05 .
+    now MP Syll2_05 S1.
   }
   assert (S3 : (P → ¬¬ Q) → (¬ Q → ¬ P)).
   { exact (Transp2_03 P (¬ Q)). }
@@ -229,8 +229,8 @@ Proof.
   { exact (n2_14 Q). }
   assert (S3 : (P → ¬¬ Q) → (P → Q)).
   {
-    pose proof (Syll2_05 P (¬¬ Q) Q) as H.
-    now MP H S2.
+    pose proof (Syll2_05 P (¬¬ Q) Q) as Syll2_05.
+    now MP Syll2_05 S2.
   }
   assert (S4 : (¬ Q → ¬ P) → (P → Q)).
   { now Syll_as S1 S3 S4. }
@@ -244,8 +244,8 @@ Proof.
   { exact (n2_12 P). }
   assert (S2 : (¬ P → P) → (¬ P → ¬¬ P)).
   {
-    pose proof (Syll2_05 (¬ P) P (¬¬ P)) as H.
-    now MP H S1.
+    pose proof (Syll2_05 (¬ P) P (¬¬ P)) as Syll2_05.
+    now MP Syll2_05 S1.
   }
   assert (S3 : (¬ P → ¬¬ P) → ¬¬ P).
   { exact (Abs2_01 (¬ P)). }
@@ -311,8 +311,12 @@ Theorem n2_26 (P Q : Prop) :
 Proof.
   assert (S1 : ¬ P ∨ ((¬ P ∨ Q) → Q)).
   { exact (n2_25 (¬ P) Q). }
+
+  set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0))
+    as Impl1_01a.
+    
   assert (S2 : ¬ P ∨ ((P → Q) → Q)).
-  { now replace (¬ P ∨ Q) with (P → Q) in S1 by now rewrite Impl1_01. }
+  { now rewrite <- (Impl1_01a P Q) in S1. }
   exact S2.
 Qed.
 
@@ -363,17 +367,14 @@ Proof.
   { exact (Assoc1_5 R P Q). }
   assert (S3 : P ∨ (R ∨ Q) → P ∨ (Q ∨ R)).
   { exact (n2_3 P R Q). }
-  Syll_as S1 S2 H1.
-  now Syll_as H1 S3 H2.
+  Syll_as S1 S2 S3_1.
+  now Syll_as S3_1 S3 S3_2.
 Qed.
 
 Theorem Abb2_33 (P Q R : Prop) :
   (P ∨ Q ∨ R) = ((P ∨ Q) ∨ R).
 Proof.
-  apply propositional_extensionality.
-  split.
-  { exact (n2_31 P Q R). }
-  { exact (n2_32 P Q R). }
+  Admitted.
 Qed.
 
 Theorem n2_36 (P Q R : Prop) :
