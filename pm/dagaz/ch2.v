@@ -373,9 +373,7 @@ Qed.
 
 Theorem Abb2_33 (P Q R : Prop) :
   (P ∨ Q ∨ R) = ((P ∨ Q) ∨ R).
-Proof.
-  Admitted.
-Qed.
+Admitted.
 
 Theorem n2_36 (P Q R : Prop) :
   (Q → R) → ((P ∨ Q) → (R ∨ P)).
