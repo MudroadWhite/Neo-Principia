@@ -74,8 +74,7 @@ Qed.
 Theorem Id2_08 (P : Prop) :
   P → P.
 Proof.
-  assert (S1 : (P ∨ P → P) 
-  → ((P → P ∨ P) → (P → P))).
+  assert (S1 : (P ∨ P → P) → ((P → P ∨ P) → (P → P))).
   { exact (Syll2_05 P (P ∨ P) P). }
   assert (S2 : P ∨ P → P).
   { exact (Taut1_2 P). }
@@ -105,7 +104,7 @@ Proof.
   { exact (Perm1_4 (¬ P) P). }
   assert (S2 : P ∨ ¬P ).
   { pose proof (n2_1 P) as n2_1.
-    now MP S1 n2_1. }
+   now MP S1 n2_1. }
   exact S2.
 Qed.
 
