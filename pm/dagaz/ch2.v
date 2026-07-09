@@ -103,8 +103,10 @@ Proof.
   assert (S1 : ¬ P ∨ P → P ∨ ¬ P).
   { exact (Perm1_4 (¬ P) P). }
   assert (S2 : P ∨ ¬P ).
-  { pose proof (n2_1 P) as n2_1.
-   now MP S1 n2_1. }
+  { 
+    pose proof (n2_1 P) as n2_1.
+    now MP S1 n2_1. 
+  }
   exact S2.
 Qed.
 
@@ -128,8 +130,10 @@ Proof.
   assert (S3 : P ∨ ¬ P → P ∨ ¬¬¬ P).
   { now MP S1 S2. }
   assert (S4 : P ∨ ¬¬¬ P).
-  { pose proof (n2_11 P) as n2_11.
-  now MP S3 n2_11. }
+  { 
+    pose proof (n2_11 P) as n2_11.
+    now MP S3 n2_11. 
+  }
   exact S4.
 Qed.
 
@@ -140,7 +144,8 @@ Proof.
   { exact (Perm1_4 P (¬¬¬ P)). }
   assert (S2 : ¬¬¬ P ∨ P).
   { pose proof (n2_13 P) as n2_13.
-   now MP S1 n2_13. }
+    now MP S1 n2_13. 
+  }
   assert (S3 : ¬¬ P → P).
   { now rewrite <- Impl1_01 in S2. }
   exact S3.
