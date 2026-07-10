@@ -91,7 +91,7 @@ Proof.
   (* TOOLS *)
   set (λ P0 Q0 : Prop, eq_to_equiv (P0 → Q0) (¬ P0 ∨ Q0) (Impl1_01 P0 Q0)) as Impl1_01a.
   (* ******** *)
-  rewrite (Impl1_01a P P).
+  rewrite <- (Impl1_01a P P).
   exact (Id2_08 P).
 Qed.
 
