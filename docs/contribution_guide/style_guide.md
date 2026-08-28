@@ -87,6 +87,12 @@ assert (S3 : ...).
 }
 ```
 
+We have tried to design a language style based on Rocq, being as simplest as possible to use, and whenever the thing gets more complicated, we are allowed to introduce any other tactics as you like. The tradeoff is that we don't prevent illegal constructions. 
+
+For example, `MP H1 H2` can be also written as `pose proof (H1 H2) as H2`, which we didn't adapt to for the purpose of emphasizing `MP`. Heavier situations occur in chapter 20 as the symbols become more complex.
+
+Another aspect is that we always perform our rewriting on *hypothesis*, in contrast to the *goal*, as we are doing forward reasoning. We can `rewrite -> H1 in H2`, but we will never see `rewrite -> H1` alone.
+
 A large portion of tactics involves giving a new hypothesis a name, especially for `... as`.. The general idea is we want to re-use the names as much as possible, and introduce least extra names as possible. Whenever possible with a few exceptions, please let the new name be `Sn` where `Sn` is the last proven step; or use `Sn+1` to indicate that this construct is almost just the goal. Similar as above, postfix with `a`, `b`, ... when you need more than one copy for a proposition. For more details, please refer to code in chapter 9 - 20.
 
 ## Comments
