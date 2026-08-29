@@ -9,47 +9,28 @@ Assessment for each of the chapter is based on the following questions:
 
 Anatomy on ideas(1) is performed in [mechanics](./3_mechanics.md). For the below sections, we first make a short summary of major issues we have found.
 
-### Defects
+### The Defects
 Defects arisen in Principia come either from the lacking of proper implementation of our project, or directly from the Principia Mathematica itself. After stating these issues, we will expand every details we have found by each chapters.
 
-**D1: Typing.** We didn't design a proper system to type every PM propositions. This results into a massive chain effects on the missing features and insights:
-1. We cannot distinguish between predicative and impredicative props/functions.
-2. We cannot implement Axiom of Reducibility.
-3. Several propositions that are relying on AoR cannot be properly implemented at all.
+**D1: Typing.** We didn't design a proper system to type every PM propositions. The very root of this defect originates from [lacking of definition](./B_proposition.md). The result is also a massive chain effect:
+- **D1.1** We cannot distinguish between predicative and impredicative props/functions
+- **D1.2** We cannot implement Axiom of Reducibility
+- **D1.3** Several propositions that are relying on AoR cannot be properly implemented at all
 
-**D2: Inheritance/internalization.** 
-TODO: this topic has a extremely wide impact, including:
-- missing support of scoping
-  - Do we have to automatically shrink the scope for a symbol?
-- inheritance nature for definitions
-  - polymorphic notations vs monomorphic definitions
-  - nontrivial variants for definitions
-  - ambiguous theorem representations: some theorems are about the underlying object; some else are only the mere representation
+**D2: Inheritance/internalization.** Problems under this topic usually involves with our inability to automate the related mechanics. They either because the text is missing their support, or we just haven't designed the correct abstraction yet. They include:
+- **D2.1** Scoping for incomplete symbols
+- **D2.2** Polymorphism on hierarchies
+- **D2.3** And even a level down, there might be case where interpretation on a theorem is ambiguous. This is mostly a chapter-20 specific, where distinction between PM's language and interpretation starts to matter.
 
-**D3: Distinction between language and interpretation.**
-TODO: things in ch20
-- ...
+**D3: setoid_rewrite.** `setoid_rewrite` is a nice tactic, but it still changes by version updates. When updating Rocq to `9.0` or beyond, every `setoid_rewrite` starts to go wrong and we have to manually re-specify the index for `setoid_rewrite` to focus on. While this doesn't affect the proof in general, it prevents us to make our proof compatible for most of Coq/Rocq versions.
 
-**D3: setoid_rewrite.** 
-TODO: 
-- setoid_rewrite changes by versions
-
-**D4: Tactics support.**
-TODO: (brief introduction to missing tactics)
+**D4: Tactics support.** We have identified 3 separate ways for PM to perform rewrite, while implementation-wise, we have only designed a `MP` tactic. Missing tactics for generalization and instantiation leaves our design not as "symmetric" as it should be. This is merely an aesthetical issue that hardly affect the interpretation quality of our formalization.
 
 **D5: Unknown application of theorems.**
-TODO: special theorems that are not used in supposed way
+During formalizing the proof, we have observed several theorems being applied in unnatural way that is not just using simply deduction. We cannot identify why they are present. One particular case I have occured to is when a goal requires the reverse direction of a `->` theorem; and this particular `->` theorem is implicitly deduced from a `<->` version in the middle of the proof.
 
 ### Basic setups
-**How much can we automate for Principia Mathematica?**
-The most ideal point to increase the automation for PM seems to start from `rewrite`s, that is, we should design a more automated `rewrite` that can
-- Design a function plus its parameters that matches up with the target proposition
-- Automatically introduce extra individuals in need
-- Perform slight reordering of sub expressions like `P <-> Q` to `Q <-> P` when necessary
-
-Due to the lack of related background in proof automation, I am currently thinking that automating the inference seems to be too much and a fruitless goal.
-
-**Symbol definitions.** We didn't express the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond. I believe that how to utilize both the compositional nature and the notational system is still unclear under current implementation, and we will make a clearer distinction between them in the future.
+**Symbol definitions.** We didn't explicitly utilize the *compositional* and *inheriting* nature of Principia. "Registering" new meanings to already defined theorems seems to suggest practical utilization of concepts in programming languages: typeclasses, interfaces, perhaps even monads. On the other hand, Rocq's *notation system* has been very useful for expressing the new symbols in each of the chapter: see [chapter 14](../pm/ch14.v), [20](../pm/ch20.v) and beyond.
 
 The core of symbol definition, *definitional equality*, is undefined, as discussed in [mechanics](./3_mechanics.md) and [tactics](./4_tactics.md). 
 
@@ -59,45 +40,41 @@ The core of symbol definition, *definitional equality*, is undefined, as discuss
 - Cited propositions might be a mixture of both expressions and `Ltac`
 - And more generally, cited theorems might have different context to interpret
 
-**Types.** Although we won't implement the typing algorithm immediately, there are still worthy comments to be made. We are aware that
-1. PM doesn't have a notion for typing, also being mentioned by Randall.(TODO: reference)
+**Types.** Although we won't implement the typing algorithm, there are still comments to be made. We are aware that
+1. PM doesn't have a notion for typing, also being mentioned by [Randall](https://randall-holmes.github.io/Drafts/pmsemantics.pdf).
 2. For functions, Rocq's `→` type can apparently simulate PM's function type assuming we never apply the parameters partially.
 3. For propositions: while same order propositions generalized from different types of arguments will not have the same type(p.162), it is supposed to be "practically ignored"(p.162). We can change the definition into the following to fix such unnecessary distinction: proposition's type is the returned order of the proposition from a completely instantiated function.
+4. (p.128)Starting from chapter 9, it has been stated that "real variables can be untyped and can be applied on any propositions". Typing has been already hard for us, while this seems to be an important feature to address with, we didn't investigate anywhere deeper in situations where real variables should be typed.
 
-**Orders**. We have the orders in our implementation, but currently it is severely wrongly interpreted and doesn't stand for the correct representation of a nth order proposition. It mostly works like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
+**Orders**. We have the orders in our implementation, but it is severely misinterpreted and doesn't stand for the correct representation of a nth order proposition. It mostly works like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
 ```coq
 Goal Order 0 = Order 1.
 ```
 
-**Informal propositions.** Informal propositions are mostly typing rules for Principia. These propositions should be inherently expressed with a type checker, and not implemented as theorems.
-
-**Sheffer strokes and other updates for 2nd edition.** We are aware that 2nd edition is a ["patched" version](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) of Principia and Russell has tried to simplify the primitive ideas further down, with one of which being the Sheffer stroke `|` to further denote `¬` and `∨`, in a hidden chapter 8. We are aware that Russell eventually realized that the distinction between real and apparent variable might not be necessary. We still prefer to ignore most of the *Introduction* chapter and proceed with what has written in the most of the chapters, as this is the easiest way to maintain most of the flavor in the proofs.
+**Sheffer strokes and other updates for 2nd edition.** We are aware that 2nd edition is a ["patched" version](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) of Principia and Russell has tried to simplify the primitive ideas further down, with one of which being the Sheffer stroke `|` to further denote `¬` and `∨`, in a hidden chapter 8. We are aware that Russell eventually realized that the distinction between real and apparent variable might not be necessary. We still prefer to ignore most of the *Introduction* chapter and proceed with what has written in the most of the chapters, as this is the easiest way to maintain maximum flavor for PM.
 
 ### Chapter 1 - 5
 **Coverage: 100%**
 
-**General.** The informal propositions through chapter 1 - 5 are only the `Pp`s in chapter 1 and a special inference rule in chapter 3. As explained in [tactics](4_tactics.md), we have made several simplifications over primitive propositions.
-
-For *modus ponens*, and *syllogism* etc. in the later chapters, we are directly inheriting the tactics designed by [Landon](https://github.com/LogicalAtomist/principia). By using tactics for deductions, we can make a clear distinction between what are being performed through *modus ponens* and what are not.
+**General.** The informal propositions through chapter 1 - 5 are only the `Pp`s in chapter 1 and a typing rule in chapter 3. For *modus ponens*, and *syllogism* etc. in the later chapters, we are directly inheriting the tactics designed by [Landon](https://github.com/LogicalAtomist/principia).
 
 ### Chapter 9
 **Coverage: 100%**
 
-**General.** Currently we're using the default `∀`, `∨`, `¬` in Rocq to model everything, making the primitive propositions not a necessity while pertaining the availability for `setoid_rewrite`.
+**General.** We first give a criticism on chapter 9's idea for performing the proof. Chapter 9 proves chapter 1 theorems can be "lifted" to 1-order versions, given assumed 1-order constructors `∀` and `∃` being able to applying on elementary `¬` and `∨`s. If we are normally designing a language in functional language or Rocq, we would expect `¬` or `∨`'s type can be automatically *inferred* from types of operand, or the other way around; here, PM only considers that we can *check* the correct type, but not *inferring* a term from a type. As a result, chapter 9 proves by brutally associate elementary operators with first order operands, without even considering how will the inference work. If we would redesign the proof idea from a modern point of view, we might be asserting that *first order* - rather than *elementary* ones - `¬` and `∨` exists, to eventually deduce the first order equivalent of chapter 1 theorems.
 
-We have implemented the typing algorithm, but it is wrongly interpreted and will not be used anywhere.
+Implementation-wise, we're using the default `∀`, `∨`, `¬` in Rocq to model everything, making the primitive propositions not a necessity while pertaining the availability for `setoid_rewrite`.
 
-**Missing tactic: generalization.** \*9.13, the generalization assumption, according to the text, should be performed without `MP`. Our current design is modeling this assumption with a `→`, leading to unnecessary `MP`s on `n9_13`. Note that `if...then` written in natural language in PM is not something the same as `→`, in that `→` is defined through `∨` and `¬`.
+We have implemented the typing algorithm in chapter 9, but it is wrongly interpreted and will not be used anywhere.
 
-**Functions.** This is the first chapter for our soft embedding to consider functions, and how to rewrite on functions. For our implementation, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. They works perfectly in this chapter, but later chapters will reveal higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop → Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? The list of questions extends as we move on.
+**Functions.** This is the first chapter for our shallow embedding to consider functions, and how to rewrite on functions. For our implementation, both elementary and 1st order functions are constructed by just using the default lambda terms in Rocq. Behind the formalization, we have made failed attempt to let Rocq automatically infer the function instance for a theorem to apply. As a result, all functions have to be filled in manually.
 
-**setoid_rewrite.** The tactic `setoid_rewrite` is completely introduced into our implementation to simplify the proofs. While it has been convenient to rewrite on subparts of a proposition correctly, it will hide away some of the citation for the proof. Similar issue apply to `destruct`, but it's underlying citation is clear: namely the `Simp` theorems.
-
-We have received feedback that `setoid_rewrite` in Rocq >9.0 in seems to adopt to a different way to recognize the subparts. So far as I can see, this should be the only factor that will break version compatability.
+Later chapters will reveal even higher expectations on newly defined functions and matrices: should they typed in Rocq with `Prop → Prop`, or should it be something else? Can we have an automatic way to lift functions to higher order(ch12)? They are explained in [mechanics](./3_mechanics.md/#chapter-12).
 
 ### Chapter 10
 **Coverage: 98.2% = 55/56.**
 - **\*10.57.** 3rd step of the proof is unprovable, simply because the theorem it uses cannot be instantiated with correct parameters.
+- **\*10.23, alternative proof.** In the 5th step of the proof, the proposition has used variable name `x` twice referring to two different actual variables. Although the proof is generally unaffected when we give it the right renaming, this is still a rare case of bad text.
 
 **General.** Chapter 10 is doing essentially the same as chapter 9, except the alternative definitions for `∀` and `∃`. We didn't find any difficulties formalizing this chapter. Same to chapter 9, generalization in this chapter is not designed as Ltac.
 
@@ -136,41 +113,21 @@ Lacking of the type system results in AoR not strictly implemented in chapter 12
 - **\*14.121, \*14.17, \*14.171, \*14.201.** Multiple theorems steps involving \*13.15 has been revealed beyond the power of the deduction. \*13.15 is defined `⊦ X = X`, and these theorems tries to use \*13.15 to imply that they can immediately obtain things like `A ∧ (X = X)` to `A`, i.e. `X = X` is supposed to mean "true". We think there should be some extra theorems for \*13.15 to be patched up and make it actually useable.
 - **\*14.142.** The last 2 steps of this theorem are both unprovable, and we suspect there is a typo happening in these two steps.
 - **\*14.272.** The citation of \*10.414 seems to be invalid, because it is deducing in the other direction. We think this theorem is unprovable.
-- **\*14.32.** It has been assumed that \*14.32 is undergoing proof with same style as \*14.31, besides the fact that \*14.32 is bidirectional(using `↔`). The reverse direction involves using \*14.21(as the only way provided) and \*14.1. \*14.21 is taking a whole single `ιφ` as its premise; the hypothesis of our goal however, in our self-defined notation, is `([ι φ | ιφ => ¬ χ ιφ]) ↔ ¬ ([ι φ | ιφ => χ ιφ])` which involves two `ι` scopes. Therefore we need to have a way to merge scopes of the two `ι`s into a single `ι` at a large scope. What will be required beneath the re-scoping is a theorem of `(∃ x, P x) ∧ (∃ x, Q x) → (∃ x, P x ∧ Q x)`, which is even intuitively not always true. We conclude the reverse direction of this theorem unprovable. TODO: we might still be able to fix the proof in the future and eliminate the `admit`
+- **\*14.32.** It has been assumed that \*14.32 is undergoing proof with same style as \*14.31, besides the fact that \*14.32 is bidirectional(using `↔`). The reverse direction involves using \*14.21(as the only way provided) and \*14.1. \*14.21 is taking a whole single `ιφ` as its premise; the hypothesis of our goal however, in our self-defined notation, is `([ι φ | ιφ => ¬ χ ιφ]) ↔ ¬ ([ι φ | ιφ => χ ιφ])` which involves two `ι` scopes. Therefore we need to have a way to merge scopes of the two `ι`s into a single `ι` at a large scope. What will be required beneath the re-scoping is a theorem of `(∃ x, P x) ∧ (∃ x, Q x) → (∃ x, P x ∧ Q x)`, which is even intuitively not always true. We conclude the reverse direction of this theorem unprovable. 
 
 **General.** This is the first chapter where we have to define an "incomplete" symbol, one feature of which is coming with a scope. We eventually find an elegant way to express such symbol: we want to define something almost like `λ (x : A) => ...`. `λ` here provides just the idea for a scope; `(x : A)` while seemingly assigning `x` to a type, can also assign `x` to some specification. Doing so involves our first symbol implementation in Rocq defined using a `Notation`, and the definition's difficulty has been eliminated once and for all. It seems like a general treatment for incomplete symbols in the whole PM.
 
-**Symbol definitions.** While generally functions only use types like `Prop -> Prop`, our symbol definition will relax the type to `A -> Prop` for polymorphic type `A`, as our design principle "polymorphic symbol" requires in [tactics](./4_tactics.md). By [mechanics](./3_mechanics.md/#chapter-14), `ιx` does not necessarily only serve for propositional variables; in chapter 20, the variable's type will be type for classes. This leads to a distinction in our implementation: polymorphic for symbol definitions, but monomorphic for theorems; and by the dependency of theorems, such polymorphism is strictly required.
+**Symbol definitions.** While generally functions only use types like `Prop → Prop`, our symbol definition will relax the type to `A → Prop` for polymorphic type `A`, as our design principle "polymorphic symbol" requires in [tactics](./4_tactics.md). By [mechanics](./3_mechanics.md/#chapter-14), `ιx` does not necessarily only serve for propositional variables; in chapter 20, the variable's type will be type for classes. This leads to a distinction in our implementation: polymorphic for symbol definitions, but monomorphic for theorems; and by the dependency of theorems, such polymorphism is strictly required.
 
 **Scopes.** When it involves more than one `ι` for a sub term, it turns out that the order of different `ι`s matters. While this is stated in the theorems in chapter 14, it is only *assumed* in chapter 20, and will involve adding axioms for such equivalence. Being implementation specific, for each `ι` term, our notation designed a variable to refer to the description, and these variables have to come with an extra axiom to make them order-unrelated, resulting in the extra `iota2_arg_comm`.
 
 ### Chapter 20
-**Coverage: WIP**
+**Coverage: 59.32%= 35/59.** As there are too many theorems unprovable, the details are left as comments in code, and description below.
 
-**General.** Designing proofs in this chapter has been increasingly harder. As analyzed in [mechanics](./3_mechanics.md/#chapter-20), our current design is still not at its perfection. As this chapter has added in a new hierarchy of class, we coincide with [Randall's](TODO: add link) suggestion to design a type for class. I'm guessing that such a separate type is strictly needed, and the reason it isn't in Russell's type system is that such hierarchy can be induced from all previous theorems, supposing we have provided the definition for the class symbol.
+**General.** Designing proofs in this chapter has been increasingly harder. As analyzed in [mechanics](./3_mechanics.md/#chapter-20), our current design is still not at its perfection. 
 
-Even when we have just designed the type for class, and have not built up an actual hierarchy for class, it is already affecting and slightly troubling the rest of the system. For example, if we have a definition of `Definition example_def_with_class {A : Type] (c : Class.t a)}`, since we have a polymorphic type `{A : Type}`, we cannot `pose proof example_def_with_class` already. We have to either set the `A` down to a fixed type, or use the theorem within a better context.
+Our implementation eventually arrive at a conclusion where, although not explicitly required in the text, a hierarchy for class, and a association mechanic for classes' underlying function is needed. Another issue blocking most of the proofs is *scoping*, which also seems to be below proper treatment for PM.
 
-TODO: explicit interpretation hasn't been implemented yet
+**Scopes.** A major part of theorems are unprovable, because of the scoping issue. Consider two expressions `e1 := Phi x` and `e2 := ~ Psi x ∧ x`, and assert `x`s' scopes are limited to the whole expression. PM has a default scope for such a symbol `x` to be the *minimal sub expression* except itself; but if we instantiate `Phi` such that `Phi := (fun y => ~ Psi y ∧ y)`, the scopes for `x` in e2, if without any treatments, still remains to be the whole expression; the minimal scopes for the `x`s is updated to `Psi x` and `..... ∧ x` separately. `~ Psi x ∧ x` is no longer the new minimal scope `Psi x`.
 
-**Scoping convention.** During developing the proof we have found scopes for incomplete symbols are heavily lacking of proper treatment. Too see why is the case, below is an example.
-
-TODO: design the correct example
-
-```Coq
-Definition example_class_scope_1 (Phi : Prop -> Prop) (f : (Prop -> Prop) -> Prop) := [^x => Phi x @ cPhi => f cPhi].
-
-Definition example_class_scope_2 (Phi : Prop -> Prop) := [^x => Phi x @ cPhi => cPhi = cPhi]
-```
-
-By text in PM, scope for an incomplete symbol is defaulted by the minimum sub expression containing the symbol, except for only itself. The above example shows that, the current design of scope is not always ensured that it is the smallest scope around the symbol we wish to contain, per substitution. Sometimes we have to design some axioms for safe scope conversion(TODO: example).
-
-We can also see PM's scope as a design failure from another perspective: scope doesn't have a notion of its own. It is usually treated with other symbols, in our case, one for description and one for class. Such design makes scoping rule un-reusable and hard to specify.
-
-TODO: 
-- (n20_07)order shift interferes with some proving routines in PM
-- (n20_19)`setoid_rewrite` seems to ignore the order issue
-
---------
-TODO: 
-- why is "real variables untyped?" why can it be still used in propositions?
+On surface, it suggests that PM is lacking a lot of axioms to specify how the scope converts. But we have found a possible solution, which might be better to eliminate such problems, once implemented. We have proposed an experimental feature, only be outlined under `experiment/draft.v`. We find out that there can be a fixed set of tactics to shrink the scopes, or maybe design the correct representation closer to PM's original syntax, such that the scope can be automatically given during parsing the expression. This is, yet, left to be a draft, and we plan to terminate the development before it is put into use.

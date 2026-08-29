@@ -3,8 +3,6 @@
 
 Continuation of [Principia Mathematica's formalization](https://github.com/LogicalAtomist/principia) by Landon Elkind.
 
-**WARNING: the documentation is currently under heavy WIP and can be highly volatile**
-
 ## Why working on it
 - Principia Mathematica has a stable version
 - Principia Mathematica is not textbook math
@@ -16,7 +14,7 @@ Continuation of [Principia Mathematica's formalization](https://github.com/Logic
 Which means 3 questions:
 
 - **How much can you formalize?** Theoretically, the whole book. See [overview](./docs/1_overview.md/#can-principia-mathematica-be-completely-formalized) for analysis and features.
-- **How much have you formalized?** 194 - 94 = 100 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
+- **How much have you formalized?** 199 - 94 = 105 pages. See [mechanics](./docs/3_mechanics.md) for detailed discussions.
 - **How deep can you formalize?** We're using shallow embedding, which is not rigorous deep embedding. We didn't type the propositions, so **the proofs are still not 100% correct.** See [audit](./docs/5_audit.md) for our major defects.
 
 ## Running the code
@@ -55,11 +53,13 @@ Although I have tried to organize the issues well to indicate the current progre
 - [Metamath solitaire's implementation on propositional calculus theorems](https://us.metamath.org/mmsolitaire/pmproofs.txt)
 
 ## Other useful links
-- https://proofassistants.stackexchange.com/questions/1105/how-does-the-formal-proof-of-the-four-color-theorem-work Discussion of the 4-color theorem, as a reflection. Viewers are also encouraged to check out the project since it's not that complicated
-- https://plato.stanford.edu/entries/pm-notation/
-- https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica
-- https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified
-- https://blog.plover.com/math/PM.html A rare post that goes over chapter 20 trying to give insights to PM!
-- https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/ One link that helps me understand what is matrix
-- https://nap.nationalacademies.org/read/10866/chapter/66 Another random material that I think related to the matrix in PM
-- https://www.ens-lyon.fr/LIP/PLUME/production/ A site containing nice papers with better technologies to digest, although unused in this project
+- [1](https://proofassistants.stackexchange.com/questions/1105/how-does-the-formal-proof-of-the-four-color-theorem-work) Discussion of the 4-color theorem, as a reflection. 
+- [2](https://plato.stanford.edu/entries/pm-notation/) PM SEP
+- [3](https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica) PM Wiki
+- [4](https://mathoverflow.net/questions/27793/russell-and-whiteheads-types-ramified-and-unramified) MO QA
+- [5](https://mathoverflow.net/questions/115967/how-to-get-the-modern-logic-formulas-in-principia-mathematica) MO QA 2
+- [6](https://blog.plover.com/math/PM.html) A rare post that goes over chapter 20 giving insights to PM!
+- [7](https://www.religion-online.org/article/the-axiomatic-matrix-of-whiteheads-process-and-reality/) One link that helps me understand what is matrix
+- [8](https://nap.nationalacademies.org/read/10866/chapter/66) Another random material that I think related to the matrix in PM
+- [9](https://www.ens-lyon.fr/LIP/PLUME/production/) A site containing nice papers with better technologies to digest, although unused in this project
+- [10](https://mulpress.mcmaster.ca/russelljournal/article/download/5046/4059/17479) Landini, Gregory. (2022). Note on Principia's *38 on Operations. Russell: the Journal of Bertrand Russell Studies. 41. 10.15173/russell.v41i2.5046. 

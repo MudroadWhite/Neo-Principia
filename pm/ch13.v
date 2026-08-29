@@ -9,10 +9,7 @@ Require Import PM.pm.ch11.
 Require Import PM.pm.ch12.
 
 
-(* This chapter presents a set of theorem for `=`, the propositional identity
-in Principia. It is different from definitional identity, which is undefined. 
-
-Starting from this chapter, we will not require that every theorem is provided 
+(* NOTE: Starting from this chapter, we will not require that every theorem is provided 
 with explicit parameters, due to the increasing complexity only to be multiplied 
 in lateer chapters.
 *)

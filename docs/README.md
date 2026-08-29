@@ -15,4 +15,11 @@ This documentation assumes readers have the following background:
 3. [Mechanics](./3_mechanics.md)
 4. [Tactics](./4_tactics.md)
 5. [Audit report](./5_audit.md)
-6. Suggestion for perfect formalization
+6. [Suggestion for future works](./6_suggestion.md)
+7. Appendix
+    - [A. Conversation](./A_conversation.md)
+    - [B. Definition of proposition](./B_proposition.md)
+8. Contribution guide
+    - [General](./contribution_guide/general.md)
+    - [Style guide](./contribution_guide/style_guide.md)
+    - [Debugging proof](./contribution_guide/debugging_proof.md)

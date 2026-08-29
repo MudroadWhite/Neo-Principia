@@ -34,9 +34,9 @@ Rocq's `Definition`s are used to define *primitive propositions* and *definition
 
 Similarly, `Theorem`s are used to define *theorems* in Principia, and are intended to be proven and `Qed`ed.
 
-Every `Definition` or `Theorem` represents a proposition(actually, a "propositional function" - see [mechanics](./3_mechanics.md/#chapter-1)) in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, which will be mostly discussed in the [tactics](./4_tactics.md) chapter; and *lhs* parameters are the real ones to *set a proposition up*.
+Every `Definition` or `Theorem` represents a proposition in Principia. They usually have both parameters on the left hand side of the `:`, plus a proposition that "has" parameters on the right hand side. But these parameters are different: *rhs* parameters are intended to be only filled through deductions, and *lhs* parameters are the real ones to *set a proposition up*.
 
-Additionally, for theorems in Principia, we are allowed to set up its *variants*. This will be also explained in [tactics](./4_tactics.md).
+Additionally, for theorems in Principia, we are allowed to set up its *variants*.
 
 ## What is `Notation`?
 As chapters push on, PM will have higher requirements on symbol definitions to model the math ideas. `Notation`s in Rocq is the perfect tool for implementing more complicated symbols.
@@ -48,7 +48,7 @@ For a theorem, if it has been splitted into several steps to prove in the text, 
 
 - Our structure is **not required** to be enforced on short proofs.
 
-Otherwise for a long proof, it usually has the following structure:
+A long proof usually has the following structure:
 ```Coq
 Proof.
   (* TOOLS *)
@@ -72,7 +72,7 @@ Qed.
 - A `TOOLS` header is **required** to be place at the beginning of a long proof, if any tool is being used.
 - Other tools not being placed in the `TOOLS` section is **required** to be stated with an explicit comment.
 
-Technical features, that can be be found under `lib.v`, usually require a "warmup" before being available, for example, introducing an extra individual with the proof(with `set (X := Intro_individual "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
+Technical features, that can be be found under `lib.v`, usually needs a "warmup" before being available, for example, introducing an extra individual with the proof(with `set (X := Intro_individual "x")`), or prepare a modified version of a theorem for more convenient use. `TOOLS` section is for performing such preparations.
 
 ### `assert` blocks
 - All long proofs are **required** to adapt to the proof architecture picted above.
@@ -92,4 +92,7 @@ Beneath the architecture comes the details of how we prove a theorem. By referri
 - `pose proof`, occasionally with `apply`, instantiates a existing theorem to use.
 - `rewrite`, `setoid_rewrite`, custom defined Ltacs like `MP` `Syll`, or more generally, all tactics except `pose proof` are for rewriting to, and even a level down, deducing new propositions from existing propositions.
 
-[tactics](./4_tactics.md) goes into the details of these tactics.
+[tactics][4] goes into the details of these tactics.
+
+[3]: ./3_mechanics.md/#chapter-1
+[4]: ./4_tactics.md

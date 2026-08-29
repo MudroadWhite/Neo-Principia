@@ -51,7 +51,7 @@ Ltac Conj H1 H2 :=
     | [ _H1 : ?P, _H2 : ?Q |- _ ] =>
       constr_eq H1 _H1;
       constr_eq H2 _H2;
-      assert (C : P /\ Q) by (split; [apply H1 | apply H2]);
+      assert (C : P ∧ Q) by (split; [apply H1 | apply H2]);
       pose proof C as H1;
       clear C
   end.
@@ -61,7 +61,7 @@ Ltac Conj_as H1 H2 C :=
     | [ _H1 : ?P, _H2 : ?Q |- _ ] =>
       constr_eq H1 _H1;
       constr_eq H2 _H2;
-      assert (C : P /\ Q) by (split; [apply H1 | apply H2])
+      assert (C : P ∧ Q) by (split; [apply H1 | apply H2])
   end.
 
 Theorem n3_1 (P Q : Prop) :

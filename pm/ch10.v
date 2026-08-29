@@ -253,7 +253,6 @@ Proof.
     pose proof (Transp2_17 (φ X) P) as Transp2_17.
     now Syll_as S3 Transp2_17 S4.
   }
-  (* TODO: recheck here: The variable naming here is so wild *)
   assert (S5 : ∀ x0, ((∃ x, φ x) → P) → (φ x0 → P)).
   {
     pose proof (n10_11 X (fun x0 => ((∃ x, φ x) → P) → (φ x0 → P))) 
@@ -274,23 +273,14 @@ Proof.
   }
   assert (S9 : (∀ x, (φ x → P)) → (∀ x, (¬ P) → ¬ φ x)).
   {
-    pose proof (n10_11 X (fun x => ¬ φ x)) as n10_11.
-    assert (S8_1 : ((¬ P) → ¬ φ X) → ((¬ P) → ∀ x, (¬ φ x))).
-    (* TODO: move it as an example into documentation in the future 
-    A demonstration of recursive `Syll`
-    maybe there's even better and more natural way to handle this *)
-    {
-      intro Hp.
-      Syll_as Hp n10_11 H0.
-      exact H0.
-    }
-    Syll_as S8 S8_1 S8_2.
-    pose proof (n10_21 (fun x => ¬ φ x) (¬ P)) as n10_21.
-    destruct n10_21 as [_ n10_21].
-    now Syll_as S8_2 n10_21 S9.
+    pose proof (n10_11 X (fun x => (∀ x0, (φ x0 → P)) → ((¬ P) → ¬ φ x)))
+      as n10_11.
+    MP n10_11 S8.
+    now rewrite -> n10_21 in n10_11.
   }
   assert (S10 : (∀ x, (φ x → P)) → (∃ x, φ x) → P).
   {
+    (* simplification *)
     destruct S2 as [_ S2].
     now Syll_as S9 S2 S10.
   }
@@ -462,8 +452,6 @@ Proof.
     (Equiv4_01 P0 Q0))
   as Equiv4_01a.
   (* ******** *)
-  (* Whenever a proof involves `Hp`, the theorems cited in the text usually
-    also work on the limited scope of the conclusion of theorem *)  
   pose proof (n10_22 (fun z => φ z → ψ z) (fun z => ψ z → φ z)) 
     as n10_22.
   setoid_rewrite <- Equiv4_01a in n10_22.
@@ -476,12 +464,6 @@ Proof.
   }
   assert (S2 : (∀ z, φ z ↔ ψ z) → ((∀ z, φ z) → (∀ z, ψ z))).
   {
-    (* `Hp` always have to be after the line where `Hp` is declared. All
-      theorems involved are supposed to be match directly on the conclusion 
-      part of the proposition, with `Hp` removed from the goal.
-      This isn't something breaking the rule, as we can always proceed with 
-      `Syll`s. But I think a slight intro of `Hp` adds a tiny spice aligned 
-      with original proof, without harming it too much *)
     intro Hp.
     pose proof (n10_27 φ ψ) as n10_27.
     pose proof (S1 Hp) as S1.
@@ -971,7 +953,6 @@ Proof.
   {
     (* *10.21 ignored - seems completely unnecessary *)
     pose proof (n10_11 X (fun x => φ x → (P ∧ φ x))) as n10_11.
-    simpl in n10_11.
     now Syll_as S7 n10_11 S8.
   }
   assert (S9 : P → ((∃ x, φ x) → (∃ x, P ∧ φ x))).
