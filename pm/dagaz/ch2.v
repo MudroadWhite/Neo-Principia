@@ -995,40 +995,28 @@ Proof.
   }
   assert (S2 : ¬ P → ((P ∨ Q → P ∨ R) → (Q → R))).
   {
-    pose proof (Syll2_05
-      (P ∨ Q → P ∨ R)
-      (P ∨ Q → R)
-      (Q → R)) as Syll2_05a.
-    assert (S2_1 :
-      ((P ∨ Q → P ∨ R) → (P ∨ Q → R))
-        → ((P ∨ Q → P ∨ R) → (Q → R))).
-    { now MP Syll2_05a S1. }
-
-    pose proof (Syll2_06
-      (¬ P)
-      (P ∨ R → R)
-      ((P ∨ Q → P ∨ R) → (P ∨ Q → R))) as Syll2_06b.
+    pose proof (Syll2_06 (¬ P) (P ∨ R → R)
+      ((P ∨ Q → P ∨ R) → (P ∨ Q → R))) as Syll2_06.
     pose proof (n2_55 P R) as n2_55.
     assert (S2_2 :
-      ((P ∨ R → R) → ((P ∨ Q → P ∨ R) → (P ∨ Q → R)))
-        → (¬ P → ((P ∨ Q → P ∨ R) → (P ∨ Q → R)))).
-    { now MP Syll2_06b n2_55. }
-
-    pose proof (Syll2_05 (P ∨ Q) (P ∨ R) R) as Syll2_05b.
+      ((P ∨ R → R) → ((P ∨ Q → P ∨ R) → (P ∨ Q → R))) →
+        (¬ P → ((P ∨ Q → P ∨ R) → (P ∨ Q → R)))).
+    { now MP Syll2_06 n2_55. }
+    pose proof (Syll2_05 (P ∨ Q) (P ∨ R) R) as Syll2_05.
     assert (S2_3 : ¬ P → ((P ∨ Q → P ∨ R) → (P ∨ Q → R))).
-    { now MP S2_2 Syll2_05b. }
+    { now MP S2_2 Syll2_05. }
 
-    pose proof (Syll2_06
+    pose proof (Simp2_02 (¬ P) ((P ∨ Q → R) → (Q → R))) as Simp2_02.
+    assert (S2_4 : ¬ P → ((P ∨ Q → R) → (Q → R))).
+    { now MP Simp2_02 S1. }
+
+    pose proof (n2_83
       (¬ P)
-      ((P ∨ Q → P ∨ R) → (P ∨ Q → R))
-      ((P ∨ Q → P ∨ R) → (Q → R))) as Syll2_06c.
-    assert (S2_4 :
-      (((P ∨ Q → P ∨ R) → (P ∨ Q → R))
-        → ((P ∨ Q → P ∨ R) → (Q → R)))
-          → (¬ P → ((P ∨ Q → P ∨ R) → (Q → R)))).
-    { now MP Syll2_06c S2_3. }
-
-    now MP S2_4 S2_1.
+      (P ∨ Q → P ∨ R)
+      (P ∨ Q → R)
+      (Q → R)) as n2_83.
+    MP n2_83 S2_3.
+    now MP n2_83 S2_4.
   }
   assert (S3 : (P ∨ Q → P ∨ R) → (¬ P → (Q → R))).
   {
