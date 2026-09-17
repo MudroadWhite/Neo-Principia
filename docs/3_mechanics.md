@@ -38,7 +38,9 @@ We now start exploring the main ideas for each chapters.
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 
 ### Chapter 1
-Principia Mathematica has made a pretty ambiguous description on what are *elementary propositions* and *elementary propositional functions*, so we still cannot define them. A detailed discussion of our attempt has been made in [propositions](./B_proposition.md). Propositions and functions will be the Rocq default in this project.
+> WARNING: For the difference between propositions and propositional functions, \*1.1 and \*1.11, check [here](./B_proposition.md) and [here](https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086). Most of the explanations related to them in this documentation turns out to be outdated.
+
+Principia Mathematica has made a pretty ambiguous description on what are *elementary propositions* and *elementary propositional functions*, so we still cannot define them. Propositions and functions will be the Rocq default in this project.
 
 Chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system.
 
@@ -95,9 +97,9 @@ This chapter collects miscellaneous theorems of operators appeared in previous c
 - **elementary functions** are dependent on **elementary propositions** and **elementary logical connectives**
 - **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
-There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
+There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. First, this is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
 
-To understand what chapter 9 does, we first look back at \*1.3:
+And then, to understand what chapter 9 does, we first look back at \*1.3:
 
 ```Rocq
 Theorem Add1_3 (P Q : Prop) : Q → P ∨ Q.

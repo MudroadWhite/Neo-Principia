@@ -144,7 +144,7 @@ To summarize: we are witnessing that there are many dimensions for us to general
 - We can clearly provide its equivalent routine using PM theorems
 - We have torturing urge to simplify the proofs. Check out `n11_71` to appreciate its ridiculous length.
 
-Below is a table for some of the simplifications we might used, but some of them might never appear in the proofs. This is because unless there is a severe technical barrier, they are **recommended** to be taken down. 
+Below is a table for some of the simplifications we might use, but they might never appear in the proofs. This is because unless there is a severe technical barrier, they are **recommended** to be taken down. 
 
 | Feature to implement        | Tactic                                     |
 |-----------------------------|--------------------------------------------|
@@ -153,6 +153,8 @@ Below is a table for some of the simplifications we might used, but some of them
 | Necessary alpha conversion  | `replace...with`, `simpl`, etc.            |
 | Reorganize the proof window | `move`, `clear`, etc.                      |
 | Others                      | Addressed with comments in code            |
+
+**Table 4.3: Simplifications considered in Neo Principia**
 
 \[\*\]: Mandatory when PM uses `Hp` in its proof. When a `Hp` has appeared in the text, we find out that the theorems PM cites have a high chance to be working *exactly* on the conclusion after `Hp`, although with a lot of exceptions as well. In general, we still think that use `Hp` to abstract away the premise matches up nicely with how PM applies the theorems.
 
