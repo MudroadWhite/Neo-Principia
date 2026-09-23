@@ -38,7 +38,7 @@ We now start exploring the main ideas for each chapters.
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 
 ### Chapter 1
-> WARNING: For the difference between propositions and propositional functions, \*1.1 and \*1.11, check [here](./B_proposition.md) and [here](https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086). Most of the explanations related to them in this documentation turns out to be outdated.
+> **Warning**: For the difference between propositions and propositional functions, \*1.1 and \*1.11, check [here](./B_proposition.md) and [here](https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086). Most of the explanations related to them in this documentation turns out to be outdated.
 
 Principia Mathematica has made a pretty ambiguous description on what are *elementary propositions* and *elementary propositional functions*, so we still cannot define them. Propositions and functions will be the Rocq default in this project.
 
