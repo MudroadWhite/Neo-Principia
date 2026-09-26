@@ -154,8 +154,8 @@ Below is a table for some of the simplifications we might use, but they might ne
 | Reorganize the proof window | `move`, `clear`, etc.                      |
 | Others                      | Addressed with comments in code            |
 
-**Table 4.3: Simplifications considered in Neo Principia**
-
 \[\*\]: Mandatory when PM uses `Hp` in its proof. When a `Hp` has appeared in the text, we find out that the theorems PM cites have a high chance to be working *exactly* on the conclusion after `Hp`, although with a lot of exceptions as well. In general, we still think that use `Hp` to abstract away the premise matches up nicely with how PM applies the theorems.
+
+**Table 4.3: Simplifications considered in Neo Principia**
 
 While all above tactics have covered the essentials for presenting the proof, the actual development involves serious debugs that might use more tactics than above. See [debugging proof](./contribution_guide/debugging_proof) for a guidance on actual development. Tactics for debugging is **required** to be reduced to minimum when we have finished them.

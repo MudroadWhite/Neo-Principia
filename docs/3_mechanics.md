@@ -139,13 +139,13 @@ The rest of the text is the typing algorithm for propositions and functions. Not
 | Proposition of nth order | Prop n    | Type of the function\[\*\]   | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
 | Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
 
-**Table 3.2: "of the same type" algorithm from chapter 9**
-
 - **\[\*\]**: Functions of same order can have different types, thus propositions of same order can have different types. However, this is "practically ignored"(p.162). If we want to meet the practice, we can fix the definition to "returning order of the function".
 - Additionally, several clarifications on terms: 
   - connectives : `¬` and `∨`
   - same: same propositions/functions are same in number of argument, and each argument have the same type on that index; additionally, they are usually 1-order lower to the proposition/function being constructed
   - other typing rules: usually consist of varied aspects to type on: how to type a new symbol; how to type a function with more arguments from function with less arguments, and so on
+
+**Table 3.2: "of the same type" algorithm from chapter 9**
 
 By proving a theorem in chapter 9 - 11, we mean:
 |           Property          |          Limitation         |
@@ -159,10 +159,10 @@ By proving a theorem in chapter 9 - 11, we mean:
 | Function type               | Untyped\[\*\*\]             |
 | Function parameters         | <= 1 order propositions     |
 
-**Table 3.3: Proving context for chapter 9 - 11**
-
 - **\[\*\]**: Several propositions in the beginning of chapter 9 is still limited to elementary propositions(also see chapter II of the book). All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
 - **\[\*\*\]**: Whether it is typed depends on how they are used in later chapter, and I'm still not sure about this
+
+**Table 3.3: Proving context for chapter 9 - 11**
 
 ### Chapter 10
 In contrast to "what will be when `∨` is applied to different propositions", `∀` and `∃` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `∀` and `∃` is therefore only one primitive proposition, stating how `∃` is defined(p.138), and the `∨` and `¬` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
