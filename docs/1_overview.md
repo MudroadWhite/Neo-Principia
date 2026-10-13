@@ -7,9 +7,9 @@ Wiki's entry of [History of type theory](https://en.wikipedia.org/wiki/History_o
 We also have a type system, defaulted by most people, in [Lean](https://www.youtube.com/watch?v=d3K3ZfiyG3I)/[Rocq](https://www.youtube.com/watch?v=I42Qq7LCyO8). Propositions are elements of sets, functions are modeled with lambda calculus. The most significant one: by the noted CH correspondence, everything are either types or elements under types. These "common sense" fail in Principia. Propositions are not types. Sometimes for brevity propositions are untyped. The inference is performed by rewriting on propositions, not on types. Type plays a much more auxiliary role, and Principia which embodies ramified theory of types, is actually a rewriting system.
 
 ## What is the aesthetics for this project?
-For formalizing Principia Mathematica, there can be many features that you want to address with. [pmGenerator](https://github.com/xamidi/pmGenerator) tries to produce the shortest proof as possible. [Randall's work][RTT] attempts at reducing the complexity of PM with better mathematical notions.
+For formalizing Principia Mathematica, there can be many features that you want to address with. [pmGenerator](https://github.com/xamidi/pmGenerator) and the noted Logical Theorist, searches for the shortest proof as possible. As proof searching is not the only option, [Randall's work][RTT] attempts at reducing the complexity of PM with better mathematical notions.
 
-Here is our [take](https://www.youtube.com/watch?v=gRivMEEZZE8): pertain maximum PM flavor. This has been concentrated into the following slogans:
+Here is our [take](https://www.youtube.com/watch?v=gRivMEEZZE8): verify PM in its maximum PM flavor. This has been concentrated into the following slogans:
 - "Just `pose` and `rewrite`": No 3rd party library. Minimal, native and simple [tactics](./docs/4_tactics.md). One theorem a line.
 - "Just as it is": Following PM's symbol definitions, deductions faithfully. Clear proof structure, clean, maybe beautiful proof window. 
 
