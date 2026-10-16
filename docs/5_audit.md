@@ -46,10 +46,12 @@ The core of symbol definition, *definitional equality*, is undefined, as discuss
 3. For propositions: while same order propositions generalized from different types of arguments will not have the same type(p.162), it is supposed to be "practically ignored"(p.162). We can change the definition into the following to fix such unnecessary distinction: proposition's type is the returned order of the proposition from a completely instantiated function.
 4. (p.128)Starting from chapter 9, it has been stated that "real variables can be untyped and can be applied on any propositions". Typing has been already hard for us, while this seems to be an important feature to address with, we didn't investigate anywhere deeper in situations where real variables should be typed.
 
-**Orders**. We have the orders in our implementation, but it is severely misinterpreted and doesn't stand for the correct representation of a nth order proposition. It mostly works like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
+**Orders.** We have the orders in our implementation, but it is severely misinterpreted and doesn't stand for the correct representation of a nth order proposition. It mostly works like a tag and doesn't involve actual typechecking. One can easily check its strength by giving the following goal a try:
 ```coq
 Goal Order 0 = Order 1.
 ```
+
+**Typing for ∨.** We have type for propositions, but types for *operators* seems to be at a even more supplementary role. The closest statements towards typing ∨ is \*9.131 the "of the same type" algorithm, plus \*9.03 - \*9.08 for defining what happens when ∨ meets a 1-order proposition. It is still not explicitly stated that how ∨ will behave when it comes to the full hierarchy configuration, and it is just thought to be "can be used anywhere practically".
 
 **Sheffer strokes and other updates for 2nd edition.** We are aware that 2nd edition is a ["patched" version](https://www.andrew.cmu.edu/user/avigad/Students/berkelhammer.pdf) of Principia and Russell has tried to simplify the primitive ideas further down, with one of which being the Sheffer stroke `|` to further denote `¬` and `∨`, in a hidden chapter 8. We are aware that Russell eventually realized that the distinction between real and apparent variable might not be necessary. We still prefer to ignore most of the *Introduction* chapter and proceed with what has written in the most of the chapters, as this is the easiest way to maintain maximum flavor for PM.
 
