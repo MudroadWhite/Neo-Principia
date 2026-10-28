@@ -10,7 +10,7 @@ We have a lot of things done, a lot of things undone and unplanned. Below is a c
   - which might enables us to construct meaningful proof objects
   - and which enables the availability to design a typing algorithm, that patches the most crucial insight missed in this project
   - which eliminates all false positives in our proofs
-- Design a full hierarchy system mechanic, which might
+- Design the impredicativity for the system, which might
   - include a polymorphic `Hierarchy` type to abstract over necessary ingredients
   - include a `Base` type to settle down an order for all individuals to share with, and for functions' types built on them
   - include a `shift` tactic/predicate where `shift x thm` produces a x-order lifted version of the theorem
