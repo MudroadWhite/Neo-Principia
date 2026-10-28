@@ -16,7 +16,7 @@ Each proposition in PM is supposed to come with a type from a type hierarchy. St
 ### How does Principia define symbols?
 Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
 
-While not presented in this project, later chapters might suggest further complexities of such "composition". For example, Gregory Landini's [Note on Principia's *38 on Operations](https://mulpress.mcmaster.ca/russelljournal/article/download/5046/4059/17479) discusses a "female" symbol that abstract previous PM symbols at meta-level.
+While not presented in this project, later chapters might suggest further complexities of such "composition". For example, Gregory Landini's [Note on Principia's *38 on Operations](https://mulpress.mcmaster.ca/russelljournal/article/download/5046/4059/17479) discusses *venus* symbol that abstract previous PM symbols at meta-level.
 
 Principia also defines symbols in an **inheriting way**, as there are many hierarchies in PM system. From our limited knowledge prior to chapter 20, there are already 3 hierarchies existing in the text, plus 2 ad-hoc context from chapter 1 - 9 for easy definition. If one read from beginning to the end, he will occur to a lot of situation that "we can use our previous theorems in another way".
 
