@@ -71,7 +71,6 @@ By proving a theorem, we mean:
 **Table 3.1: Proving context for chapter 1 - 5**
 
 Note:
-- (p.92)Not to confuse "not-p" in the "(2) Elementary propositional functions" with `¬ p`, where `¬` is symbolic negation and "not" is a made-up predicate in natural language
 - (p.94)Definitional equality is undefined in PM
 - Elementary functions are closed under `¬` and `∨`
 
