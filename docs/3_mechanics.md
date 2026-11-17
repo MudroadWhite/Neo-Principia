@@ -38,20 +38,43 @@ We now start exploring the main ideas for each chapters.
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 
 ### Chapter 1
-> **Warning**: For the difference between propositions and propositional functions, \*1.1 and \*1.11, check [here](./B_proposition.md) and [here](https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086). Most of the explanations related to them in this documentation turns out to be outdated.
+TODO:
+1. rewrite `B_proposition`
+2. rewrite everything related to propositions, prop-funcs and matrix in this page
+3. restate the strength of this project on modeling matrix; recheck the tables
+4. rewrite `audit`
 
-Principia Mathematica has made a pretty ambiguous description on what are *elementary propositions* and *elementary propositional functions*, so we still cannot define them. Propositions and functions will be the Rocq default in this project.
+**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow] Q&A has been our primary source, having a massive impact on how this documentation should be written.
 
-Chapter 1 also presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system.
+Principia Mathematica has made a pretty delicate description on what are *elementary propositions* and *elementary propositional functions*. Although it is not ambiguous, but such distinction only happens at a very *meta* level. We currently don't express such delicacy, and propositions and functions in this project are mostly Rocq's default.
 
-Implementation-wise, here are some ideas for definitions in chapter 1:
+Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system. In addition, we begin with 3 kinds of expressions:
+| Name                   | Definition                          | Informal example                 |
+| Individual             | Atomic, elementary proposition      | Individual "x"                   |
+| Proposition            | Atomic or molecular propositions    | Individual "x" /\ Individual "y" |
+| Propositional function | Function that takes in propositions and returns a proposition | (fun x y => x /\ y) | 
+
+**Table 3.x: Types of expresssions in chapter 1**
+
+Implementation-wise, here are some ideas for these definitions:
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
-- Asserting an **elementary propositional function** means asserting `H1 : φ X`. It's strictly "not asserting a proposition"(p.18), but practically the same.
+- If proposition `X` has been already asserted, `H1 : φ X` is expected to mean asserting an **elementary propositional function**. 
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
-Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). For our implementation, we abstract all them away into a single tactic `MP`.
+TODO: explain why the delicacy is not made
+Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P` is an individual. It turns in PM(p.18) that they should be "practically the same"(p.18). While asserting a functions should be strictly "not asserting a proposition", it is also apparent that `H1 : (fun x => ...)` is illegal in Rocq, however when we assert `H1 : φ X`, we must have `X` being representable by another Rocq assertion.
+
+function: assert all parameters?
+function comparing to original definition, only abstract away from one variable
+
+
+
+
+
+
+Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). For our implementation, we abstract *modus ponens* in *any case* into a single tactic `MP`.
 
 By proving a theorem, we mean:
 
@@ -68,7 +91,7 @@ By proving a theorem, we mean:
 
 \[\*\]: For the meaning of variants, see [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic)
 
-**Table 3.1: Proving context for chapter 1 - 5**
+**Table 3.x: Proving context for chapter 1 - 5**
 
 Note:
 - (p.94)Definitional equality is undefined in PM
