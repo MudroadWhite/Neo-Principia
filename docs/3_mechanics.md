@@ -38,9 +38,9 @@ We now start exploring the main ideas for each chapters.
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 
 ### Chapter 1
-**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow][PO] Q&A has been our primary source, having a massive impact on how this documentation should be written.
+**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow][PO] Q&A has been our primary source, having a massive impact on rewriting many parts in this documentation.
 
-Principia Mathematica has made a pretty delicate description on what are *elementary propositions* and *elementary propositional functions*. Although it is not ambiguous, but such distinction only happens at a very *meta* level. We currently don't express such delicacy, and propositions and functions in this project are mostly Rocq's default.
+Principia Mathematica has made a pretty delicate description on what are *elementary propositions* and *elementary propositional functions*. Although it is not ambiguous, but such distinction only happens at a very *meta* level. Propositions and functions in this project are mostly Rocq's default.
 
 Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system. In addition, we begin with 3 kinds of expressions:
 | Name                   | Definition                          | Informal example                 |
@@ -58,11 +58,11 @@ Implementation-wise, here are some ideas for these definitions:
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
 Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P` is an individual. For Principia's design, they should be "practically the same"(p.18). Rocq-wise we should actually have 3 ways to represent introducing a function into the context:
-1. asserting `H1 : forall x, φ x` as Rocq is using `fun x => ...` as the inhabitant of `forall` type. 
-2. asserting `H1 : (fun x => ...)` which is impossible, unnecessary and intend to do what `forall` does
+1. asserting `H1 : ∀ x, φ x` as Rocq is using `fun x => ...` as the inhabitant of `∀` type. 
+2. asserting `H1 : (fun x => ...)` which is impossible, unnecessary and intend to do what `∀` does
 3. asserting `H1 : φ X` as in this project, assuming `X` has already been asserted as a proposition.
 
-Due to the fact that the difference between *propositional function*, *proposition* and *matrix* is pretty informal and ambiguous, we have to take a lot of time - to several months after most of the code has been done already, as recorded in [PhilOverflow's QA][PO] - to figure out what they are. For such historical reason we are using (3) in the project. (1) seems to be the correct track: it is the correct way to introduce an inhabitant of function into the context. It still comes with an apparent fallback: we cannot distinguish when we want to mean it is a function type, and when we want to mean `forall`, so it cannot be used directly.
+Due to the fact that the difference between *propositional function*, *proposition* and *matrix* is pretty informal and ambiguous, we have to take a lot of time - to several months after most of the code has been done already, as recorded in [PhilOverflow's QA][PO] - to figure out what they are. For such historical reason we are using (3) in the project. (1) should be the correct track: it is the correct way to introduce an inhabitant of function into the context. It still comes with an apparent fallback: we cannot distinguish when we want to mean it is a function type, and when we want to mean `∀`, so it cannot be used directly.
 
 Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). For our implementation, we abstract *modus ponens* in *any case* into a single tactic `MP`.
 
@@ -87,7 +87,7 @@ Note:
 - Elementary functions are closed under `¬` and `∨`
 
 ### Chapter 2
-While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results. 
+While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results, with the default `¬`, `∨` and `→`. 
 
 - For general rules on citation, see related paragraphs in [How does Principia prove theorems?](./3_mechanics.md/#how-does-principia-prove-theorems).
 - In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
@@ -105,12 +105,15 @@ Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. 
 This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly provided because they are useful.
 
 ### Chapter 9
-- **elementary functions** are dependent on **elementary propositions** and **elementary logical connectives**
-- **1st order propositions** are dependent on **elementary functions** (by quantifying all of the function variables)
 
-There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. First, this is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
+TODO:reexamine chapter 9's description
 
-And then, to understand what chapter 9 does, we first look back at \*1.3:
+- **elementary propositions** are generated by **elementary functions**, which take in elementary propositions to return elementary propositions
+- **1st order propositions** are built on **elementary functions** by quantifying *some or all* of the function variables
+
+There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
+
+To understand what chapter 9 does, we first look back at \*1.3:
 
 ```Rocq
 Theorem Add1_3 (P Q : Prop) : Q → P ∨ Q.
@@ -127,7 +130,7 @@ Theorem n9_35 (φ : Prop → Prop) (P : Prop) : (∃ x, φ x) → P ∨ (∃ x, 
 
 Theorems in chapter 9 wants to prove that we can replace a *subpart* of a theorem in *chapter 1* to its `∀`/`∃` version. It is brutally performed without using mathematical induction, since it is not allowed yet. It further constitutes to the following reasoning:
 
-- (p.128)If our *elementary* operators `¬` and `∨` is "enhanced"(p.128) to allow to take one 1-order proposition as its operand
+- (p.128)If our *elementary* operators `¬` and `∨` is "additionally allowed"(p.128) to take one 1-order proposition as its operand
 - Then we can deduce 1-order theorems for chapter 1
 - Therefore, we are allowed to have first-order `¬` and `∨`s.
 
@@ -184,7 +187,13 @@ Chapter 11's main purpose is extending functions with 1 variables to 2 variables
 ### Chapter 12
 Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to think something like "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). 
 
-The consideration for the hierarchy starts with *matrices* for generating *functions*, where the *function*'s definition has been changed(and both the old and new meaning of "function" is used mutually in the text!) - they become what expressions generated by a matrix. (p.164)1-order matrix retains the complete power as an elementary function under this hierarchy.
+TODO: explain matrix and integrate with explanations on functions in chapter 1
+
+
+*proposition* and *function*'s definition have been changed. 
+
+We start with a new type of expression: *matrices* for generating *functions*, as 
+
 
 Before we explain what is matrix, we first give an informal example to demonstrate how Russell wants to design the hierarchy: Suppose we have a function `f1 := (fun x y => x /\ y)` and another function `f2 := (fun p q -> p \/ q)`, and we want to substitute the `x` in `f1` with `p \/ q`. By Russell's idea, we shall be allowed to construct the application form as `f1 f2` and the result of the application should be `f1 f2 = (fun p q y => (p \/ q) /\ y)`. We can immediately see that lambda calculus seems like a tedious design for such abstraction; and Russell designs the representation for functions just exactly like propositions. The result shall be `(X /\ Y) (P \/ Q) = ((P \/ Q) /\ Y)` if we are clear that `X` is to substituted by `f2`.
 
@@ -252,7 +261,7 @@ By proving a theorem, we mean,
 **Table 3.4: Proving context for chapter 12 - 14**
 
 - Not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
-- For the hierarchy in this chapter, we have implemented a `Order` type. See [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
+- For the hierarchy in this chapter, we have implemented an `Order` type. See [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
 
 ### Chapter 13
 In Rocq, we have different types for `=`. We can have `=` on propositions, `=` on `=` between propositions, `=` on `=`... and so on. Russell realized that he should give the `=` a similar treatment, but the hierarchy is slightly different: `=` is itself treated as a propositional function, and `=` can be an identity on 1st order, second order, ... arbitrary order functions. The first citation of chapter 12's axiom of reducibility appears at \*13.101, and with which applied to \*13.101, the order of `=` has been generally collapsed off. 
