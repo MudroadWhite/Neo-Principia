@@ -38,13 +38,7 @@ We now start exploring the main ideas for each chapters.
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 
 ### Chapter 1
-TODO:
-1. rewrite `B_proposition`
-2. rewrite everything related to propositions, prop-funcs and matrix in this page
-3. restate the strength of this project on modeling matrix; recheck the tables
-4. rewrite `audit`
-
-**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow] Q&A has been our primary source, having a massive impact on how this documentation should be written.
+**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow][PO] Q&A has been our primary source, having a massive impact on how this documentation should be written.
 
 Principia Mathematica has made a pretty delicate description on what are *elementary propositions* and *elementary propositional functions*. Although it is not ambiguous, but such distinction only happens at a very *meta* level. We currently don't express such delicacy, and propositions and functions in this project are mostly Rocq's default.
 
@@ -63,21 +57,16 @@ Implementation-wise, here are some ideas for these definitions:
 - If proposition `X` has been already asserted, `H1 : φ X` is expected to mean asserting an **elementary propositional function**. 
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
-TODO: explain why the delicacy is not made
-Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P` is an individual. It turns in PM(p.18) that they should be "practically the same"(p.18). While asserting a functions should be strictly "not asserting a proposition", it is also apparent that `H1 : (fun x => ...)` is illegal in Rocq, however when we assert `H1 : φ X`, we must have `X` being representable by another Rocq assertion.
+Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P` is an individual. For Principia's design, they should be "practically the same"(p.18). Rocq-wise we should actually have 3 ways to represent introducing a function into the context:
+1. asserting `H1 : forall x, φ x` as Rocq is using `fun x => ...` as the inhabitant of `forall` type. 
+2. asserting `H1 : (fun x => ...)` which is impossible, unnecessary and intend to do what `forall` does
+3. asserting `H1 : φ X` as in this project, assuming `X` has already been asserted as a proposition.
 
-function: assert all parameters?
-function comparing to original definition, only abstract away from one variable
-
-
-
-
-
+Due to the fact that the difference between *propositional function*, *proposition* and *matrix* is pretty informal and ambiguous, we have to take a lot of time - to several months after most of the code has been done already, as recorded in [PhilOverflow's QA][PO] - to figure out what they are. For such historical reason we are using (3) in the project. (1) seems to be the correct track: it is the correct way to introduce an inhabitant of function into the context. It still comes with an apparent fallback: we cannot distinguish when we want to mean it is a function type, and when we want to mean `forall`, so it cannot be used directly.
 
 Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). For our implementation, we abstract *modus ponens* in *any case* into a single tactic `MP`.
 
 By proving a theorem, we mean:
-
 |           Property          |      Limitation        |
 |-----------------------------|------------------------|
 | Highest proposition order   | Elementary proposition |
@@ -318,3 +307,4 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 
 [RTT]: https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT
 [4]: ./4_tactics.md
+[PO]: https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086
