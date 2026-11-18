@@ -14,22 +14,16 @@ Principia Mathematica uses Peano's [dot notation](https://www.researchgate.net/p
 Each proposition in PM is supposed to come with a type from a type hierarchy. Still, PM doesn't have a notion for types, nor will it explicitly label the hierarchy. PM proposes its typing algorithm as theorems of "what different terms can be considered *of the same type*". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
-Different from most of the textbooks, Principia defines its symbols in a **compositional way**. In contrast to *`¬ a` should be defined as something*, chapter 9 demonstrates, immediately, things like *`¬` applied on an `∃` proposition should be defined as something*. It's a common practice to fix one symbol and assign a function for its interpretation, but Principia usually involves 2 operators at a time. 
+There are two ways for PM define and design a proposition, and hereby define the symbols. Chapter 1-11 is completed by reasoning about *propositions* and *propositional functions*, while chapter 12 and beyond utilizes the notion of *matrix* to intrepret propositions and functions, within the full proposition hierarchy. From our limited knowledge prior to chapter 20, there are 4 contexts requiring primary concern. See [chapter 1](./3_mechanics.md/#chapter-1) for *context* in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for chapter 9 - 11, [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 - 14, [chapter 20](./3_mechanics.md/#chapter-20) for beyond. If one read from beginning to the end, he will occur to a lot of situation that "we can use our previous theorems in another way".
 
-While not presented in this project, later chapters might suggest further complexities of such "composition". For example, Gregory Landini's [Note on Principia's *38 on Operations](https://mulpress.mcmaster.ca/russelljournal/article/download/5046/4059/17479) discusses *venus* symbol that abstract previous PM symbols at meta-level.
-
-Principia also defines symbols in an **inheriting way**, as there are many hierarchies in PM system. From our limited knowledge prior to chapter 20, there are already 3 hierarchies existing in the text, plus 2 ad-hoc context from chapter 1 - 9 for easy definition. If one read from beginning to the end, he will occur to a lot of situation that "we can use our previous theorems in another way".
-
-Above 2 natures of PM's definitions has a deep influence in our [tactics](./4_tactics.md)' design.
+PM's design has a deep influence towards our [tactics](./4_tactics.md).
 
 ### How does Principia prove theorems?
-Principia designs its theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
+Principia designs theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
 
-Principia performs everything **one step at a time**. This automatically means functions in Principia are always "small-step". We don't need to concern things like free vs bounded variables to eliminate the ambiguity, because deduction takes one step at a time, and only when a guaranteed/hand-crafted candidate exist. Functions don't come with a scope, and an ad-hoc "scope" is defined for auxiliary purpose orthogonal to functions. See chapter 14 below.
+Principia performs deductions **one step at a time**. This derives a fact that functions are always "small-step", and we don't need to concern about capture avoidance on functions, and its computation has to be manually specified. Functions don't come with a scope, and an ad-hoc "scope" is defined for auxiliary purpose orthogonal to functions, see [chapter 14](./3_mechanics.md/#chapter-14).
 
 During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
-
-Context to prove theorems, like symbol definitions, have its **inheriting** nature. Theorems are proven in different context between different chapters. See [chapter 1](./3_mechanics.md/#chapter-1) for case in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for case in chapter 9 - 11, [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 - 14, [chapter 20](./3_mechanics.md/#chapter-20) for beyond.
 
 We now start exploring the main ideas for each chapters.
 
@@ -38,33 +32,33 @@ We now start exploring the main ideas for each chapters.
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 
 ### Chapter 1
-**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow][PO] Q&A has been our primary source, having a massive impact on rewriting many parts in this documentation.
+**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of this documentation.
 
-Principia Mathematica has made a pretty delicate description on what are *elementary propositions* and *elementary propositional functions*. Although it is not ambiguous, but such distinction only happens at a very *meta* level. Propositions and functions in this project are mostly Rocq's default.
+Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system.
 
-Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system. In addition, we begin with 3 kinds of expressions:
-| Name                   | Definition                          | Informal example                 |
-| Individual             | Atomic, elementary proposition      | Individual "x"                   |
-| Proposition            | Atomic or molecular propositions    | Individual "x" /\ Individual "y" |
-| Propositional function | Function that takes in propositions and returns a proposition | (fun x y => x /\ y) | 
+In addition, Introduction & Chapter 1 starts with a delicate description on *elementary propositions* and *elementary propositional functions*, which appears to be very ambiguous and misleading. The ambiguity has taken us a lot of time to figure out, as recorded in [PhilOverflow's Q&A][PO]. We begin with 3 kinds of expressions:
 
-**Table 3.x: Types of expresssions in chapter 1**
+| Name                   | Definition                                     | Informal example in Rocq         |
+|------------------------|------------------------------------------------|----------------------------------|
+| Individual             | Atomic, elementary letter of a proposition     | Individual "x"                   |
+| Proposition            | Atomic or molecular propositions               | Individual "x" /\ Individual "y" |
+| Propositional function | Function that takes in and returns proposition | (fun x y => x /\ y)              | 
 
-Implementation-wise, here are some ideas for these definitions:
+**Table 3.x: Kinds of expresssions in chapter 1**
+
+We would describe chapter 1's ideas as follows:
 - Having something in our proof window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
 - If proposition `X` has been already asserted, `H1 : φ X` is expected to mean asserting an **elementary propositional function**. 
 - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
+- Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). 
 
-Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P` is an individual. For Principia's design, they should be "practically the same"(p.18). Rocq-wise we should actually have 3 ways to represent introducing a function into the context:
-1. asserting `H1 : ∀ x, φ x` as Rocq is using `fun x => ...` as the inhabitant of `∀` type. 
-2. asserting `H1 : (fun x => ...)` which is impossible, unnecessary and intend to do what `∀` does
-3. asserting `H1 : φ X` as in this project, assuming `X` has already been asserted as a proposition.
+Implementation-wise:
+- Propositions and functions in this project are mostly Rocq's default
+- We abstract *modus ponens* in *any case* into a single tactic `MP`
 
-Due to the fact that the difference between *propositional function*, *proposition* and *matrix* is pretty informal and ambiguous, we have to take a lot of time - to several months after most of the code has been done already, as recorded in [PhilOverflow's QA][PO] - to figure out what they are. For such historical reason we are using (3) in the project. (1) should be the correct track: it is the correct way to introduce an inhabitant of function into the context. It still comes with an apparent fallback: we cannot distinguish when we want to mean it is a function type, and when we want to mean `∀`, so it cannot be used directly.
-
-Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). For our implementation, we abstract *modus ponens* in *any case* into a single tactic `MP`.
+For a more detailed analysis on functions and \*1.11, see [Appendix B](./B_proposition.md)
 
 By proving a theorem, we mean:
 |           Property          |      Limitation        |
@@ -82,27 +76,27 @@ By proving a theorem, we mean:
 
 **Table 3.x: Proving context for chapter 1 - 5**
 
-Note:
+In addition:
 - (p.94)Definitional equality is undefined in PM
 - Elementary functions are closed under `¬` and `∨`
 
 ### Chapter 2
-While everything in chapter 1 are primitive propositions, chapter 2 starts to use them to construct some basic results, with the default `¬`, `∨` and `→`. 
+Having the foundation made up in chapter 1, chapter 2 starts to present some basic results related to the default `¬`, `∨` and `→`. 
 
 - For general rules on citation, see related paragraphs in [How does Principia prove theorems?](./3_mechanics.md/#how-does-principia-prove-theorems).
-- In particular, `[(x)]` is a *citation* to a definition/primitive proposition*. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
-- (p.103)For each proof stepping in the form of `[S1 . S2 . S3]`, it is suggested to somehow construct a sequence of modus ponens with `MP`s
+- In particular, `[(x)]` is a *citation* to a definition/primitive proposition. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
+- (p.103)For each proof stepping in the form of `[S1 . S2 . S3]`, it is suggested to construct a sequence of modus ponens with `MP`s
 - (p.105)For each citation chained up in the style of `|- P ([S1] →) Q ([S2 →] R ...)`, it is suggested to use syllogism to chain everything up with a syllogism tactic `Syll`
 - Citations for modus ponens and syllogism will generally be omitted, and in our implementation we allow them to be alternate freely
 
 ### Chapter 3
-Chapter 3 focuses on theorems about `∧`, which is constructed on `¬` and `∨`. 
+Chapter 3 presents theorems related to `∧`, which is constructed on `¬` and `∨`. 
 
 ### Chapter 4
-Chapter 4 focuses on theorems about `↔`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics][4].
+Chapter 4 presents theorems related to `↔`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics][4].
 
 ### Chapter 5
-This chapter collects miscellaneous theorems of operators appeared in previous chapters, and is mostly provided because they are useful.
+Chapter 5 collects miscellaneous theorems of operators appeared in previous chapters, and is mostly provided because they are useful.
 
 ### Chapter 9
 There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
@@ -182,14 +176,19 @@ In contrast to "what will be when `∨` is applied to different propositions", `
 Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables. This chapter also provides its own version of *modus ponens* for functions with 2 arguments.
 
 ### Chapter 12
-Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to think something like "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). 
+Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to witness "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). The definition of propositions and propositional functions, plus individuals, have been altered massively, based on the notion of *matrix*. Such change has been into a tiny table to explain.
 
-TODO: explain matrix and integrate with explanations on functions in chapter 1
+| Name                   | Context in chapter 1 - 11                      | Context in chapter 12 - ~                      |
+|------------------------|------------------------------------------------|------------------------------------------------|
+| Individual             | Atomic letter as a e-prposition                | Distinct identifier no longer as a proposition |
+| Proposition            | Atomic or molecular proposition                | Function with all variables quantified         |
+| Propositional function | Function that takes in and returns proposition | Function with some variables quantified        |
+| Matrix                 | -                                              | Function with no variables quantified          |
 
+**Table 3.x: Comparison for expressions between chapter 1 - 11 and chapter 12 - ~**
 
-*proposition* and *function*'s definition have been changed. 
+For a deeper understanding to what should they mean, check [Appendix B](./B_proposition.md) on the matrix part.
 
-We start with a new type of expression: *matrices* for generating *functions*, as 
 
 
 Before we explain what is matrix, we first give an informal example to demonstrate how Russell wants to design the hierarchy: Suppose we have a function `f1 := (fun x y => x /\ y)` and another function `f2 := (fun p q -> p \/ q)`, and we want to substitute the `x` in `f1` with `p \/ q`. By Russell's idea, we shall be allowed to construct the application form as `f1 f2` and the result of the application should be `f1 f2 = (fun p q y => (p \/ q) /\ y)`. We can immediately see that lambda calculus seems like a tedious design for such abstraction; and Russell designs the representation for functions just exactly like propositions. The result shall be `(X /\ Y) (P \/ Q) = ((P \/ Q) /\ Y)` if we are clear that `X` is to substituted by `f2`.
