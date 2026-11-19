@@ -22,7 +22,7 @@ Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P`
 Although (2) is a very naive attempt, we can still give a closer look. In Rocq, we prove `P` is true if `P` has an inhabitant; `H1 : P` means `P` as a type being presented, has an inhabitant `H1`. The same should apply to a function, except that 
 - `(fun x => ...)` is designed to be an inhabitant for `∀`, and never a type on its own
 - `→` is a special case for `∀`, thus `(fun x => ...)` could also be an legal inhabitant of `→`
-- Under CH correspondence, `→` is also used as the type for a function
+- By CH correspondence, `→` is also used as the type for a function
 Where none of these connections has been assumed in PM, and we can very easily mess all them up.
 
 To assert a function, we need to design a proper type to represent the functions and get it *inhabited*, as something like `Func X (expression...)`... which seems to be pretty close to our option (1). One might wonder if we can design another type similar to `∀` without involving `∀` itself for confusions. `∀` turns out to be such a fundamental type that it is directly the *dependent product type*, according to Rocq's [type system's design](https://rocq-prover.org/doc/V8.20.0/refman/language/cic.html). That being said, if we want to define a type for function, it can only look like:
@@ -33,39 +33,62 @@ Definition Fun (parameters : ...) := ∀ parameters, ...
 
 We move on to discover what else would turn out to be a `∀` in Rocq. Consider the following examples:
 ``` Rocq
-Definition example_1 (P : Prop) : P.
+Definition example_1 (P : Prop) : P → P.
+Proof. auto. Qed.
 
-Theorem example_2 (P : Prop) : P.
+(* The `Theorem` vernac is pretty much the same as `Definition` *)
+Theorem example_2 (P : Prop) : P → P.
+Proof. auto. Qed.
 
-Theorem example_3 : forall (P : Prop), P.
+Theorem example_3 : ∀ (P : Prop), P → P.
+Proof. auto. Qed.
 
-Axiom example_4 : forall (P : Prop), P.
+(* `Axiom` vernac doesn't need a proof *)
+Axiom example_4 : ∀ (P : Prop), P → P.
 
-(* The `Axiom` vernac doesn't allow the following: *)
+(* On the other hand, it doesn't allow the following: *)
 (* Axiom example_5 (P : Prop) : P. *)
 
-Theorem example_6 : forall (P : Prop), P -> P.
+(* We can see that all examples above should be the same thing... *)
+Check example_1.
+(* ∀ P : Prop, P → P *)
+Check example_2.
+(* ∀ P : Prop, P → P *)
+Check example_3.
+(* ∀ P : Prop, P → P *)
+Check example_4.
+(* ∀ P : Prop, P → P *)
 
-(* TODO: more examples for proof window
-Corner cases
-  - what if p is asserted, and we assert Phi x? is this safe for function or for prop?
-  - what if p is asserted, and we assert Phi p? is this safe for function or for prop?
-*)
-
+(* ...even in the proof window *)
+Goal True.
+  (* Try to change `pose` into `pose proof` by yourself *)
+  pose proof example_1 as H1.
+  pose proof example_2 as H2.
+  pose proof example_3 as H3.
+  pose proof example_4 as H4.
+Admitted.
 ```
 
-TODO: 
-- Vernac
-  - lhs & rhs
-  - intrepretation to `Definition`s and `Axiom`s
-- Summary
+As above shows, we have attemped to use different *vernacs* to present the same proposition, and it turns out that
+- To present a theorem, vernac `Theorem` can do pretty much what `Definition`does(example_1 & example_2, and [official reference](https://rocq-prover.org/doc/V8.20.0/refman/language/core/definitions.html))
+- To present an axiom to be admitted by default, `Theorem` and `Axiom` are different with each others. (example_3, example_4 & example_5, and [official reference](https://rocq-prover.org/doc/V8.20.0/refman/language/core/assumptions.html))
+
+Also, observe that `example_2` and `example_3` are also the same, but we present them with different manners: `example` comes with a parameter `P` on the left hand side of the `:=`, and `example_3` moves the `P` to the right with a `∀`. **TODO**: We have the following conclusions: 
+- parameters in rhs are arrow-typed by default, being regarded as apparent variables
+- parameters in lhs are ∀-typed in disguise, being regarded as real variables
+
+
+TODO: Summary
   - our current design of soft embedding is inherently using \*1.11 by the analysis above; to make it clearer, for \*1.1 we should have (TODO: to explore with example snippets)
   - Our project doesn't design a proper function type, but should be a feature in the future
+  - we are pretty close to assuming propositional functions in such sense
 
+TODO: 
 - Individuals: 
   - for PM, can be introduced during the middle of the proof
   - such individuals will usually only to be generalized, and will not participate in the deduction of the proof
   - has to be separately asserted if we need to assume `Individual "p" = P`, but should never occur and good to use
+  - possible reference: ssreflect for forward reasoning style? **TODO**: slightly do some research
 - Matrices
   - give example from [PhilOverflow Q&A][PO]
   - explain how matrix is designed
@@ -79,9 +102,13 @@ TODO:
 
 ```Rocq
 TODO: 
-Suppose we have a function `f1 := (fun x y => x /\ y)` and another function `f2 := (fun p q -> p \/ q)`, and we want to substitute the `x` in `f1` with `p \/ q`. By Russell's idea, we shall be allowed to construct the application form as `f1 f2` and the result of the application should be `f1 f2 = (fun p q y => (p \/ q) /\ y)`. We can immediately see that lambda calculus seems like a tedious design for such abstraction; and Russell designs the representation for functions just exactly like propositions. The result shall be `(X /\ Y) (P \/ Q) = ((P \/ Q) /\ Y)` if we are clear that `X` is to substituted by `f2`.
+Suppose we have a function `f1 := (fun x y => x /\ y)` and another function `f2 := (fun p q → p \/ q)`, and we want to substitute the `x` in `f1` with `p \/ q`. By Russell's idea, we shall be allowed to construct the application form as `f1 f2` and the result of the application should be `f1 f2 = (fun p q y => (p \/ q) /\ y)`. We can immediately see that lambda calculus seems like a tedious design for such abstraction; and Russell designs the representation for functions just exactly like propositions. The result shall be `(X /\ Y) (P \/ Q) = ((P \/ Q) /\ Y)` if we are clear that `X` is to substituted by `f2`.
 
 ```
 
 
 [PO]: https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086
+
+**TODO**: 
+- collect related discussions about lhs & rhs in the chapters, and through all the documentations
+- collect related discussions about `Theorem` and `Definition` through all the documentations
