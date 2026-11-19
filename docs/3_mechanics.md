@@ -32,8 +32,6 @@ We now start exploring the main ideas for each chapters.
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 
 ### Chapter 1
-**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of this documentation. Related parts in this article have been integrated into [Appendix B][B].
-
 Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system.
 
 In addition, Introduction & Chapter 1 starts with a delicate description on *elementary propositions* and *elementary propositional functions*, which appears to be very ambiguous and misleading. The ambiguity has taken us a lot of time to figure out, as recorded in [PhilOverflow's Q&A][PO]. We begin with 3 kinds of expressions:

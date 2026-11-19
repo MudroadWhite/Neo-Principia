@@ -1,10 +1,12 @@
-# Appendix B: Propositions, functions and matrices
+# Appendix B: Propositions, functions, individuals and matrices
 
 > The preliminary terror, which chokes off most fifth-form boys from even attempting to learn how to calculate, can be abolished once and for all... That's all.
 > 
 > \-- *[TO DELIVER YOU FROM THE PRELIMINARY OF TERRORS](https://x.com/JustDeezGuy/status/2062903814621921405)*, random old calculus textbook found on X
 
 ----------
+**Update 2026.11.17:** This [PhilOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of the documentation. 
+
 Recall what we have described in chapter 1 in [mechanics](./3_mechanics.md/#chapter-1):
 > - Having something in our proof window means it has been asserted/implied true
 > - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
@@ -17,62 +19,63 @@ Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P`
 2. `H1 : (fun x => ...)` which is impossible, unnecessary and intend to do what (1) does
 3. `H1 : φ X` as in this project, assuming `X` has already been asserted as a proposition
 
-Although (2) is a very naive attempt, we can still give a closer look. In Rocq, we prove `P` is true if `P` has an inhabitant; `H1 : P` means `P` as a type being presented, has an inhabitant. The same should apply to a function, except that 
+Although (2) is a very naive attempt, we can still give a closer look. In Rocq, we prove `P` is true if `P` has an inhabitant; `H1 : P` means `P` as a type being presented, has an inhabitant `H1`. The same should apply to a function, except that 
 - `(fun x => ...)` is designed to be an inhabitant for `∀`, and never a type on its own
 - `→` is a special case for `∀`, thus `(fun x => ...)` could also be an legal inhabitant of `→`
 - Under CH correspondence, `→` is also used as the type for a function
-Where none of these connections has been assumed in PM.
+Where none of these connections has been assumed in PM, and we can very easily mess all them up.
 
-To assert function *inhabited*, we need to design a proper type to represent the functions and get it *inhabited*, as something like `Function X (expression...)`... turns out to be our option (1) which is Rocq's `∀`. However, `∀` turns out to be such a fundamental type that it is the most direct representation to the prototype of dependent product type, `Π` or `Prod` in OCaml's impementation to Rocq(TODO: link, reference).
+To assert a function, we need to design a proper type to represent the functions and get it *inhabited*, as something like `Func X (expression...)`... which seems to be pretty close to our option (1). One might wonder if we can design another type similar to `∀` without involving `∀` itself for confusions. `∀` turns out to be such a fundamental type that it is directly the *dependent product type*, according to Rocq's [type system's design](https://rocq-prover.org/doc/V8.20.0/refman/language/cic.html). That being said, if we want to define a type for function, it can only look like:
+
+```Rocq
+Definition Fun (parameters : ...) := ∀ parameters, ...
+```
+
+We move on to discover what else would turn out to be a `∀` in Rocq. Consider the following examples:
+``` Rocq
+Definition example_1 (P : Prop) : P.
+
+Theorem example_2 (P : Prop) : P.
+
+Theorem example_3 : forall (P : Prop), P.
+
+Axiom example_4 : forall (P : Prop), P.
+
+(* The `Axiom` vernac doesn't allow the following: *)
+(* Axiom example_5 (P : Prop) : P. *)
+
+Theorem example_6 : forall (P : Prop), P -> P.
+
+(* TODO: more examples for proof window
+Corner cases
+  - what if p is asserted, and we assert Phi x? is this safe for function or for prop?
+  - what if p is asserted, and we assert Phi p? is this safe for function or for prop?
+*)
+
+```
 
 TODO: 
-- Vernacs
+- Vernac
   - lhs & rhs
   - intrepretation to `Definition`s and `Axiom`s
 - Summary
   - our current design of soft embedding is inherently using \*1.11 by the analysis above; to make it clearer, for \*1.1 we should have (TODO: to explore with example snippets)
   - Our project doesn't design a proper function type, but should be a feature in the future
-- Corner cases
-  - what if p is asserted, and we assert Phi x? is this safe for function or for prop?
-  - what if p is asserted, and we assert Phi p? is this safe for function or for prop?
 
-
-
-```Rocq
-Definition example_1 := (fun (P : Prop) => P).
-Check example_1.
-(* fun P : Prop => P
-    : Prop → Prop *)
-
-Definition example_2 (P : Prop) : P.
-Proof. Admitted. 
-Check example_2.
-(* ∀ P : Prop, P *)
-
-(*
-
-fun (P : Prop) => 
-    fun (H : P) => H
-        : forall P : Prop, P -> P
-
-*)
-
-(* Vernac `Definition` is completely the same as `Theorem` to use with *)
-Definition TODO
-Definition TODO: failed attempt
-
-(* Vernac `Axiom` has a slight difference comparing to the two above *)
-Axiom TODO
-Axiom TODO: failed attempt
-
-(* Result *)
-Check (Theorem)
-
-(* Result in the goal window *)
-pose proof TODO: definition
-```
-
-For chapter 12 and beyond, we are having a completely different interpretation for what are propositions and what are functions. We demonstrate the difference by the example given in this [PhilOverflow Q&A](TODO):
+- Individuals: 
+  - for PM, can be introduced during the middle of the proof
+  - such individuals will usually only to be generalized, and will not participate in the deduction of the proof
+  - has to be separately asserted if we need to assume `Individual "p" = P`, but should never occur and good to use
+- Matrices
+  - give example from [PhilOverflow Q&A][PO]
+  - explain how matrix is designed
+    1. (p.162)Matrix is a function with arbitrary length of variables, but without any apparent variables("For the sake of clearness...")
+    2. (p.164)PM's hierarchy comes to design so that *variables in the hierarchies are either individuals or matrices*("A function is said to be predicative when it is a matrix..."). Which means
+        1. Matrices can be applied, or apply onto matrices, just like functions
+        2. At the same time, matrices can be asserted, just like propositions
+        3. On the other hand, the definition of propositions has become narrower to "propositions" with all variables quantified
+    3. (p.164)"Propositions, which have occurred hitherto as variables, will no longer do so except in a few isolated cases of which no subsequent use is made."
+  - explain difference from functions
 
 ```Rocq
 TODO: 
@@ -81,9 +84,4 @@ Suppose we have a function `f1 := (fun x y => x /\ y)` and another function `f2 
 ```
 
 
-1. (p.162)Matrix is a function with arbitrary length of variables, but without any apparent variables("For the sake of clearness...")
-2. (p.164)PM's hierarchy comes to design so that *variables in the hierarchies are either individuals or matrices*("A function is said to be predicative when it is a matrix..."). Which means
-    1. Matrices can be applied, or apply onto matrices, just like functions
-    2. At the same time, matrices can be asserted, just like propositions
-    3. On the other hand, the definition of propositions has become narrower to "propositions" with all variables quantified
-3. (p.164)"Propositions, which have occurred hitherto as variables, will no longer do so except in a few isolated cases of which no subsequent use is made."
+[PO]: https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086
