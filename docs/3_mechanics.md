@@ -32,7 +32,7 @@ We now start exploring the main ideas for each chapters.
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 
 ### Chapter 1
-**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of this documentation. Related explanations in this chapter have been collected into [Appendix B][B].
+**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of this documentation. Related parts in this article have been integrated into [Appendix B][B].
 
 Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system.
 
@@ -56,9 +56,9 @@ We would describe chapter 1's ideas as follows:
 
 Implementation-wise:
 - Propositions and functions in this project are mostly Rocq's default
-- We abstract *modus ponens* in *any case* into a single tactic `MP`
+- *modus ponens* for *any case* are integrated into a single tactic `MP`
 
-For a more detailed analysis on functions and \*1.11, see [Appendix B][B].
+Experienced type theorists might find such implementation unsatisfying, which I would consider it a historical issue. A better interpretation should be expected in the future. For a deeper analysis on functions and \*1.11, see [Appendix B][B].
 
 By proving a theorem, we mean:
 |           Property          |      Limitation        |
