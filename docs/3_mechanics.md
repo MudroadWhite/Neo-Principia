@@ -32,7 +32,7 @@ We now start exploring the main ideas for each chapters.
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 
 ### Chapter 1
-**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of this documentation.
+**Update 2026.11.17:** For definition of *propositions*, *propositional functions*, and *matrices*, this [PhilOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of this documentation. Related explanations in this chapter have been collected into [Appendix B][B].
 
 Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system.
 
@@ -58,7 +58,7 @@ Implementation-wise:
 - Propositions and functions in this project are mostly Rocq's default
 - We abstract *modus ponens* in *any case* into a single tactic `MP`
 
-For a more detailed analysis on functions and \*1.11, see [Appendix B](./B_proposition.md)
+For a more detailed analysis on functions and \*1.11, see [Appendix B][B].
 
 By proving a theorem, we mean:
 |           Property          |      Limitation        |
@@ -145,7 +145,7 @@ The rest of the text is the typing algorithm for propositions and functions. Not
 | Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
 
 - **\[\*\]**: Functions of same order can have different types, thus propositions of same order can have different types. However, this is "practically ignored"(p.162). If we want to meet the practice, we might fix the definition with "returning order of the function".
-- Additionally, several clarifications on terms: 
+- Additional clarification on terms: 
   - connectives : `¬` and `∨`
   - "same": same propositions/functions are same in number of argument, and each argument have the same type on that index; additionally, they are usually used for constructing proposition or functions of (only)1-higher order
   - other typing rules: how to type a new symbol, how to type a function with more arguments from function with less arguments, etc.
@@ -176,7 +176,7 @@ In contrast to "what will be when `∨` is applied to different propositions", `
 Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables. This chapter also provides its own version of *modus ponens* for functions with 2 arguments.
 
 ### Chapter 12
-Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to witness "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). The definition of propositions and propositional functions, plus individuals, have been altered massively, based on the notion of *matrix*. Such change has been into a tiny table to explain.
+Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to witness "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). The definition of propositions and propositional functions, plus individuals, have been altered massively, giving their intrepretation through *matrix*. Such change has been into a tiny table to explain.
 
 | Name                   | Context in chapter 1 - 11                      | Context in chapter 12 - ~                      |
 |------------------------|------------------------------------------------|------------------------------------------------|
@@ -187,19 +187,7 @@ Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *
 
 **Table 3.x: Comparison for expressions between chapter 1 - 11 and chapter 12 - ~**
 
-For a deeper understanding to what should they mean, check [Appendix B](./B_proposition.md) on the matrix part.
-
-
-
-Before we explain what is matrix, we first give an informal example to demonstrate how Russell wants to design the hierarchy: Suppose we have a function `f1 := (fun x y => x /\ y)` and another function `f2 := (fun p q -> p \/ q)`, and we want to substitute the `x` in `f1` with `p \/ q`. By Russell's idea, we shall be allowed to construct the application form as `f1 f2` and the result of the application should be `f1 f2 = (fun p q y => (p \/ q) /\ y)`. We can immediately see that lambda calculus seems like a tedious design for such abstraction; and Russell designs the representation for functions just exactly like propositions. The result shall be `(X /\ Y) (P \/ Q) = ((P \/ Q) /\ Y)` if we are clear that `X` is to substituted by `f2`.
-
-1. (p.162) Matrix is a function with arbitrary length of variables, but without any apparent variables("For the sake of clearness...")
-2. (p.164) PM's hierarchy comes to design so that *variables in the hierarchies are either individuals or matrices*("A function is said to be predicative when it is a matrix..."). Which means
-    1. Matrices can be applied, or apply onto matrices, just like functions
-    2. At the same time, matrices can be asserted, just like propositions
-    3. On the other hand, the definition of propositions has become narrower to "propositions" with all variables quantified
-
-And Russell seems to be very determined about such design: (p.164) "Propositions, which have occurred hitherto as variables, will no longer do so except in a few isolated cases of which no subsequent use is made."
+For a deeper understanding to what should they mean, check [Appendix B][B] on the matrix part.
 
 Our project doesn't have matrices so far, and we only have the usual functions and propositions. We still try to make a few other things clear:
 
@@ -310,6 +298,7 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 
 **Table 3.5: Proving context for chapter 20 - \***
 
-[RTT]: https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT
 [4]: ./4_tactics.md
+[B]: ./B_proposition.md
+[RTT]: https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT
 [PO]: https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086
