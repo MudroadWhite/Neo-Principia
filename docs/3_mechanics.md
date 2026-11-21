@@ -45,7 +45,7 @@ In addition, Introduction & Chapter 1 starts with a delicate description on *ele
 **Table 3.x: Kinds of expresssions in chapter 1**
 
 We would describe chapter 1's ideas as follows:
-- Having something in our proof window means it has been asserted/implied true
+- Having something in our context window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style.
 - If proposition `X` has been already asserted, `H1 : φ X` is expected to mean asserting an **elementary propositional function**. 
