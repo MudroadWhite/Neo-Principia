@@ -14,7 +14,7 @@ Recall what we have described in chapter 1 in [mechanics](./3_mechanics.md/#chap
 > - If proposition `X` has been already asserted, `H1 : φ X` is expected to mean asserting an **elementary propositional function**. 
 > - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
-For Principia's design, propositions and functions should be "practically the same"(p.18). In Rocq, we prove `P` is true if `P` has an inhabitant; `H1 : P` means `P` as a type being presented, has an inhabitant `H1`. Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P` is an individual. To really understand what should be the difference between propositions and propositional functions if we regard them as Rocq's default - as we are doing the *shallow embedding* - we will demonstrate the relation with examples.
+For Principia's design, propositions and functions should be "practically the same"(p.18). In Rocq, we prove `P` is true if `P` has an inhabitant; `H1 : P` means `P` as a type being presented, has an inhabitant `H1`. Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P` is an individual. To really understand what should be the difference between propositions and propositional functions if we implement with Rocq's default - as we are doing the *shallow embedding* - we will demonstrate the relation with examples.
 ```Rocq
 Definition example_proposition : Prop. Admitted.
 
@@ -42,7 +42,7 @@ Admitted.
 With examples above,
 - We can abstract that proposition that the `example_theorem` inhabits into a function applying to a variable
 - Rocq's function has tactics like `fold` to perform such abstraction, but we didn't expand such move in our implementation. We mostly don't state the function explicitly, and instead `rewrite` a function on the fly
-- To the very centre of our questions: when we are asserting a theorem, should it be a function or a proposition by PM's definition? Although it will become exactly the same 
+- To the very center of our questions: when we are asserting a theorem, should it be a function or a proposition by PM's definition?
 
 In Rocq, a theorem is being made by providing an inhabitant to a *proposition* or a *function*, but when using a theorem, we always require the theorem to be "instantiated". These parameters like `P : Prop` are used to conviniently perform substitutions, for which we shouldn't have for a proposition, by the definition of PM. We therefore have the following **assumptions** being made:
 
@@ -51,13 +51,13 @@ In Rocq, a theorem is being made by providing an inhabitant to a *proposition* o
 > **Assumption 2**. Within chapter 1 - 5, our implementation of *modus ponens* should always inherently refer to \*1.11, and never \*1.1
 
 ## Matrices and individuals
-For our shallow embedding, we haven't design an *inductive type* to specify what should be allowed to construct a PM proposition, which is the common practice to set up a clear *boundary* on *what should be considered as what*. We are using Rocq's default `Prop` as the type for proposition. 
+For our shallow embedding, we haven't designed an *inductive type* to specify what should be allowed to construct a PM proposition, which is the common practice to set up a clear *boundary* on *what should be considered as what*. We are using Rocq's default `Prop` as the type for proposition, but it allowed too much "propositions" than we want. For example, theorems usually introduces parameters with `∀`, but such `∀`s are not supposed to be counted as PM's `∀`s.
 
-Implementation-wise, our shallow embedding has two ways to denote an atomic proposition `P`, a.k.a. individual:
+For a individual `P`, a.k.a. an atomic proposition, our shallow embedding should have two ways to denote it:
 - `Individual "p" : Prop` as our default way to claim an individual, which is an elementary proposition. If such a `P` should be asserted, it should look like `H : Individual "p"`.
 - `P : Prop` as our default. If such a `P` should be asserted, it should look like `H : P`, *assuming* that `P : Prop` has been already asserted.
 
-While they seem to be either redundant or pretty much the same, they will behave differently when we want to *substitute* them. 
+While they seem to be either redundant or pretty much the same, they behave differently when we want to *substitute* them. 
 - `Individual "p" : Prop` doesn't support any forms of substitution, as we haven't designed any rules on it. We have to manually specify a equation to be substituted when we need it.
 - `P : Prop` usually utilizes Rocq's nature on theorems or definitions, for example the `P` in `Theorem nx_x (P : Prop)`. When we "instantiate" such a theorem `nx_x` into something with `nx_x Q`, we automatically substituting the name `P` with `Q`.
 
