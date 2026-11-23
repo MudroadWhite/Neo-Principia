@@ -47,7 +47,7 @@ With examples above,
 
 In Rocq, a theorem is being made by providing an inhabitant to a *proposition* or a *function*, but when using a theorem, we always require the theorem to be "instantiated". These parameters like `P : Prop` are used to conviniently perform substitutions, for which we shouldn't have for a proposition, by the definition of PM. We therefore have the following **assumptions** being made:
 
-> **Assumption 1**. Within chapter 1 - 5, all Rocq `Theorems`s are inherently asserting a PM's propositional function
+> **Assumption 1**. Within chapter 1 - 5, all Rocq `Theorems`s are inherently asserting as PM's propositional function
 >
 > **Assumption 2**. Within chapter 1 - 5, our implementation of *modus ponens* should always inherently refer to \*1.11, and never \*1.1
 
