@@ -7,6 +7,7 @@
 ----------
 **Update 2026.11.17:** This [PhilOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of the documentation. 
 
+## Propositional functions
 Recall what we have described in chapter 1 in [mechanics](./3_mechanics.md/#chapter-1):
 > - Having something in our context window means it has been asserted/implied true
 > - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
@@ -87,7 +88,7 @@ f ((Individual "p") \/ (Individual "q")) (* not allowed! *)
 As we are modeling PM's propositional functions with lambda calculus, we need to state an important property for PM's function: we don't need a parameter list, because it is useless. To be more exact:
 - As it is ambiguous, although variables for a PM's function will be all letters occured in their proposition, they are either
   - totally unordered, or
-  - takes the default occurence from left to right as its order, which is still lacking of specification
+  - take the default occurence from left to right as its order, which is still lacking of specification
 - We almost always manually specify which should be substituted into what, and check the coherence of deduction manually
 
 While matrix is almost the same as propositional function, it is having a new rule that is unfamiliar with the usual functions:
@@ -101,10 +102,10 @@ It shall be derived that, Rocq's function is enough to model PM's matrix, withou
 > **Assumption 3**. After chapter 12, all Rocq `Theorems`s are inherently asserting a PM's matrix
 
 ## Summary
+As we are designing a shallow embedding, we are not modeling PM by presenting a formal semantic, but instead we discuss how *deep* can we integrate with Rocq's existing features, as fit as possible.
+
 Even though we have made it clear that how should our implementation correspond to PM's specification, this artical has been written long after we have completed most of the code, leaving the design of shallow embedding potentially outdated. Furthermore, 
 - Although with *Assumption 1* being made, by `example_function` and `example_theorem`, we can see that theorems are not having the type of functions; they only inhabit a proposition, to hint the existence of a trait of functions
 - We have not considered anything on how to type the *order* of a theorem or a proposition, or even how to type a function under the full proposition hierarchy
-
-As we are designing a shallow embedding, we are not modeling PM by presenting a formal semantic, but instead we discuss how *deep* can we integrate with Rocq's existing features, as fit as possible
 
 [PO]: https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086
