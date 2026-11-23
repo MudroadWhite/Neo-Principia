@@ -107,5 +107,6 @@ As we are designing a shallow embedding, we are not modeling PM by presenting a 
 Even though we have made it clear that how should the shallow embedding correspond to PM's specification, this article has been written long after we have completed most of the code, leaving the design of embedding potentially outdated. Furthermore, 
 - Although with *Assumption 1* being made, by `example_function` and `example_theorem`, we can see that theorems are not having the type of functions; they only inhabit a proposition, to hint the existence of a trait of functions
 - We have not considered anything on how to type the *order* of a theorem or a proposition, or even how to type a function under the full proposition hierarchy
+- `Prop` has been too big for functions to admit a parameter, or for propositions to be typed
 
 [PO]: https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086

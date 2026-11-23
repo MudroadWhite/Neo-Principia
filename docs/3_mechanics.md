@@ -42,7 +42,7 @@ In addition, Introduction & Chapter 1 starts with a delicate description on *ele
 | Proposition            | Atomic or molecular propositions               | Individual "x" /\ Individual "y" |
 | Propositional function | Function that takes in and returns proposition | (fun x y => x /\ y)              | 
 
-**Table 3.x: Kinds of expresssions in chapter 1**
+**Table 3.1: Kinds of expresssions in chapter 1**
 
 We would describe chapter 1's ideas as follows:
 - Having something in our context window means it has been asserted/implied true
@@ -72,7 +72,7 @@ By proving a theorem, we mean:
 
 \[\*\]: For the meaning of variants, see [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic)
 
-**Table 3.x: Proving context for chapter 1 - 5**
+**Table 3.2: Proving context for chapter 1 - 5**
 
 In addition:
 - (p.94)Definitional equality is undefined in PM
@@ -148,7 +148,7 @@ The rest of the text is the typing algorithm for propositions and functions. Not
   - "same": same propositions/functions are same in number of argument, and each argument have the same type on that index; additionally, they are usually used for constructing proposition or functions of (only)1-higher order
   - other typing rules: how to type a new symbol, how to type a function with more arguments from function with less arguments, etc.
 
-**Table 3.x: "of the same type" algorithm from chapter 9**
+**Table 3.3: "of the same type" algorithm from chapter 9**
 
 By proving a theorem in chapter 9 - 11, we mean:
 |           Property          |          Limitation         |
@@ -165,7 +165,7 @@ By proving a theorem in chapter 9 - 11, we mean:
 - **\[\*\]**: Several propositions in the beginning of chapter 9 is still limited to elementary propositions(also see chapter II of the book). All real variables in the theorems can be given arbitrary orders after chapter 11(p.127, p.128, discussion on typing `¬` and `∨`)
 - **\[\*\*\]**: Whether it is typed depends on how they are used in later chapter, and I'm still not sure about this
 
-**Table 3.x: Proving context for chapter 9 - 11**
+**Table 3.4: Proving context for chapter 9 - 11**
 
 ### Chapter 10
 In contrast to "what will be when `∨` is applied to different propositions", `∀` and `∃` are immediately allowed to be appeared in any positions of these two logic connectives(1-order only). The primitive proposition for `∀` and `∃` is therefore only one primitive proposition, stating how `∃` is defined(p.138), and the `∨` and `¬` in this chapter is e-prop version anymore, but the actual 1-order propositions. With different primitive propositions assumed, some of chapter 10 theorems are actually deriving the chapter 9 primitive propositions as theorems, for example, \*10.12. Similarly, the `of same type` statement in chapter 10 is being obtained by showing the strength of the new primitive proposition is just the same as the chapter 9 ones.(\*10.221)
@@ -174,12 +174,6 @@ In contrast to "what will be when `∨` is applied to different propositions", `
 Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables. This chapter also provides its own version of *modus ponens* for functions with 2 arguments.
 
 ### Chapter 12
-
-TODO: 
-- rewrite this chapter and everything below
-- collect related discussions on ambiguities through all the documentations, and said we have solved the ambiguity after a long time
-
-
 Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to witness "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). The definition of propositions and propositional functions, plus individuals, have been altered massively, giving their intrepretation through *matrix*. Such change has been into a tiny table to explain.
 
 | Name                   | Context in chapter 1 - 11                      | Context in chapter 12 - ~                      |
@@ -189,12 +183,11 @@ Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *
 | Propositional function | Function that takes in and returns proposition | Function with some variables quantified        |
 | Matrix                 | -                                              | Function with no variables quantified          |
 
-**Table 3.x: Comparison for expressions between chapter 1 - 11 and chapter 12 - ~**
+**Table 3.5: Comparison for expressions between chapter 1 - 11 and chapter 12 - ~**
 
 For a deeper understanding to what should they mean, check [Appendix B][B] on the matrix part.
 
 Our project doesn't have matrices so far, and we only have the usual functions and propositions. We still try to make a few other things clear:
-
 ```Rocq
 (* (p.163)This is a matrix with 2 real variables. It's also a function, and it's even predicative. *lhs* parameter of this definition is now in serious consideration *)
 Example example_matrix (X : Prop) (φ : Prop → Prop) := φ X.
@@ -246,10 +239,10 @@ By proving a theorem, we mean,
 - **\[\*\]**: Untyped functions take a parameter and return a proposition of *unknown* order.
 - **\[\*\*\]**: See (p.52, 162, 163, 164).
 
-**Table 3.4: Proving context for chapter 12 - 14**
+**Table 3.6: Proving context for chapter 12 - 14**
 
 - Not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
-- For the hierarchy in this chapter, we have implemented an `Order` type. See [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
+- For the hierarchy in this chapter, we have implemented an `Order` type, although not as functional as it should be. See [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
 
 ### Chapter 13
 In Rocq, we have different types for `=`. We can have `=` on propositions, `=` on `=` between propositions, `=` on `=`... and so on. Russell realized that he should give the `=` a similar treatment, but the hierarchy is slightly different: `=` is itself treated as a propositional function, and `=` can be an identity on 1st order, second order, ... arbitrary order functions. The first citation of chapter 12's axiom of reducibility appears at \*13.101, and with which applied to \*13.101, the order of `=` has been generally collapsed off. 
@@ -300,7 +293,7 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 | Function type               | Can be untyped                        |
 | Function parameters         | Individuals, matrices and classes     |
 
-**Table 3.5: Proving context for chapter 20 - \***
+**Table 3.7: Proving context for chapter 20 - \***
 
 [4]: ./4_tactics.md
 [B]: ./B_proposition.md
