@@ -174,6 +174,12 @@ In contrast to "what will be when `∨` is applied to different propositions", `
 Chapter 11's main purpose is extending functions with 1 variables to 2 variables, and by repeating such construction, we can get functions of arbitrary variables. This chapter also provides its own version of *modus ponens* for functions with 2 arguments.
 
 ### Chapter 12
+
+TODO: 
+- rewrite this chapter and everything below
+- collect related discussions on ambiguities through all the documentations, and said we have solved the ambiguity after a long time
+
+
 Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *orders* and this is also the first chapter that we're going to witness "so these theorems have more than one ways to use them"(p.163, "It *will* be seen that..."). The definition of propositions and propositional functions, plus individuals, have been altered massively, giving their intrepretation through *matrix*. Such change has been into a tiny table to explain.
 
 | Name                   | Context in chapter 1 - 11                      | Context in chapter 12 - ~                      |
