@@ -47,7 +47,7 @@ With examples above,
 
 In Rocq, a theorem is being made by providing an inhabitant to a *proposition* or a *function*, but when using a theorem, we always require the theorem to be "instantiated". These parameters like `P : Prop` are used to conviniently perform substitutions, for which we shouldn't have for a proposition, by the definition of PM. We therefore have the following **assumptions** being made:
 
-> **Assumption 1**. Within chapter 1 - 5, all Rocq `Theorems`s are inherently asserting as PM's propositional function
+> **Assumption 1**. Within chapter 1 - 5, all Rocq `Theorems`s are inherently asserting as PM's propositional functions
 >
 > **Assumption 2**. Within chapter 1 - 5, our implementation of *modus ponens* should always inherently refer to \*1.11, and never \*1.1
 
@@ -99,7 +99,7 @@ While matrix is almost the same as propositional function, it is having a new ru
 
 It shall be derived that, Rocq's function is enough to model PM's matrix, without application. We haven't design a computation rule for our matrix so far. We have the following assumptions:
 
-> **Assumption 3**. After chapter 12, all Rocq `Theorems`s are inherently asserting a PM's matrix
+> **Assumption 3**. After chapter 12, all Rocq `Theorems`s are inherently asserting as PM's matrices
 
 ## Summary
 As we are designing a shallow embedding, we are not modeling PM by presenting a formal semantic, but instead we discuss how *deep* can we integrate with Rocq's existing features, as fit as possible.
