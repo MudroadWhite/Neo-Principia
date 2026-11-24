@@ -4,12 +4,6 @@ As everyone should [expect](https://www.youtube.com/watch?v=qhF2Dxrt9i4), this c
 Before getting further, several ppl should be given credits and thanks: Guillaume Clauret, my first boss, who initiated, ignited my fuel to motor the Rocq prover; Landon Elkind the predecessor of this project; Randall Holmes, another precious source of information, many thanks for your warm and welcoming discussions that helps the completion of this project; PhilSE users Mauro Allegranza and DoubleKnot, for providing precious answers and help me understand PM. We're having a collaborator, [tangyongsheng17-sudo](https://github.com/tangyongsheng17-sudo) who will make this project even better looking; without any of above, this project will not be complete.
 
 We have a lot of things done, a lot of things undone and unplanned. Below is a collection of suggestions that prospective investigators might be interested in. To make the project better, one might want to:
-- Figure out the precise meaning of elementary proposition and elementary propositional functions
-  - which enables us to implement propositions as propositions, and functions as functions
-  - which enables us to design `∨`, `¬`, and `∀` precisely, no longer as Rocq's defaults
-  - which might enables us to construct meaningful proof objects
-  - and which enables the availability to design a typing algorithm, that patches the most crucial insight missed in this project
-  - which eliminates all false positives in our proofs
 - Design the impredicativity for the system, which might
   - include a polymorphic `Hierarchy` type to abstract over necessary ingredients
   - include a `Base` type to settle down an order for all individuals to share with, and for functions' types built on them
