@@ -85,7 +85,7 @@ Having the foundation made up in chapter 1, chapter 2 starts to present some bas
 - In particular, `[(x)]` is a *citation* to a definition/primitive proposition. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
 - (p.103)For each proof stepping in the form of `[S1 . S2 . S3]`, it is suggested to construct a sequence of modus ponens with `MP`s
 - (p.105)For each citation chained up in the style of `|- P ([S1] →) Q ([S2 →] R ...)`, it is suggested to use syllogism to chain everything up with a syllogism tactic `Syll`
-- Citations for modus ponens and syllogism will generally be omitted, and in shallow embedding we allow them to be alternate freely
+- Citations for *modus ponens* and syllogism will generally be omitted, and in shallow embedding we allow them to be alternate freely
 
 ### Chapter 3
 Chapter 3 presents theorems related to `∧`, which is constructed on `¬` and `∨`. 
