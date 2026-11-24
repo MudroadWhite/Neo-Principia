@@ -76,13 +76,13 @@ This time, we demonstrate the difference against propositional function, by refe
 ```Rocq
 (* For propositional functions *)
 f (Individual "p")                       (* allowed *)
-f (λ p q. p \/ q)                        (* not allowed *)
-f ((Individual "p") \/ (Individual "q")) (* allowed *)
+f (λ p q. p ∨ q)                         (* not allowed *)
+f ((Individual "p") ∨ (Individual "q"))  (* allowed *)
 
 (* For matrices *)
 f (Individual "p")                       (* allowed *)
-f (λ p q. p \/ q)                        (* allowed, as variable can be a matrix *)
-f ((Individual "p") \/ (Individual "q")) (* not allowed! *)
+f (λ p q. p ∨ q)                         (* allowed, as variable can be a matrix *)
+f ((Individual "p") ∨ (Individual "q"))  (* not allowed! *)
 ```
 
 As we are modeling PM's propositional functions with lambda calculus, we need to state an important property for PM's function: we don't need a parameter list, because it is useless. To be more exact:
