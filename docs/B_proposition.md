@@ -102,7 +102,7 @@ It shall be derived that, Rocq's function is enough to model PM's matrix, withou
 > **Assumption 3**. After chapter 12, all Rocq `Theorems`s are inherently asserting as PM's matrices
 
 ## Summary
-As we are designing a shallow embedding, we are not modeling PM by presenting a formal semantic, but instead we discuss how *deep* can we integrate with Rocq's existing features, as fit as possible.
+As we are designing a shallow embedding, we don't model PM by presenting a formal semantic, but instead discuss how *deep* can we integrate PM into Rocq's existing features, as fit as possible.
 
 Even though we have made it clear that how should the shallow embedding correspond to PM's specification, this article has been written long after we have completed most of the code, leaving the design of embedding potentially outdated. Furthermore, 
 - Although with *Assumption 1* being made, by `example_function` and `example_theorem`, we can see that theorems are not having the type of functions; they only inhabit a proposition, to hint the existence of a trait of functions
