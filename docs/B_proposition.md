@@ -85,19 +85,19 @@ f (λ p q. p ∨ q)                         (* allowed, as variable can be a mat
 f ((Individual "p") ∨ (Individual "q"))  (* not allowed! *)
 ```
 
-As we are modeling PM's propositional functions with lambda calculus, we need to state an important property for PM's function: we don't need a parameter list, because it is useless. To be more exact:
-- As it is ambiguous, although variables for a PM's function will be all letters occured in their proposition, they are either
+As we are modeling PM's propositional functions with lambda calculus, we need to state its important difference against lambda calculus: we don't need a parameter list, because it is useless. To be more exact:
+- Although variables for a PM's function will be all letters occurred in their proposition, they are either
   - totally unordered, or
-  - take the default occurence from left to right as its order, which is still lacking of specification
-- We almost always manually specify which should be substituted into what, and check the coherence of deduction manually
+  - take the default occurrence from left to right as its order, which is still lacking of specification
+- PM's function is always small-step and manually specified how to compute
 
-While matrix is almost the same as propositional function, it is having a new rule that is unfamiliar with the usual functions:
+While matrix is almost the same as propositional function, it has a new rule that is slightly different from how lambda calculus computes:
 - If matrix `f1 := (fun x => P x)`, and
 - Matrix `f2 := (fun y => Q y)`,
 - Application of the matrices should be `f1 f2 := (fun y => P (Q y))`
 - For cases with multiple parameters, they are beyond specification
 
-It shall be derived that, Rocq's function is enough to model PM's matrix, without application. We haven't design a computation rule for matrix so far. We have the following assumptions:
+It shall be derived that, Rocq's function is enough to model PM's matrix, but it cannot be applied as expected, as we haven't design a computation rule for matrix so far. We have the following assumption:
 
 > **Assumption 3**. After chapter 12, all Rocq `Theorems`s are inherently asserting as PM's matrices
 
