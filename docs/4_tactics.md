@@ -14,7 +14,7 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 | Modus Ponens, Syllogism, etc.                                   | `MP`, `Syll`, other self defined tactics        |
 | `Hp`                                                            | Rocq `intro`                                    |
 | Incomplete symbols with scopes                                  | Polymorphic `Notation`s with lambda calculus    |
-| Predicativity/impredicativity                                   | `!` without actual implementation               |
+| Predicativity/impredicativity                                   | `!` (unimplemented)                             |
 | Proposition order                                               | `Order` type                                    |
 | Theorem polymorphism                                            | The Variant mechanic                            |
 | Extra instances/interpretations                                 | The `Intro` mechanic                            |
@@ -27,6 +27,8 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 | `=` rewriting                                                   | `eq_to_equiv`+`setoid_rewrite`                  |
 
 **Table 4.1: Full PM features considered and their implementations in Rocq**
+
+**TODO**: rewrite this article and make shrink it with appendix B
 
 ## How do we assert a statement is true?
 **Just `pose` it.** To assert a cited theorem is true, we `pose` a proof, which is pretty elementary in Rocq. Voila.
