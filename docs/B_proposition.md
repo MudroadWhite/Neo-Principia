@@ -1,55 +1,112 @@
-# Appendix B: Definition of proposition in Principia Mathematica
+# Appendix B: Propositions, functions, individuals and matrices
 
 > The preliminary terror, which chokes off most fifth-form boys from even attempting to learn how to calculate, can be abolished once and for all... That's all.
 > 
 > \-- *[TO DELIVER YOU FROM THE PRELIMINARY OF TERRORS](https://x.com/JustDeezGuy/status/2062903814621921405)*, random old calculus textbook found on X
 
 ----------
+**Update 2026.11.17:** This [PhilOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of the documentation. 
 
-> **Update**: Later, I have been asking questions on Philosophy StackExchange on confusions I have met, see [this PhilSE QA](https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086) as a starting point, which is likely to be extended into a series of QAs in the far future. Everything below are **deprecated**, and I decide to leave them as an archive.
+## Propositional functions
+Recall what we have described in chapter 1 in [mechanics](./3_mechanics.md/#chapter-1):
+> - Having something in context window means it has been asserted/implied true
+> - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
+> - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
+> - If proposition `X` has been already asserted, `H1 : φ X` is expected to mean asserting an **elementary propositional function**. 
+> - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
 
-The difference between a (elementary)function and a proposition is scattered through Introduction's chapter I, II, III and chapter 1. As the first concepts being introduced in, the definition of a proposition is full of ambiguity. When figuring out the difference between a *proposition* and a *proposition built up from a function*, we have gathered below clues only to reveal how much is the chaos: 
-- *Proposition* can be *asserted*. *Propositional function* also can be *asserted* by asserting any specific value by instantiating a function, and which, is a proposition.
-- Asserted propositional function can still change its variable to produce different proposition asserted
-- (\*2.02)However, when deducing on the proof, we can also perform substitution on asserted propositions. 
-- Real variables, being revealed in later chapters, can be *generalized* into *apparent variables*, the variables of a `∀` or `∃`, for a proposition/function of higher order. See [chapter 9](./3_mechanics.md/#chapter-9) for meaning of generalization.
-- When using theorem, `Phi X` can freely substitute into a propositional variable `P`, and *vice versa*.
-- When we `Intro_` an extra variable, we din't find any generalization from letters of `P`, `Q`, `R`. Instead we always start from `X`, plus exceptions as functions.
-- `P`, `Q`, `R` can still be substituted into forms like `Phi X`, but never a single `X`. 
-- Everything asserted are *propositions*, while the modus ponens is mostly used as \*1.11 version for *propositional functions*
+For Principia's design, propositions and functions should be "practically the same"(p.18). In Rocq, we prove `P` is true if `P` has an inhabitant; `H1 : P` means `P` as a type being presented, has an inhabitant `H1`. Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P` is an individual. To really understand what should be the difference between propositions and propositional functions if we implement with Rocq's default - as we are doing the *shallow embedding* - we will demonstrate the relation with examples.
+```Rocq
+Definition example_proposition : Prop. Admitted.
 
-On the other side, no material has identified what is exactly an elementary proposition. [Wiki](https://en.wikipedia.org/wiki/Glossary_of_Principia_Mathematica) simply doesn't have such an entry; [SEP](https://plato.stanford.edu/entries/pm-notation/) presents an alternative to be a modern reconstruction, that "would drastically alter the very content of the book". And I have also consulted with Randall Holmes about the definition; he has provide valuable insights on them, see [conversation](./A_conversation.md)
+Definition example_function (P : Prop) : Prop := P → P.
+Print example_function.
+(* = fun P : Prop => P → P : Prop → Prop *)
 
-The final decision for us is just to present a guess, while leaving the implementation alone vague. Lack of definition will very much prevent further refinement: since you don't know the exact definition of elementary proposition, you're also unable to build the typing algorithm, from the very beginning. Still the general formalization looks already great, and everything compiles.
+Theorem example_theorem (P : Prop) : P → P. Admitted.
+Check example_theorem.
+(* ∀ P : Prop, P → P *)
 
-- **elementary propositions** contains no variables. They are strictly atomic alphabets after `P`, `Q`, and so on, in chapter 2 - 5(p.91).
-- **elementary functions** are propositions build up with *at least* one logical connectives. When a expression is identified as a function, atomic letters after `X` appeared in it are called *real variables*(p.19).
+(* Let check what will happen during proving... *)
+Goal ∀ (P : Prop), True.
+  intro P.
+  pose (example_theorem P) as H1.
 
-```Coq
-(* This is an elementary proposition *)
-Example example_ch1_proposition (P : Prop) := P.
-
-(* This is an asserted elementary function value *)
-Example example_ch1_prop_function_1 (φ : Prop) (X : Prop) := φ X.
-
-(* This is the actual way to write the function, but we won't use it *)
-Example example_ch1_prop_function_2 (φ : Prop) := fun (X : Prop) => φ X.
+  (* Notice how both of below are the same... *)
+  pose (example_function) as H2. unfold example_function in H2.
+  pose (fun (P : Prop) => P → P) as Phi.
+  (* fold (H2 P) in H1. *)
+  fold (Phi P) in H1.
+Admitted.
 ```
 
-There are several reasons for such guess. 
+With examples above,
+- We can abstract that proposition that the `example_theorem` inhabits into a function applying to a variable
+- Rocq's function has tactics like `fold` to perform such abstraction, but we didn't expand such move in shallow embedding. We mostly don't state the function explicitly, and instead `rewrite` a function on the fly
+- To the very center of our questions: when we are asserting a theorem, should it be a function or a proposition by PM's definition?
 
-First of all, it rhymes with how the hierarchy builds up in chapter 12. For higher order propositions, propositions are those without any real variables; for elementary case, it seems that the only case is when the proposition is just an atomic letter. 
+In Rocq, a theorem is being made by providing an inhabitant to a *proposition* or a *function*, but when using a theorem, we always require the theorem to be "instantiated". These parameters like `P : Prop` are used to conviniently perform substitutions, for which we shouldn't have for a proposition, by the definition of PM. We therefore have the following **assumptions** being made:
 
-Second, one might compare with definition in [SEP](https://plato.stanford.edu/entries/pm-notation/), that we should distinguish between different letter's meaning: propositions and real variables can have different letter. While there is indeed such a distinction throughout the text, chapter 2, immediately, uses \*1.11 on propositions made up of only `P`, `Q` and `R`, somehow hinting that they are propositional functions, while in ideal case they should be used on `X`, `Y`, `Z` which are exactly the real variables for propositional functions. I believe that the difference of letter is, in this sense, still unclear.
+> **Assumption 1**. Within chapter 1 - 5, all Rocq `Theorems`s are inherently asserting as PM's propositional functions
+>
+> **Assumption 2**. Within chapter 1 - 5, tactic `MP` for *modus ponens* should always inherently refer to \*1.11, and never \*1.1
 
-And third, this can make clear sense of what \*1.1 and \*1.11 mean. \*1.1 works on atomic letters, while \*1.11 works on everything else except atomic letters. This conclusion is simple and tempting.
+## Matrices and individuals
+For shallow embedding, we haven't designed an *inductive type* to specify what should be allowed to construct a PM proposition, which is the common practice to set up a clear *boundary* on *what should be considered as what*. We are using Rocq's default `Prop` as the type for proposition, but it allowed too much "propositions" than we want. For example, theorems usually introduces parameters with `∀`, but such `∀`s are not supposed to be counted as PM's `∀`s.
 
-Despite the guess, there are still a lot of places unclear:
+For a individual `P`, a.k.a. an atomic proposition, we should have two ways to denote it:
+- `Individual "p" : Prop` as the default way to claim an individual, which is an elementary proposition. If such a `P` should be asserted, it should look like `H : Individual "p"`.
+- `P : Prop`. If such a `P` should be asserted, it should look like `H : P`, *assuming* that `P : Prop` has been already asserted.
 
-With our guess, functions are excluded from identity functions, which means identity function shouldn't appear in our formalization.  By simply searching our formalization we can find that, there is indeed very few appearance of `fun x => x`, but not to nil.
+While they seem to be either redundant or pretty much the same, they behave differently when we want to *substitute* them. 
+- `Individual "p" : Prop` doesn't support any forms of substitution, as we haven't designed any rules on it. We have to manually specify a equation to be substituted when we need it.
+- `P : Prop` usually utilizes Rocq's nature on theorems or definitions, for example the `P` in `Theorem nx_x (P : Prop)`. When we "instantiate" such a theorem `nx_x` into something with `nx_x Q`, we automatically substituting the name `P` with `Q`.
 
-By definition of \*10.01, another severe consequence follows: while chapter 9 still pertains such balance, chapter 10 and onward sets `∃` propositions as *propositional functions*, while `∀` remains to be *propositions*. This unbalance seems very sus.
+`Individual "p"` is specifically designed for introducing an individual in the middle of the proof, which is pretty common for forward reasoning. Such individuals will usually only to be generalized. It doesn't involve any substitution, and will not participate in the deduction of the proof, so we don't need to specify any substitutions, so `Individual "p"` turns out to be just good to use. SSReflect has a similar design to support forward reasoning, see the [have](https://coq.inria.fr/doc/V8.20.0/refman/proof-engine/ssreflect-proof-language.html#coq:tacn.have) tactic, but our design is more lightweight and ad-hoc.
 
-PM "asserts a function" by asserting a specific value of function, which is, a proposition. So sometimes when asserting a "proposition", it can actually mean "asserting a function". Even still, Russell emphasizes that (p.18):
+Next, we come to matrices, with reference to [PhilOverflow Q&A][PO]. We still recall how matrix is stated within the original text:
+1. (p.162)Matrix is a function with arbitrary length of variables, but without any apparent variables("For the sake of clearness...")
+2. (p.164)PM's hierarchy comes to design so that *variables in the hierarchies are either individuals or matrices*("A function is said to be predicative when it is a matrix..."). Which means
+    1. Matrices can be applied, or apply onto matrices, just like functions
+    2. At the same time, matrices can be asserted, just like propositions
+    3. On the other hand, the definition of propositions has become narrower to "propositions" with all variables quantified
+3. (p.164)"Propositions, which have occurred hitherto as variables, will no longer do so except in a few isolated cases of which no subsequent use is made."
 
-> It's strictly not asserting a proposition... but practically the same.
+This time, we demonstrate the difference against propositional function, by referring to the pseudo code in [PhiloverFlow Q&A][PO].
+```Rocq
+(* For propositional functions *)
+f (Individual "p")                       (* allowed *)
+f (λ p q. p ∨ q)                         (* not allowed *)
+f ((Individual "p") ∨ (Individual "q"))  (* allowed *)
+
+(* For matrices *)
+f (Individual "p")                       (* allowed *)
+f (λ p q. p ∨ q)                         (* allowed, as variable can be a matrix *)
+f ((Individual "p") ∨ (Individual "q"))  (* not allowed! *)
+```
+
+As we are modeling PM's propositional functions with lambda calculus, we need to state an important property for PM's function: we don't need a parameter list, because it is useless. To be more exact:
+- As it is ambiguous, although variables for a PM's function will be all letters occured in their proposition, they are either
+  - totally unordered, or
+  - take the default occurence from left to right as its order, which is still lacking of specification
+- We almost always manually specify which should be substituted into what, and check the coherence of deduction manually
+
+While matrix is almost the same as propositional function, it is having a new rule that is unfamiliar with the usual functions:
+- If matrix `f1 := (fun x => P x)`, and
+- Matrix `f2 := (fun y => Q y)`,
+- Application of the matrices should be `f1 f2 := (fun y => P (Q y))`
+- For cases with multiple parameters, they are beyond specification
+
+It shall be derived that, Rocq's function is enough to model PM's matrix, without application. We haven't design a computation rule for matrix so far. We have the following assumptions:
+
+> **Assumption 3**. After chapter 12, all Rocq `Theorems`s are inherently asserting as PM's matrices
+
+## Summary
+As we are designing a shallow embedding, we don't model PM by presenting a formal semantic, but instead discuss how *deep* can we integrate PM into Rocq's existing features, as fit as possible.
+
+Even though we have made it clear that how should the shallow embedding correspond to PM's specification, this article has been written long after we have completed most of the code, leaving the design of embedding potentially outdated. Furthermore, 
+- Although with *Assumption 1* being made, by `example_function` and `example_theorem`, we can see that theorems are not having the type of functions; they only inhabit a proposition, to hint the existence of a trait of functions
+- We have not considered anything on how to type the *order* of a theorem or a proposition, or even how to type a function under the full proposition hierarchy
+- `Prop` has been too big for functions to admit a parameter, or for propositions to be typed
+
+[PO]: https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086
