@@ -14,7 +14,7 @@ Principia Mathematica uses Peano's [dot notation](https://www.researchgate.net/p
 Each proposition in PM is supposed to come with a type from a type hierarchy. Still, PM doesn't have a notion for types, nor will it explicitly label the hierarchy. PM proposes its typing algorithm as theorems of "what different terms can be considered *of the same type*". Such "of the same type" style definitions have been scattered into all the chapters.
 
 ### How does Principia define symbols?
-There are two ways for PM define and design a proposition, and hereby define the symbols. Chapter 1-11 is completed by reasoning about *propositions* and *propositional functions*, while chapter 12 and beyond utilizes the notion of *matrix* to intrepret propositions and functions, within the full proposition hierarchy. From our limited knowledge prior to chapter 20, there are 4 contexts requiring primary concern. See [chapter 1](./3_mechanics.md/#chapter-1) for *context* in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for chapter 9 - 11, [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 - 14, [chapter 20](./3_mechanics.md/#chapter-20) for beyond. If one read from beginning to the end, he will occur to a lot of situation that "we can use our previous theorems in another way".
+There are two ways for PM define and design a proposition, and hereby define the symbols. Chapter 1-11 is completed by reasoning about *propositions* and *propositional functions*, while chapter 12 and beyond utilizes the notion of *matrix* to intrepret propositions and functions, within the full proposition hierarchy. From our limited knowledge prior to chapter 20, there are 4 contexts requiring primary concern. See [chapter 1](./3_mechanics.md/#chapter-1) for *context* in chapter 1 - 5, [chapter 9](./3_mechanics.md/#chapter-9) for chapter 9 - 11, [chapter 12](./3_mechanics.md/#chapter-12) for chapter 12 - 14, [chapter 20](./3_mechanics.md/#chapter-20) for beyond. If one read from beginning to the end, he will occur to a lot of situation that "we can use previous theorems in another way".
 
 PM's design has a deep influence towards our [tactics](./4_tactics.md).
 
@@ -45,7 +45,7 @@ In addition, Introduction & Chapter 1 starts with a delicate description on *ele
 **Table 3.1: Kinds of expresssions in chapter 1**
 
 We would describe chapter 1's ideas as follows:
-- Having something in our context window means it has been asserted/implied true
+- Having something in context window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style.
 - If proposition `X` has been already asserted, `H1 : φ X` is expected to mean asserting an **elementary propositional function**. 
@@ -85,13 +85,13 @@ Having the foundation made up in chapter 1, chapter 2 starts to present some bas
 - In particular, `[(x)]` is a *citation* to a definition/primitive proposition. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
 - (p.103)For each proof stepping in the form of `[S1 . S2 . S3]`, it is suggested to construct a sequence of modus ponens with `MP`s
 - (p.105)For each citation chained up in the style of `|- P ([S1] →) Q ([S2 →] R ...)`, it is suggested to use syllogism to chain everything up with a syllogism tactic `Syll`
-- Citations for modus ponens and syllogism will generally be omitted, and in our implementation we allow them to be alternate freely
+- Citations for modus ponens and syllogism will generally be omitted, and in shallow embedding we allow them to be alternate freely
 
 ### Chapter 3
 Chapter 3 presents theorems related to `∧`, which is constructed on `¬` and `∨`. 
 
 ### Chapter 4
-Chapter 4 presents theorems related to `↔`, turning most theorems bidirectional. They are useful in our implementation in that we can `rewrite` on them; see [tactics][4].
+Chapter 4 presents theorems related to `↔`, turning most theorems bidirectional. They are useful for shallow embedding particularly because we can utilize the `↔` to perform `rewrite`s more conveniently; see [tactics][4].
 
 ### Chapter 5
 Chapter 5 collects miscellaneous theorems of operators appeared in previous chapters, and is mostly provided because they are useful.
@@ -116,7 +116,7 @@ Theorem n9_35 (φ : Prop → Prop) (P : Prop) : (∃ x, φ x) → P ∨ (∃ x, 
 
 Theorems in chapter 9 wants to prove that we can replace a *subpart* of a theorem in *chapter 1* to its `∀`/`∃` version. It is brutally performed without using mathematical induction, since induction is not allowed yet. It further constitutes to the following reasoning:
 
-- (p.128)If our *elementary* `¬` and `∨` is "additionally allowed"(p.128) to take one 1-order proposition as its operand
+- (p.128)If *elementary* `¬` and `∨` is "additionally allowed"(p.128) to take one 1-order proposition as its operand
 - Then we can deduce 1-order theorems for chapter 1
 - Therefore, we are allowed to have first-order `¬` and `∨`s.
 
@@ -187,7 +187,7 @@ Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *
 
 For a deeper understanding to what should they mean, check [Appendix B][B] on the matrix part.
 
-Our project doesn't have matrices so far, and we only have the usual functions and propositions. We still try to make a few other things clear:
+We haven't implemented matrices to make it functional. We still try to make a few other things clear:
 ```Rocq
 (* (p.163)This is a matrix with 2 real variables. It's also a function, and it's even predicative. *lhs* parameter of this definition is now in serious consideration *)
 Example example_matrix (X : Prop) (φ : Prop → Prop) := φ X.
@@ -276,7 +276,7 @@ In practice, defining `Class` with record can make the function it holds *implic
 
 However, there turns out to be more issues with class notation. Here we will list out the rest we have found:
 - To make the symbols work with each other, we eventually developed a design principle called "monomorphic theorems, polymorphic symbols". See [tactics][4].
-- Even with our notation definition, our notation doesn't prevent several *illegal* construction cases. See [style guide](./contribution_guide/style_guide.md).
+- The current definition doesn't prevent several *illegal* construction cases. See [style guide](./contribution_guide/style_guide.md).
 - Class is generally missing a lot of things for dealing with the *scope*s. See [audit](./5_audit.md) for an analysis.
 - Also, class is a good example that Russell doesn't make a clear distinction between language and its interpretation, so that we need to design a mechanic of *explicit interpretation*. See [tactics][4].
 

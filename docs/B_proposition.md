@@ -9,7 +9,7 @@
 
 ## Propositional functions
 Recall what we have described in chapter 1 in [mechanics](./3_mechanics.md/#chapter-1):
-> - Having something in our context window means it has been asserted/implied true
+> - Having something in context window means it has been asserted/implied true
 > - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
 > - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
 > - If proposition `X` has been already asserted, `H1 : φ X` is expected to mean asserting an **elementary propositional function**. 
@@ -42,29 +42,29 @@ Admitted.
 
 With examples above,
 - We can abstract that proposition that the `example_theorem` inhabits into a function applying to a variable
-- Rocq's function has tactics like `fold` to perform such abstraction, but we didn't expand such move in our implementation. We mostly don't state the function explicitly, and instead `rewrite` a function on the fly
+- Rocq's function has tactics like `fold` to perform such abstraction, but we didn't expand such move in shallow embedding. We mostly don't state the function explicitly, and instead `rewrite` a function on the fly
 - To the very center of our questions: when we are asserting a theorem, should it be a function or a proposition by PM's definition?
 
 In Rocq, a theorem is being made by providing an inhabitant to a *proposition* or a *function*, but when using a theorem, we always require the theorem to be "instantiated". These parameters like `P : Prop` are used to conviniently perform substitutions, for which we shouldn't have for a proposition, by the definition of PM. We therefore have the following **assumptions** being made:
 
 > **Assumption 1**. Within chapter 1 - 5, all Rocq `Theorems`s are inherently asserting as PM's propositional functions
 >
-> **Assumption 2**. Within chapter 1 - 5, our implementation of *modus ponens* should always inherently refer to \*1.11, and never \*1.1
+> **Assumption 2**. Within chapter 1 - 5, tactic `MP` for *modus ponens* should always inherently refer to \*1.11, and never \*1.1
 
 ## Matrices and individuals
-For our shallow embedding, we haven't designed an *inductive type* to specify what should be allowed to construct a PM proposition, which is the common practice to set up a clear *boundary* on *what should be considered as what*. We are using Rocq's default `Prop` as the type for proposition, but it allowed too much "propositions" than we want. For example, theorems usually introduces parameters with `∀`, but such `∀`s are not supposed to be counted as PM's `∀`s.
+For shallow embedding, we haven't designed an *inductive type* to specify what should be allowed to construct a PM proposition, which is the common practice to set up a clear *boundary* on *what should be considered as what*. We are using Rocq's default `Prop` as the type for proposition, but it allowed too much "propositions" than we want. For example, theorems usually introduces parameters with `∀`, but such `∀`s are not supposed to be counted as PM's `∀`s.
 
-For a individual `P`, a.k.a. an atomic proposition, our shallow embedding should have two ways to denote it:
-- `Individual "p" : Prop` as our default way to claim an individual, which is an elementary proposition. If such a `P` should be asserted, it should look like `H : Individual "p"`.
-- `P : Prop` as our default. If such a `P` should be asserted, it should look like `H : P`, *assuming* that `P : Prop` has been already asserted.
+For a individual `P`, a.k.a. an atomic proposition, we should have two ways to denote it:
+- `Individual "p" : Prop` as the default way to claim an individual, which is an elementary proposition. If such a `P` should be asserted, it should look like `H : Individual "p"`.
+- `P : Prop`. If such a `P` should be asserted, it should look like `H : P`, *assuming* that `P : Prop` has been already asserted.
 
 While they seem to be either redundant or pretty much the same, they behave differently when we want to *substitute* them. 
 - `Individual "p" : Prop` doesn't support any forms of substitution, as we haven't designed any rules on it. We have to manually specify a equation to be substituted when we need it.
 - `P : Prop` usually utilizes Rocq's nature on theorems or definitions, for example the `P` in `Theorem nx_x (P : Prop)`. When we "instantiate" such a theorem `nx_x` into something with `nx_x Q`, we automatically substituting the name `P` with `Q`.
 
-Our `Individual "p"` is specifically designed for introducing an individual in the middle of the proof, which is pretty common for forward reasoning. Such individuals will usually only to be generalized. It doesn't involve any substitution, and will not participate in the deduction of the proof, so we don't need to specify any substitutions, so `Individual "p"` turns out to be just good to use. SSReflect has a similar design to support forward reasoning, see the [have](https://coq.inria.fr/doc/V8.20.0/refman/proof-engine/ssreflect-proof-language.html#coq:tacn.have) tactic, but our design is more lightweight and ad-hoc.
+`Individual "p"` is specifically designed for introducing an individual in the middle of the proof, which is pretty common for forward reasoning. Such individuals will usually only to be generalized. It doesn't involve any substitution, and will not participate in the deduction of the proof, so we don't need to specify any substitutions, so `Individual "p"` turns out to be just good to use. SSReflect has a similar design to support forward reasoning, see the [have](https://coq.inria.fr/doc/V8.20.0/refman/proof-engine/ssreflect-proof-language.html#coq:tacn.have) tactic, but our design is more lightweight and ad-hoc.
 
-Next, we come to matrices, with [PhilOverflow Q&A][PO] as our primary source. We still recall how matrix is stated within the original text:
+Next, we come to matrices, with reference to [PhilOverflow Q&A][PO]. We still recall how matrix is stated within the original text:
 1. (p.162)Matrix is a function with arbitrary length of variables, but without any apparent variables("For the sake of clearness...")
 2. (p.164)PM's hierarchy comes to design so that *variables in the hierarchies are either individuals or matrices*("A function is said to be predicative when it is a matrix..."). Which means
     1. Matrices can be applied, or apply onto matrices, just like functions
@@ -97,7 +97,7 @@ While matrix is almost the same as propositional function, it is having a new ru
 - Application of the matrices should be `f1 f2 := (fun y => P (Q y))`
 - For cases with multiple parameters, they are beyond specification
 
-It shall be derived that, Rocq's function is enough to model PM's matrix, without application. We haven't design a computation rule for our matrix so far. We have the following assumptions:
+It shall be derived that, Rocq's function is enough to model PM's matrix, without application. We haven't design a computation rule for matrix so far. We have the following assumptions:
 
 > **Assumption 3**. After chapter 12, all Rocq `Theorems`s are inherently asserting as PM's matrices
 
