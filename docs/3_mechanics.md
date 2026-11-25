@@ -39,13 +39,14 @@ Each chapter basically tells us
 **TODO**: classify theorems by this classification
 
 TODO: how to read propositional functions
-TODO: themrems are supposed to build on functions
+Propositional functions in Principia Mathematica, looks completely like a proposition. If we have a proposition `P \/ Q`, there should exists a propositional function also denoted exactly as `P \/ Q`. There are several reasons behind such design:
+- TODO: manually specify application and abstraction
+- TODO: no scopes needed, no capture avoidance
+- TODO: convinient to represent asserting a theorem
 
-TODO:
-- simplifications like scoping, turns out to be not occasional
-- axiom of reducibility
+There exists a interpretation shift between chapter 1 - 11 to chapter 12 and hereafter. While in early chapters, everything are based on *propositions* and *propositional functions*, *matrix* serves as a even more fundamental idea in later chapters, so that the definitions of proposition and function are all based on matrix. Although theoretically such interpretation should be fixed down afterwards, Chapter 14 and 20's proof, shows signs to perform further simplifications, potentially require more enrichment into the interpretation.
 
-There exists a interpretation shift between chapter 1 - 11 to chapter 12 and hereafter. While in early chapters, everything are based on *propositions* and *propositional functions*, *matrix* serves as a even more fundamental idea to interpret them in later chapters, so that the definitions of proposition and function are all based on matrix. Although theoretically such interpretation should be fixed afterwards, Chapter 20's proof, which introduces the notion of *class*, shows signs to further enrich the interpretation, by adding class-related simplification into it.
+TODO: axiom of reducibility
 
 *Matrix* looks like *propositional function*, but computes differently:
 - takes in either "atomic letters"(not yet a proposition) or matrices(that is, "function") as parameters, and returns a matrix
