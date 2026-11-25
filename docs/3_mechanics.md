@@ -25,11 +25,31 @@ Principia performs deductions **one step at a time**. This derives a fact that f
 
 During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
 
-We now start exploring the main ideas for each chapters.
-
-## Chapters
+## Main Idea
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
+
+The foundation of Principia is completely contained within the *Introduction* chapter, but for this project, we will provide a better and much more simpler version to read. As we are doing shallow embedding, the closest we can get is present features we have concerned with examples, citations and explanations in text, but we cannot present a formal semantics, or prove any properties above all of them.
+
+Each chapter basically tells us
+- What new symbols are we going to define
+- How build them upon the system correctly by restricting their types, which I usually call it the "of the same type"/"type identification" algorithm
+- Some basic results derived from these symbols
+
+**TODO**: classify theorems by this classification
+
+There exists a big interpretation shift between chapter 1 - 11, that are based on *propositions* and *propositional functions*, to chapter 12 - beyond, which uses *matrices* to redefine what are *propositions* and *functions*. Chapter 20 which introduces the notion of *class*, although not officially stated, attempts to enrich the interpretation by adding class-related simplifications into it.
+
+In particular, *matrix*, which looks like *propositional function*, is another form of "function" having the following features:
+- takes in either "atomic letters"(not yet a proposition) or matrices(that is, "function") as parameters, and returns a matrix
+- propositions should be never involved in constructing a matrix
+- after all necessary substitutions have been performed, we can use the matrix to represent either propositions or functions
+
+Propositions should come with a *hierarchy*, almost just like Rocq's universe: we basically identify the hierarchy but counting how many necessary quantifiers are nested within a proposition. But in practice, the hierarchy is built upon a notion called *matrix*, upon which propositions and propositional functions should be built on. Without matrices, the highest order of proposition we can reason about is limited to first-order propositions in chapter 9 - 11.
+
+Although chapter 9 is still formulated with propositions and propositional functions, its expected replacement, chapter 8 in 2nd. edition, Appendix A, demonstrated Russell's unfinished attempt to interpret everything with matrices.
+
+## Chapters
 
 ### Chapter 1
 Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system.
@@ -57,6 +77,8 @@ Implementation-wise:
 - *modus ponens* for *any case* are integrated into a single tactic `MP`
 
 Experienced type theorists might find such implementation unsatisfying, which I would consider it a historical issue. A better interpretation should be expected in the future. For a deeper analysis on functions and \*1.11, see [Appendix B][B].
+
+\*1.7, \*1.71 and \*1.72 seems to be the restricted version of "of the same type" algorithm presented in chapter 9.
 
 By proving a theorem, we mean:
 |           Property          |      Limitation        |
