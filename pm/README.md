@@ -20,7 +20,7 @@ This folder, `./pm/`, is the place where you see the proofs. The proof for chapt
 
 ## Project status
 We are building: 
-- [ ] [Chapter 1](./ch1.v)
+- [x] [Chapter 1](./ch1.v)
 - [ ] [Chapter 2](./ch2.v)
 - [ ] [Chapter 3](./ch3.v)
 - [ ] [Chapter 4](./ch4.v)
