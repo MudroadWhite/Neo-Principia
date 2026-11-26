@@ -9,11 +9,17 @@
 
 ## Propositional functions
 Recall what we have described in chapter 1 in [mechanics](./3_mechanics.md/#chapter-1):
-> - Having something in context window means it has been asserted/implied true
-> - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
-> - (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style. It could be happen if we are getting situations like `(|- P) → (|- Q)`(p.92), which doesn't occur within formulae in PM.
-> - If proposition `X` has been already asserted, `H1 : φ X` is expected to mean asserting an **elementary propositional function**. 
-> - (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
+- Having something in context window means it has been asserted/implied true
+- Asserting `H1 : P` means asserting `P` as an **elementary proposition**
+- (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style.
+- `H1 : (∀ x, φ x)` is expected to mean asserting an **elementary propositional function**. 
+- (\*1.11)If `H2 : (∀ x, φ x → ψ x)` can be implied, then we are allowed to imply `H3 : (∀ x, ψ x)`.
+- Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). 
+
+
+**TODO**: 
+- `forall` should be used just for function has a type to have an inhabitant
+- since we are figuring out what should function mean at a pretty later stage, 
 
 For Principia's design, propositions and functions should be "practically the same"(p.18). In Rocq, we prove `P` is true if `P` has an inhabitant; `H1 : P` means `P` as a type being presented, has an inhabitant `H1`. Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P` is an individual. To really understand what should be the difference between propositions and propositional functions if we implement with Rocq's default - as we are doing the *shallow embedding* - we will demonstrate the relation with examples.
 ```Rocq
