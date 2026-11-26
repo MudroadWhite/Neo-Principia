@@ -25,7 +25,7 @@ Principia performs deductions **one step at a time**. This derives a fact that f
 
 During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
 
-## Main Idea
+## What is the core of Principia Mathematica?
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 
@@ -38,22 +38,23 @@ Each chapter basically tells us
 
 **TODO**: classify theorems by this classification
 
-TODO: how to read propositional functions
-Propositional functions in Principia Mathematica, looks completely like a proposition. If we have a proposition `P \/ Q`, there should exists a propositional function also denoted exactly as `P \/ Q`. There are several reasons behind such design:
-- TODO: manually specify application and abstraction
-- TODO: no scopes needed, no capture avoidance
-- TODO: convinient to represent asserting a theorem
+In the beginning, PM is supposed to be built on *propositional functions*. Propositional function in Principia Mathematica, look completely like a proposition. If we have a proposition `P \/ Q`, there should exist a propositional function also denoted exactly as `P \/ Q`. There are several reasons behind such design:
+- Functions always use small-step computation
+- Functions don't have closures and don't need to concern about capture avoidance
+- Functions computations are always manually specified, that is, we decide which parameter to apply
+- Functions have the nice structure to carry over *substitutions*, being used for representing theorems(which is why \*1.11 is used in contrast to \*1.1)
+- Therefore, parameter list seems cumbersome and unnecessary
 
-There exists a interpretation shift between chapter 1 - 11 to chapter 12 and hereafter. While in early chapters, everything are based on *propositions* and *propositional functions*, *matrix* serves as a even more fundamental idea in later chapters, so that the definitions of proposition and function are all based on matrix. Although theoretically such interpretation should be fixed down afterwards, Chapter 14 and 20's proof, shows signs to perform further simplifications, potentially require more enrichment into the interpretation.
+The interpretation on *propositional functions* used in chapter 1 - 11, shifts towards *matrices* used in chapter 12 and hereafter. *Matrix* serves as a even more fundamental idea in these chapters, and the definitions of proposition and function are modified accordingly. Although theoretically such interpretation should be fixed down afterwards, Chapter 14 and 20's proof, shows signs to perform further simplifications, potentially require more enrichment into the interpretation.
 
-TODO: axiom of reducibility
+The are several reasons to use *matrix*: 
+- The construction of matrix allows nice classification of infinite orders of propositions, and therefore avoid the *vicious ciecle principle*
+- We are allowed to have "2nd order matrix" to return a "proposition" being >1 order higher than its parameters (**TODO: recheck the definition of snd order matrix**)
 
 *Matrix* looks like *propositional function*, but computes differently:
-- takes in either "atomic letters"(not yet a proposition) or matrices(that is, "function") as parameters, and returns a matrix
+- it takes in either "atomic letters"(not yet a proposition) or matrices(that is, "function") as parameters, and returns a matrix
 - propositions should be never involved in constructing a matrix
 - after all necessary substitutions have been performed, we can use the matrix to represent either propositions or functions
-
-TODO: the main reason for such interpretation is to allow hierarchy, and redefine propositions and functions so that their types work better
 
 Propositions should come with a *hierarchy*, almost just like Rocq's universe: we basically identify the hierarchy but counting how many necessary quantifiers are nested within a proposition. But in practice, the order of a proposition is identified by observing the "function" that a proposition is built on:
 - For propositional function, higher order propositions are built by *generalizing* a parameter in a function
