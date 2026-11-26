@@ -1,7 +1,11 @@
 # Tactics
 > The story starts with a very simple beginning. It just isn't always working.
 
-As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter is going to expand the slogan in complete details.
+If everything goes well, we are supposed to  "just `pose` and `rewrite`", with the following limitations:
+- `pose` is mostly ok, but doesn't make the proof window clean
+- `rewrite` isn't always usable, so we have to patch it with other tactics
+
+This chapter is going to expand the slogan in complete details.
 
 | PM Feature                                                      | Implementation                                  |
 |-----------------------------------------------------------------|-------------------------------------------------|
@@ -9,19 +13,21 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 | Pp and Df                                                       | Monomorphic Rocq `Definition`                   |
 | Thm                                                             | Monomorphic Rocq `Theorem`                      |
 | Real & Apparent variables                                       | lhs and rhs of a Rocq theorem                   |
+| Propositions                                                    | Rocq `Prop`                                     |
 | Functions                                                       | Rocq lambda calculus                            |
-| General `∀`, `∃`, `↔` and other logical connectives             | Rocq's equivalent default                       |
+| Matrix                                                          | Rocq lambda calculus                            |
+| `∀`, `∃`, `↔` and other logical connectives                     | Rocq's corresponded default                     |
 | Modus Ponens, Syllogism, etc.                                   | `MP`, `Syll`, other self defined tactics        |
 | `Hp`                                                            | Rocq `intro`                                    |
 | Incomplete symbols with scopes                                  | Polymorphic `Notation`s with lambda calculus    |
-| Predicativity/impredicativity                                   | `!` (unimplemented)                             |
+| Predicativity matrix application                                | `!` (unimplemented)                             |
 | Proposition order                                               | `Order` type                                    |
 | Theorem polymorphism                                            | The Variant mechanic                            |
 | Extra instances/interpretations                                 | The `Intro` mechanic                            |
-| Symbol interpretation                                           | `let` clause + `class_func_associate`           |
+| Other missing rewriting rules                                   | `let` clause + `class_func_associate`           |
 | **Part 2: Computation**                                         | -                                               |
-| Stepping forward                                                | `assert`                                        |
-| Conclude a step/a proof                                         | `apply`+`now`/`exact`                           |
+| Deduction step                                                  | `assert`                                        |
+| Conclude a step/a proof immediately                             | `apply`+`now`/`exact`                           |
 | Asserting a proposition                                         | `pose proof` only                               |
 | Rewriting on a proposition                                      | "PM-based" tactics or `rewrite`/`setoid_rewrite`|
 | `=` rewriting                                                   | `eq_to_equiv`+`setoid_rewrite`                  |
@@ -30,14 +36,10 @@ As mentioned in previous chapters, we "just `pose` and `rewrite`". This chapter 
 
 **TODO**: rewrite this article and make shrink it with appendix B
 
-## How do we assert a statement is true?
-**Just `pose` it.** To assert a cited theorem is true, we `pose` a proof, which is pretty elementary in Rocq. Voila.
+## How do we introduce a theorem?
+For `pose`, we are using a lot of `pose proof` instead. `pose` brings in not only the theorem but also their inhabitants, and we only need the existence for inhabitants, so we can delete them from the proof window. Since we use a lot of `setoid_rewrite` during proof, proof terms will also come out to be unreadable.
 
-To actually pose a theorem, we have still made a tradeoff. `pose` can ensure the proof window logically correct, but *visually* awful. Proof terms will take away a large part of space, before the type of terms come into our view. We are not doing backward reasoning, nor are these proof terms meaningful - we will use a lot of `setoid_rewrite`, being introduced in later section. `pose proof` becomes our final choice.
-
-`pose proof` doesn't solve a goal. `apply` allows us to solve the goal automatically with a theorem. `now` allows us to solve the goal as soon as we have deduced the right proposition. `exact`, as mentioned in the [architecture](./2_architecture.md), is exclusively used to hint that we have covered all steps in a proof to conclude a `Qed`.
-
-**For extra variables, we use the `Intro` mechanic.** See for example \*9.37, adding a new real variable in the middle of the proof, just to be *generalized* in the future. To resolve this, we add a series of axioms in `lib.v`, prefixed with `Intro_`, and add a line of `set (X := Intro_ ...)` in the `TOOLS` section. This is called the `Intro` mechanic. Without the `Intro` mechanic, intermediate statements cannot be normally asserted.
+In some case such as \*9.37, we need to introduce new individuals into the proof, which is very common during fosward reasoning. `pose proof` cannot handle this situation, so we designed a simple `Intro_` stub, and perform such introduction with `set (X := Intro_ ...)` in the `TOOLS` section. This is called the `Intro` mechanic.
 
 ## How do we rewrite a proposition?
 To answer this question, we have to identify how many different ways are there in PM to rewrite. We recall the summarization in [mechanics](./3_mechanics.md/#chapter-9):
