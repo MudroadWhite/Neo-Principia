@@ -53,6 +53,8 @@ TODO: axiom of reducibility
 - propositions should be never involved in constructing a matrix
 - after all necessary substitutions have been performed, we can use the matrix to represent either propositions or functions
 
+TODO: the main reason for such interpretation is to allow hierarchy, and redefine propositions and functions so that their types work better
+
 Propositions should come with a *hierarchy*, almost just like Rocq's universe: we basically identify the hierarchy but counting how many necessary quantifiers are nested within a proposition. But in practice, the order of a proposition is identified by observing the "function" that a proposition is built on:
 - For propositional function, higher order propositions are built by *generalizing* a parameter in a function
 - For matrix, the order of a matrix is 1 plus its highest order sub-matrix taken as its parameter
