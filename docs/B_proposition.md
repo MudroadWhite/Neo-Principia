@@ -19,7 +19,7 @@ Recall what we have described in chapter 1 in [mechanics](./3_mechanics.md/#chap
 
 **TODO**: 
 - `forall` should be used just for function has a type to have an inhabitant
-- since we are figuring out what should function mean at a pretty later stage, 
+- since we are figuring out what should function mean at a pretty later stage, there remains historical reasons: TODO; funcs are never asserted as stated...
 
 For Principia's design, propositions and functions should be "practically the same"(p.18). In Rocq, we prove `P` is true if `P` has an inhabitant; `H1 : P` means `P` as a type being presented, has an inhabitant `H1`. Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P` is an individual. To really understand what should be the difference between propositions and propositional functions if we implement with Rocq's default - as we are doing the *shallow embedding* - we will demonstrate the relation with examples.
 ```Rocq

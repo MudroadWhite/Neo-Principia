@@ -23,7 +23,14 @@ Principia designs theorems in a "**practical way**". Theorems in chapter 10 are 
 
 Principia performs deductions **one step at a time**. This derives a fact that functions are always "small-step", and we don't need to concern about capture avoidance on functions, and its computation has to be manually specified. Functions don't come with a scope, and an ad-hoc "scope" is defined for auxiliary purpose orthogonal to functions, see [chapter 14](./3_mechanics.md/#chapter-14).
 
-During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
+During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. In particular, 
+- `[(x)]` is a *citation* to a definition/primitive proposition. 
+- `[x]` is a *citation* to a *theorem*. 
+- We can also cite previous steps, like `[(1)]`, `[(2)]` and so on
+- If citation comes up as `[S1 . S2 . S3]`, the proof is supposed to be deduced through *modus ponens*
+- If citations are chained as `|- P ([S1] →) Q ([S2 →] R ...)`, the proof is supposed to be derived with *syllogism*
+
+TODO: the shallow embedding only ensures theorems are used, but whether they are with the correct `MP` or `Syll` is out of consideration since it is negligible
 
 ## What is the core of Principia Mathematica?
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
@@ -36,19 +43,25 @@ Each chapter basically tells us
 - How build them upon the system correctly by restricting their types, which I usually call it the "of the same type"/"type identification" algorithm, regarded as `Thm` except in chapter 1 (**TODO**: recheck chapter 9)
 - Some basic results derived from these symbols
 
-**TODO**: classify theorems by this classification
+Below is a collection of such "typing algorithm"s appeared in chapter 1 - 20.
+
+| Chapter | Type identification axioms/theorems |
+|---------|-------------------------------------|
+|    1    | \*1.7, \*1.71, \*1.72               |
+|    2    |                |
+|    3    |                |
 
 In the beginning, PM is supposed to be built on *propositional functions*. Propositional function in Principia Mathematica, look completely like a proposition. If we have a proposition `P \/ Q`, there should exist a propositional function also denoted exactly as `P \/ Q`. There are several reasons behind such design:
 - Functions always use small-step computation
-- Functions don't have closures and don't need to concern about capture avoidance
+- Functions don't have closures and don't need to concern about capture avoidance. With that being said, functions usually appear as a whole expression at a time in PM(?)
 - Functions computations are always manually specified, that is, we decide which parameter to apply
-- Functions have the nice structure to carry over *substitutions*, being used for representing theorems(which is why \*1.11 is used in contrast to \*1.1)
+- Functions have the nice structure to carry over *substitutions*, being used for representing theorems, which is why PM usually use \*1.11 as *modus ponens* instead of \*1.1
 - Therefore, parameter list seems cumbersome and unnecessary
 
 The interpretation on *propositional functions* used in chapter 1 - 11, shifts towards *matrices* used in chapter 12 and hereafter. *Matrix* serves as a even more fundamental idea in these chapters, and the definitions of proposition and function are modified accordingly. Although theoretically such interpretation should be fixed down afterwards, Chapter 14 and 20's proof, shows signs to perform further simplifications, potentially require more enrichment into the interpretation.
 
 The are several reasons to use *matrix*: 
-- The construction of matrix allows nice classification of infinite orders of propositions, and therefore avoid the *vicious ciecle principle*
+- The construction of matrix allows nice classification of infinite orders of propositions, and therefore avoid the *vicious ciecle principle* and let *Axiom of Reducibility* built on it
 - We are allowed to have "2nd order matrix" to return a "proposition" being >1 order higher than its parameters (**TODO: recheck the definition of snd order matrix**)
 
 *Matrix* looks like *propositional function*, but computes differently:
@@ -56,18 +69,17 @@ The are several reasons to use *matrix*:
 - propositions should be never involved in constructing a matrix
 - after all necessary substitutions have been performed, we can use the matrix to represent either propositions or functions
 
-Propositions should come with a *hierarchy*, almost just like Rocq's universe: we basically identify the hierarchy but counting how many necessary quantifiers are nested within a proposition. But in practice, the order of a proposition is identified by observing the "function" that a proposition is built on:
+The *hierarchy*, which classified propositions into infinite orders of them, classifies almost just like Rocq's universe: we basically identify the hierarchy by counting how many necessary quantifiers are nested within a proposition. But in practice, the order of a proposition is identified by observing the "function" that a proposition is built on:
 - For propositional function, higher order propositions are built by *generalizing* a parameter in a function
 - For matrix, the order of a matrix is 1 plus its highest order sub-matrix taken as its parameter
 
-Note that without matrices, the highest order of proposition we can reason about is limited to first-order propositions in chapter 9 - 11. Although chapter 9 is still formulated with propositions and propositional functions, its expected replacement, chapter 8 in 2nd. edition, Appendix A, demonstrated Russell's unfinished attempt to interpret everything with matrices.
+Note that without matrices, the highest order of proposition we can reason about is limited to first-order propositions in chapter 9 - 11. Although chapter 9 is still formulated with propositions and propositional functions, its expected replacement, chapter 8 in 2nd. edition, Appendix A, demonstrated Russell's unfinished attempt to construct everything with matrices.
 
 ## Chapters
-
 ### Chapter 1
-Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system.
+Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system. Chapter 1 also uses definitions immediately, but (p.94)definitional equality is unspecified in PM.
 
-In addition, Introduction & Chapter 1 starts with a delicate description on *elementary propositions* and *elementary propositional functions*, which appears to be very ambiguous and misleading. The ambiguity has taken us a lot of time to figure out, as recorded in [PhilOverflow's Q&A][PO]. We begin with 3 kinds of expressions:
+We begin with 3 kinds of expressions:
 
 | Name                   | Definition                                     | Informal example in Rocq         |
 |------------------------|------------------------------------------------|----------------------------------|
@@ -80,21 +92,17 @@ In addition, Introduction & Chapter 1 starts with a delicate description on *ele
 We would describe chapter 1's ideas as follows:
 - Having something in context window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
-- (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style.
+- (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style
+- `H1 : (∀ x, φ x)` is expected to mean asserting an **elementary propositional function**
+- (\*1.11)If `H2 : (∀ x, φ x → ψ x)` can be implied, then we are allowed to imply `H3 : (∀ x, ψ x)`
+- Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93)
+- \*1.7, \*1.71 and \*1.72 are the restricted version of "of the same type" algorithm presented in chapter 9.
 
-**TODO**: redefine this
-
-- If proposition `X` has been already asserted, `H1 : φ X` is expected to mean asserting an **elementary propositional function**. 
-- (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
-- Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). 
+Where the `∀` should be Rocq's default for function's type, and such `∀` is unrelated to PM. For a deeper analysis on functions and \*1.11, see [Appendix B][B].
 
 Implementation-wise:
 - Propositions and functions in this project are mostly Rocq's default
 - *modus ponens* for *any case* are integrated into a single tactic `MP`
-
-Experienced type theorists might find such implementation unsatisfying, which I would consider it a historical issue. A better interpretation should be expected in the future. For a deeper analysis on functions and \*1.11, see [Appendix B][B].
-
-\*1.7, \*1.71 and \*1.72 seems to be the restricted version of "of the same type" algorithm presented in chapter 9.
 
 By proving a theorem, we mean:
 |           Property            |      Limitation        |
@@ -112,20 +120,8 @@ By proving a theorem, we mean:
 
 **Table 3.2: Proving context for chapter 1 - 5**
 
-In addition:
-- (p.94)Definitional equality is undefined in PM
-- Elementary functions are closed under `¬` and `∨`
-
 ### Chapter 2
-Having the foundation made up in chapter 1, chapter 2 starts to present some basic results related to the default `¬`, `∨` and `→`. 
-
-
-**TODO**: delete this
-- For general rules on citation, see related paragraphs in [How does Principia prove theorems?](./3_mechanics.md/#how-does-principia-prove-theorems).
-- In particular, `[(x)]` is a *citation* to a definition/primitive proposition. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
-- (p.103)For each proof stepping in the form of `[S1 . S2 . S3]`, it is suggested to construct a sequence of modus ponens with `MP`s
-- (p.105)For each citation chained up in the style of `|- P ([S1] →) Q ([S2 →] R ...)`, it is suggested to use syllogism to chain everything up with a syllogism tactic `Syll`
-- Citations for *modus ponens* and syllogism will generally be omitted, and in shallow embedding we allow them to be alternate freely
+Having the foundation made up in chapter 1, chapter 2 starts to present some basic results related to the default `¬`, `∨` and `→`. In particular, chapter 2 starts to utilize *modus ponens*(tactic `MP`, p.103) for deduction, and *syllogism*(tactic `Syll`, p.105) to simplify the deduction. Citations for *modus ponens* and *syllogism* shall be generally omitted in PM.
 
 ### Chapter 3
 Chapter 3 presents theorems related to `∧`, which is constructed on `¬` and `∨`. 
@@ -137,7 +133,7 @@ Chapter 4 presents theorems related to `↔`, turning most theorems bidirectiona
 Chapter 5 collects miscellaneous theorems of operators appeared in previous chapters, and is mostly provided because they are useful.
 
 ### Chapter 9
-There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
+There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where individuals can be introduced during the mid of proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
 
 To understand what chapter 9 does, we first look back at \*1.3:
 
