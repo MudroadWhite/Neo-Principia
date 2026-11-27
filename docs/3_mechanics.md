@@ -45,11 +45,15 @@ Each chapter basically tells us
 
 Below is a collection of such "typing algorithm"s appeared in chapter 1 - 20.
 
+**TODO**: finish the table
+
 | Chapter | Type identification axioms/theorems |
 |---------|-------------------------------------|
 |    1    | \*1.7, \*1.71, \*1.72               |
 |    2    |                |
 |    3    |                |
+|    9    |                |
+|   11    | \*11.311                            |
 
 In the beginning, PM is supposed to be built on *propositional functions*. Propositional function in Principia Mathematica, look completely like a proposition. If we have a proposition `P \/ Q`, there should exist a propositional function also denoted exactly as `P \/ Q`. There are several reasons behind such design:
 - Functions always use small-step computation
@@ -141,7 +145,7 @@ To understand what chapter 9 does, we first look back at \*1.3:
 Theorem Add1_3 (P Q : Prop) : Q → P ∨ Q.
 ```
 
-In chapter 9, it is corresponded to the following cases:
+It corresponds to the following cases in chapter 9:
 
 ```Rocq
 Theorem n9_32 (φ : Prop → Prop) (Q : Prop) : Q → (∀ x, φ x) ∨ Q.
@@ -168,7 +172,7 @@ Propositions in chapter 9 starts to make a distinction between *elementary propo
 
 Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that for `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.52, p.162).
 
-\*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus a convention for individuals. All individuals in a theorem, which are not propositions(cannot be asserted and can only appear just like variables) nor functions(p.51, p.132), *will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have the same related type*. 
+\*9.131, the "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus a convention for individuals. All individuals in a theorem, which are not functions(p.51, p.132), *will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have the same related type*. 
 
 The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
 |          Notion          | Type name | Arguments                    | Identification rule                            |
@@ -176,7 +180,8 @@ The rest of the text is the typing algorithm for propositions and functions. Not
 | Elementary proposition   | EProp     | None                         | All elementary propositions                    |
 | Elementary function      | EFunc     | Types of function parameters | Connectives on same functions                  |
 | Proposition of nth order | Prop n    | Type of the function\[\*\]   | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
-| Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
+
+**TODO**: update the table
 
 - **\[\*\]**: Functions of same order can have different types, thus propositions of same order can have different types. However, this is "practically ignored"(p.162). If we want to meet the practice, we might fix the definition with "returning order of the function".
 - Additional clarification on terms: 
@@ -221,6 +226,8 @@ Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *
 
 **Table 3.5: Comparison for expressions between chapter 1 - 11 and chapter 12 - ~**
 
+**TODO**: note that "matrix_apply" should exist, but is hidden in proposition...ref to page
+
 For a deeper understanding to what should they mean, check [Appendix B][B] on the matrix part.
 
 We haven't implemented matrices to make it functional. We still try to make a few other things clear:
@@ -262,16 +269,16 @@ Chapter 12 also brings the symbol `!` to awareness, and will be frequently used 
 2. Indicate that the function is a *predicative function*, not a random untyped one.
 
 By proving a theorem, we mean,
-|           Property          |                Limitation             |
-|-----------------------------|---------------------------------------|
-| Highest proposition order   | Arbitrary                             |
-| Modus Ponens theorem        | Arbitrary                             |
-| Generalization              | Predicative functions(p.165)          |
-| Functions                   | Arbitrary                             |
+|           Property            |                Limitation             |
+|-------------------------------|---------------------------------------|
+| Highest proposition order     | Arbitrary                             |
+| Modus Ponens theorem          | Arbitrary                             |
+| Generalization                | Predicative functions(p.165)          |
+| Functions                     | Arbitrary                             |
 | Introducing fresh individuals | Arbitrary                             |
-| Theorem variants            | Arbitrary                             |
-| Function type               | Can be untyped\[\*\]                  |
-| Function parameters         | Only individuals and matrices\[\*\*\] |
+| Theorem variants              | Arbitrary                             |
+| Function type                 | Can be untyped\[\*\]                  |
+| Function parameters           | Only individuals and matrices\[\*\*\] |
 
 - **\[\*\]**: Untyped functions take a parameter and return a proposition of *unknown* order.
 - **\[\*\*\]**: See (p.52, 162, 163, 164).
@@ -335,3 +342,7 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 [B]: ./B_proposition.md
 [RTT]: https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT
 [PO]: https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086
+
+**TODO**:
+- Check all occurences about "mechanic"
+- Check all occurences about instantiating a theorem

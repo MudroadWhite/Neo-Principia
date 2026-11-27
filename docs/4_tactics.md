@@ -1,6 +1,8 @@
 # Tactics
 > The story starts with a very simple beginning. It just isn't always working.
 
+**TODO**: rename things properly
+
 If everything goes well, we are supposed to  "just `pose` and `rewrite`", with the following limitations:
 - `pose` is mostly ok, but doesn't make the proof window clean
 - `rewrite` isn't always usable, so we have to patch it with other tactics

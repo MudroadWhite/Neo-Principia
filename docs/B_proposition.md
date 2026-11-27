@@ -16,7 +16,6 @@ Recall what we have described in chapter 1 in [mechanics](./3_mechanics.md/#chap
 - (\*1.11)If `H2 : (∀ x, φ x → ψ x)` can be implied, then we are allowed to imply `H3 : (∀ x, ψ x)`.
 - Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). 
 
-
 **TODO**: 
 - `forall` should be used just for function has a type to have an inhabitant
 - since we are figuring out what should function mean at a pretty later stage, there remains historical reasons: TODO; funcs are never asserted as stated...
@@ -97,10 +96,9 @@ As we are modeling PM's propositional functions with lambda calculus, we need to
   - take the default occurrence from left to right as its order, which is still lacking of specification
 - PM's function is always small-step and manually specified how to compute
 
-While matrix is almost the same as propositional function, it has a new rule that is slightly different from how lambda calculus computes:
-- If matrix `f1 := (fun x => P x)`, and
-- Matrix `f2 := (fun y => Q y)`,
-- Application of the matrices should be `f1 f2 := (fun y => P (Q y))`
+Based on original text in PM, and analysis above on how matrix should behave, we conclude the following rules to model a matrix:
+- Matrix can be modeled just like a function, presented as a lambda closure; but with different computation rule
+- The computation rule for matrix `f1 := (fun x => P x)` and `f2 := (fun y => Q y)` should be `f1 f2 := (fun y => P (Q y))`
 - For cases with multiple parameters, they are beyond specification
 
 It shall be derived that, Rocq's function is enough to model PM's matrix, but it cannot be applied as expected, as we haven't design a computation rule for matrix so far. We have the following assumption:
