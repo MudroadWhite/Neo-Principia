@@ -5,7 +5,7 @@
 > \-- *[TO DELIVER YOU FROM THE PRELIMINARY OF TERRORS](https://x.com/JustDeezGuy/status/2062903814621921405)*, random old calculus textbook found on X
 
 ----------
-**Update 2026.11.17:** This [φlOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of the documentation. 
+**Update 2026.11.17:** This [PhilOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of the documentation. 
 
 ## Propositional functions
 Recall what we have described in chapter 1 in [mechanics](./3_mechanics.md/#chapter-1):
@@ -67,7 +67,7 @@ While they seem to be either redundant or pretty much the same, they behave diff
 
 `Individual "p"` is specifically designed for introducing an individual in the middle of the proof, which is pretty common for forward reasoning. Such individuals will usually only to be generalized. It doesn't involve any substitution, and will not participate in the deduction of the proof, so we don't need to specify any substitutions, so `Individual "p"` turns out to be just good to use. SSReflect has a similar design to support forward reasoning, see the [have](https://coq.inria.fr/doc/V8.20.0/refman/proof-engine/ssreflect-proof-language.html#coq:tacn.have) tactic, but our design is more lightweight and ad-hoc.
 
-Next, we come to matrices, with reference to [φlOverflow Q&A][PO]. We still recall how matrix is stated within the original text:
+Next, we come to matrices, with reference to [PhilOverflow Q&A][PO]. We still recall how matrix is stated within the original text:
 1. (p.162)Matrix is a function with arbitrary length of variables, but without any apparent variables("For the sake of clearness...")
 2. (p.164)PM's hierarchy comes to design so that *variables in the hierarchies are either individuals or matrices*("A function is said to be predicative when it is a matrix..."). Which means
     1. Matrices can be applied, or apply onto matrices, just like functions
@@ -75,7 +75,7 @@ Next, we come to matrices, with reference to [φlOverflow Q&A][PO]. We still rec
     3. On the other hand, the definition of propositions has become narrower to "propositions" with all variables quantified
 3. (p.164)"Propositions, which have occurred hitherto as variables, will no longer do so except in a few isolated cases of which no subsequent use is made."
 
-This time, we demonstrate the difference against propositional function, by referring to the pseudo code in [φloverFlow Q&A][PO].
+This time, we demonstrate the difference against propositional function, by referring to the pseudo code in [PhilOverflow Q&A][PO].
 ```Rocq
 (* For propositional functions *)
 f (Individual "p")                       (* allowed *)
