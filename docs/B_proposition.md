@@ -5,7 +5,7 @@
 > \-- *[TO DELIVER YOU FROM THE PRELIMINARY OF TERRORS](https://x.com/JustDeezGuy/status/2062903814621921405)*, random old calculus textbook found on X
 
 ----------
-**Update 2026.11.17:** This [PhilOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of the documentation. 
+**Update 2026.11.17:** This [φlOverflow Q&A][PO] has been our primary source, having a massive impact on rewriting most of the documentation. 
 
 ## Propositional functions
 Recall what we have described in chapter 1 in [mechanics](./3_mechanics.md/#chapter-1):
@@ -16,11 +16,7 @@ Recall what we have described in chapter 1 in [mechanics](./3_mechanics.md/#chap
 - (\*1.11)If `H2 : (∀ x, φ x → ψ x)` can be implied, then we are allowed to imply `H3 : (∀ x, ψ x)`.
 - Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). 
 
-**TODO**: 
-- `forall` should be used just for function has a type to have an inhabitant
-- since we are figuring out what should function mean at a pretty later stage, there remains historical reasons: TODO; funcs are never asserted as stated...
-
-For Principia's design, propositions and functions should be "practically the same"(p.18). In Rocq, we prove `P` is true if `P` has an inhabitant; `H1 : P` means `P` as a type being presented, has an inhabitant `H1`. Observe that `H1 : P` and `H1 : φ X` are essentially the same thing, unless `P` is an individual. To really understand what should be the difference between propositions and propositional functions if we implement with Rocq's default - as we are doing the *shallow embedding* - we will demonstrate the relation with examples.
+For Principia's design, propositions and functions should be "practically the same"(p.18). In Rocq, we prove `P` is true if `P` has an inhabitant; `H1 : P` means `P` as a type being presented, has an inhabitant `H1`. To really understand what should be the difference between propositions and propositional functions if we implement with Rocq's default, we will demonstrate the relation with examples.
 ```Rocq
 Definition example_proposition : Prop. Admitted.
 
@@ -39,9 +35,9 @@ Goal ∀ (P : Prop), True.
 
   (* Notice how both of below are the same... *)
   pose (example_function) as H2. unfold example_function in H2.
-  pose (fun (P : Prop) => P → P) as Phi.
+  pose (fun (P : Prop) => P → P) as φ.
   (* fold (H2 P) in H1. *)
-  fold (Phi P) in H1.
+  fold (φ P) in H1.
 Admitted.
 ```
 
@@ -49,6 +45,8 @@ With examples above,
 - We can abstract that proposition that the `example_theorem` inhabits into a function applying to a variable
 - Rocq's function has tactics like `fold` to perform such abstraction, but we didn't expand such move in shallow embedding. We mostly don't state the function explicitly, and instead `rewrite` a function on the fly
 - To the very center of our questions: when we are asserting a theorem, should it be a function or a proposition by PM's definition?
+
+In particular, observe the type of *example_theorem*, which can be abstracted as `∀ P : Prop, φ P`, the `∀ P : Prop` allows us to take in a `P` for substitution, so that `φ P` can produce different propositions, while it is also a valid type for a theorem. So it has been concluded for now that `∀ P : Prop, φ P` should be the adequate type for asserting a function in Rocq.
 
 In Rocq, a theorem is being made by providing an inhabitant to a *proposition* or a *function*, but when using a theorem, we always require the theorem to be "instantiated". These parameters like `P : Prop` are used to conviniently perform substitutions, for which we shouldn't have for a proposition, by the definition of PM. We therefore have the following **assumptions** being made:
 
@@ -69,7 +67,7 @@ While they seem to be either redundant or pretty much the same, they behave diff
 
 `Individual "p"` is specifically designed for introducing an individual in the middle of the proof, which is pretty common for forward reasoning. Such individuals will usually only to be generalized. It doesn't involve any substitution, and will not participate in the deduction of the proof, so we don't need to specify any substitutions, so `Individual "p"` turns out to be just good to use. SSReflect has a similar design to support forward reasoning, see the [have](https://coq.inria.fr/doc/V8.20.0/refman/proof-engine/ssreflect-proof-language.html#coq:tacn.have) tactic, but our design is more lightweight and ad-hoc.
 
-Next, we come to matrices, with reference to [PhilOverflow Q&A][PO]. We still recall how matrix is stated within the original text:
+Next, we come to matrices, with reference to [φlOverflow Q&A][PO]. We still recall how matrix is stated within the original text:
 1. (p.162)Matrix is a function with arbitrary length of variables, but without any apparent variables("For the sake of clearness...")
 2. (p.164)PM's hierarchy comes to design so that *variables in the hierarchies are either individuals or matrices*("A function is said to be predicative when it is a matrix..."). Which means
     1. Matrices can be applied, or apply onto matrices, just like functions
@@ -77,7 +75,7 @@ Next, we come to matrices, with reference to [PhilOverflow Q&A][PO]. We still re
     3. On the other hand, the definition of propositions has become narrower to "propositions" with all variables quantified
 3. (p.164)"Propositions, which have occurred hitherto as variables, will no longer do so except in a few isolated cases of which no subsequent use is made."
 
-This time, we demonstrate the difference against propositional function, by referring to the pseudo code in [PhiloverFlow Q&A][PO].
+This time, we demonstrate the difference against propositional function, by referring to the pseudo code in [φloverFlow Q&A][PO].
 ```Rocq
 (* For propositional functions *)
 f (Individual "p")                       (* allowed *)
@@ -113,4 +111,4 @@ Even though we have made it clear that how should the shallow embedding correspo
 - We have not considered anything on how to type the *order* of a theorem or a proposition, or even how to type a function under the full proposition hierarchy
 - `Prop` has been too big for functions to admit a parameter, or for propositions to be typed
 
-[PO]: https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086
+[PO]: https://φlosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086

@@ -19,6 +19,10 @@ There are two ways for PM define and design a proposition, and hereby define the
 PM's design has a deep influence towards our [tactics](./4_tactics.md).
 
 ### How does Principia prove theorems?
+**TODO**: 
+- write things about instantiating a theorem
+- check all occurences on instantiating a theorem
+
 Principia designs theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
 
 Principia performs deductions **one step at a time**. This derives a fact that functions are always "small-step", and we don't need to concern about capture avoidance on functions, and its computation has to be manually specified. Functions don't come with a scope, and an ad-hoc "scope" is defined for auxiliary purpose orthogonal to functions, see [chapter 14](./3_mechanics.md/#chapter-14).
@@ -29,8 +33,6 @@ During each steps of the proof, Principia **cites** the theorems and previous st
 - We can also cite previous steps, like `[(1)]`, `[(2)]` and so on
 - If citation comes up as `[S1 . S2 . S3]`, the proof is supposed to be deduced through *modus ponens*
 - If citations are chained as `|- P ([S1] →) Q ([S2 →] R ...)`, the proof is supposed to be derived with *syllogism*
-
-TODO: the shallow embedding only ensures theorems are used, but whether they are with the correct `MP` or `Syll` is out of consideration since it is negligible
 
 ## What is the core of Principia Mathematica?
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
@@ -65,8 +67,8 @@ In the beginning, PM is supposed to be built on *propositional functions*. Propo
 The interpretation on *propositional functions* used in chapter 1 - 11, shifts towards *matrices* used in chapter 12 and hereafter. *Matrix* serves as a even more fundamental idea in these chapters, and the definitions of proposition and function are modified accordingly. Although theoretically such interpretation should be fixed down afterwards, Chapter 14 and 20's proof, shows signs to perform further simplifications, potentially require more enrichment into the interpretation.
 
 The are several reasons to use *matrix*: 
-- The construction of matrix allows nice classification of infinite orders of propositions, and therefore avoid the *vicious ciecle principle* and let *Axiom of Reducibility* built on it
-- We are allowed to have "2nd order matrix" to return a "proposition" being >1 order higher than its parameters (**TODO: recheck the definition of snd order matrix**)
+- The construction of matrix allows nice classification of infinite orders of propositions, and therefore avoid the *Vicious Circle Principle* and let *Axiom of Reducibility* built on it
+- We are allowed to have "2nd order matrix" to return a "proposition" being >1 order higher than its parameters
 
 *Matrix* looks like *propositional function*, but computes differently:
 - it takes in either "atomic letters"(not yet a proposition) or matrices(that is, "function") as parameters, and returns a matrix
@@ -221,16 +223,12 @@ Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *
 |------------------------|------------------------------------------------|------------------------------------------------|
 | Individual             | Atomic letter as a e-prposition                | Distinct identifier no longer as a proposition |
 | Proposition            | Atomic or molecular proposition                | Function with all variables quantified         |
-| Propositional function | Function that takes in and returns proposition | Function with some variables quantified        |
+| Propositional function | Function that takes in and returns proposition | Function with some variables quantified(p.14)  |
 | Matrix                 | -                                              | Function with no variables quantified          |
 
 **Table 3.5: Comparison for expressions between chapter 1 - 11 and chapter 12 - ~**
 
-**TODO**: note that "matrix_apply" should exist, but is hidden in proposition...ref to page
-
-For a deeper understanding to what should they mean, check [Appendix B][B] on the matrix part.
-
-We haven't implemented matrices to make it functional. We still try to make a few other things clear:
+While matrix's functionality isn't fully implemented in shallow embedding, we still try to make a few things clear. For a deeper understanding to what should they mean, check [Appendix B][B] on the matrix part.
 ```Rocq
 (* (p.163)This is a matrix with 2 real variables. It's also a function, and it's even predicative. *lhs* parameter of this definition is now in serious consideration *)
 Example example_matrix (X : Prop) (φ : Prop → Prop) := φ X.
@@ -245,17 +243,14 @@ Example example_function_2 (X : Prop) := ∀ (φ : Prop → Prop), φ X.
 Example example_proposition := ∀ (x : Prop) (φ : Prop → Prop), φ x.
 ```
 
-- **Predicative function** is synonym to **matrices**(p.164), after this chapter. Predicative function of `a` where `a`'s order is n, though, strictly refers to a matrix of order n+1.
-- **Matrices** are built on **matrices** of a 1-level lower order.
-- **Functions** are built on **matrices**, with *not all* of its variables generalized(p.14)
-- **Propositions** are built on **matrices**, with *all* possible variables generalized
-
 Several comments on matrices and functions:
 1. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => φ x` and `fun x => ∀ φ, φ x`)
 2. It appears that any `∀`s and any `∃`, under this hierarchy, cannot be produced by directly instantiating some functions; we have to start from completely constructing a matrix, then obtain all the quantifiers through generalizing individuals/other matrices with a controlled scope. Sometimes it will block us from, for example, perform generalization by instantiating on a *function* - which is not a *matrix*. Also see [tactics][4] and the 4th comment below.
 3. (p.163) has given functions that we can generate from a matrix, of which including 2-order-higher function corresponded to a variable `x`. These examples are not derived from certain specific theorems, and are just demonstrated as eligible candidates. But in short, if we can construct a n-order matrix related to a variable `x`, we can almost immediately obtain a n-order function for variable `x`.
 
-There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). One crucial difference between real and apparent variables, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
+Matrix is supposed to come with a "matrix application" operator, for both predicative and impredicative case. 
+- Predicative application has been made explicit with `!`
+- Impredicative application operator has been omitted, but it is still needed to be acknowledged that function should never be the "first-class" term anymore(p.163, the second "It will be seen that...")
 
 **TODO**: make this into main idea
 *Axiom of Reducibility* is introduced in this chapter for 2 reasons:
@@ -263,10 +258,6 @@ There is another way to understand the difference between a matrix and a proposi
 2. On the other hand, sometimes we want to speak of as "many" functions as we can. It turns out that, while we cannot precisely say all functions of a parameter `a`, but we can say all `n`-order functions of a parameter `a` and set `n` to infinity.
 
 For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => φ a` with `φ` of order `n`, we can simulate with a predicate function `fun a => ψ a`. The predicativity of `ψ` here means it is just 1-order higher than `a`, and we are assuming *this `ψ` exists*. In the context of [chapter 13](./3_mechanics.md/#chapter-13), we can have a more intuitive understanding.
-
-Chapter 12 also brings the symbol `!` to awareness, and will be frequently used in later chapters. `!` has several different meanings all within the same time:
-1. Emphasize(p.163, the second "It will be seen that...") that we might consider both the function and its parameter as variables for an expression. The purpose is to make functions as variables easier for people to recognize.
-2. Indicate that the function is a *predicative function*, not a random untyped one.
 
 By proving a theorem, we mean,
 |           Property            |                Limitation             |
@@ -342,7 +333,3 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 [B]: ./B_proposition.md
 [RTT]: https://github.com/Randall-Holmes/Randall-Holmes.github.io/tree/master/RTT
 [PO]: https://philosophy.stackexchange.com/questions/139085/exact-definition-for-elementary-proposition-and-function-in-principia-mathematic/139086#139086
-
-**TODO**:
-- Check all occurences about "mechanic"
-- Check all occurences about instantiating a theorem

@@ -133,3 +133,9 @@ Our implementation eventually arrive at a conclusion where, although not explici
 **Scopes.** A major part of theorems are unprovable, because of the scoping issue. Consider two expressions `e1 := Phi x` and `e2 := ~ Psi x ∧ x`, and assert `x`s' scopes are limited to the whole expression. PM has a default scope for such a symbol `x` to be the *minimal sub expression* except itself; but if we instantiate `Phi` such that `Phi := (fun y => ~ Psi y ∧ y)`, the scopes for `x` in e2, if without any treatments, still remains to be the whole expression; the minimal scopes for the `x`s is updated to `Psi x` and `..... ∧ x` separately. `~ Psi x ∧ x` is no longer the new minimal scope `Psi x`.
 
 On surface, it suggests that PM is lacking a lot of axioms to specify how the scope converts. But we have found a possible solution, which might be better to eliminate such problems, once implemented. We have proposed an experimental feature, only be outlined under `experiment/draft.v`. We find out that there can be a fixed set of tactics to shrink the scopes, or maybe design the correct representation closer to PM's original syntax, such that the scope can be automatically given during parsing the expression. This is, yet, left to be a draft, and we plan to terminate the development before it is put into use.
+
+
+TODO: 
+- the shallow embedding only ensures theorems are used, but whether they are with the correct `MP` or `Syll` is out of consideration since it is negligible
+- since we are figuring out what should function mean at a pretty later stage, there remains historical reasons: TODO; 
+  - funcs are never asserted explicitly and appear during the proof...
