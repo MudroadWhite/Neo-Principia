@@ -23,12 +23,13 @@ As our *contribution*, we have:
   - which also proposes a specification for prospective participants for grinding down to perfection
 
 ## Can Principia Mathematica be completely formalized?
-Yes. There are 3 arguments to support formalizing PM:
+Yes. (**Update 2026.11.24**)There are 4 arguments to support formalizing PM:
 1. Modern provers have enough tools to design a language
    1. We can parse PM's complete syntax easily
    2. We can give fixed interpretation to the complete language. By *fixed* I mean it doesn't need to be extended and prepare for any other exceptions
 2. We have been reconstructing most of the ideas in the *Introduction* chapter, which summarizes over the logical foundation setups in PM
 3. PM is necessarily an old rewriting system
+4. We can give a precise understanding to everything in PM
 
 [This awesome blog](https://lawrencecpaulson.github.io/tag/Principia_Mathematica) has presented a series of critiques on PM. [Some of these critiques](https://lawrencecpaulson.github.io/2025/10/15/Proofs-trivial.html) have summarized over the situations we have seen: despite its [historical background](https://plato.stanford.edu/entries/principia-mathematica/) to guarantee a missing revisit, PM still gets a notorious notation system, highly "trivial"(chores-like) theorems. Also see [this awesome repo][RTT]'s paper on its in-depth discussions of PM's propositional functions.
 
@@ -47,8 +48,8 @@ Eventually, can we type every proposition in Principia? With clues we have [gath
 I use AI for checking the official Rocq documentation, which writes better. But one might actually ask this question for a deeper purpose: can this project be completed using AI?
 
 The answer is no, for the following reasons:
-- PM is very ambiguous
-- All online materials you can find don't give the precise definitions either
+- ~~PM is very ambiguous~~(**Update 2026.11.24**: to our best knowledge, PM turns out to have very precise meaning. If AI can figure this out, then AI can reconstruct everything)
+- All online materials you can find don't give the precise definitions
 
 Figuring out the exact definitions should be a human-specific activity, which needs conversations with professors, and which cannot be decided by AI alone. I do hope, as people says, once you have fixed down the definitions, all the proofs follow.
 

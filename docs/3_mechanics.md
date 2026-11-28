@@ -19,22 +19,77 @@ There are two ways for PM define and design a proposition, and hereby define the
 PM's design has a deep influence towards our [tactics](./4_tactics.md).
 
 ### How does Principia prove theorems?
+**TODO**: 
+- write things about instantiating a theorem
+- check all occurences on instantiating a theorem
+
 Principia designs theorems in a "**practical way**". Theorems in chapter 10 are being proposed, because they are needed in later chapters, not because they address important properties for first order logic, such as soundness and completeness. ~~We really don't need `1+1=2` in a lot of places.~~
 
 Principia performs deductions **one step at a time**. This derives a fact that functions are always "small-step", and we don't need to concern about capture avoidance on functions, and its computation has to be manually specified. Functions don't come with a scope, and an ad-hoc "scope" is defined for auxiliary purpose orthogonal to functions, see [chapter 14](./3_mechanics.md/#chapter-14).
 
-During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. 
+During each steps of the proof, Principia **cites** the theorems and previous steps to perform the next deduction. They usually appeared in the form of `[*n1.m1 . *n2.m2]`. In particular, 
+- `[(x)]` is a *citation* to a definition/primitive proposition. 
+- `[x]` is a *citation* to a *theorem*. 
+- We can also cite previous steps, like `[(1)]`, `[(2)]` and so on
+- If citation comes up as `[S1 . S2 . S3]`, the proof is supposed to be deduced through *modus ponens*
+- If citations are chained as `|- P ([S1] →) Q ([S2 →] R ...)`, the proof is supposed to be derived with *syllogism*
 
-We now start exploring the main ideas for each chapters.
-
-## Chapters
+## What is the core of Principia Mathematica?
 > "Still, considering the difficulty of the medium, some of the jokes are very good."
 > -- [The final paragraph of G.H. Hardy's epic review of Russell & Whitehead's Principia Mathematica](https://x.com/davidbessis/status/1993059561381744863)
 
-### Chapter 1
-Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system.
+The foundation of Principia is completely contained within the *Introduction* chapter, but for this project, we will provide a better and much more simpler version to read. As we are doing shallow embedding, the closest we can get is present features we have concerned with examples, citations and explanations in text, but we cannot present a formal semantics, or prove any properties above all of them.
 
-In addition, Introduction & Chapter 1 starts with a delicate description on *elementary propositions* and *elementary propositional functions*, which appears to be very ambiguous and misleading. The ambiguity has taken us a lot of time to figure out, as recorded in [PhilOverflow's Q&A][PO]. We begin with 3 kinds of expressions:
+Each chapter basically tells us
+- What "operations" are we going to have, for example, generalization, usually start with `Pp`
+- What new symbols are we going to define, usually start with `Pp` and `Df`
+- How build them upon the system correctly by restricting their types, which I usually call it the "of the same type"/"type identification" algorithm, regarded as `Thm` except in chapter 1
+- Some basic results derived from these symbols
+
+Below is a collection of such "typing algorithm"s appeared in chapter 1 - 20.
+
+**TODO**: finish the table
+
+| Chapter | New operations | Type identification axioms/theorems |
+|---------|----------------|-------------------------------------|
+|    1    |                | \*1.7, \*1.71, \*1.72               |
+|    2    |                |                                     |
+|    3    |                |                                     |
+|    9    |                | \*9.131, \*9.14                     |
+|   11    |                | \*11.311                            |
+
+**TODO**: for chapter 9, individual is no longer a proposition
+**Table 3.x : Assertions written in natural language in chapter 1 - 20, and their corresponded purposes**
+
+In the beginning, PM is supposed to be built on *propositional functions*. Propositional function in Principia Mathematica, look completely like a proposition. If we have a proposition `P \/ Q`, there should exist a propositional function also denoted exactly as `P \/ Q`. There are several reasons behind such design:
+- Functions always use small-step computation
+- Functions don't have closures and don't need to concern about capture avoidance. With that being said, functions usually appear as a whole expression at a time in PM(?)
+- Functions computations are always manually specified, that is, we decide which parameter to apply
+- Functions have the nice structure to carry over *substitutions*, being used for representing theorems, which is why PM usually use \*1.11 as *modus ponens* instead of \*1.1
+- Therefore, parameter list seems cumbersome and unnecessary
+
+The interpretation on *propositional functions* used in chapter 1 - 11, shifts towards *matrices* used in chapter 12 and hereafter. *Matrix* serves as a even more fundamental idea in these chapters, and the definitions of proposition and function are modified accordingly. Although theoretically such interpretation should be fixed down afterwards, Chapter 14 and 20's proof, shows signs to perform further simplifications, potentially require more enrichment into the interpretation.
+
+The are several reasons to use *matrix*: 
+- The construction of matrix allows nice classification of infinite orders of propositions, and therefore avoid the *Vicious Circle Principle* and let *Axiom of Reducibility* built on it
+- We are allowed to have "2nd order matrix" to return a "proposition" being >1 order higher than its parameters
+
+*Matrix* looks like *propositional function*, but computes differently:
+- it takes in either "atomic letters"(not yet a proposition) or matrices(that is, "function") as parameters, and returns a matrix
+- propositions should be never involved in constructing a matrix
+- after all necessary substitutions have been performed, we can use the matrix to represent either propositions or functions
+
+The *hierarchy*, which classified propositions into infinite orders of them, behaves almost just like Rocq's universe: we basically identify the hierarchy by counting how many necessary quantifiers are nested within a proposition. But in practice, the order of a proposition is identified by observing the "function" that a proposition is built on:
+- For propositional function, higher order propositions are built by *generalizing* a parameter in a function
+- For matrix, the order of a matrix is 1 plus its highest order sub-matrix taken as its parameter
+
+Note that without matrices, the highest order of proposition we can reason about is limited to first-order propositions in chapter 9 - 11. Although chapter 9 is still formulated with propositions and propositional functions, its expected replacement, chapter 8 in 2nd. edition, Appendix A, demonstrated Russell's unfinished attempt to construct everything with matrices.
+
+## Chapters
+### Chapter 1
+Chapter 1 presents some fundamental `Pp`s to set everything up, and we find `Pp`s usually suggest something just as meta in the Rocq system. Chapter 1 also uses definitions immediately, but (p.94)definitional equality is unspecified in PM.
+
+We begin with 3 kinds of expressions:
 
 | Name                   | Definition                                     | Informal example in Rocq         |
 |------------------------|------------------------------------------------|----------------------------------|
@@ -47,45 +102,36 @@ In addition, Introduction & Chapter 1 starts with a delicate description on *ele
 We would describe chapter 1's ideas as follows:
 - Having something in context window means it has been asserted/implied true
 - Asserting `H1 : P` means asserting `P` as an **elementary proposition**
-- (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style.
-- If proposition `X` has been already asserted, `H1 : φ X` is expected to mean asserting an **elementary propositional function**. 
-- (\*1.11)If `H2 : φ X → ψ X` can be implied, then we are allowed to imply `H3 : ψ X`.
-- Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93). 
+- (\*1.1)If there is a rule saying that "if we can assert `H1` then we can assert `H2 : Q`", we are allowed to obtain `H2 : Q` in such a style
+- `H1 : (∀ x, φ x)` is expected to mean asserting an **elementary propositional function**
+- (\*1.11)If `H2 : (∀ x, φ x → ψ x)` can be implied, then we are allowed to imply `H3 : (∀ x, ψ x)`
+- Being the actual *modus ponens*, \*1.11 is said to be used almost everywhere, and \*1.1 is generally not used(p.93)
+- \*1.7, \*1.71 and \*1.72 are the restricted version of "of the same type" algorithm presented in chapter 9.
+
+Where the `∀` should be Rocq's default for function's type, and such `∀` is unrelated to PM. For a deeper analysis on functions and \*1.11, see [Appendix B][B].
 
 Implementation-wise:
 - Propositions and functions in this project are mostly Rocq's default
 - *modus ponens* for *any case* are integrated into a single tactic `MP`
 
-Experienced type theorists might find such implementation unsatisfying, which I would consider it a historical issue. A better interpretation should be expected in the future. For a deeper analysis on functions and \*1.11, see [Appendix B][B].
-
 By proving a theorem, we mean:
-|           Property          |      Limitation        |
-|-----------------------------|------------------------|
-| Highest proposition order   | Elementary proposition |
-| Modus Ponens theorem        | Only \*1.11            |
-| Generalization              | Not allowed            |
-| Functions                   | Not allowed            |
-| Introducing fresh variables | Not allowed            |
-| Theorem variants\[\*\]      | Not allowed            |
-| Function type               | Elementary function    |
-| Function parameters         | Only E-propositions    |
+|           Property            |      Limitation        |
+|-------------------------------|------------------------|
+| Highest proposition order     | Elementary proposition |
+| Modus Ponens theorem          | Only \*1.11            |
+| Generalization                | Not allowed            |
+| Functions                     | Not allowed            |
+| Introducing fresh individuals | Not allowed            |
+| Theorem variants\[\*\]        | Not allowed            |
+| Function type                 | Elementary function    |
+| Function parameters           | Only E-propositions    |
 
 \[\*\]: For the meaning of variants, see [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic)
 
 **Table 3.2: Proving context for chapter 1 - 5**
 
-In addition:
-- (p.94)Definitional equality is undefined in PM
-- Elementary functions are closed under `¬` and `∨`
-
 ### Chapter 2
-Having the foundation made up in chapter 1, chapter 2 starts to present some basic results related to the default `¬`, `∨` and `→`. 
-
-- For general rules on citation, see related paragraphs in [How does Principia prove theorems?](./3_mechanics.md/#how-does-principia-prove-theorems).
-- In particular, `[(x)]` is a *citation* to a definition/primitive proposition. `[x]` is a *citation* to a *theorem*. We can also cite previous steps.
-- (p.103)For each proof stepping in the form of `[S1 . S2 . S3]`, it is suggested to construct a sequence of modus ponens with `MP`s
-- (p.105)For each citation chained up in the style of `|- P ([S1] →) Q ([S2 →] R ...)`, it is suggested to use syllogism to chain everything up with a syllogism tactic `Syll`
-- Citations for modus ponens and syllogism will generally be omitted, and in shallow embedding we allow them to be alternate freely
+Having the foundation made up in chapter 1, chapter 2 starts to present some basic results related to the default `¬`, `∨` and `→`. In particular, chapter 2 starts to utilize *modus ponens*(tactic `MP`, p.103) for deduction, and *syllogism*(tactic `Syll`, p.105) to simplify the deduction. Citations for *modus ponens* and *syllogism* shall be generally omitted in PM.
 
 ### Chapter 3
 Chapter 3 presents theorems related to `∧`, which is constructed on `¬` and `∨`. 
@@ -97,7 +143,7 @@ Chapter 4 presents theorems related to `↔`, turning most theorems bidirectiona
 Chapter 5 collects miscellaneous theorems of operators appeared in previous chapters, and is mostly provided because they are useful.
 
 ### Chapter 9
-There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where extra variables can appear during the proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
+There's a lot of things happened in this chapter, making it significantly different from all the previous chapters. This is the first chapter where individuals can be introduced during the mid of proof, and we thereby introduce the `Intro` mechanic in [tactics][4] to patch up. 
 
 To understand what chapter 9 does, we first look back at \*1.3:
 
@@ -105,7 +151,7 @@ To understand what chapter 9 does, we first look back at \*1.3:
 Theorem Add1_3 (P Q : Prop) : Q → P ∨ Q.
 ```
 
-In chapter 9, it is corresponded to the following cases:
+It corresponds to the following cases in chapter 9:
 
 ```Rocq
 Theorem n9_32 (φ : Prop → Prop) (Q : Prop) : Q → (∀ x, φ x) ∨ Q.
@@ -132,7 +178,7 @@ Propositions in chapter 9 starts to make a distinction between *elementary propo
 
 Every `∀ x` is naturally taking just a `x`, not something like `∀ (x ∧ x)`. In this sense we are saying that for `∀`, `∃` and more generally all *propositions*, *apparent variable*s only take *individual*s(the sole `x`) as their possible values(p.52, p.162).
 
-\*9.131, which I call it "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus a convention for individuals. All individuals in a theorem, which are not propositions(cannot be asserted and can only appear just like variables) nor functions(p.51, p.132), *will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have the same related type*. 
+\*9.131, the "of the same type algorithm", is a mixture of multiple aspects. It contains a [polymorphic typing algorithm](https://randall-holmes.github.io/Drafts/pm-no-compromise.pdf), plus a convention for individuals. All individuals in a theorem, which are not functions(p.51, p.132), *will have the same (lowest possible)propositional order* within a theorem, and to be more exact, *have the same related type*. 
 
 The rest of the text is the typing algorithm for propositions and functions. Note that this typing algorithm can prevent constructions such as `P P`(p.40):
 |          Notion          | Type name | Arguments                    | Identification rule                            |
@@ -140,7 +186,8 @@ The rest of the text is the typing algorithm for propositions and functions. Not
 | Elementary proposition   | EProp     | None                         | All elementary propositions                    |
 | Elementary function      | EFunc     | Types of function parameters | Connectives on same functions                  |
 | Proposition of nth order | Prop n    | Type of the function\[\*\]   | `¬` on same type propositions; generalization on same type functions of 1 argument; generalization on 2nd argument of same type functions of 2 argument |
-| Others                   | _         | _                            | Scattered through each chapters. e.g. \*11.311 |
+
+**TODO**: update the table
 
 - **\[\*\]**: Functions of same order can have different types, thus propositions of same order can have different types. However, this is "practically ignored"(p.162). If we want to meet the practice, we might fix the definition with "returning order of the function".
 - Additional clarification on terms: 
@@ -157,7 +204,7 @@ By proving a theorem in chapter 9 - 11, we mean:
 | Modus Ponens theorem        | Arbitrary(p.128)            |
 | Generalization              | Allowed for E-props         |
 | Functions                   | 1st order                   |
-| Introducing fresh variables | Allowed for E-props         |
+| Introducing fresh individuals | Allowed for E-props         |
 | Theorem variants            | Not allowed                 |
 | Function type               | Untyped\[\*\*\]             |
 | Function parameters         | <= 1 order propositions     |
@@ -180,14 +227,12 @@ Chapter 12 starts to bring awareness to the rigorous and complete hierarchy of *
 |------------------------|------------------------------------------------|------------------------------------------------|
 | Individual             | Atomic letter as a e-prposition                | Distinct identifier no longer as a proposition |
 | Proposition            | Atomic or molecular proposition                | Function with all variables quantified         |
-| Propositional function | Function that takes in and returns proposition | Function with some variables quantified        |
+| Propositional function | Function that takes in and returns proposition | Function with some variables quantified(p.14)  |
 | Matrix                 | -                                              | Function with no variables quantified          |
 
 **Table 3.5: Comparison for expressions between chapter 1 - 11 and chapter 12 - ~**
 
-For a deeper understanding to what should they mean, check [Appendix B][B] on the matrix part.
-
-We haven't implemented matrices to make it functional. We still try to make a few other things clear:
+While matrix's functionality isn't fully implemented in shallow embedding, we still try to make a few things clear. For a deeper understanding to what should they mean, check [Appendix B][B] on the matrix part.
 ```Rocq
 (* (p.163)This is a matrix with 2 real variables. It's also a function, and it's even predicative. *lhs* parameter of this definition is now in serious consideration *)
 Example example_matrix (X : Prop) (φ : Prop → Prop) := φ X.
@@ -202,47 +247,40 @@ Example example_function_2 (X : Prop) := ∀ (φ : Prop → Prop), φ X.
 Example example_proposition := ∀ (x : Prop) (φ : Prop → Prop), φ x.
 ```
 
-- **Predicative function** is synonym to **matrices**(p.164), after this chapter. Predicative function of `a` where `a`'s order is n, though, strictly refers to a matrix of order n+1.
-- **Matrices** are built on **matrices** of a 1-level lower order.
-- **Functions** are built on **matrices**, with *not all* of its variables generalized(p.14)
-- **Propositions** are built on **matrices**, with *all* possible variables generalized
-
 Several comments on matrices and functions:
 1. Order of functions are not dependent on order of arguments(p.164, also p.49 for difference between `fun x => φ x` and `fun x => ∀ φ, φ x`)
 2. It appears that any `∀`s and any `∃`, under this hierarchy, cannot be produced by directly instantiating some functions; we have to start from completely constructing a matrix, then obtain all the quantifiers through generalizing individuals/other matrices with a controlled scope. Sometimes it will block us from, for example, perform generalization by instantiating on a *function* - which is not a *matrix*. Also see [tactics][4] and the 4th comment below.
 3. (p.163) has given functions that we can generate from a matrix, of which including 2-order-higher function corresponded to a variable `x`. These examples are not derived from certain specific theorems, and are just demonstrated as eligible candidates. But in short, if we can construct a n-order matrix related to a variable `x`, we can almost immediately obtain a n-order function for variable `x`.
 
-There is another way to understand the difference between a matrix and a proposition, by identifying their apparent and real variables(p.18). One crucial difference between real and apparent variables, is that real variables are not given types(p.128, "in practical purpose") while apparent variables are given types.
+Matrix is supposed to come with a "matrix application" operator, for both predicative and impredicative case. 
+- Predicative application has been made explicit with `!`
+- Impredicative application operator has been omitted, but it is still needed to be acknowledged that function should never be the "first-class" term anymore(p.163, the second "It will be seen that...")
 
+**TODO**: make this into main idea
 *Axiom of Reducibility* is introduced in this chapter for 2 reasons:
 1. (p.49)When we define `x = y` as `∀ φ, φ x → φ y`, assuming it is untyped, we might still have `φ := fun x => (∀ φ, φ x → φ y)` or `φ := fun y => ∀ φ, φ x → φ y`. In other words for `fun x => φ x`, `fun x => (∀ φ, φ x → φ a)` has been a value that needs to be avoided. 
 2. On the other hand, sometimes we want to speak of as "many" functions as we can. It turns out that, while we cannot precisely say all functions of a parameter `a`, but we can say all `n`-order functions of a parameter `a` and set `n` to infinity.
 
 For 2 above, axiom of reducibility says that: when we want to have a very large "all" function `fun a => φ a` with `φ` of order `n`, we can simulate with a predicate function `fun a => ψ a`. The predicativity of `ψ` here means it is just 1-order higher than `a`, and we are assuming *this `ψ` exists*. In the context of [chapter 13](./3_mechanics.md/#chapter-13), we can have a more intuitive understanding.
 
-Chapter 12 also brings the symbol `!` to awareness, and will be frequently used in later chapters. `!` has several different meanings all within the same time:
-1. Emphasize(p.163, the second "It will be seen that...") that we might consider both the function and its parameter as variables for an expression. The purpose is to make functions as variables easier for people to recognize.
-2. Indicate that the function is a *predicative function*, not a random untyped one.
-
 By proving a theorem, we mean,
-|           Property          |                Limitation             |
-|-----------------------------|---------------------------------------|
-| Highest proposition order   | Arbitrary                             |
-| Modus Ponens theorem        | Arbitrary                             |
-| Generalization              | Predicative functions(p.165)          |
-| Functions                   | Arbitrary                             |
-| Introducing fresh variables | Arbitrary                             |
-| Theorem variants            | Arbitrary                             |
-| Function type               | Can be untyped\[\*\]                  |
-| Function parameters         | Only individuals and matrices\[\*\*\] |
+|           Property            |                Limitation             |
+|-------------------------------|---------------------------------------|
+| Highest proposition order     | Arbitrary                             |
+| Modus Ponens theorem          | Arbitrary                             |
+| Generalization                | Predicative functions(p.165)          |
+| Functions                     | Arbitrary                             |
+| Introducing fresh individuals | Arbitrary                             |
+| Theorem variants              | Arbitrary                             |
+| Function type                 | Can be untyped\[\*\]                  |
+| Function parameters           | Only individuals and matrices\[\*\*\] |
 
 - **\[\*\]**: Untyped functions take a parameter and return a proposition of *unknown* order.
 - **\[\*\*\]**: See (p.52, 162, 163, 164).
 
 **Table 3.6: Proving context for chapter 12 - 14**
 
-- Not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
-- For the hierarchy in this chapter, we have implemented an `Order` type, although not as functional as it should be. See [tactics](./4_tactics.md/#polymorphism-and-the-variant-mechanic).
+Note: not all symbols in an expression needs to be identified as variables. They can be **constants**(p.164). However we utilize the convenience of Rocq to ignore such requirement.
 
 ### Chapter 13
 In Rocq, we have different types for `=`. We can have `=` on propositions, `=` on `=` between propositions, `=` on `=`... and so on. Russell realized that he should give the `=` a similar treatment, but the hierarchy is slightly different: `=` is itself treated as a propositional function, and `=` can be an identity on 1st order, second order, ... arbitrary order functions. The first citation of chapter 12's axiom of reducibility appears at \*13.101, and with which applied to \*13.101, the order of `=` has been generally collapsed off. 
@@ -288,7 +326,7 @@ While not being stated explicitly, being mentioned in previous chapter(p.165), c
 | Modus Ponens theorem        | Arbitrary                             |
 | Generalization              | Predicative functions + class         |
 | Functions                   | Arbitrary + class?                    |
-| Introducing fresh variables | Arbitrary + class?                    |
+| Introducing fresh individuals | Arbitrary + class?                    |
 | Theorem variants            | Arbitrary + class                     |
 | Function type               | Can be untyped                        |
 | Function parameters         | Individuals, matrices and classes     |
