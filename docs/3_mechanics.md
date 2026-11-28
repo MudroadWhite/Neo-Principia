@@ -41,21 +41,25 @@ During each steps of the proof, Principia **cites** the theorems and previous st
 The foundation of Principia is completely contained within the *Introduction* chapter, but for this project, we will provide a better and much more simpler version to read. As we are doing shallow embedding, the closest we can get is present features we have concerned with examples, citations and explanations in text, but we cannot present a formal semantics, or prove any properties above all of them.
 
 Each chapter basically tells us
+- What "operations" are we going to have, for example, generalization, usually start with `Pp`
 - What new symbols are we going to define, usually start with `Pp` and `Df`
-- How build them upon the system correctly by restricting their types, which I usually call it the "of the same type"/"type identification" algorithm, regarded as `Thm` except in chapter 1 (**TODO**: recheck chapter 9)
+- How build them upon the system correctly by restricting their types, which I usually call it the "of the same type"/"type identification" algorithm, regarded as `Thm` except in chapter 1
 - Some basic results derived from these symbols
 
 Below is a collection of such "typing algorithm"s appeared in chapter 1 - 20.
 
 **TODO**: finish the table
 
-| Chapter | Type identification axioms/theorems |
-|---------|-------------------------------------|
-|    1    | \*1.7, \*1.71, \*1.72               |
-|    2    |                |
-|    3    |                |
-|    9    |                |
-|   11    | \*11.311                            |
+| Chapter | New operations | Type identification axioms/theorems |
+|---------|----------------|-------------------------------------|
+|    1    |                | \*1.7, \*1.71, \*1.72               |
+|    2    |                |                                     |
+|    3    |                |                                     |
+|    9    |                | \*9.131, \*9.14                     |
+|   11    |                | \*11.311                            |
+
+**TODO**: for chapter 9, individual is no longer a proposition
+**Table 3.x : Assertions written in natural language in chapter 1 - 20, and their corresponded purposes**
 
 In the beginning, PM is supposed to be built on *propositional functions*. Propositional function in Principia Mathematica, look completely like a proposition. If we have a proposition `P \/ Q`, there should exist a propositional function also denoted exactly as `P \/ Q`. There are several reasons behind such design:
 - Functions always use small-step computation
