@@ -75,7 +75,7 @@ The are several reasons to use *matrix*:
 - propositions should be never involved in constructing a matrix
 - after all necessary substitutions have been performed, we can use the matrix to represent either propositions or functions
 
-The *hierarchy*, which classified propositions into infinite orders of them, classifies almost just like Rocq's universe: we basically identify the hierarchy by counting how many necessary quantifiers are nested within a proposition. But in practice, the order of a proposition is identified by observing the "function" that a proposition is built on:
+The *hierarchy*, which classified propositions into infinite orders of them, behaves almost just like Rocq's universe: we basically identify the hierarchy by counting how many necessary quantifiers are nested within a proposition. But in practice, the order of a proposition is identified by observing the "function" that a proposition is built on:
 - For propositional function, higher order propositions are built by *generalizing* a parameter in a function
 - For matrix, the order of a matrix is 1 plus its highest order sub-matrix taken as its parameter
 
